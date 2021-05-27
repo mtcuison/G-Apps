@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.Notification.Fragment_Notifications"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ToolBarMaterialTheme">
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout_notification_fragment_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:tabIndicatorHeight="4dp"
+            style="@style/Widget.MaterialComponents.TabLayout"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            app:tabIconTint="@color/tab_select_indicator_dashboard"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicator="@drawable/tablayout_select_indicator"
+            app:tabIndicatorAnimationDuration="1"
+            app:tabIndicatorGravity="bottom"
+            app:tabIndicatorFullWidth="true"
+            android:backgroundTint="@color/colorAccent"
+            android:elevation="5dp"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_notification_fragment_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

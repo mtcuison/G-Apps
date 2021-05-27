@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="gap_default_text_size">12sp</dimen>
+
+    <!--DashBoard Text Sizes-->
+    <dimen name="gap_dashboard_buttonText_title">18sp</dimen>
+    <dimen name="gap_dashboard_buttonText_subTitle">12sp</dimen>
+    <dimen name="gap_dashboard_gcard_info_text">12sp</dimen>
+    <dimen name="gap_dashboard_username">16sp</dimen>
+
+    <!--DashBoard Button Radius, Elevation and Sizes-->
+    <dimen name="gap_dashboard_button_radius">10sp</dimen>
+    <dimen name="gap_dashboard_button_elevation">1dp</dimen>
+    <dimen name="gap_dashboard_button_margin">3dp</dimen>
+</resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/textColorPrimaryDark"
+    android:layout_margin="20dp"
+    android:padding="20dp"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You installed an internal testing version of GuanzonApp."
+        android:textColor="@color/gap_textColorPrimaryDark"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter the localhost address use for testing."
+        android:textColor="@color/gap_textColorPrimaryDark"
+        android:gravity="center" />
+
+    <EditText
+        android:id="@+id/txt_dialog_hostAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:digits="1234567890."
+        android:textColor="@color/gap_textColorPrimaryDark"
+        android:gravity="center"
+        android:textSize="16dp"/>
+
+    <Button
+        android:id="@+id/btn_dialog_server_okay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Okay"/>
+
+</LinearLayout>

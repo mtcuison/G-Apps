@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/background_bottom_sheet"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp">
+
+    <ImageButton
+        android:id="@+id/btn_bottom_sheet_close"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/ic_dialog_button_close"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:tint="@color/gap_textColorPrimaryDark"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:scaleType="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/lbl_bottom_sheet_ItemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Honda Monograde 1.5 Liter"
+        android:textColor="@color/gap_textColorPrimaryDark"
+        android:textSize="18sp"
+        android:fontFamily="@font/roboto_medium"
+        android:layout_marginTop="15dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:id="@+id/lbl_bottom_sheet_itemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500"
+            android:textColor="@color/gap_textColorPrimaryDark"
+            android:background="@drawable/list_item_points_background"
+            android:textSize="16sp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginRight="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GCard Points"
+            android:textColor="@color/gap_textColorPrimaryDark"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_medium"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gap_textColorPrimaryGray"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity"
+            android:textSize="16sp"
+            android:textColor="@color/gap_textColorPrimaryDark"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true">
+
+            <ImageButton
+                android:id="@+id/btn_bottom_sheet_deduct"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                app:srcCompat="@drawable/ic_quantity_reduce"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"/>
+
+            <EditText
+                android:id="@+id/txt_bottom_sheet_itemQuantity"
+                android:layout_width="36dp"
+                android:layout_height="match_parent"
+                android:text="1"
+                android:textSize="14sp"
+                android:fontFamily="@font/roboto_medium"
+                android:textAlignment="center"
+                android:textColor="@color/gap_textColorPrimaryDark"
+                android:enabled="false"
+                android:layout_gravity="center_horizontal" />
+
+            <ImageButton
+                android:id="@+id/btn_bottom_sheet_add"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                app:srcCompat="@drawable/ic_quantity_add"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"/>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gap_textColorPrimaryGray"
+        android:layout_marginBottom="5dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.3"
+            android:text="Total Price"
+            android:textSize="16sp"
+            android:textColor="@color/gap_textColorPrimaryDark"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".7"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/lbl_bottom_sheet_itemTotal_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="500"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/list_item_points_background"
+                android:textColor="@color/gap_textColorPrimaryDark"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:fontFamily="@font/roboto_medium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GCard Points"
+                android:gravity="end"
+                android:textSize="16sp"
+                android:textColor="@color/gap_textColorPrimaryDark"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:fontFamily="@font/roboto_medium"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.1"
+            android:text="Available Points"
+            android:textSize="16sp"
+            android:textColor="@color/gap_textColorPrimaryDark"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".9"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/lbl_bottom_sheet_available_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="500"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/list_item_points_background"
+                android:textColor="@color/gap_textColorPrimaryDark"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:fontFamily="@font/roboto_medium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GCard Points"
+                android:gravity="end"
+                android:textSize="16sp"
+                android:textColor="@color/gap_textColorPrimaryDark"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:fontFamily="@font/roboto_medium"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_bottom_sheet_addToCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/CardViewDialog.BranchDetailDialog.Button"
+        app:icon="@drawable/ic_redeemables_add_to_cart"
+        android:text="Add to Cart"/>
+    </LinearLayout>
+</RelativeLayout>

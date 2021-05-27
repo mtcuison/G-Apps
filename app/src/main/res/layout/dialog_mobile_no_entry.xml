@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/CardViewDialog">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="5dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:text="Unable to retrieve device mobile number.\n If you're using postpaid subscription. Please provide your contact info."
+            android:textColor="@color/gap_textColorPrimaryDark"
+            android:paddingHorizontal="5dp"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingVertical="20dp"/>
+
+        <EditText
+            android:id="@+id/txt_dialog_mobile_no"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/gap_textColorPrimaryDark"
+            android:hint="Mobile No (Ex. 09xxxxxxxxx)"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:inputType="number|none"
+            android:maxLength="11"
+            android:layout_gravity="center_horizontal"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@id/txt_dialog_gcard_selection_birthYear" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_dialog_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardViewDialog.BranchDetailDialog.Button"
+            android:text="Confirm"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

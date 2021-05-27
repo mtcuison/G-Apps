@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.Notification.Fragment_Promotions"
+    android:orientation="vertical"
+    android:weightSum="2">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_fragment_promotions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".3"
+        android:padding="10dp"/>
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.7"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_fragment_promos_mc_credit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#F88222"
+            android:text="Loan Motorcycle"
+            app:icon="@drawable/ic_tab_motorcycle_toggled"
+            app:iconTint="@color/gap_textColorPrimaryDark"
+            android:textColor="@color/gap_textColorPrimaryDark"
+            android:fontFamily="@font/roboto_medium"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2.5dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_fragment_promos_mp_credit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#F88222"
+            android:text="Loan MobilePhone"
+            app:icon="@drawable/ic_tab_mobitek_toggled"
+            app:iconTint="@color/gap_textColorPrimaryDark"
+            android:textColor="@color/gap_textColorPrimaryDark"
+            android:fontFamily="@font/roboto_medium"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2.5dp"/>
+
+    </LinearLayout>-->
+
+</LinearLayout>

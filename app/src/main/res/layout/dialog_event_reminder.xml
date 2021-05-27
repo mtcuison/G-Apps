@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/GuanzonAppMaterialTheme">
+    
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:cardBackgroundColor="@color/textColorPrimaryDark"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="true"
+        app:cardCornerRadius="20dp">
+        
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="55dp">
+
+                <ImageView
+                    android:id="@+id/img_dialog_eventThumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/aniv_event"
+                    android:scaleType="centerInside"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal|bottom">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_dialog_eventRead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="READ MORE"
+                    style="@style/CardViewDialog.BranchDetailDialog.Button"
+                    tools:ignore="HardcodedText"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_dialog_eventClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CLOSE"
+                    style="@style/CardViewDialog.BranchDetailDialog.Button"
+                    tools:ignore="HardcodedText"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+        
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

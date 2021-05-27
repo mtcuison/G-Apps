@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="gap_color_primary">#F88222</color>
+    <color name="gap_color_primary_dark">#000000</color>
+    <color name="gap_window_background">#121212</color>
+
+    <!--Color Accent-->
+    <color name="gap_orange_color_accent">#F88222</color>
+
+    <!--Text Colors-->
+    <color name="gap_textColorPrimary">#E2E2E2</color>
+    <color name="gap_textColorPrimaryGray">#505050</color>
+    <color name="gap_textColorPrimaryDark">#121212</color>
+    <color name="gap_titleTextColor">#F88222</color>
+
+    <!--Toolbar Color Palette-->
+    <color name="gap_toolbar_background">#1F1F1F</color>
+
+    <!--DashBoard Button Background Colors-->
+    <color name="gap_dashboard_button_background_color">#1B1B1B</color>
+    <color name="gap_dashboard_header_background_color">#121212</color>
+    <color name="gap_dashboard_points_background_color">#F88222</color>
+
+    <!--Pop up theme Color Palette-->
+    <color name="gap_popup_dark_background">#3D3D3D</color>
+
+    <!--Dialog Backgrounds-->
+    <color name="gap_dialog_gcard_codex">#F5F5F5</color>
+    <color name="gap_dialog_branch_details">#F2F2F2</color>
+
+    <!--Branch Detail Dialog Button Colors-->
+    <color name="gap_dialog_button_icon_tint">#121212</color>
+    <color name="gap_dialog_button_icon_tint_dark">#F88222</color>
+
+    <!--TabLayout Color Assets-->
+    <color name="dashboard_toggle_color_tab">#F88222</color>
+    <color name="dashboard_color_tab">#9D9D9D</color>
+
+    <color name="gap_horizontal_line_color_tint">#e5e5e5</color>
+
+    <!--About Us CardView Color Assets-->
+    <color name="gap_About_Us_CardviewBackground_Color">#1D1E22</color>
+    <color name="gap_About_Us_CardViewForeGround_Color">#2D2D2E</color>
+</resources>

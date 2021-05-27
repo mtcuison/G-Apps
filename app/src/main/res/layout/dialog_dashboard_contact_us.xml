@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    style="@style/CardViewDialog.BranchDetailDialog">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/btn_dialog_contact_us_exit"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/ic_dialog_button_close"
+            android:adjustViewBounds="true"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
+            android:tint="@color/gap_textColorPrimaryDark"/>
+
+        <LinearLayout
+            android:id="@+id/linear_dialog_branchName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/guanzongroup_official_o"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CONTACT US"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="14sp"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/gap_textColorPrimaryDark"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contact_us_1"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="12sp"
+                android:textColor="@color/gap_textColorPrimaryDark"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:background="@color/gap_textColorPrimaryDark"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HEAD OFFICE"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="14sp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/gap_textColorPrimaryDark"/>
+
+            <TextView
+                android:id="@+id/lbl_dialog_contact_us_main_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Brgy. II, Guanzon Building., Perez Blvd., Dagupan City, Pangasinan 2400"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="12sp"
+                android:textColor="@color/gap_textColorPrimaryDark"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:gravity="center"
+                android:drawableLeft="@drawable/ic_tab_location_toggled"
+                android:drawableTint="@color/gap_dialog_button_icon_tint_dark"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_dialog_branch_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear_dialog_branchName"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="5dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_dialog_contact_us_smart"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CardViewDialog.BranchDetailDialog.Button"
+                android:text="Smart"
+                app:icon="@drawable/ic_dialog_branch_detail_mobile"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_dialog_contact_us_globe"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CardViewDialog.BranchDetailDialog.Button"
+                android:text="Globe"
+                app:icon="@drawable/ic_dialog_branch_detail_mobile"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_dialog_branch_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear_dialog_branch_address"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="15dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_dialog_contact_us_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CardViewDialog.BranchDetailDialog.Button"
+                android:text="Send Us Email"
+                app:icon="@drawable/ic_dialog_branch_detail_email"
+                android:layout_weight="1"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_dialog_contact_us_facebook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CardViewDialog.BranchDetailDialog.Button"
+                android:text="Facebook"
+                app:icon="@drawable/ic_dialog_button_facebook"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

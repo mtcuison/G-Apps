@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="2"
+    android:id="@+id/linear_list_item_branch_content">
+
+    <ImageView
+        android:id="@+id/img_list_item_branches"
+        android:layout_weight="1.7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/ic_list_branch_location"
+        android:layout_margin="10dp"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/BranchListLogo" />
+
+    <LinearLayout
+        android:layout_weight=".3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/lbl_list_item_branchName"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/SampleBranchName"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/gap_orange_color_accent"
+            android:gravity="bottom"
+            tools:ignore="NestedWeights"
+            tools:targetApi="jelly_bean" />
+
+        <TextView
+            android:id="@+id/lbl_list_item_branchAdds"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/SampleBranchAddress"
+            android:fontFamily="@font/roboto_regular"
+            tools:targetApi="jelly_bean" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height=".5dp"
+            android:background="@color/gap_horizontal_line_color_tint"/>
+
+    </LinearLayout>
+
+</LinearLayout>

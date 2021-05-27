@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/CardViewDialog">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/lbl_dialog_gcard_selection_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tap your selected Gcard below to set as your active Gcard number"
+                android:textColor="@color/gap_textColorPrimaryDark"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_dialog_gcard_selection"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_dialog_refreshgcard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tap here to refresh"
+                style="@style/CardViewDialog.BranchDetailDialog.Button"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gap_textColorPrimaryDark"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="To manually add a new Gcard number please enter the Gcard number and your registered birthdate."
+                    android:textColor="@color/gap_textColorPrimaryDark"
+                    android:padding="10dp"
+                    android:gravity="center"/>
+
+                <EditText
+                    android:id="@+id/txt_dialog_gcard_selection_gcardNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/gap_textColorPrimaryDark"
+                    android:hint="GCARD Number"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:inputType="number|none"
+                    android:maxLength="13"
+                    android:layout_gravity="center_horizontal"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/txt_dialog_gcard_selection_birthYear" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Birthdate"
+                    android:textColor="@color/gap_textColorPrimaryDark"
+                    android:padding="5dp"
+                    android:gravity="center"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="3"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/txt_dialog_gcard_selection_birthYear"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/gap_textColorPrimaryDark"
+                        android:hint="Year"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:inputType="number|none"
+                        android:maxLines="1"
+                        android:maxLength="4"
+                        android:layout_gravity="center_horizontal"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/txt_dialog_gcard_selection_birthMonth"/>
+
+                    <EditText
+                        android:id="@+id/txt_dialog_gcard_selection_birthMonth"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/gap_textColorPrimaryDark"
+                        android:hint="Month"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:inputType="number|none"
+                        android:maxLines="1"
+                        android:maxLength="2"
+                        android:layout_gravity="center_horizontal"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/txt_dialog_gcard_selection_birthDay"/>
+
+                    <EditText
+                        android:id="@+id/txt_dialog_gcard_selection_birthDay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/gap_textColorPrimaryDark"
+                        android:hint="Day"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:inputType="number|none"
+                        android:maxLines="1"
+                        android:maxLength="2"
+                        android:layout_gravity="center_horizontal"
+                        android:imeOptions="actionDone" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_dialog_gcard_selection_addnewGcard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CardViewDialog.BranchDetailDialog.Button"
+                android:text="Add New Gcard Number"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_dialog_gcard_selection_scannewGcard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CardViewDialog.BranchDetailDialog.Button"
+                android:text="Scan New Gcard Number"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_dialog_gcard_selection_closeDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CardViewDialog.BranchDetailDialog.Button"
+                android:text="Close"/>
+
+        </LinearLayout>
+
+</androidx.cardview.widget.CardView>
