@@ -37,10 +37,6 @@ public class Adapter_Branch extends RecyclerView.Adapter<Adapter_Branch.MobitekB
         this.isSearch = isSearch;
     }
 
-    public void setOnBranchClickListener(onBranchClickListener listener){
-        this.onBranchClickListener = listener;
-    }
-
     @NonNull
     @Override
     public MobitekBranchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -67,23 +63,23 @@ public class Adapter_Branch extends RecyclerView.Adapter<Adapter_Branch.MobitekB
         return filteredBranchList.size();
     }
 
+    public void setOnBranchClickListener(onBranchClickListener listener){
+        this.onBranchClickListener = listener;
+    }
+
     public BranchFilter getBranchFilter() {
         return branchFilter;
     }
 
     static class MobitekBranchViewHolder extends RecyclerView.ViewHolder{
-
         Branches obj_branches;
-
         TextView lblBranchName;
         TextView lblBranchAddress;
         LinearLayout listContent;
         ImageView imgBranchIcon;
 
-
         MobitekBranchViewHolder(@NonNull View itemView, final onBranchClickListener listener) {
             super(itemView);
-
             lblBranchName = itemView.findViewById(R.id.lbl_list_item_branchName);
             lblBranchAddress = itemView.findViewById(R.id.lbl_list_item_branchAdds);
             listContent = itemView.findViewById(R.id.linear_list_item_branch_content);
@@ -106,10 +102,6 @@ public class Adapter_Branch extends RecyclerView.Adapter<Adapter_Branch.MobitekB
                 }
             });
         }
-    }
-
-    public interface onBranchClickListener{
-        void onClick(int position, String BranchName, String Address, String Mobile, String PhoneNo, String Email);
     }
 
     public class BranchFilter extends Filter{
@@ -145,5 +137,9 @@ public class Adapter_Branch extends RecyclerView.Adapter<Adapter_Branch.MobitekB
             adapter.filteredBranchList = (List<Branches>) results.values;
             this.adapter.notifyDataSetChanged();
         }
+    }
+
+    public interface onBranchClickListener{
+        void onClick(int position, String BranchName, String Address, String Mobile, String PhoneNo, String Email);
     }
 }
