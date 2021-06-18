@@ -1,1 +1,4 @@
+include ':json-simple-1.1.1'
+include ':authLibrary'
+include ':appdriver'
 include ':app', ':commons-codec-1.11', ':g3msg_notifylib', ':g3appdriver', ':g3logindriver'

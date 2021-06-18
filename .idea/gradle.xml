@@ -12,10 +12,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/appdriver" />
+            <option value="$PROJECT_DIR$/authLibrary" />
             <option value="$PROJECT_DIR$/commons-codec-1.11" />
             <option value="$PROJECT_DIR$/g3appdriver" />
             <option value="$PROJECT_DIR$/g3logindriver" />
             <option value="$PROJECT_DIR$/g3msg_notifylib" />
+            <option value="$PROJECT_DIR$/json-simple-1.1.1" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

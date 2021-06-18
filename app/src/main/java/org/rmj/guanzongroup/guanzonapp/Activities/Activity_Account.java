@@ -15,7 +15,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 
 import org.rmj.g3appdriver.dev.AppData;
-import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.SharedPref;
 import org.rmj.guanzongroup.guanzonapp.Adapters.ActivityFragmentAdapter;
