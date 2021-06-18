@@ -73,6 +73,21 @@ public class Activity_ItemCart extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    public Activity_ItemCart getInstance(){
+        return instance;
+    }
+
+    public void setBranchValue(String BranchCode, String BranchName){
+        branchCde = BranchCode;
+        btnSelectBranch.setText(BranchName);
+    }
+
+    public void refreshCartPoints(){
+        CartItemPoints = new PointsManager(Activity_ItemCart.this).getCartItemPoints();
+        lblCartItemPoints.setText(String.valueOf(CartItemPoints));
+        lblRmnPoints.setText(String.valueOf(new PointsManager(Activity_ItemCart.this).getRemainingGCardPoints()));
+    }
+
     private void setupJavaClassess(){
         customToast = new CustomToast(Activity_ItemCart.this);
         loading = new Dialog_Loading(Activity_ItemCart.this);
@@ -140,21 +155,6 @@ public class Activity_ItemCart extends AppCompatActivity{
         } else {
             layout.setVisibility(View.VISIBLE);
         }
-    }
-
-    public Activity_ItemCart getInstance(){
-        return instance;
-    }
-
-    public void setBranchValue(String BranchCode, String BranchName){
-        branchCde = BranchCode;
-        btnSelectBranch.setText(BranchName);
-    }
-
-    public void refreshCartPoints(){
-        CartItemPoints = new PointsManager(Activity_ItemCart.this).getCartItemPoints();
-        lblCartItemPoints.setText(String.valueOf(CartItemPoints));
-        lblRmnPoints.setText(String.valueOf(new PointsManager(Activity_ItemCart.this).getRemainingGCardPoints()));
     }
 
     private String[] getPromoIDxx(){

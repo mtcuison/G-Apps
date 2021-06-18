@@ -55,13 +55,6 @@ public class Activity_DashBoard extends AppCompatActivity {
             "Find Us",
             "About Us"};
 
-
-    public static Activity_DashBoard getInstance(){ return instance; }
-
-    public void setDialogShow(boolean IsDialogShow){
-        isDialogShow = IsDialogShow;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +134,17 @@ public class Activity_DashBoard extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public static Activity_DashBoard getInstance(){ return instance; }
+
+    public void setDialogShow(boolean IsDialogShow){
+        isDialogShow = IsDialogShow;
+    }
+
+    public void refreshTabBadge(){
+        tabBadge.setNumber(new App_Notifications(mContext).getUnreadNotificationCount());
+        tabBadge.setVisible(getVisibility(new App_Notifications(mContext).getUnreadNotificationCount()));
+    }
+
     private void setupWidgets(){
         toolbar = findViewById(R.id.toolbar_dashboardMain);
         toolbar.setTitle("Dashboard");
@@ -198,8 +202,4 @@ public class Activity_DashBoard extends AppCompatActivity {
         return count > 0;
     }
 
-    public void refreshTabBadge(){
-        tabBadge.setNumber(new App_Notifications(mContext).getUnreadNotificationCount());
-        tabBadge.setVisible(getVisibility(new App_Notifications(mContext).getUnreadNotificationCount()));
-    }
 }

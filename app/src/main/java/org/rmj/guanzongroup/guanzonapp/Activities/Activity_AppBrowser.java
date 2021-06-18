@@ -117,6 +117,20 @@ public class Activity_AppBrowser extends AppCompatActivity {
         webView.setWebChromeClient(new AppBrowserChromeClient());
     }
 
+    private void ConfigureAppBrowser(){
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setJavaScriptEnabled(true);
+    }
+
+    // Create an image file
+    private File createImageFile() throws IOException {
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "img_"+timeStamp+"_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        return File.createTempFile(imageFileName,".jpg",storageDir);
+    }
+
     class AppBrowserWebViewClient extends android.webkit.WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -135,12 +149,6 @@ public class Activity_AppBrowser extends AppCompatActivity {
             toolbar.setTitle(url);
             super.onPageFinished(view, url);
         }
-    }
-
-    private void ConfigureAppBrowser(){
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setBuiltInZoomControls(true);
-        webSettings.setJavaScriptEnabled(true);
     }
 
     class AppBrowserChromeClient extends WebChromeClient{
@@ -221,11 +229,4 @@ public class Activity_AppBrowser extends AppCompatActivity {
         }
     }
 
-    // Create an image file
-    private File createImageFile() throws IOException {
-        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "img_"+timeStamp+"_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        return File.createTempFile(imageFileName,".jpg",storageDir);
-    }
 }

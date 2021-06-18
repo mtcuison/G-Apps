@@ -47,6 +47,19 @@ class LoadScreen {
         }
     }
 
+    private GapImportInstance[] getImportInstance1(){
+        if(session.isLoggedIn()){
+            return new GapImportInstance[]{
+                    new ImportAccountGcard(),
+                    new ImportOrders(),
+                    new Import_Transactions()};
+        } else {
+            return new GapImportInstance[]{
+                    new ImportBranch(),
+                    new ImportPromotions()};
+        }
+    }
+
     @SuppressLint("StaticFieldLeak")
     class DoBackgroundProgress extends AsyncTask<Integer, Integer, String>{
 
@@ -102,16 +115,4 @@ class LoadScreen {
         }
     }
 
-    private GapImportInstance[] getImportInstance1(){
-        if(session.isLoggedIn()){
-            return new GapImportInstance[]{
-                    new ImportAccountGcard(),
-                    new ImportOrders(),
-                    new Import_Transactions()};
-        } else {
-            return new GapImportInstance[]{
-                    new ImportBranch(),
-                    new ImportPromotions()};
-        }
-    }
 }

@@ -82,6 +82,15 @@ public class Activity_Redeemables extends AppCompatActivity {
         super.onDestroy();
     }
 
+    public static Activity_Redeemables getInstance(){
+        return instance;
+    }
+
+    public void setBadgeView(){
+        orderItems.setVisibility(View.VISIBLE);
+        orderItems.setText(String.valueOf(new CartManager(Activity_Redeemables.this).getCartItemCount()));
+    }
+
     private void setupWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_redeemables);
         toolbar.setTitle("Redeemables");
@@ -132,12 +141,4 @@ public class Activity_Redeemables extends AppCompatActivity {
         return View.VISIBLE;
     }
 
-    public static Activity_Redeemables getInstance(){
-        return instance;
-    }
-
-    public void setBadgeView(){
-        orderItems.setVisibility(View.VISIBLE);
-        orderItems.setText(String.valueOf(new CartManager(Activity_Redeemables.this).getCartItemCount()));
-    }
 }

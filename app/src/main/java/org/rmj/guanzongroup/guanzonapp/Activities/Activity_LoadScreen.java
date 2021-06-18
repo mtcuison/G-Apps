@@ -79,6 +79,34 @@ public class Activity_LoadScreen extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void setupAnimation(){
+        Drawable drawable = getDrawable(R.drawable.anim_loading_progress_logo);
+        if(drawable instanceof AnimatedVectorDrawableCompat){
+            avdc = (AnimatedVectorDrawableCompat)drawable;
+            imgProgress.setImageDrawable(avdc);
+            AnimatedVectorDrawableCompat.registerAnimationCallback(drawable, new Animatable2Compat.AnimationCallback() {
+                @Override
+                public void onAnimationEnd(Drawable drawable) {
+                    avdc.start();
+                }
+            });
+            avdc.start();
+        } else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            if(drawable instanceof AnimatedVectorDrawable){
+                avd = (AnimatedVectorDrawable) drawable;
+                imgProgress.setImageDrawable(avd);
+                avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
+                    @Override
+                    public void onAnimationEnd(Drawable drawable) {
+                        avd.start();
+                    }
+                });
+                avd.start();
+            }
+        }
+    }
+
     @SuppressLint("StaticFieldLeak")
     class ImportAssets extends AsyncTask<Integer, Integer, String>{
 
@@ -128,31 +156,4 @@ public class Activity_LoadScreen extends AppCompatActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void setupAnimation(){
-        Drawable drawable = getDrawable(R.drawable.anim_loading_progress_logo);
-        if(drawable instanceof AnimatedVectorDrawableCompat){
-            avdc = (AnimatedVectorDrawableCompat)drawable;
-            imgProgress.setImageDrawable(avdc);
-            AnimatedVectorDrawableCompat.registerAnimationCallback(drawable, new Animatable2Compat.AnimationCallback() {
-                @Override
-                public void onAnimationEnd(Drawable drawable) {
-                    avdc.start();
-                }
-            });
-            avdc.start();
-        } else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            if(drawable instanceof AnimatedVectorDrawable){
-                avd = (AnimatedVectorDrawable) drawable;
-                imgProgress.setImageDrawable(avd);
-                avd.registerAnimationCallback(new Animatable2.AnimationCallback() {
-                    @Override
-                    public void onAnimationEnd(Drawable drawable) {
-                        avd.start();
-                    }
-                });
-                avd.start();
-            }
-        }
-    }
 }

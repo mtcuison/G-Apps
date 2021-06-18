@@ -60,6 +60,30 @@ public class Activity_Service extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupServiceInfo(){
+        imgBrand.setImageResource(getMcBrandLogo(loadService.getBrandName()));
+        lblMcModel.setText(loadService.getModelName());
+        lblMajorSrvc.setText(loadService.getMajorServiceInfo());
+        lblMinorSrvc.setText(loadService.getMinorServiceInfo());
+        lblDateNxtSrvc.setText(Date_Readable_Format(loadService.getNextReminders()));
+    }
+
+    private int getMcBrandLogo(String BrandName){
+        switch (BrandName.toLowerCase().trim()){
+            case "honda":
+                return R.drawable.ic_honda;
+            case "suzuki":
+                return R.drawable.ic_suzuki;
+            case "yamaha":
+                return R.drawable.ic_yamaha;
+            case "kawasaki":
+                return R.drawable.ic_kawasaki;
+            case "kymco":
+                return R.drawable.ic_kymco;
+        }
+        return 0;
+    }
+
     private void setupWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_service);
         toolbar.setTitle("Motorcycle Service");
@@ -131,27 +155,4 @@ public class Activity_Service extends AppCompatActivity {
         }
     }
 
-    private void setupServiceInfo(){
-        imgBrand.setImageResource(getMcBrandLogo(loadService.getBrandName()));
-        lblMcModel.setText(loadService.getModelName());
-        lblMajorSrvc.setText(loadService.getMajorServiceInfo());
-        lblMinorSrvc.setText(loadService.getMinorServiceInfo());
-        lblDateNxtSrvc.setText(Date_Readable_Format(loadService.getNextReminders()));
-    }
-
-    private int getMcBrandLogo(String BrandName){
-        switch (BrandName.toLowerCase().trim()){
-            case "honda":
-                return R.drawable.ic_honda;
-            case "suzuki":
-                return R.drawable.ic_suzuki;
-            case "yamaha":
-                return R.drawable.ic_yamaha;
-            case "kawasaki":
-                return R.drawable.ic_kawasaki;
-            case "kymco":
-                return R.drawable.ic_kymco;
-        }
-        return 0;
-    }
 }

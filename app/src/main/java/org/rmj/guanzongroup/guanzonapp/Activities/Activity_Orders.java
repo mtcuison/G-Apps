@@ -48,6 +48,16 @@ public class Activity_Orders extends AppCompatActivity {
         finish();
     }
 
+    public static Activity_Orders getInstance(){
+        return instance;
+    }
+
+    public void refreshList(){
+        setupList();
+        adapter.notifyDataSetChanged();
+        Fragment_DashBoard.getInstance().refreshUI();
+    }
+
     private void setupWidgets(){
         Toolbar toolbar = findViewById(R.id.toolbar_orderItems);
         toolbar.setTitle("Orders");
@@ -78,13 +88,4 @@ public class Activity_Orders extends AppCompatActivity {
         }
     }
 
-    public static Activity_Orders getInstance(){
-        return instance;
-    }
-
-    public void refreshList(){
-        setupList();
-        adapter.notifyDataSetChanged();
-        Fragment_DashBoard.getInstance().refreshUI();
-    }
 }
