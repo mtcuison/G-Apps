@@ -44,10 +44,10 @@ public class G_AppLocal {
                 ", cCardType varchar" +
                 ", sTotPoint double" +
                 ", sAvlPoint double" +
-                ", cTranStat char" +
-                ", cActvStat char" +
+                ", cTranStat varchar" +
+                ", cActvStat varchar" +
                 ", dModified varchar" +
-                ", cNotified char)");
+                ", cNotified varchar)");
 
 
         /*Table for Promolink*/
@@ -60,7 +60,7 @@ public class G_AppLocal {
                 "sCaptionx varchar," +
                 "dDateFrom varchar," +
                 "dDateThru varchar," +
-                "cNotified char," +
+                "cNotified varchar," +
                 "cDivision int)");
 
         /*Table for Branches*/
@@ -90,15 +90,15 @@ public class G_AppLocal {
                 "sFrameNox varchar, " +
                 "sBrandNme varchar, " +
                 "sModelNme varchar, " +
-                "cFSEPStat char, " +
+                "cFSEPStat varchar, " +
                 "dPurchase varchar, " +
                 "nYellowxx int," +
                 "nWhitexxx int," +
                 "nYlwCtrxx int," +
                 "nWhtCtrxx int," +
-                "dLastSrvc date," +
+                "dLastSrvc varchar," +
                 "nMIlAgexx int," +
-                "dNxtRmnds date)");
+                "dNxtRmnds  varchar)");
 
         /*Table for Transaction*/
         db.getWritableDb().execSQL("CREATE TABLE IF NOT EXISTS G_Card_Transaction_Ledger (" +
@@ -121,10 +121,10 @@ public class G_AppLocal {
                 "sPromoDsc varvhar, " +
                 "nPointsxx double," +
                 "sImageUrl varchar," +
-                "cPreOrder char," +
-                "dDateFrom date, " +
-                "dDateThru date," +
-                "cNotified char)");
+                "cPreOrder varchar," +
+                "dDateFrom  varchar, " +
+                "dDateThru  varchar," +
+                "cNotified varchar)");
 
         /*Table for Redeem Items*/
         db.getWritableDb().execSQL("CREATE TABLE IF NOT EXISTS redeem_item(" +
@@ -136,24 +136,24 @@ public class G_AppLocal {
                 "nPointsxx double, " +
                 "sBranchCd varchar, " +
                 "sReferNox varchar, " +
-                "dOrderedx date, " +
-                "dPlacOrdr date, " +
-                "dPickupxx date, " +
+                "dOrderedx  varchar, " +
+                "dPlacOrdr  varchar, " +
+                "dPickupxx  varchar, " +
                 "cTranStat varchar," +
                 "cPlcOrder varchar," +
-                "cNotified char)");
+                "cNotified varchar)");
 
         db.getWritableDb().execSQL("CREATE TABLE IF NOT EXISTS App_Event_Info(" +
                 "sTransNox varchar PRIMARY KEY," +
                 "sBranchNm varhcar," +
-                "dEvntFrom date," +
-                "dEvntThru date," +
+                "dEvntFrom  varchar," +
+                "dEvntThru  varchar," +
                 "sEventTle varchar," +
                 "sAddressx varchar," +
                 "sEventURL varchar," +
                 "sImageURL varchar," +
-                "cNotified char," +
-                "dModified date)");
+                "cNotified varchar," +
+                "dModified varchar)");
     }
 
     /**

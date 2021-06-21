@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import org.rmj.guanzongroup.guanzonapp.Adapters.List_Objects.Branches;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_BranchDetailView;
 import org.rmj.guanzongroup.guanzonapp.GuanzonApp.Local_Database.LocalDataBranches;
 import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonapp.ViewModel.VMBranches;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +29,11 @@ import java.util.List;
  */
 public class Motorcycle_Branches extends Fragment {
 
+    private VMBranches mViewModel;
     private View view;
     private Dialog_BranchDetailView dialog;
 
+    Adapter_Branch adapter;
 
     public Motorcycle_Branches() {
         // Required empty public constructor
@@ -41,6 +45,7 @@ public class Motorcycle_Branches extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_branch_motorcycle, container, false);
+        mViewModel = ViewModelProviders.of(this).get(VMBranches.class);
 
         setupWidgets();
 
@@ -70,21 +75,38 @@ public class Motorcycle_Branches extends Fragment {
                 branchesList.add(branches);
             }
         }
-        Adapter_Branch adapter = new Adapter_Branch(getActivity(), branchesList, false);
-        adapter.setOnBranchClickListener(new Adapter_Branch.onBranchClickListener() {
-            @Override
-            public void onClick(int position, String BranchName, String Address, String Mobile, String PhoneNo, String Email) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    dialog = new Dialog_BranchDetailView(getActivity(), 1);
-                    dialog.setBranchName(BranchName);
-                    dialog.setBranchAdds(Address);
-                    dialog.setBranchMobl(Mobile);
-                    dialog.setBranchCntc(PhoneNo);
-                    dialog.setBranchMail(Email);
-                    dialog.showDialog();
+        mViewModel.getMotorBranches().observe(getViewLifecycleOwner(), brnList ->{
+            adapter = new Adapter_Branch(getActivity(), brnList, false);
+            adapter.setOnBranchClickListener(new Adapter_Branch.onBranchClickListener() {
+                @Override
+                public void onClick(int position, String BranchName, String Address, String Mobile, String PhoneNo, String Email) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        dialog = new Dialog_BranchDetailView(getActivity(), 0);
+                        dialog.setBranchName(BranchName);
+                        dialog.setBranchAdds(Address);
+                        dialog.setBranchMobl(Mobile);
+                        dialog.setBranchCntc(PhoneNo);
+                        dialog.setBranchMail(Email);
+                        dialog.showDialog();
+                    }
                 }
-            }
+            });
         });
+//        Adapter_Branch adapter = new Adapter_Branch(getActivity(), branchesList, false);
+//        adapter.setOnBranchClickListener(new Adapter_Branch.onBranchClickListener() {
+//            @Override
+//            public void onClick(int position, String BranchName, String Address, String Mobile, String PhoneNo, String Email) {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    dialog = new Dialog_BranchDetailView(getActivity(), 1);
+//                    dialog.setBranchName(BranchName);
+//                    dialog.setBranchAdds(Address);
+//                    dialog.setBranchMobl(Mobile);
+//                    dialog.setBranchCntc(PhoneNo);
+//                    dialog.setBranchMail(Email);
+//                    dialog.showDialog();
+//                }
+//            }
+//        });
 
         return adapter;
     }

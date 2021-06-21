@@ -26,6 +26,15 @@ public class SessionManager {
 
     private static final String KEY_IS_FIRST_LAUNCHED = "isFirstLaunch";
 
+
+    private static final String KEY_CLIENT_ID = "sClientID";
+
+    private static final String KEY_LOG_NUMBER = "sLogNoxxx";
+
+    private static final String KEY_BRANCH_CODE = "sBranchCd";
+
+    private static final String KEY_USER_ID = "sUserIDxx";
+
     @SuppressLint("CommitPrefEdits")
     public SessionManager(Context context){
         this._context = context;
@@ -65,6 +74,39 @@ public class SessionManager {
 
     public boolean isFirstLaunch(){
         return pref.getBoolean(KEY_IS_FIRST_LAUNCHED, true);
+    }
+
+    public String getUserID(){
+        return pref.getString(KEY_USER_ID, "");
+    }
+
+    public String getClientId(){
+        return pref.getString(KEY_CLIENT_ID, "");
+    }
+
+    public String getLogNumber(){
+        return pref.getString(KEY_LOG_NUMBER, "");
+    }
+    public void initUserSession(String UserID, String Client, String LogNo){
+        editor.putString(KEY_USER_ID, UserID);
+        if(editor.commit()){
+            Log.e(TAG, "User ID for this session has been set.");
+        }
+
+        editor.putString(KEY_CLIENT_ID, Client);
+        if(editor.commit()){
+            Log.e(TAG, "Client ID for this session has been set.");
+        }
+
+        editor.putString(KEY_LOG_NUMBER, LogNo);
+        if(editor.commit()){
+            Log.e(TAG, "Log number for this session has been set.");
+        }
+
+        editor.putBoolean(KEY_IS_LOGGEDIN, true);
+        if(editor.commit()){
+            Log.d(TAG, "User login session has been initialized.");
+        }
     }
 }
 

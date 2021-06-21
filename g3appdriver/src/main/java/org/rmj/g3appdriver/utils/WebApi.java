@@ -125,4 +125,6 @@ public class WebApi {
     public String URL_IMPORT_EVENTS(){
         return sharedPref.getAppServer() + URL_GCARD + URL_MX + "import_events.php";
     }
+    public static String URL_IMPORT_BRANCHES = "https://restgk.guanzongroup.com.ph/integsys/param/download_branch.php";
+
 }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.Database.Entities.EBranchInfo;
 import org.rmj.guanzongroup.guanzonapp.Adapters.List_Objects.Branches;
 import org.rmj.guanzongroup.guanzonapp.R;
 
@@ -21,15 +22,15 @@ import java.util.List;
 
 public class Adapter_Branch extends RecyclerView.Adapter<Adapter_Branch.MobitekBranchViewHolder>{
 
-    private List<Branches> branchesList;
-    private List<Branches> filteredBranchList;
+    private List<EBranchInfo> branchesList;
+    private List<EBranchInfo> filteredBranchList;
     private Context mContext;
     private BranchFilter branchFilter;
     private boolean isSearch;
 
     private onBranchClickListener onBranchClickListener;
 
-    public Adapter_Branch(Context context, List<Branches> branchesList, boolean isSearch){
+    public Adapter_Branch(Context context, List<EBranchInfo> branchesList, boolean isSearch){
         this.mContext = context;
         this.branchesList = branchesList;
         this.filteredBranchList = branchesList;
@@ -51,15 +52,15 @@ public class Adapter_Branch extends RecyclerView.Adapter<Adapter_Branch.MobitekB
     @Override
     public void onBindViewHolder(@NonNull MobitekBranchViewHolder holder, int position) {
         holder.obj_branches = filteredBranchList.get(position);
-        Branches branches = filteredBranchList.get(position);
+        EBranchInfo branches = filteredBranchList.get(position);
 
         if(!isSearch) {
             holder.imgBranchIcon.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.animation_list_icon_fade_scale));
             holder.listContent.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.animation_list_content_fade_translate));
         }
 
-        holder.lblBranchName.setText(branches.getBranchName());
-        holder.lblBranchAddress.setText(branches.getBranchAdds());
+        holder.lblBranchName.setText(branches.getBranchNm());
+        holder.lblBranchAddress.setText(branches.getAddressx());
     }
 
     @Override
@@ -73,7 +74,7 @@ public class Adapter_Branch extends RecyclerView.Adapter<Adapter_Branch.MobitekB
 
     static class MobitekBranchViewHolder extends RecyclerView.ViewHolder{
 
-        Branches obj_branches;
+        EBranchInfo obj_branches;
 
         TextView lblBranchName;
         TextView lblBranchAddress;
@@ -96,11 +97,12 @@ public class Adapter_Branch extends RecyclerView.Adapter<Adapter_Branch.MobitekB
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             listener.onClick(position,
-                                    obj_branches.getBranchName(),
-                                    obj_branches.getBranchAdds(),
-                                    obj_branches.getBranchMobl(),
-                                    obj_branches.getBranchCntc(),
-                                    obj_branches.getBranchMail());
+                                    obj_branches.getBranchNm(),
+                                    obj_branches.getAddressx(),
+                                    obj_branches.getTelNumbr(),
+                                    obj_branches.getContactx(),
+                                    obj_branches.getEmailAdd());
+
                         }
                     }
                 }
@@ -127,9 +129,9 @@ public class Adapter_Branch extends RecyclerView.Adapter<Adapter_Branch.MobitekB
             if(constraint.length() == 0){
                 filteredBranchList.addAll(branchesList);
             } else {
-                List<Branches> filtereSearch = new ArrayList<>();
-                for(Branches branches : branchesList){
-                    if(branches.getBranchName().toLowerCase().contains(constraint.toString().toLowerCase())){
+                List<EBranchInfo> filtereSearch = new ArrayList<>();
+                for(EBranchInfo branches : branchesList){
+                    if(branches.getBranchNm().toLowerCase().contains(constraint.toString().toLowerCase())){
                         filtereSearch.add(branches);
                     }
                 }
@@ -142,7 +144,7 @@ public class Adapter_Branch extends RecyclerView.Adapter<Adapter_Branch.MobitekB
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            adapter.filteredBranchList = (List<Branches>) results.values;
+            adapter.filteredBranchList = (List<EBranchInfo>) results.values;
             this.adapter.notifyDataSetChanged();
         }
     }
