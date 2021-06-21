@@ -14,6 +14,8 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.http.HttpHeaders;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -48,6 +50,7 @@ public class Import_AccountGCard implements ImportInstance {
         private final ImportDataCallback callback;
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
+        private final WebApi poWebApi;
 //        private final RBranch repository;
 
 
@@ -55,6 +58,7 @@ public class Import_AccountGCard implements ImportInstance {
             this.callback = callback;
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
+            this.poWebApi = new WebApi(instance);
 //            this.repository = new RBranch(instance);
 
         }
@@ -65,7 +69,7 @@ public class Import_AccountGCard implements ImportInstance {
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-//                    response = WebClient.httpsPostJSon(URL_IMPORT_BRANCHES, jsonObjects[0].toString(), headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poWebApi.URL_IMPORT_GCARD(), jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");
