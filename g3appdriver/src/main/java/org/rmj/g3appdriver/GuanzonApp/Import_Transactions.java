@@ -12,27 +12,28 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.GcardAppMaster;
 import org.rmj.g3appdriver.http.HttpHeaders;
+import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_BRANCHES;
-
-public class ImportBranch implements ImportInstance{
-    private static final String TAG = ImportBranch.class.getSimpleName();
+public class Import_Transactions extends CodeGenerator implements ImportInstance {
+    private static final String TAG = Import_Branch.class.getSimpleName();
     private final Application instance;
     private final AppConfigPreference poConfig;
+    private final GcardAppMaster poGcardx;
 /*
     Repository
     private final RBranch repository;
 */
 
-    public ImportBranch(Application application){
+    public Import_Transactions(Application application){
         this.instance = application;
         this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poGcardx = new GcardAppMaster(instance);
 //        this.repository = new RBranch(instance);
     }
 
@@ -40,29 +41,21 @@ public class ImportBranch implements ImportInstance{
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            if(poConfig.isAppFirstLaunch()) {
-                loJson.put("bsearch", true);
-                loJson.put("descript", "All");
-            } else {
-                loJson.put("bsearch", true);
-                loJson.put("descript", "All");
-//                String lsTimeStmp = repository.getLatestDataTime();
-//                loJson.put("dTimeStmp", lsTimeStmp);
-            }
-            new ImportBranchTask(callback, instance).execute(loJson);
+            loJson.put("secureno", generateSecureNo(poGcardx.getCardNumber()));
+            new ImportTransactionsTask(callback, instance).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private static class ImportBranchTask extends AsyncTask<JSONObject, Void, String> {
+    private static class ImportTransactionsTask extends AsyncTask<JSONObject, Void, String> {
         private final ImportDataCallback callback;
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
 //        private final RBranch repository;
 
 
-        public ImportBranchTask(ImportDataCallback callback, Application instance) {
+        public ImportTransactionsTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
@@ -76,7 +69,7 @@ public class ImportBranch implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(URL_IMPORT_BRANCHES, jsonObjects[0].toString(), headers.getHeaders());
+//                    response = WebClient.httpsPostJSon(URL_IMPORT_BRANCHES, jsonObjects[0].toString(), headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");
