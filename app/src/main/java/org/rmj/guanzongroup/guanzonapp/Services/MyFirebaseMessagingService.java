@@ -6,12 +6,13 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.rmj.g3appdriver.Database.Entities.ETokenInfo;
+import org.rmj.g3appdriver.Database.Repositories.AppTokenManager;
+import org.rmj.g3appdriver.dev.AppData;
 import org.rmj.guanzongroup.g3msg_notifylib.Builder.NotificationBuilder;
 import org.rmj.guanzongroup.g3msg_notifylib.Utils.DataParser;
 import org.rmj.guanzongroup.g3msg_notifylib.Utils.Validator;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_DashBoard;
-import org.rmj.guanzongroup.guanzonapp.Fragments.Notification.Fragment_Notifications;
-import org.rmj.guanzongroup.guanzonapp.GuanzonApp.Local_Database.TokenStorage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
@@ -19,9 +20,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
-        TokenStorage tokenStorage = new TokenStorage(MyFirebaseMessagingService.this);
-        tokenStorage.saveToken(s);
-        Log.e(TAG, "Firebase token has been acquired. Token value : " + s);
+        AppTokenManager poToken = new AppTokenManager(getApplication());
+        ETokenInfo loToken = new ETokenInfo();
+        loToken.setTokenInf(s);
+        poToken.setTokenInfo(loToken);
+        AppData.getInstance(MyFirebaseMessagingService.this).setAppToken(s);
+//        Log.e(TAG, "Firebase token has been acquired. Token value : " + s);
     }
 
     @Override
@@ -35,12 +39,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 builder.setIntent(new Intent(MyFirebaseMessagingService.this, Activity_DashBoard.class));
                 builder.CreateNotification();
             }
-            try {
-                new Activity_DashBoard().getInstance().refreshTabBadge();
-                new Fragment_Notifications().getInstance().refreshBadges();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
         } catch (Exception e){
             e.printStackTrace();
         }

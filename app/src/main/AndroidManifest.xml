@@ -86,10 +86,10 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <service
-            android:name=".Services.AppService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            tools:ignore="InnerclassSeparator" />
+            android:name=".Services.DataImportService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver
             android:name=".Services.ActionBroadCaster"

@@ -15,7 +15,7 @@ public class NotificationData {
     public void setupNotificationData() {
         try {
             db.getWritableDb().beginTransaction();
-            db.getWritableDb().execSQL("CREATE TABLE IF NOT EXISTS Notification_Info_Master (" +
+                db.getWritableDb().execSQL("CREATE TABLE IF NOT EXISTS Notification_Info_Master (" +
                     "sTransNox varchar," +
                     "sMesgIDxx varchar," +
                     "sParentxx varchar," +

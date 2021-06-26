@@ -48,7 +48,7 @@ public class NotificationReceiver {
         this.mListener = lister;
         DataParser dataParser = new DataParser(DataMessage);
         dataHelper.setData(DataMessage);
-        dataHelper.saveNotificationData();
+        dataHelper. saveNotificationData();
         if (mListener != null) {
             mListener.onRecievedNotificationListener(dataHelper.getMessageID());
             createNotificationChannel();

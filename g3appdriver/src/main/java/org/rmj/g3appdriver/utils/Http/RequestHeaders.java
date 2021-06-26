@@ -1,9 +1,11 @@
 package org.rmj.g3appdriver.utils.Http;
 
+import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.StrictMode;
+import android.util.Log;
 
 import org.rmj.g3appdriver.dev.AppData;
 import org.rmj.g3appdriver.dev.Telephony;
@@ -21,10 +23,10 @@ public class RequestHeaders {
     private final SharedPref sharedPref;
     private final AppData appData;
 
-    public RequestHeaders(Context AppContext) {
-        this.appData = AppData.getInstance(AppContext);
-        this.telephony = new Telephony(AppContext);
-        this.sharedPref = new SharedPref(AppContext);
+    public RequestHeaders(Context context) {
+        this.appData = AppData.getInstance(context);
+        this.telephony = new Telephony(context);
+        this.sharedPref = new SharedPref(context);
     }
 
     private Map<String, String> setHeaders(String ProductID) {
@@ -55,6 +57,16 @@ public class RequestHeaders {
         hash_toLower = hash_toLower.toLowerCase();
         headers.put("g-api-hash", hash_toLower);
         headers.put("g-api-log", LogNo());
+
+        Log.e("ProductID",ProductID);
+        Log.e("ClientID",ClientID());
+        Log.e("devImei",devImei);
+        Log.e("devModel",devModel);
+        Log.e("appToken",appToken);
+        Log.e("getMobileNo",sharedPref.getMobileNo());
+        Log.e("UserID",UserID());
+        Log.e("hash_toLower",hash_toLower);
+        Log.e("LogNo",LogNo());
         return headers;
     }
 
