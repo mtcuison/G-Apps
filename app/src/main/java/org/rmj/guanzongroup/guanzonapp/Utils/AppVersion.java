@@ -55,7 +55,7 @@ public class AppVersion {
             JSONObject params = new JSONObject();
             params.put("version", curr_Version);
 
-            response = WebClient.httpsPostJSon(new WebApi(context).URL_CHECK_APP_VERSION(), params.toString(), (HashMap<String, String>) apiHeaders.getHeaders());
+            response = WebClient.httpsPostJSon(new WebApi(context).URL_CHECK_APP_VERSION, params.toString(), (HashMap<String, String>) apiHeaders.getHeaders());
 
             if(response == null){
                 result = "error";

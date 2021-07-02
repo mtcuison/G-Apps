@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.Database.Repositories.RGCardTransactionLedger;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
+import org.rmj.g3appdriver.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.CodeGenerator;
@@ -57,7 +58,7 @@ public class Import_OnlineEntry extends CodeGenerator implements ImportInstance 
 
     private static class ImportOnlineEntryTask extends AsyncTask<JSONObject, Void, String> {
         private final ImportDataCallback callback;
-        private final RequestHeaders headers;
+        private final HttpHeaders headers;
         private final ConnectionUtil conn;
         private final WebApi poWebapi;
         private final RGCardTransactionLedger repository;
@@ -65,7 +66,7 @@ public class Import_OnlineEntry extends CodeGenerator implements ImportInstance 
 
         public ImportOnlineEntryTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
-            this.headers = new RequestHeaders(instance);
+            this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poWebapi = new WebApi(instance);
             this.repository = new RGCardTransactionLedger(instance);
@@ -79,7 +80,7 @@ public class Import_OnlineEntry extends CodeGenerator implements ImportInstance 
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poWebapi.URL_IMPORT_TRANSACTIONS_ONLINE(), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poWebapi.URL_IMPORT_TRANSACTIONS_ONLINE, jsonObjects[0].toString(),  headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

@@ -15,7 +15,6 @@ import android.widget.ImageButton;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.guanzongroup.guanzonapp.Activities.Activity_DashBoard;
 import org.rmj.guanzongroup.guanzonapp.R;
 
 import java.io.File;
@@ -56,12 +55,12 @@ public class Dialog_ShareApp {
             }
         });
 
-        btnShareLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShareAppLink();
-            }
-        });
+//        btnShareLink.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ShareAppLink();
+//            }
+//        });
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,14 +70,14 @@ public class Dialog_ShareApp {
         });
     }
 
-    private void ShareAppLink(){
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, mContext.getString(R.string.Share_Applink_Extra_Message) + "\n"
-                +"\n"
-                +"\n" + "https://play.google.com/store/apps/details?id=org.rmj.guanzongroup.guanzonapp&hl=en");
-        ((Activity_DashBoard)mContext).startActivityForResult(shareIntent, 0006);
-    }
+//    private void ShareAppLink(){
+//        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//        shareIntent.setType("text/plain");
+//        shareIntent.putExtra(Intent.EXTRA_TEXT, mContext.getString(R.string.Share_Applink_Extra_Message) + "\n"
+//                +"\n"
+//                +"\n" + "https://play.google.com/store/apps/details?id=org.rmj.guanzongroup.guanzonapp&hl=en");
+//        ((Activity_DashBoard)mContext).startActivityForResult(shareIntent, 0006);
+//    }
 
     private void ShareGuanzonAppApk(){
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -94,6 +93,6 @@ public class Dialog_ShareApp {
         intent.setType("applciation/vnd.android.package-archive");
 
         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(ApkPath)));
-        ((Activity_DashBoard)mContext).startActivityForResult(Intent.createChooser(intent, "Share Guanzon App using..."), 0005);
+//        ((Activity_DashBoard)mContext).startActivityForResult(Intent.createChooser(intent, "Share Guanzon App using..."), 0005);
     }
 }

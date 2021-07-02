@@ -6,29 +6,31 @@ import android.util.Log;
 
 public class AppConfigPreference {
     private static final String TAG = AppConfigPreference.class.getSimpleName();
+    private SharedPreferences pref;
 
-    private final SharedPreferences pref;
+    private SharedPreferences.Editor editor;
 
-    private final SharedPreferences.Editor editor;
-
-    private static final String isAppFirstLaunch = "AppFirstLaunch";
     private static final String isLocalHostChange = "ChangeLocalHost";
     private static final String isTestingPhase = "TestingPhase";
     private static final String AppServer = "ApplicationServer";
-    private static final String CONFIG_NAME = "GGC_AndroidLocalConfig";
-    private static final String APP_PRODUCT_ID = "ProductID";
-    private static final String APP_DATE_LOGIN = "DateLogin";
+    private static final String Pref_name = "Temp_Data";
+    private static final String DashBoadActivity = "DasboardMain";
+    private static final String temp_ProductID = "ProductID";
+    private static final String temp_DeviceID = "DeviceID";
+    private static final String temp_DateLogin = "DateLogin";
+    private static final String temp_sessionExp = "SessionExp";
+    private static final String temp_mobileno = "MobileNo";
     private static final String temp_PIN = "ConfirmationPIN";
     private static final String APP_FIREBASE_TOKEN = "Firebase_Token";
-    private static boolean isAgreedOnTerms = false;
 
     private static AppConfigPreference mAppConfigPreference;
 
     public AppConfigPreference(Context context){
         int priv_Mode = 0;
-        pref = context.getSharedPreferences(CONFIG_NAME, priv_Mode);
+        pref = context.getSharedPreferences(Pref_name, priv_Mode);
         editor = pref.edit();
     }
+
 
     public static AppConfigPreference getInstance(Context context){
         if(mAppConfigPreference == null){
@@ -36,14 +38,13 @@ public class AppConfigPreference {
         }
         return mAppConfigPreference;
     }
-
-    public void setIsAppFirstLaunch(boolean isFirstLaunch){
-        editor.putBoolean(isAppFirstLaunch, isFirstLaunch);
+    public void setAppToken(String AppToken){
+        editor.putString(APP_FIREBASE_TOKEN, AppToken);
         editor.commit();
     }
 
-    public boolean isAppFirstLaunch(){
-        return pref.getBoolean(isAppFirstLaunch, true);
+    public String getAppToken(){
+        return pref.getString(APP_FIREBASE_TOKEN, "");
     }
 
     public void setIsLocalHostChange(boolean isChange){
@@ -71,31 +72,62 @@ public class AppConfigPreference {
         }
     }
 
-    /**
-     *
-     * @return Default return value https://restgk.guanzongroup.com.ph/
-     * live data address
-     */
     public String getAppServer(){
+        Log.e(TAG,pref.getString(AppServer, "https://restgk.guanzongroup.com.ph/"));
         return pref.getString(AppServer, "https://restgk.guanzongroup.com.ph/");
     }
 
+    public void setDashBoadActivity(String MenuActivity){
+        editor.putString(DashBoadActivity, MenuActivity);
+        editor.commit();
+
+        Log.d(TAG, "Main menu activity has been set");
+    }
+    public String MenuActivity(){
+        return pref.getString(DashBoadActivity, "");
+    }
+
     public void setTemp_ProductID(String ProductID){
-        editor.putString(APP_PRODUCT_ID, ProductID);
+        editor.putString(temp_ProductID, ProductID);
         editor.commit();
 
         Log.d(TAG, "ProductID has been set");
     }
     public String ProducID(){
-        return  pref.getString(APP_PRODUCT_ID,"");
+        return  pref.getString(temp_ProductID,"");
+    }
+
+    public void setTemp_DeviceID(String DeviceID){
+        editor.putString(temp_DeviceID, DeviceID);
+        editor.commit();
+    }
+    public String DeviceID(){
+        return pref.getString(temp_DeviceID, "");
     }
 
     public void setTemp_DateLogin(String DateLogin){
-        editor.putString(APP_DATE_LOGIN, DateLogin);
+        editor.putString(temp_DateLogin, DateLogin);
         editor.commit();
     }
     public String DateLogin(){
-        return  pref.getString(APP_DATE_LOGIN, "");
+        return  pref.getString(temp_DateLogin, "");
+    }
+
+    public void setTemp_sessionExp(String SessionExp){
+        editor.putString(temp_sessionExp, SessionExp);
+        editor.commit();
+    }
+    public String SessionExp(){
+        return pref.getString(temp_sessionExp, "");
+    }
+
+    public void setTemp_mobileno(String MobileNo){
+        editor.putString(temp_mobileno, MobileNo);
+        editor.commit();
+    }
+
+    public String getMobileNo(){
+        return pref.getString(temp_mobileno, "");
     }
 
     public void setTemp_PIN(String PIN){
@@ -105,25 +137,6 @@ public class AppConfigPreference {
 
     public String getPIN(){
         return pref.getString(temp_PIN, "");
-    }
-
-    public void setAppToken(String AppToken){
-        editor.putString(APP_FIREBASE_TOKEN, AppToken);
-        editor.commit();
-    }
-
-    public String getAppToken(){
-        return pref.getString(APP_FIREBASE_TOKEN, "");
-    }
-
-
-
-    public boolean isAgreedOnTerms() {
-        return isAgreedOnTerms;
-    }
-
-    public void setIsAgreedOnTerms(boolean isAgreed) {
-        this.isAgreedOnTerms = isAgreed;
     }
 
 }

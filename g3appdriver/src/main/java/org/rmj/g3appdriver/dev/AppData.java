@@ -32,7 +32,7 @@ public class AppData extends SQLiteOpenHelper {
         return instance;
     }
 
-    private AppData(Context context) {
+    public AppData(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 

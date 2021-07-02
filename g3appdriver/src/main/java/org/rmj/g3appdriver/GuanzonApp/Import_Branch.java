@@ -1,5 +1,6 @@
 package org.rmj.g3appdriver.GuanzonApp;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -12,15 +13,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.Database.Repositories.RBranchInfo;
+import org.rmj.g3appdriver.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Http.RequestHeaders;
+import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -52,14 +57,14 @@ public class Import_Branch implements ImportInstance{
 
     private static class ImportBranchTask extends AsyncTask<JSONObject, Void, String> {
         private final ImportDataCallback callback;
-        private final RequestHeaders headers;
+        private final HttpHeaders headers;
         private final ConnectionUtil conn;
         private final RBranchInfo repository;
         private final WebApi poWebApi;
 
         public ImportBranchTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
-            this.headers = new RequestHeaders(instance);
+            this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.repository = new RBranchInfo(instance);
             this.poWebApi = new WebApi(instance);
@@ -72,7 +77,7 @@ public class Import_Branch implements ImportInstance{
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poWebApi.URL_IMPORT_BRANCH(), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poWebApi.URL_IMPORT_BRANCH, jsonObjects[0].toString(), headers.getHeaders());
                     Log.e("TAG", response);
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     String lsResult = loJson.getString("result");
@@ -122,4 +127,5 @@ public class Import_Branch implements ImportInstance{
         }
 
     }
+
 }

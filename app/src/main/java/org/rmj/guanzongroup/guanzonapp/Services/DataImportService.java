@@ -52,8 +52,6 @@ public class DataImportService extends JobService {
 
     private void doBackgroundTask(JobParameters params) {
         ImportInstance[]  importInstances = {
-//                new Import_AreaPerformance(getApplication()),
-//                new Import_BranchPerformance(getApplication()),
                 new Import_Redeemables(getApplication()),
                 new Import_Events(getApplication()),
                 new Import_Promotions(getApplication()),
@@ -65,13 +63,13 @@ public class DataImportService extends JobService {
                 importInstance.ImportData(new ImportDataCallback() {
                     @Override
                     public void OnSuccessImportData() {
-                        Log.e("DataImport",   " success");
+                        Log.e(TAG,   importInstance.toString() + " success");
                     }
 
                     @Override
                     public void OnFailedImportData(String message) {
 
-                        Log.e("DataImport",  message);
+                        Log.e(TAG,  message);
                     }
                 });
                 try {

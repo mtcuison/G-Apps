@@ -14,6 +14,7 @@ import org.rmj.g3appdriver.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.Database.Entities.EMCSerialRegistration;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RMCSerialRegistration;
+import org.rmj.g3appdriver.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.CodeGenerator;
@@ -58,7 +59,7 @@ public class Import_McDetail extends CodeGenerator implements ImportInstance {
 
     private static class ImportMcDetailTask extends AsyncTask<JSONObject, Void, String> {
         private final ImportDataCallback callback;
-        private final RequestHeaders headers;
+        private final HttpHeaders headers;
         private final ConnectionUtil conn;
         private final WebApi poWebApi;
         private final RMCSerialRegistration repository;
@@ -67,7 +68,7 @@ public class Import_McDetail extends CodeGenerator implements ImportInstance {
 
         public ImportMcDetailTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
-            this.headers = new RequestHeaders(instance);
+            this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poWebApi = new WebApi(instance);
             this.repository = new RMCSerialRegistration(instance);
@@ -81,7 +82,7 @@ public class Import_McDetail extends CodeGenerator implements ImportInstance {
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poWebApi.URL_IMPORT_MC_REGISTRATION(), jsonObjects[0].toString(),  (HashMap<String, String>) headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poWebApi.URL_IMPORT_MC_REGISTRATION, jsonObjects[0].toString(),   headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

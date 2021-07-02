@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.Database.Repositories.RGCardTransactionLedger;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
+import org.rmj.g3appdriver.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.CodeGenerator;
@@ -58,7 +59,7 @@ public class Import_Transactions extends CodeGenerator implements ImportInstance
 
     private static class ImportTransactionsTask extends AsyncTask<JSONObject, Void, String> {
         private final ImportDataCallback callback;
-        private final RequestHeaders headers;
+        private final HttpHeaders headers;
         private final ConnectionUtil conn;
         private final RGCardTransactionLedger repository;
         private WebApi webApi;
@@ -72,7 +73,7 @@ public class Import_Transactions extends CodeGenerator implements ImportInstance
 
         public ImportTransactionsTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
-            this.headers = new RequestHeaders(instance);
+            this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.repository = new RGCardTransactionLedger(instance);
             this.webApi = new WebApi(instance);
@@ -85,14 +86,14 @@ public class Import_Transactions extends CodeGenerator implements ImportInstance
             String response = "";
             try {
                 String[] Import_Urls = new String[]{
-                        webApi.URL_IMPORT_TRANSACTIONS_ONLINE(),
-                        webApi.URL_IMPORT_TRANSACTIONS_OFFLINE(),
-                        webApi.URL_IMPORT_TRANSACTIONS_PREORDER(),
-                        webApi.URL_IMPORT_TRANSACTIONS_REDEMPTION()
+                        webApi.URL_IMPORT_TRANSACTIONS_ONLINE,
+                        webApi.URL_IMPORT_TRANSACTIONS_OFFLINE,
+                        webApi.URL_IMPORT_TRANSACTIONS_PREORDER,
+                        webApi.URL_IMPORT_TRANSACTIONS_REDEMPTION
                 };
                 if(conn.isDeviceConnected()) {
                     for(int index = 0; index < Import_Urls.length; index++){
-                        response = WebClient.httpsPostJSon(Import_Urls[index], jsonObjects[0].toString(),(HashMap) headers.getHeaders());
+                        response = WebClient.httpsPostJSon(Import_Urls[index], jsonObjects[0].toString(), headers.getHeaders());
                         JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                         Log.e(TAG, loJson.getString("result"));
                         String lsResult = loJson.getString("result");

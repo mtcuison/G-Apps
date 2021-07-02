@@ -22,6 +22,9 @@ public interface DClientInfo {
     @Update
     void update(EClientInfo eClientInfo);
 
+    @Query("DELETE FROM Client_Info_Master")
+    void deleteClient();
+
     @Query("SELECT * FROM Client_Info_Master")
     LiveData<EClientInfo> getClientInfo();
 }

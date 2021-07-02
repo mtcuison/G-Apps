@@ -57,7 +57,7 @@ import org.rmj.g3appdriver.Database.Entities.EUserInfo;
         EServiceInfo.class,
         EEmployeeInfo.class,
         EUserInfo.class,
-        ETokenInfo.class}, version = 1, exportSchema = false)
+        ETokenInfo.class}, version = 2, exportSchema = false)
 public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     private static final String TAG = "GuanzonApp_DB_Manager";
     private static GGC_GuanzonAppDB instance;

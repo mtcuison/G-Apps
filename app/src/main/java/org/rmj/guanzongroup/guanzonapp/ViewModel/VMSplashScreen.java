@@ -56,7 +56,6 @@ public class VMSplashScreen extends AndroidViewModel {
         poToken = new AppTokenManager(application);
         poEmployee = new REmployee(application);
         poClient = new RClientInfo(application);
-
         sharedPref = new SharedPref(application);
         sharedPref.setIsTesting(false);
         sharedPref.setTemp_ProductID("GuanzonApp");
@@ -78,17 +77,9 @@ public class VMSplashScreen extends AndroidViewModel {
     public void setMobileNo(String val){
         psMobileNo.setValue(val);
         sharedPref.setTemp_mobileno(val);
-//        poSession.setMobileNo(val);
+        poConfigx.setTemp_mobileno(val);
+//        poSession.set(val);
 
-    }
-    public void Import(){
-
-    }
-    public LiveData<Boolean> isTesting(){
-        return pbIsTesting;
-    }
-    public LiveData<Boolean> getIsLocalHostChange(){
-        return pbIsLocalHostChange;
     }
     public LiveData<Boolean> isPermissionsGranted(){
         return pbGranted;
@@ -98,16 +89,9 @@ public class VMSplashScreen extends AndroidViewModel {
         return paPermisions;
     }
     public LiveData<String> getMobileNo(){
+        psMobileNo.setValue(poConfigx.getMobileNo());
         return psMobileNo;
     }
-//
-//    public LiveData<String> getSessionDate(){
-//        return poUserDbx.getSessionDate();
-//    }
-//
-//    public LiveData<DEmployeeInfo.Session> getSessionTime(){
-//        return poUserDbx.getSessionTime();
-//    }
 
     public void setSessionTime(int time){
         try {

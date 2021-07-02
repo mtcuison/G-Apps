@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/G-Apps.iml" filepath="$PROJECT_DIR$/.idea/modules/G-Apps.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/G-Apps.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/G-Apps.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/appdriver/G-Apps.appdriver.iml" filepath="$PROJECT_DIR$/.idea/modules/appdriver/G-Apps.appdriver.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/commons-codec-1.11/G-Apps.commons-codec-1.11.iml" filepath="$PROJECT_DIR$/.idea/modules/commons-codec-1.11/G-Apps.commons-codec-1.11.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3appdriver/G-Apps.g3appdriver.iml" filepath="$PROJECT_DIR$/.idea/modules/g3appdriver/G-Apps.g3appdriver.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3logindriver/G-Apps.g3logindriver.iml" filepath="$PROJECT_DIR$/.idea/modules/g3logindriver/G-Apps.g3logindriver.iml" />

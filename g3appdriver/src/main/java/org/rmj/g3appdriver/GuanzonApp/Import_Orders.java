@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RRedeemItemInfo;
+import org.rmj.g3appdriver.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.CodeGenerator;
@@ -57,7 +58,7 @@ public class Import_Orders extends CodeGenerator implements ImportInstance {
 
     private static class ImportOrdersTask extends AsyncTask<JSONObject, Void, String> {
         private final ImportDataCallback callback;
-        private final RequestHeaders headers;
+        private final HttpHeaders headers;
         private final ConnectionUtil conn;
         private WebApi poWebApi;
         private final RRedeemItemInfo repository;
@@ -65,7 +66,7 @@ public class Import_Orders extends CodeGenerator implements ImportInstance {
 
         public ImportOrdersTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
-            this.headers = new RequestHeaders(instance);
+            this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poWebApi = new WebApi(instance);
             this.repository = new RRedeemItemInfo(instance);
@@ -78,7 +79,7 @@ public class Import_Orders extends CodeGenerator implements ImportInstance {
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poWebApi.URL_IMPORT_PLACE_ORDER(), jsonObjects[0].toString(), (HashMap<String, String>) headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poWebApi.URL_IMPORT_PLACE_ORDER, jsonObjects[0].toString(),  headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");

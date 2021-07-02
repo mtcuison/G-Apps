@@ -14,7 +14,7 @@
             android:theme="@style/LoginMaterialTheme"
             android:screenOrientation="userPortrait"/>
         <activity
-            android:name=".Activity_Login"
+            android:name=".Login.Activity_Login"
             android:theme="@style/LoginMaterialTheme"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="userPortrait"/>

@@ -15,7 +15,10 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import org.rmj.appdriver.base.GConnection;
+import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.Database.DbConnection;
 import org.rmj.g3appdriver.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.Database.Entities.ENotificationUser;
@@ -96,15 +99,15 @@ public class RNotificationInfo {
         notificationDao.updateMessageReadStatus(SenderID, AppConstants.DATE_MODIFIED);
     }
 
-//    public String getClientNextMasterCode(){
-//        String lsNextCode = "";
-//        GConnection loConn = DbConnection.doConnect(instance);
-//        try{
-//            lsNextCode = MiscUtil.getNextCode("Notification_Info_Master", "sTransNox", true, loConn.getConnection(), "", 12, false);
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        loConn = null;
-//        return lsNextCode;
-//    }
+    public String getClientNextMasterCode(){
+        String lsNextCode = "";
+        GConnection loConn = DbConnection.doConnect(instance);
+        try{
+            lsNextCode = MiscUtil.getNextCode("Notification_Info_Master", "sTransNox", true, loConn.getConnection(), "", 12, false);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        loConn = null;
+        return lsNextCode;
+    }
 }

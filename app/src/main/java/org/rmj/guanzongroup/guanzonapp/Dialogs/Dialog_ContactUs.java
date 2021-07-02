@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.guanzongroup.guanzonapp.Activities.Activity_DashBoard;
 import org.rmj.guanzongroup.guanzonapp.R;
 
 public class Dialog_ContactUs {
@@ -61,47 +60,47 @@ public class Dialog_ContactUs {
                 dialog.dismiss();
             }
         });
-        setupContactButtons();
+//        setupContactButtons();
     }
 
-    private void setupContactButtons(){
-        lblAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/place/Guanzon+Honda/@16.0406903,120.3363357,17z/data=!3m1!4b1!4m5!3m4!1s0x33915d55d27113e7:0x1bfce58632af3f9b!8m2!3d16.0406852!4d120.3385244"));
-                ((Activity_DashBoard)mContext).startActivityForResult(locationIntent, 0003);
-            }
-        });
-
-        btnSmartContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent contantIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "0998-9545-477", null));
-                if (mContext instanceof Activity) {
-                    ((Activity_DashBoard) mContext).startActivityForResult(contantIntent, 002);
-                }
-            }
-        });
-
-        btnGlobeContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent contantIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", " 0917-1545-477", null));
-                if (mContext instanceof Activity) {
-                    ((Activity_DashBoard) mContext).startActivityForResult(contantIntent, 002);
-                }
-            }
-        });
-
-        btnEmailContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "customercare@guanzongroup.com.ph", null));
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Customer Service");
-                if(mContext instanceof Activity) {
-                    ((Activity_DashBoard) mContext).startActivityForResult(Intent.createChooser(emailIntent, "Send Email..."), 0001);
-                }
-            }
-        });
-    }
+//    private void setupContactButtons(){
+//        lblAddress.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/place/Guanzon+Honda/@16.0406903,120.3363357,17z/data=!3m1!4b1!4m5!3m4!1s0x33915d55d27113e7:0x1bfce58632af3f9b!8m2!3d16.0406852!4d120.3385244"));
+//                ((Activity_DashBoard)mContext).startActivityForResult(locationIntent, 0003);
+//            }
+//        });
+//
+//        btnSmartContact.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent contantIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "0998-9545-477", null));
+//                if (mContext instanceof Activity) {
+//                    ((Activity_DashBoard) mContext).startActivityForResult(contantIntent, 002);
+//                }
+//            }
+//        });
+//
+//        btnGlobeContact.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent contantIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", " 0917-1545-477", null));
+//                if (mContext instanceof Activity) {
+//                    ((Activity_DashBoard) mContext).startActivityForResult(contantIntent, 002);
+//                }
+//            }
+//        });
+//
+//        btnEmailContact.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "customercare@guanzongroup.com.ph", null));
+//                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Customer Service");
+//                if(mContext instanceof Activity) {
+//                    ((Activity_DashBoard) mContext).startActivityForResult(Intent.createChooser(emailIntent, "Send Email..."), 0001);
+//                }
+//            }
+//        });
+//    }
 }

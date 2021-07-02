@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <color name="my_app_primary_color">#F47420</color>
     <color name="my_app_secondary_color">#323232</color>
     <color name="my_app_background_color">#121212</color>

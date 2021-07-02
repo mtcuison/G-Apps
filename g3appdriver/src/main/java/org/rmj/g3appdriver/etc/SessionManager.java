@@ -1,3 +1,14 @@
+/*
+ * Created by Android Team MIS-SEG Year 2021
+ * Copyright (c) 2021. Guanzon Central Office
+ * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+ * Project name : GhostRider_Android
+ * Module : GhostRider_Android.g3appdriver
+ * Electronic Personnel Access Control Security System
+ * project file created : 6/2/21 3:37 PM
+ * project file last modified : 4/24/21 3:19 PM
+ */
+
 package org.rmj.g3appdriver.etc;
 
 import android.annotation.SuppressLint;
@@ -10,44 +21,107 @@ import org.rmj.g3appdriver.dev.AppData;
 
 public class SessionManager {
     //LOG CAT TAG
-    private static String TAG = SessionManager.class.getSimpleName();
+    private static final String TAG = SessionManager.class.getSimpleName();
 
     //SHARED PREFERENCES
-    private SharedPreferences pref;
+    private final SharedPreferences pref;
 
-    private Editor editor;
-
-    private Context _context;
+    private final Editor editor;
 
     //shared preference  file name
-    private static final String PREF_NAME = "GuanzonApps";
+    private static final String PREF_NAME = "AndroidGhostRider";
 
     private static final String KEY_IS_LOGGEDIN = "isLoggedIn";
 
     private static final String KEY_IS_FIRST_LAUNCHED = "isFirstLaunch";
 
+    private static final String KEY_CLIENT_ID = "sClientID";
+
+    private static final String KEY_LOG_NUMBER = "sLogNoxxx";
+
+    private static final String KEY_BRANCH_CODE = "sBranchCd";
+
+    private static final String KEY_USER_ID = "sUserIDxx";
+
+    private static final String KEY_DEPT_ID = "sDeptIDxx";
+
+    private static final String KEY_EMPLOYEE_ID = "sEmplIDxx";
+
+    private static final String KEY_POSITION_ID = "sPositionID";
+
     @SuppressLint("CommitPrefEdits")
     public SessionManager(Context context){
-        this._context = context;
         //Shared pref mode
         int PRIVATE_MODE = 0;
-        pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
-
-    /**
-     *
-     * @param isLoggedIn set user login status
-     */
     public void setLogin(boolean isLoggedIn){
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
         editor.commit();
-        if(isLoggedIn){
-            Log.d(TAG, "User Login.");
-        } else {
-            AppData db = AppData.getInstance(_context);
-            db.LogoutUser();
-            Log.d(TAG, "User Logout");
+    }
+
+    public void initUserSession(String UserID, String Client, String LogNo, String Branch, String DeptID, String EmpID, String Position){
+        editor.putString(KEY_USER_ID, UserID);
+        if(editor.commit()){
+            Log.e(TAG, "User ID for this session has been set.");
+        }
+
+        editor.putString(KEY_CLIENT_ID, Client);
+        if(editor.commit()){
+            Log.e(TAG, "Client ID for this session has been set.");
+        }
+
+        editor.putString(KEY_LOG_NUMBER, LogNo);
+        if(editor.commit()){
+            Log.e(TAG, "Log number for this session has been set.");
+        }
+
+        editor.putString(KEY_BRANCH_CODE, Branch);
+        if(editor.commit()){
+            Log.e(TAG, "Branch code for this session has been set.");
+        }
+
+        editor.putString(KEY_DEPT_ID, DeptID);
+        if(editor.commit()){
+            Log.e(TAG, "User Department ID for this session has been set.");
+        }
+
+        editor.putString(KEY_EMPLOYEE_ID, EmpID);
+        if(editor.commit()){
+            Log.e(TAG, "User Employee ID for this session has been set.");
+        }
+
+        editor.putString(KEY_POSITION_ID, Position);
+        if(editor.commit()){
+            Log.e(TAG, "User position ID for this session has been set.");
+        }
+
+        editor.putBoolean(KEY_IS_LOGGEDIN, true);
+        if(editor.commit()){
+            Log.d(TAG, "User login session has been initialized.");
+        }
+    }
+
+    public void initUserLogout(){
+        editor.putString(KEY_USER_ID, "");
+        if(editor.commit()){
+            Log.e(TAG, "User ID for this session has been set.");
+        }
+
+        editor.putString(KEY_CLIENT_ID, "");
+        if(editor.commit()){
+            Log.e(TAG, "Client ID for this session has been set.");
+        }
+
+        editor.putString(KEY_LOG_NUMBER, "");
+        if(editor.commit()){
+            Log.e(TAG, "Log number for this session has been set.");
+        }
+
+        editor.putBoolean(KEY_IS_LOGGEDIN, false);
+        if(editor.commit()){
+            Log.d(TAG, "User login session has been initialized.");
         }
     }
 
@@ -66,5 +140,34 @@ public class SessionManager {
     public boolean isFirstLaunch(){
         return pref.getBoolean(KEY_IS_FIRST_LAUNCHED, true);
     }
+
+    public String getUserID(){
+        return pref.getString(KEY_USER_ID, "");
+    }
+
+    public String getClientId(){
+        return pref.getString(KEY_CLIENT_ID, "");
+    }
+
+    public String getLogNumber(){
+        return pref.getString(KEY_LOG_NUMBER, "");
+    }
+
+    public String getBranchCode() {
+        return pref.getString(KEY_BRANCH_CODE, "");
+    }
+
+    public String getDeptID(){
+        return pref.getString(KEY_DEPT_ID, "");
+    }
+
+    public String getEmployeeID(){
+        return pref.getString(KEY_EMPLOYEE_ID, "");
+    }
+
+    public String getPositionID(){
+        return pref.getString(KEY_POSITION_ID, "");
+    }
+
 }
 

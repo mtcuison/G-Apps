@@ -9,7 +9,6 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "App_Event_Info")
 public class EEvents {
 
-
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "sTransNox")

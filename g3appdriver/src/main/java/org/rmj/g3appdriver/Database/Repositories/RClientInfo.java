@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.Database.Repositories;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -37,7 +38,30 @@ public class RClientInfo implements DClientInfo {
     }
 
     @Override
+    public void deleteClient() {
+
+    }
+
+    @Override
     public LiveData<EClientInfo> getClientInfo() {
         return clientDao.getClientInfo();
+    }
+
+    public void insertLogin(EClientInfo clientInfo){
+        new InsertLoginTask(clientDao).execute(clientInfo);
+    }
+    private static class InsertLoginTask extends AsyncTask<EClientInfo, Void, Void> {
+        private DClientInfo dclient;
+
+        public InsertLoginTask(DClientInfo dclient){
+            this.dclient = dclient;
+        }
+
+        @Override
+        protected Void doInBackground(EClientInfo... clientInfos) {
+            dclient.deleteClient();
+            dclient.insert(clientInfos[0]);
+            return null;
+        }
     }
 }

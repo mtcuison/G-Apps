@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "redeem_item")
+@Entity(tableName = "Redeem_Item")
 public class ERedeemItemInfo {
 
     @NonNull

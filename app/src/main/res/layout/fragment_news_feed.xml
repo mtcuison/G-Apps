@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.Dashboard.Fragment_NewsFeed"
     android:orientation="vertical"
+    android:theme="@style/GuanzonAppMaterialTheme.NoActionBar"
     android:background="@drawable/splash_screen_background">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -14,14 +15,18 @@
         android:padding="5dp"
         android:layout_marginBottom="50dp"
         android:visibility="gone"/>
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/splash_screen_background"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:orientation="horizontal"
-        android:background="#1A000000"
         android:gravity="center"
         android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:weightSum="2">
 
         <com.google.android.material.button.MaterialButton
@@ -52,4 +57,4 @@
 
     </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>

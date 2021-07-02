@@ -47,7 +47,7 @@ public class FormatUIText {
      * this method parses datetime from local database
      * a user friendly intervention...
      */
-    public String getParseDateTime(String date){
+    public static String getParseDateTime(String date){
         try {
             Date parseDate = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss").parse(date);
             return new SimpleDateFormat("MMM dd, yyyy HH:mm aa").format(parseDate);
