@@ -99,6 +99,7 @@ public class AppConstants {
     public static int INVENTORY_REQUEST_CODE = 129;
 
     public static int PERMISION_REQUEST_CODE = 102;
+    public static int ACCOUNT_REQUEST_CODE = 101;
 
     public static int DataServiceID = 213;
 

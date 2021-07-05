@@ -173,7 +173,6 @@ public class VMLogin extends AndroidViewModel {
         }
 
         void saveAuthInfo(JSONObject jsonInfo) throws JSONException{
-
             EClientInfo clientInfo = new EClientInfo();
             clientInfo.setUserIDxx(jsonInfo.getString("sUserIDxx"));
             clientInfo.setEmailAdd(jsonInfo.getString("sEmailAdd"));
@@ -182,6 +181,7 @@ public class VMLogin extends AndroidViewModel {
             clientInfo.setDateMmbr(jsonInfo.getString("dCreatedx"));
             clientInfo.setLoginxxx(AppConstants.DATE_MODIFIED);
             poClient.insertLogin(clientInfo);
+            sessionManager.setUserID(jsonInfo.getString("sUserIDxx"));
         }
     }
 }

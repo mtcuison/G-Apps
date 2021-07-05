@@ -9,8 +9,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RBranchInfo;
 import org.rmj.g3appdriver.Database.Repositories.RClientInfo;
+import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
 
 import java.util.List;
 
@@ -22,15 +24,21 @@ public class VMDashboard extends AndroidViewModel {
     private final Application instance;
     private final RBranchInfo poBranch;
     private final RClientInfo poClient;
+    private final RGcardApp poGCard;
     private MutableLiveData<List<EBranchInfo>> eBranchInfoList;
     public VMDashboard(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poBranch = new RBranchInfo(application);
         this.poClient = new RClientInfo(application);
+        this.poGCard = new RGcardApp(application);
     }
 
     public LiveData<EClientInfo> getClientInfo(){
         return poClient.getClientInfo();
     }
+    public LiveData<EGcardApp> getGCardInfo(){
+        return poGCard.getGCardInfo();
+    }
+
 }

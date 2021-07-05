@@ -6,8 +6,13 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.Database.DataAccessObject.DClientInfo;
+import org.rmj.g3appdriver.Database.DataAccessObject.DGCardTransactionLedger;
+import org.rmj.g3appdriver.Database.DataAccessObject.DGcardApp;
+import org.rmj.g3appdriver.Database.DataAccessObject.DMCSerialRegistration;
 import org.rmj.g3appdriver.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.Database.GGC_GuanzonAppDB;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.SessionManager;
 
 import java.util.List;
 
@@ -16,10 +21,20 @@ public class RClientInfo implements DClientInfo {
     private final Application application;
 
     private final DClientInfo clientDao;
+    private final DGcardApp gCardDao;
+    private final DGCardTransactionLedger ledgerDao;
+    private final DMCSerialRegistration mcDao;
+    private final SessionManager sessionManager;
+    private final AppConfigPreference appConfigPreference;
     public RClientInfo(Application application){
         GGC_GuanzonAppDB database = GGC_GuanzonAppDB.getInstance(application);
         this.application = application;
+        this.sessionManager = new SessionManager(application);
+        this.appConfigPreference = new AppConfigPreference(application);
         this.clientDao = database.EClientDao();
+        this.gCardDao = database.EGcardAppDao();
+        this.ledgerDao = database.EGCardTransactionLedgerDao();
+        this.mcDao = database.EMCSerialRegistrationDao();
     }
 
     @Override
@@ -61,6 +76,33 @@ public class RClientInfo implements DClientInfo {
         protected Void doInBackground(EClientInfo... clientInfos) {
             dclient.deleteClient();
             dclient.insert(clientInfos[0]);
+            return null;
+        }
+    }
+    public void LogoutUserSession(){
+        sessionManager.initUserLogout();
+        appConfigPreference.SessionExp();
+        new DeleteUserTask(clientDao,mcDao,gCardDao,ledgerDao).execute();
+    }
+    public static class DeleteUserTask extends AsyncTask<Void, Void, Void>{
+        private DClientInfo clientInfo;
+        private DGCardTransactionLedger dgCardTransactionLedger;
+        private DGcardApp dGcardApp;
+        private DMCSerialRegistration dmcSerialRegistration;
+
+        public DeleteUserTask(DClientInfo clientInfo,DMCSerialRegistration dmcSerialRegistration,DGcardApp dGcardApp,DGCardTransactionLedger dgCardTransactionLedger) {
+            this.clientInfo = clientInfo;
+            this.dmcSerialRegistration = dmcSerialRegistration;
+            this.dGcardApp = dGcardApp;
+            this.dgCardTransactionLedger = dgCardTransactionLedger;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            clientInfo.deleteClient();
+            dgCardTransactionLedger.deleteGCardTrans();
+            dGcardApp.deleteGCard();
+            dmcSerialRegistration.deleteMC();
             return null;
         }
     }

@@ -32,6 +32,8 @@ public class Import_AccountGCard implements ImportInstance {
     private static final String TAG = Import_Branch.class.getSimpleName();
     private final Application instance;
     private final AppConfigPreference poConfig;
+    private final RClientInfo poClient;
+    private final SessionManager poSession;
 /*
     Repository
     private final RBranch repository;
@@ -40,14 +42,15 @@ public class Import_AccountGCard implements ImportInstance {
     public Import_AccountGCard(Application application){
         this.instance = application;
         this.poConfig = AppConfigPreference.getInstance(instance);
-//        this.repository = new RBranch(instance);
+        this.poClient = new RClientInfo(instance);
+        this.poSession = new SessionManager(instance);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-//            loJson.put("user_id", db.getUserID());
+            loJson.put("user_id", poSession.getUserID());
             new ImportAccountGCardTask(callback, instance).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
@@ -82,19 +85,13 @@ public class Import_AccountGCard implements ImportInstance {
             try {
                 if(conn.isDeviceConnected()) {
                     response = WebClient.httpsPostJSon(poWebApi.URL_IMPORT_GCARD, jsonObjects[0].toString(),headers.getHeaders());
+                    Log.e("TAG", response);
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
-                    Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
-                        JSONArray laJson = loJson.getJSONArray("detail");
-                        saveDataToLocal(laJson);
-//                        if(!repository.insertBranchInfos(laJson)){
-//                            response = AppConstants.ERROR_SAVING_TO_LOCAL();
-//                        }
-                    } else {
-                        JSONObject loError = loJson.getJSONObject("error");
-                        String message = loError.getString("message");
-                        callback.OnFailedImportData(message);
+                        if (!repository.insertGCard(loJson)){
+                            response = AppConstants.ERROR_SAVING_TO_LOCAL();
+                        }
                     }
                 } else {
                     response = AppConstants.NO_INTERNET();
@@ -118,7 +115,7 @@ public class Import_AccountGCard implements ImportInstance {
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
                     String message = loError.getString("message");
-                    callback.OnFailedImportData(message);
+                    callback.OnFailedImportData(message + "Import GCard");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -127,26 +124,6 @@ public class Import_AccountGCard implements ImportInstance {
                 e.printStackTrace();
                 callback.OnFailedImportData(e.getMessage());
             }
-        }
-        void saveDataToLocal(JSONArray laJson) throws Exception{
-            List<EGcardApp> brnList = new ArrayList<>();
-            for(int x = 0; x < laJson.length(); x++){
-                JSONObject loJson = laJson.getJSONObject(x);
-                EGcardApp info = new EGcardApp();
-                info.setGCardNox(loJson.getString("sGCardNox"));
-                info.setCardType(loJson.getString("sCardNmbr"));
-                info.setUserIDxx(poClient.getClientInfo().getValue().getUserIDxx());
-                info.setNmOnCard(loJson.getString("sNmOnCard"));
-                info.setMemberxx(loJson.getString("dMemberxx"));
-                info.setCardType(loJson.getString("cCardType"));
-                info.setAvlPoint(loJson.getString("nAvlPoint"));
-                info.setTotPoint(loJson.getString("nTotPoint"));
-                info.setTranStat(loJson.getString("cCardStat"));
-                info.setActvStat("0");
-                info.setNotified("1");
-                brnList.add(info);
-            }
-            repository.insertBulkData(brnList);
         }
 
 

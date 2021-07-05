@@ -33,4 +33,9 @@ public class RMCSerialRegistration implements DMCSerialRegistration {
     public void update(EMCSerialRegistration emcSerialRegistration) {
         mcDao.update(emcSerialRegistration);
     }
+
+    @Override
+    public void deleteMC() {
+
+    }
 }

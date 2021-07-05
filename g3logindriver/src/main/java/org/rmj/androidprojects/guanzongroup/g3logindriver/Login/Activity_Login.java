@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,11 +23,16 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.rmj.androidprojects.guanzongroup.g3logindriver.Activity_CreateAccount;
 import org.rmj.androidprojects.guanzongroup.g3logindriver.Activity_RequestPassword;
 import org.rmj.androidprojects.guanzongroup.g3logindriver.R;
+import org.rmj.androidprojects.guanzongroup.g3logindriver.Services.LoginImportService;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GAppMessageBox;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.etc.SharedPref;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.ServiceScheduler;
+
+import static org.rmj.g3appdriver.utils.ServiceScheduler.TWO_HOUR_PERIODIC;
 
 public class Activity_Login extends AppCompatActivity implements LoginCallback{
     private static final String TAG = Activity_Login.class.getSimpleName();
@@ -114,7 +120,9 @@ public class Activity_Login extends AppCompatActivity implements LoginCallback{
 
     @Override
     public void OnSuccessLoginResult() {
+        Log.e("User ID", new SessionManager(Activity_Login.this).getUserID());
         dialog.dismiss();
+        ServiceScheduler.scheduleJob(Activity_Login.this, LoginImportService.class, TWO_HOUR_PERIODIC, AppConstants.DataServiceID);
         setResult(Activity.RESULT_OK);
         finish();
     }

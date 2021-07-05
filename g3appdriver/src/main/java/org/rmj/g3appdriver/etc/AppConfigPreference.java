@@ -113,14 +113,14 @@ public class AppConfigPreference {
         return  pref.getString(temp_DateLogin, "");
     }
 
+
+    public String SessionExp(){
+        return pref.getString(temp_sessionExp, "");
+    }
     public void setTemp_sessionExp(String SessionExp){
         editor.putString(temp_sessionExp, SessionExp);
         editor.commit();
     }
-    public String SessionExp(){
-        return pref.getString(temp_sessionExp, "");
-    }
-
     public void setTemp_mobileno(String MobileNo){
         editor.putString(temp_mobileno, MobileNo);
         editor.commit();

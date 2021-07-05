@@ -5,13 +5,13 @@
     <item android:id="@+id/menu_action_user_details"
         android:title="Me"
         android:icon="@drawable/ic_toolbar_account"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         app:actionLayout="@layout/badge_account_notice"/>
 
     <item android:id="@+id/menu_action_gcard_options"
         android:title="GCard Options"
         android:icon="@drawable/ic_menu_action_card"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         app:actionLayout="@layout/badge_gcard_notice"/>
 
     <item

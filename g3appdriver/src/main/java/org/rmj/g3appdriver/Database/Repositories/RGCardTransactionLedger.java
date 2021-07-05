@@ -33,4 +33,9 @@ public class RGCardTransactionLedger implements DGCardTransactionLedger {
     public void update(EGCardTransactionLedger egCardTransactionLedger) {
         ledgerDao.update(egCardTransactionLedger);
     }
+
+    @Override
+    public void deleteGCardTrans() {
+
+    }
 }

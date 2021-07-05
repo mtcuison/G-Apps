@@ -51,6 +51,7 @@ public class Fragment_NewsFeed extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMNewsFeed.class);
+        getActivity().setTitle("Dashboard");
         mViewModel.getAllEvents().observe(getViewLifecycleOwner(), eEvents -> {
              adapter = new Adapter_NewsEvents(eEvents, new Adapter_NewsEvents.OnEventItemClickListener() {
                 @Override

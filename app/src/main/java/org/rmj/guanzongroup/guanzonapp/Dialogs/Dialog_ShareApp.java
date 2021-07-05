@@ -1,6 +1,6 @@
 package org.rmj.guanzongroup.guanzonapp.Dialogs;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -12,41 +12,46 @@ import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.guanzongroup.guanzonapp.Activities.MainActivity;
 import org.rmj.guanzongroup.guanzonapp.R;
 
 import java.io.File;
 
 public class Dialog_ShareApp {
+    private AlertDialog poDialogx;
+    private final Context mContext;
+    private String lsDate = "";
+    private TextView lblAddress;
+    private ImageButton btnCloseDialog;
+    private MaterialButton btnShareApk;
+    private MaterialButton btnShareLink;
+    private MaterialButton btnEmailContact;
+    private MaterialButton btnFacebook;
 
-    private Context mContext;
-
-    private AlertDialog.Builder builder;
-    private AlertDialog dialog;
 
     public Dialog_ShareApp(Context context){
         this.mContext = context;
-        this.builder = new AlertDialog.Builder(mContext);
     }
 
-    public void showDialog(){
-        createDialog();
-        dialog.show();
-    }
-
-    private void createDialog(){
+    public void initDialog(){
+        AlertDialog.Builder loBuilder = new AlertDialog.Builder(mContext);
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_share_guanzon_app, null, false);
-        builder.setView(view)
-                .setCancelable(false);
-        dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
+        loBuilder.setCancelable(false)
+                .setView(view);
+        poDialogx = loBuilder.create();
+        poDialogx.setCancelable(false);
 
-        MaterialButton btnShareApk = view.findViewById(R.id.btn_dialog_share_apk);
-        MaterialButton btnShareLink = view.findViewById(R.id.btn_dialog_share_link);
-        ImageButton btnClose = view.findViewById(R.id.btn_dialog_share_close);
+        poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
+        btnShareApk = view.findViewById(R.id.btn_dialog_share_apk);
+        btnShareLink = view.findViewById(R.id.btn_dialog_share_link);
+        btnCloseDialog = view.findViewById(R.id.btn_dialog_share_close);
 
         btnShareApk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,29 +60,36 @@ public class Dialog_ShareApp {
             }
         });
 
-//        btnShareLink.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ShareAppLink();
-//            }
-//        });
-
-        btnClose.setOnClickListener(new View.OnClickListener() {
+        btnShareLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                ShareAppLink();
+            }
+        });
+
+        btnCloseDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                poDialogx.dismiss();
             }
         });
     }
 
-//    private void ShareAppLink(){
-//        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//        shareIntent.setType("text/plain");
-//        shareIntent.putExtra(Intent.EXTRA_TEXT, mContext.getString(R.string.Share_Applink_Extra_Message) + "\n"
-//                +"\n"
-//                +"\n" + "https://play.google.com/store/apps/details?id=org.rmj.guanzongroup.guanzonapp&hl=en");
-//        ((Activity_DashBoard)mContext).startActivityForResult(shareIntent, 0006);
-//    }
+    public void show(){
+        initDialog();
+        if(!poDialogx.isShowing()){
+            poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            poDialogx.show();
+        }
+    }
+    private void ShareAppLink(){
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mContext.getString(R.string.Share_Applink_Extra_Message) + "\n"
+                +"\n"
+                +"\n" + "https://play.google.com/store/apps/details?id=org.rmj.guanzongroup.guanzonapp&hl=en");
+        ((MainActivity)mContext).startActivityForResult(shareIntent, 0006);
+    }
 
     private void ShareGuanzonAppApk(){
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -93,6 +105,7 @@ public class Dialog_ShareApp {
         intent.setType("applciation/vnd.android.package-archive");
 
         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(ApkPath)));
-//        ((Activity_DashBoard)mContext).startActivityForResult(Intent.createChooser(intent, "Share Guanzon App using..."), 0005);
+        ((MainActivity)mContext).startActivityForResult(Intent.createChooser(intent, "Share Guanzon App using..."), 0005);
     }
+
 }

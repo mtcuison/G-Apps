@@ -18,6 +18,10 @@
             android:theme="@style/LoginMaterialTheme"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="userPortrait"/>
+
+        <service
+            android:name=".Services.LoginImportService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

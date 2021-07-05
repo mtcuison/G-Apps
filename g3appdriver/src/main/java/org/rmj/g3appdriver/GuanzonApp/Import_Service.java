@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.Database.Entities.ERedeemItemInfo;
+import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RRedeemItemInfo;
 import org.rmj.g3appdriver.Database.Repositories.RServiceInfo;
 import org.rmj.g3appdriver.Http.HttpHeaders;
@@ -32,7 +33,8 @@ public class Import_Service extends CodeGenerator implements ImportInstance {
     private static final String TAG = Import_Branch.class.getSimpleName();
     private final Application instance;
     private final AppConfigPreference poConfig;
-    private final RServiceInfo poGcardx;
+    private final RGcardApp poGcardx;
+    private final RServiceInfo poService;
 /*
     Repository
     private final RBranch repository;
@@ -41,7 +43,8 @@ public class Import_Service extends CodeGenerator implements ImportInstance {
     public Import_Service(Application application){
         this.instance = application;
         this.poConfig = AppConfigPreference.getInstance(instance);
-        this.poGcardx = new RServiceInfo(instance);
+        this.poGcardx = new RGcardApp(instance);
+        this.poService = new RServiceInfo(instance);
 //        this.repository = new RBranch(instance);
     }
 
@@ -51,6 +54,9 @@ public class Import_Service extends CodeGenerator implements ImportInstance {
 //            String lsSecureNo = new CodeGenerator().generateSecureNo(lsGCardNumber);
 
             JSONObject loJson = new JSONObject();
+            String lsGCardNumber = poGcardx.getGCardInfo().getValue().getCardNmbr();
+            String lsSecureNo = new CodeGenerator().generateSecureNo(lsGCardNumber);
+            loJson.put("secureno", lsSecureNo);
 //            loJson.put("secureno", generateSecureNo(lsSecureNo));
             new ImportOrdersTask(callback, instance).execute(loJson);
         } catch (Exception e){

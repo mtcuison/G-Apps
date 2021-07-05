@@ -143,6 +143,13 @@ public class SessionManager {
 
     public String getUserID(){
         return pref.getString(KEY_USER_ID, "");
+
+    }
+    public void setUserID(String userID){
+        editor.putString(KEY_USER_ID, userID);
+        editor.commit();
+        Log.e(TAG, "User Id has saved.");
+
     }
 
     public String getClientId(){

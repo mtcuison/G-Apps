@@ -70,6 +70,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         app = new AppConfigPreference(this);
         mViewModel = ViewModelProviders.of(this).get(VMSplashScreen.class);
         try {
+            mViewModel.setMobileNo("639452086661");
             startService(new Intent(Activity_SplashScreen.this, MyFirebaseMessagingService.class));
             if(!ServiceScheduler.isJobRunning(Activity_SplashScreen.this, AppConstants.DataServiceID)) {
                 ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataImportService.class, TWO_HOUR_PERIODIC, AppConstants.DataServiceID);

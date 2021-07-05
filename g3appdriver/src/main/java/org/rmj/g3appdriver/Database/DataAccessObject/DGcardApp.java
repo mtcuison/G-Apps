@@ -15,14 +15,17 @@ import java.util.List;
 public interface DGcardApp {
 
     @Insert
-    void insert(EGcardApp gcardApp);
+    void insert(EGcardApp gCardApp);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertBulkData(List<EGcardApp> gcardAppList);
+    void insertBulkData(List<EGcardApp> gCardAppList);
 
     @Update
-    void update(EGcardApp gcardApp);
+    void update(EGcardApp gCardApp);
 
-    @Query("SELECT * FROM GCard_App_Master WHERE cActvStat = '1'")
+    @Query("DELETE FROM GCard_App_Master")
+    void deleteGCard();
+
+    @Query("SELECT * FROM GCard_App_Master ")
     LiveData<EGcardApp> getGCardInfo();
 }

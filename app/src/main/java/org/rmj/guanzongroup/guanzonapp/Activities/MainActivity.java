@@ -1,7 +1,7 @@
 package org.rmj.guanzongroup.guanzonapp.Activities;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,47 +9,49 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
+import androidx.core.view.MenuItemCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import org.rmj.g3appdriver.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.guanzonapp.Adapters.ActivityFragmentAdapter;
 import org.rmj.guanzongroup.guanzonapp.Adapters.ExpandableListDrawerAdapter;
-import org.rmj.guanzongroup.guanzonapp.Adapters.FragmentAdapter;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_ContactUs;
+import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_GcardSelection;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_ShareApp;
+import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_UserDetail;
 import org.rmj.guanzongroup.guanzonapp.Fragments.Branches.Fragment_Branches;
-import org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard.Fragment_DashBoard;
 import org.rmj.guanzongroup.guanzonapp.Fragments.Fragment_About;
-import org.rmj.guanzongroup.guanzonapp.Fragments.Notification.Fragment_Notifications;
-import org.rmj.guanzongroup.guanzonapp.Fragments.Notification.Fragment_Promotions;
 import org.rmj.guanzongroup.guanzonapp.MeuModel.MenuModel;
 import org.rmj.guanzongroup.guanzonapp.MeuModel.PopulateExpandableList;
 import org.rmj.guanzongroup.guanzonapp.MeuModel.PrepareData;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMMainActivity;
-import org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard.Fragment_NewsFeed;
-import org.rmj.guanzongroup.guanzonapp.etc.NonSwipeableViewPager;
+import org.rmj.guanzongroup.guanzonapp.etc.DashBoardIconBadge;
 import org.rmj.guanzongroup.guanzonapp.etc.appConstants;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static org.rmj.g3appdriver.etc.AppConstants.ACCOUNT_REQUEST_CODE;
+import static org.rmj.g3appdriver.etc.AppConstants.LOGIN_ACTIVITY_REQUEST_CODE;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -78,17 +80,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private String[] tabTitles;
 
+    public static MainActivity newInstance() {
+        return new MainActivity();
+    }
+
+    private ImageButton btnGCard, btnAccount;
+    private DashBoardIconBadge dashBoardIconBadge;
+    private boolean isLogin = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initWidgets();
+        dashBoardIconBadge = new DashBoardIconBadge(getApplication());
         adapter = new ActivityFragmentAdapter(getSupportFragmentManager());
         try {
 
             mViewModel = new ViewModelProvider(MainActivity.this).get(VMMainActivity.class);
             mViewModel.isLoggedIn().observe(MainActivity.this, val ->{
                 tabTitles = appConstants.getHomeTitles(val);
+
                 ActivityFragmentAdapter adapter = new ActivityFragmentAdapter(getSupportFragmentManager());
                 adapter.addFragment(mViewModel.getMainFragment(val));
                 adapter.addFragment(mViewModel.getPromoFragment(val));
@@ -105,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         tabLayout.getTabAt(tab.getPosition()).setIcon(icons[tab.getPosition()]);
+                        viewPager.setCurrentItem(tab.getPosition());
                         getSupportActionBar().setTitle(tabTitles[tab.getPosition()]);
                     }
 
@@ -115,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-
                     }
                 });
             });
@@ -168,31 +179,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // TODO Add your menu entries here
-        mViewModel.getMenuAction().observe(MainActivity.this, val ->{
-            getMenuInflater().inflate(val, menu);
-            mViewModel.setMenuBadges(menu);
-//            super.onCreateOptionsMenu(menu);
+        mViewModel.isLoggedIn().observe(MainActivity.this, val ->{
+//            mViewModel.getMenuAction(val).observe(MainActivity.this, vals->{
+//                getMenuInflater().inflate(vals, menu);
+//            });
+//            mViewModel.getClientInfo().observe(MainActivity.this, eClientInfo -> {
+//                setMenuBadges(menu, val, eClientInfo);
+//            });
+            if (val){
+                getMenuInflater().inflate(R.menu.action_options_menu, menu);
+            }else {
+                getMenuInflater().inflate(R.menu.action_contact_us, menu);
+            }
+//            mViewModel.getClientInfo().observe(MainActivity.this, eClientInfo -> {
+//                setMenuBadges(menu, val, eClientInfo);
+//            });
+//            setMenuBadges(menu, val, eClientInfo);
         });
-
-        super.onCreateOptionsMenu(menu);
-        return true;
+        return super.onPrepareOptionsMenu(menu);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        GToast.CreateMessage(getApplicationContext(),  "Selected Item: " +item.getTitle(),GToast.INFORMATION).show();
+
+//        Toast.makeText(this, "Selected Item: " +item.getTitle(), Toast.LENGTH_SHORT).show();
         switch (item.getItemId()){
             case R.id.menu_action_item_cart:
-                startActivity(new Intent(getApplication(), Activity_ItemCart.class));
+                startActivity(new Intent(MainActivity.this, Activity_ItemCart.class));
                 break;
+//
             case R.id.menu_pp_action_contact_us:
+                new Dialog_ContactUs(MainActivity.this).show();
+                break;
             case R.id.menu_action_contact_us:
-                new Dialog_ContactUs(getApplication()).showDialog();
+                GToast.CreateMessage(getApplicationContext(), "option menu clicked.",GToast.INFORMATION).show();
                 break;
             case R.id.menu_pp_action_share:
-                new Dialog_ShareApp(getApplication()).showDialog();
+                new Dialog_ShareApp(MainActivity.this).show();
                 break;
             case R.id.menu_pp_action_account:
-                startActivity(new Intent(getApplication(), Activity_Account.class));
+                startActivityForResult(new Intent(MainActivity.this, Activity_Account.class), ACCOUNT_REQUEST_CODE);
                 break;
+
+            default:
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -215,8 +245,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
+        Log.e(TAG, "result code = " + requestCode);
+        Log.e(TAG, "result code = " + resultCode);
+        if (requestCode == ACCOUNT_REQUEST_CODE && resultCode == RESULT_OK){
+            mViewModel.setLogin(false);
+            MainActivity.this.recreate();
+        } else if (resultCode == RESULT_OK) {
             mViewModel.setLogin(true);
+            MainActivity.this.recreate();
+        }else{
+            MainActivity.this.recreate();
+        }
+    }
+    public void setMenuBadges(Menu menu, boolean val, EClientInfo eClientInfo){
+        if(val){
+            MenuItem itemCart = menu.findItem(R.id.menu_action_item_cart);
+            MenuItem Gcard = menu.findItem(R.id.menu_action_gcard_options);
+            MenuItem Account = menu.findItem(R.id.menu_action_user_details);
+
+            View cart = MenuItemCompat.getActionView(itemCart);
+            View gcard = MenuItemCompat.getActionView(Gcard);
+            View account = MenuItemCompat.getActionView(Account);
+            ImageView gcardBadge = gcard.findViewById(R.id.img_gcard_badge_notice);
+
+            btnAccount = account.findViewById(R.id.btn_action_user_details);
+            btnAccount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new Dialog_UserDetail(MainActivity.this, eClientInfo).showDialog();
+                }
+            });
+
+            btnGCard = gcard.findViewById(R.id.btn_action_gcard_selection);
+            btnGCard.setOnClickListener(v->{
+                mViewModel.gerGCard().observe(MainActivity.this, gcardApp -> {
+                    new Dialog_GcardSelection(MainActivity.this, gcardApp).showDialog();
+                });
+            });
+//
+        } else {
+
         }
     }
 }
