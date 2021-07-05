@@ -39,13 +39,13 @@ public class Dialog_UserDetail {
     private MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
     private BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
 
-    private EClientInfo eClientInfo;
+    private EClientInfo clientInfo;
 
 
-    public Dialog_UserDetail(Context context,EClientInfo eClientInfo){
+    public Dialog_UserDetail(Context context, EClientInfo eClientInfo){
         this.mContext = context;
         this.builder = new AlertDialog.Builder(mContext);
-        this.eClientInfo = eClientInfo;
+        this.clientInfo = eClientInfo;
     }
 
     public void showDialog(){
@@ -72,9 +72,9 @@ public class Dialog_UserDetail {
 
         ImageView imgUserCodex = view.findViewById(R.id.img_dialog_user_account_codex);
 
-        lblUserName.setText(eClientInfo.getUserName());
-        lblUserMail.setText(eClientInfo.getEmailAdd());
-        lblUserDate.setText(Date_Readable_Format(eClientInfo.getDateMmbr()));
+        lblUserName.setText(clientInfo.getUserName());
+        lblUserMail.setText(clientInfo.getEmailAdd());
+        lblUserDate.setText(Date_Readable_Format(clientInfo.getDateMmbr()));
         lblBuildVsn.setText("Build Version " + BuildConfig.VERSION_NAME + " - " + BuildConfig.VERSION_CODE + "Vc.");
         imgUserCodex.setImageBitmap(createBitmapCodex());
 
@@ -94,26 +94,26 @@ public class Dialog_UserDetail {
         });
     }
 
-//    private JSONObject createUserInfo(){
-//        JSONObject params = new JSONObject();
-//        try{
-//            params.put("sUserIDxx", userMaster.getUserID());
-//            params.put("sUserName", userMaster.getUserName());
-//            params.put("sEmailAdd", userMaster.getUserEmail());
-//            params.put("sMobileNo", userMaster.getUserMobileNo());
-//            params.put("dLoginxxx", userMaster.getDateLogin());
-//            params.put("dDateMmbr", userMaster.getUserRegistrationDate());
-//            params.put("sDevcImei", new Telephony(mContext).getDeviceID());
-//            return params;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+    private JSONObject createUserInfo(){
+        JSONObject params = new JSONObject();
+        try{
+            params.put("sUserIDxx", clientInfo.getUserIDxx());
+            params.put("sUserName", clientInfo.getUserName());
+            params.put("sEmailAdd", clientInfo.getEmailAdd());
+            params.put("sMobileNo", clientInfo.getMobileNo());
+            params.put("dLoginxxx", clientInfo.getLoginxxx());
+            params.put("dDateMmbr", clientInfo.getDateMmbr());
+            params.put("sDevcImei", new Telephony(mContext).getDeviceID());
+            return params;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     private Bitmap createBitmapCodex(){
         try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(new CodeGenerator().generateSecureNo(eClientInfo.toString()), BarcodeFormat.QR_CODE, 900, 900);
+            BitMatrix bitMatrix = multiFormatWriter.encode(new CodeGenerator().generateSecureNo(createUserInfo().toString()), BarcodeFormat.QR_CODE, 900, 900);
             return barcodeEncoder.createBitmap(bitMatrix);
         }catch(Exception e){
             e.printStackTrace();

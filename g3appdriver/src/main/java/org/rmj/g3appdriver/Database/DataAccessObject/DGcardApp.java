@@ -26,6 +26,6 @@ public interface DGcardApp {
     @Query("DELETE FROM GCard_App_Master")
     void deleteGCard();
 
-    @Query("SELECT * FROM GCard_App_Master ")
+    @Query("SELECT * FROM GCard_App_Master")
     LiveData<EGcardApp> getGCardInfo();
 }

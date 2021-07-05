@@ -85,7 +85,7 @@ public class Import_AccountGCard implements ImportInstance {
             try {
                 if(conn.isDeviceConnected()) {
                     response = WebClient.httpsPostJSon(poWebApi.URL_IMPORT_GCARD, jsonObjects[0].toString(),headers.getHeaders());
-                    Log.e("TAG", response);
+                    Log.e("Import_AccountGCard", response);
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){

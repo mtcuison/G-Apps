@@ -32,6 +32,7 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.guanzonapp.Adapters.ActivityFragmentAdapter;
 import org.rmj.guanzongroup.guanzonapp.Adapters.ExpandableListDrawerAdapter;
+import org.rmj.guanzongroup.guanzonapp.Dialogs.DialogUserProfile;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_ContactUs;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_GcardSelection;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_ShareApp;
@@ -180,49 +181,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // TODO Add your menu entries here
         mViewModel.isLoggedIn().observe(MainActivity.this, val ->{
-//            mViewModel.getMenuAction(val).observe(MainActivity.this, vals->{
-//                getMenuInflater().inflate(vals, menu);
-//            });
-//            mViewModel.getClientInfo().observe(MainActivity.this, eClientInfo -> {
-//                setMenuBadges(menu, val, eClientInfo);
-//            });
+            getMenuInflater().inflate(dashBoardIconBadge.getMenuAction(val), menu);
             if (val){
-                getMenuInflater().inflate(R.menu.action_options_menu, menu);
-            }else {
-                getMenuInflater().inflate(R.menu.action_contact_us, menu);
+                final MenuItem userItem = menu.findItem(R.id.menu_action_user_details);
+                final MenuItem gcardItem = menu.findItem(R.id.menu_action_gcard_options);
+                View userView = userItem.getActionView();
+                View gcardView = gcardItem.getActionView();
+                btnAccount = (ImageButton) userView.findViewById(R.id.btn_action_user_details);
+                btnGCard = (ImageButton) gcardView.findViewById(R.id.btn_action_gcard_selection);
+                btnAccount.setOnClickListener(v->{onOptionsItemSelected(userItem);});
+                btnGCard.setOnClickListener(v->{onOptionsItemSelected(gcardItem);});
+                ImageView gcardBadge = gcardView.findViewById(R.id.img_gcard_badge_notice);
+
+//                gcardBadge.setVisibility(getGCardBadgeVisibility());
+
+
             }
-//            mViewModel.getClientInfo().observe(MainActivity.this, eClientInfo -> {
-//                setMenuBadges(menu, val, eClientInfo);
-//            });
-//            setMenuBadges(menu, val, eClientInfo);
         });
-        return super.onPrepareOptionsMenu(menu);
+        return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        GToast.CreateMessage(getApplicationContext(),  "Selected Item: " +item.getTitle(),GToast.INFORMATION).show();
-
-//        Toast.makeText(this, "Selected Item: " +item.getTitle(), Toast.LENGTH_SHORT).show();
-        switch (item.getItemId()){
-            case R.id.menu_action_item_cart:
-                startActivity(new Intent(MainActivity.this, Activity_ItemCart.class));
-                break;
-//
-            case R.id.menu_pp_action_contact_us:
-                new Dialog_ContactUs(MainActivity.this).show();
-                break;
-            case R.id.menu_action_contact_us:
-                GToast.CreateMessage(getApplicationContext(), "option menu clicked.",GToast.INFORMATION).show();
-                break;
-            case R.id.menu_pp_action_share:
-                new Dialog_ShareApp(MainActivity.this).show();
-                break;
-            case R.id.menu_pp_action_account:
-                startActivityForResult(new Intent(MainActivity.this, Activity_Account.class), ACCOUNT_REQUEST_CODE);
-                break;
-
-            default:
-
+        int id = item.getItemId();
+        if (id == R.id.menu_action_user_details) {
+            mViewModel.getClientInfo().observe(MainActivity.this, eClientInfo -> {
+                new Dialog_UserDetail(MainActivity.this,eClientInfo).showDialog();
+            });
+           return true;
+        } else if (id == R.id.menu_action_gcard_options) {
+            mViewModel.getGCard().observe(MainActivity.this, gcardApp -> {
+                new Dialog_GcardSelection(MainActivity.this,gcardApp).showDialog();
+            });
+            return true;
+        }else if(id == R.id.menu_pp_action_contact_us || id == R.id.menu_action_contact_us){
+            new Dialog_ContactUs(MainActivity.this).show();
+            return true;
+        }else if(id == R.id.menu_action_item_cart ){
+            startActivity(new Intent(MainActivity.this, Activity_ItemCart.class));
+            return true;
+        }else if(id == R.id.menu_pp_action_share){
+            new Dialog_ShareApp(MainActivity.this).show();
+            return true;
+        }else if(id == R.id.menu_pp_action_account){
+            startActivityForResult(new Intent(MainActivity.this, Activity_Account.class), ACCOUNT_REQUEST_CODE);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -257,34 +259,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             MainActivity.this.recreate();
         }
     }
-    public void setMenuBadges(Menu menu, boolean val, EClientInfo eClientInfo){
-        if(val){
-            MenuItem itemCart = menu.findItem(R.id.menu_action_item_cart);
-            MenuItem Gcard = menu.findItem(R.id.menu_action_gcard_options);
-            MenuItem Account = menu.findItem(R.id.menu_action_user_details);
-
-            View cart = MenuItemCompat.getActionView(itemCart);
-            View gcard = MenuItemCompat.getActionView(Gcard);
-            View account = MenuItemCompat.getActionView(Account);
-            ImageView gcardBadge = gcard.findViewById(R.id.img_gcard_badge_notice);
-
-            btnAccount = account.findViewById(R.id.btn_action_user_details);
-            btnAccount.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new Dialog_UserDetail(MainActivity.this, eClientInfo).showDialog();
-                }
-            });
-
-            btnGCard = gcard.findViewById(R.id.btn_action_gcard_selection);
-            btnGCard.setOnClickListener(v->{
-                mViewModel.gerGCard().observe(MainActivity.this, gcardApp -> {
-                    new Dialog_GcardSelection(MainActivity.this, gcardApp).showDialog();
-                });
-            });
+//    public void setMenuBadges(Menu menu, boolean val, EClientInfo eClientInfo){
+//        if(val){
+//            MenuItem itemCart = menu.findItem(R.id.menu_action_item_cart);
+//            MenuItem Gcard = menu.findItem(R.id.menu_action_gcard_options);
+//            MenuItem Account = menu.findItem(R.id.menu_action_user_details);
 //
-        } else {
-
-        }
-    }
+//            View cart = MenuItemCompat.getActionView(itemCart);
+//            View gcard = MenuItemCompat.getActionView(Gcard);
+//            View account = MenuItemCompat.getActionView(Account);
+//            ImageView gcardBadge = gcard.findViewById(R.id.img_gcard_badge_notice);
+//
+//            btnAccount = account.findViewById(R.id.btn_action_user_details);
+//            btnAccount.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    new DialogUserProfile(MainActivity.this, eClientInfo).show();
+//                }
+//            });
+//
+//            btnGCard = gcard.findViewById(R.id.btn_action_gcard_selection);
+//            btnGCard.setOnClickListener(v->{
+//                mViewModel.gerGCard().observe(MainActivity.this, gcardApp -> {
+//                    new Dialog_GcardSelection(MainActivity.this, gcardApp).showDialog();
+//                });
+//            });
+////
+//        } else {
+//
+//        }
+//    }
 }

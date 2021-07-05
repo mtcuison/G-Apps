@@ -70,7 +70,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
         app = new AppConfigPreference(this);
         mViewModel = ViewModelProviders.of(this).get(VMSplashScreen.class);
         try {
-            mViewModel.setMobileNo("639452086661");
             startService(new Intent(Activity_SplashScreen.this, MyFirebaseMessagingService.class));
             if(!ServiceScheduler.isJobRunning(Activity_SplashScreen.this, AppConstants.DataServiceID)) {
                 ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataImportService.class, TWO_HOUR_PERIODIC, AppConstants.DataServiceID);
@@ -161,6 +160,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                             mViewModel.setMobileNo(mobileNo.get(0));
 //                            startSerives();
                             dialog.dismiss();
+                            Activity_SplashScreen.this.recreate();
                         }
                     });
                     loMessage.setNegativeButton(mobileNo.get(1), new MessageBox.onMessageBoxButtonClick() {
@@ -169,6 +169,8 @@ public class Activity_SplashScreen extends AppCompatActivity {
                             mViewModel.setMobileNo(mobileNo.get(1));
 //                            startSerives();
                             dialog.dismiss();
+                            Activity_SplashScreen.this.recreate();
+
                         }
                     });
                     loMessage.showDialog();
@@ -181,6 +183,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                         @Override
                         public void OnConfirm(String MobileNo) {
                             mViewModel.setMobileNo(MobileNo);
+                            Activity_SplashScreen.this.recreate();
 //                            startSerives();
                         }
                     });

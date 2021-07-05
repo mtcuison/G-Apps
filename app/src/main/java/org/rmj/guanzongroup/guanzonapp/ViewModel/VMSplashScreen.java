@@ -56,9 +56,6 @@ public class VMSplashScreen extends AndroidViewModel {
         poToken = new AppTokenManager(application);
         poEmployee = new REmployee(application);
         poClient = new RClientInfo(application);
-        sharedPref = new SharedPref(application);
-        sharedPref.setIsTesting(false);
-        sharedPref.setTemp_ProductID("GuanzonApp");
         appEvent = new REvents(application);
         poBranch = new RBranchInfo(application);
         poPromo = new RPromo(application);
@@ -76,7 +73,6 @@ public class VMSplashScreen extends AndroidViewModel {
     }
     public void setMobileNo(String val){
         psMobileNo.setValue(val);
-        sharedPref.setTemp_mobileno(val);
         poConfigx.setTemp_mobileno(val);
 //        poSession.set(val);
 

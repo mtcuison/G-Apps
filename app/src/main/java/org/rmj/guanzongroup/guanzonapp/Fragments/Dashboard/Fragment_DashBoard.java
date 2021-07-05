@@ -115,6 +115,14 @@ public class Fragment_DashBoard extends Fragment {
         Username = view.findViewById(R.id.lbl_dashboard_userfullname);
         guanzonLogo_Animated = view.findViewById(R.id.img_dashboard_guanzon_logo);
 
+//        guanzonLogo_Animated.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(!new GcardAppMaster(getActivity()).hasNoGcard()){
+//                    new Dialog_GCardCodex(getActivity()).showDialog();
+//                }
+//            }
+//        });
 
     }
 

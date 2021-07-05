@@ -22,10 +22,6 @@ import org.rmj.g3appdriver.Database.Repositories.REmployee;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.guanzongroup.guanzonapp.Activities.MainActivity;
-import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_ContactUs;
-import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_ShareApp;
-import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_UserDetail;
 import org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard.Fragment_DashBoard;
 import org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard.Fragment_NewsFeed;
 import org.rmj.guanzongroup.guanzonapp.Fragments.Notification.Fragment_Notifications;
@@ -69,7 +65,7 @@ public class VMMainActivity extends AndroidViewModel {
         poSession.setLogin(val);
         pbIsLogIn.setValue(val);
     }
-    public LiveData<EGcardApp> gerGCard(){
+    public LiveData<EGcardApp> getGCard(){
         return poGCard.getGCardInfo();
     }
     public Fragment getMainFragment(boolean val){

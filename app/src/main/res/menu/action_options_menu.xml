@@ -5,7 +5,7 @@
     <item android:id="@+id/menu_action_user_details"
         android:title="Me"
         android:icon="@drawable/ic_toolbar_account"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         app:actionLayout="@layout/badge_account_notice"/>
 
     <item android:id="@+id/menu_action_gcard_options"
