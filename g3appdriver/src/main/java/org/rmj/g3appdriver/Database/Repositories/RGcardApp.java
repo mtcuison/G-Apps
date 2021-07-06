@@ -53,6 +53,11 @@ public class RGcardApp implements DGcardApp {
     }
 
     @Override
+    public String getActiveCardNo() {
+        return gcardDao.getActiveCardNo();
+    }
+
+    @Override
     public String getActiveGcardNo() {
         return gcardDao.getActiveGcardNo();
     }

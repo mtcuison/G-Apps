@@ -49,7 +49,7 @@ public class Import_Transactions extends CodeGenerator implements ImportInstance
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            loJson.put("secureno", generateSecureNo(poGcardx.getGCardInfo().getValue().getCardNmbr()));
+            loJson.put("secureno", generateSecureNo(poGcardx.getActiveCardNo()));
             new ImportTransactionsTask(callback, instance).execute(loJson);
 
         } catch (Exception e){

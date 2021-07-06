@@ -30,5 +30,8 @@ public interface DGcardApp {
     LiveData<EGcardApp> getGCardInfo();
 
     @Query("SELECT sCardNmbr FROM GCard_App_Master WHERE cActvStat = '1'")
+    String getActiveCardNo();
+
+    @Query("SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1'")
     String getActiveGcardNo();
 }

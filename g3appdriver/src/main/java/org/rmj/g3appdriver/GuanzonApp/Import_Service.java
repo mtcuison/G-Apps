@@ -48,9 +48,9 @@ public class Import_Service extends CodeGenerator implements ImportInstance {
         try {
             JSONObject loJson = new JSONObject();
             String lsSecureN = new CodeGenerator()
-                    .generateSecureNo(poGcardx.getActiveGcardNo());
+                    .generateSecureNo(poGcardx.getActiveCardNo());
             loJson.put("secureno", lsSecureN);
-            new ImportServicesTask(callback, instance).execute(loJson);
+            new ImportServicesTask(poGcardx.getActiveGcardNo(), callback, instance).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -62,15 +62,16 @@ public class Import_Service extends CodeGenerator implements ImportInstance {
         private final ConnectionUtil conn;
         private WebApi poWebApi;
         private final RServiceInfo poService;
+        private final String lsGcardNo;
 
 
-        public ImportServicesTask(ImportDataCallback callback, Application instance) {
+        public ImportServicesTask(String fsGcardNo, ImportDataCallback callback, Application instance) {
             this.callback = callback;
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poWebApi = new WebApi(instance);
             this.poService = new RServiceInfo(instance);
-
+            this.lsGcardNo = fsGcardNo;
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -133,7 +134,7 @@ public class Import_Service extends CodeGenerator implements ImportInstance {
                 JSONObject loJson = laJson.getJSONObject(x);
                 EServiceInfo info = new EServiceInfo();
 
-                info.setGCardNox("M00121000043");
+                info.setGCardNox(lsGcardNo);
                 info.setSerialID(loJson.getString("sSerialID"));
                 info.setEngineNo(loJson.getString("sEngineNo"));
                 info.setFrameNox(loJson.getString("sFrameNox"));
