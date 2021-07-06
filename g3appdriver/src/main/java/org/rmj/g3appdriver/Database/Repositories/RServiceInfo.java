@@ -3,6 +3,8 @@ package org.rmj.g3appdriver.Database.Repositories;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.lifecycle.LiveData;
+
 import org.rmj.g3appdriver.Database.DataAccessObject.DServiceInfo;
 import org.rmj.g3appdriver.Database.Entities.EServiceInfo;
 import org.rmj.g3appdriver.Database.GGC_GuanzonAppDB;
@@ -33,6 +35,11 @@ public class RServiceInfo implements DServiceInfo {
     @Override
     public void update(EServiceInfo eServiceInforInfo) {
         serviceDao.update(eServiceInforInfo);
+    }
+
+    @Override
+    public LiveData<EServiceInfo> getActiveServiceInfo() {
+        return serviceDao.getActiveServiceInfo();
     }
 
     private static class InsertBulkTask extends AsyncTask<List<EServiceInfo>, Void, Void> {

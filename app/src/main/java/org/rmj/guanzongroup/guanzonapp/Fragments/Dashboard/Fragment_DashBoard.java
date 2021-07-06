@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
+import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Service;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
 
@@ -123,6 +125,10 @@ public class Fragment_DashBoard extends Fragment {
 //                }
 //            }
 //        });
+
+        btnService.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), Activity_Service.class));
+        });
 
     }
 

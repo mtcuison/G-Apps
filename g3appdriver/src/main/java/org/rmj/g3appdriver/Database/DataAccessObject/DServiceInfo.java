@@ -1,8 +1,10 @@
 package org.rmj.g3appdriver.Database.DataAccessObject;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.Database.Entities.EServiceInfo;
@@ -20,4 +22,10 @@ public interface DServiceInfo {
 
     @Update
     void update(EServiceInfo eServiceInforInfo);
+
+    @Query("SELECT S.* FROM Service as S " +
+            "LEFT JOIN GCard_App_Master as G " +
+            "ON S.sGCardNox = G.sGCardNox " +
+            "WHERE G.cActvStat = '1'")
+    LiveData<EServiceInfo> getActiveServiceInfo();
 }

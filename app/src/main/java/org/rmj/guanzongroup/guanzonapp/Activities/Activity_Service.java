@@ -1,13 +1,10 @@
 package org.rmj.guanzongroup.guanzonapp.Activities;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
-import android.media.Image;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,8 +14,10 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.g3appdriver.Database.Repositories.RServiceInfo;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_Loading;
 import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonapp.ViewModel.VMService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +26,8 @@ import java.util.Objects;
 
 public class Activity_Service extends AppCompatActivity {
 
+    private VMService mViewModel;
+    private RServiceInfo poService;
     private TextView lblMcModel;
     private TextView lblMinorSrvc;
     private TextView lblMajorSrvc;
@@ -41,7 +42,7 @@ public class Activity_Service extends AppCompatActivity {
         setContentView(R.layout.activity_service);
         loading = new Dialog_Loading(Activity_Service.this);
         setupWidgets();
-        new LoadServiceTask().execute();
+        setupServiceInfo();
     }
 
     @Override
@@ -58,6 +59,7 @@ public class Activity_Service extends AppCompatActivity {
     }
 
     private void setupWidgets(){
+        mViewModel = ViewModelProviders.of(Activity_Service.this).get(VMService.class);
         Toolbar toolbar = findViewById(R.id.toolbar_service);
         toolbar.setTitle("Motorcycle Service");
         setSupportActionBar(toolbar);
@@ -78,6 +80,16 @@ public class Activity_Service extends AppCompatActivity {
         });
     }
 
+    private void setupServiceInfo(){
+        mViewModel.getActiveServiceInfo().observe(Activity_Service.this, foService -> {
+            imgBrand.setImageResource(getMcBrandLogo(foService.getBrandNme()));
+            lblMcModel.setText(foService.getModelNme());
+            lblMajorSrvc.setText(String.valueOf(foService.getYellowxx()));
+            lblMinorSrvc.setText(String.valueOf(foService.getWhitexxx()));
+            lblDateNxtSrvc.setText(Date_Readable_Format(foService.getNxtRmnds()));
+        });
+    }
+
     @SuppressLint("SimpleDateFormat")
     private String Date_Readable_Format(String dateReceive){
         try {
@@ -87,14 +99,6 @@ public class Activity_Service extends AppCompatActivity {
             e.printStackTrace();
             return "";
         }
-    }
-
-    private void setupServiceInfo(){
-        imgBrand.setImageResource(getMcBrandLogo(loadService.getBrandName()));
-        lblMcModel.setText(loadService.getModelName());
-        lblMajorSrvc.setText(loadService.getMajorServiceInfo());
-        lblMinorSrvc.setText(loadService.getMinorServiceInfo());
-        lblDateNxtSrvc.setText(Date_Readable_Format(loadService.getNextReminders()));
     }
 
     private int getMcBrandLogo(String BrandName){
