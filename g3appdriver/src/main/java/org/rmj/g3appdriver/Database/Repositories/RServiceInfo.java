@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.Database.Repositories;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import org.rmj.g3appdriver.Database.DataAccessObject.DServiceInfo;
 import org.rmj.g3appdriver.Database.Entities.EServiceInfo;
@@ -25,12 +26,41 @@ public class RServiceInfo implements DServiceInfo {
     }
 
     @Override
-    public void insertBulkData(List<EServiceInfo> eServiceInforInfoList) {
-        serviceDao.insertBulkData(eServiceInforInfoList);
+    public void insertBulkData(List<EServiceInfo> foServices) {
+        new InsertBulkTask(serviceDao).execute(foServices);
     }
 
     @Override
     public void update(EServiceInfo eServiceInforInfo) {
         serviceDao.update(eServiceInforInfo);
     }
+
+    private static class InsertBulkTask extends AsyncTask<List<EServiceInfo>, Void, Void> {
+        private final DServiceInfo dService;
+
+        InsertBulkTask(DServiceInfo dService) {
+            this.dService = dService;
+        }
+
+        @Override
+        protected Void doInBackground(List<EServiceInfo>... lists) {
+            dService.insertBulkData(lists[0]);
+            return null;
+        }
+    }
+
+    private static class InsertServiceTask extends AsyncTask<EServiceInfo, Void, Void> {
+        private final DServiceInfo dService;
+
+        InsertServiceTask(DServiceInfo dService) {
+            this.dService = dService;
+        }
+
+        @Override
+        protected Void doInBackground(EServiceInfo... service) {
+            dService.insert(service[0]);
+            return null;
+        }
+    }
+
 }

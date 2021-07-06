@@ -57,6 +57,7 @@ public class LoginImportService extends JobService {
     private void doBackgroundTask(JobParameters params) {
         ImportInstance[]  importInstances = {
                 new Import_AccountGCard(getApplication()),
+                new Import_Redeemables(getApplication()),
                 new Import_Orders(getApplication()),
                 new Import_Service(getApplication()),
                 new Import_Transactions(getApplication())};

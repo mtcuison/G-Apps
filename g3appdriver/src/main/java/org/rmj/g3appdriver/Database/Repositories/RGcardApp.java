@@ -51,6 +51,12 @@ public class RGcardApp implements DGcardApp {
     public LiveData<EGcardApp> getGCardInfo() {
         return gcardDao.getGCardInfo();
     }
+
+    @Override
+    public String getActiveGcardNo() {
+        return gcardDao.getActiveGcardNo();
+    }
+
     public boolean insertGCard(JSONObject jsonResponse) throws Exception {
         try {
             JSONArray jsonArray = jsonResponse.getJSONArray("detail");
@@ -67,7 +73,7 @@ public class RGcardApp implements DGcardApp {
                 info.setAvlPoint(loJson.getString("nAvlPoint"));
                 info.setTotPoint(loJson.getString("nTotPoint"));
                 info.setTranStat(loJson.getString("cCardStat"));
-                info.setActvStat("0");
+                info.setActvStat("1");
                 info.setNotified("1");
                 gcardList.add(info);
             }

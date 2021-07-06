@@ -25,8 +25,6 @@ import org.rmj.g3appdriver.GuanzonApp.Import_Branch;
 import org.rmj.g3appdriver.GuanzonApp.Import_Events;
 import org.rmj.g3appdriver.GuanzonApp.Import_Orders;
 import org.rmj.g3appdriver.GuanzonApp.Import_Promotions;
-import org.rmj.g3appdriver.GuanzonApp.Import_Redeemables;
-import org.rmj.g3appdriver.GuanzonApp.Import_Service;
 import org.rmj.g3appdriver.GuanzonApp.Import_Transactions;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_SplashScreen;
@@ -61,11 +59,9 @@ public class DataImportService extends JobService {
          importInstances = new ImportInstance[] {
                     new Import_AccountGCard(getApplication()),
                     new Import_Orders(getApplication()),
-                    new Import_Service(getApplication()),
                     new Import_Transactions(getApplication())};
         }else{
            importInstances = new ImportInstance[]{
-                    new Import_Redeemables(getApplication()),
                     new Import_Events(getApplication()),
                     new Import_Promotions(getApplication()),
                     new Import_Branch(getApplication())};
