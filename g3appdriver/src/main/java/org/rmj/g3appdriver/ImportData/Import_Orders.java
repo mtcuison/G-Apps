@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.GuanzonApp;
+package org.rmj.g3appdriver.ImportData;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -13,51 +13,42 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RRedeemItemInfo;
-import org.rmj.g3appdriver.Database.Repositories.RServiceInfo;
 import org.rmj.g3appdriver.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.Http.RequestHeaders;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class Import_Service extends CodeGenerator implements ImportInstance {
+public class Import_Orders extends CodeGenerator implements ImportInstance {
     private static final String TAG = Import_Branch.class.getSimpleName();
     private final Application instance;
     private final AppConfigPreference poConfig;
     private final RGcardApp poGcardx;
-    private final RServiceInfo poService;
 /*
     Repository
     private final RBranch repository;
 */
 
-    public Import_Service(Application application){
+    public Import_Orders(Application application){
         this.instance = application;
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poGcardx = new RGcardApp(instance);
-        this.poService = new RServiceInfo(instance);
 //        this.repository = new RBranch(instance);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void ImportData(ImportDataCallback callback) {
         try {
-//            String lsSecureNo = new CodeGenerator().generateSecureNo(lsGCardNumber);
-
             JSONObject loJson = new JSONObject();
-            String lsGCardNumber = poGcardx.getGCardInfo().getValue().getCardNmbr();
-            String lsSecureNo = new CodeGenerator().generateSecureNo(lsGCardNumber);
-            loJson.put("secureno", lsSecureNo);
-//            loJson.put("secureno", generateSecureNo(lsSecureNo));
+            loJson.put("secureno", generateSecureNo(poGcardx.getCardNo()));
             new ImportOrdersTask(callback, instance).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();

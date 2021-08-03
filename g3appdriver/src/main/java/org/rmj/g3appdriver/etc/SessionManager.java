@@ -59,6 +59,7 @@ public class SessionManager {
     public void setLogin(boolean isLoggedIn){
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
         editor.commit();
+        editor.apply();
     }
 
     public void initUserSession(String UserID, String Client, String LogNo, String Branch, String DeptID, String EmpID, String Position){

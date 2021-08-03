@@ -1,7 +1,9 @@
 package org.rmj.guanzongroup.guanzonapp.Dialogs;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,8 +25,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.Database.Entities.EGcardApp;
+import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
+import org.rmj.g3appdriver.dev.AppConfig;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_QrCodeScanner;
+import org.rmj.guanzongroup.guanzonapp.Activities.MainActivity;
+import org.rmj.guanzongroup.guanzonapp.Adapters.Adapter_Gcard;
 import org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard.Fragment_DashBoard;
 import org.rmj.guanzongroup.guanzonapp.R;
 
@@ -47,15 +53,18 @@ public class Dialog_GcardSelection {
     private EditText txtDay;
     private RecyclerView recyclerView;
     private Toast toast;
-    private EGcardApp gcard;
+    private List<EGcardApp> gcard;
+    private RGcardApp gcardApp;
+    private Application app;
+    private MaterialButton btnCloseDialog, btnScnNewGcard, btnAddNewGcard, btnRefreshList;
     public Dialog_GcardSelection(){
 
     }
 
-    public Dialog_GcardSelection(Context context, EGcardApp gcard){
-        this.mContext = context;
-        this.builder = new AlertDialog.Builder(mContext);
+    public Dialog_GcardSelection(Context context,List<EGcardApp> gcard){
+        this.builder = new AlertDialog.Builder(context);
         instance = this;
+        this.mContext = context;
         this.gcard = gcard;
     }
 
@@ -82,50 +91,20 @@ public class Dialog_GcardSelection {
         txtMonth = v.findViewById(R.id.txt_dialog_gcard_selection_birthMonth);
         txtDay = v.findViewById(R.id.txt_dialog_gcard_selection_birthDay);
 
-        MaterialButton btnRefreshList = v.findViewById(R.id.btn_dialog_refreshgcard);
-        MaterialButton btnAddNewGcard = v.findViewById(R.id.btn_dialog_gcard_selection_addnewGcard);
-        MaterialButton btnScnNewGcard = v.findViewById(R.id.btn_dialog_gcard_selection_scannewGcard);
-        MaterialButton btnCloseDialog = v.findViewById(R.id.btn_dialog_gcard_selection_closeDialog);
+        btnRefreshList = v.findViewById(R.id.btn_dialog_refreshgcard);
+        btnAddNewGcard = v.findViewById(R.id.btn_dialog_gcard_selection_addnewGcard);
+        btnScnNewGcard = v.findViewById(R.id.btn_dialog_gcard_selection_scannewGcard);
+        btnCloseDialog = v.findViewById(R.id.btn_dialog_gcard_selection_closeDialog);
         recyclerView = v.findViewById(R.id.recyclerview_dialog_gcard_selection);
-
+        Adapter_Gcard adapter = new Adapter_Gcard(gcard);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
         txtGcardNumber.addTextChangedListener(new InputTextWatcher(txtGcardNumber));
         txtYear.addTextChangedListener(new InputTextWatcher(txtYear));
         txtMonth.addTextChangedListener(new InputTextWatcher(txtMonth));
         txtDay.addTextChangedListener(new InputTextWatcher(txtDay));
-
-//        btnRefreshList.setOnClickListener(new View.OnClickListener() {
-//            @Override
-////            public void onClick(View view) {
-////                new RefreshListTask().execute();
-////            }
-//        });
-
-        btnAddNewGcard.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                if(isGcardDataValid()) {
-//                    new GCardAction(mContext).addNewGCard(txtGcardNumber.getText().toString(), createBirthDate(),
-//                            new GCardAction.onAddNewGCardListener() {
-//                                @Override
-//                                public void onAddResult(String Message) {
-//                                    txtGcardNumber.setText("");
-//                                    txtYear.setText("");
-//                                    txtMonth.setText("");
-//                                    txtDay.setText("");
-//                                    customToast.setMessage(Message);
-//                                    customToast.setType(CustomToast.CustomToastType.INFORMATION);
-//                                    customToast.show();
-//                                    new Fragment_DashBoard().getInstance().refreshUI();
-//                                    new Activity_DashBoard().getInstance().invalidateOptionsMenu();
-//                                }
-//                    });
-                } else {
-                    GToast.CreateMessage(mContext,"Please check your Gcard details before proceeding.",GToast.WARNING).show();
-
-                }
-            }
-        });
 
         btnScnNewGcard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,58 +125,6 @@ public class Dialog_GcardSelection {
         return instance;
     }
 
-//    void refreshList(){
-//        setupGcardList();
-//    }
-
-//    private void setupGcardList(){
-//////        List<GcardItem> gcardItemList = new ArrayList<>();
-////        ArrayList<ArrayList<String>> GCardList;
-////        GCardList = new GcardAppMaster(mContext).getAllGCardNumber();
-////        Adapter_Gcard adapter = new Adapter_Gcard(gcardItemList);
-//
-//        lblGcard.setText(getTextLabel());
-//        recyclerView.setVisibility(getRecyclerViewVisibility(GCardList));
-//
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
-//        layoutManager.setOrientation(RecyclerView.VERTICAL);
-//        if(GCardList.size()>0){
-//            for(int x = 0; x < GCardList.get(0).size(); x++){
-//                GcardItem gcardItem = new GcardItem(GCardList.get(0).get(x),
-//                        GCardList.get(1).get(x),
-//                        GCardList.get(2).get(x),
-//                        GCardList.get(3).get(x));
-//                gcardItemList.add(gcardItem);
-//            }
-//            adapter.setOnGCardItemClickListener(new Adapter_Gcard.onGCardItemClickListener() {
-//                @RequiresApi(api = Build.VERSION_CODES.M)
-//                @Override
-//                public void onClick(String GCardNumber) {
-//                    new LoadGCardNumber(mContext).loadGcard(GCardNumber,
-//                            new LoadGCardNumber.onLoadGcardNumberListener() {
-//                                @Override
-//                                public void isOnlineResult() {
-//                                    customToast.setMessage("Points and transactions has been imported successfully.");
-//                                    customToast.setType(CustomToast.CustomToastType.INFORMATION);
-//                                    customToast.show();
-//                                }
-//
-//                                @Override
-//                                public void isOfflineLoad() {
-//                                    customToast.setMessage("GCard loaded successfully without importing data.");
-//                                    customToast.setType(CustomToast.CustomToastType.INFORMATION);
-//                                    customToast.show();
-//                                }
-//                            });
-//                    new Fragment_DashBoard().getInstance().refreshUI();
-//                    new Activity_DashBoard().getInstance().invalidateOptionsMenu();
-//                    dialog.dismiss();
-//                }
-//            });
-//            recyclerView.setLayoutManager(layoutManager);
-//            recyclerView.setAdapter(adapter);
-//        }
-//    }
 
     private boolean isGcardDataValid(){
         if(txtGcardNumber.getText().toString().isEmpty()){
@@ -215,15 +142,6 @@ public class Dialog_GcardSelection {
         } else return !txtDay.getText().toString().isEmpty();
     }
 
-//    private String getTextLabel(){
-//        int count = new GcardAppMaster(mContext).getGCardCount();
-//        if(count == 0){
-//            return "You haven't add any GCard number to your account yet.";
-//        } else if (count == 1){
-//            return "You have only one active GCard registered in this account";
-//        }
-//        return "Tap your selected GCard number below to set as your active GCard number.";
-//    }
 
     private int getRecyclerViewVisibility(ArrayList<ArrayList<String>> GCardList){
         if(GCardList.size() == 0){

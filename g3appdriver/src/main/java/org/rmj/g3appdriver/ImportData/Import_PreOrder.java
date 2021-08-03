@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.GuanzonApp;
+package org.rmj.g3appdriver.ImportData;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -18,13 +18,11 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.Http.RequestHeaders;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 

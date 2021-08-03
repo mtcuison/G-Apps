@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -121,10 +122,16 @@ public class Activity_Login extends AppCompatActivity implements LoginCallback{
     @Override
     public void OnSuccessLoginResult() {
         Log.e("User ID", new SessionManager(Activity_Login.this).getUserID());
-        dialog.dismiss();
         ServiceScheduler.scheduleJob(Activity_Login.this, LoginImportService.class, TWO_HOUR_PERIODIC, AppConstants.DataServiceID);
-        setResult(Activity.RESULT_OK);
-        finish();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialog.dismiss();
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+        }, 3000);
+
     }
 
     @Override

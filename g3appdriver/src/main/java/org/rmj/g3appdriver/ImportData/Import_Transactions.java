@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.GuanzonApp;
+package org.rmj.g3appdriver.ImportData;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -18,13 +18,11 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.Http.RequestHeaders;
 import org.rmj.g3appdriver.utils.Http.WebClient;
 import org.rmj.g3appdriver.utils.WebApi;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,11 +35,13 @@ public class Import_Transactions extends CodeGenerator implements ImportInstance
     Repository
     private final RBranch repository;
 */
-
+    private String gCardNo = "";
     public Import_Transactions(Application application){
         this.instance = application;
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poGcardx = new RGcardApp(instance);
+
+
 //        this.repository = new RBranch(instance);
     }
 
@@ -49,7 +49,7 @@ public class Import_Transactions extends CodeGenerator implements ImportInstance
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            loJson.put("secureno", generateSecureNo(poGcardx.getGCardInfo().getValue().getCardNmbr()));
+            loJson.put("secureno", generateSecureNo(poGcardx.getCardNo()));
             new ImportTransactionsTask(callback, instance).execute(loJson);
 
         } catch (Exception e){

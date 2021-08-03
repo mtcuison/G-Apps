@@ -2,6 +2,8 @@ package org.rmj.guanzongroup.guanzonapp.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import org.rmj.g3appdriver.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.GAppMessageBox;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.guanzonapp.Adapters.ActivityFragmentAdapter;
 import org.rmj.guanzongroup.guanzonapp.Adapters.ExpandableListDrawerAdapter;
@@ -74,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private ActivityFragmentAdapter adapter;
+    private GAppMessageBox loMessage;
     private final int[] icons ={R.drawable.ic_tab_dashboard_toggled,
             R.drawable.ic_tab_promo_toggled,
             R.drawable.ic_tab_location_toggled,
@@ -87,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ImageButton btnGCard, btnAccount;
     private DashBoardIconBadge dashBoardIconBadge;
-    private boolean isLogin = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mViewModel = new ViewModelProvider(MainActivity.this).get(VMMainActivity.class);
             mViewModel.isLoggedIn().observe(MainActivity.this, val ->{
                 tabTitles = appConstants.getHomeTitles(val);
-
                 ActivityFragmentAdapter adapter = new ActivityFragmentAdapter(getSupportFragmentManager());
                 adapter.addFragment(mViewModel.getMainFragment(val));
                 adapter.addFragment(mViewModel.getPromoFragment(val));
@@ -140,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     public void initWidgets(){
 
+        loMessage = new GAppMessageBox(MainActivity.this);
         toolbar = findViewById(R.id.toolbar_dashboardMain);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
@@ -192,10 +195,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 btnAccount.setOnClickListener(v->{onOptionsItemSelected(userItem);});
                 btnGCard.setOnClickListener(v->{onOptionsItemSelected(gcardItem);});
                 ImageView gcardBadge = gcardView.findViewById(R.id.img_gcard_badge_notice);
-
-//                gcardBadge.setVisibility(getGCardBadgeVisibility());
-
-
             }
         });
         return true;
@@ -209,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
            return true;
         } else if (id == R.id.menu_action_gcard_options) {
-            mViewModel.getGCard().observe(MainActivity.this, gcardApp -> {
+            mViewModel.getAllGCard().observe(MainActivity.this, gcardApp -> {
                 new Dialog_GcardSelection(MainActivity.this,gcardApp).showDialog();
             });
             return true;
@@ -223,7 +222,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             new Dialog_ShareApp(MainActivity.this).show();
             return true;
         }else if(id == R.id.menu_pp_action_account){
-            startActivityForResult(new Intent(MainActivity.this, Activity_Account.class), ACCOUNT_REQUEST_CODE);
+            startActivity(new Intent(MainActivity.this, Activity_Account.class));
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -238,7 +238,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -250,43 +249,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.e(TAG, "result code = " + requestCode);
         Log.e(TAG, "result code = " + resultCode);
         if (requestCode == ACCOUNT_REQUEST_CODE && resultCode == RESULT_OK){
+            mViewModel.userLogout();
             mViewModel.setLogin(false);
             MainActivity.this.recreate();
-        } else if (resultCode == RESULT_OK) {
+        } else if (requestCode == LOGIN_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             mViewModel.setLogin(true);
-            MainActivity.this.recreate();
-        }else{
             MainActivity.this.recreate();
         }
     }
-//    public void setMenuBadges(Menu menu, boolean val, EClientInfo eClientInfo){
-//        if(val){
-//            MenuItem itemCart = menu.findItem(R.id.menu_action_item_cart);
-//            MenuItem Gcard = menu.findItem(R.id.menu_action_gcard_options);
-//            MenuItem Account = menu.findItem(R.id.menu_action_user_details);
-//
-//            View cart = MenuItemCompat.getActionView(itemCart);
-//            View gcard = MenuItemCompat.getActionView(Gcard);
-//            View account = MenuItemCompat.getActionView(Account);
-//            ImageView gcardBadge = gcard.findViewById(R.id.img_gcard_badge_notice);
-//
-//            btnAccount = account.findViewById(R.id.btn_action_user_details);
-//            btnAccount.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    new DialogUserProfile(MainActivity.this, eClientInfo).show();
-//                }
-//            });
-//
-//            btnGCard = gcard.findViewById(R.id.btn_action_gcard_selection);
-//            btnGCard.setOnClickListener(v->{
-//                mViewModel.gerGCard().observe(MainActivity.this, gcardApp -> {
-//                    new Dialog_GcardSelection(MainActivity.this, gcardApp).showDialog();
-//                });
-//            });
-////
-//        } else {
-//
-//        }
-//    }
+
+    @Override
+    public void onBackPressed() {
+        loMessage.initDialog();
+        loMessage.setPositiveButton("Yes", (view, dialog) -> {
+            dialog.dismiss();
+            finishAffinity();
+        });
+        loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
+        loMessage.setTitle("GhostRider");
+        loMessage.setMessage("Exit Ghostrider app?");
+        loMessage.show();
+    }
 }

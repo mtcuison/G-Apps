@@ -26,6 +26,43 @@ public interface DGcardApp {
     @Query("DELETE FROM GCard_App_Master")
     void deleteGCard();
 
-    @Query("SELECT * FROM GCard_App_Master")
+    @Query("UPDATE Gcard_App_Master SET cActvStat = '1'")
+    void updateGCardApp();
+
+    @Query("UPDATE Gcard_App_Master SET cActvStat = '1' WHERE sCardNmbr = (SELECT sCardNmbr FROM Gcard_App_Master WHERE sTotPoint IN (SELECT MAX(sTotPoint) FROM Gcard_App_Master))")
+    void updateGCardAppWithHighestPoints();
+
+    @Query("SELECT * FROM GCard_App_Master ")
+    List<EGcardApp> hasGcard();
+
+    @Query("SELECT * FROM GCard_App_Master WHERE cActvStat = 1 ")
+    LiveData<EGcardApp> hasNoGcard();
+
+    @Query("SELECT * FROM Gcard_App_Master WHERE cActvStat = '1'")
+    List<EGcardApp> hasActiveGcard();
+
+    @Query("SELECT sCardNmbr FROM Gcard_App_Master WHERE cActvStat = '1'")
+    String getCardNo();
+
+    @Query("SELECT sGCardNox FROM Gcard_App_Master WHERE cActvStat = '1'")
+    String getCardNox();
+
+    @Query("SELECT * FROM GCard_App_Master ")
+    List<EGcardApp> hasMultipleGCard();
+
+
+    @Query("SELECT * FROM GCard_App_Master WHERE cActvStat = '1'")
     LiveData<EGcardApp> getGCardInfo();
+
+    @Query("SELECT * FROM GCard_App_Master")
+    LiveData<List<EGcardApp>> getAllGCardInfo();
+
+
+    @Query("SELECT * FROM Gcard_App_Master WHERE sCardNmbr =:CardNmbr")
+    double getGCardTotPoints(String CardNmbr);
+
+    @Query("SELECT SUM(nPointsxx) FROM redeem_item WHERE sGCardNox =:GCardNox AND cTranStat IN ('0', '1')")
+    double getOrderPoints(String GCardNox);
+
+
 }

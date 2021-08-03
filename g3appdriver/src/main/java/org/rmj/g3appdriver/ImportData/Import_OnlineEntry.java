@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.GuanzonApp;
+package org.rmj.g3appdriver.ImportData;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -18,17 +18,15 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.Http.RequestHeaders;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class Import_Redemption extends CodeGenerator implements ImportInstance {
+public class Import_OnlineEntry extends CodeGenerator implements ImportInstance {
     private static final String TAG = Import_Branch.class.getSimpleName();
     private final Application instance;
     private final AppConfigPreference poConfig;
@@ -38,7 +36,7 @@ public class Import_Redemption extends CodeGenerator implements ImportInstance {
     private final RBranch repository;
 */
 
-    public Import_Redemption(Application application){
+    public Import_OnlineEntry(Application application){
         this.instance = application;
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poGcardx = new RGcardApp(instance);
@@ -50,13 +48,13 @@ public class Import_Redemption extends CodeGenerator implements ImportInstance {
         try {
             JSONObject loJson = new JSONObject();
             loJson.put("secureno", generateSecureNo(poGcardx.getGCardInfo().getValue().getCardNmbr()));
-            new ImportRedemptionTask(callback, instance).execute(loJson);
+            new ImportOnlineEntryTask(callback, instance).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private static class ImportRedemptionTask extends AsyncTask<JSONObject, Void, String> {
+    private static class ImportOnlineEntryTask extends AsyncTask<JSONObject, Void, String> {
         private final ImportDataCallback callback;
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
@@ -64,12 +62,13 @@ public class Import_Redemption extends CodeGenerator implements ImportInstance {
         private final RGCardTransactionLedger repository;
 
 
-        public ImportRedemptionTask(ImportDataCallback callback, Application instance) {
+        public ImportOnlineEntryTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poWebapi = new WebApi(instance);
             this.repository = new RGCardTransactionLedger(instance);
+
 
         }
 
@@ -79,7 +78,7 @@ public class Import_Redemption extends CodeGenerator implements ImportInstance {
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poWebapi.URL_IMPORT_TRANSACTIONS_REDEMPTION, jsonObjects[0].toString(),  headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poWebapi.URL_IMPORT_TRANSACTIONS_ONLINE, jsonObjects[0].toString(),  headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");
@@ -131,10 +130,11 @@ public class Import_Redemption extends CodeGenerator implements ImportInstance {
 
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
+
                 EGCardTransactionLedger info = new EGCardTransactionLedger();
                 info.setGCardNox(loJson.getString("sGCardNox"));
                 info.setTransact(loJson.getString("dTransact"));
-                info.setSourceDs("PREORDER");
+                info.setSourceDs("ONLINE");
                 info.setReferNox(loJson.getString("sReferNox"));
                 info.setTranType(loJson.getString("sTranType"));
                 info.setSourceNo(loJson.getString("sSourceNo"));

@@ -18,18 +18,18 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import org.rmj.g3appdriver.GuanzonApp.ImportDataCallback;
-import org.rmj.g3appdriver.GuanzonApp.ImportInstance;
-import org.rmj.g3appdriver.GuanzonApp.Import_AccountGCard;
-import org.rmj.g3appdriver.GuanzonApp.Import_Branch;
-import org.rmj.g3appdriver.GuanzonApp.Import_Events;
-import org.rmj.g3appdriver.GuanzonApp.Import_Orders;
-import org.rmj.g3appdriver.GuanzonApp.Import_Promotions;
-import org.rmj.g3appdriver.GuanzonApp.Import_Redeemables;
-import org.rmj.g3appdriver.GuanzonApp.Import_Service;
-import org.rmj.g3appdriver.GuanzonApp.Import_Transactions;
+import org.rmj.g3appdriver.ImportData.ImportDataCallback;
+import org.rmj.g3appdriver.ImportData.ImportInstance;
+import org.rmj.g3appdriver.ImportData.Import_AccountGCard;
+import org.rmj.g3appdriver.ImportData.Import_Branch;
+import org.rmj.g3appdriver.ImportData.Import_Events;
+import org.rmj.g3appdriver.ImportData.Import_McDetail;
+import org.rmj.g3appdriver.ImportData.Import_Orders;
+import org.rmj.g3appdriver.ImportData.Import_Promotions;
+import org.rmj.g3appdriver.ImportData.Import_Redeemables;
+import org.rmj.g3appdriver.ImportData.Import_Service;
+import org.rmj.g3appdriver.ImportData.Import_Transactions;
 import org.rmj.g3appdriver.etc.SessionManager;
-import org.rmj.guanzongroup.guanzonapp.Activities.Activity_SplashScreen;
 
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -61,7 +61,9 @@ public class DataImportService extends JobService {
          importInstances = new ImportInstance[] {
                     new Import_AccountGCard(getApplication()),
                     new Import_Orders(getApplication()),
+                    new Import_Redeemables(getApplication()),
                     new Import_Service(getApplication()),
+                    new Import_McDetail(getApplication()),
                     new Import_Transactions(getApplication())};
         }else{
            importInstances = new ImportInstance[]{
@@ -78,17 +80,16 @@ public class DataImportService extends JobService {
                 importInstance.ImportData(new ImportDataCallback() {
                     @Override
                     public void OnSuccessImportData() {
-                        Log.e(TAG,   importInstance.toString() + " success");
+                        Log.e(TAG,   importInstance.getClass().getSimpleName() + " success");
                     }
 
                     @Override
                     public void OnFailedImportData(String message) {
-
-                        Log.e(TAG,  message);
+                        Log.e(TAG,  importInstance.getClass().getSimpleName() + " " + message);
                     }
                 });
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
