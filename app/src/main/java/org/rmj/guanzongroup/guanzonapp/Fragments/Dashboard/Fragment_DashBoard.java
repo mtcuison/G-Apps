@@ -65,7 +65,7 @@ public class Fragment_DashBoard extends Fragment {
 
         mViewModel.getClientInfo().observe(getViewLifecycleOwner(), eClientInfo -> {
             Username.setText(eClientInfo.getUserName());
-            Username.setShadowLayer(2, 1, 1, Color.WHITE);
+            Username.setShadowLayer(20, 1, 1, Color.BLACK);
 
         });
 

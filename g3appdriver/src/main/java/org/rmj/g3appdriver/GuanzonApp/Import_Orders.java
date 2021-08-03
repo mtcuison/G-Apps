@@ -31,18 +31,11 @@ import java.util.Objects;
 public class Import_Orders extends CodeGenerator implements ImportInstance {
     private static final String TAG = Import_Branch.class.getSimpleName();
     private final Application instance;
-    private final AppConfigPreference poConfig;
     private final RGcardApp poGcardx;
-/*
-    Repository
-    private final RBranch repository;
-*/
 
     public Import_Orders(Application application){
         this.instance = application;
-        this.poConfig = AppConfigPreference.getInstance(instance);
         this.poGcardx = new RGcardApp(instance);
-//        this.repository = new RBranch(instance);
     }
 
     @Override
@@ -61,7 +54,7 @@ public class Import_Orders extends CodeGenerator implements ImportInstance {
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
         private WebApi poWebApi;
-        private final RRedeemItemInfo repository;
+//        private final ROrderItems pOrders;
 
 
         public ImportOrdersTask(ImportDataCallback callback, Application instance) {
@@ -69,7 +62,7 @@ public class Import_Orders extends CodeGenerator implements ImportInstance {
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poWebApi = new WebApi(instance);
-            this.repository = new RRedeemItemInfo(instance);
+//            this.pOrders = new ROrderItems(instance);
 
         }
 
@@ -147,7 +140,7 @@ public class Import_Orders extends CodeGenerator implements ImportInstance {
                 info.setPointsxx(itemTotalPoints(loJson));
                 brnList.add(info);
             }
-            repository.insertBulkData(brnList);
+//            pOrders.insertBulkData(brnList);
         }
         private double itemTotalPoints(JSONObject jsonObject){
             double points = 0;
