@@ -22,8 +22,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
+import org.rmj.g3appdriver.etc.GAppMessageBox;
+import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Orders;
+import org.rmj.guanzongroup.guanzonapp.Activities.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Redeemables;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Service;
+import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Transactions;
+import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_GCardCodex;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
 
@@ -47,6 +52,7 @@ public class Fragment_DashBoard extends Fragment {
     private TextView lblOrderBadge;
 
     private VMDashboard mViewModel;
+    private GAppMessageBox poMessage;
     public static Fragment_DashBoard newInstance() {
         return new Fragment_DashBoard();
     }
@@ -59,14 +65,21 @@ public class Fragment_DashBoard extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_dashboard_tab_main, container, false);
         mViewModel = ViewModelProviders.of(this).get(VMDashboard.class);
-
+        poMessage = new GAppMessageBox(getActivity());
         setupWidgets();
         setupAnimation();
 
         mViewModel.getClientInfo().observe(getViewLifecycleOwner(), eClientInfo -> {
-            Username.setText(eClientInfo.getUserName());
-            Username.setShadowLayer(20, 1, 1, Color.BLACK);
+            try {
 
+                Username.setText(eClientInfo.getUserName());
+                Username.setShadowLayer(2, 1, 1, Color.WHITE);
+
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         });
 
         mViewModel.getGCardInfo().observe(getViewLifecycleOwner(), gCardApp -> {
@@ -118,23 +131,40 @@ public class Fragment_DashBoard extends Fragment {
         Username = view.findViewById(R.id.lbl_dashboard_userfullname);
         guanzonLogo_Animated = view.findViewById(R.id.img_dashboard_guanzon_logo);
 
-//        guanzonLogo_Animated.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        guanzonLogo_Animated.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.hasNoCard().observe(getViewLifecycleOwner(), egcard->{
+                    if (egcard != null){
+                        new Dialog_GCardCodex(getActivity(),egcard).showDialog();
+                    }
+                });
+//
 //                if(!new GcardAppMaster(getActivity()).hasNoGcard()){
 //                    new Dialog_GCardCodex(getActivity()).showDialog();
 //                }
-//            }
-//        });
-
-        btnRedeemables.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), Activity_Redeemables.class));
+            }
         });
-
-        btnService.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), Activity_Service.class));
+        btnLogout.setOnClickListener(v->{
+            poMessage.initDialog();
+            poMessage.setMessage("Are you sure you want to logout?");
+            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+            poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                mViewModel.userLogout();
+                dialog.dismiss();
+            });
+            poMessage.show();
         });
-
+        btnHistory.setOnClickListener(v->{
+            startActivity(new Intent(getActivity(), Activity_Transactions.class));});
+        btnRedeemables.setOnClickListener(v->{
+            startActivity(new Intent(getActivity(), Activity_Redeemables.class));});
+        btnScan.setOnClickListener(v->{
+            startActivity(new Intent(getActivity(), Activity_QrCodeScanner.class));});
+        btnOrders.setOnClickListener(v->{
+            startActivity(new Intent(getActivity(), Activity_Orders.class));});
+        btnService.setOnClickListener(v->{
+            startActivity(new Intent(getActivity(), Activity_Service.class));});
     }
 
 

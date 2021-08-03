@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.GuanzonApp;
+package org.rmj.g3appdriver.ImportData;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -18,31 +18,37 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.Http.RequestHeaders;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 public class Import_Orders extends CodeGenerator implements ImportInstance {
     private static final String TAG = Import_Branch.class.getSimpleName();
     private final Application instance;
+    private final AppConfigPreference poConfig;
     private final RGcardApp poGcardx;
+/*
+    Repository
+    private final RBranch repository;
+*/
 
     public Import_Orders(Application application){
         this.instance = application;
+        this.poConfig = AppConfigPreference.getInstance(instance);
         this.poGcardx = new RGcardApp(instance);
+//        this.repository = new RBranch(instance);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            loJson.put("secureno", generateSecureNo(poGcardx.getActiveCardNo()));
+            loJson.put("secureno", generateSecureNo(poGcardx.getCardNo()));
             new ImportOrdersTask(callback, instance).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
@@ -54,7 +60,7 @@ public class Import_Orders extends CodeGenerator implements ImportInstance {
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
         private WebApi poWebApi;
-//        private final ROrderItems pOrders;
+        private final RRedeemItemInfo repository;
 
 
         public ImportOrdersTask(ImportDataCallback callback, Application instance) {
@@ -62,7 +68,7 @@ public class Import_Orders extends CodeGenerator implements ImportInstance {
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poWebApi = new WebApi(instance);
-//            this.pOrders = new ROrderItems(instance);
+            this.repository = new RRedeemItemInfo(instance);
 
         }
 
@@ -140,7 +146,7 @@ public class Import_Orders extends CodeGenerator implements ImportInstance {
                 info.setPointsxx(itemTotalPoints(loJson));
                 brnList.add(info);
             }
-//            pOrders.insertBulkData(brnList);
+            repository.insertBulkData(brnList);
         }
         private double itemTotalPoints(JSONObject jsonObject){
             double points = 0;

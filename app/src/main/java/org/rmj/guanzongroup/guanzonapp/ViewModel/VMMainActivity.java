@@ -19,7 +19,10 @@ import org.rmj.g3appdriver.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RClientInfo;
 import org.rmj.g3appdriver.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.Database.Repositories.RGCardTransactionLedger;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
+import org.rmj.g3appdriver.Database.Repositories.RMCSerialRegistration;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard.Fragment_DashBoard;
@@ -35,7 +38,10 @@ public class VMMainActivity extends AndroidViewModel {
     private final REmployee poUser;
     private final RClientInfo poClient;
     private final RGcardApp poGCard;
+    private final RGCardTransactionLedger poLedger;
+    private final RMCSerialRegistration poMC;
     private final SessionManager poSession;
+    private final AppConfigPreference appConfig;
     public static final MutableLiveData<Boolean> pbIsLogIn = new MutableLiveData<>();
     private final MutableLiveData<List<Fragment>> psFragment = new MutableLiveData<>();
     private final MutableLiveData<Integer> psMenu = new MutableLiveData<>();
@@ -48,6 +54,9 @@ public class VMMainActivity extends AndroidViewModel {
         this.poClient = new RClientInfo(application);
         this.poSession = new SessionManager(application);
         this.poGCard = new RGcardApp(application);
+        this.poLedger = new RGCardTransactionLedger(application);
+        this.poMC = new RMCSerialRegistration(application);
+        this.appConfig = new AppConfigPreference(application);
         this.pbIsLogIn.setValue(poSession.isLoggedIn());
     }
     public SessionManager getPoSession(){
@@ -65,8 +74,18 @@ public class VMMainActivity extends AndroidViewModel {
         poSession.setLogin(val);
         pbIsLogIn.setValue(val);
     }
+    public void userLogout(){
+        poGCard.deleteGCard();
+        poClient.LogoutUserSession();
+        poLedger.deleteGCardTrans();
+        poMC.deleteMC();
+        poSession.initUserLogout();
+    }
     public LiveData<EGcardApp> getGCard(){
         return poGCard.getGCardInfo();
+    }
+    public LiveData<List<EGcardApp>> getAllGCard(){
+        return poGCard.getAllGCardInfo();
     }
     public Fragment getMainFragment(boolean val){
         if(val){
@@ -105,14 +124,13 @@ public class VMMainActivity extends AndroidViewModel {
         }
     }
 
-    public LiveData<Integer> getMenuAction(boolean val){
+    public int getMenuAction(boolean val){
         if(val){
-            psMenu.setValue(R.menu.action_options_menu);
+            return R.menu.action_options_menu;
 
         } else {
-            psMenu.setValue(R.menu.action_contact_us);
+            return R.menu.action_contact_us;
         }
-        return psMenu;
     }
 //    public void setMenuBadges(Menu menu, boolean val, EClientInfo eClientInfo){
 //        if(val){

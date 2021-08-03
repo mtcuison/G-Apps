@@ -12,18 +12,21 @@ import org.rmj.g3appdriver.Database.Repositories.RPromo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VMRedeemables extends AndroidViewModel {
+public class VMTransactions extends AndroidViewModel {
 
     private static final String TAG = VMBranches.class.getSimpleName();
     private final Application instance;
     private final RPromo poPromo;
     private LiveData<List<EPromo>> ePromo;
     private List<EPromo> promoList = new ArrayList<>();
-    public VMRedeemables(@NonNull Application application) {
+    public VMTransactions(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poPromo = new RPromo(application);
         this.ePromo = poPromo.getAllPromo();
 
+    }
+    public LiveData<List<EPromo>> getAllPromo(){
+        return ePromo;
     }
 }

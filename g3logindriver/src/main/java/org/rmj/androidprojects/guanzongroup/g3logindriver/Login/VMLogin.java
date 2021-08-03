@@ -182,6 +182,7 @@ public class VMLogin extends AndroidViewModel {
             clientInfo.setLoginxxx(AppConstants.DATE_MODIFIED);
             poClient.insertLogin(clientInfo);
             sessionManager.setUserID(jsonInfo.getString("sUserIDxx"));
+            Log.e(TAG, clientInfo.toString());
         }
     }
 }

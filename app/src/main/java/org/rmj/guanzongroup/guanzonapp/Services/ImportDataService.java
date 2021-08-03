@@ -21,58 +21,45 @@ import androidx.annotation.RequiresApi;
 import org.rmj.g3appdriver.ImportData.ImportDataCallback;
 import org.rmj.g3appdriver.ImportData.ImportInstance;
 import org.rmj.g3appdriver.ImportData.Import_AccountGCard;
-import org.rmj.g3appdriver.ImportData.Import_Branch;
-import org.rmj.g3appdriver.ImportData.Import_Events;
 import org.rmj.g3appdriver.ImportData.Import_McDetail;
 import org.rmj.g3appdriver.ImportData.Import_Orders;
-import org.rmj.g3appdriver.ImportData.Import_Promotions;
 import org.rmj.g3appdriver.ImportData.Import_Redeemables;
 import org.rmj.g3appdriver.ImportData.Import_Service;
 import org.rmj.g3appdriver.ImportData.Import_Transactions;
-import org.rmj.g3appdriver.etc.SessionManager;
 
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class DataImportService extends JobService {
-    public static final String TAG = DataImportService.class.getSimpleName();
+public class ImportDataService extends JobService {
+    public static final String TAG = ImportDataService.class.getSimpleName();
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
-        Log.e(TAG, "Data import service has started.");
+        Log.e(TAG, "Login import service has started.");
         try{
             doBackgroundTask(jobParameters);
         } catch (Exception e){
             e.printStackTrace();
             jobFinished(jobParameters, false);
+            Log.e("exception", e.getMessage());
         }
         return false;
     }
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
-        Log.e(TAG, "Data import service has stop.");
+        Log.e(TAG, "Login import service has stop.");
         return true;
     }
 
 
     private void doBackgroundTask(JobParameters params) {
-        ImportInstance[]  importInstances;
-        if (new SessionManager(getApplication()).isLoggedIn()){
-         importInstances = new ImportInstance[] {
-                    new Import_AccountGCard(getApplication()),
-                    new Import_Orders(getApplication()),
-                    new Import_Redeemables(getApplication()),
-                    new Import_Service(getApplication()),
-                    new Import_McDetail(getApplication()),
-                    new Import_Transactions(getApplication())};
-        }else{
-           importInstances = new ImportInstance[]{
-                    new Import_Redeemables(getApplication()),
-                    new Import_Events(getApplication()),
-                    new Import_Promotions(getApplication()),
-                    new Import_Branch(getApplication())};
-        }
-
+        ImportInstance[]  importInstances = {
+                new Import_AccountGCard(getApplication()),
+                new Import_Redeemables(getApplication()),
+                new Import_Orders(getApplication()),
+                new Import_Service(getApplication()),
+                new Import_McDetail(getApplication()),
+                new Import_Transactions(getApplication())};
 
 
         new Thread(() -> {
@@ -80,18 +67,19 @@ public class DataImportService extends JobService {
                 importInstance.ImportData(new ImportDataCallback() {
                     @Override
                     public void OnSuccessImportData() {
-                        Log.e(TAG,   importInstance.getClass().getSimpleName() + " success");
+                        Log.e(TAG,   importInstance.toString() + " success");
                     }
 
                     @Override
                     public void OnFailedImportData(String message) {
-                        Log.e(TAG,  importInstance.getClass().getSimpleName() + " " + message);
+                        Log.e(TAG,  message + " sample failed");
                     }
                 });
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    Log.e(TAG,  e.getMessage() + " InterruptedException sample failed");
                 }
 
 

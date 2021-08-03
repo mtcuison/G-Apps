@@ -80,29 +80,23 @@ public class RClientInfo implements DClientInfo {
         }
     }
     public void LogoutUserSession(){
-        sessionManager.initUserLogout();
-        appConfigPreference.SessionExp();
-        new DeleteUserTask(clientDao,mcDao,gCardDao,ledgerDao).execute();
+        new DeleteUserTask(application, clientDao).execute();
     }
     public static class DeleteUserTask extends AsyncTask<Void, Void, Void>{
         private DClientInfo clientInfo;
         private DGCardTransactionLedger dgCardTransactionLedger;
         private DGcardApp dGcardApp;
         private DMCSerialRegistration dmcSerialRegistration;
-
-        public DeleteUserTask(DClientInfo clientInfo,DMCSerialRegistration dmcSerialRegistration,DGcardApp dGcardApp,DGCardTransactionLedger dgCardTransactionLedger) {
+        private SessionManager sessionManager;
+        private AppConfigPreference appConfig;
+        public DeleteUserTask(Application application,DClientInfo clientInfo) {
             this.clientInfo = clientInfo;
-            this.dmcSerialRegistration = dmcSerialRegistration;
-            this.dGcardApp = dGcardApp;
-            this.dgCardTransactionLedger = dgCardTransactionLedger;
+            this.sessionManager = new SessionManager(application);
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
             clientInfo.deleteClient();
-            dgCardTransactionLedger.deleteGCardTrans();
-            dGcardApp.deleteGCard();
-            dmcSerialRegistration.deleteMC();
             return null;
         }
     }

@@ -70,6 +70,7 @@ public class VMSplashScreen extends AndroidViewModel {
                 Manifest.permission.GET_ACCOUNTS,
                 Manifest.permission.CAMERA});
         pbGranted.setValue(hasPermissions(application.getApplicationContext(), paPermisions.getValue()));
+        this.pbIsLogIn.setValue(poSession.isLoggedIn());
     }
     public void setMobileNo(String val){
         psMobileNo.setValue(val);
@@ -79,6 +80,9 @@ public class VMSplashScreen extends AndroidViewModel {
     }
     public LiveData<Boolean> isPermissionsGranted(){
         return pbGranted;
+    }
+    public LiveData<Boolean> isLogin(){
+        return pbIsLogIn;
     }
 
     public LiveData<String[]> getPermisions(){

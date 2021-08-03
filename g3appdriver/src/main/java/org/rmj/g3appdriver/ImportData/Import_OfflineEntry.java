@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.GuanzonApp;
+package org.rmj.g3appdriver.ImportData;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -18,17 +18,15 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.Http.RequestHeaders;
-import org.rmj.g3appdriver.utils.Http.WebClient;
 import org.rmj.g3appdriver.utils.WebApi;
+import org.rmj.g3appdriver.utils.WebClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class Import_Transactions extends CodeGenerator implements ImportInstance {
+public class Import_OfflineEntry extends CodeGenerator implements ImportInstance {
     private static final String TAG = Import_Branch.class.getSimpleName();
     private final Application instance;
     private final AppConfigPreference poConfig;
@@ -38,7 +36,7 @@ public class Import_Transactions extends CodeGenerator implements ImportInstance
     private final RBranch repository;
 */
 
-    public Import_Transactions(Application application){
+    public Import_OfflineEntry(Application application){
         this.instance = application;
         this.poConfig = AppConfigPreference.getInstance(instance);
         this.poGcardx = new RGcardApp(instance);
@@ -49,34 +47,27 @@ public class Import_Transactions extends CodeGenerator implements ImportInstance
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            loJson.put("secureno", generateSecureNo(poGcardx.getActiveCardNo()));
-            new ImportTransactionsTask(callback, instance).execute(loJson);
-
+            loJson.put("secureno", generateSecureNo(poGcardx.getGCardInfo().getValue().getCardNmbr()));
+            new ImportOfflineEntryTask(callback, instance).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private static class ImportTransactionsTask extends AsyncTask<JSONObject, Void, String> {
+    private static class ImportOfflineEntryTask extends AsyncTask<JSONObject, Void, String> {
         private final ImportDataCallback callback;
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
+        private final WebApi poWebApi;
         private final RGCardTransactionLedger repository;
-        private WebApi webApi;
-
-        private String[] Import_Type = {
-            "ONLINE",
-            "OFFLINE",
-            "PREORDER",
-            "REDEMPTION"};
 
 
-        public ImportTransactionsTask(ImportDataCallback callback, Application instance) {
+        public ImportOfflineEntryTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
+            this.poWebApi = new WebApi(instance);
             this.repository = new RGCardTransactionLedger(instance);
-            this.webApi = new WebApi(instance);
 
         }
 
@@ -85,29 +76,21 @@ public class Import_Transactions extends CodeGenerator implements ImportInstance
         protected String doInBackground(JSONObject... jsonObjects) {
             String response = "";
             try {
-                String[] Import_Urls = new String[]{
-                        webApi.URL_IMPORT_TRANSACTIONS_ONLINE,
-                        webApi.URL_IMPORT_TRANSACTIONS_OFFLINE,
-                        webApi.URL_IMPORT_TRANSACTIONS_PREORDER,
-                        webApi.URL_IMPORT_TRANSACTIONS_REDEMPTION
-                };
                 if(conn.isDeviceConnected()) {
-                    for(int index = 0; index < Import_Urls.length; index++){
-                        response = WebClient.httpsPostJSon(Import_Urls[index], jsonObjects[0].toString(), headers.getHeaders());
-                        JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
-                        Log.e(TAG, loJson.getString("result"));
-                        String lsResult = loJson.getString("result");
-                        if(lsResult.equalsIgnoreCase("success")){
-                            JSONArray laJson = loJson.getJSONArray("detail");
-                            saveDataToLocal(laJson);
-    //                        if(!repository.insertBranchInfos(laJson)){
-    //                            response = AppConstants.ERROR_SAVING_TO_LOCAL();
-    //                        }
-                        } else {
-                            JSONObject loError = loJson.getJSONObject("error");
-                            String message = loError.getString("message");
-                            callback.OnFailedImportData(message);
-                        }
+                    response = WebClient.httpsPostJSon(poWebApi.URL_IMPORT_TRANSACTIONS_OFFLINE, jsonObjects[0].toString(), headers.getHeaders());
+                    JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
+                    Log.e(TAG, loJson.getString("result"));
+                    String lsResult = loJson.getString("result");
+                    if(lsResult.equalsIgnoreCase("success")){
+                        JSONArray laJson = loJson.getJSONArray("detail");
+                        saveDataToLocal(laJson);
+//                        if(!repository.insertBranchInfos(laJson)){
+//                            response = AppConstants.ERROR_SAVING_TO_LOCAL();
+//                        }
+                    } else {
+                        JSONObject loError = loJson.getJSONObject("error");
+                        String message = loError.getString("message");
+                        callback.OnFailedImportData(message);
                     }
                 } else {
                     response = AppConstants.NO_INTERNET();
@@ -141,14 +124,16 @@ public class Import_Transactions extends CodeGenerator implements ImportInstance
                 callback.OnFailedImportData(e.getMessage());
             }
         }
+
         void saveDataToLocal(JSONArray laJson) throws Exception{
             List<EGCardTransactionLedger> brnList = new ArrayList<>();
+
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
                 EGCardTransactionLedger info = new EGCardTransactionLedger();
                 info.setGCardNox(loJson.getString("sGCardNox"));
                 info.setTransact(loJson.getString("dTransact"));
-                info.setSourceDs( Import_Type[x]);
+                info.setSourceDs("OFFLINE");
                 info.setReferNox(loJson.getString("sReferNox"));
                 info.setTranType(loJson.getString("sTranType"));
                 info.setSourceNo(loJson.getString("sSourceNo"));

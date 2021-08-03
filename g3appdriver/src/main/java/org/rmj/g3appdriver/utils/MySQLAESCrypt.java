@@ -1,5 +1,10 @@
 package org.rmj.g3appdriver.utils;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -40,6 +45,7 @@ public class MySQLAESCrypt {
 
             encryptCipher.init(Cipher.ENCRYPT_MODE, generateMySQLAESKey(key, "UTF-8"));
 
+            @SuppressLint({"NewApi", "LocalSuppress"})
             String ret = new String(Hex.encodeHex(encryptCipher.doFinal(data.getBytes(StandardCharsets.UTF_8))));
 
             return ret.toUpperCase();

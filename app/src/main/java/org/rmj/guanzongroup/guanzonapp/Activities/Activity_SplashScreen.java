@@ -211,7 +211,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                     Random random = new Random();
                     loading += random.nextInt(10 - 1 + 1) + 1;
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(300);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

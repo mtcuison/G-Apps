@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +21,16 @@ import org.rmj.androidprojects.guanzongroup.g3logindriver.Activity_CreateAccount
 import org.rmj.androidprojects.guanzongroup.g3logindriver.Login.Activity_Login;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_AppBrowser;
+import org.rmj.guanzongroup.guanzonapp.Activities.Activity_LoadScreen;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_SplashScreen;
+import org.rmj.guanzongroup.guanzonapp.Activities.MainActivity;
 import org.rmj.guanzongroup.guanzonapp.Adapters.Adapter_NewsEvents;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMNewsFeed;
 
+import static android.app.Activity.RESULT_OK;
+import static org.rmj.g3appdriver.etc.AppConstants.ACCOUNT_REQUEST_CODE;
+import static org.rmj.g3appdriver.etc.AppConstants.LOGIN_ACTIVITY_REQUEST_CODE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,7 +82,8 @@ public class Fragment_NewsFeed extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getActivity(), Activity_Login.class),AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+                getActivity().startActivityForResult(new Intent(getActivity(), Activity_Login.class),AppConstants.LOGIN_ACTIVITY_REQUEST_CODE);
+
             }
         });
 
@@ -87,5 +94,6 @@ public class Fragment_NewsFeed extends Fragment {
             }
         });
     }
+
 
 }

@@ -29,7 +29,6 @@ public class ServiceScheduler {
     @SuppressLint({"MissingPermission", "NewApi"})
     public static boolean isJobRunning(Context context, int JobID){
         JobScheduler scheduler = (JobScheduler) context.getSystemService( JOB_SCHEDULER_SERVICE ) ;
-
         boolean hasBeenScheduled = false ;
 
         for ( JobInfo jobInfo : scheduler.getAllPendingJobs() ) {

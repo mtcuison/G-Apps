@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.guanzonapp.Activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -36,20 +37,22 @@ public class Activity_Account extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private VMAccount mViewModel;
-    private VMMainActivity viewModel;
     private GAppMessageBox loMessage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
         mViewModel = new ViewModelProvider(Activity_Account.this).get(VMAccount.class);
-        viewModel = new ViewModelProvider(Activity_Account.this).get(VMMainActivity.class);
         loMessage = new GAppMessageBox(Activity_Account.this);
         setupWidgets();
         mViewModel.getClientInfo().observe(Activity_Account.this, eClientInfo -> {
-            lblUsername.setText(eClientInfo.getUserName());
-            lblUserEmail.setText(eClientInfo.getEmailAdd());
-            lblMobileNo.setText(eClientInfo.getMobileNo());
+            try{
+                lblUsername.setText(eClientInfo.getUserName());
+                lblUserEmail.setText(eClientInfo.getEmailAdd());
+                lblMobileNo.setText(eClientInfo.getMobileNo());
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
         });
 
     }
@@ -72,13 +75,16 @@ public class Activity_Account extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
+        startActivity(new Intent(Activity_Account.this, MainActivity.class));
         finish();
     }
+
     public void userLogout(){
         loMessage.initDialog();
         loMessage.setPositiveButton("Yes", (view, dialog) -> {
             dialog.dismiss();
-            setResult(Activity.RESULT_OK);
+            mViewModel.userLogout();
+            startActivity(new Intent(Activity_Account.this, MainActivity.class));
             finish();
         });
         loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
