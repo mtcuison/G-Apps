@@ -26,4 +26,7 @@ public class VMRedeemables extends AndroidViewModel {
         this.ePromo = poPromo.getAllPromo();
 
     }
+    public LiveData<List<EPromo>> getAllPromo(){
+        return ePromo;
+    }
 }
