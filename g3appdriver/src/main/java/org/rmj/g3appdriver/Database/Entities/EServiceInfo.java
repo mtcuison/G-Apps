@@ -29,7 +29,7 @@ public class EServiceInfo {
     private String ModelNme;
 
     @ColumnInfo(name = "cFSEPStat")
-    private char FSEPStat;
+    private String FSEPStat;
 
     @ColumnInfo(name = "dPurchase")
     private String Purchase;
@@ -107,11 +107,11 @@ public class EServiceInfo {
         ModelNme = modelNme;
     }
 
-    public char getFSEPStat() {
+    public String  getFSEPStat() {
         return FSEPStat;
     }
 
-    public void setFSEPStat(char FSEPStat) {
+    public void setFSEPStat(String FSEPStat) {
         this.FSEPStat = FSEPStat;
     }
 

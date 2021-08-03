@@ -25,18 +25,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class Import_Redeemables implements ImportInstance {
-    private static final String TAG = Import_Branch.class.getSimpleName();
+    private static final String TAG = Import_Redeemables.class.getSimpleName();
     private final Application instance;
-    private final AppConfigPreference poConfig;
-/*
-    Repository
-    private final RBranch repository;
-*/
 
     public Import_Redeemables(Application application){
+        Log.e(TAG, "Initialized.");
         this.instance = application;
-        this.poConfig = AppConfigPreference.getInstance(instance);
-//        this.repository = new RBranch(instance);
     }
 
     @Override
@@ -53,7 +47,7 @@ public class Import_Redeemables implements ImportInstance {
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
         private final WebApi poWebApi;
-        private final RRedeemablesInfo repository;
+        private final RRedeemablesInfo poRedeem;
 
 
         public ImportRedeemablesTask(ImportDataCallback callback, Application instance) {
@@ -61,7 +55,7 @@ public class Import_Redeemables implements ImportInstance {
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poWebApi = new WebApi(instance);
-            this.repository = new RRedeemablesInfo(instance);
+            this.poRedeem = new RRedeemablesInfo(instance);
 
         }
 
@@ -78,9 +72,6 @@ public class Import_Redeemables implements ImportInstance {
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
                         saveDataToLocal(laJson);
-//                        if(!repository.insertBranchInfos(laJson)){
-//                            response = AppConstants.ERROR_SAVING_TO_LOCAL();
-//                        }
                     } else {
                         JSONObject loError = loJson.getJSONObject("error");
                         String message = loError.getString("message");
@@ -120,7 +111,7 @@ public class Import_Redeemables implements ImportInstance {
             }
         }
         void saveDataToLocal(JSONArray laJson) throws Exception{
-            List<ERedeemablesInfo> brnList = new ArrayList<>();
+            List<ERedeemablesInfo> loRedeems = new ArrayList<>();
 
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
@@ -133,9 +124,9 @@ public class Import_Redeemables implements ImportInstance {
                 info.setDateFrom(loJson.getString("dDateFrom"));
                 info.setDateThru(loJson.getString("dDateThru"));
                 info.setPreOrder(loJson.getString("cPreOrder"));
-                brnList.add(info);
+                loRedeems.add(info);
             }
-            repository.insertBulkData(brnList);
+            poRedeem.insertBulkData(loRedeems);
         }
     }
 }

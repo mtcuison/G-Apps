@@ -2,6 +2,8 @@ package org.rmj.g3appdriver.Database.Repositories;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import org.rmj.g3appdriver.Database.DataAccessObject.DRedeemablesInfo;
 import org.rmj.g3appdriver.Database.Entities.ERedeemablesInfo;
 import org.rmj.g3appdriver.Database.GGC_GuanzonAppDB;
@@ -32,5 +34,15 @@ public class RRedeemablesInfo implements DRedeemablesInfo {
     @Override
     public void update(ERedeemablesInfo redeemablesInfo) {
         redeemDao.update(redeemablesInfo);
+    }
+
+    @Override
+    public LiveData<Integer> countRedeemables() {
+        return redeemDao.countRedeemables();
+    }
+
+    @Override
+    public LiveData<List<ERedeemablesInfo>> getRedeemablesList() {
+        return redeemDao.getRedeemablesList();
     }
 }
