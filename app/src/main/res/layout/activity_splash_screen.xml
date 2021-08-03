@@ -37,7 +37,6 @@
         android:adjustViewBounds="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:tint="@color/gap_textColorPrimaryDark"
         android:layout_marginBottom="70dp"/>
 
 

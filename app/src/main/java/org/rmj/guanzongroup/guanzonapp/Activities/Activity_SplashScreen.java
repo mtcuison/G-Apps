@@ -3,9 +3,6 @@ package org.rmj.guanzongroup.guanzonapp.Activities;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Animatable2;
@@ -13,21 +10,23 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
-import org.rmj.androidprojects.guanzongroup.g3logindriver.Activity_Login;
 import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -41,7 +40,9 @@ import org.rmj.guanzongroup.guanzonapp.Services.MyFirebaseMessagingService;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMSplashScreen;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import static org.rmj.g3appdriver.utils.ServiceScheduler.FIFTEEN_MINUTE_PERIODIC;
 import static org.rmj.g3appdriver.utils.ServiceScheduler.TWO_HOUR_PERIODIC;
 
 
@@ -55,6 +56,8 @@ public class Activity_SplashScreen extends AppCompatActivity {
     private AppConfigPreference app;
     private AnimatedVectorDrawableCompat avdc;
     private AnimatedVectorDrawable avd;
+    private Handler handler;
+    private int loading = 0;
     public static Activity_SplashScreen getInstance(){
         return instance;
     }
@@ -67,56 +70,28 @@ public class Activity_SplashScreen extends AppCompatActivity {
         app = new AppConfigPreference(this);
         mViewModel = ViewModelProviders.of(this).get(VMSplashScreen.class);
         try {
-            mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
-
-            if (app.isTesting_Phase() && app.getIsLocalHostChange()){
-                MessageBox messageBox = new MessageBox(Activity_SplashScreen.this);
-                messageBox.setDialogMessage("You installed a test version of GuanzonApp. Do you want to change to Localhost?");
-                messageBox.setMessageType(MessageBox.MessageType.INFO);
-                messageBox.setPositiveButton("Yes", new MessageBox.onMessageBoxButtonClick() {
-                    @Override
-                    public void onClick(View view, AlertDialog dialog) {
-                        dialog.dismiss();
-                        new Dialog_AskDataServer(Activity_SplashScreen.this).showDialog();
-                    }
-                });
-                messageBox.setNegativeButton("No", new MessageBox.onMessageBoxButtonClick() {
-                    @Override
-                    public void onClick(View view, AlertDialog dialog) {
-                        dialog.dismiss();
-                        app.setIsLocalHostChange(false);
-                        Activity_SplashScreen.this.recreate();
-                    }
-                });
-                messageBox.showDialog();
-            }else{
-
-                mViewModel.isPermissionsGranted().observe(this, isGranted -> {
-                    if(!isGranted){
-                        mViewModel.getPermisions().observe(this, strings -> ActivityCompat.requestPermissions(Activity_SplashScreen.this, strings, AppConstants.PERMISION_REQUEST_CODE));
-                    } else {
-
-                        starLogoAnimation();
-                        if (mViewModel.getMobileNo().getValue() == null || mViewModel.getMobileNo().getValue().isEmpty()){
-                            checkMobileNumbers();
-                            if(!isMyServiceRunning(MyFirebaseMessagingService.class)) {
-                                startService(new Intent(Activity_SplashScreen.this, MyFirebaseMessagingService.class));
-                            }
-
-                        }else{
-                            startService(new Intent(Activity_SplashScreen.this, MyFirebaseMessagingService.class));
-//                            scheduleJob();
-                            ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataImportService.class, TWO_HOUR_PERIODIC, AppConstants.DataServiceID);
-
-                            TextView lblBuildVersion = findViewById(R.id.lbl_splash_build_version);
-
-                        }
-
-
-                    }
-                });
+            startService(new Intent(Activity_SplashScreen.this, MyFirebaseMessagingService.class));
+            if(!ServiceScheduler.isJobRunning(Activity_SplashScreen.this, AppConstants.DataServiceID)) {
+                ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataImportService.class, TWO_HOUR_PERIODIC, AppConstants.DataServiceID);
             }
 
+            mViewModel.isPermissionsGranted().observe(this, isGranted -> {
+                if(!isGranted){
+                    mViewModel.getPermisions().observe(this, strings -> ActivityCompat.requestPermissions(Activity_SplashScreen.this, strings, AppConstants.PERMISION_REQUEST_CODE));
+                } else {
+                    Log.e("else", String.valueOf(mViewModel.getMobileNo().getValue()));
+                    starLogoAnimation();
+                    mViewModel.getMobileNo().observe(Activity_SplashScreen.this,val->{
+                        Log.e(TAG,val);
+                        if (val == null || val.isEmpty()){
+                            checkMobileNumbers();
+                        }else{
+                            startSerives();
+                        }
+                    });
+
+                }
+            });
         }catch (NullPointerException e){
             e.printStackTrace();
             Log.e("TAG",e.getMessage() + " NullPointerException");
@@ -140,7 +115,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         }
         return false;
     }
-    @SuppressLint("NewApi")
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void starLogoAnimation(){
         Drawable drawable = getDrawable(R.drawable.anim_guanzon_progress_logo);
         if(drawable instanceof AnimatedVectorDrawableCompat){
@@ -169,7 +144,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
             }
         }
     }
-    @SuppressLint("NewApi")
+
     private void checkMobileNumbers(){
         Telephony loMobileNo = new Telephony(Activity_SplashScreen.this);
         loMobileNo.getSubscriptions(new Telephony.OnSubscriptionCheckListener() {
@@ -183,6 +158,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                         @Override
                         public void onClick(View view, AlertDialog dialog) {
                             mViewModel.setMobileNo(mobileNo.get(0));
+//                            startSerives();
                             dialog.dismiss();
                             Activity_SplashScreen.this.recreate();
                         }
@@ -191,14 +167,16 @@ public class Activity_SplashScreen extends AppCompatActivity {
                         @Override
                         public void onClick(View view, AlertDialog dialog) {
                             mViewModel.setMobileNo(mobileNo.get(1));
+//                            startSerives();
                             dialog.dismiss();
                             Activity_SplashScreen.this.recreate();
+
                         }
                     });
                     loMessage.showDialog();
                 } else if(simCount == 1){
                     mViewModel.setMobileNo(mobileNo.get(0));
-                    Activity_SplashScreen.this.recreate();
+//                    startSerives();
                 } else {
                     Dialog_MobileNo loMobile = new Dialog_MobileNo(Activity_SplashScreen.this);
                     loMobile.initDialog(new Dialog_MobileNo.OnMobileNoConfirmListener() {
@@ -206,6 +184,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                         public void OnConfirm(String MobileNo) {
                             mViewModel.setMobileNo(MobileNo);
                             Activity_SplashScreen.this.recreate();
+//                            startSerives();
                         }
                     });
                     loMobile.show();
@@ -220,20 +199,59 @@ public class Activity_SplashScreen extends AppCompatActivity {
         });
 
     }
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void scheduleJob(){
-        ComponentName loComponent = new ComponentName(this, DataImportService.class);
-        JobInfo loJob = new JobInfo.Builder(20190625, loComponent)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_NONE)
-                .setPersisted(true)
-                .setPeriodic(900000)
-                .build();
-        JobScheduler loScheduler = (JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
-        int liResult = loScheduler.schedule(loJob);
-        if(liResult == JobScheduler.RESULT_SUCCESS){
-            Log.e(TAG, "Job Scheduled");
-        } else {
-            Log.e(TAG, "Job Schedule Failed.");
+    public void startSerives(){
+
+        TextView lblBuildVersion = findViewById(R.id.lbl_splash_build_version);
+        handler=new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (loading < 100) {
+                    loading += 1;
+                    Random random = new Random();
+                    loading += random.nextInt(10 - 1 + 1) + 1;
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (loading > 100){
+                                 loading=100;
+                            }
+                            lblProgress.setText(loading + "%");
+                            if (loading == 100) {
+                                Intent intent=new Intent(Activity_SplashScreen.this,MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
+
+
+                }
+            }
+        }).start();
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == AppConstants.PERMISION_REQUEST_CODE) {
+            boolean lbIsGrnt = true;
+            for (int x = 0; x < grantResults.length; x++) {
+                if (ContextCompat.checkSelfPermission(Activity_SplashScreen.this, permissions[x]) != grantResults[x]) {
+                    lbIsGrnt = false;
+                    break;
+                }
+                Log.e("Permission", permissions[x] + " Granted " + grantResults[x]);
+
+            }
+            if (lbIsGrnt) {
+                mViewModel.setPermissionsGranted(true);
+            }
         }
     }
+
 }

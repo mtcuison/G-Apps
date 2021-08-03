@@ -18,10 +18,13 @@ public class VMBranches extends AndroidViewModel {
     private final Application instance;
     private final RBranchInfo poBranch;
     private MutableLiveData<List<EBranchInfo>> eBranchInfoList;
+    private MutableLiveData<Integer> mobiltek =  new MutableLiveData<>();
+    private MutableLiveData<Integer> motor =  new MutableLiveData<>();
     public VMBranches(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poBranch = new RBranchInfo(application);
+
     }
     public LiveData<List<EBranchInfo>> getAllBranchs(){
         return poBranch.getAllBranchs();

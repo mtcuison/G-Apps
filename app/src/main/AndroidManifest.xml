@@ -14,12 +14,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="READ_PRIVILEGED_PHONE_STATE "/>
-    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
+    <uses-permission android:name="READ_PRIVILEGED_PHONE_STATE " />
+    <uses-permission
+        android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
         tools:ignore="ProtectedPermissions" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/local_network_config"
@@ -27,7 +28,12 @@
         android:supportsRtl="true"
         android:theme="@style/GuanzonAppMaterialTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".Activities.Activity_Account"
+        <activity
+            android:name=".Activities.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/GuanzonAppMaterialTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Activities.Activity_Account"
             android:screenOrientation="userPortrait"
             tools:ignore="InnerclassSeparator,LockedOrientationActivity" />
         <activity
@@ -58,13 +64,8 @@
             android:name=".Activities.Activity_QrCodeScanner"
             android:screenOrientation="userPortrait"
             tools:ignore="InnerclassSeparator,LockedOrientationActivity" />
-
         <activity
             android:name=".Activities.Activity_Redeemables"
-            android:screenOrientation="userPortrait"
-            tools:ignore="InnerclassSeparator,LockedOrientationActivity"/>
-        <activity
-            android:name=".Activities.Activity_DashBoard"
             android:screenOrientation="userPortrait"
             tools:ignore="InnerclassSeparator,LockedOrientationActivity" />
         <activity
@@ -80,15 +81,17 @@
 
         <service
             android:name=".Services.MyFirebaseMessagingService"
-            tools:ignore="InnerclassSeparator"
-            android:exported="false">
+            android:exported="false"
+            tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".Services.DataImportService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name=".Services.ImportDataService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver

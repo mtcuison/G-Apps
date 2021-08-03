@@ -145,12 +145,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_dialog_contact_us_facebook"
+                style="@style/CardViewDialog.BranchDetailDialog.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/CardViewDialog.BranchDetailDialog.Button"
+                android:layout_weight="1"
                 android:text="Facebook"
-                app:icon="@drawable/ic_dialog_button_facebook"
-                android:layout_weight="1"/>
+                app:icon="@drawable/ic_dialog_button_facebook" />
 
         </LinearLayout>
 

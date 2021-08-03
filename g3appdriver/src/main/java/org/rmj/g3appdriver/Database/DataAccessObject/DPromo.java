@@ -23,6 +23,6 @@ public interface DPromo {
     @Update
     void update(EPromo ePromo);
 
-    @Query("SELECT * FROM tbl_promo_link")
+    @Query("SELECT * FROM Promo_Link_Info")
     LiveData<List<EPromo>> getAllPromo();
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="colorPrimary">#1B1B1B</color>
     <color name="ntf_colorPrimary">#1B1B1B</color>
     <color name="ntf_colorPrimaryDark">#000000</color>
     <color name="ntf_colorAccent">#F88222</color>

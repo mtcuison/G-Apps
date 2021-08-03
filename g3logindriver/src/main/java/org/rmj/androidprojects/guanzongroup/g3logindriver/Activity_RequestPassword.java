@@ -2,11 +2,8 @@ package org.rmj.androidprojects.guanzongroup.g3logindriver;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -16,7 +13,6 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -27,6 +23,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.androidprojects.guanzongroup.g3logindriver.Login.Activity_Login;
 import org.rmj.g3appdriver.lib.account.ManageAccount.G3Accounts;
 import org.rmj.g3appdriver.lib.account.ManageAccount.ManageAccountEntry;
 import org.rmj.g3appdriver.lib.account.ManageAccount.onSendRequestListener;

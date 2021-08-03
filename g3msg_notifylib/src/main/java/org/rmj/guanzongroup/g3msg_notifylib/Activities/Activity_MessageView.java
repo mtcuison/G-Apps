@@ -77,7 +77,7 @@ public class Activity_MessageView extends AppCompatActivity {
 
                 @Override
                 public void onSendSuccessResult() {
-                    new Fragment_NotificationList().getInstance().refreshView();
+//                    new Fragment_NotificationList().getInstance().refreshView();
                 }
 
                 @Override

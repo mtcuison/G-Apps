@@ -14,10 +14,11 @@ package org.rmj.g3appdriver.Database.Repositories;
 import android.app.Application;
 
 import org.rmj.g3appdriver.Database.DataAccessObject.DRawDao;
+import org.rmj.g3appdriver.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.Database.GGC_GuanzonAppDB;
 
 
-public class RRawData {
+public class RRawData implements DRawDao{
 
     private DRawDao rawDao;
 
@@ -27,4 +28,18 @@ public class RRawData {
     }
 
 
+    @Override
+    public void insertTokenInfo(ETokenInfo tokenInfo) {
+        rawDao.insertTokenInfo(tokenInfo);
+    }
+
+    @Override
+    public void clearTokenInfo() {
+        rawDao.clearTokenInfo();
+    }
+
+    @Override
+    public String getTokenInfo() {
+        return rawDao.getTokenInfo();
+    }
 }

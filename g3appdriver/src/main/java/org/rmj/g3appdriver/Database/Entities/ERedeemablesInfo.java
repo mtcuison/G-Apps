@@ -6,7 +6,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "tbl_redeemables")
+@Entity(tableName = "Redeemables")
 public class ERedeemablesInfo {
 
     @NonNull

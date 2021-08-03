@@ -3,6 +3,7 @@ package org.rmj.g3appdriver.Database.DataAccessObject;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.Database.Entities.EMCSerialRegistration;
@@ -20,4 +21,8 @@ public interface DMCSerialRegistration {
 
     @Update
     void update(EMCSerialRegistration emcSerialRegistration);
+
+    @Query("DELETE FROM MC_Serial_Registration")
+    void deleteMC();
+
 }

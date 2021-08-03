@@ -1,10 +1,13 @@
 package org.rmj.g3appdriver.Database.Repositories;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
+import org.rmj.g3appdriver.Database.DataAccessObject.DGCardTransactionLedger;
 import org.rmj.g3appdriver.Database.DataAccessObject.DMCSerialRegistration;
 import org.rmj.g3appdriver.Database.Entities.EMCSerialRegistration;
 import org.rmj.g3appdriver.Database.GGC_GuanzonAppDB;
+import org.rmj.g3appdriver.etc.SessionManager;
 
 import java.util.List;
 
@@ -32,5 +35,26 @@ public class RMCSerialRegistration implements DMCSerialRegistration {
     @Override
     public void update(EMCSerialRegistration emcSerialRegistration) {
         mcDao.update(emcSerialRegistration);
+    }
+
+    @Override
+    public void deleteMC() {
+        new DeleteUserTask(application, mcDao).execute();
+    }
+
+    public static class DeleteUserTask extends AsyncTask<Void, Void, Void> {
+        private DMCSerialRegistration mcDao;
+        private SessionManager sessionManager;
+        public DeleteUserTask(Application application,DMCSerialRegistration mcDao ) {
+            this.mcDao = mcDao;
+            this.sessionManager = new SessionManager(application);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            mcDao.deleteMC();
+            return null;
+        }
     }
 }

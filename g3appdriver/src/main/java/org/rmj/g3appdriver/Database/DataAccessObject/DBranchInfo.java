@@ -22,13 +22,13 @@ public interface DBranchInfo {
     @Update
     void update(EBranchInfo branchInfo);
 
-    @Query("SELECT * FROM tbl_branch")
+    @Query("SELECT * FROM BranchInfo")
     LiveData<List<EBranchInfo>> getAllBranchs();
 
-    @Query("SELECT * FROM tbl_branch WHERE sBranchCd LIKE 'M%'")
+    @Query("SELECT * FROM BranchInfo WHERE sBranchCd LIKE 'M%'")
     LiveData<List<EBranchInfo>> getMotorBranches();
 
-    @Query("SELECT * FROM tbl_branch WHERE sBranchCd LIKE 'C%'")
+    @Query("SELECT * FROM BranchInfo WHERE sBranchCd LIKE 'C%'")
     LiveData<List<EBranchInfo>> getMobileBranches();
 
 }

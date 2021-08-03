@@ -10,11 +10,12 @@ import androidx.room.PrimaryKey;
 public class EGcardApp {
     @NonNull
     @PrimaryKey
+    @ColumnInfo(name = "sGCardNox")
+    private String GCardNox;
+
     @ColumnInfo(name = "sCardNmbr")
     private String CardNmbr;
 
-    @ColumnInfo(name = "sGCardNox")
-    private String GCardNox;
 
     @ColumnInfo(name = "sUserIDxx")
     private String UserIDxx;

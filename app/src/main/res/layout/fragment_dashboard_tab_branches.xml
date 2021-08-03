@@ -37,7 +37,9 @@
                 android:maxLines="1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:elevation="7dp"/>
+                android:elevation="7dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
 
             <ImageButton
                 android:id="@+id/btn_fragment_branch_cancel_search"
@@ -45,7 +47,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.8"
                 app:srcCompat="@drawable/ic_dialog_button_close"
-                android:tint="@color/gap_textColorPrimary"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:scaleType="center"
                 android:visibility="gone"/>

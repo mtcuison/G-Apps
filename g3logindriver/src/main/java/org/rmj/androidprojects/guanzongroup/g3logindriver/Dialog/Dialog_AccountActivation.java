@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -13,13 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
-import org.rmj.androidprojects.guanzongroup.g3logindriver.Activity_Login;
 import org.rmj.androidprojects.guanzongroup.g3logindriver.R;
 import org.rmj.g3appdriver.etc.SharedPref;
-import org.rmj.g3appdriver.lib.account.AppLogin.LoginUserAccount;
-import org.rmj.g3appdriver.lib.account.AppLogin.onUserLoginListener;
-import org.rmj.g3appdriver.utils.Http.HttpRequestUtil;
-import org.rmj.g3appdriver.utils.WebClient;
 
 public class Dialog_AccountActivation {
 
@@ -64,46 +58,7 @@ public class Dialog_AccountActivation {
         txtPIN = mView.findViewById(R.id.txt_dialog_confirm_PIN);
 
         txtDialogMessage.setText(mContext.getResources().getString(R.string.dialog_msg_account_confirm1)+ " " + MobileNo + " " + mContext.getResources().getString(R.string.dialog_msg_account_confirm2));
-        btnActivate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isValidPIN()){
-                    alertDialog.dismiss();
-                    try {
-                        String response = WebClient.httpsPostJSon(ActivationURL, "", null);
-                        if(response.isEmpty()){
-                            toast = Toast.makeText(mContext, "Unable to confirm your account. No server response has received.", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                        } else if(response.equalsIgnoreCase("Your account was activated successfully. You can now login on Guanzon App.")){
-                            toast = Toast.makeText(mContext, "Your Account has been activated successfully.", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                            new Activity_Login().getInstance().showDialog();
-                            alertDialog.dismiss();
-                        } else if(response.equalsIgnoreCase("Unable to verify account. Your account cannot be updated.")){
-                            toast = Toast.makeText(mContext, "Unable to confirm your account. No server response has received.", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                        } else {
-                            toast = Toast.makeText(mContext, "Unable to confirm your account. Unknown problem occurred. Please try again.", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    toast = Toast.makeText(mContext, "You have entered an incorrect PIN. Please try again.", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    txtPIN.setText("");
-                }
-            }
-        });
+
     }
 
-    private boolean isValidPIN(){
-        return sharedPref.getPIN().equalsIgnoreCase(txtPIN.getText().toString());
-    }
 }
