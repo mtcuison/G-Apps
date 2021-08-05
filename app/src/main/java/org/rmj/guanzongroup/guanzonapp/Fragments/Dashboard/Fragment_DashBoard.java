@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -17,26 +16,36 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import org.rmj.g3appdriver.etc.GAppMessageBox;
+import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Orders;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Redeemables;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Service;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Transactions;
+import org.rmj.guanzongroup.guanzonapp.Activities.MainActivity;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_GCardCodex;
+import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_ScanResult;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
+import org.rmj.guanzongroup.guanzonapp.ViewModel.VMQrCodeScanner;
+
+import static android.app.Activity.RESULT_OK;
+import static org.rmj.g3appdriver.etc.AppConstants.ACCOUNT_REQUEST_CODE;
+import static org.rmj.g3appdriver.etc.AppConstants.INTENT_QR_CODE;
+import static org.rmj.g3appdriver.etc.AppConstants.LOGIN_ACTIVITY_REQUEST_CODE;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 
-public class Fragment_DashBoard extends Fragment {
+public class Fragment_DashBoard extends Fragment implements VMQrCodeScanner.onScannerResultListener{
 
     private static final String TAG = Fragment_DashBoard.class.getSimpleName();
     private View view;
@@ -52,11 +61,14 @@ public class Fragment_DashBoard extends Fragment {
     private TextView lblOrderBadge;
 
     private VMDashboard mViewModel;
+    private VMQrCodeScanner mViewModelScanner;
     private GAppMessageBox poMessage;
+
+    private Dialog_ScanResult scanResult;
+
     public static Fragment_DashBoard newInstance() {
         return new Fragment_DashBoard();
     }
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +77,8 @@ public class Fragment_DashBoard extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_dashboard_tab_main, container, false);
         mViewModel = ViewModelProviders.of(this).get(VMDashboard.class);
+        mViewModelScanner = ViewModelProviders.of(this).get(VMQrCodeScanner.class);
+        scanResult = new Dialog_ScanResult(getActivity());
         poMessage = new GAppMessageBox(getActivity());
         setupWidgets();
         setupAnimation();
@@ -152,6 +166,7 @@ public class Fragment_DashBoard extends Fragment {
             poMessage.setPositiveButton("Okay", (view, dialog) -> {
                 mViewModel.userLogout();
                 dialog.dismiss();
+                getActivity().recreate();
             });
             poMessage.show();
         });
@@ -160,11 +175,29 @@ public class Fragment_DashBoard extends Fragment {
         btnRedeemables.setOnClickListener(v->{
             startActivity(new Intent(getActivity(), Activity_Redeemables.class));});
         btnScan.setOnClickListener(v->{
-            startActivity(new Intent(getActivity(), Activity_QrCodeScanner.class));});
+            getActivity().startActivityForResult(new Intent(getActivity(), Activity_QrCodeScanner.class), INTENT_QR_CODE);});
         btnOrders.setOnClickListener(v->{
             startActivity(new Intent(getActivity(), Activity_Orders.class));});
         btnService.setOnClickListener(v->{
             startActivity(new Intent(getActivity(), Activity_Service.class));});
+    }
+
+    public void shoResult(String message, String result, String pin, boolean isSuccess){
+        scanResult.setResult(result);
+        scanResult.setResultPIN(pin);
+        scanResult.setResultMessage(message);
+        scanResult.setSuccess(isSuccess);
+        scanResult.showDialog();
+    }
+
+    @Override
+    public void onSuccessResult(String Pin) {
+        shoResult("Transaction Finish Successfully.", "SUCCESS", Pin, true);
+    }
+
+    @Override
+    public void onFailedResult(String errorMessage) {
+        shoResult(errorMessage, "FAILED", "", false);
     }
 
 

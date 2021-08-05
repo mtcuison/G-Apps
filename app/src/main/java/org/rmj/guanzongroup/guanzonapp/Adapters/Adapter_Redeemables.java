@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import org.rmj.g3appdriver.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.Database.Entities.ERedeemablesInfo;
 import org.rmj.guanzongroup.guanzonapp.R;
@@ -47,7 +49,7 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
     @Override
     public RedeemableItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View redeemableView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_redeemables, parent, false);
-        return new RedeemableItemView(redeemableView, onRedeemableItemClickListener);
+        return new RedeemableItemView(redeemableView, parent.getContext(), onRedeemableItemClickListener);
     }
 
     @Override
@@ -59,6 +61,7 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
         holder.lblRedeemablePoints.setText(String.valueOf(redeemableItems.getPointsxx()));
         holder.imgRedeemableView.setImageBitmap(generateItemImage(redeemableItems.getImageUrl().getBytes()));
 
+        holder.imgRedeemableView(redeemableItems.getImageUrl());
 //        holder.btnAddToCart.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -87,9 +90,11 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
         ImageView imgRedeemableView;
         CardView itemContent;
 
-        RedeemableItemView(@NonNull View itemView, final onRedeemableItemClickListener listener) {
+        private Context mContext;
+        RedeemableItemView(@NonNull View itemView, Context context,final onRedeemableItemClickListener listener) {
             super(itemView);
 
+            this.mContext = context;
             lblRedeemableName = itemView.findViewById(R.id.lbl_list_item_redeemable_name);
             lblRedeemablePoints = itemView.findViewById(R.id.lbl_list_item_redeemable_points);
             btnAddToCart = itemView.findViewById(R.id.btn_list_item_add_to_cart);
@@ -111,6 +116,11 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
                     }
                 }
             });
+        }
+
+        public void imgRedeemableView(String imageUrl) {
+            Picasso.get().load(imageUrl).placeholder(R.drawable.no_img_available)
+                    .error(R.drawable.no_img_available).into(imgRedeemableView);
         }
     }
 
@@ -139,4 +149,6 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
         //}
         return image;
     }
+
+
 }

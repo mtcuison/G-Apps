@@ -1,7 +1,7 @@
 package org.rmj.guanzongroup.guanzonapp.Dialogs;
 
-import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import com.google.android.material.button.MaterialButton;
@@ -19,7 +20,6 @@ import com.google.android.material.button.MaterialButton;
 import org.rmj.guanzongroup.guanzonapp.R;
 
 public class Dialog_ScanResult {
-
     private Context mContext;
 
     private AlertDialog.Builder builder;
@@ -56,7 +56,6 @@ public class Dialog_ScanResult {
     public void showDialog(){
         createDialog();
         dialog.show();
-
         Drawable drawable = mContext.getResources().getDrawable(getImageResult());
         if(drawable instanceof AnimatedVectorDrawableCompat){
             AnimatedVectorDrawableCompat avd = (AnimatedVectorDrawableCompat) drawable;

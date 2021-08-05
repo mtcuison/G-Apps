@@ -45,4 +45,14 @@ public class RRedeemablesInfo implements DRedeemablesInfo {
     public LiveData<List<ERedeemablesInfo>> getRedeemablesList() {
         return redeemDao.getRedeemablesList();
     }
+
+    @Override
+    public LiveData<List<TransactionOrder>> getTransactionOrderList(String GCardNox) {
+        return redeemDao.getTransactionOrderList(GCardNox);
+    }
+
+    @Override
+    public LiveData<List<OrderItems>> getOrderItems(String ReferNox, String GCardNox) {
+        return redeemDao.getOrderItems(ReferNox, GCardNox);
+    }
 }
