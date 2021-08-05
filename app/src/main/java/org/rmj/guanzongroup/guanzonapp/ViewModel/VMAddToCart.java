@@ -23,8 +23,8 @@ public class VMAddToCart extends AndroidViewModel {
         this.poItmCart = new RRedeemItemInfo(application);
     }
 
-    public void updateGcardPoints(EGcardApp foGcard) {
-        poGcardxx.update(foGcard);
+    public void deductAvailablePoints(String fsGcardNo, String fsNewPts) {
+        poGcardxx.deductAvailablePoints(fsGcardNo, fsNewPts);
     }
 
     public void insert(ERedeemItemInfo foItem) {

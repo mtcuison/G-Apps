@@ -80,6 +80,11 @@ public class RGcardApp implements DGcardApp {
     }
 
     @Override
+    public void deductAvailablePoints(String fsGcardNo, String fsNewPts) {
+        gcardDao.deductAvailablePoints(fsGcardNo, fsNewPts);
+    }
+
+    @Override
     public String getCardNo() {
         return gcardDao.getCardNo();
     }

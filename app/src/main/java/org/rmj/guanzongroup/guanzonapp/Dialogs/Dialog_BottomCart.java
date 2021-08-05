@@ -100,7 +100,6 @@ public class Dialog_BottomCart extends BottomSheetDialogFragment {
             try {
                 if(Double.parseDouble(psGcardPt) >= getTotalPoints()) {
                     ERedeemItemInfo loItem = new ERedeemItemInfo();
-                    EGcardApp loGcard = new EGcardApp();
                     loItem.setTransNox(new CodeGenerator().generateTransNox());
                     loItem.setGCardNox(psGcardNo);
                     loItem.setPromoIDx(psItemIdx);
@@ -109,9 +108,9 @@ public class Dialog_BottomCart extends BottomSheetDialogFragment {
                     loItem.setOrderedx(getCurrentDate());
                     loItem.setTranStat("0");
                     loItem.setPlcOrder("0");
-                    loGcard.setAvlPoint(String.valueOf(Double.parseDouble(psGcardPt) - getTotalPoints()));
                     mViewModel.insert(loItem);
-                    mViewModel.updateGcardPoints(loGcard);
+                    String lsNewPts = String.valueOf(Double.parseDouble(psGcardPt) - getTotalPoints());
+                    mViewModel.deductAvailablePoints(psGcardNo, lsNewPts);
 
                     dismiss();
                     toast.setType(CustomToast.CustomToastType.ADDED_TO_CART);

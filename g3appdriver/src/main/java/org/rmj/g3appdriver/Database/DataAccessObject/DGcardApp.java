@@ -64,5 +64,7 @@ public interface DGcardApp {
     @Query("SELECT SUM(nPointsxx) FROM redeem_item WHERE sGCardNox =:GCardNox AND cTranStat IN ('0', '1')")
     double getOrderPoints(String GCardNox);
 
+    @Query("UPDATE GCard_App_Master SET sAvlPoint = :fsNewPts WHERE sGCardNox = :fsGcardNo")
+    void deductAvailablePoints(String fsGcardNo, String fsNewPts);
 
 }
