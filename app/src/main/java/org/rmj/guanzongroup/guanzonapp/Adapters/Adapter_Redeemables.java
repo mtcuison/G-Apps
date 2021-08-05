@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,10 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.rmj.g3appdriver.Database.Entities.EGcardApp;
-import org.rmj.g3appdriver.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.Database.Entities.ERedeemablesInfo;
-import org.rmj.guanzongroup.guanzonapp.Dialogs.BottomCartDialog;
+import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_BottomCart;
 import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonapp.etc.CustomToast;
 
 import java.util.List;
 
@@ -32,6 +31,7 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
     private EGcardApp poGcardxx;
     private List<ERedeemablesInfo> poRedeems;
     private OnItemClickListener mListener;
+    private CustomToast toast;
 
     public Adapter_Redeemables(Context context, EGcardApp foGcard, List<ERedeemablesInfo> foRedeems, OnItemClickListener mListener){
         this.mContext = context;
@@ -43,6 +43,7 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
     @Override
     public RedeemableItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_redeemables, parent, false);
+        toast = new CustomToast(mContext);
         return new RedeemableItemView(v, parent.getContext(), mListener);
     }
 
@@ -57,15 +58,24 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
         holder.imgRedeemableView(loRedeem.getImageUrl());
 
         holder.btnAddToCart.setOnClickListener(v -> {
-            BottomCartDialog bottomSheet = new BottomCartDialog(
-                    poGcardxx.getGCardNox(),
-                    poGcardxx.getAvlPoint(),
-                    loRedeem.getTransNox(),
-                    loRedeem.getPromoDsc(),
-                    loRedeem.getPointsxx()
-            );
-
-            bottomSheet.show(((AppCompatActivity)mContext).getSupportFragmentManager(), "Add to Cart");
+            if(Double.parseDouble(poGcardxx.getAvlPoint()) >= loRedeem.getPointsxx()) {
+                try {
+                    Dialog_BottomCart bottomSheet = new Dialog_BottomCart(
+                            poGcardxx.getGCardNox(),
+                            poGcardxx.getAvlPoint(),
+                            loRedeem.getTransNox(),
+                            loRedeem.getPromoDsc(),
+                            loRedeem.getPointsxx()
+                    );
+                    bottomSheet.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "Add to Cart");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                toast.setType(CustomToast.CustomToastType.WARNING);
+                toast.setMessage("Insufficient GCard Points.");
+                toast.show();
+            }
         });
 
     }

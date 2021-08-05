@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface DRedeemItemInfo {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ERedeemItemInfo redeemItemInfo);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
