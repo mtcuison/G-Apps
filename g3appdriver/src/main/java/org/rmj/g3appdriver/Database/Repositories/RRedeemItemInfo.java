@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.Database.Repositories;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import org.rmj.g3appdriver.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.Database.Entities.ERedeemItemInfo;
@@ -21,7 +22,7 @@ public class RRedeemItemInfo implements DRedeemItemInfo{
 
     @Override
     public void insert(ERedeemItemInfo redeemItemInfo) {
-        itemDao.insert(redeemItemInfo);
+        new InsertAsyncTask(itemDao).execute(redeemItemInfo);
     }
 
     @Override
@@ -33,4 +34,20 @@ public class RRedeemItemInfo implements DRedeemItemInfo{
     public void update(ERedeemItemInfo redeemItemInfo) {
         itemDao.update(redeemItemInfo);
     }
+
+    private static class InsertAsyncTask extends AsyncTask<ERedeemItemInfo, Void, Void> {
+
+        private final DRedeemItemInfo dao;
+
+        private InsertAsyncTask(DRedeemItemInfo dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(ERedeemItemInfo... redeemItem) {
+            dao.insert(redeemItem[0]);
+            return null;
+        }
+    }
+
 }

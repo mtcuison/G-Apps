@@ -15,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.Database.Entities.ERedeemablesInfo;
+import org.rmj.guanzongroup.guanzonapp.Dialogs.BottomCartDialog;
 import org.rmj.guanzongroup.guanzonapp.R;
 
 import java.util.List;
@@ -24,56 +26,50 @@ import java.util.List;
 public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemables.RedeemableItemView> {
 
     private Context mContext;
+    private EGcardApp poGcardxx;
+    private List<ERedeemablesInfo> poRedeems;
+    private OnItemClickListener mListener;
 
-    private List<ERedeemablesInfo> redeemableItemsList;
-    private onRedeemableItemClickListener onRedeemableItemClickListener;
-    private onAddtoCartButtonClickListener onAddtoCartButtonClickListener;
-
-    public Adapter_Redeemables(Context context,
-                               List<ERedeemablesInfo> redeemableItemsList){
+    public Adapter_Redeemables(Context context, EGcardApp foGcard, List<ERedeemablesInfo> foRedeems, OnItemClickListener mListener){
         this.mContext = context;
-        this.redeemableItemsList = redeemableItemsList;
+        this.poGcardxx = foGcard;
+        this.poRedeems = foRedeems;
+        this.mListener = mListener;
     }
 
-    public void setOnRedeemableItemClickListener(onRedeemableItemClickListener listener){
-        this.onRedeemableItemClickListener = listener;
-    }
-
-    public void setOnAddtoCartButtonClickListener(Adapter_Redeemables.onAddtoCartButtonClickListener onAddtoCartButtonClickListener) {
-        this.onAddtoCartButtonClickListener = onAddtoCartButtonClickListener;
-    }
 
     @NonNull
     @Override
     public RedeemableItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View redeemableView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_redeemables, parent, false);
-        return new RedeemableItemView(redeemableView, onRedeemableItemClickListener);
+        return new RedeemableItemView(redeemableView, mListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RedeemableItemView holder, final int position) {
-        holder.redeemableItems = redeemableItemsList.get(position);
+        ERedeemablesInfo loRedeem = poRedeems.get(position);
 
-        ERedeemablesInfo redeemableItems = redeemableItemsList.get(position);
-        holder.lblRedeemableName.setText(redeemableItems.getPromoDsc());
-        holder.lblRedeemablePoints.setText(String.valueOf(redeemableItems.getPointsxx()));
-        holder.imgRedeemableView.setImageBitmap(generateItemImage(redeemableItems.getImageUrl().getBytes()));
+        holder.redeemableItems = poRedeems.get(position);
+        holder.lblRedeemableName.setText(loRedeem.getPromoDsc());
+        holder.lblRedeemablePoints.setText(String.valueOf(loRedeem.getPointsxx()));
+        holder.imgRedeemableView.setImageBitmap(generateItemImage(loRedeem.getImageUrl().getBytes()));
 
-//        holder.btnAddToCart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                BottomCartDialog bottomSheet = new BottomCartDialog();
-//                bottomSheet.setItemIDxxx(redeemableItemsList.get(position).getItemIDxxx());
-//                bottomSheet.setItemNamex(redeemableItemsList.get(position).getItemNamex());
-//                bottomSheet.setItemPntsx(Double.parseDouble(redeemableItemsList.get(position).getItemPntsx()));
-//                bottomSheet.show(((AppCompatActivity)mContext).getSupportFragmentManager(), "Redeemable Bottom Sheet");
-//            }
-//        });
+        holder.btnAddToCart.setOnClickListener(v -> {
+            BottomCartDialog bottomSheet = new BottomCartDialog(
+                    poGcardxx.getGCardNox(),
+                    poGcardxx.getAvlPoint(),
+                    loRedeem.getTransNox(),
+                    loRedeem.getPromoDsc(),
+                    loRedeem.getPointsxx()
+            );
+
+            bottomSheet.show(((AppCompatActivity)mContext).getSupportFragmentManager(), "Add to Cart");
+        });
     }
 
     @Override
     public int getItemCount() {
-        return redeemableItemsList.size();
+        return poRedeems.size();
     }
 
     static class RedeemableItemView extends RecyclerView.ViewHolder{
@@ -87,7 +83,7 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
         ImageView imgRedeemableView;
         CardView itemContent;
 
-        RedeemableItemView(@NonNull View itemView, final onRedeemableItemClickListener listener) {
+        RedeemableItemView(@NonNull View itemView, final OnItemClickListener mListener) {
             super(itemView);
 
             lblRedeemableName = itemView.findViewById(R.id.lbl_list_item_redeemable_name);
@@ -97,36 +93,19 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
             imgRedeemableView = itemView.findViewById(R.id.img_list_item_redeemable_image);
             itemContent = itemView.findViewById(R.id.cardview_list_item_content);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener!=null){
-                        int position = getAdapterPosition();
-                        if(position!=RecyclerView.NO_POSITION){
-                            listener.onClick(redeemableItems.getPromoCde(),
-                                            redeemableItems.getPromoDsc(),
-                                            String.valueOf(redeemableItems.getPointsxx()),
-                                            redeemableItems.getImageUrl().getBytes());
-                        }
+            itemView.setOnClickListener(v -> {
+                if(mListener!=null){
+                    int position = getAdapterPosition();
+                    if(position!=RecyclerView.NO_POSITION){
+                        mListener.onClick(redeemableItems.getPromoCde(),
+                                redeemableItems.getPromoDsc(),
+                                String.valueOf(redeemableItems.getPointsxx()),
+                                redeemableItems.getImageUrl().getBytes());
                     }
                 }
             });
+
         }
-    }
-
-    public interface onRedeemableItemClickListener{
-        void onClick(String TransNo, String Redeemable, String Points, byte[] image_data);
-    }
-
-    public interface onAddtoCartButtonClickListener{
-        void onClick(String ItemID, String ItemName, String ItemPoints, byte[] ItemImage);
-    }
-
-    private int getBadgeVisibility(boolean isNotified){
-        if(isNotified){
-            return View.GONE;
-        }
-        return View.VISIBLE;
     }
 
     private Bitmap generateItemImage(byte[] ImageBlob){
@@ -135,8 +114,20 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
             byte[] decoded = Base64.decode(ImageBlob, Base64.NO_WRAP);
             image = BitmapFactory.decodeByteArray(decoded, 0, decoded.length);
         } else {*/
-            image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_redeemables);
+        image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_redeemables);
         //}
         return image;
     }
+
+    public interface OnItemClickListener{
+        void onClick(String TransNo, String Redeemable, String Points, byte[] image_data);
+    }
+
+//    private int getBadgeVisibility(boolean isNotified){
+//        if(isNotified){
+//            return View.GONE;
+//        }
+//        return View.VISIBLE;
+//    }
+
 }

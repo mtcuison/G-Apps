@@ -94,22 +94,29 @@ public class Activity_Redeemables extends AppCompatActivity {
 
     private void setupRedeemables(){
         mViewModel.getRedeemablesList().observe(Activity_Redeemables.this, foRedeems -> {
-            if(foRedeems.size() > 0) {
-                layout.setVisibility(View.GONE);
-                Adapter_Redeemables adapter = new Adapter_Redeemables(Activity_Redeemables.this, foRedeems);
-                adapter.setOnRedeemableItemClickListener(new Adapter_Redeemables.onRedeemableItemClickListener() {
-                    @Override
-                    public void onClick(String TransNo, String Redeemable, String Points, byte[] image_data) {
+            try {
+                if (foRedeems.size() > 0) {
+                    mViewModel.getGcardInfo().observe(Activity_Redeemables.this, eGcardApp -> {
+                        try {
+                            layout.setVisibility(View.GONE);
+                            Adapter_Redeemables adapter = new Adapter_Redeemables(Activity_Redeemables.this,
+                                    eGcardApp, foRedeems, (String TransNo, String Redeemable, String Points, byte[] image_data) -> {
+                                // TODO: Adapter Onclick
+                            });
 
-                    }
-                });
-
-                recyclerView.setAdapter(adapter);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_Redeemables.this);
-                layoutManager.setOrientation(RecyclerView.VERTICAL);
-                recyclerView.setLayoutManager(layoutManager);
-            } else {
-                layout.setVisibility(View.VISIBLE);
+                            recyclerView.setAdapter(adapter);
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_Redeemables.this);
+                            layoutManager.setOrientation(RecyclerView.VERTICAL);
+                            recyclerView.setLayoutManager(layoutManager);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                } else {
+                    layout.setVisibility(View.VISIBLE);
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
         });
     }
