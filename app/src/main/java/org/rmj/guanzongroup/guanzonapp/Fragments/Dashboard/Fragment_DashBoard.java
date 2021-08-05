@@ -73,7 +73,7 @@ public class Fragment_DashBoard extends Fragment {
             try {
 
                 Username.setText(eClientInfo.getUserName());
-                Username.setShadowLayer(2, 1, 1, Color.WHITE);
+                Username.setShadowLayer(10, 1, 1, Color.BLACK);
 
             }catch (NullPointerException e){
                 e.printStackTrace();
