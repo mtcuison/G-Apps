@@ -115,7 +115,7 @@ public class AppConstants {
 
     public static int INTENT_BRANCH_MONITORING = 104;
 
-    public static int INTENT_BRANCH_OPENING = 106;
+    public static int INTENT_QR_CODE = 1002;
 
     public static String ACTIVATE_REQUEST = "DEVICES_APPROVE";
     public static String GET_PIN_REQUEST = "DEVICES_GETPIN";

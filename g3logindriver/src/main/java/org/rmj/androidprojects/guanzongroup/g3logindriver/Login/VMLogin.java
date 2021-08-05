@@ -103,7 +103,7 @@ public class VMLogin extends AndroidViewModel {
             }
 
             if(conn.isDeviceConnected()) {
-                new LoginTask(application, webApi, headers, session, poClient, callback).execute(params);
+                new LoginTask(application, webApi, headers, session, poClient,callback).execute(params);
             } else {
                 callback.OnFailedLoginResult("Unable to connect. Please check your internet connection.");
             }
@@ -182,6 +182,7 @@ public class VMLogin extends AndroidViewModel {
             clientInfo.setLoginxxx(AppConstants.DATE_MODIFIED);
             poClient.insertLogin(clientInfo);
             sessionManager.setUserID(jsonInfo.getString("sUserIDxx"));
+            poConfig.setTemp_mobileno(jsonInfo.getString("sMobileNo"));
             Log.e(TAG, clientInfo.toString());
         }
     }

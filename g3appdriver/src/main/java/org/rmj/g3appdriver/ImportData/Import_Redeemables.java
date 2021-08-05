@@ -71,6 +71,7 @@ public class Import_Redeemables implements ImportInstance {
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
+                        Log.e(TAG, laJson.toString());
                         saveDataToLocal(laJson);
                     } else {
                         JSONObject loError = loJson.getJSONObject("error");
