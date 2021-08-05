@@ -79,8 +79,15 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
 
         btnAdd.setOnClickListener(v -> {
             pnItemCnt += 1;
-            txtQuantity.setText(String.valueOf(getQuantity()));
-            lblItemTotPoints.setText(String.valueOf(getTotalPoints()));
+            if(isGPointSufficient()) {
+                txtQuantity.setText(String.valueOf(getQuantity()));
+                lblItemTotPoints.setText(String.valueOf(getTotalPoints()));
+            } else {
+                pnItemCnt -= 1;
+                toast.setType(CustomToast.CustomToastType.WARNING);
+                toast.setMessage("Insufficient GCard Points.");
+                toast.show();
+            }
         });
 
         btnDeduct.setOnClickListener(v -> {
