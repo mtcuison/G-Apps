@@ -67,4 +67,7 @@ public interface DGcardApp {
     @Query("UPDATE GCard_App_Master SET sAvlPoint = :fsNewPts WHERE sGCardNox = :fsGcardNo")
     void deductAvailablePoints(String fsGcardNo, String fsNewPts);
 
+    @Query("SELECT sGCardNox FROM Gcard_App_Master WHERE cActvStat = '1'")
+    LiveData<String> getActiveGcardNo();
+
 }

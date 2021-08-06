@@ -115,6 +115,11 @@ public class RGcardApp implements DGcardApp {
         return gcardDao.getGCardTotPoints(CardNmbr);
     }
 
+    @Override
+    public LiveData<String> getActiveGcardNo() {
+        return gcardDao.getActiveGcardNo();
+    }
+
 
     public void deleteGCard(){
         new DeleteUserTask(application, gcardDao).execute();

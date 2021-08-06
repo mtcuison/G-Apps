@@ -47,6 +47,21 @@ public class RRedeemItemInfo implements DRedeemItemInfo{
         return itemDao.getExistingItemDetail(fsPromoId);
     }
 
+    @Override
+    public LiveData<List<CartItemsDetail>> getCartItemsDetail(String fsGcardNo) {
+        return itemDao.getCartItemsDetail(fsGcardNo);
+    }
+
+    @Override
+    public LiveData<Double> getTotalCartPoints(String fsGcardNo) {
+        return itemDao.getTotalCartPoints(fsGcardNo);
+    }
+
+    @Override
+    public void removeItemFromCart(String fsPromoId) {
+        itemDao.removeItemFromCart(fsPromoId);
+    }
+
     private static class InsertAsyncTask extends AsyncTask<ERedeemItemInfo, Void, Void> {
 
         private final DRedeemItemInfo dao;
