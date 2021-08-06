@@ -148,19 +148,18 @@ public class Activity_ItemCart extends AppCompatActivity{
         mViewModel.getCartItemsDetail().observe(instance, cartItems -> {
             try {
                 if(cartItems.size() > 0) {
-                    Log.e("MERON", "YES YES YES");
                     layout.setVisibility(View.GONE);
+
                     Adapter_ItemCart adapter = new Adapter_ItemCart(Activity_ItemCart.this,
-                            cartItems, new Adapter_ItemCart.OnItemChangeListener() {
-                                @Override
-                                public void onItemRemove(String fsPromoId) {
-                                    try {
-                                        mViewModel.removeItemFromCart(fsPromoId);
-                                    } catch(Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
+                            cartItems, (String fsGcardno, String fsGcardPt, String fsPromoId, double fnRefundx) ->  {
+                            try {
+                                mViewModel.removeItemFromCart(fsPromoId);
+                                String lsNewPts = String.valueOf(Double.parseDouble(fsGcardPt) + fnRefundx);
+                                mViewModel.updateAvailablePoints(fsGcardno, lsNewPts);
+                            } catch(Exception e) {
+                                e.printStackTrace();
+                            }
+                    });
 
                     LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_ItemCart.this);
                     layoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -168,7 +167,6 @@ public class Activity_ItemCart extends AppCompatActivity{
                     recyclerView.setLayoutManager(layoutManager);
                     adapter.notifyDataSetChanged();
                 } else {
-                    Log.e("WALA", "YES YES YES");
                     layout.setVisibility(View.VISIBLE);
                 }
             } catch(NullPointerException e) {

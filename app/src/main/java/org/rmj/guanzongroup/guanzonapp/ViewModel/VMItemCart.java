@@ -44,4 +44,8 @@ public class VMItemCart extends AndroidViewModel {
         poCartItm.removeItemFromCart(fsPromoId);
     }
 
+    public void updateAvailablePoints(String fsGcardNo, String fsNewPts) {
+        poGcardxx.updateAvailablePoints(fsGcardNo, fsNewPts);
+    }
+
 }

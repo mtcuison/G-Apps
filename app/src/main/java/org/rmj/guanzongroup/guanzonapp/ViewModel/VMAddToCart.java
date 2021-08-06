@@ -39,8 +39,8 @@ public class VMAddToCart extends AndroidViewModel {
         return poItmCart. getExistingItemDetail(fsPromoId);
     }
 
-    public void deductAvailablePoints(String fsGcardNo, String fsNewPts) {
-        poGcardxx.deductAvailablePoints(fsGcardNo, fsNewPts);
+    public void updateAvailablePoints(String fsGcardNo, String fsNewPts) {
+        poGcardxx.updateAvailablePoints(fsGcardNo, fsNewPts);
     }
 
 }

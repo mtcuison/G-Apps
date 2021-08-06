@@ -124,7 +124,7 @@ public class Dialog_BottomCart extends BottomSheetDialogFragment {
                     });
 
                     String lsNewPts = String.valueOf(Double.parseDouble(psGcardPt) - getTotalPoints());
-                    mViewModel.deductAvailablePoints(psGcardNo, lsNewPts);
+                    mViewModel.updateAvailablePoints(psGcardNo, lsNewPts);
 
                     dismiss();
                     toast.setType(CustomToast.CustomToastType.ADDED_TO_CART);

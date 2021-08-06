@@ -50,7 +50,7 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Cart
         holder.lblItemTotPoints.setText(String.valueOf(loItem.nPointsxx));
         holder.imgItemImage.setImageBitmap(generateItemImage(loItem.sImageUrl.getBytes()));
         holder.imgRedeemableView(loItem.sImageUrl);
-        holder.btnDeleteItem.setOnClickListener(v -> mListener.onItemRemove(loItem.sPromoIDx));
+        holder.btnDeleteItem.setOnClickListener(v -> mListener.onItemRemove(loItem.sGCardNox, loItem.sAvlPoint, loItem.sPromoIDx, loItem.nPointsxx));
     }
 
     @Override
@@ -95,6 +95,6 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Cart
     }
 
     public interface OnItemChangeListener{
-        void onItemRemove(String fsPromoId);
+        void onItemRemove(String fsGcardNo, String fsGcardPt, String fsPromoId, double fnRefundx);
     }
 }

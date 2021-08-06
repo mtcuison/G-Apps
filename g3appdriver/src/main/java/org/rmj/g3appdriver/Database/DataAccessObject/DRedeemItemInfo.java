@@ -45,10 +45,13 @@ public interface DRedeemItemInfo {
             "C.cNotified, " +
             "R.sPromoDsc, " +
             "R.nPointsxx AS origPoints, " +
-            "R.sImageUrl " +
+            "R.sImageUrl, " +
+            "G.sAvlPoint " +
             "FROM redeem_item as C " +
             "LEFT JOIN redeemables as R " +
             "ON C.sPromoIDx = R.sTransNox " +
+            "LEFT JOIN gcard_app_master as G " +
+            "ON C.sGCardNox = G.sGCardNox " +
             "WHERE C.cTranStat = '0' " +
             "AND C.sGCardNox = :fsGcardNo")
     LiveData<List<CartItemsDetail>> getCartItemsDetail(String fsGcardNo);
@@ -83,5 +86,6 @@ public interface DRedeemItemInfo {
         public String sPromoDsc;
         public double origPoints;
         public String sImageUrl;
+        public String sAvlPoint;
     }
 }
