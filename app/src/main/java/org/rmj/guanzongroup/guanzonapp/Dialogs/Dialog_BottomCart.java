@@ -108,7 +108,21 @@ public class Dialog_BottomCart extends BottomSheetDialogFragment {
                     loItem.setOrderedx(getCurrentDate());
                     loItem.setTranStat("0");
                     loItem.setPlcOrder("0");
-                    mViewModel.insert(loItem);
+
+                    mViewModel.getExistingItemDetail(psItemIdx).observe(getViewLifecycleOwner(), itemDetl -> {
+                        try {
+                            if (itemDetl.size() < 1) {
+                                mViewModel.insert(loItem);
+                            } else {
+                                int lnNewCnt = loItem.getItemQtyx() + itemDetl.get(0).quantity;
+                                double lnNewPts = loItem.getPointsxx() + itemDetl.get(0).points;
+                                mViewModel.updateItemDetails(loItem.getGCardNox(), loItem.getPromoIDx(), lnNewCnt, lnNewPts);
+                            }
+                        } catch(NullPointerException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
                     String lsNewPts = String.valueOf(Double.parseDouble(psGcardPt) - getTotalPoints());
                     mViewModel.deductAvailablePoints(psGcardNo, lsNewPts);
 
