@@ -76,7 +76,7 @@ public class Activity_ItemCart extends AppCompatActivity{
         toolbar.setTitle("Item Cart");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        poToast = new CustomToast(instance);
         recyclerView = findViewById(R.id.recycler_view_itemCart);
         MaterialButton btnPlaceOrder = findViewById(R.id.btn_cart_placeOrder);
         btnSelectBranch = findViewById(R.id.btn_cart_selectBranch);
@@ -156,6 +156,10 @@ public class Activity_ItemCart extends AppCompatActivity{
                                 mViewModel.removeItemFromCart(fsPromoId);
                                 String lsNewPts = String.valueOf(Double.parseDouble(fsGcardPt) + fnRefundx);
                                 mViewModel.updateAvailablePoints(fsGcardno, lsNewPts);
+
+                                poToast.setType(CustomToast.CustomToastType.INFORMATION);
+                                poToast.setMessage("Item removed from cart.");
+                                poToast.show();
                             } catch(Exception e) {
                                 e.printStackTrace();
                             }
