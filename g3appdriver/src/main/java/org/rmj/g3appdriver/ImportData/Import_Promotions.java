@@ -54,10 +54,10 @@ public class Import_Promotions implements ImportInstance {
         private final ConnectionUtil conn;
         private final WebApi poWebapi;
         private final RPromo repository;
-
-
+        private Application instance;
         public ImportPromotionsTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
+            this.instance = instance;
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poWebapi = new WebApi(instance);
@@ -119,7 +119,7 @@ public class Import_Promotions implements ImportInstance {
         }
         void saveDataToLocal(JSONArray laJson) throws Exception{
 
-            List<EPromo> brnList = new ArrayList<>();
+            List<EPromo> promos = new ArrayList<>();
             if (laJson.length()>0){
                 for(int x = 0; x < laJson.length(); x++){
                     JSONObject loJson = laJson.getJSONObject(x);
@@ -131,10 +131,10 @@ public class Import_Promotions implements ImportInstance {
                     info.setCaptionx(loJson.getString("sCaptionx"));
                     info.setDateFrom(loJson.getString("dDateFrom"));
                     info.setDateThru(loJson.getString("dDateThru"));
-                    brnList.add(info);
+                    promos.add(info);
                 }
 
-                repository.insertBulkData(brnList);
+                repository.insertBulkData(promos);
             }
 
         }

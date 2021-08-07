@@ -60,19 +60,20 @@ public class DataImportService extends JobService {
         if (new SessionManager(getApplication()).isLoggedIn()){
          importInstances = new ImportInstance[] {
                     new Import_AccountGCard(getApplication()),
+                    new Import_Events(getApplication()),
+                    new Import_Promotions(getApplication()),
                     new Import_Orders(getApplication()),
                     new Import_Redeemables(getApplication()),
                     new Import_Service(getApplication()),
                     new Import_McDetail(getApplication()),
                     new Import_Transactions(getApplication())};
         }else{
-           importInstances = new ImportInstance[]{
+                    importInstances = new ImportInstance[]{
                     new Import_Redeemables(getApplication()),
                     new Import_Events(getApplication()),
                     new Import_Promotions(getApplication()),
                     new Import_Branch(getApplication())};
         }
-
 
 
         new Thread(() -> {

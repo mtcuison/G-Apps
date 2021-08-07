@@ -10,7 +10,7 @@ import org.rmj.g3appdriver.Database.GGC_GuanzonAppDB;
 import java.util.List;
 
 public class RRedeemItemInfo implements DRedeemItemInfo{
-    private static final String TAG = "RAppEventInfo";
+    private static final String TAG = RRedeemItemInfo.class.getSimpleName();
     private final Application application;
 
     private final DRedeemItemInfo itemDao;

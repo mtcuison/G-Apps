@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    app:layout_constraintStart_toStartOf="parent"
     tools:openDrawer="start">
 
     <include
@@ -14,10 +15,12 @@
         android:layout_height="match_parent" />
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:layout_constraintStart_toStartOf="parent"
         app:headerLayout="@layout/nav_header_main">
 
         <ExpandableListView
@@ -26,7 +29,7 @@
             android:layout_height="match_parent"
             android:groupIndicator="@drawable/nav_dropdown_indicator"
             android:childDivider="@null"
-            android:background="@android:color/transparent"
+            android:background="@color/gap_window_background"
             android:divider="@null"
             android:choiceMode="singleChoice"
             android:listSelector="@color/material_lightgrey_selector"

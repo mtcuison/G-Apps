@@ -8,7 +8,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.Database.Entities.EEvents;
 import org.rmj.g3appdriver.Database.Entities.EPromo;
+import org.rmj.g3appdriver.Database.Repositories.REvents;
 import org.rmj.g3appdriver.Database.Repositories.RPromo;
 
 import java.util.ArrayList;
@@ -19,16 +21,24 @@ public class VMPromotions extends AndroidViewModel {
     private static final String TAG = VMBranches.class.getSimpleName();
     private final Application instance;
     private final RPromo poPromo;
+    private final REvents poEvents;
     private LiveData<List<EPromo>> ePromo;
+    private LiveData<List<EEvents>> eEvents;
     private List<EPromo> promoList = new ArrayList<>();
     public VMPromotions(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poPromo = new RPromo(application);
+        this.poEvents = new REvents(application);
         this.ePromo = poPromo.getAllPromo();
+        this.eEvents = poEvents.getAllEvents();
 
     }
     public LiveData<List<EPromo>> getAllPromo(){
         return ePromo;
     }
+    public LiveData<List<EEvents>> getAllEvents(){
+        return eEvents;
+    }
+
 }

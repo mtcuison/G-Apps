@@ -44,9 +44,14 @@ public class REvents implements DEvents {
         return eventsDao.getAllEvents();
     }
 
+    @Override
+    public void updateReadEvent(String date, String transNox) {
+        eventsDao.updateReadEvent(date, transNox);
+    }
+
     public boolean insertEvents(JSONArray laJson) throws Exception{
         try{
-            List<EEvents> brnList = new ArrayList<>();
+            List<EEvents> eEventsList = new ArrayList<>();
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
                 EEvents info = new EEvents();
@@ -60,9 +65,10 @@ public class REvents implements DEvents {
                 info.setImageURL(loJson.getString("sImageURL"));
                 info.setNotified("0");
                 info.setModified(AppConstants.DATE_MODIFIED);
-                brnList.add(info);
+                eEventsList.add(info);
             }
-            eventsDao.insertBulkData(brnList);
+
+            eventsDao.insertBulkData(eEventsList);
             return true;
         }catch (NullPointerException e){
             e.printStackTrace();

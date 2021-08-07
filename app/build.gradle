@@ -125,6 +125,7 @@ dependencies {
     //Obtain Mobile No.
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
+    implementation 'com.facebook.android:facebook-common:5.15.3'
     //Facebook integration Login
     implementation 'com.facebook.android:facebook-login:5.15.3'
 }
