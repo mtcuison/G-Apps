@@ -28,8 +28,8 @@ import java.util.Calendar;
 
 import javax.annotation.Nonnull;
 
-public class BottomCartDialog extends BottomSheetDialogFragment {
-    private static final String TAG = BottomCartDialog.class.getSimpleName();
+public class Dialog_BottomCart extends BottomSheetDialogFragment {
+    private static final String TAG = Dialog_BottomCart.class.getSimpleName();
     private VMAddToCart mViewModel;
     private final String psGcardNo, psGcardPt, psItemIdx, psItemNme;
     private final double pnItemPts;
@@ -40,7 +40,7 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
     private int pnItemCnt = 1;
 
     @Nonnull
-    public BottomCartDialog(String fsGcardNo, String fsGcardPt, String fsItemId, String fsItemNme, double fnItemPts) {
+    public Dialog_BottomCart(String fsGcardNo, String fsGcardPt, String fsItemId, String fsItemNme, double fnItemPts) {
         Log.e(TAG, "Initialized.");
         this.psGcardNo = fsGcardNo;
         this.psGcardPt = fsGcardPt;
@@ -98,24 +98,39 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
 
         btnAddToCart.setOnClickListener(v -> {
             try {
-                ERedeemItemInfo loItem = new ERedeemItemInfo();
-                EGcardApp loGcard = new EGcardApp();
-                loItem.setTransNox(new CodeGenerator().generateTransNox());
-                loItem.setGCardNox(psGcardNo);
-                loItem.setPromoIDx(psItemIdx);
-                loItem.setItemQtyx(pnItemCnt);
-                loItem.setPointsxx(getTotalPoints());
-                loItem.setOrderedx(getCurrentDate());
-                loItem.setTranStat("0");
-                loItem.setPlcOrder("0");
-                loGcard.setAvlPoint(String.valueOf(Double.parseDouble(psGcardPt) - getTotalPoints()));
-                mViewModel.insert(loItem);
-                mViewModel.updateGcardPoints(loGcard);
+                if(Double.parseDouble(psGcardPt) >= getTotalPoints()) {
+                    ERedeemItemInfo loItem = new ERedeemItemInfo();
+                    loItem.setTransNox(new CodeGenerator().generateTransNox());
+                    loItem.setGCardNox(psGcardNo);
+                    loItem.setPromoIDx(psItemIdx);
+                    loItem.setItemQtyx(pnItemCnt);
+                    loItem.setPointsxx(getTotalPoints());
+                    loItem.setOrderedx(getCurrentDate());
+                    loItem.setTranStat("0");
+                    loItem.setPlcOrder("0");
 
-                dismiss();
-                toast.setType(CustomToast.CustomToastType.ADDED_TO_CART);
-                toast.setMessage("Item added on cart.");
-                toast.show();
+                    mViewModel.getExistingItemDetail(psItemIdx).observe(getViewLifecycleOwner(), itemDetl -> {
+                        try {
+                            if (itemDetl.size() < 1) {
+                                mViewModel.insert(loItem);
+                            } else {
+                                int lnNewCnt = loItem.getItemQtyx() + itemDetl.get(0).quantity;
+                                double lnNewPts = loItem.getPointsxx() + itemDetl.get(0).points;
+                                mViewModel.updateItemDetails(loItem.getGCardNox(), loItem.getPromoIDx(), lnNewCnt, lnNewPts);
+                            }
+                        } catch(NullPointerException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+                    String lsNewPts = String.valueOf(Double.parseDouble(psGcardPt) - getTotalPoints());
+                    mViewModel.updateAvailablePoints(psGcardNo, lsNewPts);
+
+                    dismiss();
+                    toast.setType(CustomToast.CustomToastType.ADDED_TO_CART);
+                    toast.setMessage("Item added on cart.");
+                    toast.show();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 dismiss();

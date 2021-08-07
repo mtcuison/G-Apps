@@ -80,6 +80,11 @@ public class RGcardApp implements DGcardApp {
     }
 
     @Override
+    public void updateAvailablePoints(String fsGcardNo, String fsNewPts) {
+        gcardDao.updateAvailablePoints(fsGcardNo, fsNewPts);
+    }
+
+    @Override
     public String getCardNo() {
         return gcardDao.getCardNo();
     }
@@ -110,6 +115,15 @@ public class RGcardApp implements DGcardApp {
         return gcardDao.getGCardTotPoints(CardNmbr);
     }
 
+    @Override
+    public LiveData<String> getActiveGcardNo() {
+        return gcardDao.getActiveGcardNo();
+    }
+
+    @Override
+    public LiveData<String> getActiveGcardAvlPoints() {
+        return gcardDao.getActiveGcardAvlPoints();
+    }
 
     public void deleteGCard(){
         new DeleteUserTask(application, gcardDao).execute();

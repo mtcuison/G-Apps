@@ -108,6 +108,7 @@ public class Activity_Redeemables extends AppCompatActivity {
                             LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_Redeemables.this);
                             layoutManager.setOrientation(RecyclerView.VERTICAL);
                             recyclerView.setLayoutManager(layoutManager);
+                            adapter.notifyDataSetChanged();
                         } catch (NullPointerException e) {
                             e.printStackTrace();
                         }
