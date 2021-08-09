@@ -124,6 +124,7 @@ public class Fragment_Promotions extends Fragment {
                     Intent intent = new Intent(getActivity(), Activity_AppBrowser.class);
                     intent.putExtra("url_link", promo_link);
                     startActivity(intent);
+                    mViewModel.updatEvents(promoEventsModels.get(position).transNox);
                 }
             });
 

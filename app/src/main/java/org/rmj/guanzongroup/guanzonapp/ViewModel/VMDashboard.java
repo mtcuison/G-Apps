@@ -12,9 +12,12 @@ import org.rmj.g3appdriver.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RBranchInfo;
 import org.rmj.g3appdriver.Database.Repositories.RClientInfo;
+import org.rmj.g3appdriver.Database.Repositories.REvents;
 import org.rmj.g3appdriver.Database.Repositories.RGCardTransactionLedger;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RMCSerialRegistration;
+import org.rmj.g3appdriver.Database.Repositories.RPromo;
+import org.rmj.g3appdriver.Database.Repositories.RRedeemablesInfo;
 import org.rmj.g3appdriver.etc.SessionManager;
 
 import java.util.List;
@@ -30,14 +33,21 @@ public class VMDashboard extends AndroidViewModel {
     private final RGcardApp poGCard;
     private final RGCardTransactionLedger poLedger;
     private final RMCSerialRegistration poMC;
+    private final RRedeemablesInfo poRedeemables;
+    private final REvents poEvents;
+    private final RPromo poPromo;
     private final SessionManager poSession;
+    private final MutableLiveData nUnReadCount = new MutableLiveData();
     public VMDashboard(@NonNull Application application) {
         super(application);
         this.instance = application;
         this.poBranch = new RBranchInfo(application);
         this.poClient = new RClientInfo(application);
         this.poGCard = new RGcardApp(application);
-
+        this.poRedeemables = new RRedeemablesInfo(application);
+        this.poEvents = new REvents(application);
+        this.poPromo = new RPromo(application);
+        this.nUnReadCount.setValue(0);
         this.poLedger = new RGCardTransactionLedger(application);
         this.poMC = new RMCSerialRegistration(application);
         this.poSession = new SessionManager(application);
@@ -52,8 +62,26 @@ public class VMDashboard extends AndroidViewModel {
     public LiveData<EGcardApp> hasNoCard(){
         return poGCard.hasNoGcard();
     }
+    public LiveData<Integer> getOrdersCount(String GCardNo){
+        return poRedeemables.getOrdersCount(GCardNo);
+    }
+    public LiveData<Integer> getEventsCount(){
+        return poEvents.getEventCount();
+    }
+    public LiveData<Integer> getPromoCount(){
+        return poPromo.getPromoCount();
+    }
 
-
+//    public LiveData<Integer> getUnreadNotificationCount(){
+//        if(poSession.isLoggedIn()) {
+//            nUnReadCount.setValue(poEvents.getEventCount().getValue() + poPromo.getPromoCount().getValue());
+////            return poEvents.getEventCount() + poPromo.getPromoCount() + getMessageCount();
+//            return nUnReadCount;
+//        }else {
+//            nUnReadCount.setValue(poPromo.getPromoCount());
+//        }
+//        return nUnReadCount;
+//    }
     public void userLogout(){
         poGCard.deleteGCard();
         poClient.LogoutUserSession();

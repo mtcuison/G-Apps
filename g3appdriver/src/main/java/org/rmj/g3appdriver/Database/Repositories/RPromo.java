@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.Database.Repositories;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -39,5 +40,16 @@ public class RPromo implements DPromo {
     @Override
     public LiveData<List<EPromo>> getAllPromo() {
         return promoDao.getAllPromo();
+    }
+
+    @Override
+    public void updateReadPromo(String date, String transNox) {
+        Log.e(TAG,"updated");
+        promoDao.updateReadPromo(date, transNox);
+    }
+
+    @Override
+    public LiveData<Integer> getPromoCount() {
+        return promoDao.getPromoCount();
     }
 }

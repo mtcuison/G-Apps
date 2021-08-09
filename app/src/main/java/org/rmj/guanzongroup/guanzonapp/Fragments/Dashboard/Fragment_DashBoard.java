@@ -40,6 +40,7 @@ import static android.app.Activity.RESULT_OK;
 import static org.rmj.g3appdriver.etc.AppConstants.ACCOUNT_REQUEST_CODE;
 import static org.rmj.g3appdriver.etc.AppConstants.INTENT_QR_CODE;
 import static org.rmj.g3appdriver.etc.AppConstants.LOGIN_ACTIVITY_REQUEST_CODE;
+import static org.rmj.guanzongroup.guanzonapp.Activities.MainActivity.tabBadge;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,8 +65,10 @@ public class Fragment_DashBoard extends Fragment implements VMQrCodeScanner.onSc
     private VMQrCodeScanner mViewModelScanner;
     private GAppMessageBox poMessage;
 
+    private int total;
+    private int promo;
+    private int event;
     private Dialog_ScanResult scanResult;
-
     public static Fragment_DashBoard newInstance() {
         return new Fragment_DashBoard();
     }
@@ -101,9 +104,29 @@ public class Fragment_DashBoard extends Fragment implements VMQrCodeScanner.onSc
             try {
                 lblActiveGcardNmbr.setText(gCardApp.getCardNmbr());
                 lblAvailablePoints.setText(gCardApp.getAvlPoint());
+//                mViewModel.getOrdersCount(gCardApp.getCardNmbr()).observe(getViewLifecycleOwner(), order_count ->{
+//                    if (order_count > 0){
+//                        lblOrderBadge.setVisibility(View.VISIBLE);
+//                        lblOrderBadge.setText(String.valueOf(order_count));
+//                    }else{
+//                        lblOrderBadge.setVisibility(View.GONE);
+//                    }
+//                });
             }catch (NullPointerException e){
                 Log.e(TAG, e.getMessage());
             }
+        });
+//        mViewModel.getUnreadNotificationCount().observe(MainActivity.this, unread_count->{
+//            tabBadge.setNumber(unread_count);
+//            tabBadge.setVisible(unread_count > 0);
+//        });
+        mViewModel.getPromoCount().observe(getViewLifecycleOwner(), promo_count->{
+            promo = promo_count;
+        });
+        mViewModel.getEventsCount().observe(getViewLifecycleOwner(), event_count->{
+            event = event_count;
+            total = event + promo;
+            Log.e("Total", "Total = " + total);
         });
 
         return view;

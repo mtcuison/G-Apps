@@ -53,6 +53,14 @@ public class Activity_Redeemables extends AppCompatActivity {
         orderItems = ActionView.findViewById(R.id.lbl_item_on_cart_count);
 //        orderItems.setVisibility(getBadgeVisibility());
         ImageButton btnCart = ActionView.findViewById(R.id.btn_action_redeemable_cart);
+        mViewModel.getCartItemCount().observe(Activity_Redeemables.this, count ->{
+            if (count == 0){
+                orderItems.setVisibility(View.GONE);
+            }else{
+                orderItems.setVisibility(View.VISIBLE);
+            }
+            orderItems.setText(String.valueOf(count));
+        });
         btnCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +96,6 @@ public class Activity_Redeemables extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         layout = findViewById(R.id.linear_emptyList);
-
         recyclerView = findViewById(R.id.recycler_view_redeemables);
     }
 

@@ -32,6 +32,9 @@ public interface DEvents {
     @Query("UPDATE App_Event_Info SET cNotified = '1', dModified =:date WHERE sTransNox =:transNox ")
     void updateReadEvent(String date, String transNox);
 
+    @Query("SELECT COUNT(*) FROM App_Event_Info WHERE cNotified = '0'")
+    LiveData<Integer> getEventCount();
+
 
 
 }

@@ -16,6 +16,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -49,6 +50,7 @@ import org.rmj.guanzongroup.guanzonapp.MeuModel.MenuModel;
 import org.rmj.guanzongroup.guanzonapp.MeuModel.PopulateExpandableList;
 import org.rmj.guanzongroup.guanzonapp.MeuModel.PrepareData;
 import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMMainActivity;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMQrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.etc.DashBoardIconBadge;
@@ -66,10 +68,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private VMMainActivity mViewModel;
+    private VMDashboard dViewModel;
     private VMQrCodeScanner mViewModelScanner;
     private DrawerLayout drawer;
     private Dialog_ScanResult scanResult;
 
+    public static BadgeDrawable tabBadge;
 
     @SuppressLint("StaticFieldLeak")
     public static ExpandableListDrawerAdapter listAdapter;
@@ -109,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             scanResult = new Dialog_ScanResult(this);
 
             mViewModel = new ViewModelProvider(MainActivity.this).get(VMMainActivity.class);
+            dViewModel = new ViewModelProvider(MainActivity.this).get(VMDashboard.class);
             mViewModelScanner = new ViewModelProvider(MainActivity.this).get(VMQrCodeScanner.class);
             mViewModel.isLoggedIn().observe(MainActivity.this, val ->{
                 tabTitles = appConstants.getHomeTitles(val);
@@ -119,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 adapter.addFragment(new Fragment_About());
                 viewPager.setAdapter(adapter);
                 tabLayout.setupWithViewPager(viewPager);
+                tabBadge = tabLayout.getTabAt(1).getOrCreateBadge();
                 tabLayout.getTabAt(0).setIcon(icons[0]);
                 tabLayout.getTabAt(1).setIcon(icons[1]);
                 tabLayout.getTabAt(2).setIcon(icons[2]);

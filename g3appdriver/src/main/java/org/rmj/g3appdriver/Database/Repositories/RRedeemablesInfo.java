@@ -42,6 +42,11 @@ public class RRedeemablesInfo implements DRedeemablesInfo {
     }
 
     @Override
+    public LiveData<Integer> getOrdersCount(String GCardNox) {
+        return redeemDao.getOrdersCount(GCardNox);
+    }
+
+    @Override
     public LiveData<List<ERedeemablesInfo>> getRedeemablesList() {
         return redeemDao.getRedeemablesList();
     }

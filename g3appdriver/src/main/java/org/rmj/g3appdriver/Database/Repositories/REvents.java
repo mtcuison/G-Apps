@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.Database.Repositories;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -46,7 +47,13 @@ public class REvents implements DEvents {
 
     @Override
     public void updateReadEvent(String date, String transNox) {
+        Log.e(TAG,"updated");
         eventsDao.updateReadEvent(date, transNox);
+    }
+
+    @Override
+    public LiveData<Integer> getEventCount() {
+        return eventsDao.getEventCount();
     }
 
     public boolean insertEvents(JSONArray laJson) throws Exception{

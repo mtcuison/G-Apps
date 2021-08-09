@@ -69,8 +69,6 @@ public class DataImportService extends JobService {
                     new Import_Transactions(getApplication())};
         }else{
                     importInstances = new ImportInstance[]{
-                    new Import_Redeemables(getApplication()),
-                    new Import_Events(getApplication()),
                     new Import_Promotions(getApplication()),
                     new Import_Branch(getApplication())};
         }

@@ -25,4 +25,11 @@ public interface DPromo {
 
     @Query("SELECT * FROM Promo_Link_Info")
     LiveData<List<EPromo>> getAllPromo();
+
+    @Query("UPDATE App_Event_Info SET cNotified = '1', dModified =:date WHERE sTransNox =:transNox ")
+    void updateReadPromo(String date, String transNox);
+
+    @Query("SELECT COUNT(*) FROM Promo_Link_Info WHERE cNotified = '0'")
+    LiveData<Integer> getPromoCount();
+
 }

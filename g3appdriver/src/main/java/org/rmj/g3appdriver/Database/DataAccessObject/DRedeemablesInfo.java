@@ -24,8 +24,11 @@ public interface DRedeemablesInfo {
     @Update
     void update(ERedeemablesInfo redeemablesInfo);
 
-    @Query("SELECT COUNT(*) FROM Redeemables")
+    @Query("SELECT COUNT(sTransNox) FROM Redeemables")
     LiveData<Integer> countRedeemables();
+
+    @Query("SELECT COUNT(sPromoIDx) FROM Redeem_Item WHERE sGcardNox =:GCardNox AND cTranStat != 0 GROUP BY sReferNox")
+    LiveData<Integer> getOrdersCount(String GCardNox);
 
     @Query("SELECT * FROM Redeemables")
     LiveData<List<ERedeemablesInfo>> getRedeemablesList();
