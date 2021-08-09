@@ -66,6 +66,9 @@ public interface DRedeemItemInfo {
     @Query("DELETE FROM redeem_item WHERE sPromoIDx = :fsPromoId")
     void removeItemFromCart(String fsPromoId);
 
+    @Query("UPDATE Redeem_Item SET sBranchCd = :fsBranch, cTranStat = '1', cPlcOrder = '1' WHERE sGCardNox = :fsGcardNo")
+    void placeOrder(String fsGcardNo ,String fsBranch);
+
     class ItemDetail {
         public int quantity;
         public double points;

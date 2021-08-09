@@ -67,6 +67,11 @@ public class RRedeemItemInfo implements DRedeemItemInfo{
         itemDao.removeItemFromCart(fsPromoId);
     }
 
+    @Override
+    public void placeOrder(String fsGcardNo, String fsBranch) {
+        itemDao.placeOrder(fsGcardNo ,fsBranch);
+    }
+
     private static class InsertAsyncTask extends AsyncTask<ERedeemItemInfo, Void, Void> {
 
         private final DRedeemItemInfo dao;
