@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.RoomWarnings;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.Database.Entities.ERedeemablesInfo;
 
 import java.util.List;
@@ -29,6 +30,10 @@ public interface DRedeemablesInfo {
 
     @Query("SELECT COUNT(sPromoIDx) FROM Redeem_Item WHERE sGcardNox =:GCardNox AND cTranStat != 0 GROUP BY sReferNox")
     LiveData<Integer> getOrdersCount(String GCardNox);
+
+
+    @Query("SELECT * FROM Redeem_Item WHERE sGcardNox =:GCardNox AND cTranStat != 0 GROUP BY sReferNox")
+    LiveData<List<ERedeemItemInfo>> getOrdersList(String GCardNox);
 
     @Query("SELECT * FROM Redeemables")
     LiveData<List<ERedeemablesInfo>> getRedeemablesList();

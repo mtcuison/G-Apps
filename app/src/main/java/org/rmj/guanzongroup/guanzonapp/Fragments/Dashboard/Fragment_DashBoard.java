@@ -101,17 +101,17 @@ public class Fragment_DashBoard extends Fragment implements VMQrCodeScanner.onSc
 
         mViewModel.getGCardInfo().observe(getViewLifecycleOwner(), gCardApp -> {
 
-            try {
+            try {  mViewModel.getOrdersList(gCardApp.getCardNmbr()).observe(getViewLifecycleOwner(), orderList ->{
+                if (orderList != null && orderList.size() > 0){
+                    lblOrderBadge.setVisibility(View.VISIBLE);
+                    lblOrderBadge.setText(String.valueOf(orderList.size()));
+                }else{
+                    lblOrderBadge.setVisibility(View.GONE);
+                }
+            });
                 lblActiveGcardNmbr.setText(gCardApp.getCardNmbr());
                 lblAvailablePoints.setText(gCardApp.getAvlPoint());
-//                mViewModel.getOrdersCount(gCardApp.getCardNmbr()).observe(getViewLifecycleOwner(), order_count ->{
-//                    if (order_count > 0){
-//                        lblOrderBadge.setVisibility(View.VISIBLE);
-//                        lblOrderBadge.setText(String.valueOf(order_count));
-//                    }else{
-//                        lblOrderBadge.setVisibility(View.GONE);
-//                    }
-//                });
+
             }catch (NullPointerException e){
                 Log.e(TAG, e.getMessage());
             }

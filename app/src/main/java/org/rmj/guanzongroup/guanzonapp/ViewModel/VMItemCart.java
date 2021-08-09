@@ -16,16 +16,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.Database.Entities.EGcardApp;
+import org.rmj.g3appdriver.Database.Entities.ERedeemablesInfo;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RRedeemItemInfo;
 import org.rmj.g3appdriver.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_Loading;
 import org.rmj.guanzongroup.guanzonapp.etc.OnAsyncTaskCallback;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -80,7 +83,7 @@ public class VMItemCart extends AndroidViewModel {
                     items.put(details);
                 }
 
-                params.put("secureno", psCardNox.getValue());
+                params.put("secureno", new CodeGenerator().generateSecureNo(psCardNox.getValue()));
                 params.put("branchcd", fsBranch);
                 params.put("detail", items);
                 return params;
@@ -141,6 +144,7 @@ public class VMItemCart extends AndroidViewModel {
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         poCartItm.placeOrder(psGcardNo, jsonObjects[0].getString("branchcd"));
+
                     }
                 } else {
                     response = AppConstants.NO_INTERNET();
@@ -175,6 +179,7 @@ public class VMItemCart extends AndroidViewModel {
                 callback.onFailedResult(e.getMessage());
             }
         }
+
     }
 
 }

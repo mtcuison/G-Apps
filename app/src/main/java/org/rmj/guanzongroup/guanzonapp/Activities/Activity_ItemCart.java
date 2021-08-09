@@ -31,6 +31,7 @@ import org.rmj.g3appdriver.Database.Repositories.RRedeemItemInfo;
 import org.rmj.g3appdriver.Http.HttpHeaders;
 import org.rmj.g3appdriver.Http.HttpRequestUtil;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.GAppMessageBox;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -60,6 +61,7 @@ public class Activity_ItemCart extends AppCompatActivity{
     private CustomToast poToast;
     private Dialog_Loading poLoading;
 
+    private GAppMessageBox loMessage;
     private String branchCde = "";
 
     @Override
@@ -92,6 +94,7 @@ public class Activity_ItemCart extends AppCompatActivity{
     }
 
     private void setupWidgets(){
+        loMessage = new GAppMessageBox(Activity_ItemCart.this);
         layout = findViewById(R.id.linear_emptyList);
         Toolbar toolbar = findViewById(R.id.toolbar_itemCart);
         toolbar.setTitle("Item Cart");
@@ -113,16 +116,24 @@ public class Activity_ItemCart extends AppCompatActivity{
                         mViewModel.placeOrder("0365", itemDetl, new OnAsyncTaskCallback() {
                             @Override
                             public void onSuccessResult(String message) {
-                                poToast.setType(CustomToast.CustomToastType.INFORMATION);
-                                poToast.setMessage(message);
-                                poToast.show();
+                                loMessage.initDialog();
+                                loMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                    dialog.dismiss();
+                                });
+                                loMessage.setTitle("GuanzonApp");
+                                loMessage.setMessage(message);
+                                loMessage.show();
                             }
 
                             @Override
                             public void onFailedResult(String message) {
-                                poToast.setType(CustomToast.CustomToastType.WARNING);
-                                poToast.setMessage(message);
-                                poToast.show();
+                                loMessage.initDialog();
+                                loMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                    dialog.dismiss();
+                                });
+                                loMessage.setTitle("GuanzonApp");
+                                loMessage.setMessage(message);
+                                loMessage.show();
                             }
                         });
                     }

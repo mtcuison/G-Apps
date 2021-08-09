@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.Database.DataAccessObject.DRedeemablesInfo;
+import org.rmj.g3appdriver.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.Database.Entities.ERedeemablesInfo;
 import org.rmj.g3appdriver.Database.GGC_GuanzonAppDB;
 
@@ -44,6 +45,11 @@ public class RRedeemablesInfo implements DRedeemablesInfo {
     @Override
     public LiveData<Integer> getOrdersCount(String GCardNox) {
         return redeemDao.getOrdersCount(GCardNox);
+    }
+
+    @Override
+    public LiveData<List<ERedeemItemInfo>> getOrdersList(String GCardNox) {
+        return redeemDao.getOrdersList(GCardNox);
     }
 
     @Override

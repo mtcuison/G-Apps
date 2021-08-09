@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface DGcardApp {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(EGcardApp gCardApp);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
