@@ -26,11 +26,14 @@ import org.rmj.guanzongroup.guanzonapp.Activities.Activity_SplashScreen;
 import org.rmj.guanzongroup.guanzonapp.Activities.MainActivity;
 import org.rmj.guanzongroup.guanzonapp.Adapters.Adapter_NewsEvents;
 import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
+import org.rmj.guanzongroup.guanzonapp.ViewModel.VMMainActivity;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMNewsFeed;
 
 import static android.app.Activity.RESULT_OK;
 import static org.rmj.g3appdriver.etc.AppConstants.ACCOUNT_REQUEST_CODE;
 import static org.rmj.g3appdriver.etc.AppConstants.LOGIN_ACTIVITY_REQUEST_CODE;
+import static org.rmj.guanzongroup.guanzonapp.Activities.MainActivity.tabBadge;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,11 +41,14 @@ import static org.rmj.g3appdriver.etc.AppConstants.LOGIN_ACTIVITY_REQUEST_CODE;
 public class Fragment_NewsFeed extends Fragment {
 
     private View view;
-    private VMNewsFeed mViewModel;
+    private VMDashboard mViewModel;
     private Adapter_NewsEvents adapter;
     private RecyclerView recyclerView;
     private  MaterialButton btnLogin,btnRegister;
 
+    private int total;
+    private int promo;
+    private int event;
     public static Fragment_NewsFeed newInstance() {
         return new Fragment_NewsFeed();
     }
@@ -56,23 +62,33 @@ public class Fragment_NewsFeed extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(VMNewsFeed.class);
+        mViewModel = ViewModelProviders.of(this).get(VMDashboard.class);
         getActivity().setTitle("Dashboard");
-        mViewModel.getAllEvents().observe(getViewLifecycleOwner(), eEvents -> {
-             adapter = new Adapter_NewsEvents(eEvents, new Adapter_NewsEvents.OnEventItemClickListener() {
-                @Override
-                public void OnClick(String TransNox, String Url) {
-                    Intent loIntent = new Intent(getActivity(), Activity_AppBrowser.class);
-                    loIntent.putExtra("url_link", Url);
-                    getActivity().startActivity(loIntent);
-//                    new SalePromotions(getActivity()).UpdateReadPromo(TransNox);
-                }
-            });
-            LinearLayoutManager lm = new LinearLayoutManager(getActivity());
-            lm.setOrientation(RecyclerView.VERTICAL);
-            recyclerView.setLayoutManager(lm);
-            recyclerView.setAdapter(adapter);
+        mViewModel.getPromoCount().observe(getViewLifecycleOwner(), promo_count->{
+            promo = promo_count;
         });
+        mViewModel.getEventsCount().observe(getViewLifecycleOwner(), event_count->{
+            event = event_count;
+            total = event + promo;
+            tabBadge.setNumber(total);
+            tabBadge.setVisible(total > 0);
+            Log.e("Total", "Total = " + total);
+        });
+//        mViewModel.getAllEvents().observe(getViewLifecycleOwner(), eEvents -> {
+//             adapter = new Adapter_NewsEvents(eEvents, new Adapter_NewsEvents.OnEventItemClickListener() {
+//                @Override
+//                public void OnClick(String TransNox, String Url) {
+//                    Intent loIntent = new Intent(getActivity(), Activity_AppBrowser.class);
+//                    loIntent.putExtra("url_link", Url);
+//                    getActivity().startActivity(loIntent);
+////                    new SalePromotions(getActivity()).UpdateReadPromo(TransNox);
+//                }
+//            });
+//            LinearLayoutManager lm = new LinearLayoutManager(getActivity());
+//            lm.setOrientation(RecyclerView.VERTICAL);
+//            recyclerView.setLayoutManager(lm);
+//            recyclerView.setAdapter(adapter);
+//        });
     }
     private void setupWidgets(View v) {
         btnLogin = view.findViewById(R.id.btn_fragment_intro_login);

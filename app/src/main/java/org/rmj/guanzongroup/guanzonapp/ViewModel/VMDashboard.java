@@ -25,6 +25,7 @@ import org.rmj.g3appdriver.Database.Repositories.RGCardTransactionLedger;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RMCSerialRegistration;
 import org.rmj.g3appdriver.Database.Repositories.RPromo;
+import org.rmj.g3appdriver.Database.Repositories.RRedeemItemInfo;
 import org.rmj.g3appdriver.Database.Repositories.RRedeemablesInfo;
 import org.rmj.g3appdriver.Http.HttpHeaders;
 import org.rmj.g3appdriver.dev.Telephony;
@@ -53,6 +54,7 @@ public class VMDashboard extends AndroidViewModel {
     private final RGCardTransactionLedger poLedger;
     private final RMCSerialRegistration poMC;
     private final RRedeemablesInfo poRedeemables;
+    private final RRedeemItemInfo poRedeemxx;
     private final REvents poEvents;
     private final RPromo poPromo;
     private final SessionManager poSession;
@@ -64,6 +66,7 @@ public class VMDashboard extends AndroidViewModel {
         this.poClient = new RClientInfo(application);
         this.poGCard = new RGcardApp(application);
         this.poRedeemables = new RRedeemablesInfo(application);
+        this.poRedeemxx = new RRedeemItemInfo(application);
         this.poEvents = new REvents(application);
         this.poPromo = new RPromo(application);
         this.nUnReadCount.setValue(0);
@@ -87,6 +90,11 @@ public class VMDashboard extends AndroidViewModel {
     public LiveData<List<ERedeemItemInfo>> getOrdersList(String GCardNo){
         return poRedeemables.getOrdersList(GCardNo);
     }
+
+    public LiveData<Integer> getOrderCount(String GCardNo) {
+        return poRedeemxx.getCartOrderCount(GCardNo);
+    }
+
     public LiveData<Integer> getEventsCount(){
         return poEvents.getEventCount();
     }
@@ -160,6 +168,7 @@ public class VMDashboard extends AndroidViewModel {
                         if (!poGcard.insertGCard(loJson)){
                             response = AppConstants.ERROR_SAVING_TO_LOCAL();
                         }
+                        poGcard.checkUserGcardForActive();
                     }
                 } else {
                     response = AppConstants.NO_INTERNET();
@@ -206,6 +215,7 @@ public class VMDashboard extends AndroidViewModel {
         poLedger.deleteGCardTrans();
         poMC.deleteMC();
         poSession.initUserLogout();
+        poSession.setLogin(false);
     }
 
 }

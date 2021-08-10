@@ -64,12 +64,10 @@ import static org.rmj.g3appdriver.etc.AppConstants.ACCOUNT_REQUEST_CODE;
 import static org.rmj.g3appdriver.etc.AppConstants.INTENT_QR_CODE;
 import static org.rmj.g3appdriver.etc.AppConstants.LOGIN_ACTIVITY_REQUEST_CODE;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, VMQrCodeScanner.onScannerResultListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, VMQrCodeScanner.onScannerResultListener, VMMainActivity.onScannerResultListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private VMMainActivity mViewModel;
-    private VMDashboard dViewModel;
-    private VMQrCodeScanner mViewModelScanner;
     private DrawerLayout drawer;
     private Dialog_ScanResult scanResult;
 
@@ -113,8 +111,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             scanResult = new Dialog_ScanResult(this);
 
             mViewModel = new ViewModelProvider(MainActivity.this).get(VMMainActivity.class);
-            dViewModel = new ViewModelProvider(MainActivity.this).get(VMDashboard.class);
-            mViewModelScanner = new ViewModelProvider(MainActivity.this).get(VMQrCodeScanner.class);
             mViewModel.isLoggedIn().observe(MainActivity.this, val ->{
                 tabTitles = appConstants.getHomeTitles(val);
                 ActivityFragmentAdapter adapter = new ActivityFragmentAdapter(getSupportFragmentManager());
@@ -210,6 +206,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 btnAccount.setOnClickListener(v->{onOptionsItemSelected(userItem);});
                 btnGCard.setOnClickListener(v->{onOptionsItemSelected(gcardItem);});
                 ImageView gcardBadge = gcardView.findViewById(R.id.img_gcard_badge_notice);
+                mViewModel.hasUnCheckGCard().observe(MainActivity.this, hasUncheck ->{
+                    try{
+                        if (hasUncheck != null && hasUncheck.size() > 0){
+                            gcardBadge.setVisibility(View.VISIBLE);
+                        }else {
+                            gcardBadge.setVisibility(View.GONE);
+                        }
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+
             }
         });
         return true;
@@ -273,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (requestCode == INTENT_QR_CODE && resultCode == RESULT_OK){
             CodeGenerator codeGenerator = new CodeGenerator();
             codeGenerator.setEncryptedQrCode(data.getStringExtra("result"));
-            mViewModelScanner.setupAction(codeGenerator, data.getStringExtra("result"), MainActivity.this);
+            mViewModel.setupAction(codeGenerator, data.getStringExtra("result"), MainActivity.this);
         }
     }
 
@@ -308,4 +318,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         shoResult(errorMessage, "FAILED", "", false);
     }
 
+//    @Override
+//    public void onPointerCaptureChanged(boolean hasCapture) {
+//
+//    }
 }

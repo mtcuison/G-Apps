@@ -110,7 +110,6 @@ public class Activity_Redeemables extends AppCompatActivity {
                                     eGcardApp, foRedeems, (String TransNo, String Redeemable, String Points, byte[] image_data) -> {
                                 // TODO: Adapter Onclick
                             });
-
                             recyclerView.setAdapter(adapter);
                             LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_Redeemables.this);
                             layoutManager.setOrientation(RecyclerView.VERTICAL);
