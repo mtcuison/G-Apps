@@ -15,11 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import org.rmj.g3appdriver.Database.Entities.EGcardApp;
-import org.rmj.g3appdriver.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.Database.Entities.ERedeemablesInfo;
-import org.rmj.guanzongroup.guanzonapp.Dialogs.BottomCartDialog;
+import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_BottomCart;
 import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonapp.etc.CustomToast;
 
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
     private EGcardApp poGcardxx;
     private List<ERedeemablesInfo> poRedeems;
     private OnItemClickListener mListener;
+    private CustomToast toast;
 
     public Adapter_Redeemables(Context context, EGcardApp foGcard, List<ERedeemablesInfo> foRedeems, OnItemClickListener mListener){
         this.mContext = context;
@@ -36,13 +39,12 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
         this.poRedeems = foRedeems;
         this.mListener = mListener;
     }
-
-
     @NonNull
     @Override
     public RedeemableItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View redeemableView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_redeemables, parent, false);
-        return new RedeemableItemView(redeemableView, mListener);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_redeemables, parent, false);
+        toast = new CustomToast(mContext);
+        return new RedeemableItemView(v, parent.getContext(), mListener);
     }
 
     @Override
@@ -53,18 +55,29 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
         holder.lblRedeemableName.setText(loRedeem.getPromoDsc());
         holder.lblRedeemablePoints.setText(String.valueOf(loRedeem.getPointsxx()));
         holder.imgRedeemableView.setImageBitmap(generateItemImage(loRedeem.getImageUrl().getBytes()));
+        holder.imgRedeemableView(loRedeem.getImageUrl());
 
         holder.btnAddToCart.setOnClickListener(v -> {
-            BottomCartDialog bottomSheet = new BottomCartDialog(
-                    poGcardxx.getGCardNox(),
-                    poGcardxx.getAvlPoint(),
-                    loRedeem.getTransNox(),
-                    loRedeem.getPromoDsc(),
-                    loRedeem.getPointsxx()
-            );
-
-            bottomSheet.show(((AppCompatActivity)mContext).getSupportFragmentManager(), "Add to Cart");
+            if(Double.parseDouble(poGcardxx.getAvlPoint()) >= loRedeem.getPointsxx()) {
+                try {
+                    Dialog_BottomCart bottomSheet = new Dialog_BottomCart(
+                            poGcardxx.getGCardNox(),
+                            poGcardxx.getAvlPoint(),
+                            loRedeem.getTransNox(),
+                            loRedeem.getPromoDsc(),
+                            loRedeem.getPointsxx()
+                    );
+                    bottomSheet.show(((AppCompatActivity) mContext).getSupportFragmentManager(), "Add to Cart");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                toast.setType(CustomToast.CustomToastType.WARNING);
+                toast.setMessage("Insufficient GCard Points.");
+                toast.show();
+            }
         });
+
     }
 
     @Override
@@ -83,9 +96,11 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
         ImageView imgRedeemableView;
         CardView itemContent;
 
-        RedeemableItemView(@NonNull View itemView, final OnItemClickListener mListener) {
+        private Context mContext;
+        RedeemableItemView(@NonNull View itemView, Context context, final OnItemClickListener listener) {
             super(itemView);
 
+            this.mContext = context;
             lblRedeemableName = itemView.findViewById(R.id.lbl_list_item_redeemable_name);
             lblRedeemablePoints = itemView.findViewById(R.id.lbl_list_item_redeemable_points);
             btnAddToCart = itemView.findViewById(R.id.btn_list_item_add_to_cart);
@@ -94,17 +109,21 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
             itemContent = itemView.findViewById(R.id.cardview_list_item_content);
 
             itemView.setOnClickListener(v -> {
-                if(mListener!=null){
+                if(listener!=null){
                     int position = getAdapterPosition();
                     if(position!=RecyclerView.NO_POSITION){
-                        mListener.onClick(redeemableItems.getPromoCde(),
+                        listener.onClick(redeemableItems.getPromoCde(),
                                 redeemableItems.getPromoDsc(),
                                 String.valueOf(redeemableItems.getPointsxx()),
                                 redeemableItems.getImageUrl().getBytes());
                     }
                 }
             });
+        }
 
+        public void imgRedeemableView(String imageUrl) {
+            Picasso.get().load(imageUrl).placeholder(R.drawable.no_img_available)
+                    .error(R.drawable.no_img_available).into(imgRedeemableView);
         }
     }
 
@@ -114,7 +133,7 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
             byte[] decoded = Base64.decode(ImageBlob, Base64.NO_WRAP);
             image = BitmapFactory.decodeByteArray(decoded, 0, decoded.length);
         } else {*/
-        image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_redeemables);
+            image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_redeemables);
         //}
         return image;
     }
@@ -122,12 +141,5 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
     public interface OnItemClickListener{
         void onClick(String TransNo, String Redeemable, String Points, byte[] image_data);
     }
-
-//    private int getBadgeVisibility(boolean isNotified){
-//        if(isNotified){
-//            return View.GONE;
-//        }
-//        return View.VISIBLE;
-//    }
 
 }

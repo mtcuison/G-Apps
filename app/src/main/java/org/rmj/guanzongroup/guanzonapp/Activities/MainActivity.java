@@ -16,6 +16,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -33,20 +34,25 @@ import org.rmj.g3appdriver.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GAppMessageBox;
 import org.rmj.g3appdriver.etc.GToast;
+import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.guanzongroup.guanzonapp.Adapters.ActivityFragmentAdapter;
 import org.rmj.guanzongroup.guanzonapp.Adapters.ExpandableListDrawerAdapter;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.DialogUserProfile;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_ContactUs;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_GcardSelection;
+import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_ScanResult;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_ShareApp;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_UserDetail;
 import org.rmj.guanzongroup.guanzonapp.Fragments.Branches.Fragment_Branches;
+import org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard.Fragment_DashBoard;
 import org.rmj.guanzongroup.guanzonapp.Fragments.Fragment_About;
 import org.rmj.guanzongroup.guanzonapp.MeuModel.MenuModel;
 import org.rmj.guanzongroup.guanzonapp.MeuModel.PopulateExpandableList;
 import org.rmj.guanzongroup.guanzonapp.MeuModel.PrepareData;
 import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMMainActivity;
+import org.rmj.guanzongroup.guanzonapp.ViewModel.VMQrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.etc.DashBoardIconBadge;
 import org.rmj.guanzongroup.guanzonapp.etc.appConstants;
 
@@ -55,14 +61,19 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.rmj.g3appdriver.etc.AppConstants.ACCOUNT_REQUEST_CODE;
+import static org.rmj.g3appdriver.etc.AppConstants.INTENT_QR_CODE;
 import static org.rmj.g3appdriver.etc.AppConstants.LOGIN_ACTIVITY_REQUEST_CODE;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, VMQrCodeScanner.onScannerResultListener{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private VMMainActivity mViewModel;
+    private VMDashboard dViewModel;
+    private VMQrCodeScanner mViewModelScanner;
     private DrawerLayout drawer;
+    private Dialog_ScanResult scanResult;
 
+    public static BadgeDrawable tabBadge;
 
     @SuppressLint("StaticFieldLeak")
     public static ExpandableListDrawerAdapter listAdapter;
@@ -99,8 +110,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dashBoardIconBadge = new DashBoardIconBadge(getApplication());
         adapter = new ActivityFragmentAdapter(getSupportFragmentManager());
         try {
+            scanResult = new Dialog_ScanResult(this);
 
             mViewModel = new ViewModelProvider(MainActivity.this).get(VMMainActivity.class);
+            dViewModel = new ViewModelProvider(MainActivity.this).get(VMDashboard.class);
+            mViewModelScanner = new ViewModelProvider(MainActivity.this).get(VMQrCodeScanner.class);
             mViewModel.isLoggedIn().observe(MainActivity.this, val ->{
                 tabTitles = appConstants.getHomeTitles(val);
                 ActivityFragmentAdapter adapter = new ActivityFragmentAdapter(getSupportFragmentManager());
@@ -110,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 adapter.addFragment(new Fragment_About());
                 viewPager.setAdapter(adapter);
                 tabLayout.setupWithViewPager(viewPager);
+                tabBadge = tabLayout.getTabAt(1).getOrCreateBadge();
                 tabLayout.getTabAt(0).setIcon(icons[0]);
                 tabLayout.getTabAt(1).setIcon(icons[1]);
                 tabLayout.getTabAt(2).setIcon(icons[2]);
@@ -255,6 +270,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (requestCode == LOGIN_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             mViewModel.setLogin(true);
             MainActivity.this.recreate();
+        } else if (requestCode == INTENT_QR_CODE && resultCode == RESULT_OK){
+            CodeGenerator codeGenerator = new CodeGenerator();
+            codeGenerator.setEncryptedQrCode(data.getStringExtra("result"));
+            mViewModelScanner.setupAction(codeGenerator, data.getStringExtra("result"), MainActivity.this);
         }
     }
 
@@ -266,8 +285,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             finishAffinity();
         });
         loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
-        loMessage.setTitle("GhostRider");
-        loMessage.setMessage("Exit Ghostrider app?");
+        loMessage.setTitle("GuanzonApp");
+        loMessage.setMessage("Exit Guanzon app?");
         loMessage.show();
     }
+
+    public void shoResult(String message, String result, String pin, boolean isSuccess){
+        scanResult.setResult(result);
+        scanResult.setResultPIN(pin);
+        scanResult.setResultMessage(message);
+        scanResult.setSuccess(isSuccess);
+        scanResult.showDialog();
+    }
+
+    @Override
+    public void onSuccessResult(String Pin) {
+        shoResult("Transaction Finish Successfully.", "SUCCESS", Pin, true);
+    }
+
+    @Override
+    public void onFailedResult(String errorMessage) {
+        shoResult(errorMessage, "FAILED", "", false);
+    }
+
 }

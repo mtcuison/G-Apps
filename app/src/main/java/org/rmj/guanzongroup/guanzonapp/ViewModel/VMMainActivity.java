@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.guanzonapp.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,12 +17,17 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.Database.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.Database.Entities.EEvents;
 import org.rmj.g3appdriver.Database.Entities.EGcardApp;
+import org.rmj.g3appdriver.Database.Entities.EPromo;
 import org.rmj.g3appdriver.Database.Repositories.RClientInfo;
 import org.rmj.g3appdriver.Database.Repositories.REmployee;
+import org.rmj.g3appdriver.Database.Repositories.REvents;
 import org.rmj.g3appdriver.Database.Repositories.RGCardTransactionLedger;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RMCSerialRegistration;
+import org.rmj.g3appdriver.Database.Repositories.RPromo;
+import org.rmj.g3appdriver.Database.Repositories.RRedeemablesInfo;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.SessionManager;
@@ -47,6 +53,10 @@ public class VMMainActivity extends AndroidViewModel {
     private final MutableLiveData<Integer> psMenu = new MutableLiveData<>();
     private final MutableLiveData<String[]> psTitles = new MutableLiveData<>();
     private Application instance;
+    private final REvents poEvents;
+    private final RPromo poPromo;
+    private final RRedeemablesInfo poRedeemables;
+    private final MutableLiveData<Integer> nUnReadCount = new MutableLiveData();
     public VMMainActivity(@NonNull Application application) {
         super(application);
         this.instance = application;
@@ -58,16 +68,46 @@ public class VMMainActivity extends AndroidViewModel {
         this.poMC = new RMCSerialRegistration(application);
         this.appConfig = new AppConfigPreference(application);
         this.pbIsLogIn.setValue(poSession.isLoggedIn());
+        this.poEvents = new REvents(application);
+        this.poPromo = new RPromo(application);
+        this.nUnReadCount.setValue(0);
+        this.poRedeemables = new RRedeemablesInfo(application);
+        this.pbIsLogIn.setValue(poSession.isLoggedIn());
     }
     public SessionManager getPoSession(){
         return poSession;
     }
+    public LiveData<Integer> getOrdersCount(String GCardNo){
+        return poRedeemables.getOrdersCount(GCardNo);
+    }
 
+    public LiveData<Integer> getUnreadNotificationCount(){
+//        Log.e("VMMain", "events count = " + poEvents.getEventCount().getValue().size() + "  promo count = " + poPromo.getPromoCount().getValue().size());
+        try {
+            if(poSession.isLoggedIn()) {
+                nUnReadCount.setValue(this.poEvents.getEventCount().getValue() + this.poPromo.getPromoCount().getValue());
+//            return poEvents.getEventCount() + poPromo.getPromoCount() + getMessageCount();
+                return nUnReadCount;
+            }else {
+                nUnReadCount.setValue(poPromo.getPromoCount().getValue());
+            }
+
+            return nUnReadCount;
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            nUnReadCount.setValue(0);
+
+            return nUnReadCount;
+        }catch (Exception e){
+            e.printStackTrace();
+            nUnReadCount.setValue(0);
+            return nUnReadCount;
+        }
+    }
     public LiveData<EClientInfo> getClientInfo(){
         return poClient.getClientInfo();
     }
     public LiveData<Boolean> isLoggedIn(){
-        pbIsLogIn.setValue(poSession.isLoggedIn());
         return pbIsLogIn;
     }
     public void setLogin(boolean val){

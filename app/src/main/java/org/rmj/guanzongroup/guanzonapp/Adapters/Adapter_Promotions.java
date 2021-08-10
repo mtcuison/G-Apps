@@ -17,7 +17,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.Database.Entities.EPromo;
+import com.squareup.picasso.Picasso;
+
+import org.rmj.guanzongroup.guanzonapp.Model.PromoEventsModel;
 import org.rmj.guanzongroup.guanzonapp.R;
 
 import java.io.File;
@@ -26,13 +28,12 @@ import java.util.List;
 public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.PromotionViewHolder> {
 
     private Context mContext;
-    private List<EPromo> promotionsList;
+    private List<PromoEventsModel> promotionsList;
 
     private onPromotionClickListener onPromotionClickListener;
     private onFacebookShareClickListener onFacebookShareClickListener;
     private onShareLinkClickListener onShareLinkClickListener;
-
-    public Adapter_Promotions(Context context, List<EPromo> promotionsList){
+    public Adapter_Promotions(Context context, List<PromoEventsModel> promotionsList){
         this.mContext = context;
         this.promotionsList = promotionsList;
     }
@@ -61,11 +62,16 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
     public void onBindViewHolder(@NonNull PromotionViewHolder holder, int position) {
         holder.promotions = promotionsList.get(position);
 
-        EPromo promotions = promotionsList.get(position);
+        PromoEventsModel promotions = promotionsList.get(position);
 
-        holder.lblCaption.setText(promotions.getCaptionx());
+        holder.lblCaption.setText(promotions.getTitle());
         holder.lblDuration.setText(getPromoDate(promotions));
-        holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getImageUrl()));
+//        holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getImgUrl()));
+        if (promotions.getImgUrl() == null || promotions.getImgUrl().isEmpty()){
+            holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getImgUrl()));
+        }else {
+            holder.imgRedeemableView(promotions.getImgUrl());
+        }
     }
 
     @Override
@@ -75,7 +81,7 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
 
     static class PromotionViewHolder extends RecyclerView.ViewHolder{
 
-        EPromo promotions;
+        PromoEventsModel promotions;
 
         TextView lblCaption;
         TextView lblDuration;
@@ -95,12 +101,11 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
             btnShare = itemView.findViewById(R.id.btn_list_promotions_share);
             btnSocial = itemView.findViewById(R.id.btn_list_promotions_social);
             promoContent = itemView.findViewById(R.id.linear_list_item_promos_content);
-
             btnSocial.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listener != null) {
-                        listener1.onClick(promotions.getPromoUrl(), promotions.getCaptionx());
+                        listener1.onClick(promotions.getUrl(), promotions.getTitle());
                     } else {
                         Log.e("Adapter OnButtonClik", "You might not initialize a method or listener for this button");
                     }
@@ -111,7 +116,7 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
                 @Override
                 public void onClick(View v) {
                     if(listener != null) {
-                        listener2.onClick(promotions.getPromoUrl());
+                        listener2.onClick(promotions.getUrl());
                     } else {
                         Log.e("Adapter OnButtonClik", "You might not initialize a method or listener for this button");
                     }
@@ -124,11 +129,15 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
                     if(listener != null){
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
-                            listener.onClick(position, promotions.getPromoUrl());
+                            listener.onClick(position, promotions.getUrl());
                         }
                     }
                 }
             });
+        }
+        public void imgRedeemableView(String imageUrl) {
+            Picasso.get().load(imageUrl).placeholder(R.drawable.no_img_available)
+                    .error(R.drawable.no_img_available).into(imgPromo);
         }
     }
 
@@ -144,7 +153,7 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
         void onClick(String PromoLink);
     }
 
-    private String getPromoDate(EPromo promos){
+    private String getPromoDate(PromoEventsModel promos){
         if(promos.getDateThru().equalsIgnoreCase("")){
             return "";
         }

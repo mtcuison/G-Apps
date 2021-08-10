@@ -49,12 +49,19 @@ public class SessionManager {
 
     private static final String KEY_POSITION_ID = "sPositionID";
 
+    private static SessionManager sessionManager;
     @SuppressLint("CommitPrefEdits")
     public SessionManager(Context context){
         //Shared pref mode
         int PRIVATE_MODE = 0;
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
+    }
+    public static SessionManager getInstance(Context context){
+        if(sessionManager == null){
+            sessionManager = new SessionManager(context);
+        }
+        return sessionManager;
     }
     public void setLogin(boolean isLoggedIn){
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
@@ -107,22 +114,22 @@ public class SessionManager {
     public void initUserLogout(){
         editor.putString(KEY_USER_ID, "");
         if(editor.commit()){
-            Log.e(TAG, "User ID for this session has been set.");
+            Log.e(TAG, "User ID for this session has been clear.");
         }
 
         editor.putString(KEY_CLIENT_ID, "");
         if(editor.commit()){
-            Log.e(TAG, "Client ID for this session has been set.");
+            Log.e(TAG, "Client ID for this session has been clear.");
         }
 
         editor.putString(KEY_LOG_NUMBER, "");
         if(editor.commit()){
-            Log.e(TAG, "Log number for this session has been set.");
+            Log.e(TAG, "Log number for this session has been clear.");
         }
 
         editor.putBoolean(KEY_IS_LOGGEDIN, false);
         if(editor.commit()){
-            Log.d(TAG, "User login session has been initialized.");
+            Log.d(TAG, "User login session has been clear.");
         }
     }
 

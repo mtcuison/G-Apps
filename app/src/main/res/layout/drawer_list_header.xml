@@ -33,11 +33,12 @@
             android:id="@+id/lblHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/textColor_Black" />
+            android:textSize="18dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/textColor_White" />
 
     </LinearLayout>
 

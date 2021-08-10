@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.Database.Entities.EEvents;
 import org.rmj.g3appdriver.Database.Repositories.RClientInfo;
 import org.rmj.g3appdriver.Database.Repositories.REvents;
 import org.rmj.g3appdriver.Http.HttpHeaders;
@@ -20,7 +21,9 @@ import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Import_Events implements ImportInstance {
@@ -57,8 +60,7 @@ public class Import_Events implements ImportInstance {
         private final REvents repository;
         private final RClientInfo poClient;
         private final SessionManager poSession;
-
-
+        private Application instance;
         public ImportAccountGCardTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
             this.headers = HttpHeaders.getInstance(instance);
@@ -67,6 +69,7 @@ public class Import_Events implements ImportInstance {
             this.repository = new REvents(instance);
             this.poSession = new SessionManager(instance);
             this.poClient = new RClientInfo(instance);
+            this.instance = instance;
 
         }
 
@@ -83,9 +86,10 @@ public class Import_Events implements ImportInstance {
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
 //                        saveDataToLocal(laJson);
-                        if(!repository.insertEvents(laJson)){
+                        if(insertEvents(laJson)){
                             response = AppConstants.ERROR_SAVING_TO_LOCAL();
                         }
+
                     } else {
                         JSONObject loError = loJson.getJSONObject("error");
                         String message = loError.getString("message");
@@ -123,26 +127,32 @@ public class Import_Events implements ImportInstance {
                 callback.OnFailedImportData(e.getMessage());
             }
         }
-//        void saveDataToLocal(JSONArray laJson) throws Exception{
-//            List<EEvents> brnList = new ArrayList<>();
-//            for(int x = 0; x < laJson.length(); x++){
-//                JSONObject loJson = laJson.getJSONObject(x);
-//                EEvents info = new EEvents();
-//                info.setTransNox(loJson.getString("sTransNox"));
-//                info.setBranchNm(loJson.getString("sBranchNm"));
-//                info.setEvntFrom(loJson.getString("dEvntFrom"));
-//                info.setEvntThru(loJson.getString("dEvntThru"));
-//                info.setEventTle(loJson.getString("sEventTle"));
-//                info.setAddressx(loJson.getString("sAddressx"));
-//                info.setEventURL(loJson.getString("sEventURL"));
-//                info.setImageURL(loJson.getString("sImageURL"));
-//                info.setNotified("0");
-//                info.setModified(AppConstants.DATE_MODIFIED);
-//                brnList.add(info);
-//            }
-//            repository.insertBulkData(brnList);
-//        }
+        boolean insertEvents(JSONArray laJson) throws Exception{
+        try{
+            List<EEvents> eEventsList = new ArrayList<>();
+            for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+                EEvents info = new EEvents();
+                info.setTransNox(loJson.getString("sTransNox"));
+                info.setBranchNm(loJson.getString("sBranchNm"));
+                info.setEvntFrom(loJson.getString("dEvntFrom"));
+                info.setEvntThru(loJson.getString("dEvntThru"));
+                info.setEventTle(loJson.getString("sEventTle"));
+                info.setAddressx(loJson.getString("sAddressx"));
+                info.setEventURL(loJson.getString("sEventURL"));
+                info.setImageURL(loJson.getString("sImageURL"));
+                info.setNotified("0");
+                info.setModified(AppConstants.DATE_MODIFIED);
+                eEventsList.add(info);
+            }
+            repository.insertBulkData(eEventsList);
+            return true;
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            return false;
+        }
 
+    }
 
     }
 }

@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.Database.Entities.EEvents;
 import org.rmj.g3appdriver.Database.Repositories.REvents;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.SessionManager;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class VMNewsFeed extends AndroidViewModel {
     public LiveData<List<EEvents>> getAllEvents(){
         return poEvent.getAllEvents();
     }
-    public void setLogin(boolean val){
-        sessionManager.setLogin(val);
+    public void updateReadEvent(String transNox){
+        poEvent.updateReadEvent(AppConstants.CURRENT_DATE, transNox);
     }
 }

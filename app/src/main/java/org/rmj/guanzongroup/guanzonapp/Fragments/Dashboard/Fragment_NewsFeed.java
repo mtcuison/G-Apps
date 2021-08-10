@@ -78,7 +78,6 @@ public class Fragment_NewsFeed extends Fragment {
         btnLogin = view.findViewById(R.id.btn_fragment_intro_login);
         btnRegister = view.findViewById(R.id.btn_fragment_intro_register);
         recyclerView = view.findViewById(R.id.recycler_view_newsFeed);
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

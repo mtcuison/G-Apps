@@ -19,20 +19,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.internal.ContextUtils;
 
 import org.rmj.g3appdriver.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
 import org.rmj.g3appdriver.dev.AppConfig;
 import org.rmj.g3appdriver.etc.GToast;
+import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.Activities.MainActivity;
 import org.rmj.guanzongroup.guanzonapp.Adapters.Adapter_Gcard;
 import org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard.Fragment_DashBoard;
 import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonapp.ViewModel.VMAddToCart;
+import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
+import org.rmj.guanzongroup.guanzonapp.etc.CustomToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +64,8 @@ public class Dialog_GcardSelection {
     private RGcardApp gcardApp;
     private Application app;
     private MaterialButton btnCloseDialog, btnScnNewGcard, btnAddNewGcard, btnRefreshList;
+    private VMDashboard mViewModel;
+    private LoadDialog poDialogx;
     public Dialog_GcardSelection(){
 
     }
@@ -81,10 +90,14 @@ public class Dialog_GcardSelection {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
         setupWidgets(view);
+
 //        setupGcardList();
     }
 
+    @SuppressLint("RestrictedApi")
     private void setupWidgets(View v){
+        poDialogx = new LoadDialog(mContext);
+        mViewModel = ViewModelProviders.of(((AppCompatActivity) mContext)).get(VMDashboard.class);
         lblGcard = v.findViewById(R.id.lbl_dialog_gcard_selection_label);
         txtGcardNumber = v.findViewById(R.id.txt_dialog_gcard_selection_gcardNumber);
         txtYear = v.findViewById(R.id.txt_dialog_gcard_selection_birthYear);
@@ -105,6 +118,42 @@ public class Dialog_GcardSelection {
         txtYear.addTextChangedListener(new InputTextWatcher(txtYear));
         txtMonth.addTextChangedListener(new InputTextWatcher(txtMonth));
         txtDay.addTextChangedListener(new InputTextWatcher(txtDay));
+        btnAddNewGcard.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                if(isGcardDataValid()) {
+                    String bday = txtYear.getText().toString() + "-" + txtMonth.getText().toString() + "-" + txtDay.getText().toString();
+                    mViewModel.addNewGCard(txtGcardNumber.getText().toString(), bday, new VMDashboard.onAddNewGCardListener() {
+                        @Override
+                        public void onAddResult() {
+                            poDialogx.initDialog("Guanzon App", "Adding new GCard. Please wait...", false);
+                            poDialogx.show();
+                        }
+
+                        @Override
+                        public void onSuccessResult() {
+                            poDialogx.dismiss();
+
+                            Toast.makeText(mContext, "gcard added successfully!", Toast.LENGTH_LONG).show();
+                            dismissDialog();
+
+                        }
+
+                        @Override
+                        public void onErrorResult(String ErrorMessage) {
+                            poDialogx.dismiss();
+                            Toast.makeText(mContext, ErrorMessage, Toast.LENGTH_LONG).show();
+                            dismissDialog();
+                        }
+                    });
+                } else {
+//                    customToast.setMessage("Please check your Gcard details before proceeding.");
+//                    customToast.setType(CustomToast.CustomToastType.WARNING);
+//                    customToast.show();
+                }
+            }
+        });
 
         btnScnNewGcard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +165,7 @@ public class Dialog_GcardSelection {
         btnCloseDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                dismissDialog();
             }
         });
     }
@@ -125,7 +174,11 @@ public class Dialog_GcardSelection {
         return instance;
     }
 
-
+    public void dismissDialog(){
+        if(dialog.isShowing()){
+            dialog.dismiss();
+        }
+    }
     private boolean isGcardDataValid(){
         if(txtGcardNumber.getText().toString().isEmpty()){
             return false;

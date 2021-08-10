@@ -126,27 +126,35 @@ public class Import_Orders extends CodeGenerator implements ImportInstance {
             }
         }
         void saveDataToLocal(JSONArray laJson) throws Exception{
-            List<ERedeemItemInfo> brnList = new ArrayList<>();
+            try{
+                List<ERedeemItemInfo> brnList = new ArrayList<>();
 
-            for(int x = 0; x < laJson.length(); x++){
-                JSONObject loJson = laJson.getJSONObject(x);
-                ERedeemItemInfo info = new ERedeemItemInfo();
-                info.setPromoIDx(loJson.getString("sPromoIDx"));
-                info.setTransNox(loJson.getString("sTransNox"));
-                info.setGCardNox(loJson.getString("sGCardNox"));
-                info.setOrderedx(loJson.getString("dOrderedx"));
-                info.setPickupxx(loJson.getString("dPickupxx"));
-                info.setBranchCd(loJson.getString("sBranchCD"));
-                info.setReferNox(loJson.getString("sReferNox"));
-                info.setTranStat(loJson.getString("cTranStat"));
-                info.setPlcOrder(loJson.getString("cPlcOrder"));
-                info.setPlcOrder(loJson.getString("cPlcOrder"));
-                info.setItemQtyx(Integer.parseInt(loJson.getString("nItemQtyx")));
+                for(int x = 0; x < laJson.length(); x++){
+                    JSONObject loJson = laJson.getJSONObject(x);
+                    ERedeemItemInfo info = new ERedeemItemInfo();
+                    info.setPromoIDx(loJson.getString("sPromoIDx"));
+                    info.setTransNox(loJson.getString("sTransNox"));
+                    info.setGCardNox(loJson.getString("sGCardNox"));
+                    info.setOrderedx(loJson.getString("dOrderedx"));
+                    info.setPickupxx(loJson.getString("dPickupxx"));
+                    info.setBranchCd(loJson.getString("sBranchCD"));
+                    info.setReferNox(loJson.getString("sReferNox"));
+                    info.setTranStat(loJson.getString("cTranStat"));
+                    info.setPlcOrder(loJson.getString("cPlcOrder"));
+                    info.setPlcOrder(loJson.getString("cPlcOrder"));
+                    info.setItemQtyx(Integer.parseInt(loJson.getString("nItemQtyx")));
 
-                info.setPointsxx(itemTotalPoints(loJson));
-                brnList.add(info);
+                    info.setPointsxx(itemTotalPoints(loJson));
+                    brnList.add(info);
+                }
+                repository.insertBulkData(brnList);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }catch (NumberFormatException e){
+                e.printStackTrace();
+            }catch (Exception e){
+                e.printStackTrace();
             }
-            repository.insertBulkData(brnList);
         }
         private double itemTotalPoints(JSONObject jsonObject){
             double points = 0;

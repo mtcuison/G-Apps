@@ -80,6 +80,11 @@ public class RGcardApp implements DGcardApp {
     }
 
     @Override
+    public void updateAvailablePoints(String fsGcardNo, String fsNewPts) {
+        gcardDao.updateAvailablePoints(fsGcardNo, fsNewPts);
+    }
+
+    @Override
     public String getCardNo() {
         return gcardDao.getCardNo();
     }
@@ -110,17 +115,22 @@ public class RGcardApp implements DGcardApp {
         return gcardDao.getGCardTotPoints(CardNmbr);
     }
 
+    @Override
+    public LiveData<String> getActiveGcardNo() {
+        return gcardDao.getActiveGcardNo();
+    }
+
+    @Override
+    public LiveData<String> getActiveGcardAvlPoints() {
+        return gcardDao.getActiveGcardAvlPoints();
+    }
 
     public void deleteGCard(){
         new DeleteUserTask(application, gcardDao).execute();
     }
 
-    public boolean insertGCard(JSONObject jsonResponse) throws Exception {
+    public boolean insertGCard(JSONObject loJson) throws Exception {
         try {
-            JSONArray jsonArray = jsonResponse.getJSONArray("detail");
-            List<EGcardApp> gcardList = new ArrayList<>();
-            for(int x = 0; x < jsonArray.length(); x++){
-                JSONObject loJson = jsonArray.getJSONObject(x);
                 EGcardApp info = new EGcardApp();
                 info.setGCardNox(loJson.getString("sGCardNox"));
                 info.setCardNmbr(loJson.getString("sCardNmbr"));
@@ -131,11 +141,9 @@ public class RGcardApp implements DGcardApp {
                 info.setAvlPoint(loJson.getString("nAvlPoint"));
                 info.setTotPoint(loJson.getString("nTotPoint"));
                 info.setTranStat(loJson.getString("cCardStat"));
-                info.setActvStat("0");
+                info.setActvStat("1");
                 info.setNotified("1");
-                gcardList.add(info);
-            }
-            gcardDao.insertBulkData(gcardList);
+                gcardDao.insert(info);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

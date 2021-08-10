@@ -2,6 +2,7 @@ package org.rmj.g3appdriver.utils;
 
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -304,7 +305,9 @@ public class CodeGenerator {
         try {
             double points = Double.parseDouble(getPointsxx());
             return points < 0;
-        } catch (Exception e){
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
         }
         return false;

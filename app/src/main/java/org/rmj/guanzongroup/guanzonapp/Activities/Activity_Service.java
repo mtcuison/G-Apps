@@ -82,11 +82,17 @@ public class Activity_Service extends AppCompatActivity {
 
     private void setupServiceInfo(){
         mViewModel.getActiveServiceInfo().observe(Activity_Service.this, foService -> {
-            imgBrand.setImageResource(getMcBrandLogo(foService.getBrandNme()));
-            lblMcModel.setText(foService.getModelNme());
-            lblMajorSrvc.setText(String.valueOf(foService.getYellowxx()));
-            lblMinorSrvc.setText(String.valueOf(foService.getWhitexxx()));
-            lblDateNxtSrvc.setText(Date_Readable_Format(foService.getNxtRmnds()));
+            try{
+                imgBrand.setImageResource(getMcBrandLogo(foService.getBrandNme()));
+                lblMcModel.setText(foService.getModelNme());
+                lblMajorSrvc.setText(String.valueOf(foService.getYellowxx()));
+                lblMinorSrvc.setText(String.valueOf(foService.getWhitexxx()));
+                lblDateNxtSrvc.setText(Date_Readable_Format(foService.getNxtRmnds()));
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         });
     }
 

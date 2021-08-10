@@ -3,6 +3,8 @@ package org.rmj.g3appdriver.Database.Repositories;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.lifecycle.LiveData;
+
 import org.rmj.g3appdriver.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.Database.GGC_GuanzonAppDB;
@@ -10,7 +12,7 @@ import org.rmj.g3appdriver.Database.GGC_GuanzonAppDB;
 import java.util.List;
 
 public class RRedeemItemInfo implements DRedeemItemInfo{
-    private static final String TAG = "RAppEventInfo";
+    private static final String TAG = RRedeemItemInfo.class.getSimpleName();
     private final Application application;
 
     private final DRedeemItemInfo itemDao;
@@ -33,6 +35,41 @@ public class RRedeemItemInfo implements DRedeemItemInfo{
     @Override
     public void update(ERedeemItemInfo redeemItemInfo) {
         itemDao.update(redeemItemInfo);
+    }
+
+    @Override
+    public LiveData<Integer> getCartItemCount(String GCardNox) {
+        return itemDao.getCartItemCount(GCardNox);
+    }
+
+    @Override
+    public void updateItemDetails(String fsGcardNo, String fsPromoId, int fnNewCnt, double fnNewPts) {
+        itemDao.updateItemDetails(fsGcardNo, fsPromoId, fnNewCnt, fnNewPts);
+    }
+
+    @Override
+    public LiveData<List<ItemDetail>> getExistingItemDetail(String fsPromoId) {
+        return itemDao.getExistingItemDetail(fsPromoId);
+    }
+
+    @Override
+    public LiveData<List<CartItemsDetail>> getCartItemsDetail(String fsGcardNo) {
+        return itemDao.getCartItemsDetail(fsGcardNo);
+    }
+
+    @Override
+    public LiveData<Double> getTotalCartPoints(String fsGcardNo) {
+        return itemDao.getTotalCartPoints(fsGcardNo);
+    }
+
+    @Override
+    public void removeItemFromCart(String fsPromoId) {
+        itemDao.removeItemFromCart(fsPromoId);
+    }
+
+    @Override
+    public void placeOrder(String fsGcardNo, String fsBranch) {
+        itemDao.placeOrder(fsGcardNo ,fsBranch);
     }
 
     private static class InsertAsyncTask extends AsyncTask<ERedeemItemInfo, Void, Void> {
