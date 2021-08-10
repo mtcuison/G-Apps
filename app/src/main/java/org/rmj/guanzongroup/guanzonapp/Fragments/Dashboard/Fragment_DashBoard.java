@@ -100,15 +100,16 @@ public class Fragment_DashBoard extends Fragment implements VMQrCodeScanner.onSc
         });
 
         mViewModel.getGCardInfo().observe(getViewLifecycleOwner(), gCardApp -> {
+            try {
+                mViewModel.getOrderCount(gCardApp.getCardNmbr()).observe(getViewLifecycleOwner(), order_count ->{
+                    if (order_count > 0){
+                        lblOrderBadge.setVisibility(View.VISIBLE);
+                        lblOrderBadge.setText(String.valueOf(order_count));
+                    }else{
+                        lblOrderBadge.setVisibility(View.GONE);
+                    }
+                 });
 
-            try {  mViewModel.getOrdersList(gCardApp.getCardNmbr()).observe(getViewLifecycleOwner(), orderList ->{
-                if (orderList != null && orderList.size() > 0){
-                    lblOrderBadge.setVisibility(View.VISIBLE);
-                    lblOrderBadge.setText(String.valueOf(orderList.size()));
-                }else{
-                    lblOrderBadge.setVisibility(View.GONE);
-                }
-            });
                 lblActiveGcardNmbr.setText(gCardApp.getCardNmbr());
                 lblAvailablePoints.setText(gCardApp.getAvlPoint());
 
@@ -116,16 +117,14 @@ public class Fragment_DashBoard extends Fragment implements VMQrCodeScanner.onSc
                 Log.e(TAG, e.getMessage());
             }
         });
-//        mViewModel.getUnreadNotificationCount().observe(MainActivity.this, unread_count->{
-//            tabBadge.setNumber(unread_count);
-//            tabBadge.setVisible(unread_count > 0);
-//        });
         mViewModel.getPromoCount().observe(getViewLifecycleOwner(), promo_count->{
             promo = promo_count;
         });
         mViewModel.getEventsCount().observe(getViewLifecycleOwner(), event_count->{
             event = event_count;
             total = event + promo;
+            tabBadge.setNumber(total);
+            tabBadge.setVisible(total > 0);
             Log.e("Total", "Total = " + total);
         });
 
@@ -189,7 +188,7 @@ public class Fragment_DashBoard extends Fragment implements VMQrCodeScanner.onSc
             poMessage.setPositiveButton("Okay", (view, dialog) -> {
                 mViewModel.userLogout();
                 dialog.dismiss();
-                getActivity().recreate();
+//                getActivity().recreate();
             });
             poMessage.show();
         });

@@ -134,9 +134,7 @@ public class Dialog_GcardSelection {
                         @Override
                         public void onSuccessResult() {
                             poDialogx.dismiss();
-
                             Toast.makeText(mContext, "gcard added successfully!", Toast.LENGTH_LONG).show();
-                            dismissDialog();
 
                         }
 
@@ -144,7 +142,6 @@ public class Dialog_GcardSelection {
                         public void onErrorResult(String ErrorMessage) {
                             poDialogx.dismiss();
                             Toast.makeText(mContext, ErrorMessage, Toast.LENGTH_LONG).show();
-                            dismissDialog();
                         }
                     });
                 } else {

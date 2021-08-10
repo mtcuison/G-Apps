@@ -21,6 +21,7 @@ public class AppConfigPreference {
     private static final String temp_sessionExp = "SessionExp";
     private static final String temp_mobileno = "MobileNo";
     private static final String temp_PIN = "ConfirmationPIN";
+    private static final String temp_News_Event = "NewsEvent";
     private static final String APP_FIREBASE_TOKEN = "Firebase_Token";
 
     private static AppConfigPreference mAppConfigPreference;
@@ -137,6 +138,16 @@ public class AppConfigPreference {
 
     public String getPIN(){
         return pref.getString(temp_PIN, "");
+    }
+
+
+    public void setTemp_News_Event(String PIN){
+        editor.putString(temp_News_Event, PIN);
+        editor.commit();
+    }
+
+    public String getTemp_News_Event(){
+        return pref.getString(temp_News_Event, "");
     }
 
 }

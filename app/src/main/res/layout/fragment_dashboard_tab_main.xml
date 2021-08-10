@@ -329,6 +329,7 @@
                         android:textColor="@color/gap_textColorPrimary"
                         android:text="10"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:background="@drawable/badge_background"/>
 
                 </RelativeLayout>

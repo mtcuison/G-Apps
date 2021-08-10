@@ -26,6 +26,9 @@ public interface DRedeemItemInfo {
     @Query("SELECT COUNT(*) FROM Redeem_Item WHERE sGCardNox =:GCardNox AND cTranStat = '0' AND cPlcOrder = '0'")
     LiveData<Integer> getCartItemCount(String GCardNox);
 
+    @Query("SELECT COUNT(*) FROM Redeem_Item WHERE sGCardNox =:GCardNox AND cTranStat = '1' AND cPlcOrder = '1'")
+    LiveData<Integer> getCartOrderCount(String GCardNox);
+
     @Query("UPDATE Redeem_Item SET nItemQtyx = :fnNewCnt, nPointsxx = :fnNewPts WHERE sPromoIDx = :fsPromoId AND sGCardNox = :fsGcardNo")
     void updateItemDetails(String fsGcardNo, String fsPromoId, int fnNewCnt, double fnNewPts);
 

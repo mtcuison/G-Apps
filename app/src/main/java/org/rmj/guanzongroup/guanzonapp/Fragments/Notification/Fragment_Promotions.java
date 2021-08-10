@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.etc.FacebookShare;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_AppBrowser;
 import org.rmj.guanzongroup.guanzonapp.Adapters.Adapter_Promotions;
 import org.rmj.guanzongroup.guanzonapp.Model.PromoEventsModel;
@@ -131,7 +132,7 @@ public class Fragment_Promotions extends Fragment {
             adapter.setOnFacebookShareClickListener(new Adapter_Promotions.onFacebookShareClickListener() {
                 @Override
                 public void onClick(String PromoLink, String Caption) {
-//                        new FacebookShare(Fragment_Promotions.this).shareLink(PromoLink, Caption);
+                        new FacebookShare(Fragment_Promotions.this).shareLink(PromoLink, Caption);
                 }
             });
 

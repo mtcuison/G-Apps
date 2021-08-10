@@ -43,6 +43,11 @@ public class RRedeemItemInfo implements DRedeemItemInfo{
     }
 
     @Override
+    public LiveData<Integer> getCartOrderCount(String GCardNox) {
+        return itemDao.getCartOrderCount(GCardNox);
+    }
+
+    @Override
     public void updateItemDetails(String fsGcardNo, String fsPromoId, int fnNewCnt, double fnNewPts) {
         itemDao.updateItemDetails(fsGcardNo, fsPromoId, fnNewCnt, fnNewPts);
     }

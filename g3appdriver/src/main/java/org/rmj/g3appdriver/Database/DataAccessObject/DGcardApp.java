@@ -35,8 +35,11 @@ public interface DGcardApp {
     @Query("SELECT * FROM GCard_App_Master ")
     List<EGcardApp> hasGcard();
 
-    @Query("SELECT * FROM GCard_App_Master WHERE cActvStat = 1 ")
+    @Query("SELECT * FROM GCard_App_Master WHERE cActvStat = '1' ")
     LiveData<EGcardApp> hasNoGcard();
+
+    @Query("SELECT * FROM GCard_App_Master WHERE cActvStat = '0' ")
+    LiveData<List<EGcardApp>> hasUnCheckGCard();
 
     @Query("SELECT * FROM Gcard_App_Master WHERE cActvStat = '1'")
     List<EGcardApp> hasActiveGcard();

@@ -21,8 +21,10 @@ import androidx.annotation.RequiresApi;
 import org.rmj.g3appdriver.ImportData.ImportDataCallback;
 import org.rmj.g3appdriver.ImportData.ImportInstance;
 import org.rmj.g3appdriver.ImportData.Import_AccountGCard;
+import org.rmj.g3appdriver.ImportData.Import_Events;
 import org.rmj.g3appdriver.ImportData.Import_McDetail;
 import org.rmj.g3appdriver.ImportData.Import_Orders;
+import org.rmj.g3appdriver.ImportData.Import_Promotions;
 import org.rmj.g3appdriver.ImportData.Import_Redeemables;
 import org.rmj.g3appdriver.ImportData.Import_Service;
 import org.rmj.g3appdriver.ImportData.Import_Transactions;
@@ -55,6 +57,8 @@ public class LoginImportService extends JobService {
     private void doBackgroundTask(JobParameters params) {
         ImportInstance[]  importInstances = {
                 new Import_AccountGCard(getApplication()),
+                new Import_Events(getApplication()),
+                new Import_Promotions(getApplication()),
                 new Import_Redeemables(getApplication()),
                 new Import_Orders(getApplication()),
                 new Import_Service(getApplication()),

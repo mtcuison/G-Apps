@@ -75,6 +75,11 @@ public class RGcardApp implements DGcardApp {
     }
 
     @Override
+    public LiveData<List<EGcardApp>> hasUnCheckGCard() {
+        return gcardDao.hasUnCheckGCard();
+    }
+
+    @Override
     public double getOrderPoints(String CardNmbr) {
         return gcardDao.getOrderPoints(CardNmbr);
     }
@@ -129,6 +134,11 @@ public class RGcardApp implements DGcardApp {
         new DeleteUserTask(application, gcardDao).execute();
     }
 
+    public void checkUserGcardForActive(){
+        if(gcardDao.hasNoGcard().getValue() == null){
+            gcardDao.updateGCardApp();
+        }
+    }
     public boolean insertGCard(JSONObject loJson) throws Exception {
         try {
                 EGcardApp info = new EGcardApp();
