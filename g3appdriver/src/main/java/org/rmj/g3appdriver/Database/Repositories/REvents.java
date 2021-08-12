@@ -1,5 +1,6 @@
 package org.rmj.g3appdriver.Database.Repositories;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.util.Log;
 
@@ -7,13 +8,19 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.appdriver.base.GConnection;
 import org.rmj.g3appdriver.Database.DataAccessObject.DEvents;
+import org.rmj.g3appdriver.Database.DbConnection;
 import org.rmj.g3appdriver.Database.Entities.EEvents;
 import org.rmj.g3appdriver.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.ImageDownloader;
+import org.rmj.g3appdriver.utils.SQLUtil;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class REvents implements DEvents {
     private static final String TAG = "RAppEventInfo";
@@ -43,6 +50,16 @@ public class REvents implements DEvents {
     @Override
     public LiveData<List<EEvents>> getAllEvents() {
         return eventsDao.getAllEvents();
+    }
+
+    @Override
+    public List<EEvents> getAllEventsForDownloadImg() {
+        return eventsDao.getAllEventsForDownloadImg();
+    }
+
+    @Override
+    public boolean getEventExist(String TransNox) {
+        return eventsDao.getEventExist(TransNox);
     }
 
     @Override

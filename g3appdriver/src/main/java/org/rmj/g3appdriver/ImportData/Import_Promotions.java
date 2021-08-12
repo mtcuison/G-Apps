@@ -15,6 +15,7 @@ import org.rmj.g3appdriver.Database.Repositories.RPromo;
 import org.rmj.g3appdriver.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.ImageDownloader;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Import_Promotions implements ImportInstance {
-    private static final String TAG = Import_Branch.class.getSimpleName();
+    private static final String TAG = Import_Promotions.class.getSimpleName();
     private final Application instance;
     private final AppConfigPreference poConfig;
 /*
@@ -78,7 +79,10 @@ public class Import_Promotions implements ImportInstance {
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
-                        saveDataToLocal(laJson);
+//                        saveDataToLocal(laJson);
+                        if (!saveDataToLocal(laJson)){
+                            response = AppConstants.ERROR_SAVING_TO_LOCAL();
+                        }
 //
                     } else {
                         JSONObject loError = loJson.getJSONObject("error");
@@ -117,24 +121,32 @@ public class Import_Promotions implements ImportInstance {
                 callback.OnFailedImportData(e.getMessage());
             }
         }
-        void saveDataToLocal(JSONArray laJson) throws Exception{
-
+        boolean saveDataToLocal(JSONArray laJson) throws Exception{
+            try{
             List<EPromo> promos = new ArrayList<>();
             if (laJson.length()>0){
                 for(int x = 0; x < laJson.length(); x++){
                     JSONObject loJson = laJson.getJSONObject(x);
-                    EPromo info = new EPromo();
-                    info.setTransNox(loJson.getString("sTransNox"));
-                    info.setTransact(loJson.getString("dTransact"));
-                    info.setImageUrl(loJson.getString("sImageURL"));
-                    info.setPromoUrl(loJson.getString("sPromoURL"));
-                    info.setCaptionx(loJson.getString("sCaptionx"));
-                    info.setDateFrom(loJson.getString("dDateFrom"));
-                    info.setDateThru(loJson.getString("dDateThru"));
-                    promos.add(info);
+                    if (!repository.getPromoExist(loJson.getString("sTransNox"))) {
+                        EPromo info = new EPromo();
+                        info.setTransNox(loJson.getString("sTransNox"));
+                        info.setTransact(loJson.getString("dTransact"));
+                        info.setImageUrl(loJson.getString("sImageURL"));
+                        info.setPromoUrl(loJson.getString("sPromoURL"));
+                        info.setCaptionx(loJson.getString("sCaptionx"));
+                        info.setDateFrom(loJson.getString("dDateFrom"));
+                        info.setDateThru(loJson.getString("dDateThru"));
+                        promos.add(info);
+                    }
                 }
 
                 repository.insertBulkData(promos);
+                new ImageDownloader(instance, "Events").downloadEventImage(repository.getAllPromoForDownloadImg());
+            }
+                return true;
+            }catch (NullPointerException e){
+                e.printStackTrace();
+                return false;
             }
 
         }

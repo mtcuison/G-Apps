@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,9 +32,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import org.rmj.g3appdriver.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GAppMessageBox;
 import org.rmj.g3appdriver.etc.GToast;
+import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.guanzongroup.guanzonapp.Adapters.ActivityFragmentAdapter;
 import org.rmj.guanzongroup.guanzonapp.Adapters.ExpandableListDrawerAdapter;
@@ -53,6 +56,7 @@ import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMMainActivity;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMQrCodeScanner;
+import org.rmj.guanzongroup.guanzonapp.etc.CustomToast;
 import org.rmj.guanzongroup.guanzonapp.etc.DashBoardIconBadge;
 import org.rmj.guanzongroup.guanzonapp.etc.appConstants;
 
@@ -64,7 +68,7 @@ import static org.rmj.g3appdriver.etc.AppConstants.ACCOUNT_REQUEST_CODE;
 import static org.rmj.g3appdriver.etc.AppConstants.INTENT_QR_CODE;
 import static org.rmj.g3appdriver.etc.AppConstants.LOGIN_ACTIVITY_REQUEST_CODE;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, VMQrCodeScanner.onScannerResultListener, VMMainActivity.onScannerResultListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, VMMainActivity.onScannerResultListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private VMMainActivity mViewModel;
@@ -73,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static BadgeDrawable tabBadge;
 
+    private CustomToast customToast;
     @SuppressLint("StaticFieldLeak")
     public static ExpandableListDrawerAdapter listAdapter;
     @SuppressLint("StaticFieldLeak")
@@ -87,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TabLayout tabLayout;
     private ActivityFragmentAdapter adapter;
     private GAppMessageBox loMessage;
+    private LoadDialog poDialogx;
+    private Dialog_GcardSelection gcardSelection;
     private final int[] icons ={R.drawable.ic_tab_dashboard_toggled,
             R.drawable.ic_tab_promo_toggled,
             R.drawable.ic_tab_location_toggled,
@@ -152,7 +159,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
     public void initWidgets(){
-
+        this.customToast = new CustomToast(MainActivity.this);
+        poDialogx = new LoadDialog(MainActivity.this);
         loMessage = new GAppMessageBox(MainActivity.this);
         toolbar = findViewById(R.id.toolbar_dashboardMain);
         setSupportActionBar(toolbar);
@@ -227,31 +235,128 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.menu_action_user_details) {
-            mViewModel.getClientInfo().observe(MainActivity.this, eClientInfo -> {
-                new Dialog_UserDetail(MainActivity.this,eClientInfo).showDialog();
-            });
-           return true;
-        } else if (id == R.id.menu_action_gcard_options) {
-            mViewModel.getAllGCard().observe(MainActivity.this, gcardApp -> {
-                new Dialog_GcardSelection(MainActivity.this,gcardApp).showDialog();
-            });
-            return true;
-        }else if(id == R.id.menu_pp_action_contact_us || id == R.id.menu_action_contact_us){
-            new Dialog_ContactUs(MainActivity.this).show();
-            return true;
-        }else if(id == R.id.menu_action_item_cart ){
-            startActivity(new Intent(MainActivity.this, Activity_ItemCart.class));
-            return true;
-        }else if(id == R.id.menu_pp_action_share){
-            new Dialog_ShareApp(MainActivity.this).show();
-            return true;
-        }else if(id == R.id.menu_pp_action_account){
-            startActivity(new Intent(MainActivity.this, Activity_Account.class));
-            finish();
-            return true;
+        switch (id){
+            case R.id.menu_action_user_details:
+                mViewModel.getClientInfo().observe(MainActivity.this, eClientInfo -> {
+                    new Dialog_UserDetail(MainActivity.this,eClientInfo).showDialog();
+                });
+                break;
+            case R.id.menu_action_gcard_options:
+                try{
+
+                    mViewModel.getAllGCard(new VMMainActivity.OnDataFetchListener() {
+                        @Override
+                        public void OnCheckLocalData(List<EGcardApp> gcardApps) {
+                            gcardSelection = new Dialog_GcardSelection(MainActivity.this);
+                            gcardSelection.initDialog(gcardApps, new Dialog_GcardSelection.OnClientSelectListener() {
+                                @Override
+                                public void OnAddNewGCard(AlertDialog dialog, String cardNo, String bdate) {
+                                    mViewModel.addNewGCard(cardNo, bdate, new VMMainActivity.onAddNewGCardListener() {
+                                        @Override
+                                        public void onAddResult() {
+                                            poDialogx.initDialog("Guanzon App", "Adding new GCard. Please wait...", false);
+                                            poDialogx.show();
+                                        }
+
+                                        @Override
+                                        public void onSuccessResult() {
+                                            poDialogx.dismiss();
+                                            customToast.setMessage("GCard successfully added.");
+                                            customToast.setType(CustomToast.CustomToastType.WARNING);
+                                            customToast.show();
+                                            dialog.dismiss();
+                                        }
+
+                                        @Override
+                                        public void onErrorResult(String ErrorMessage) {
+                                            Log.e(TAG, ErrorMessage);
+                                            customToast.setMessage(ErrorMessage);
+                                            customToast.setType(CustomToast.CustomToastType.WARNING);
+                                            customToast.show();
+                                        }
+                                    });
+                                }
+                            });
+                            gcardSelection.show();
+                        }
+                    });
+//                    mViewModel.getAllGCard().observe(MainActivity.this, gcardApp -> {
+//                        gcardSelection.initDialog(gcardApp, new Dialog_GcardSelection.OnClientSelectListener() {
+//                            @Override
+//                            public void OnAddNewGCard(AlertDialog dialog, String cardNo, String bdate) {
+//                                mViewModel.addNewGCard(cardNo, bdate, new VMMainActivity.onAddNewGCardListener() {
+//                                    @Override
+//                                    public void onAddResult() {
+//                                        poDialogx.initDialog("Guanzon App", "Adding new GCard. Please wait...", false);
+//                                        poDialogx.show();
+//                                    }
+//
+//                                    @Override
+//                                    public void onSuccessResult() {
+//                                        poDialogx.dismiss();
+//                                        customToast.setMessage("GCard successfully added.");
+//                                        customToast.setType(CustomToast.CustomToastType.WARNING);
+//                                        customToast.show();
+//                                        if (dialog.isShowing()){
+//                                            dialog.dismiss();
+//                                        }
+//                                    }
+//
+//                                    @Override
+//                                    public void onErrorResult(String ErrorMessage) {
+//                                        Log.e(TAG, ErrorMessage);
+//                                        customToast.setMessage(ErrorMessage);
+//                                        customToast.setType(CustomToast.CustomToastType.WARNING);
+//                                        customToast.show();
+//                                    }
+//                                });
+//                            }
+//                        });
+//                    });
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                break;
+            case R.id.menu_pp_action_contact_us:
+            case R.id.menu_action_contact_us:
+                new Dialog_ContactUs(MainActivity.this).show();
+            case R.id.menu_pp_action_share:
+                new Dialog_ShareApp(MainActivity.this).show();
+                break;
+            case R.id.menu_pp_action_account:
+                startActivity(new Intent(MainActivity.this, Activity_Account.class));
+                finish();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
+        return true;
+//        if (id == R.id.menu_action_user_details) {
+//            mViewModel.getClientInfo().observe(MainActivity.this, eClientInfo -> {
+//                new Dialog_UserDetail(MainActivity.this,eClientInfo).showDialog();
+//            });
+//        } else if (id == R.id.menu_action_gcard_options) {
+//            mViewModel.getAllGCard().observe(MainActivity.this, gcardApp -> {
+//                new Dialog_GcardSelection(MainActivity.this,gcardApp).showDialog();
+//            });
+//
+//        }else if(id == R.id.menu_pp_action_contact_us || id == R.id.menu_action_contact_us){
+//            new Dialog_ContactUs(MainActivity.this).show();
+//
+//        }else if(id == R.id.menu_action_item_cart ){
+//            startActivity(new Intent(MainActivity.this, Activity_ItemCart.class));
+//
+//        }else if(id == R.id.menu_pp_action_share){
+//            new Dialog_ShareApp(MainActivity.this).show();
+//        }else if(id == R.id.menu_pp_action_account){
+//            startActivity(new Intent(MainActivity.this, Activity_Account.class));
+//            finish();
+//        }
+//        return super.onOptionsItemSelected(item);
     }
     public int GetPixelFromDips(float pixels) {
         // Get the screen's density scale
@@ -317,6 +422,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onFailedResult(String errorMessage) {
         shoResult(errorMessage, "FAILED", "", false);
     }
+
+
 
 //    @Override
 //    public void onPointerCaptureChanged(boolean hasCapture) {

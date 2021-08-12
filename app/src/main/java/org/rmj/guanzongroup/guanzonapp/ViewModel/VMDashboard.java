@@ -214,7 +214,6 @@ public class VMDashboard extends AndroidViewModel {
         poClient.LogoutUserSession();
         poLedger.deleteGCardTrans();
         poMC.deleteMC();
-        poSession.initUserLogout();
         poSession.setLogin(false);
     }
 

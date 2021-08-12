@@ -13,6 +13,7 @@ public class PromoEventsModel {
     public String modified;
     public String imgByte;
     public String division;
+    public String directoryFolder;
     public PromoEventsModel() {
     }
 
@@ -110,5 +111,12 @@ public class PromoEventsModel {
 
     public void setDivision(String division) {
         this.division = division;
+    }
+    public String getDirectoryFolder() {
+        return directoryFolder;
+    }
+
+    public void setDirectoryFolder(String directoryFolder) {
+        this.directoryFolder = directoryFolder;
     }
 }

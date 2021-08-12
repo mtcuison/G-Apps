@@ -10,24 +10,29 @@ import androidx.annotation.RequiresApi;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.appdriver.base.GConnection;
+import org.rmj.g3appdriver.Database.DbConnection;
 import org.rmj.g3appdriver.Database.Entities.EEvents;
 import org.rmj.g3appdriver.Database.Repositories.RClientInfo;
 import org.rmj.g3appdriver.Database.Repositories.REvents;
 import org.rmj.g3appdriver.Http.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.ImageDownloader;
 import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.SQLUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class Import_Events implements ImportInstance {
-    private static final String TAG = Import_Branch.class.getSimpleName();
+    private static final String TAG = Import_Events.class.getSimpleName();
     private final Application instance;
     private final AppConfigPreference poConfig;
 /*
@@ -46,13 +51,13 @@ public class Import_Events implements ImportInstance {
         try {
             JSONObject loJson = new JSONObject();
 //            loJson.put("user_id", db.getUserID());
-            new ImportAccountGCardTask(callback, instance).execute(loJson);
+            new ImportEventTask(callback, instance).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private static class ImportAccountGCardTask extends AsyncTask<JSONObject, Void, String> {
+    private static class ImportEventTask extends AsyncTask<JSONObject, Void, String> {
         private final ImportDataCallback callback;
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
@@ -61,7 +66,7 @@ public class Import_Events implements ImportInstance {
         private final RClientInfo poClient;
         private final SessionManager poSession;
         private Application instance;
-        public ImportAccountGCardTask(ImportDataCallback callback, Application instance) {
+        public ImportEventTask(ImportDataCallback callback, Application instance) {
             this.callback = callback;
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
@@ -86,7 +91,7 @@ public class Import_Events implements ImportInstance {
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
 //                        saveDataToLocal(laJson);
-                        if(insertEvents(laJson)){
+                        if(!insertEvents(laJson)){
                             response = AppConstants.ERROR_SAVING_TO_LOCAL();
                         }
 
@@ -127,25 +132,32 @@ public class Import_Events implements ImportInstance {
                 callback.OnFailedImportData(e.getMessage());
             }
         }
-        boolean insertEvents(JSONArray laJson) throws Exception{
+        boolean insertEvents(JSONArray faJson) throws Exception{
         try{
             List<EEvents> eEventsList = new ArrayList<>();
-            for(int x = 0; x < laJson.length(); x++){
-                JSONObject loJson = laJson.getJSONObject(x);
-                EEvents info = new EEvents();
-                info.setTransNox(loJson.getString("sTransNox"));
-                info.setBranchNm(loJson.getString("sBranchNm"));
-                info.setEvntFrom(loJson.getString("dEvntFrom"));
-                info.setEvntThru(loJson.getString("dEvntThru"));
-                info.setEventTle(loJson.getString("sEventTle"));
-                info.setAddressx(loJson.getString("sAddressx"));
-                info.setEventURL(loJson.getString("sEventURL"));
-                info.setImageURL(loJson.getString("sImageURL"));
-                info.setNotified("0");
-                info.setModified(AppConstants.DATE_MODIFIED);
-                eEventsList.add(info);
+            for(int x = 0; x < faJson.length(); x++){
+                JSONObject loJson = faJson.getJSONObject(x);
+                if (!repository.getEventExist(loJson.getString("sTransNox"))){
+                    EEvents info = new EEvents();
+                    info.setTransNox(loJson.getString("sTransNox"));
+                    info.setBranchNm(loJson.getString("sBranchNm"));
+                    info.setEvntFrom(loJson.getString("dEvntFrom"));
+                    info.setEvntThru(loJson.getString("dEvntThru"));
+                    info.setEventTle(loJson.getString("sEventTle"));
+                    info.setAddressx(loJson.getString("sAddressx"));
+                    info.setEventURL(loJson.getString("sEventURL"));
+                    info.setImageURL(loJson.getString("sImageURL"));
+                    info.setNotified("0");
+                    info.setModified(AppConstants.DATE_MODIFIED);
+                    info.setDirectoryFolder("Events");
+                    eEventsList.add(info);
+                }
+
             }
             repository.insertBulkData(eEventsList);
+            new ImageDownloader(instance, "Events").downloadEventImage(repository.getAllEventsForDownloadImg());
+            //.e(TAG, "Branch info has been save to local.");
+
             return true;
         }catch (NullPointerException e){
             e.printStackTrace();

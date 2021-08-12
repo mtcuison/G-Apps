@@ -67,6 +67,7 @@ public class Fragment_Promotions extends Fragment {
                 eventsModel.setImgUrl(eEvents.get(i).getImageURL());
                 eventsModel.setNotified(eEvents.get(i).getNotified());
                 eventsModel.setModified(eEvents.get(i).getModified());
+                eventsModel.setDirectoryFolder(eEvents.get(i).getDirectoryFolder());
                 promoEventsModels.add(eventsModel);
             }
 
@@ -87,23 +88,25 @@ public class Fragment_Promotions extends Fragment {
                     eventsModel.setModified("");
                     eventsModel.setImgByte("");
                     eventsModel.setDivision(String.valueOf(ePromos.get(i).getDivision()));
+                    eventsModel.setDirectoryFolder(ePromos.get(i).getDirectoryFolder());
                     promoEventsModels.add(eventsModel);
                 }
-            }else{
-                PromoEventsModel eventsModel = new PromoEventsModel();
-                eventsModel.setTransNox("");
-                eventsModel.setBranchNm("");
-                eventsModel.setDateFrom("");
-                eventsModel.setDateThru("");
-                eventsModel.setTitle("See more promos at Official Guanzon Group");
-                eventsModel.setAddress("");
-                eventsModel.setUrl("https://www.guanzongroup.com.ph/category/promos/");
-                eventsModel.setImgUrl("");
-                eventsModel.setNotified("");
-                eventsModel.setModified("");
-                eventsModel.setImgByte("");
-                promoEventsModels.add(0,eventsModel);
             }
+            PromoEventsModel eventsModel = new PromoEventsModel();
+            eventsModel.setTransNox("");
+            eventsModel.setBranchNm("");
+            eventsModel.setDateFrom("");
+            eventsModel.setDateThru("");
+            eventsModel.setTitle("See more promos at Official Guanzon Group");
+            eventsModel.setAddress("");
+            eventsModel.setUrl("https://www.guanzongroup.com.ph/category/promos/");
+            eventsModel.setImgUrl("");
+            eventsModel.setNotified("");
+            eventsModel.setModified("");
+            eventsModel.setImgByte("");
+            eventsModel.setDirectoryFolder("");
+            promoEventsModels.add(0,eventsModel);
+
             Log.e("Fragment_Promotions", String.valueOf(promoEventsModels.size()));
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

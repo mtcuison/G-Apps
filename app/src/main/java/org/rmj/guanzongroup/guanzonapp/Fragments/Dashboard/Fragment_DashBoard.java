@@ -28,6 +28,7 @@ import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Orders;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Redeemables;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Service;
+import org.rmj.guanzongroup.guanzonapp.Activities.Activity_SplashScreen;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Transactions;
 import org.rmj.guanzongroup.guanzonapp.Activities.MainActivity;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_GCardCodex;
@@ -188,7 +189,7 @@ public class Fragment_DashBoard extends Fragment implements VMQrCodeScanner.onSc
             poMessage.setPositiveButton("Okay", (view, dialog) -> {
                 mViewModel.userLogout();
                 dialog.dismiss();
-//                getActivity().recreate();
+                startActivity(new Intent(getActivity(), MainActivity.class));
             });
             poMessage.show();
         });

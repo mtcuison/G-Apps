@@ -41,6 +41,9 @@ public class EEvents {
     @ColumnInfo(name = "dModified")
     private String Modified;
 
+    @ColumnInfo(name = "sDirectoryFolder")
+    private String DirectoryFolder;
+
     public EEvents() {
     }
     @NonNull
@@ -124,5 +127,11 @@ public class EEvents {
         Modified = modified;
     }
 
+    public String getDirectoryFolder() {
+        return DirectoryFolder;
+    }
 
+    public void setDirectoryFolder(String directoryFolder) {
+        DirectoryFolder = directoryFolder;
+    }
 }

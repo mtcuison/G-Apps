@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.guanzonapp.ViewModel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -35,6 +36,7 @@ import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.WebApi;
 import org.rmj.g3appdriver.utils.WebClient;
+import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_GcardSelection;
 import org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard.Fragment_DashBoard;
 import org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard.Fragment_NewsFeed;
 import org.rmj.guanzongroup.guanzonapp.Fragments.Notification.Fragment_Notifications;
@@ -344,8 +346,45 @@ public class VMMainActivity extends AndroidViewModel {
     public LiveData<EGcardApp> getGCard(){
         return poGCard.getGCardInfo();
     }
+
+    public interface OnDataFetchListener{
+        void OnCheckLocalData(List<EGcardApp> gcardApps);
+    }
     public LiveData<List<EGcardApp>> getAllGCard(){
         return poGCard.getAllGCardInfo();
+    }
+    public void getAllGCard(OnDataFetchListener listener){
+        new CheckDataTask(listener).execute();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class CheckDataTask extends AsyncTask<String, Integer, Boolean>{
+
+        OnDataFetchListener mListener;
+        List<EGcardApp> loginDetails;
+        public CheckDataTask(OnDataFetchListener mListener) {
+            this.mListener = mListener;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            boolean hasData = false;
+            try{
+
+                loginDetails = poGCard.getAllGCard();
+                publishProgress(1);
+
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return hasData;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            mListener.OnCheckLocalData(loginDetails);
+        }
     }
     public Fragment getMainFragment(boolean val){
         if(val){
@@ -430,5 +469,100 @@ public class VMMainActivity extends AndroidViewModel {
 //            return View.VISIBLE;
 //        }
         return View.GONE;
+    }
+    public interface onAddNewGCardListener{
+        void onAddResult();
+        void onSuccessResult();
+        void onErrorResult(String ErrorMessage);
+    }
+    public void addNewGCard(String gcardNo, String bday, onAddNewGCardListener listener){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("secureno", new CodeGenerator().generateSecureNo(gcardNo));
+            new AddNewGCardTaslk(poGCard,listener, instance).execute(params);
+//            new VMQrCodeScanner.LoadTransactionResult(codeGenerator, result, instance, listener).execute(params);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+    private static class AddNewGCardTaslk extends AsyncTask<JSONObject, Integer, String> {
+        private final onAddNewGCardListener callback;
+        private final RGCardTransactionLedger poLedger;
+        private final RGcardApp poGcard;
+
+        private final HttpHeaders poHeaders;
+        private final ConnectionUtil poConn;
+        private final Telephony poDevID;
+        private final SessionManager poUser;
+        private final AppConfigPreference poConfig;
+        private final WebApi poWebApi;
+        private final Application instance;
+        public AddNewGCardTaslk(RGcardApp poGcard, onAddNewGCardListener callback, Application application) {
+            this.instance = application;
+            this.callback = callback;
+            this.poLedger = new RGCardTransactionLedger(instance);
+            this.poGcard = new RGcardApp(instance);
+            this.poHeaders = HttpHeaders.getInstance(instance);
+            this.poConn = new ConnectionUtil(instance);
+            this.poDevID = new Telephony(instance);
+            this.poUser = new SessionManager(instance);
+            this.poWebApi = new WebApi(instance);
+            this.poConfig = AppConfigPreference.getInstance(instance);
+        }
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected String doInBackground(JSONObject... jsonObject) {
+            String response = "";
+            try {
+                if(poConn.isDeviceConnected()) {
+                    response = WebClient.httpsPostJSon(poWebApi.URL_ADD_NEW_GCARD, jsonObject[0].toString(),poHeaders.getHeaders());
+                    Log.e("add new gcard", response);
+                    JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
+                    String lsResult = loJson.getString("result");
+                    if(lsResult.equalsIgnoreCase("success")){
+                        if (!poGcard.insertNewGCard(loJson)){
+                            response = AppConstants.ERROR_SAVING_TO_LOCAL();
+                        }
+                        poGcard.checkUserGcardForActive();
+                    }
+                } else {
+                    response = AppConstants.NO_INTERNET();
+                }
+            } catch (Exception e) {
+                Log.e(TAG, Arrays.toString(e.getStackTrace()));
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.onAddResult();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject loJson = new JSONObject(s);
+                Log.e(TAG, loJson.getString("result"));
+                String lsResult = loJson.getString("result");
+                if(lsResult.equalsIgnoreCase("success")){
+                    callback.onSuccessResult();
+                } else {
+                    JSONObject loError = loJson.getJSONObject("error");
+                    String message = loError.getString("message");
+                    callback.onErrorResult(message);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                callback.onErrorResult(e.getMessage());
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.onErrorResult(e.getMessage());
+            }
+        }
     }
 }

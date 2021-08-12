@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Import_Service extends CodeGenerator implements ImportInstance {
-    private static final String TAG = Import_Branch.class.getSimpleName();
+    private static final String TAG = Import_Service.class.getSimpleName();
     private final Application instance;
     private final AppConfigPreference poConfig;
     private final RGcardApp poGcardx;

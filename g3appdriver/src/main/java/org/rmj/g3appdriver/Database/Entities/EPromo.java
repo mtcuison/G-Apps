@@ -40,6 +40,9 @@ public class EPromo {
 
     @ColumnInfo(name = "cDivision")
     private int Division;
+
+    @ColumnInfo(name = "sDirectoryFolder")
+    private String DirectoryFolder;
     
     public EPromo() {
     }
@@ -125,4 +128,11 @@ public class EPromo {
         Division = division;
     }
 
+    public String getDirectoryFolder() {
+        return DirectoryFolder;
+    }
+
+    public void setDirectoryFolder(String directoryFolder) {
+        DirectoryFolder = directoryFolder;
+    }
 }

@@ -26,6 +26,14 @@ public interface DEvents {
     @Query("SELECT * FROM App_Event_Info")
     LiveData<List<EEvents>> getAllEvents();
 
+
+    @Query("SELECT * FROM App_Event_Info")
+    List<EEvents> getAllEventsForDownloadImg();
+
+
+    @Query("SELECT EXISTS(SELECT * FROM App_Event_Info WHERE sTransNox =:TransNox AND cNotified = '1')")
+    boolean getEventExist(String TransNox);
+
 //    @Query("SELECT * FROM App_Event_Info")
 //    LiveData<List<EEvents>> getAllEvents();
 
