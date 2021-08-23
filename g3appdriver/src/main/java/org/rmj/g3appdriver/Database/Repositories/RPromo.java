@@ -55,7 +55,7 @@ public class RPromo implements DPromo {
     }
 
     @Override
-    public List<EEvents> getAllPromoForDownloadImg() {
+    public List<EPromo> getAllPromoForDownloadImg() {
         return promoDao.getAllPromoForDownloadImg();
     }
 
@@ -73,6 +73,11 @@ public class RPromo implements DPromo {
     @Override
     public boolean getPromoExist(String TransNox) {
         return promoDao.getPromoExist(TransNox);
+    }
+
+    @Override
+    public void updatePromoImgPath(String imgPath, String transNox) {
+        promoDao.updatePromoImgPath(imgPath, transNox);
     }
 
 }

@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.rmj.guanzongroup.guanzonapp.Activities.MainActivity;
 import org.rmj.guanzongroup.guanzonapp.Model.PromoEventsModel;
 import org.rmj.guanzongroup.guanzonapp.R;
 
@@ -32,6 +33,7 @@ import static org.rmj.g3appdriver.etc.AppConstants.MainFolder;
 
 public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.PromotionViewHolder> {
 
+    private static final String TAG = Adapter_Promotions.class.getSimpleName();
     private Context mContext;
     private List<PromoEventsModel> promotionsList;
 
@@ -78,6 +80,7 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.e(TAG, "img path = " + promotions.getImgPath());
 //        if (promotions.getImgUrl() == null || promotions.getImgUrl().isEmpty()){
 //            holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getImgUrl()));
 //        }else {
@@ -178,9 +181,9 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
         File imgFile = new File(loFolder.getAbsolutePath() + "/" + DirectoryFolder + "/" + TransNox + ".png");
         Bitmap bitmap = null;
         if (!TransNox.isEmpty() || imgFile.exists()){
-//           Bitmap loBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            bitmap = MediaStore.Images.Media.getBitmap(
-                    mContext.getContentResolver(), Uri.fromFile(new File(imgFile.getAbsolutePath())));
+          bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+//            bitmap = MediaStore.Images.Media.getBitmap(
+//                    mContext.getContentResolver(), Uri.fromFile(new File(imgFile.getAbsolutePath())));
             return bitmap;
 
         } else{

@@ -40,9 +40,30 @@ public interface DEvents {
     @Query("UPDATE App_Event_Info SET cNotified = '1', dModified =:date WHERE sTransNox =:transNox ")
     void updateReadEvent(String date, String transNox);
 
+
+    @Query("UPDATE App_Event_Info SET sImagePath =:imgPath WHERE sTransNox =:transNox ")
+    void updateEventImgPath(String imgPath, String transNox);
+
     @Query("SELECT COUNT(*) FROM App_Event_Info WHERE cNotified = '0'")
     LiveData<Integer> getEventCount();
 
 
-
+//    @Query("SELECT * FROM Promo_Link_Info UNION SELECT * FROM App_Event_Info")
+//    List<PromoEventsModel> getAllEventsPromo();
+     class  PromoEventsModel {
+        public String transNox;
+        public String branchNm;
+        public String dateFrom;
+        public String dateThru;
+        public String title;
+        public String Address;
+        public String url;
+        public String imgUrl;
+        public String notified;
+        public String modified;
+        public String imgByte;
+        public String division;
+        public String directoryFolder;
+        public String imgPath;
+        }
 }

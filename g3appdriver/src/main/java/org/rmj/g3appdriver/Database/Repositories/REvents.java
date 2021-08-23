@@ -69,9 +69,19 @@ public class REvents implements DEvents {
     }
 
     @Override
+    public void updateEventImgPath(String imgPath, String transNox) {
+        eventsDao.updateEventImgPath(imgPath, transNox);
+    }
+
+    @Override
     public LiveData<Integer> getEventCount() {
         return eventsDao.getEventCount();
     }
+
+//    @Override
+//    public List<PromoEventsModel> getAllEventsPromo() {
+//        return eventsDao.getAllEventsPromo();
+//    }
 
     public boolean insertEvents(JSONArray laJson) throws Exception{
         try{

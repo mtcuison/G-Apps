@@ -44,6 +44,9 @@ public class EEvents {
     @ColumnInfo(name = "sDirectoryFolder")
     private String DirectoryFolder;
 
+    @ColumnInfo(name = "sImagePath")
+    private String ImagePath;
+
     public EEvents() {
     }
     @NonNull
@@ -133,5 +136,12 @@ public class EEvents {
 
     public void setDirectoryFolder(String directoryFolder) {
         DirectoryFolder = directoryFolder;
+    }
+    public String getImagePath() {
+        return ImagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        ImagePath = imagePath;
     }
 }

@@ -141,7 +141,7 @@ public class Import_Promotions implements ImportInstance {
                 }
 
                 repository.insertBulkData(promos);
-                new ImageDownloader(instance, "Events").downloadEventImage(repository.getAllPromoForDownloadImg());
+                new ImageDownloader(instance, "Promo").downloadPromoImage(repository.getAllPromoForDownloadImg());
             }
                 return true;
             }catch (NullPointerException e){

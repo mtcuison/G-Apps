@@ -1,5 +1,6 @@
 package org.rmj.g3appdriver.etc;
 
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,9 +8,11 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
-
 import org.rmj.g3appdriver.Database.Entities.EEvents;
 import org.rmj.g3appdriver.Database.Entities.EPromo;
+import org.rmj.g3appdriver.Database.Repositories.REvents;
+import org.rmj.g3appdriver.Database.Repositories.RPromo;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,11 +29,16 @@ public class ImageDownloader {
 
     private Context mContext;
     private String DirFolder;
-
+    private Application instance;
+    private REvents poEvrnts;
+    private RPromo poPromo;
     public ImageDownloader(Context context, String DirectoryFolder){
         this.mContext = context;
         this.DirFolder = DirectoryFolder;
+        this.poEvrnts = new REvents((Application) context.getApplicationContext());
+        this.poPromo = new RPromo((Application) context.getApplicationContext());
     }
+
 
     public void downloadEventImage(List<EEvents> EventDetail) {
         new EventBackgroundTask(mContext, EventDetail).execute();
@@ -45,7 +53,6 @@ public class ImageDownloader {
         List<EEvents> EventThumbnails;
         Context context;
         OutputStream loOutStream;
-
         EventBackgroundTask(Context context, List<EEvents> eventThumbnails){
             this.context = context;
             this.EventThumbnails = eventThumbnails;
@@ -72,6 +79,13 @@ public class ImageDownloader {
                     if(!loFile.exists()) {
                         loOutStream = new FileOutputStream(loFile);
                         loBitmap.compress(Bitmap.CompressFormat.PNG, 50, loOutStream);
+                        Log.e(TAG, loFile.getAbsolutePath());
+                        loOutStream.flush();
+                        loOutStream.close();
+
+                    }
+                    if(!EventThumbnails.get(x).getTransNox().isEmpty()){
+                        poEvrnts.updateEventImgPath(loFile.getAbsolutePath(),EventThumbnails.get(x).getTransNox());
                     }
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -96,9 +110,11 @@ public class ImageDownloader {
         Context context;
         OutputStream loOutStream;
 
+        private final ConnectionUtil poConn;
         PromoBackgroundTask(Context context, List<EPromo> promoThumbnails){
             this.context = context;
             this.PromoThumbnails = promoThumbnails;
+            this.poConn = new ConnectionUtil(context);
         }
 
         @Override
@@ -122,7 +138,9 @@ public class ImageDownloader {
                     if(!loFile.exists()) {
                         loOutStream = new FileOutputStream(loFile);
                     }
-
+                    if(!PromoThumbnails.get(x).getTransNox().isEmpty()){
+                        poPromo.updatePromoImgPath(loFilePath.getAbsolutePath(),PromoThumbnails.get(x).getTransNox());
+                    }
                     loBitmap.compress(Bitmap.CompressFormat.PNG, 50, loOutStream);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.rmj.g3appdriver.etc.FacebookShare;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_AppBrowser;
 import org.rmj.guanzongroup.guanzonapp.Adapters.Adapter_Promotions;
+import org.rmj.guanzongroup.guanzonapp.Fragments.Dashboard.Fragment_DashBoard;
 import org.rmj.guanzongroup.guanzonapp.Model.PromoEventsModel;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMPromotions;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
  */
 public class Fragment_Promotions extends Fragment {
 
+    private static final String TAG = Fragment_Promotions.class.getSimpleName();
     private View view;
 
     private VMPromotions mViewModel;
@@ -53,89 +55,31 @@ public class Fragment_Promotions extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(VMPromotions.class);
-        promoEventsModels = new ArrayList<>();
-        mViewModel.getAllEvents().observe(getViewLifecycleOwner(), eEvents -> {
-            for(int i = 0; i < eEvents.size(); i++){
-                PromoEventsModel eventsModel = new PromoEventsModel();
-                eventsModel.setTransNox(eEvents.get(i).getTransNox());
-                eventsModel.setBranchNm(eEvents.get(i).getBranchNm());
-                eventsModel.setDateFrom(eEvents.get(i).getEvntFrom());
-                eventsModel.setDateThru(eEvents.get(i).getEvntThru());
-                eventsModel.setTitle(eEvents.get(i).getEventTle());
-                eventsModel.setAddress(eEvents.get(i).getAddressx());
-                eventsModel.setUrl(eEvents.get(i).getEventURL());
-                eventsModel.setImgUrl(eEvents.get(i).getImageURL());
-                eventsModel.setNotified(eEvents.get(i).getNotified());
-                eventsModel.setModified(eEvents.get(i).getModified());
-                eventsModel.setDirectoryFolder(eEvents.get(i).getDirectoryFolder());
-                promoEventsModels.add(eventsModel);
-            }
-
+        mViewModel.getAllPromo().observe(getViewLifecycleOwner(), promoList -> {
+            mViewModel.setPromos(promoList);
         });
-        mViewModel.getAllPromo().observe(getViewLifecycleOwner(), ePromos -> {
-            if (ePromos.size()> 0){
-                for(int i = 0; i < ePromos.size(); i++){
-                    PromoEventsModel eventsModel = new PromoEventsModel();
-                    eventsModel.setTransNox(ePromos.get(i).getTransNox());
-                    eventsModel.setBranchNm("");
-                    eventsModel.setDateFrom(ePromos.get(i).getDateFrom());
-                    eventsModel.setDateThru(ePromos.get(i).getDateThru());
-                    eventsModel.setTitle(ePromos.get(i).getCaptionx());
-                    eventsModel.setAddress("");
-                    eventsModel.setUrl(ePromos.get(i).getPromoUrl());
-                    eventsModel.setImgUrl(ePromos.get(i).getImageUrl());
-                    eventsModel.setNotified(ePromos.get(i).getNotified());
-                    eventsModel.setModified("");
-                    eventsModel.setImgByte("");
-                    eventsModel.setDivision(String.valueOf(ePromos.get(i).getDivision()));
-                    eventsModel.setDirectoryFolder(ePromos.get(i).getDirectoryFolder());
-                    promoEventsModels.add(eventsModel);
-                }
-            }
-            PromoEventsModel eventsModel = new PromoEventsModel();
-            eventsModel.setTransNox("");
-            eventsModel.setBranchNm("");
-            eventsModel.setDateFrom("");
-            eventsModel.setDateThru("");
-            eventsModel.setTitle("See more promos at Official Guanzon Group");
-            eventsModel.setAddress("");
-            eventsModel.setUrl("https://www.guanzongroup.com.ph/category/promos/");
-            eventsModel.setImgUrl("");
-            eventsModel.setNotified("");
-            eventsModel.setModified("");
-            eventsModel.setImgByte("");
-            eventsModel.setDirectoryFolder("");
-            promoEventsModels.add(0,eventsModel);
-
-            Log.e("Fragment_Promotions", String.valueOf(promoEventsModels.size()));
-
+        mViewModel.getAllEvents().observe(getViewLifecycleOwner(), events -> {
+            mViewModel.setEvents(events);
+        });
+        mViewModel.getAllPromoEvents().observe(getViewLifecycleOwner(), promoEvents ->{
+            Log.e(TAG, "array list size = " +promoEvents.size());
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             layoutManager.setOrientation(RecyclerView.VERTICAL);
-//            EPromo info = new EPromo();
-//            info.setTransNox("");
-//            info.setTransact("");
-//            info.setImageUrl(null);
-//            info.setPromoUrl("https://www.guanzongroup.com.ph/category/promos/");
-//            info.setCaptionx("See more promos at Official Guanzon Group");
-//            info.setDateFrom("");
-//            info.setDateThru("");
-//            ePromos.add(info);
-
-            adapter = new Adapter_Promotions(getActivity(), promoEventsModels);
+            adapter = new Adapter_Promotions(getActivity(), promoEvents);
             adapter.setOnPromotionClickListener(new Adapter_Promotions.onPromotionClickListener() {
                 @Override
                 public void onClick(int position, String promo_link) {
                     Intent intent = new Intent(getActivity(), Activity_AppBrowser.class);
                     intent.putExtra("url_link", promo_link);
                     startActivity(intent);
-                    mViewModel.updatEvents(promoEventsModels.get(position).transNox);
+                    mViewModel.updatEvents(promoEvents.get(position).transNox);
                 }
             });
 
             adapter.setOnFacebookShareClickListener(new Adapter_Promotions.onFacebookShareClickListener() {
                 @Override
                 public void onClick(String PromoLink, String Caption) {
-                        new FacebookShare(Fragment_Promotions.this).shareLink(PromoLink, Caption);
+                    new FacebookShare(Fragment_Promotions.this).shareLink(PromoLink, Caption);
                 }
             });
 
@@ -148,7 +92,8 @@ public class Fragment_Promotions extends Fragment {
 
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(layoutManager);
-    });
+        });
+
     }
 
     private void setupWidgets(View v) {

@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import org.rmj.g3appdriver.etc.GAppMessageBox;
+import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.utils.CodeGenerator;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_Orders;
 import org.rmj.guanzongroup.guanzonapp.Activities.Activity_QrCodeScanner;
@@ -65,6 +66,7 @@ public class Fragment_DashBoard extends Fragment implements VMQrCodeScanner.onSc
     private VMDashboard mViewModel;
     private VMQrCodeScanner mViewModelScanner;
     private GAppMessageBox poMessage;
+    private LoadDialog poDialog;
 
     private int total;
     private int promo;
@@ -84,6 +86,7 @@ public class Fragment_DashBoard extends Fragment implements VMQrCodeScanner.onSc
         mViewModelScanner = ViewModelProviders.of(this).get(VMQrCodeScanner.class);
         scanResult = new Dialog_ScanResult(getActivity());
         poMessage = new GAppMessageBox(getActivity());
+        poDialog = new LoadDialog(getActivity());
         setupWidgets();
         setupAnimation();
 
@@ -126,7 +129,6 @@ public class Fragment_DashBoard extends Fragment implements VMQrCodeScanner.onSc
             total = event + promo;
             tabBadge.setNumber(total);
             tabBadge.setVisible(total > 0);
-            Log.e("Total", "Total = " + total);
         });
 
         return view;

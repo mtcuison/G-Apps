@@ -27,8 +27,8 @@ public interface DPromo {
     @Query("SELECT * FROM Promo_Link_Info")
     LiveData<List<EPromo>> getAllPromo();
 
-    @Query("SELECT * FROM App_Event_Info")
-    List<EEvents> getAllPromoForDownloadImg();
+    @Query("SELECT * FROM Promo_Link_Info")
+    List<EPromo> getAllPromoForDownloadImg();
 
     @Query("UPDATE App_Event_Info SET cNotified = '1', dModified =:date WHERE sTransNox =:transNox ")
     void updateReadPromo(String date, String transNox);
@@ -39,5 +39,8 @@ public interface DPromo {
 
     @Query("SELECT EXISTS(SELECT * FROM Promo_Link_Info WHERE sTransNox =:TransNox AND cNotified = '1')")
     boolean getPromoExist(String TransNox);
+
+    @Query("UPDATE Promo_Link_Info SET sImagePath =:imgPath WHERE sTransNox =:transNox ")
+    void updatePromoImgPath(String imgPath, String transNox);
 
 }
