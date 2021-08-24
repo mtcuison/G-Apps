@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.guanzongroup.guanzonapp.Activities.MainActivity;
 import org.rmj.guanzongroup.guanzonapp.Model.PromoEventsModel;
 import org.rmj.guanzongroup.guanzonapp.R;
@@ -40,9 +41,11 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
     private onPromotionClickListener onPromotionClickListener;
     private onFacebookShareClickListener onFacebookShareClickListener;
     private onShareLinkClickListener onShareLinkClickListener;
+    private ConnectionUtil conn;
     public Adapter_Promotions(Context context, List<PromoEventsModel> promotionsList){
         this.mContext = context;
         this.promotionsList = promotionsList;
+        this.conn = new ConnectionUtil(context);
     }
 
     public void setOnPromotionClickListener(onPromotionClickListener listener){
@@ -73,14 +76,28 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
 
         holder.lblCaption.setText(promotions.getTitle());
         holder.lblDuration.setText(getPromoDate(promotions));
-        try {
-            holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getTransNox(), promotions.getDirectoryFolder()));
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         Log.e(TAG, "img path = " + promotions.getImgPath());
+        if (conn.isDeviceConnected()){
+            if (promotions.getImgUrl() == null || promotions.getImgUrl().isEmpty()){
+                try {
+                    holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getTransNox(), promotions.getDirectoryFolder()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }else {
+                holder.imgRedeemableView(promotions.getImgUrl());
+            }
+        }else {
+            try {
+                holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getTransNox(), promotions.getDirectoryFolder()));
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 //        if (promotions.getImgUrl() == null || promotions.getImgUrl().isEmpty()){
 //            holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getImgUrl()));
 //        }else {

@@ -301,7 +301,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.menu_pp_action_account:
                 startActivity(new Intent(MainActivity.this, Activity_Account.class));
-                finish();
                 break;
             default:
                 return super.onOptionsItemSelected(item);

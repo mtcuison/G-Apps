@@ -22,8 +22,12 @@ import org.rmj.g3appdriver.dev.AppData;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.GAppMessageBox;
 import org.rmj.g3appdriver.etc.GToast;
+import org.rmj.guanzongroup.guanzonapp.Adapters.ActivityFragmentAdapter;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_ChangePassword;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_Loading;
+import org.rmj.guanzongroup.guanzonapp.Fragments.Transaction.Fragment_AllTransactions;
+import org.rmj.guanzongroup.guanzonapp.Fragments.Transaction.Fragment_PointsEarn;
+import org.rmj.guanzongroup.guanzonapp.Fragments.Transaction.Fragment_Redemption;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMAccount;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMMainActivity;
@@ -87,6 +91,17 @@ public class Activity_Account extends AppCompatActivity {
         btnDevices = findViewById(R.id.btn_account_otherDevice);
         viewPager = findViewById(R.id.viewpager_account_history);
         tabLayout = findViewById(R.id.tablayout_account_fragment_indicator);
+        ActivityFragmentAdapter adapter = new ActivityFragmentAdapter(getSupportFragmentManager());
+        adapter.addFragment(new Fragment_AllTransactions());
+        adapter.addFragment(new Fragment_PointsEarn());
+        adapter.addFragment(new Fragment_Redemption());
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_transaction_tab_all);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_transaction_tab_card);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_transaction_tab_redeem);
+
         btnLogout.setOnClickListener(v->{
             userLogout();
         });
