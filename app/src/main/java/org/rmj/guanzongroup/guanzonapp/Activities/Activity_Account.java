@@ -31,6 +31,7 @@ import org.rmj.guanzongroup.guanzonapp.Fragments.Transaction.Fragment_Redemption
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMAccount;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMMainActivity;
+import org.rmj.guanzongroup.guanzonapp.etc.CustomToast;
 
 public class Activity_Account extends AppCompatActivity {
     private static final String TAG = Activity_Account.class.getSimpleName();
@@ -49,11 +50,13 @@ public class Activity_Account extends AppCompatActivity {
     private TabLayout tabLayout;
     private VMAccount mViewModel;
     private GAppMessageBox loMessage;
+    private CustomToast customToast;
     Dialog_Loading loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+        this.customToast = new CustomToast(Activity_Account.this);
         mViewModel = new ViewModelProvider(Activity_Account.this).get(VMAccount.class);
         loMessage = new GAppMessageBox(Activity_Account.this);
         loading = new Dialog_Loading(Activity_Account.this);
@@ -142,6 +145,11 @@ public class Activity_Account extends AppCompatActivity {
                 });
                 loDialog.showDialog();
             }
+        });
+        btnDevices.setOnClickListener(v->{
+            customToast.setMessage("This feature is not yet available");
+            customToast.setType(CustomToast.CustomToastType.WARNING);
+            customToast.show();
         });
     }
     @Override

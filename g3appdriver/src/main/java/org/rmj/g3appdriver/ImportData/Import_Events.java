@@ -10,8 +10,6 @@ import androidx.annotation.RequiresApi;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.appdriver.base.GConnection;
-import org.rmj.g3appdriver.Database.DbConnection;
 import org.rmj.g3appdriver.Database.Entities.EEvents;
 import org.rmj.g3appdriver.Database.Repositories.RClientInfo;
 import org.rmj.g3appdriver.Database.Repositories.REvents;

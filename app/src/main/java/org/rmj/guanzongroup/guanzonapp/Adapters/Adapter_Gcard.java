@@ -13,7 +13,7 @@ import org.rmj.guanzongroup.guanzonapp.R;
 
 import java.util.List;
 
-public class Adapter_Gcard extends RecyclerView.Adapter<Adapter_Gcard.GCardItemViewHolder> {
+public class    Adapter_Gcard extends RecyclerView.Adapter<Adapter_Gcard.GCardItemViewHolder> {
 
     private List<EGcardApp> gcardItemList;
 

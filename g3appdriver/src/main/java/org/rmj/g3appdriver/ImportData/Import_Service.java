@@ -139,7 +139,6 @@ public class Import_Service extends CodeGenerator implements ImportInstance {
         }
         void saveDataToLocal(JSONArray laJson) throws Exception{
             List<ERedeemItemInfo> brnList = new ArrayList<>();
-
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
                 ERedeemItemInfo info = new ERedeemItemInfo();

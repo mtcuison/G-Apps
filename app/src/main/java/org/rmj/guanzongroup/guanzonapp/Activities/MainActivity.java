@@ -273,11 +273,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         @Override
                                         public void onErrorResult(String ErrorMessage) {
                                             Log.e(TAG, ErrorMessage);
+                                            poDialogx.dismiss();
                                             customToast.setMessage(ErrorMessage);
                                             customToast.setType(CustomToast.CustomToastType.WARNING);
                                             customToast.show();
                                         }
                                     });
+                                }
+
+                                @Override
+                                public void onItemClick(AlertDialog dialog, String cardNo) {
+                                    Log.e(TAG, cardNo);
+                                    customToast.setMessage(cardNo);
+                                    customToast.setType(CustomToast.CustomToastType.WARNING);
+                                    customToast.show();
                                 }
                             });
                             gcardSelection.show();

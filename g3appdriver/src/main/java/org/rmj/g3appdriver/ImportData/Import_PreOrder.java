@@ -47,7 +47,7 @@ public class Import_PreOrder extends CodeGenerator implements ImportInstance {
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            loJson.put("secureno", generateSecureNo(poGcardx.getGCardInfo().getValue().getCardNmbr()));
+            loJson.put("secureno", generateSecureNo(poGcardx.getCardNo()));
             new ImportPreOrderTask(callback, instance).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();

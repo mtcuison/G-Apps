@@ -23,7 +23,7 @@ public interface DEvents {
     @Update
     void update(EEvents events);
 
-    @Query("SELECT * FROM App_Event_Info")
+    @Query("SELECT * FROM App_Event_Info ORDER BY sTransNox ASC")
     LiveData<List<EEvents>> getAllEvents();
 
 

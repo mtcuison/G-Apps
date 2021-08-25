@@ -42,6 +42,8 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
     private onFacebookShareClickListener onFacebookShareClickListener;
     private onShareLinkClickListener onShareLinkClickListener;
     private ConnectionUtil conn;
+
+    File imgPromoEvents;
     public Adapter_Promotions(Context context, List<PromoEventsModel> promotionsList){
         this.mContext = context;
         this.promotionsList = promotionsList;
@@ -79,7 +81,7 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
 
         Log.e(TAG, "img path = " + promotions.getImgPath());
         if (conn.isDeviceConnected()){
-            if (promotions.getImgUrl() == null || promotions.getImgUrl().isEmpty()){
+            if (promotions.getImgPath() == null){
                 try {
                     holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getTransNox(), promotions.getDirectoryFolder()));
                 } catch (IOException e) {
@@ -192,10 +194,8 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
     }
 
     private Bitmap getImageThumbnail(String TransNox,String DirectoryFolder) throws NullPointerException,IOException {
-
-        File loFilePath = Environment.getExternalStorageDirectory() ;
-        File loFolder = new File(loFilePath.getAbsolutePath() + "/Android/data/"+ MainFolder);
-        File imgFile = new File(loFolder.getAbsolutePath() + "/" + DirectoryFolder + "/" + TransNox + ".png");
+        String fileName = TransNox + ".png";
+        File imgFile = createImageFile(fileName, DirectoryFolder);
         Bitmap bitmap = null;
         if (!TransNox.isEmpty() || imgFile.exists()){
           bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
@@ -206,5 +206,21 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
         } else{
             return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.shop_online_now);
         }
+    }
+    public File createImageFile(String FileName, String DirectoryFolder) throws IOException {
+
+        imgPromoEvents = new File(
+                generateMainStorageDir(DirectoryFolder),
+                FileName);
+        return imgPromoEvents;
+    }
+    public File generateMainStorageDir(String DirectoryFolder) {
+        String root = mContext.getExternalFilesDir(null).getAbsolutePath();
+        File sd = new File(root  + "/" + MainFolder + "/" + DirectoryFolder +"/");
+        if (!sd.exists()) {
+            sd.mkdirs();
+        }
+        return sd;
+//        return sd;
     }
 }

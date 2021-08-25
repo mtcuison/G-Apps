@@ -130,7 +130,7 @@ public class Activity_Login extends AppCompatActivity implements LoginCallback{
                 setResult(Activity.RESULT_OK);
                 finish();
             }
-        }, 3000);
+        }, 5000);
 
     }
 

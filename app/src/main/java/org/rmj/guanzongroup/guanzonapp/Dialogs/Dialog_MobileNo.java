@@ -20,15 +20,15 @@ public class Dialog_MobileNo {
     private final AlertDialog.Builder builder;
     private AlertDialog dialog;
 
-    public interface OnMobileNoConfirmListener{
-        void OnConfirm(String MobileNo);
-    }
 
     public Dialog_MobileNo(Context mContext) {
         this.mContext = mContext;
         this.builder = new AlertDialog.Builder(mContext);
     }
 
+    public interface OnMobileNoConfirmListener{
+        void OnConfirm(AlertDialog dialog,String MobileNo);
+    }
     public void initDialog(final OnMobileNoConfirmListener listener){
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_mobile_no_entry, null, false);
         builder.setView(view)
@@ -51,7 +51,7 @@ public class Dialog_MobileNo {
                 } else if(lsMobile.length() != 11){
                     Toast.makeText(mContext, "Invalid mobile no.", Toast.LENGTH_LONG).show();
                 } else {
-                    listener.OnConfirm(txtMobile.getText().toString());
+                    listener.OnConfirm(dialog,txtMobile.getText().toString());
                 }
             }
         });

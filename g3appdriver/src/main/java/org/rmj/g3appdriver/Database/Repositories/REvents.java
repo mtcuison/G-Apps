@@ -8,14 +8,11 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.appdriver.base.GConnection;
 import org.rmj.g3appdriver.Database.DataAccessObject.DEvents;
 import org.rmj.g3appdriver.Database.DbConnection;
 import org.rmj.g3appdriver.Database.Entities.EEvents;
 import org.rmj.g3appdriver.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.ImageDownloader;
-import org.rmj.g3appdriver.utils.SQLUtil;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;

@@ -39,6 +39,7 @@ public class VMPromotions extends AndroidViewModel {
         
     }
     public void setPromos(List<EPromo> promoList){
+        promoEventsModels.clear();
         PromoEventsModel eventsModels = new PromoEventsModel();
         eventsModels.setTransNox("");
         eventsModels.setBranchNm("");
@@ -55,49 +56,66 @@ public class VMPromotions extends AndroidViewModel {
         promoEventsModels.add(0,eventsModels);
 
         if (promoList.size()> 0) {
+
+            boolean isTransNoxExist = false;
             for (int i = 0; i < promoList.size(); i++) {
-                PromoEventsModel eventsModel = new PromoEventsModel();
-                eventsModel.setTransNox(promoList.get(i).getTransNox());
-                eventsModel.setBranchNm("");
-                eventsModel.setDateFrom(promoList.get(i).getDateFrom());
-                eventsModel.setDateThru(promoList.get(i).getDateThru());
-                eventsModel.setTitle(promoList.get(i).getCaptionx());
-                eventsModel.setAddress("");
-                eventsModel.setUrl(promoList.get(i).getPromoUrl());
-                eventsModel.setImgUrl(promoList.get(i).getImageUrl());
-                eventsModel.setNotified(promoList.get(i).getNotified());
-                eventsModel.setModified("");
-                eventsModel.setImgByte("");
-                eventsModel.setDivision(String.valueOf(promoList.get(i).getDivision()));
-                eventsModel.setDirectoryFolder(promoList.get(i).getDirectoryFolder());
-                eventsModel.setImgPath(promoList.get(i).getImagePath());
-//                    eventsModel.setDirectoryFolder(ePromos.get(i).getDirectoryFolder());
-                promoEventsModels.add(eventsModel);
+                for (int j = i; j < promoEventsModels.size(); j++){
+                    if(promoEventsModels.get(j).getTransNox().equalsIgnoreCase(promoList.get(i).getTransNox())) {
+                        isTransNoxExist = true;
+                    }
+                }
+                if (!isTransNoxExist) {
+                    PromoEventsModel eventsModel = new PromoEventsModel();
+                    eventsModel.setTransNox(promoList.get(i).getTransNox());
+                    eventsModel.setBranchNm("");
+                    eventsModel.setDateFrom(promoList.get(i).getDateFrom());
+                    eventsModel.setDateThru(promoList.get(i).getDateThru());
+                    eventsModel.setTitle(promoList.get(i).getCaptionx());
+                    eventsModel.setAddress("");
+                    eventsModel.setUrl(promoList.get(i).getPromoUrl());
+                    eventsModel.setImgUrl(promoList.get(i).getImageUrl());
+                    eventsModel.setNotified(promoList.get(i).getNotified());
+                    eventsModel.setModified("");
+                    eventsModel.setImgByte("");
+                    eventsModel.setDivision(String.valueOf(promoList.get(i).getDivision()));
+                    eventsModel.setDirectoryFolder(promoList.get(i).getDirectoryFolder());
+                    eventsModel.setImgPath(promoList.get(i).getImagePath());
+                    promoEventsModels.add(eventsModel);
+                }
             }
         }
         fsPromoEvents.setValue(promoEventsModels);
     }
     public void setEvents(List<EEvents> eventList){
         if (eventList.size()> 0){
-            for(int i = 0; i < eventList.size(); i++){
-                PromoEventsModel eventsModel = new PromoEventsModel();
-                eventsModel.setTransNox(eventList.get(i).getTransNox());
-                eventsModel.setBranchNm(eventList.get(i).getBranchNm());
-                eventsModel.setDateFrom(eventList.get(i).getEvntFrom());
-                eventsModel.setDateThru(eventList.get(i).getEvntThru());
-                eventsModel.setTitle(eventList.get(i).getEventTle());
-                eventsModel.setAddress(eventList.get(i).getAddressx());
-                eventsModel.setUrl(eventList.get(i).getEventURL());
-                eventsModel.setImgUrl(eventList.get(i).getImageURL());
-                eventsModel.setNotified(eventList.get(i).getNotified());
-                eventsModel.setModified(eventList.get(i).getModified());
-                eventsModel.setDirectoryFolder(eventList.get(i).getDirectoryFolder());
-                eventsModel.setImgPath(eventList.get(i).getImagePath());
-                promoEventsModels.add(eventsModel);
+            boolean isTransNoxExist = false;
+            for (int i = 0; i < eventList.size(); i++){
+                for (int j = i; j < promoEventsModels.size(); j++){
+                    if(promoEventsModels.get(j).getTransNox().equalsIgnoreCase(eventList.get(i).getTransNox())) {
+                        isTransNoxExist = true;
+                    }
+                }
+                if (!isTransNoxExist){
+                    PromoEventsModel eventsModel = new PromoEventsModel();
+                    eventsModel.setTransNox(eventList.get(i).getTransNox());
+                    eventsModel.setBranchNm(eventList.get(i).getBranchNm());
+                    eventsModel.setDateFrom(eventList.get(i).getEvntFrom());
+                    eventsModel.setDateThru(eventList.get(i).getEvntThru());
+                    eventsModel.setTitle(eventList.get(i).getEventTle());
+                    eventsModel.setAddress(eventList.get(i).getAddressx());
+                    eventsModel.setUrl(eventList.get(i).getEventURL());
+                    eventsModel.setImgUrl(eventList.get(i).getImageURL());
+                    eventsModel.setNotified(eventList.get(i).getNotified());
+                    eventsModel.setModified(eventList.get(i).getModified());
+                    eventsModel.setDirectoryFolder(eventList.get(i).getDirectoryFolder());
+                    eventsModel.setImgPath(eventList.get(i).getImagePath());
+                    promoEventsModels.add(eventsModel);
+                }
             }
         }
         fsPromoEvents.setValue(promoEventsModels);
     }
+
     public LiveData<List<PromoEventsModel>> getAllPromoEvents(){
         return fsPromoEvents;
     }

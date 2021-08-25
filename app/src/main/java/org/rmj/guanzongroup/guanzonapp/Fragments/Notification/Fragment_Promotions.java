@@ -86,7 +86,13 @@ public class Fragment_Promotions extends Fragment {
             adapter.setOnShareLinkClickListener(new Adapter_Promotions.onShareLinkClickListener() {
                 @Override
                 public void onClick(String PromoLink) {
-
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Guanzon App");
+                    String shareMessage= "\nLet me recommend you this application\n\n";
+                    shareMessage = PromoLink + "\n\n";
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent, "choose one"));
                 }
             });
 

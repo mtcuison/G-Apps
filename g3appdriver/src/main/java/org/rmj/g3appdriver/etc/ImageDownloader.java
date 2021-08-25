@@ -60,8 +60,9 @@ public class ImageDownloader {
 
         @Override
         protected String doInBackground(Integer... integers) {
-            File loFilePath = Environment.getExternalStorageDirectory() ;
-            File loFolder = new File(loFilePath.getAbsolutePath() + "/Android/data/"+ MainFolder);
+            String loFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+            String psFilePath = context.getExternalFilesDir(null).getAbsolutePath();
+            File loFolder = new File(psFilePath + "/"+ MainFolder);
             File loSubFolder = new File(loFolder.getAbsolutePath() + "/" + DirFolder + "/");
             if(!loFolder.exists()){
                 if(loFolder.mkdir()) {
@@ -120,7 +121,8 @@ public class ImageDownloader {
         @Override
         protected String doInBackground(Integer... integers) {
             File loFilePath = Environment.getExternalStorageDirectory() ;
-            File loFolder = new File(loFilePath.getAbsolutePath() + "/Android/data/"+ MainFolder);
+            String psFilePath = context.getExternalFilesDir(null).getAbsolutePath();
+            File loFolder = new File(psFilePath + "/"+ MainFolder);
             File loSubFolder = new File(loFolder.getAbsolutePath() + "/" + DirFolder + "/");
             if(!loFolder.exists()){
                 if(loFolder.mkdir()) {
