@@ -50,13 +50,11 @@ public class Activity_Account extends AppCompatActivity {
     private TabLayout tabLayout;
     private VMAccount mViewModel;
     private GAppMessageBox loMessage;
-    private CustomToast customToast;
     Dialog_Loading loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        this.customToast = new CustomToast(Activity_Account.this);
         mViewModel = new ViewModelProvider(Activity_Account.this).get(VMAccount.class);
         loMessage = new GAppMessageBox(Activity_Account.this);
         loading = new Dialog_Loading(Activity_Account.this);
@@ -147,14 +145,11 @@ public class Activity_Account extends AppCompatActivity {
             }
         });
         btnDevices.setOnClickListener(v->{
-            customToast.setMessage("This feature is not yet available");
-            customToast.setType(CustomToast.CustomToastType.WARNING);
-            customToast.show();
+            GToast.CreateMessage(Activity_Account.this, "This feature is not yet available", GToast.WARNING).show();
         });
     }
     @Override
     public void onBackPressed() {
-//        startActivity(new Intent(Activity_Account.this, MainActivity.class));
         finish();
     }
 
