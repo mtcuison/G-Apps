@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.Database.Entities.ERedeemItemInfo;
+import org.rmj.g3appdriver.Database.Entities.EServiceInfo;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RRedeemItemInfo;
 import org.rmj.g3appdriver.Database.Repositories.RServiceInfo;
@@ -30,57 +31,43 @@ import java.util.Objects;
 public class Import_Service extends CodeGenerator implements ImportInstance {
     private static final String TAG = Import_Service.class.getSimpleName();
     private final Application instance;
-    private final AppConfigPreference poConfig;
     private final RGcardApp poGcardx;
-    private final RServiceInfo poService;
-/*
-    Repository
-    private final RBranch repository;
-*/
 
     public Import_Service(Application application){
+        Log.e(TAG, "Initialized.");
         this.instance = application;
-        this.poConfig = AppConfigPreference.getInstance(instance);
         this.poGcardx = new RGcardApp(instance);
-        this.poService = new RServiceInfo(instance);
-//        this.repository = new RBranch(instance);
     }
 
     @Override
     public void ImportData(ImportDataCallback callback) {
         try {
-//            String lsSecureNo = new CodeGenerator().generateSecureNo(lsGCardNumber);
-
             JSONObject loJson = new JSONObject();
-            String lsGCardNumber = poGcardx.getCardNo();
-            String lsSecureNo = new CodeGenerator().generateSecureNo(lsGCardNumber);
-
-
-            loJson.put("secureno", lsSecureNo);
-//            loJson.put("secureno", generateSecureNo(lsSecureNo));
-            new ImportOrdersTask(callback, instance).execute(loJson);
-        } catch (NullPointerException e){
-            e.printStackTrace();
+            String lsSecureN = new CodeGenerator().generateSecureNo(poGcardx.getCardNo());
+            loJson.put("secureno", lsSecureN);
+            Log.e(TAG, loJson.toString());
+            new ImportServicesTask(poGcardx.getCardNox(), callback, instance).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private static class ImportOrdersTask extends AsyncTask<JSONObject, Void, String> {
+    private static class ImportServicesTask extends AsyncTask<JSONObject, Void, String> {
         private final ImportDataCallback callback;
         private final HttpHeaders headers;
         private final ConnectionUtil conn;
         private WebApi poWebApi;
-        private final RRedeemItemInfo repository;
+        private final RServiceInfo poService;
+        private final String lsGcardNo;
 
 
-        public ImportOrdersTask(ImportDataCallback callback, Application instance) {
+        public ImportServicesTask(String fsGcardNo, ImportDataCallback callback, Application instance) {
             this.callback = callback;
             this.headers = HttpHeaders.getInstance(instance);
             this.conn = new ConnectionUtil(instance);
             this.poWebApi = new WebApi(instance);
-            this.repository = new RRedeemItemInfo(instance);
-
+            this.poService = new RServiceInfo(instance);
+            this.lsGcardNo = fsGcardNo;
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -89,16 +76,13 @@ public class Import_Service extends CodeGenerator implements ImportInstance {
             String response = "";
             try {
                 if(conn.isDeviceConnected()) {
-                    response = WebClient.httpsPostJSon(poWebApi.URL_IMPORT_PLACE_ORDER, jsonObjects[0].toString(),  headers.getHeaders());
+                    response = WebClient.httpsPostJSon(poWebApi.URL_IMPORT_SERVICE, jsonObjects[0].toString(),  headers.getHeaders());
                     JSONObject loJson = new JSONObject(Objects.requireNonNull(response));
                     Log.e(TAG, loJson.getString("result"));
                     String lsResult = loJson.getString("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         JSONArray laJson = loJson.getJSONArray("detail");
                         saveDataToLocal(laJson);
-//                        if(!repository.insertBranchInfos(laJson)){
-//                            response = AppConstants.ERROR_SAVING_TO_LOCAL();
-//                        }
                     } else {
                         JSONObject loError = loJson.getJSONObject("error");
                         String message = loError.getString("message");
@@ -119,10 +103,9 @@ public class Import_Service extends CodeGenerator implements ImportInstance {
             super.onPostExecute(s);
             try {
                 JSONObject loJson = new JSONObject(s);
-
+                Log.e(TAG, loJson.getString("result"));
                 String lsResult = loJson.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    Log.e(TAG, loJson.getString("result"));
                     callback.OnSuccessImportData();
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
@@ -138,40 +121,35 @@ public class Import_Service extends CodeGenerator implements ImportInstance {
             }
         }
         void saveDataToLocal(JSONArray laJson) throws Exception{
-            List<ERedeemItemInfo> brnList = new ArrayList<>();
+            Log.e("ServiceSave", laJson.toString());
+
+            List<EServiceInfo> loServces = new ArrayList<>();
+
+
             for(int x = 0; x < laJson.length(); x++){
                 JSONObject loJson = laJson.getJSONObject(x);
-                ERedeemItemInfo info = new ERedeemItemInfo();
-                info.setPromoIDx(loJson.getString("sPromoIDx"));
-                info.setTransNox(loJson.getString("sTransNox"));
-                info.setGCardNox(loJson.getString("sGCardNox"));
-                info.setOrderedx(loJson.getString("dOrderedx"));
-                info.setPickupxx(loJson.getString("dPickupxx"));
-                info.setBranchCd(loJson.getString("sBranchCD"));
-                info.setReferNox(loJson.getString("sReferNox"));
-                info.setTranStat(loJson.getString("cTranStat"));
-                info.setPlcOrder(loJson.getString("cPlcOrder"));
-                info.setPlcOrder(loJson.getString("cPlcOrder"));
-                info.setItemQtyx(Integer.parseInt(loJson.getString("nItemQtyx")));
+                EServiceInfo info = new EServiceInfo();
 
-                info.setPointsxx(itemTotalPoints(loJson));
-                brnList.add(info);
+                info.setGCardNox(lsGcardNo);
+                info.setSerialID(loJson.getString("sSerialID"));
+                info.setEngineNo(loJson.getString("sEngineNo"));
+                info.setFrameNox(loJson.getString("sFrameNox"));
+                info.setModelNme(loJson.getString("sModelNme"));
+                info.setBrandNme(loJson.getString("sBrandNme"));
+                info.setFSEPStat(loJson.getString("cFSEPStat"));
+                info.setYellowxx(loJson.getInt("nYellowxx"));
+                info.setYlwCtrxx(loJson.getInt("nYlwCtrxx"));
+                info.setWhitexxx(loJson.getInt("nWhitexxx"));
+                info.setWhtCtrxx(loJson.getInt("nWhtCtrxx"));
+                info.setLastSrvc(loJson.getString("dLastSrvc"));
+                info.setMIlAgexx(loJson.getInt("nMilagexx"));
+                info.setNxtRmnds(loJson.getString("dNxtRmndS"));
+
+                loServces.add(info);
             }
-            repository.insertBulkData(brnList);
+            poService.insertBulkData(loServces);
         }
-        private double itemTotalPoints(JSONObject jsonObject){
-            double points = 0;
-            try{
-                int qty = Integer.parseInt(jsonObject.getString("nItemQtyx"));
-                double pts = Double.parseDouble(jsonObject.getString("nPointsxx"));
-                points = qty * pts;
-            } catch (JSONException e){
-                e.printStackTrace();
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            return points;
-        }
+
     }
 
 }
