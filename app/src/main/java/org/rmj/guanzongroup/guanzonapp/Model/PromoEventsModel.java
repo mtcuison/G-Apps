@@ -1,6 +1,6 @@
 package org.rmj.guanzongroup.guanzonapp.Model;
 
-public class PromoEventsModel {
+public class  PromoEventsModel {
     public String transNox;
     public String branchNm;
     public String dateFrom;
@@ -13,6 +13,8 @@ public class PromoEventsModel {
     public String modified;
     public String imgByte;
     public String division;
+    public String directoryFolder;
+    public String imgPath;
     public PromoEventsModel() {
     }
 
@@ -111,4 +113,20 @@ public class PromoEventsModel {
     public void setDivision(String division) {
         this.division = division;
     }
+    public String getDirectoryFolder() {
+        return directoryFolder;
+    }
+
+    public void setDirectoryFolder(String directoryFolder) {
+        this.directoryFolder = directoryFolder;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
 }

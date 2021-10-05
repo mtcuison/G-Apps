@@ -9,8 +9,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".3"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/gap_toolbar_background"
         android:layout_marginBottom="5dp">
 
@@ -18,76 +17,98 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp">
+            android:paddingTop="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal"
-                android:baselineAligned="false"
-                tools:ignore="UselessParent">
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight=".4"
                     android:orientation="vertical"
                     tools:ignore="NestedWeights"
                     android:gravity="bottom">
 
-                    <TextView
-                        android:id="@+id/lbl_account_username"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Doe, John M."
-                        android:textSize="16sp"
-                        android:paddingStart="10dp"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/gap_textColorPrimary"
-                        tools:ignore="HardcodedText,NestedWeights,RtlSymmetry"
-                        android:paddingLeft="10dp"
-                        android:layout_marginBottom="20dp"/>
+                        android:layout_height="55dp"
+                        android:gravity="bottom">
+                        <TextView
+                            android:id="@+id/lbl_account_username"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:gravity="center_vertical"
+                            android:paddingStart="10dp"
+                            android:paddingLeft="10dp"
+                            android:text="Doe, John M."
+                            android:textColor="@color/gap_textColorPrimary"
+                            android:textSize="16sp"
+                            tools:ignore="HardcodedText,NestedWeights,RtlSymmetry" />
 
-                    <TextView
-                        android:id="@+id/lbl_account_userEmail"
+                    </RelativeLayout>
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/user_detail_sample_email"
-                        android:paddingStart="10dp"
-                        android:paddingLeft="10dp"
-                        android:gravity="center_vertical|top"
-                        android:textColor="@color/gap_textColorPrimary"
-                        tools:ignore="HardcodedText,RtlSymmetry"
-                        android:layout_marginBottom="20dp"/>
+                        android:layout_height="fill_parent"
+                        android:gravity="top"
+                        >
+                        <TextView
+                            android:id="@+id/lbl_account_userEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/user_detail_sample_email"
+                            android:paddingStart="10dp"
+                            android:paddingLeft="10dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_weight="1.2"
+                            android:gravity="center_vertical|top"
+                            android:textColor="@color/gap_textColorPrimary"
+                            tools:ignore="HardcodedText,RtlSymmetry"/>
+                    </RelativeLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".4"
-                    android:gravity="bottom|center_horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".8"
+                    android:gravity="center_horizontal|center_vertical"
                     android:orientation="vertical">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_account_logout"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Logout"
-                        tools:ignore="HardcodedText"
-                        style="@style/CardViewDialog.BranchDetailDialog.Button"
-                        app:cornerRadius="20dp"/>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_account_changePassword"
-                        android:layout_width="wrap_content"
+                        android:paddingLeft="3dp"
+                        android:paddingRight="3dp">
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_account_logout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Logout"
+                            tools:ignore="HardcodedText"
+                            style="@style/CardViewDialog.BranchDetailDialog.Button"
+                            app:cornerRadius="20dp"/>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Change Password"
-                        tools:ignore="HardcodedText"
-                        style="@style/CardViewDialog.BranchDetailDialog.Button"
-                        app:cornerRadius="20dp"/>
+                        android:paddingLeft="3dp"
+                        android:paddingRight="3dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_account_changePassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Change Password"
+                            tools:ignore="HardcodedText"
+                            android:layout_alignParentTop="true"
+                            style="@style/CardViewDialog.BranchDetailDialog.Button"
+                            app:cornerRadius="20dp"/>
+                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -106,62 +127,62 @@
         app:cardBackgroundColor="@color/gap_toolbar_background"
         android:layout_marginBottom="5dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
+                <TextView
+                    android:id="@+id/lbl_account_userDevice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center">
+                    android:text="SAMSUNG A71 2019"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/gap_textColorPrimary"
+                    tools:ignore="HardcodedText,RtlSymmetry"/>
 
-                    <TextView
-                        android:id="@+id/lbl_account_userDevice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="SAMSUNG A71 2019"
-                        android:paddingStart="10dp"
-                        android:paddingLeft="10dp"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/gap_textColorPrimary"
-                        tools:ignore="HardcodedText,RtlSymmetry"/>
-
-                    <TextView
-                        android:id="@+id/lbl_account_dvcMobileNo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="09123456789"
-                        android:paddingStart="10dp"
-                        android:paddingLeft="10dp"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/gap_textColorPrimary"
-                        tools:ignore="HardcodedText,RtlSymmetry"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".4"
-                    android:gravity="center">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_account_otherDevice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Other Devices"
-                        tools:ignore="HardcodedText"
-                        style="@style/CardViewDialog.BranchDetailDialog.Button"
-                        app:cornerRadius="20dp"/>
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/lbl_account_dvcMobileNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="09123456789"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/gap_textColorPrimary"
+                    tools:ignore="HardcodedText,RtlSymmetry"/>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".4"
+                android:gravity="center">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_account_otherDevice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Other Devices"
+                    tools:ignore="HardcodedText"
+                    style="@style/CardViewDialog.BranchDetailDialog.Button"
+                    app:cornerRadius="20dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 

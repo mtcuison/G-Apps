@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Import_AccountGCard implements ImportInstance {
-    private static final String TAG = Import_Branch.class.getSimpleName();
+    private static final String TAG = Import_AccountGCard.class.getSimpleName();
     private final Application instance;
     private final AppConfigPreference poConfig;
     private final RClientInfo poClient;
@@ -85,7 +85,7 @@ public class Import_AccountGCard implements ImportInstance {
                             response = AppConstants.ERROR_SAVING_TO_LOCAL();
                         }
                         else {
-                            Log.e("Import_AccountGCard", lsResult);
+                            Log.e("ELSE", lsResult);
                             repository.saveGCardUpdate();
                         }
 

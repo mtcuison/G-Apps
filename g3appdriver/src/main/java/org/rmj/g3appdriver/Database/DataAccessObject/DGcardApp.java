@@ -61,6 +61,9 @@ public interface DGcardApp {
     LiveData<List<EGcardApp>> getAllGCardInfo();
 
 
+    @Query("SELECT * FROM GCard_App_Master")
+    List<EGcardApp> getAllGCard();
+
     @Query("SELECT * FROM Gcard_App_Master WHERE sCardNmbr =:CardNmbr")
     double getGCardTotPoints(String CardNmbr);
 

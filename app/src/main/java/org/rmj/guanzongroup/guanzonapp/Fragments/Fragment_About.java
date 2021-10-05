@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.rmj.guanzongroup.guanzonapp.R;
 
@@ -25,7 +26,10 @@ public class Fragment_About extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //setupWidgets();
+        View view =  inflater.inflate(R.layout.fragment_dashboard_tab_about, container, false);
 
-        return inflater.inflate(R.layout.fragment_dashboard_tab_about, container, false);
+        return view;
     }
+
+
 }

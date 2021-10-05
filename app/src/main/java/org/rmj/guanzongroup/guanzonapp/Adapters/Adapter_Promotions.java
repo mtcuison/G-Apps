@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,23 +21,33 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.guanzongroup.guanzonapp.Activities.MainActivity;
 import org.rmj.guanzongroup.guanzonapp.Model.PromoEventsModel;
 import org.rmj.guanzongroup.guanzonapp.R;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import static org.rmj.g3appdriver.etc.AppConstants.MainFolder;
 
 public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.PromotionViewHolder> {
 
+    private static final String TAG = Adapter_Promotions.class.getSimpleName();
     private Context mContext;
     private List<PromoEventsModel> promotionsList;
 
     private onPromotionClickListener onPromotionClickListener;
     private onFacebookShareClickListener onFacebookShareClickListener;
     private onShareLinkClickListener onShareLinkClickListener;
+    private ConnectionUtil conn;
+
+    File imgPromoEvents;
     public Adapter_Promotions(Context context, List<PromoEventsModel> promotionsList){
         this.mContext = context;
         this.promotionsList = promotionsList;
+        this.conn = new ConnectionUtil(context);
     }
 
     public void setOnPromotionClickListener(onPromotionClickListener listener){
@@ -66,12 +78,33 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
 
         holder.lblCaption.setText(promotions.getTitle());
         holder.lblDuration.setText(getPromoDate(promotions));
-//        holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getImgUrl()));
-        if (promotions.getImgUrl() == null || promotions.getImgUrl().isEmpty()){
-            holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getImgUrl()));
+
+        Log.e(TAG, "img path = " + promotions.getImgPath());
+        if (conn.isDeviceConnected()){
+            if (promotions.getImgPath() == null){
+                try {
+                    holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getTransNox(), promotions.getDirectoryFolder()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }else {
+                holder.imgRedeemableView(promotions.getImgUrl());
+            }
         }else {
-            holder.imgRedeemableView(promotions.getImgUrl());
+            try {
+                holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getTransNox(), promotions.getDirectoryFolder()));
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+//        if (promotions.getImgUrl() == null || promotions.getImgUrl().isEmpty()){
+//            holder.imgPromo.setImageBitmap(getImageThumbnail(promotions.getImgUrl()));
+//        }else {
+//            holder.imgRedeemableView(promotions.getImgUrl());
+//        }
     }
 
     @Override
@@ -160,13 +193,34 @@ public class Adapter_Promotions extends RecyclerView.Adapter<Adapter_Promotions.
         return "Promo runs until " + promos.getDateThru();
     }
 
-    private Bitmap getImageThumbnail(String TransNox){
-        File loFilePath = Environment.getExternalStorageDirectory() ;
-        File imgFile = new File(loFilePath.getAbsolutePath() + "/Android/data/GuanzonApps/Promos/" + TransNox + ".png");
-        if(imgFile.exists()){
-            Bitmap loBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            return loBitmap;
+    private Bitmap getImageThumbnail(String TransNox,String DirectoryFolder) throws NullPointerException,IOException {
+        String fileName = TransNox + ".png";
+        File imgFile = createImageFile(fileName, DirectoryFolder);
+        Bitmap bitmap = null;
+        if (!TransNox.isEmpty() || imgFile.exists()){
+          bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+//            bitmap = MediaStore.Images.Media.getBitmap(
+//                    mContext.getContentResolver(), Uri.fromFile(new File(imgFile.getAbsolutePath())));
+            return bitmap;
+
+        } else{
+            return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.shop_online_now);
         }
-        return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.shop_online_now);
+    }
+    public File createImageFile(String FileName, String DirectoryFolder) throws IOException {
+
+        imgPromoEvents = new File(
+                generateMainStorageDir(DirectoryFolder),
+                FileName);
+        return imgPromoEvents;
+    }
+    public File generateMainStorageDir(String DirectoryFolder) {
+        String root = mContext.getExternalFilesDir(null).getAbsolutePath();
+        File sd = new File(root  + "/" + MainFolder + "/" + DirectoryFolder +"/");
+        if (!sd.exists()) {
+            sd.mkdirs();
+        }
+        return sd;
+//        return sd;
     }
 }

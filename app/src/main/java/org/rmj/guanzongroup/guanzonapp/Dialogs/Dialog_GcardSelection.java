@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.internal.ContextUtils;
+//import com.google.gson.internal.$Gson$Preconditions;
 
 import org.rmj.g3appdriver.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
@@ -45,14 +47,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Dialog_GcardSelection {
-    @SuppressLint("StaticFieldLeak")
-    private static Dialog_GcardSelection instance;
-
-    private Context mContext;
-
-    private AlertDialog.Builder builder;
-    private AlertDialog dialog;
-
+    private AlertDialog poDialogx;
+    private AlertDialog.Builder loBuilder;
+    private final Context context;
     private TextView lblGcard;
     private EditText txtGcardNumber;
     private EditText txtYear;
@@ -65,131 +62,106 @@ public class Dialog_GcardSelection {
     private Application app;
     private MaterialButton btnCloseDialog, btnScnNewGcard, btnAddNewGcard, btnRefreshList;
     private VMDashboard mViewModel;
-    private LoadDialog poDialogx;
-    public Dialog_GcardSelection(){
-
+    private CustomToast customToast;
+    private String message;
+    public interface OnClientSelectListener{
+        void OnAddNewGCard(AlertDialog dialog, String cardNo, String bdate);
+        void onItemClick(AlertDialog dialog, String cardNo);
     }
 
-    public Dialog_GcardSelection(Context context,List<EGcardApp> gcard){
-        this.builder = new AlertDialog.Builder(context);
-        instance = this;
-        this.mContext = context;
-        this.gcard = gcard;
+    public Dialog_GcardSelection(Context context) {
+        this.context = context;
+        this.customToast = new CustomToast(context);
+        this.loBuilder = new AlertDialog.Builder(context);
     }
 
-    public void showDialog(){
-        createDialog();
-        dialog.show();
-    }
+    public void initDialog(List<EGcardApp> gcard, OnClientSelectListener listener){
+        try{
+            View v = LayoutInflater.from(context).inflate(R.layout.dialog_dashboard_gcard_selection, null, false);
+            loBuilder.setCancelable(false)
+                    .setView(v);
+            poDialogx = loBuilder.create();
+            poDialogx.setCancelable(false);
 
-    private void createDialog(){
-        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_dashboard_gcard_selection, null, false);
-        builder.setView(view)
-                .setCancelable(false);
-        dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
-        setupWidgets(view);
+            lblGcard = v.findViewById(R.id.lbl_dialog_gcard_selection_label);
+            txtGcardNumber = v.findViewById(R.id.txt_dialog_gcard_selection_gcardNumber);
+            txtYear = v.findViewById(R.id.txt_dialog_gcard_selection_birthYear);
+            txtMonth = v.findViewById(R.id.txt_dialog_gcard_selection_birthMonth);
+            txtDay = v.findViewById(R.id.txt_dialog_gcard_selection_birthDay);
 
-//        setupGcardList();
-    }
-
-    @SuppressLint("RestrictedApi")
-    private void setupWidgets(View v){
-        poDialogx = new LoadDialog(mContext);
-        mViewModel = ViewModelProviders.of(((AppCompatActivity) mContext)).get(VMDashboard.class);
-        lblGcard = v.findViewById(R.id.lbl_dialog_gcard_selection_label);
-        txtGcardNumber = v.findViewById(R.id.txt_dialog_gcard_selection_gcardNumber);
-        txtYear = v.findViewById(R.id.txt_dialog_gcard_selection_birthYear);
-        txtMonth = v.findViewById(R.id.txt_dialog_gcard_selection_birthMonth);
-        txtDay = v.findViewById(R.id.txt_dialog_gcard_selection_birthDay);
-
-        btnRefreshList = v.findViewById(R.id.btn_dialog_refreshgcard);
-        btnAddNewGcard = v.findViewById(R.id.btn_dialog_gcard_selection_addnewGcard);
-        btnScnNewGcard = v.findViewById(R.id.btn_dialog_gcard_selection_scannewGcard);
-        btnCloseDialog = v.findViewById(R.id.btn_dialog_gcard_selection_closeDialog);
-        recyclerView = v.findViewById(R.id.recyclerview_dialog_gcard_selection);
-        Adapter_Gcard adapter = new Adapter_Gcard(gcard);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        txtGcardNumber.addTextChangedListener(new InputTextWatcher(txtGcardNumber));
-        txtYear.addTextChangedListener(new InputTextWatcher(txtYear));
-        txtMonth.addTextChangedListener(new InputTextWatcher(txtMonth));
-        txtDay.addTextChangedListener(new InputTextWatcher(txtDay));
-        btnAddNewGcard.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
+            btnRefreshList = v.findViewById(R.id.btn_dialog_refreshgcard);
+            btnAddNewGcard = v.findViewById(R.id.btn_dialog_gcard_selection_addnewGcard);
+            btnScnNewGcard = v.findViewById(R.id.btn_dialog_gcard_selection_scannewGcard);
+            btnCloseDialog = v.findViewById(R.id.btn_dialog_gcard_selection_closeDialog);
+            recyclerView = v.findViewById(R.id.recyclerview_dialog_gcard_selection);
+            Adapter_Gcard adapter = new Adapter_Gcard(gcard);
+            adapter.setOnGCardItemClickListener(new Adapter_Gcard.onGCardItemClickListener() {
+                @Override
+                public void onClick(String GCardNumber) {
+                    listener.onItemClick(poDialogx,GCardNumber);
+                }
+            });
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+            layoutManager.setOrientation(RecyclerView.VERTICAL);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
+            txtGcardNumber.addTextChangedListener(new InputTextWatcher(txtGcardNumber));
+            txtYear.addTextChangedListener(new InputTextWatcher(txtYear));
+            txtMonth.addTextChangedListener(new InputTextWatcher(txtMonth));
+            txtDay.addTextChangedListener(new InputTextWatcher(txtDay));
+//            btnRefreshList.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    new RefreshListTask().execute();
+//                }
+//            });
+            btnAddNewGcard.setOnClickListener(view ->{
                 if(isGcardDataValid()) {
                     String bday = txtYear.getText().toString() + "-" + txtMonth.getText().toString() + "-" + txtDay.getText().toString();
-                    mViewModel.addNewGCard(txtGcardNumber.getText().toString(), bday, new VMDashboard.onAddNewGCardListener() {
-                        @Override
-                        public void onAddResult() {
-                            poDialogx.initDialog("Guanzon App", "Adding new GCard. Please wait...", false);
-                            poDialogx.show();
-                        }
-
-                        @Override
-                        public void onSuccessResult() {
-                            poDialogx.dismiss();
-                            Toast.makeText(mContext, "gcard added successfully!", Toast.LENGTH_LONG).show();
-
-                        }
-
-                        @Override
-                        public void onErrorResult(String ErrorMessage) {
-                            poDialogx.dismiss();
-                            Toast.makeText(mContext, ErrorMessage, Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } else {
-//                    customToast.setMessage("Please check your Gcard details before proceeding.");
-//                    customToast.setType(CustomToast.CustomToastType.WARNING);
-//                    customToast.show();
+                    listener.OnAddNewGCard(poDialogx, txtGcardNumber.getText().toString(),bday);
+                }else {
+                    customToast.setMessage(message);
+                    customToast.setType(CustomToast.CustomToastType.WARNING);
+                    customToast.show();
                 }
-            }
-        });
 
-        btnScnNewGcard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mContext.startActivity(new Intent(mContext, Activity_QrCodeScanner.class));
-            }
-        });
+            });
+            btnScnNewGcard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, Activity_QrCodeScanner.class));
+                }
+            });
 
-        btnCloseDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismissDialog();
-            }
-        });
-    }
-
-    public static Dialog_GcardSelection getInstance(){
-        return instance;
-    }
-
-    public void dismissDialog(){
-        if(dialog.isShowing()){
-            dialog.dismiss();
+            btnCloseDialog.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (poDialogx.getWindow().isFloating()){
+                        poDialogx.dismiss();
+                    }
+                }
+            });
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
     }
+
+    public void show(){
+        if(!poDialogx.isShowing()){
+            poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            poDialogx.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
+            poDialogx.show();
+        }
+        else{
+            poDialogx.dismiss();
+        }
+    }
+
     private boolean isGcardDataValid(){
-        if(txtGcardNumber.getText().toString().isEmpty()){
-            return false;
-        } else if(txtGcardNumber.getText().length()!=13){
-            txtGcardNumber.setText("");
-            return false;
-        } else if(txtYear.getText().toString().isEmpty()){
-            return false;
-        } else if(txtYear.getText().length()!=4){
-            txtYear.setText("");
-            return false;
-        } else if(txtMonth.getText().toString().isEmpty()){
-            return false;
-        } else return !txtDay.getText().toString().isEmpty();
+        return isGCardNumberValid() &&
+                isYearValid() &&
+                isMonthValid() &&
+                isDayValid();
     }
 
 
@@ -237,27 +209,35 @@ public class Dialog_GcardSelection {
         }
     }
 
+
     private boolean isGCardNumberValid(){
         if(txtGcardNumber.getText().toString().isEmpty()){
+            message = "Please check your Gcard details before proceeding.";
             return false;
         } else return txtGcardNumber.getText().toString().length() >= 13;
     }
 
     private boolean isYearValid(){
+        message = "";
         if(txtYear.getText().toString().isEmpty()){
+            message = "Year of birth required!";
             return false;
         } else if(txtYear.getText().toString().length() < 4){
+            message = "Ivalid year of birth required!";
             return false;
         } else {
-            return false;
+            return true;
         }
     }
 
     private boolean isMonthValid(){
+        message = "";
         try {
             if (txtMonth.getText().toString().isEmpty()) {
+                message = "month of birth required!";
                 return false;
             } else if (txtMonth.getText().toString().length() != 2) {
+                message = "Invalid month of birth required!";
                 return false;
             } else if (Integer.parseInt(txtMonth.getText().toString()) > 12) {
                 txtMonth.setText("");
@@ -272,10 +252,13 @@ public class Dialog_GcardSelection {
     }
 
     private boolean isDayValid(){
+        message = "";
         try {
             if (txtDay.getText().toString().isEmpty()) {
+                message = "day of birth required!";
                 return false;
             } else if (txtDay.getText().toString().length() != 2) {
+                message = "day of birth required!";
                 return false;
             } else if (Integer.parseInt(txtDay.getText().toString()) > 31) {
                 txtDay.setText("");

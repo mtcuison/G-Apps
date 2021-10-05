@@ -99,24 +99,16 @@ public class Dialog_ContactUs {
                 }
             }
         });
-        btnGlobeContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent contantIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", " 0917-1545-477", null));
-                if (context instanceof Activity) {
-                    ((MainActivity) context).startActivityForResult(contantIntent, 002);
-                }
-            }
-        });
 
         btnEmailContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "customercare@guanzongroup.com.ph", null));
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Customer Service");
-                if(context instanceof Activity) {
-                    ((MainActivity) context).startActivityForResult(Intent.createChooser(emailIntent, "Send Email..."), 0001);
-                }
+                ((MainActivity) context).startActivity(Intent.createChooser(emailIntent, "Send Email..."));
+//                if(context instanceof Activity) {
+//                    ((MainActivity) context).startActivityForResult(Intent.createChooser(emailIntent, "Send Email..."), 0002);
+//                }
             }
         });
         btnFacebook.setOnClickListener(new View.OnClickListener() {

@@ -62,11 +62,12 @@ public class VMSplashScreen extends AndroidViewModel {
 //        pbIsTesting.setValue(poSession.isTesting_Phase());
 //        pbIsLocalHostChange.setValue(poSession.getIsLocalHostChange());
         paPermisions.setValue(new String[]{
+                Manifest.permission.MANAGE_EXTERNAL_STORAGE,
                 Manifest.permission.INTERNET,
                 Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.GET_ACCOUNTS,
                 Manifest.permission.CAMERA});
         pbGranted.setValue(hasPermissions(application.getApplicationContext(), paPermisions.getValue()));
@@ -127,6 +128,7 @@ public class VMSplashScreen extends AndroidViewModel {
                 }
             }
         }
+
         return true;
     }
 }

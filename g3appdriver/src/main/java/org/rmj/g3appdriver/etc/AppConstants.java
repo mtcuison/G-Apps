@@ -21,6 +21,8 @@ import java.util.Locale;
 public class AppConstants {
 
 
+    public static String MainFolder = "/GuanzonApps/";
+
     public static String ALL_DATA_SENT() throws Exception{
         JSONObject loJson = new JSONObject();
         loJson.put("result", "success");

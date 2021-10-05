@@ -42,8 +42,6 @@ public class Mobitek_Branches extends Fragment {
     }
     private void setupWidgets(){
         recyclerView = view.findViewById(R.id.recycler_view_fragment_branch_mobitek);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
+
     }
 }

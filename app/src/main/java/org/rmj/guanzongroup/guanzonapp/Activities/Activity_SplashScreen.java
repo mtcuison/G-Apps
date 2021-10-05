@@ -31,6 +31,7 @@ import org.rmj.g3appdriver.dev.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ServiceScheduler;
+import org.rmj.guanzongroup.guanzonapp.BuildConfig;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_AskDataServer;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_MobileNo;
 import org.rmj.guanzongroup.guanzonapp.Dialogs.MessageBox;
@@ -104,6 +105,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         imgSplashView = findViewById(R.id.img_splash_screen_logo);
         TextView lblBuildVersion = findViewById(R.id.lbl_splash_build_version);
         lblProgress = findViewById(R.id.lbl_splash_progress_status);
+        lblBuildVersion.setText("Build Version " + BuildConfig.VERSION_NAME + " - " + BuildConfig.VERSION_CODE + "Vc.");
 
     }
     private boolean isMyServiceRunning(Class<?> serviceClass) {
@@ -181,10 +183,10 @@ public class Activity_SplashScreen extends AppCompatActivity {
                     Dialog_MobileNo loMobile = new Dialog_MobileNo(Activity_SplashScreen.this);
                     loMobile.initDialog(new Dialog_MobileNo.OnMobileNoConfirmListener() {
                         @Override
-                        public void OnConfirm(String MobileNo) {
+                        public void OnConfirm(AlertDialog dialog, String MobileNo) {
                             mViewModel.setMobileNo(MobileNo);
+                            dialog.dismiss();
                             Activity_SplashScreen.this.recreate();
-//                            startSerives();
                         }
                     });
                     loMobile.show();
@@ -209,9 +211,9 @@ public class Activity_SplashScreen extends AppCompatActivity {
                 while (loading < 100) {
                     loading += 1;
                     Random random = new Random();
-                    loading += random.nextInt(10 - 1 + 1) + 1;
+                    loading += random.nextInt(7 - 1 + 1) + 1;
                     try {
-                        Thread.sleep(300);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

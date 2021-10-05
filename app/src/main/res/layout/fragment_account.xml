@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.Fragment_Account"
+    tools:context=".Activities.Activity_Account"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -86,8 +86,10 @@
                         android:layout_height="wrap_content"
                         android:text="Change Password"
                         tools:ignore="HardcodedText"
+                        android:textAlignment="center"
                         style="@style/CardViewDialog.BranchDetailDialog.Button"
-                        app:cornerRadius="20dp"/>
+                        app:cornerRadius="20dp"
+                        android:gravity="center|center_vertical|center_horizontal" />
 
                 </LinearLayout>
 

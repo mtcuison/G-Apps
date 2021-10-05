@@ -25,6 +25,7 @@ import org.rmj.g3appdriver.ImportData.Import_Branch;
 import org.rmj.g3appdriver.ImportData.Import_Events;
 import org.rmj.g3appdriver.ImportData.Import_McDetail;
 import org.rmj.g3appdriver.ImportData.Import_Orders;
+import org.rmj.g3appdriver.ImportData.Import_PreOrder;
 import org.rmj.g3appdriver.ImportData.Import_Promotions;
 import org.rmj.g3appdriver.ImportData.Import_Redeemables;
 import org.rmj.g3appdriver.ImportData.Import_Service;
@@ -63,6 +64,7 @@ public class DataImportService extends JobService {
                     new Import_Events(getApplication()),
                     new Import_Promotions(getApplication()),
                     new Import_Orders(getApplication()),
+                    new Import_PreOrder(getApplication()),
                     new Import_Redeemables(getApplication()),
                     new Import_Service(getApplication()),
                     new Import_McDetail(getApplication()),

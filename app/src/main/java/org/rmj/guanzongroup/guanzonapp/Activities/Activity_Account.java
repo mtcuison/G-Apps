@@ -1,10 +1,14 @@
 package org.rmj.guanzongroup.guanzonapp.Activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,9 +21,17 @@ import org.rmj.g3appdriver.Database.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.AppData;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.GAppMessageBox;
+import org.rmj.g3appdriver.etc.GToast;
+import org.rmj.guanzongroup.guanzonapp.Adapters.ActivityFragmentAdapter;
+import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_ChangePassword;
+import org.rmj.guanzongroup.guanzonapp.Dialogs.Dialog_Loading;
+import org.rmj.guanzongroup.guanzonapp.Fragments.Transaction.Fragment_AllTransactions;
+import org.rmj.guanzongroup.guanzonapp.Fragments.Transaction.Fragment_PointsEarn;
+import org.rmj.guanzongroup.guanzonapp.Fragments.Transaction.Fragment_Redemption;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMAccount;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMMainActivity;
+import org.rmj.guanzongroup.guanzonapp.etc.CustomToast;
 
 public class Activity_Account extends AppCompatActivity {
     private static final String TAG = Activity_Account.class.getSimpleName();
@@ -38,18 +50,29 @@ public class Activity_Account extends AppCompatActivity {
     private TabLayout tabLayout;
     private VMAccount mViewModel;
     private GAppMessageBox loMessage;
+    Dialog_Loading loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
         mViewModel = new ViewModelProvider(Activity_Account.this).get(VMAccount.class);
         loMessage = new GAppMessageBox(Activity_Account.this);
+        loading = new Dialog_Loading(Activity_Account.this);
         setupWidgets();
         mViewModel.getClientInfo().observe(Activity_Account.this, eClientInfo -> {
             try{
                 lblUsername.setText(eClientInfo.getUserName());
                 lblUserEmail.setText(eClientInfo.getEmailAdd());
                 lblMobileNo.setText(eClientInfo.getMobileNo());
+
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
+        });
+        mViewModel.getGCardInfo().observe(Activity_Account.this, gcad ->{
+            try {
+                lblGcardPoints.setText(gcad.getAvlPoint());
+                lblGcardNumber.setText(gcad.getCardNmbr());
             }catch (NullPointerException e){
                 e.printStackTrace();
             }
@@ -69,13 +92,64 @@ public class Activity_Account extends AppCompatActivity {
         btnDevices = findViewById(R.id.btn_account_otherDevice);
         viewPager = findViewById(R.id.viewpager_account_history);
         tabLayout = findViewById(R.id.tablayout_account_fragment_indicator);
+        ActivityFragmentAdapter adapter = new ActivityFragmentAdapter(getSupportFragmentManager());
+        adapter.addFragment(new Fragment_AllTransactions());
+        adapter.addFragment(new Fragment_PointsEarn());
+        adapter.addFragment(new Fragment_Redemption());
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_transaction_tab_all);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_transaction_tab_card);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_transaction_tab_redeem);
+
         btnLogout.setOnClickListener(v->{
             userLogout();
+        });
+        btnChangePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog_ChangePassword loDialog = new Dialog_ChangePassword(Activity_Account.this);
+                loDialog.createDialog(new Dialog_ChangePassword.onChangePasswordListener() {
+                    @Override
+                    public void onChangePassword(AlertDialog dialog, String oldPass, String newPass) {
+                        mViewModel.changePassword(oldPass, newPass, new VMAccount.onChangePasswordCallBackListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.M)
+                            @Override
+                            public void onStartChangePassword() {
+                                loading.setMessage("Please wait...");
+                                loading.showDialog();
+                            }
+
+                            @Override
+                            public void onSuccessChangePassword() {
+                                loading.dismissDialog();
+                                GToast.CreateMessage(Activity_Account.this, "Password reset successfully.", GToast.INFORMATION).show();
+                            }
+
+                            @Override
+                            public void onErrorChangePassword(String ErrorMessage) {
+                                loading.dismissDialog();
+                                loMessage.initDialog();
+                                loMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                    dialog.dismiss();
+                                });
+                                loMessage.setTitle("Guanzon App");
+                                loMessage.setMessage(ErrorMessage);
+                                loMessage.show();
+                            }
+                        });
+                    }
+                });
+                loDialog.showDialog();
+            }
+        });
+        btnDevices.setOnClickListener(v->{
+            GToast.CreateMessage(Activity_Account.this, "This feature is not yet available", GToast.WARNING).show();
         });
     }
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(Activity_Account.this, MainActivity.class));
         finish();
     }
 
@@ -88,8 +162,8 @@ public class Activity_Account extends AppCompatActivity {
             finish();
         });
         loMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
-        loMessage.setTitle("GhostRider");
-        loMessage.setMessage("Exit Ghostrider app?");
+        loMessage.setTitle("Guanzon App");
+        loMessage.setMessage("Are you sure you want to logout?");
         loMessage.show();
     }
 }

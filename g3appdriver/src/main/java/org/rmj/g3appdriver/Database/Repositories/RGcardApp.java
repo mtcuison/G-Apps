@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.Database.DataAccessObject.DGCardTransactionLedger;
@@ -20,6 +21,7 @@ import org.rmj.g3appdriver.etc.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.JarException;
 
 public class RGcardApp implements DGcardApp {
     private static final String TAG = "RAppEventInfo";
@@ -116,6 +118,11 @@ public class RGcardApp implements DGcardApp {
     }
 
     @Override
+    public List<EGcardApp> getAllGCard() {
+        return gcardDao.getAllGCard();
+    }
+
+    @Override
     public double getGCardTotPoints(String CardNmbr) {
         return gcardDao.getGCardTotPoints(CardNmbr);
     }
@@ -139,23 +146,24 @@ public class RGcardApp implements DGcardApp {
             gcardDao.updateGCardApp();
         }
     }
-    public boolean insertGCard(JSONObject loJson) throws Exception {
+    public boolean insertNewGCard(JSONObject loJson) {
         try {
-                EGcardApp info = new EGcardApp();
-                info.setGCardNox(loJson.getString("sGCardNox"));
-                info.setCardNmbr(loJson.getString("sCardNmbr"));
-                info.setUserIDxx(session.getUserID());
-                info.setNmOnCard(loJson.getString("sNmOnCard"));
-                info.setMemberxx(loJson.getString("dMemberxx"));
-                info.setCardType(loJson.getString("cCardType"));
-                info.setAvlPoint(loJson.getString("nAvlPoint"));
-                info.setTotPoint(loJson.getString("nTotPoint"));
-                info.setTranStat(loJson.getString("cCardStat"));
-                info.setActvStat("1");
-                info.setNotified("1");
-                gcardDao.insert(info);
+            Log.e(TAG, loJson.getString("sGCardNox"));
+            EGcardApp info = new EGcardApp();
+            info.setGCardNox(loJson.getString("sGCardNox"));
+            info.setCardNmbr(loJson.getString("sCardNmbr"));
+            info.setUserIDxx(session.getUserID());
+            info.setNmOnCard(loJson.getString("sNmOnCard"));
+            info.setMemberxx(loJson.getString("dMemberxx"));
+            info.setCardType(loJson.getString("cCardType"));
+            info.setAvlPoint(loJson.getString("nAvlPoint"));
+            info.setTotPoint(loJson.getString("nTotPoint"));
+            info.setTranStat(loJson.getString("cCardStat"));
+            info.setActvStat("1");
+            info.setNotified("1");
+            gcardDao.insert(info);
             return true;
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
             return false;
         }
@@ -172,7 +180,33 @@ public class RGcardApp implements DGcardApp {
             }
         }
     }
-
+    public boolean insertGCard(JSONObject jsonResponse) throws Exception {
+        try {
+            JSONArray jsonArray = jsonResponse.getJSONArray("detail");
+            List<EGcardApp> gcardList = new ArrayList<>();
+            for(int x = 0; x < jsonArray.length(); x++){
+                JSONObject loJson = jsonArray.getJSONObject(x);
+                EGcardApp info = new EGcardApp();
+                info.setGCardNox(loJson.getString("sGCardNox"));
+                info.setCardNmbr(loJson.getString("sCardNmbr"));
+                info.setUserIDxx(session.getUserID());
+                info.setNmOnCard(loJson.getString("sNmOnCard"));
+                info.setMemberxx(loJson.getString("dMemberxx"));
+                info.setCardType(loJson.getString("cCardType"));
+                info.setAvlPoint(loJson.getString("nAvlPoint"));
+                info.setTotPoint(loJson.getString("nTotPoint"));
+                info.setTranStat(loJson.getString("cCardStat"));
+                info.setActvStat("0");
+                info.setNotified("1");
+                gcardList.add(info);
+            }
+            gcardDao.insertBulkData(gcardList);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     public static class DeleteUserTask extends AsyncTask<Void, Void, Void> {
         private DGcardApp dGcardApp;
         public DeleteUserTask(Application application,DGcardApp dGcardApp ) {

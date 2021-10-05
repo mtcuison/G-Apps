@@ -26,7 +26,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_dialog_gcard_selection"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="120dp"
                 android:orientation="vertical"
                 android:layout_marginLeft="5dp"

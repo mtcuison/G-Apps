@@ -35,8 +35,6 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(':g3appdriver')
-    implementation project(':appdriver') //implement GhostRider Application Driver
     //implementation project(':g3cashmanager')
     //noinspection GradleCompatible
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -53,4 +51,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
     implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
+    implementation project(':g3appdriver')
+    implementation project(':appdriver') //implement GhostRider Application Driver
 }

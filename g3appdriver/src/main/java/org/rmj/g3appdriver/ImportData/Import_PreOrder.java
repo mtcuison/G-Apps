@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Import_PreOrder extends CodeGenerator implements ImportInstance {
-    private static final String TAG = Import_Branch.class.getSimpleName();
+    private static final String TAG = Import_PreOrder.class.getSimpleName();
     private final Application instance;
     private final AppConfigPreference poConfig;
     private final RGcardApp poGcardx;
@@ -47,7 +47,7 @@ public class Import_PreOrder extends CodeGenerator implements ImportInstance {
     public void ImportData(ImportDataCallback callback) {
         try {
             JSONObject loJson = new JSONObject();
-            loJson.put("secureno", generateSecureNo(poGcardx.getGCardInfo().getValue().getCardNmbr()));
+            loJson.put("secureno", generateSecureNo(poGcardx.getCardNo()));
             new ImportPreOrderTask(callback, instance).execute(loJson);
         } catch (Exception e){
             e.printStackTrace();

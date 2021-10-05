@@ -80,6 +80,7 @@ public class RClientInfo implements DClientInfo {
         }
     }
     public void LogoutUserSession(){
+        sessionManager.initUserLogout();
         new DeleteUserTask(application, clientDao).execute();
     }
     public static class DeleteUserTask extends AsyncTask<Void, Void, Void>{
