@@ -90,9 +90,6 @@
         <service
             android:name=".Services.DataImportService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service
-            android:name=".Services.ImportDataService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver
             android:name=".Services.ActionBroadCaster"
