@@ -56,8 +56,13 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
         holder.lblRedeemableName.setText(loRedeem.getPromoDsc());
         holder.lblRedeemablePoints.setText(String.valueOf(loRedeem.getPointsxx()));
 //        holder.imgRedeemableView.setImageBitmap(generateItemImage(loRedeem.getImageUrl().getBytes()));
-        holder.imgRedeemableView(loRedeem.getImageUrl());
-
+//        holder.imgRedeemableView(loRedeem.getImageUrl());
+        if (loRedeem.getImageUrl().equalsIgnoreCase("null") ||
+                loRedeem.getImageUrl().equalsIgnoreCase("https://i.ya-webdesign.com/images/no-image-png-1.png")){
+            holder.imgRedeemableView.setImageResource(R.drawable.ic_redeemables);
+        }else{
+            holder.imgRedeemableView(loRedeem.getImageUrl());
+        }
         holder.btnAddToCart.setOnClickListener(v -> {
             if(Double.parseDouble(poGcardxx.getAvlPoint()) >= loRedeem.getPointsxx()) {
                 try {

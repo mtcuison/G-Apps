@@ -63,6 +63,7 @@ public class Dialog_GcardSelection {
     private MaterialButton btnCloseDialog, btnScnNewGcard, btnAddNewGcard, btnRefreshList;
     private VMDashboard mViewModel;
     private CustomToast customToast;
+    private String message;
     public interface OnClientSelectListener{
         void OnAddNewGCard(AlertDialog dialog, String cardNo, String bdate);
         void onItemClick(AlertDialog dialog, String cardNo);
@@ -119,7 +120,7 @@ public class Dialog_GcardSelection {
                     String bday = txtYear.getText().toString() + "-" + txtMonth.getText().toString() + "-" + txtDay.getText().toString();
                     listener.OnAddNewGCard(poDialogx, txtGcardNumber.getText().toString(),bday);
                 }else {
-                    customToast.setMessage("Please check your Gcard details before proceeding.");
+                    customToast.setMessage(message);
                     customToast.setType(CustomToast.CustomToastType.WARNING);
                     customToast.show();
                 }
@@ -157,19 +158,10 @@ public class Dialog_GcardSelection {
     }
 
     private boolean isGcardDataValid(){
-        if(txtGcardNumber.getText().toString().isEmpty()){
-            return false;
-        } else if(txtGcardNumber.getText().length()!=13){
-            txtGcardNumber.setText("");
-            return false;
-        } else if(txtYear.getText().toString().isEmpty()){
-            return false;
-        } else if(txtYear.getText().length()!=4){
-            txtYear.setText("");
-            return false;
-        } else if(txtMonth.getText().toString().isEmpty()){
-            return false;
-        } else return !txtDay.getText().toString().isEmpty();
+        return isGCardNumberValid() &&
+                isYearValid() &&
+                isMonthValid() &&
+                isDayValid();
     }
 
 
@@ -217,27 +209,35 @@ public class Dialog_GcardSelection {
         }
     }
 
+
     private boolean isGCardNumberValid(){
         if(txtGcardNumber.getText().toString().isEmpty()){
+            message = "Please check your Gcard details before proceeding.";
             return false;
         } else return txtGcardNumber.getText().toString().length() >= 13;
     }
 
     private boolean isYearValid(){
+        message = "";
         if(txtYear.getText().toString().isEmpty()){
+            message = "Year of birth required!";
             return false;
         } else if(txtYear.getText().toString().length() < 4){
+            message = "Ivalid year of birth required!";
             return false;
         } else {
-            return false;
+            return true;
         }
     }
 
     private boolean isMonthValid(){
+        message = "";
         try {
             if (txtMonth.getText().toString().isEmpty()) {
+                message = "month of birth required!";
                 return false;
             } else if (txtMonth.getText().toString().length() != 2) {
+                message = "Invalid month of birth required!";
                 return false;
             } else if (Integer.parseInt(txtMonth.getText().toString()) > 12) {
                 txtMonth.setText("");
@@ -252,10 +252,13 @@ public class Dialog_GcardSelection {
     }
 
     private boolean isDayValid(){
+        message = "";
         try {
             if (txtDay.getText().toString().isEmpty()) {
+                message = "day of birth required!";
                 return false;
             } else if (txtDay.getText().toString().length() != 2) {
+                message = "day of birth required!";
                 return false;
             } else if (Integer.parseInt(txtDay.getText().toString()) > 31) {
                 txtDay.setText("");
