@@ -247,51 +247,89 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.menu_action_gcard_options:
                 try{
-                    mViewModel.getAllGCard(new VMMainActivity.OnDataFetchListener() {
-                        @Override
-                        public void OnCheckLocalData(List<EGcardApp> gcardApps) {
-                            gcardSelection = new Dialog_GcardSelection(MainActivity.this);
-                            gcardSelection.initDialog(gcardApps, new Dialog_GcardSelection.OnClientSelectListener() {
-                                @Override
-                                public void OnAddNewGCard(AlertDialog dialog, String cardNo, String bdate) {
-                                    mViewModel.addNewGCard(cardNo, bdate, new VMMainActivity.onAddNewGCardListener() {
-                                        @Override
-                                        public void onAddResult() {
-                                            poDialogx.initDialog("Guanzon App", "Adding new GCard. Please wait...", false);
-                                            poDialogx.show();
-                                        }
+                    gcardSelection = new Dialog_GcardSelection(MainActivity.this);
+                    mViewModel.getAllGCard().observe(MainActivity.this, gcardApps -> {
+                        gcardSelection.initDialog(gcardApps, new Dialog_GcardSelection.OnClientSelectListener() {
+                            @Override
+                            public void OnAddNewGCard(AlertDialog dialog, String cardNo, String bdate) {
+                                mViewModel.addNewGCard(cardNo, bdate, new VMMainActivity.onAddNewGCardListener() {
+                                    @Override
+                                    public void onAddResult() {
+                                        poDialogx.initDialog("Guanzon App", "Adding new GCard. Please wait...", false);
+                                        poDialogx.show();
+                                    }
 
-                                        @Override
-                                        public void onSuccessResult() {
-                                            poDialogx.dismiss();
-                                            customToast.setMessage("GCard successfully added.");
-                                            customToast.setType(CustomToast.CustomToastType.WARNING);
-                                            customToast.show();
-                                            dialog.dismiss();
-                                        }
+                                    @Override
+                                    public void onSuccessResult() {
+                                        poDialogx.dismiss();
+                                        GToast.CreateMessage(MainActivity.this, "GCard successfully added.", GToast.WARNING).show();
+                                        dialog.dismiss();
+                                    }
 
-                                        @Override
-                                        public void onErrorResult(String ErrorMessage) {
-                                            Log.e(TAG, ErrorMessage);
-                                            poDialogx.dismiss();
-                                            customToast.setMessage(ErrorMessage);
-                                            customToast.setType(CustomToast.CustomToastType.WARNING);
-                                            customToast.show();
-                                        }
-                                    });
-                                }
+                                    @Override
+                                    public void onErrorResult(String ErrorMessage) {
+                                        Log.e(TAG, ErrorMessage);
+                                        poDialogx.dismiss();
+                                        GToast.CreateMessage(MainActivity.this, ErrorMessage, GToast.WARNING).show();
 
-                                @Override
-                                public void onItemClick(AlertDialog dialog, String cardNo) {
-                                    Log.e(TAG, cardNo);
-                                    customToast.setMessage(cardNo);
-                                    customToast.setType(CustomToast.CustomToastType.WARNING);
-                                    customToast.show();
-                                }
-                            });
-                            gcardSelection.show();
-                        }
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onItemClick(AlertDialog dialog, String cardNo) {
+                                Log.e(TAG, cardNo);
+
+                                GToast.CreateMessage(MainActivity.this, cardNo, GToast.WARNING).show();
+                            }
+                        });
+
+                        gcardSelection.show();
                     });
+//                    mViewModel.getAllGCard(new VMMainActivity.OnDataFetchListener() {
+//                        @Override
+//                        public void OnCheckLocalData(List<EGcardApp> gcardApps) {
+//                            gcardSelection.initDialog(gcardApps, new Dialog_GcardSelection.OnClientSelectListener() {
+//                                @Override
+//                                public void OnAddNewGCard(AlertDialog dialog, String cardNo, String bdate) {
+//                                    mViewModel.addNewGCard(cardNo, bdate, new VMMainActivity.onAddNewGCardListener() {
+//                                        @Override
+//                                        public void onAddResult() {
+//                                            poDialogx.initDialog("Guanzon App", "Adding new GCard. Please wait...", false);
+//                                            poDialogx.show();
+//                                        }
+//
+//                                        @Override
+//                                        public void onSuccessResult() {
+//                                            poDialogx.dismiss();
+//                                            customToast.setMessage("GCard successfully added.");
+//                                            customToast.setType(CustomToast.CustomToastType.WARNING);
+//                                            customToast.show();
+//                                            dialog.dismiss();
+//                                        }
+//
+//                                        @Override
+//                                        public void onErrorResult(String ErrorMessage) {
+//                                            Log.e(TAG, ErrorMessage);
+//                                            poDialogx.dismiss();
+//                                            customToast.setMessage(ErrorMessage);
+//                                            customToast.setType(CustomToast.CustomToastType.WARNING);
+//                                            customToast.show();
+//                                        }
+//                                    });
+//                                }
+//
+//                                @Override
+//                                public void onItemClick(AlertDialog dialog, String cardNo) {
+//                                    Log.e(TAG, cardNo);
+//                                    customToast.setMessage(cardNo);
+//                                    customToast.setType(CustomToast.CustomToastType.WARNING);
+//                                    customToast.show();
+//                                }
+//                            });
+//                            gcardSelection.show();
+//                        }
+//                    });
                 }catch (NullPointerException e){
                     e.printStackTrace();
                 }catch (Exception e){

@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.internal.ContextUtils;
-import com.google.gson.internal.$Gson$Preconditions;
+//import com.google.gson.internal.$Gson$Preconditions;
 
 import org.rmj.g3appdriver.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.Database.Repositories.RGcardApp;
@@ -67,10 +67,6 @@ public class Dialog_GcardSelection {
         void OnAddNewGCard(AlertDialog dialog, String cardNo, String bdate);
         void onItemClick(AlertDialog dialog, String cardNo);
     }
-
-//    public interface OnGCardItemClickListener{
-//        void onItemClick(AlertDialog dialog, String cardNo, String bdate);
-//    }
 
     public Dialog_GcardSelection(Context context) {
         this.context = context;
@@ -112,6 +108,12 @@ public class Dialog_GcardSelection {
             txtYear.addTextChangedListener(new InputTextWatcher(txtYear));
             txtMonth.addTextChangedListener(new InputTextWatcher(txtMonth));
             txtDay.addTextChangedListener(new InputTextWatcher(txtDay));
+//            btnRefreshList.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    new RefreshListTask().execute();
+//                }
+//            });
             btnAddNewGcard.setOnClickListener(view ->{
                 if(isGcardDataValid()) {
                     String bday = txtYear.getText().toString() + "-" + txtMonth.getText().toString() + "-" + txtDay.getText().toString();
@@ -133,7 +135,9 @@ public class Dialog_GcardSelection {
             btnCloseDialog.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    poDialogx.dismiss();
+                    if (poDialogx.getWindow().isFloating()){
+                        poDialogx.dismiss();
+                    }
                 }
             });
         }catch (NullPointerException e){
@@ -146,6 +150,9 @@ public class Dialog_GcardSelection {
             poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             poDialogx.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
             poDialogx.show();
+        }
+        else{
+            poDialogx.dismiss();
         }
     }
 
