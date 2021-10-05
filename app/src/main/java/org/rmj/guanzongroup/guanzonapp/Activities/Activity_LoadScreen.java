@@ -17,16 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
-import org.rmj.androidprojects.guanzongroup.g3logindriver.Login.Activity_Login;
-import org.rmj.androidprojects.guanzongroup.g3logindriver.Services.LoginImportService;
-import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.utils.ServiceScheduler;
 import org.rmj.guanzongroup.guanzonapp.R;
-import org.rmj.guanzongroup.guanzonapp.Services.ImportDataService;
 
 import java.util.Random;
-
-import static org.rmj.g3appdriver.utils.ServiceScheduler.TWO_HOUR_PERIODIC;
 
 public class Activity_LoadScreen extends AppCompatActivity {
     private Context mContext = this;
