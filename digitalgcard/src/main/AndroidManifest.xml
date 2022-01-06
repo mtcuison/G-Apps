@@ -2,4 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.rmj.guanzongroup.digitalgcard">
 
+    <application>
+        <activity
+            android:name=".Activity_ManageGcard"
+            android:exported="true" />
+    </application>
+
 </manifest>

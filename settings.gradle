@@ -1,7 +1,7 @@
 include ':appdriver'
-include ':app', ':commons-codec-1.11', ':g3msg_notifylib', ':g3appdriver', ':g3logindriver'
 include ':notifications'
 include ':marketplace'
 include ':digitalgcard'
 include ':appcore'
 include ':authlibrary'
+include ':guanzonapp'

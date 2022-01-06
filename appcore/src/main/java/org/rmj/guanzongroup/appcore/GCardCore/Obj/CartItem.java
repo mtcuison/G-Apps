@@ -13,15 +13,15 @@ public class CartItem {
         this.nPointsxx = nPointsxx;
     }
 
-    public String getsTransNox() {
+    public String getTransNox() {
         return sTransNox;
     }
 
-    public String getsPromoIDx() {
+    public String getPromoIDx() {
         return sPromoIDx;
     }
 
-    public int getnItemQtyx() {
+    public int getItemQtyx() {
         return nItemQtyx;
     }
 

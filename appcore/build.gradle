@@ -10,6 +10,7 @@ android {
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -51,6 +52,6 @@ dependencies {
 //    implementation files('libs/commons-codec-1.11.jar')
 
     //Facebook integration Login
-    implementation 'com.facebook.android:facebook-login:5.15.3'
-    implementation 'com.facebook.android:facebook-common:5.15.3'
+//    implementation 'com.facebook.android:facebook-login:5.15.3'
+//    implementation 'com.facebook.android:facebook-common:5.15.3'
 }

@@ -72,6 +72,13 @@ public interface DRedeemItemInfo {
     @Query("UPDATE Redeem_Item SET sBranchCd = :fsBranch, cTranStat = '1', cPlcOrder = '1' WHERE sGCardNox = :fsGcardNo")
     void placeOrder(String fsGcardNo ,String fsBranch);
 
+    @Query("SELECT * FROM Redeem_Item WHERE sTransNox =:TransNox AND sPromoIDx=:PromoIDx")
+    List<ERedeemItemInfo> getRedeemableIfExist(String TransNox, String PromoIDx);
+
+    @Query("UPDATE Redeem_Item SET nItemQtyx =:ItemQty, nPointsxx=:ItemPts " +
+            "WHERE sTransNox=:TransNox AND sPromoIDx =:PromoIDx")
+    void UpdateExistingItemOnCart(String TransNox, String PromoIDx, int ItemQty, double ItemPts);
+
     class ItemDetail {
         public int quantity;
         public double points;

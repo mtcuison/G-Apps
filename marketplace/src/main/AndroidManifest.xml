@@ -2,4 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.rmj.guanzongroup.marketplace">
 
+    <application>
+        <activity
+            android:name=".Activity_PlaceOrder"
+            android:exported="true" />
+    </application>
+
 </manifest>
