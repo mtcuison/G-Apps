@@ -1,9 +1,6 @@
 package org.rmj.guanzongroup.appcore.GCardCore;
 
 import android.graphics.Bitmap;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -60,7 +57,6 @@ public class CodeGenerator {
         return bitmap;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public Bitmap generateGCardCodex(String SOURCE,
                                      String DeviceImei,
                                      String CardNumber,
@@ -233,7 +229,6 @@ public class CodeGenerator {
      *
      *
      * */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public String encryptPointsxx(double sPointsxx){
         return MySQLAESCrypt.Encrypt(String.valueOf(Double.valueOf(sPointsxx)), EncryptionKEY);
     }
@@ -304,9 +299,7 @@ public class CodeGenerator {
         try {
             double points = Double.parseDouble(getPointsxx());
             return points < 0;
-        } catch (NumberFormatException e){
-            e.printStackTrace();
-        }catch (Exception e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         return false;

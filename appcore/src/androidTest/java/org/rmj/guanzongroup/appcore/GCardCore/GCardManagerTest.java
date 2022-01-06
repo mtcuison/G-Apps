@@ -11,16 +11,14 @@ import androidx.lifecycle.Observer;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.rmj.guanzongroup.appcore.Database.Entities.EGCardTransactionLedger;
 import org.rmj.guanzongroup.appcore.Database.Entities.EGcardApp;
-import org.rmj.guanzongroup.appcore.Database.Entities.ERedeemablesInfo;
-import org.rmj.guanzongroup.appcore.GCardCore.Obj.CartItem;
 
 import java.util.List;
 
@@ -50,7 +48,7 @@ public class GCardManagerTest {
     }
 
     @Test
-    public void downloadGCardNumber() throws Exception{
+    public void DownloadGCardNumberTest() throws Exception{
         poSystem.DownloadGcardNumbers(new GCardSystem.GCardSystemCallback() {
             @Override
             public void OnSuccess(String args) {
@@ -59,8 +57,8 @@ public class GCardManagerTest {
                     poSystem.SaveGCardInfo(loDetail);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    isSuccess = false;
                 }
-
                 isSuccess = true;
             }
 
@@ -78,14 +76,61 @@ public class GCardManagerTest {
         loGcard.observeForever(new Observer<List<EGcardApp>>() {
             @Override
             public void onChanged(List<EGcardApp> eGcardApps) {
-                assertEquals(0, eGcardApps.size());
+                assertTrue(eGcardApps.size() > 0);
             }
         });
     }
 
     @Test
-    public void downloadRedeemablesTest() throws Exception {
-        poSystem.DownloadRedeemables(new GCardSystem.GCardSystemCallback() {
+    public void DownloadGCardTransactionTest() throws Exception{
+        poSystem.DownloadTransactions(new GCardSystem.GCardSystemCallback() {
+            @Override
+            public void OnSuccess(String args) {
+                isSuccess = true;
+            }
+
+            @Override
+            public void OnFailed(String fsMessage) {
+                isSuccess = false;
+                message = fsMessage;
+            }
+        });
+        assertTrue(isSuccess);
+    }
+
+    @Test @UiThread
+    public void GetGCardTransactionsTest(){
+        poSystem.GetGcardTransactions().observeForever(new Observer<List<EGCardTransactionLedger>>() {
+            @Override
+            public void onChanged(List<EGCardTransactionLedger> egCardTransactionLedgers) {
+                assertTrue(egCardTransactionLedgers.size() >= 0);
+            }
+        });
+    }
+
+    @Test @UiThread
+    public void GetGCardTransactionsTestPointsEntryList(){
+        poSystem.GetPointsEntryTransactions().observeForever(new Observer<List<EGCardTransactionLedger>>() {
+            @Override
+            public void onChanged(List<EGCardTransactionLedger> egCardTransactionLedgers) {
+                assertTrue(egCardTransactionLedgers.size() >= 0);
+            }
+        });
+    }
+
+    @Test @UiThread
+    public void GetGCardTransactionsTestRedemptionList(){
+        poSystem.GetRedemptionTransactions().observeForever(new Observer<List<EGCardTransactionLedger>>() {
+            @Override
+            public void onChanged(List<EGCardTransactionLedger> egCardTransactionLedgers) {
+                assertTrue(egCardTransactionLedgers.size() >= 0);
+            }
+        });
+    }
+
+    @Test @UiThread
+    public void DownloadMCRegistrationTest() throws Exception{
+        poSystem.DownloadRegistrationInfo(new GCardSystem.GCardSystemCallback() {
             @Override
             public void OnSuccess(String args) {
                 isSuccess = true;
@@ -97,45 +142,5 @@ public class GCardManagerTest {
             }
         });
         assertTrue(isSuccess);
-    }
-
-    @Test @UiThread
-    public void RedeemablesSavingTest() throws Exception{
-        poSystem.GetRedeemablesList().observeForever(new Observer<List<ERedeemablesInfo>>() {
-            @Override
-            public void onChanged(List<ERedeemablesInfo> eRedeemablesInfos) {
-                assertEquals(0, eRedeemablesInfos.size());
-            }
-        });
-    }
-
-    @Test
-    public void AddToCartTest() throws Exception{
-        poSystem.AddToCart(new CartItem("", "", 1, 50.00), new GCardSystem.GCardSystemCallback() {
-            @Override
-            public void OnSuccess(String args) {
-
-            }
-
-            @Override
-            public void OnFailed(String message) {
-
-            }
-        });
-    }
-
-    @Test
-    public void AddToCartTestUpdateExistingItemOnCart() throws Exception{
-        poSystem.AddToCart(new CartItem("", "", 1, 50.00), new GCardSystem.GCardSystemCallback() {
-            @Override
-            public void OnSuccess(String args) {
-
-            }
-
-            @Override
-            public void OnFailed(String message) {
-
-            }
-        });
     }
 }

@@ -32,10 +32,13 @@ public interface iGCardSystem {
     Bitmap GenerateGCardOrderQrCode() throws Exception;
 
     void DownloadTransactions(GCardSystem.GCardSystemCallback callback) throws Exception;
+    void SaveTransactions(JSONObject detail) throws Exception;
     LiveData<List<EGCardTransactionLedger>> GetGcardTransactions();
+    LiveData<List<EGCardTransactionLedger>> GetPointsEntryTransactions();
+    LiveData<List<EGCardTransactionLedger>> GetRedemptionTransactions();
 
-    void DownloadMCServiceInfo(String GCard, GCardSystem.GCardSystemCallback callback) throws Exception;
-    void DownloadRegistrationInfo(String GCard, GCardSystem.GCardSystemCallback callback) throws Exception;
+    void DownloadMCServiceInfo(GCardSystem.GCardSystemCallback callback) throws Exception;
+    void DownloadRegistrationInfo(GCardSystem.GCardSystemCallback callback) throws Exception;
     void SaveMcServiceInfo(JSONObject detail) throws Exception;
     void SaveRegistrationInfo(JSONObject detail) throws Exception;
     void ScheduleNextServiceDate(String date, GCardSystem.GCardSystemCallback callback) throws Exception;

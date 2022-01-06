@@ -77,6 +77,16 @@ public class RRedeemItemInfo implements DRedeemItemInfo {
         itemDao.placeOrder(fsGcardNo ,fsBranch);
     }
 
+    @Override
+    public List<ERedeemItemInfo> getRedeemableIfExist(String TransNox, String PromoIDx) {
+        return itemDao.getRedeemableIfExist(TransNox, PromoIDx);
+    }
+
+    @Override
+    public void UpdateExistingItemOnCart(String TransNox, String PromoIDx, int ItemQty, double ItemPts) {
+        itemDao.UpdateExistingItemOnCart(TransNox, PromoIDx, ItemQty, ItemPts);
+    }
+
     private static class InsertAsyncTask extends AsyncTask<ERedeemItemInfo, Void, Void> {
 
         private final DRedeemItemInfo dao;

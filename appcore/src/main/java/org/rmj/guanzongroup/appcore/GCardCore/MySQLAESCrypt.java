@@ -18,7 +18,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  *
- * @author sayson
+ * @author sayso
  */
 public class MySQLAESCrypt {
     private static SecretKeySpec generateMySQLAESKey(final String key, final String encoding) {
@@ -53,9 +53,9 @@ public class MySQLAESCrypt {
         } catch (InvalidKeyException ex) {
             ex.printStackTrace();
 //        } catch (IllegalBlockSizeException ex) {
-            ex.printStackTrace();
+//            ex.printStackTrace();
 //        } catch (BadPaddingException ex) {
-            ex.printStackTrace();
+//            ex.printStackTrace();
         }
 
         return null;
@@ -76,9 +76,9 @@ public class MySQLAESCrypt {
         } catch (InvalidKeyException ex) {
             ex.printStackTrace();
 //        } catch (IllegalBlockSizeException ex) {
-            ex.printStackTrace();
+//            ex.printStackTrace();
 //        } catch (BadPaddingException ex) {
-            ex.printStackTrace();
+//            ex.printStackTrace();
 //        } catch (DecoderException ex) {
 //            ex.printStackTrace();
         }

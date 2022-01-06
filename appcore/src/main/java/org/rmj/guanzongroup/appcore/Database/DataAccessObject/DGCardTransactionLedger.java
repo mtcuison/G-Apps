@@ -15,7 +15,7 @@ import java.util.List;
 public interface DGCardTransactionLedger {
     
     @Insert
-    void insert(EGCardTransactionLedger egCardTransactionLedger);
+    void Save(EGCardTransactionLedger egCardTransactionLedger);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBulkData(List<EGCardTransactionLedger> egCardTransactionLedgerList);
@@ -27,20 +27,21 @@ public interface DGCardTransactionLedger {
     void deleteGCardTrans();
 
     @Query("SELECT * FROM G_Card_Transaction_Ledger " +
-            "WHERE sGCardNox =:GCardNox " +
+            "WHERE sGCardNox = (SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1') " +
             "AND sSourceDs = 'REDEMPTION'" +
             "OR sSourceDs = 'PREORDER'")
-    LiveData<List<EGCardTransactionLedger>> getRedemptionTransactionsList(String GCardNox);
+    LiveData<List<EGCardTransactionLedger>> getRedemptionTransactionsList();
 
     @Query("SELECT * FROM G_Card_Transaction_Ledger " +
-            "WHERE sGCardNox =:GCardNox")
-    LiveData<List<EGCardTransactionLedger>> getAllTransactionsList(String GCardNox);
+            "WHERE sGCardNox = (SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1') " +
+            "ORDER BY dTransact DESC")
+    LiveData<List<EGCardTransactionLedger>> getAllTransactionsList();
 
     @Query("SELECT * FROM G_Card_Transaction_Ledger " +
-            "WHERE sGCardNox =:GCardNox " +
+            "WHERE sGCardNox = (SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1') " +
             "AND sSourceDs = 'ONLINE' " +
             "OR sSourceDs = 'OFFLINE'")
-    LiveData<List<EGCardTransactionLedger>> getPointsEntryTransactionsList(String GCardNox);
+    LiveData<List<EGCardTransactionLedger>> getPointsEntryTransactionsList();
 
     @Query("SELECT COUNT(sReferNox) FROM G_Card_Transaction_Ledger WHERE "  +
                 "sGCardNox =:gcardNo AND " +
