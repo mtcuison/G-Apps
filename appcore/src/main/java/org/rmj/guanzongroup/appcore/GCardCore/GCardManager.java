@@ -8,8 +8,12 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.guanzongroup.appcore.Database.Entities.EBranchInfo;
+import org.rmj.guanzongroup.appcore.Database.Entities.EEvents;
 import org.rmj.guanzongroup.appcore.Database.Entities.EGCardTransactionLedger;
 import org.rmj.guanzongroup.appcore.Database.Entities.EGcardApp;
+import org.rmj.guanzongroup.appcore.Database.Entities.EPromo;
+import org.rmj.guanzongroup.appcore.Database.Entities.ERedeemItemInfo;
 import org.rmj.guanzongroup.appcore.Database.Entities.ERedeemablesInfo;
 import org.rmj.guanzongroup.appcore.Database.Entities.EServiceInfo;
 import org.rmj.guanzongroup.appcore.Database.Repositories.RGCardTransactionLedger;
@@ -167,6 +171,11 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
+    public void SaveRedeemables(JSONObject detail) throws Exception {
+        throw new NullPointerException();
+    }
+
+    @Override
     public LiveData<List<ERedeemablesInfo>> GetRedeemablesList() {
         return null;
     }
@@ -182,7 +191,7 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
-    public void PlaceOrder(GcardCartItems items, GCardSystem.GCardSystemCallback callback) throws Exception {
+    public void PlaceOrder(List<ERedeemItemInfo> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }
 
@@ -335,6 +344,56 @@ public class GCardManager implements iGCardSystem{
     @Override
     public void ScheduleNextServiceDate(String date, GCardSystem.GCardSystemCallback callback) {
 
+    }
+
+    @Override
+    public void DownloadBranchesList(GCardSystem.GCardSystemCallback callback) throws Exception {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public void SaveBranchesList(JSONObject detail) throws Exception {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public LiveData<List<EBranchInfo>> GetMobileBranchList() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EBranchInfo>> GetMotorcycleBranchList() {
+        return null;
+    }
+
+    @Override
+    public void DownloadPromotions(GCardSystem.GCardSystemCallback callback) throws Exception {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public void SavePromotions(JSONObject detail) throws Exception {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public LiveData<List<EPromo>> GetPromotions() {
+        return null;
+    }
+
+    @Override
+    public void DownloadNewsEvents(GCardSystem.GCardSystemCallback callback) throws Exception {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public void SaveNewsEvents(JSONObject detail) throws Exception {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public LiveData<List<EEvents>> GetNewsEvents() {
+        return null;
     }
 
     @Override

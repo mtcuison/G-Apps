@@ -29,7 +29,7 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_item_cart" />
 
-        <item android:title="Gcard">
+        <item android:title="@string/menu_subtitle_gcard">
             <menu>
                 <item
                     android:id="@+id/nav_my_gcard"
@@ -50,22 +50,34 @@
                     android:id="@+id/nav_gcard_transactions"
                     android:icon="@drawable/ic_menu_camera"
                     android:title="@string/menu_gcard_transactions" />
+
+                <item
+                    android:id="@+id/nav_find_us"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/menu_find_us" />
             </menu>
 
         </item>
-        <item
-            android:id="@+id/nav_account_settings"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_account_settings" />
 
-        <item
-            android:id="@+id/nav_find_us"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_find_us" />
+        <item android:title="@string/menu_subtitle_system">
+            <menu>
+                <item
+                    android:id="@+id/nav_account_settings"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/menu_account_settings" />
 
-        <item
-            android:id="@+id/nav_customer_service"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_customer_service" />
+                <item
+                    android:id="@+id/nav_customer_service"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="@string/menu_customer_service" />
+
+                <item
+                    android:id="@+id/nav_about"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="@string/menu_about" />
+            </menu>
+        </item>
+
     </group>
+
 </menu>

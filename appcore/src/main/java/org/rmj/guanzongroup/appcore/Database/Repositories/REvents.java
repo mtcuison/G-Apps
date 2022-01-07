@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.appcore.Database.Repositories;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -17,12 +18,12 @@ import java.util.List;
 
 public class REvents implements DEvents {
     private static final String TAG = "RAppEventInfo";
-    private final Application application;
+    private final Context mContext;
 
     private final DEvents eventsDao;
-    public REvents(Application application){
-        this.application = application;
-        this.eventsDao = GGC_GuanzonAppDB.getInstance(application).EventDao();
+    public REvents(Context context){
+        this.mContext = context;
+        this.eventsDao = GGC_GuanzonAppDB.getInstance(mContext).EventDao();
     }
 
     @Override

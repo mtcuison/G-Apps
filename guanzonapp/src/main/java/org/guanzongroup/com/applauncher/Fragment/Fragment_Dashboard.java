@@ -1,4 +1,4 @@
-package org.guanzongroup.com.applauncher;
+package org.guanzongroup.com.applauncher.Fragment;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.guanzongroup.com.applauncher.R;
+import org.guanzongroup.com.applauncher.ViewModel.VMDashboard;
 
 public class Fragment_Dashboard extends Fragment {
 

@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.appcore.Database.Repositories;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
@@ -15,12 +16,12 @@ import java.util.List;
 
 public class RBranchInfo implements DBranchInfo {
     private static final String TAG = "RAppEventInfo";
-    private final Application application;
+    private final Context mContext;
 
     private final DBranchInfo brnDao;
-    public RBranchInfo(Application application){
-        this.application = application;
-        this.brnDao = GGC_GuanzonAppDB.getInstance(application).EBranchDao();
+    public RBranchInfo(Context context){
+        this.mContext = context;
+        this.brnDao = GGC_GuanzonAppDB.getInstance(mContext).EBranchDao();
     }
 
     @Override

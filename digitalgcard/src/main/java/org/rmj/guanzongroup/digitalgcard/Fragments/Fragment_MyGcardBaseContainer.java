@@ -34,6 +34,14 @@ public class Fragment_MyGcardBaseContainer extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMMyGcardBaseContainer.class);
         // TODO: Use the ViewModel
+        if(getArguments() != null){
+            int lnArgs = getArguments().getInt("gcardInstance");
+            if(lnArgs == 1){
+
+            } else if(lnArgs == 2){
+
+            }
+        }
     }
 
 }
