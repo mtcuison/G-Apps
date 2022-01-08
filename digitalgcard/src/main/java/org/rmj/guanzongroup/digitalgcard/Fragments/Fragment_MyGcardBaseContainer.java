@@ -12,16 +12,16 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.rmj.guanzongroup.appcore.GCardCore.GCardSystem;
 import org.rmj.guanzongroup.digitalgcard.R;
-import org.rmj.guanzongroup.digitalgcard.ViewModel.VMMyGcardBaseContainer;
+import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 
 public class Fragment_MyGcardBaseContainer extends Fragment {
 
-    private VMMyGcardBaseContainer mViewModel;
+    private VMGCardSystem mViewModel;
 
 
     public static Fragment_MyGcardBaseContainer newInstance() {
@@ -39,7 +39,7 @@ public class Fragment_MyGcardBaseContainer extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMMyGcardBaseContainer.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
 
         // TODO: Use the ViewModel
     }
@@ -53,13 +53,14 @@ public class Fragment_MyGcardBaseContainer extends Fragment {
         int lnFragArg = (int) getArguments().get("gcardInstance");
         switch (lnFragArg) {
             case 1:
+                mViewModel.setInstance(GCardSystem.CoreFunctions.GCARD);
                 return new Fragment_MyGcard();
-            case 2:
-                return new Fragment_Redeemables();
-            case 3:
-                return new Fragment_GcardOrders();
-            case 4:
-                return new Fragment_GcardLedger();
+//            case 2:
+//                return new Fragment_Redeemables();
+//            case 3:
+//                return new Fragment_GcardOrders();
+//            case 4:
+//                return new Fragment_GcardLedger();
             default:
                 return null;
         }
