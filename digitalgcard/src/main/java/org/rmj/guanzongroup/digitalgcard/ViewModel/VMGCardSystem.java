@@ -108,19 +108,19 @@ public class VMGCardSystem extends AndroidViewModel {
         new DownloadTransactionsTask(mGcardSys, poConnect, callback);
     }
 
-    public void SaveTransactions(JSONObject detail, GcardTransactionCallback callBack) {
+    public void saveTransactions(JSONObject detail, GcardTransactionCallback callBack) {
         new SaveTransactions(mGcardSys, poConnect, callBack).execute(detail);
     }
 
-    public void DownloadMCServiceInfo(GcardTransactionCallback callBack) {
+    public void downloadMCServiceInfo(GcardTransactionCallback callBack) {
         new DownloadMCServiceInfoTask(mGcardSys, poConnect, callBack).execute();
     }
 
-    public void DownloadRegistrationInfo(GcardTransactionCallback callback) {
+    public void downloadRegistrationInfo(GcardTransactionCallback callback) {
         new DownloadRegistrationInfoTask(mGcardSys, poConnect, callback).execute();
     }
 
-    public void ScheduleNextServiceDate(String date, GcardTransactionCallback callback) {
+    public void scheduleNextServiceDate(String date, GcardTransactionCallback callback) {
         new ScheduleNextServiceDateTask(mGcardSys, poConnect, callback).execute(date);
     }
 
