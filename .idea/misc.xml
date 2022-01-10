@@ -3,6 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/G-Apps/appcore/src/main/res/layout/activity_main.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps/digitalgcard/src/main/res/layout/fragment_gcard_ledger.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps/digitalgcard/src/main/res/layout/fragment_gcard_orders.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps/digitalgcard/src/main/res/layout/fragment_my_gcard.xml" value="0.25" />
+        <entry key="..\:/Projects/G-Apps/digitalgcard/src/main/res/layout/fragment_my_gcard_base_container.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps/digitalgcard/src/main/res/layout/fragment_redeemables.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps/guanzonapp/src/main/res/layout/content_activity_dashboard.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps/guanzonapp/src/main/res/layout/fragment_dashboard.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps/guanzonapp/src/main/res/menu/activity__dashboard.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps/guanzonapp/src/main/res/menu/activity_main_drawer.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/appLauncher/src/main/res/layout/activity_splash_screen.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/digitalgcard/src/main/res/layout/fragment_customer_service.xml" value="0.19375" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/guanzonapp/src/main/res/layout/activity_dashboard.xml" value="0.19375" />
@@ -18,7 +28,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
