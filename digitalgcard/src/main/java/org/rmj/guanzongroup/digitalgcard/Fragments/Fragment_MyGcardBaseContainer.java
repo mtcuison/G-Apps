@@ -53,7 +53,6 @@ public class Fragment_MyGcardBaseContainer extends Fragment {
         int lnFragArg = (int) getArguments().get("gcardInstance");
         switch (lnFragArg) {
             case 1:
-                mViewModel.setInstance(GCardSystem.CoreFunctions.GCARD);
                 return new Fragment_MyGcard();
 //            case 2:
 //                return new Fragment_Redeemables();
@@ -84,6 +83,7 @@ public class Fragment_MyGcardBaseContainer extends Fragment {
         public int getCount() {
             return 1;
         }
+
     }
 
 }
