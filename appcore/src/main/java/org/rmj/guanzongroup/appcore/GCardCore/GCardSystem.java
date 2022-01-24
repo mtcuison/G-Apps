@@ -7,10 +7,6 @@ public class GCardSystem {
 
     private Context mContext;
 
-    public interface OnValidateCallback{
-        void OnValidate(boolean isValid, String message);
-    }
-
     public interface GCardSystemCallback{
         void OnSuccess(String args);
         void OnFailed(String message);
