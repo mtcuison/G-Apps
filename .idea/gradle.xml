@@ -11,11 +11,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/appcore" />
             <option value="$PROJECT_DIR$/appdriver" />
             <option value="$PROJECT_DIR$/authlibrary" />
             <option value="$PROJECT_DIR$/digitalgcard" />
-            <option value="$PROJECT_DIR$/guanzonapp" />
             <option value="$PROJECT_DIR$/marketplace" />
             <option value="$PROJECT_DIR$/notifications" />
           </set>
