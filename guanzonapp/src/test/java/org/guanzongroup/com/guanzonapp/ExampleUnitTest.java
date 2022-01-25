@@ -1,4 +1,4 @@
-package org.guanzongroup.com.applauncher;
+package org.guanzongroup.com.guanzonapp;
 
 import org.junit.Test;
 

@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="org.guanzongroup.com.applauncher.Fragment_Dashboard"
-        android:label="@string/menu_wishlist"
+        android:name="org.guanzongroup.com.guanzonapp.Fragment.Fragment_Dashboard"
+        android:label="@string/menu_home"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/nav_notifications"
-        android:name="org.guanzongroup.com.applauncher.ui.gallery.GalleryFragment"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragments.Fragment_Notifications"
         android:label="@string/menu_notifications"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/nav_orders"

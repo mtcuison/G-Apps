@@ -23,7 +23,6 @@ import org.rmj.guanzongroup.appcore.Etc.AppConstants;
 import org.rmj.guanzongroup.appcore.Etc.SessionManager;
 import org.rmj.guanzongroup.appcore.Etc.Telephony;
 import org.rmj.guanzongroup.appcore.GCardCore.Obj.CartItem;
-import org.rmj.guanzongroup.appcore.GCardCore.Obj.GcardCartItems;
 import org.rmj.guanzongroup.appcore.GCardCore.Obj.GcardCredentials;
 import org.rmj.guanzongroup.appcore.ServerRequest.GCardAPI;
 import org.rmj.guanzongroup.appcore.ServerRequest.HttpHeaders;

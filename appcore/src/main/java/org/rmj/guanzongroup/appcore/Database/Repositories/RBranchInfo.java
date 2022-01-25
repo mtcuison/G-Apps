@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.appcore.Database.Repositories;
 
-import android.app.Application;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
@@ -77,7 +76,4 @@ public class RBranchInfo implements DBranchInfo {
         }
         return true;
     }
-
-
-
 }

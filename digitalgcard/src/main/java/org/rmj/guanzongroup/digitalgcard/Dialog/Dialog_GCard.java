@@ -10,8 +10,6 @@ public class Dialog_GCard {
         this.mBuilder = new AlertDialog.Builder(context);
     }
 
-    public void
-
     public interface OnDialogInteraction {
         void onPositiveBtnClick(String fsMessage);
         void onNegativeBtnClick(String fsMessage);

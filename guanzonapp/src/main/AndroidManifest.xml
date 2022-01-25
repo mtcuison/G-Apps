@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.guanzongroup.com.applauncher">
+    package="org.guanzongroup.com.guanzonapp">
 
     <application
         android:allowBackup="true"
@@ -10,13 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GApps">
         <activity
-            android:name=".Activity_SplashScreen"
+            android:name="org.guanzongroup.com.guanzonapp.Activity_SplashScreen"
             android:exported="true"
             android:screenOrientation="userPortrait"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/Theme.GApps.NoActionBar" />
         <activity
-            android:name=".Activity_Dashboard"
+            android:name="org.guanzongroup.com.guanzonapp.Activity_Dashboard"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
