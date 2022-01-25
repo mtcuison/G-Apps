@@ -16,11 +16,11 @@ import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 
-import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.guanzongroup.appcore.Etc.AppConfigPreference;
 import org.rmj.guanzongroup.appcore.Etc.SecUtil;
 import org.rmj.guanzongroup.appcore.Etc.SessionManager;
 import org.rmj.guanzongroup.appcore.Etc.Telephony;
+import org.rmj.guanzongroup.appcore.Utils.SQLUtil;
 
 import java.util.Calendar;
 import java.util.HashMap;

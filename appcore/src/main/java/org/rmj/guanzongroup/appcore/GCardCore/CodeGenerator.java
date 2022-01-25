@@ -1,14 +1,13 @@
 package org.rmj.guanzongroup.appcore.GCardCore;
 
 import android.graphics.Bitmap;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import org.rmj.appdriver.crypt.MySQLAES;
 
 import java.util.ArrayList;
 
@@ -16,11 +15,10 @@ public class CodeGenerator {
 
     private String EncryptionKEY = "20190625";
     MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-    MySQLAESCrypt encryptionManager = new MySQLAESCrypt();
+    MySQLAES poEncrypt = new MySQLAES();
     BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
     static String EncryptedQrCode = "";
     static String scanType = "";
-
 
     public void setEncryptedQrCode(String encryptedQrCode){
         EncryptedQrCode = encryptedQrCode;
@@ -49,7 +47,7 @@ public class CodeGenerator {
     public Bitmap generateQrCode(String SOURCE, String DeviceImei, String CardNumber, String UserID, String MobileNumber, String DateTime, double AvailablePoints, String sModelCde, String TransNox){
         Bitmap bitmap = null;
         String UnEncryptedString = SOURCE + "»" + DeviceImei + "»" + CardNumber + "»" + UserID + "»" + MobileNumber + "»" + DateTime + "»" + AvailablePoints + "»" + sModelCde + "»" + TransNox;
-        String EncryptedCode = MySQLAESCrypt.Encrypt(UnEncryptedString, EncryptionKEY);
+        String EncryptedCode = poEncrypt.Encrypt(UnEncryptedString, EncryptionKEY);
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(EncryptedCode, BarcodeFormat.QR_CODE, 900, 900);
             bitmap = barcodeEncoder.createBitmap(bitMatrix);
@@ -60,7 +58,6 @@ public class CodeGenerator {
         return bitmap;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public Bitmap generateGCardCodex(String SOURCE,
                                      String DeviceImei,
                                      String CardNumber,
@@ -72,7 +69,7 @@ public class CodeGenerator {
                                      String TransNox){
         Bitmap GcardCodex = null;
         String UnEncryptedString = SOURCE + "»" + DeviceImei + "»" + CardNumber + "»" + UserID + "»" + MobileNumber + "»" + DateTime + "»" + AvailablePoints + "»" + sModelCde + "»" + TransNox;
-        String EncryptedCode = MySQLAESCrypt.Encrypt(UnEncryptedString, EncryptionKEY);
+        String EncryptedCode = poEncrypt.Encrypt(UnEncryptedString, EncryptionKEY);
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(EncryptedCode, BarcodeFormat.QR_CODE, 700, 700);
             GcardCodex = barcodeEncoder.createBitmap(bitMatrix);
@@ -84,14 +81,14 @@ public class CodeGenerator {
     }
 
     public String generateSecureNo(String SecureNo){
-        return MySQLAESCrypt.Encrypt(SecureNo, EncryptionKEY);
+        return poEncrypt.Encrypt(SecureNo, EncryptionKEY);
     }
 
     /***********************************************************
      * QrCode is decrypted to get the original value
      * */
     private String decryptedQrCodeValue(){
-        String decyptedQrCode = MySQLAESCrypt.Decrypt(EncryptedQrCode, EncryptionKEY);
+        String decyptedQrCode = poEncrypt.Decrypt(EncryptedQrCode, EncryptionKEY);
         return decyptedQrCode;
     }
 
@@ -233,13 +230,12 @@ public class CodeGenerator {
      *
      *
      * */
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public String encryptPointsxx(double sPointsxx){
-        return MySQLAESCrypt.Encrypt(String.valueOf(Double.valueOf(sPointsxx)), EncryptionKEY);
+        return poEncrypt.Encrypt(String.valueOf(Double.valueOf(sPointsxx)), EncryptionKEY);
     }
 
     public String decryptPointsxx(String encryptedPointsxx){
-        return MySQLAESCrypt.Decrypt(encryptedPointsxx, EncryptionKEY);
+        return poEncrypt.Decrypt(encryptedPointsxx, EncryptionKEY);
     }
 
     public String generateTransNox(){
@@ -304,9 +300,7 @@ public class CodeGenerator {
         try {
             double points = Double.parseDouble(getPointsxx());
             return points < 0;
-        } catch (NumberFormatException e){
-            e.printStackTrace();
-        }catch (Exception e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         return false;

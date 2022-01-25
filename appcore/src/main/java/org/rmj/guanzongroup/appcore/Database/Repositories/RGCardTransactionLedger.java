@@ -1,6 +1,6 @@
 package org.rmj.guanzongroup.appcore.Database.Repositories;
 
-import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
@@ -14,18 +14,18 @@ import java.util.List;
 
 public class RGCardTransactionLedger implements DGCardTransactionLedger {
     private static final String TAG = "RAppEventInfo";
-    private final Application application;
+    private final Context mContext;
 
     private final DGCardTransactionLedger ledgerDao;
-    public RGCardTransactionLedger(Application application){
-        GGC_GuanzonAppDB database = GGC_GuanzonAppDB.getInstance(application);
-        this.application = application;
+    public RGCardTransactionLedger(Context context){
+        GGC_GuanzonAppDB database = GGC_GuanzonAppDB.getInstance(context);
+        this.mContext = context;
         this.ledgerDao = database.EGCardTransactionLedgerDao();
     }
 
     @Override
-    public void insert(EGCardTransactionLedger egCardTransactionLedger) {
-        ledgerDao.insert(egCardTransactionLedger);
+    public void Save(EGCardTransactionLedger egCardTransactionLedger) {
+        ledgerDao.Save(egCardTransactionLedger);
     }
 
     @Override
@@ -40,22 +40,22 @@ public class RGCardTransactionLedger implements DGCardTransactionLedger {
 
     @Override
     public void deleteGCardTrans() {
-        new DeleteUserTask(application, ledgerDao).execute();
+        new DeleteUserTask(mContext, ledgerDao).execute();
     }
 
     @Override
-    public LiveData<List<EGCardTransactionLedger>> getRedemptionTransactionsList(String GCardNox) {
-        return ledgerDao.getRedemptionTransactionsList(GCardNox);
+    public LiveData<List<EGCardTransactionLedger>> getRedemptionTransactionsList() {
+        return ledgerDao.getRedemptionTransactionsList();
     }
 
     @Override
-    public LiveData<List<EGCardTransactionLedger>> getAllTransactionsList(String GCardNox) {
-        return ledgerDao.getAllTransactionsList(GCardNox);
+    public LiveData<List<EGCardTransactionLedger>> getAllTransactionsList() {
+        return ledgerDao.getAllTransactionsList();
     }
 
     @Override
-    public LiveData<List<EGCardTransactionLedger>> getPointsEntryTransactionsList(String GCardNox) {
-        return ledgerDao.getPointsEntryTransactionsList(GCardNox);
+    public LiveData<List<EGCardTransactionLedger>> getPointsEntryTransactionsList() {
+        return ledgerDao.getPointsEntryTransactionsList();
     }
 
     @Override
@@ -66,9 +66,9 @@ public class RGCardTransactionLedger implements DGCardTransactionLedger {
     public static class DeleteUserTask extends AsyncTask<Void, Void, Void> {
         private DGCardTransactionLedger dGcardApp;
         private SessionManager sessionManager;
-        public DeleteUserTask(Application application,DGCardTransactionLedger dGcardApp ) {
+        public DeleteUserTask(Context context,DGCardTransactionLedger dGcardApp ) {
             this.dGcardApp = dGcardApp;
-            this.sessionManager = new SessionManager(application);
+            this.sessionManager = new SessionManager(context);
         }
 
         @Override

@@ -1,18 +1,11 @@
 package org.rmj.guanzongroup.appcore.GCardCore;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-
-import java.io.IOException;
 
 public class GCardSystem {
     private static final String TAG = GCardSystem.class.getSimpleName();
 
     private Context mContext;
-
-    public interface OnValidateCallback{
-        void OnValidate(boolean isValid, String message);
-    }
 
     public interface GCardSystemCallback{
         void OnSuccess(String args);
@@ -21,23 +14,26 @@ public class GCardSystem {
 
     public enum CoreFunctions{
         GCARD,
-        REDEEMPTION
+        REDEEMPTION,
+        EXTRAS
     }
 
     private final GCardManager poGcard;
-    private final ItemRedemptionManager poRedeem;
+    private final RedemptionManager poRedeem;
 
     public GCardSystem(Context context) {
         this.mContext = context;
         this.poGcard = new GCardManager(mContext);
-        this.poRedeem = new ItemRedemptionManager(mContext);
+        this.poRedeem = new RedemptionManager(mContext);
     }
 
     public iGCardSystem getInstance(CoreFunctions core){
         if(core == CoreFunctions.GCARD){
             return new GCardManager(mContext);
+        } else if(core == CoreFunctions.REDEEMPTION){
+            return new RedemptionManager(mContext);
         } else {
-            return new ItemRedemptionManager(mContext);
+            return new SystemExtras(mContext);
         }
     }
 }
