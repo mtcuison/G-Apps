@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.digitalgcard.Fragments;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,14 +12,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.rmj.guanzongroup.appcore.GCardCore.GCardSystem;
+import org.rmj.guanzongroup.digitalgcard.Dialog.Dialog_Confirmation;
+import org.rmj.guanzongroup.digitalgcard.Dialog.Dialog_GCard;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 
 public class Fragment_MyGcard extends Fragment {
 
     private VMGCardSystem mViewModel;
+    private TextView txtAwaw;
 
     public static Fragment_MyGcard newInstance() {
         return new Fragment_MyGcard();
@@ -37,11 +42,26 @@ public class Fragment_MyGcard extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
         mViewModel.setInstance(GCardSystem.CoreFunctions.GCARD);
+        txtAwaw.setOnClickListener(v -> {
+            Dialog_Confirmation loDialog = new Dialog_Confirmation(getActivity());
+            loDialog.initDialog(new Dialog_Confirmation.OnClientSelectListener() {
+                @Override
+                public void OnConfirm(AlertDialog dialog) {
+
+                }
+
+                @Override
+                public void OnCancel(AlertDialog dialog) {
+
+                }
+            });
+            loDialog.show();
+        });
 
     }
 
     private void initViews(View v) {
-
+        txtAwaw = v.findViewById(R.id.sample);
     }
 
 }

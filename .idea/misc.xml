@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Projects/G-Apps/appcore/src/main/res/layout/activity_main.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps/digitalgcard/src/main/res/layout/dialog_confirmation.xml" value="0.18" />
+        <entry key="..\:/Projects/G-Apps/digitalgcard/src/main/res/layout/dialog_gcard.xml" value="0.25" />
         <entry key="..\:/Projects/G-Apps/digitalgcard/src/main/res/layout/fragment_cart.xml" value="0.21614583333333334" />
         <entry key="..\:/Projects/G-Apps/digitalgcard/src/main/res/layout/fragment_gcard_ledger.xml" value="0.21614583333333334" />
         <entry key="..\:/Projects/G-Apps/digitalgcard/src/main/res/layout/fragment_gcard_orders.xml" value="0.21614583333333334" />

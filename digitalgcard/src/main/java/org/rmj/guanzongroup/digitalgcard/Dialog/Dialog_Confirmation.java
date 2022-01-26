@@ -9,37 +9,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import org.rmj.guanzongroup.digitalgcard.R;
 
-import java.util.List;
-
-public class Dialog_GCard {
+public class Dialog_Confirmation {
 
     private AlertDialog poDialogx;
     private final Context context;
 
-    public Dialog_GCard(Context context) {
+    public Dialog_Confirmation(Context context) {
         this.context = context;
     }
 
     public void initDialog(OnClientSelectListener listener){
         AlertDialog.Builder loBuilder = new AlertDialog.Builder(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_gcard, null, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_confirmation, null, false);
         loBuilder.setCancelable(false)
                 .setView(view);
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
 
         Button btnConfrm = view.findViewById(R.id.btn_confirm);
-        Button btnCancel = view.findViewById(R.id.btn_cancel);
 
-
-        btnCancel.setOnClickListener(v -> {
-            poDialogx.dismiss();
-        });
 
         btnConfrm.setOnClickListener(v -> {
             poDialogx.dismiss();
