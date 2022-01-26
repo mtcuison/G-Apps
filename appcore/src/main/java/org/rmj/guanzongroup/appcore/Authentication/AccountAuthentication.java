@@ -4,7 +4,6 @@ import android.content.Context;
 
 import org.json.JSONObject;
 import org.rmj.guanzongroup.appcore.Etc.AppConstants;
-import org.rmj.guanzongroup.appcore.Etc.ConnectionUtil;
 import org.rmj.guanzongroup.appcore.Etc.SessionManager;
 import org.rmj.guanzongroup.appcore.ServerRequest.HttpHeaders;
 import org.rmj.guanzongroup.appcore.ServerRequest.WebClient;

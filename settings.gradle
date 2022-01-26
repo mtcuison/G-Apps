@@ -1,7 +1,7 @@
+include ':app'
 include ':appdriver'
 include ':notifications'
 include ':marketplace'
 include ':digitalgcard'
 include ':appcore'
 include ':authlibrary'
-include ':guanzonapp'

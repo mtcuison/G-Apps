@@ -555,18 +555,18 @@ public class VMGCardSystem extends AndroidViewModel {
         protected Void doInBackground(String... strings) {
             try {
                 if(loConnect.isDeviceConnected()) {
-                    mGcardSys.PlaceOrder(loCartItm, new GCardSystem.GCardSystemCallback() {
-                        @Override
-                        public void OnSuccess(String args) {
-                            // TODO: Call the update of cart to local database
-                            loCallbck.onSuccess(args);
-                        }
-
-                        @Override
-                        public void OnFailed(String message) {
-                            loCallbck.onFailed(message);
-                        }
-                    });
+//                    mGcardSys.PlaceOrder(loCartItm, new GCardSystem.GCardSystemCallback() {
+//                        @Override
+//                        public void OnSuccess(String args) {
+//                            // TODO: Call the update of cart to local database
+//                            loCallbck.onSuccess(args);
+//                        }
+//
+//                        @Override
+//                        public void OnFailed(String message) {
+//                            loCallbck.onFailed(message);
+//                        }
+//                    });
                 } else {
                     loCallbck.onFailed(AppConstants.SERVER_NO_RESPONSE());
                 }

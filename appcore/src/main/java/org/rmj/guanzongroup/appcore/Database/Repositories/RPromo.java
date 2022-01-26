@@ -1,6 +1,6 @@
 package org.rmj.guanzongroup.appcore.Database.Repositories;
 
-import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -13,12 +13,12 @@ import java.util.List;
 
 public class RPromo implements DPromo {
     private static final String TAG = "RAppEventInfo";
-    private final Application application;
+    private final Context mContext;
 
     private final DPromo promoDao;
-    public RPromo(Application application){
-        GGC_GuanzonAppDB database = GGC_GuanzonAppDB.getInstance(application);
-        this.application = application;
+    public RPromo(Context context){
+        this.mContext = context;
+        GGC_GuanzonAppDB database = GGC_GuanzonAppDB.getInstance(mContext);
         this.promoDao = database.EPromoDao();
     }
 

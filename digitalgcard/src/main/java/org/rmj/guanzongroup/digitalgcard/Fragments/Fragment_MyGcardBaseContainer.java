@@ -42,6 +42,14 @@ public class Fragment_MyGcardBaseContainer extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
 
         // TODO: Use the ViewModel
+        if(getArguments() != null){
+            int lnArgs = getArguments().getInt("gcardInstance");
+            if(lnArgs == 1){
+
+            } else if(lnArgs == 2){
+
+            }
+        }
     }
 
     private void setViewPager(View view) {
