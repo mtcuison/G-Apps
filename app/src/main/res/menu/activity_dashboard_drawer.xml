@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_home" />
+
+        <item
+            android:id="@+id/nav_notifications"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/menu_notifications" />
+
+        <item
+            android:id="@+id/nav_orders"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/menu_orders" />
+
+        <item
+            android:id="@+id/nav_wishlist"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/menu_wishlist" />
+
+        <item
+            android:id="@+id/nav_item_cart"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_item_cart" />
+
+        <item android:title="@string/menu_subtitle_gcard">
+            <menu>
+                <item
+                    android:id="@+id/nav_my_gcard"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/menu_my_gcard" />
+
+                <item
+                    android:id="@+id/nav_redeemables"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/menu_redeemables" />
+
+                <item
+                    android:id="@+id/nav_gcard_orders"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="@string/menu_gcard_orders" />
+
+                <item
+                    android:id="@+id/nav_gcard_transactions"
+                    android:icon="@drawable/ic_menu_camera"
+                    android:title="@string/menu_gcard_transactions" />
+
+                <item
+                    android:id="@+id/nav_find_us"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/menu_find_us" />
+            </menu>
+
+        </item>
+
+        <item android:title="@string/menu_subtitle_system">
+            <menu>
+                <item
+                    android:id="@+id/nav_account_settings"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/menu_account_settings" />
+
+                <item
+                    android:id="@+id/nav_customer_service"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="@string/menu_customer_service" />
+
+                <item
+                    android:id="@+id/nav_about"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="@string/menu_about" />
+            </menu>
+        </item>
+
+    </group>
+
+</menu>
