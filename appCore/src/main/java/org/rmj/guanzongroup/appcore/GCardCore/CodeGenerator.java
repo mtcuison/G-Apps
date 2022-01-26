@@ -42,7 +42,7 @@ public class CodeGenerator {
      * MobileNumber
      * DateTime            DateTime Format must be(YYYYMMDDHHMMSS)
      * AvailablePoints
-     * Transanox = NULL
+     * Transnox = NULL
      * TransNox value is null until a successful redemption of points*/
     public Bitmap generateQrCode(String SOURCE, String DeviceImei, String CardNumber, String UserID, String MobileNumber, String DateTime, double AvailablePoints, String sModelCde, String TransNox){
         Bitmap bitmap = null;
@@ -82,6 +82,14 @@ public class CodeGenerator {
 
     public String generateSecureNo(String SecureNo){
         return poEncrypt.Encrypt(SecureNo, EncryptionKEY);
+    }
+
+    public String encryptPassword(String Password){
+        return poEncrypt.Encrypt(Password, EncryptionKEY);
+    }
+
+    public String decryptPassword(String EncryptedPassword){
+        return poEncrypt.Encrypt(EncryptedPassword, EncryptionKEY);
     }
 
     /***********************************************************
