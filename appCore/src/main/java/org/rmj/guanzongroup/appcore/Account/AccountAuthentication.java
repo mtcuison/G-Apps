@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.appcore.Authentication;
+package org.rmj.guanzongroup.appcore.Account;
 
 import android.content.Context;
 
