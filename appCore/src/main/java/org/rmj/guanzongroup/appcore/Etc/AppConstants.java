@@ -134,6 +134,13 @@ public class AppConstants {
             "Solo Parent",
             "Saturday"};
 
+    public static String[][] ACCOUNT_SETTINGS_MENU = new String[][]{
+            new String[] {"Account Details","Manage Email, Mobile Number, Password and Personal Information."},
+            new String[] {"Payment Options","Manage payment options for transactions made in the app."},
+            new String[] {"Shipping Address","Manage shipping address for delivery of orders."},
+            new String[] {"My GCard", "Manage GCard account for service and redeemables."}
+    };
+
     public static String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
     public static String CURRENT_DATE = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());

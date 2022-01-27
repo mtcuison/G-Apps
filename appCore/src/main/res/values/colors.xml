@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="app_background">#FAFAFA</color>
+    <color name="app_background">#FBFBFB</color>
     <color name="font_heavy">#101010</color>
     <color name="font_regular">#282828</color>
     <color name="font_light">#858585</color>
