@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_Dashboard"
+        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_Home"
         android:label="@string/lblMarketplace"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_notifications"

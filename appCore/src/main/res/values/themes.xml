@@ -14,4 +14,9 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="android:windowBackground">@color/app_background</item>
     </style>
+
+    <style name="FragmentTheme">
+        <item name="android:layout_margin" tools:ignore="NewApi">17dp</item>
+    </style>
+
 </resources>
