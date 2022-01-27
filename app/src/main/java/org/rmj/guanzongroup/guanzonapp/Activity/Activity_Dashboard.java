@@ -1,6 +1,7 @@
-package org.rmj.guanzongroup.guanzonapp;
+package org.rmj.guanzongroup.guanzonapp.Activity;
 
 import android.os.Bundle;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 
@@ -14,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 
 public class Activity_Dashboard extends AppCompatActivity {
@@ -63,7 +65,8 @@ public class Activity_Dashboard extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity__dashboard, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.marketplace_menu, menu);
         return true;
     }
 

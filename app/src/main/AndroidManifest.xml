@@ -31,10 +31,10 @@
         android:theme="@style/GuanzonMarketplace.Theme"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".Activity_Settings"
+            android:name=".Activity.Activity_Settings"
             android:exported="true" />
         <activity
-            android:name=".Activity_Dashboard"
+            android:name=".Activity.Activity_Dashboard"
             android:exported="true"
             android:theme="@style/GuanzonMarketplace.Theme">
             <intent-filter>
@@ -44,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity_SplashScreen"
+            android:name=".Activity.Activity_SplashScreen"
             android:exported="true"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />

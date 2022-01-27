@@ -1,8 +1,10 @@
-package org.rmj.guanzongroup.guanzonapp;
+package org.rmj.guanzongroup.guanzonapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import org.rmj.guanzongroup.guanzonapp.R;
 
 public class Activity_Settings extends AppCompatActivity {
 
