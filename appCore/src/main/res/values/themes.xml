@@ -3,16 +3,15 @@
     <style name="GuanzonMarketplace.Theme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/guanzon_digital_orange</item>
+        <item name="colorPrimary">@color/guanzon_digital_dark_grey</item>
         <item name="colorPrimaryVariant">@color/guanzon_digital_orange</item>
         <item name="colorOnPrimary">@color/guanzon_digital_orange</item>
-
-        <item name="colorAccent">@color/guanzon_digital_orange</item>
+        <item name="colorPrimaryDark">@color/status_bar</item>
+        <item name="colorAccent">@color/guanzon_digital_light_orange</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/guanzon_digital_orange</item>
         <item name="colorSecondaryVariant">@color/guanzon_digital_orange</item>
-        <item name="colorOnSecondary">@color/font_regular</item>
-        <item name="android:background">@color/app_background</item>
-        <item name="android:padding">10dp</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:windowBackground">@color/app_background</item>
     </style>
 </resources>

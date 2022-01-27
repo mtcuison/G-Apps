@@ -28,7 +28,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.GApps.NoActionBar"
+        android:theme="@style/GuanzonMarketplace.Theme"
         tools:ignore="AllowBackup">
         <activity
             android:name=".Activity_Settings"
@@ -36,7 +36,7 @@
         <activity
             android:name=".Activity_Dashboard"
             android:exported="true"
-            android:theme="@style/Theme.GApps.NoActionBar">
+            android:theme="@style/GuanzonMarketplace.Theme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,7 +47,7 @@
             android:name=".Activity_SplashScreen"
             android:exported="true"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/Theme.GApps.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
