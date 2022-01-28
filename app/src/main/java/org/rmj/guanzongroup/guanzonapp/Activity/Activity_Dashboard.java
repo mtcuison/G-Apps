@@ -45,7 +45,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
                 R.id.nav_notifications,
-                R.id.nav_orders,
+                R.id.nav_purchases,
                 R.id.nav_wishlist,
                 R.id.nav_item_cart,
                 R.id.nav_my_gcard,

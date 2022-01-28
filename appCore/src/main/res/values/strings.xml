@@ -10,12 +10,12 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_notifications">Notifications</string>
-    <string name="menu_orders">Orders</string>
+    <string name="menu_purchases">Purchases</string>
     <string name="menu_wishlist">Wishlist</string>
     <string name="menu_item_cart">Item Cart</string>
     <string name="menu_my_gcard">My Gcard</string>
     <string name="menu_redeemables">Redeemables</string>
-    <string name="menu_gcard_orders">Gcard Orders</string>
+    <string name="menu_gcard_orders">Orders</string>
     <string name="menu_gcard_transactions">Gcard Transactions</string>
     <string name="menu_account_settings">Account Settings</string>
     <string name="menu_find_us">Find Us</string>

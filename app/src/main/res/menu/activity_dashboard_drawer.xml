@@ -6,39 +6,39 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_baseline_home_24"
             android:title="@string/menu_home" />
 
         <item
             android:id="@+id/nav_notifications"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_baseline_notifications_24"
             android:title="@string/menu_notifications" />
 
         <item
-            android:id="@+id/nav_orders"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_orders" />
+            android:id="@+id/nav_purchases"
+            android:icon="@drawable/ic_baseline_shopping_bag_24"
+            android:title="@string/menu_purchases" />
 
         <item
             android:id="@+id/nav_wishlist"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_baseline_heart_24"
             android:title="@string/menu_wishlist" />
 
         <item
             android:id="@+id/nav_item_cart"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_baseline_shopping_cart_24"
             android:title="@string/menu_item_cart" />
 
         <item android:title="@string/menu_subtitle_gcard">
             <menu>
                 <item
                     android:id="@+id/nav_my_gcard"
-                    android:icon="@drawable/ic_menu_gallery"
+                    android:icon="@drawable/ic_settings_card_24"
                     android:title="@string/menu_my_gcard" />
 
                 <item
                     android:id="@+id/nav_redeemables"
-                    android:icon="@drawable/ic_menu_gallery"
+                    android:icon="@drawable/ic_baseline_gift_24"
                     android:title="@string/menu_redeemables" />
 
                 <item
@@ -48,13 +48,9 @@
 
                 <item
                     android:id="@+id/nav_gcard_transactions"
-                    android:icon="@drawable/ic_menu_camera"
+                    android:icon="@drawable/ic_baseline_assignment_24"
                     android:title="@string/menu_gcard_transactions" />
 
-                <item
-                    android:id="@+id/nav_find_us"
-                    android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/menu_find_us" />
             </menu>
 
         </item>
@@ -63,17 +59,22 @@
             <menu>
                 <item
                     android:id="@+id/nav_account_settings"
-                    android:icon="@drawable/ic_menu_gallery"
+                    android:icon="@drawable/ic_baseline_settings_24"
                     android:title="@string/menu_account_settings" />
 
                 <item
                     android:id="@+id/nav_customer_service"
-                    android:icon="@drawable/ic_menu_slideshow"
+                    android:icon="@drawable/ic_baseline_headset_mic_24"
                     android:title="@string/menu_customer_service" />
 
                 <item
+                    android:id="@+id/nav_find_us"
+                    android:icon="@drawable/ic_baseline_location_24"
+                    android:title="@string/menu_find_us" />
+
+                <item
                     android:id="@+id/nav_about"
-                    android:icon="@drawable/ic_menu_slideshow"
+                    android:icon="@drawable/ic_baseline_info_24"
                     android:title="@string/menu_about" />
             </menu>
         </item>
