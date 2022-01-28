@@ -28,4 +28,6 @@
 
     <string name="lblMarketplace">Marketplace</string>
     <string name="lblActiveGcard">Active GCard</string>
+    <string name="lblLogin">Log In</string>
+    <string name="lblSignup">Sign Up</string>
 </resources>

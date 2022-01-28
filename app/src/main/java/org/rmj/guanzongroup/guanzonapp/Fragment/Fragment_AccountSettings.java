@@ -1,10 +1,12 @@
 package org.rmj.guanzongroup.guanzonapp.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.rmj.guanzongroup.appcore.Etc.AppConstants;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMAccountSettings;
@@ -44,15 +48,22 @@ public class Fragment_AccountSettings extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMAccountSettings.class);
         // TODO: Use the ViewModel
 
-        poAdapter = new Adapter_AccountSettings(getMenuList());
-        recyclerView.setAdapter(poAdapter);
-        poAdapter.notifyDataSetChanged();
+        setSettingsAdapter();
     }
 
     private void setUpViews(View v) {
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
+    }
+
+    private void setSettingsAdapter() {
+        poAdapter = new Adapter_AccountSettings(getMenuList(), position -> {
+//            Intent loIntent = new Intent();
+            Toast.makeText(getActivity(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+        });
+        recyclerView.setAdapter(poAdapter);
+        poAdapter.notifyDataSetChanged();
     }
 
     private ArrayList<String[]> getMenuList() {

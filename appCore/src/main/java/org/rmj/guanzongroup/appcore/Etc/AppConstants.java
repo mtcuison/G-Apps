@@ -135,10 +135,10 @@ public class AppConstants {
             "Saturday"};
 
     public static String[][] ACCOUNT_SETTINGS_MENU = new String[][]{
-            new String[] {"Account Details","Manage Email, Mobile Number, Password and Personal Information."},
-            new String[] {"Payment Options","Manage payment options for transactions made in the app."},
-            new String[] {"Shipping Address","Manage shipping address for delivery of orders."},
-            new String[] {"My GCard", "Manage GCard account for service and redeemables."}
+            new String[] {"0","Account Details","Manage Email, Mobile Number, Password and Personal Information."},
+            new String[] {"1","Payment Options","Manage payment options for transactions made in the app."},
+            new String[] {"2","Shipping Address","Manage shipping address for delivery of ordered products."},
+            new String[] {"3","My GCard", "Manage GCard account for Motorcyle Services and Points for Redeemables."}
     };
 
     public static String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
