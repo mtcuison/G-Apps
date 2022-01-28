@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -60,6 +62,8 @@ public class Activity_Dashboard extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_activity_dashboard);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        setUpHeader(navigationView);
     }
 
     @Override
@@ -75,5 +79,19 @@ public class Activity_Dashboard extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_activity_dashboard);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private void setUpHeader(NavigationView foNavigxx) {
+        View headerLayout = foNavigxx.getHeaderView(0);
+        TextView txtSignUp = headerLayout.findViewById(R.id.lblSignup);
+        TextView txtLogin = headerLayout.findViewById(R.id.lblLogin);
+
+        txtSignUp.setOnClickListener(v -> {
+            Toast.makeText(Activity_Dashboard.this, "Sign up clicked", Toast.LENGTH_SHORT).show();
+        });
+
+        txtLogin.setOnClickListener(v -> {
+            Toast.makeText(Activity_Dashboard.this, "Log in clicked", Toast.LENGTH_SHORT).show();
+        });
     }
 }
