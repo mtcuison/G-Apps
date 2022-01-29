@@ -28,8 +28,14 @@
 
     <string name="lblMarketplace">Marketplace</string>
     <string name="lblActiveGcard">Active GCard</string>
+    <string name="lblManageGcard">Manage GCard</string>
+    <string name="lblScheduleService">Schedule Service Date</string>
     <string name="lblLogin">Log In</string>
     <string name="lblSignup">Sign Up</string>
 
+    <string name="descServiceDate">Your next service date:</string>
+
     <string name="mock_fullname">Juan Sison Dela Cruz</string>
+    <string name="mock_mc_name">Yamaha Aerox 155</string>
+    <string name="mock_date">January 1, 2022</string>
 </resources>
