@@ -83,8 +83,8 @@ public class Activity_Dashboard extends AppCompatActivity {
 
     private void setUpHeader(NavigationView foNavigxx) {
         View headerLayout = foNavigxx.getHeaderView(0);
-        TextView txtSignUp = headerLayout.findViewById(R.id.lblSignup);
-        TextView txtLogin = headerLayout.findViewById(R.id.lblLogin);
+        TextView txtSignUp = headerLayout.findViewById(R.id.lbl_Signup);
+        TextView txtLogin = headerLayout.findViewById(R.id.lbl_Login);
 
         txtSignUp.setOnClickListener(v -> {
             Toast.makeText(Activity_Dashboard.this, "Sign up clicked", Toast.LENGTH_SHORT).show();

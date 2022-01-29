@@ -30,4 +30,6 @@
     <string name="lblActiveGcard">Active GCard</string>
     <string name="lblLogin">Log In</string>
     <string name="lblSignup">Sign Up</string>
+
+    <string name="mock_fullname">Juan Sison Dela Cruz</string>
 </resources>
