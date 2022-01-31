@@ -13,18 +13,18 @@ import androidx.lifecycle.ViewModelProvider;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
 
-public class Fragment_Dashboard extends Fragment {
+public class Fragment_Home extends Fragment {
 
     private VMDashboard mViewModel;
 
-    public static Fragment_Dashboard newInstance() {
-        return new Fragment_Dashboard();
+    public static Fragment_Home newInstance() {
+        return new Fragment_Home();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override

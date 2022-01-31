@@ -3,6 +3,38 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/drawable-v21/ic_menu_camera.xml" value="0.22407407407407406" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/drawable-v21/ic_menu_gallery.xml" value="0.22407407407407406" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/drawable-v21/ic_menu_slideshow.xml" value="0.22407407407407406" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/drawable/circle.xml" value="0.22870370370370371" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22407407407407406" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/drawable/side_nav_bar.xml" value="0.22407407407407406" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/drawable/user_image.xml" value="0.22870370370370371" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/activity_dashboard.xml" value="0.21197916666666666" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/activity_settings.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/activity_splash_screen.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/app_bar_activity_dashboard.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/content_activity_dashboard.xml" value="0.21197916666666666" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/fragment_about.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/fragment_account_settings.xml" value="0.20871794871794871" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/fragment_home.xml" value="0.20871794871794871" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/nav_header_activity_dashboard.xml" value="0.22" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/settings_menu_list.xml" value="0.21197916666666666" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/menu/activity__dashboard.xml" value="0.21197916666666666" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/menu/activity_dashboard_drawer.xml" value="0.21197916666666666" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.23229166666666667" />
+        <entry key="..\:/Projects/G-Apps22/appCore/src/main/res/drawable/circular_imageview.xml" value="0.22870370370370371" />
+        <entry key="..\:/Projects/G-Apps22/appCore/src/main/res/drawable/default_user_image.xml" value="0.22870370370370371" />
+        <entry key="..\:/Projects/G-Apps22/appCore/src/main/res/drawable/ic_baseline_headset_mic_24.xml" value="0.22407407407407406" />
+        <entry key="..\:/Projects/G-Apps22/appCore/src/main/res/drawable/ic_baseline_history_24.xml" value="0.22870370370370371" />
+        <entry key="..\:/Projects/G-Apps22/appCore/src/main/res/drawable/ic_baseline_search_48.xml" value="0.2246153846153846" />
+        <entry key="..\:/Projects/G-Apps22/appCore/src/main/res/drawable/ic_baseline_shopping_cart_48.xml" value="0.22407407407407406" />
+        <entry key="..\:/Projects/G-Apps22/appCore/src/main/res/drawable/ic_settings_card_24.xml" value="0.23229166666666667" />
+        <entry key="..\:/Projects/G-Apps22/appCore/src/main/res/drawable/ic_settings_person_24.xml" value="0.23229166666666667" />
+        <entry key="..\:/Projects/G-Apps22/appCore/src/main/res/drawable/ic_settings_shipping_24.xml" value="0.23229166666666667" />
+        <entry key="..\:/Projects/G-Apps22/appCore/src/main/res/drawable/ic_settings_wallet_24.xml" value="0.23229166666666667" />
+        <entry key="..\:/Projects/G-Apps22/appCore/src/main/res/menu/marketplace_menu.xml" value="0.21197916666666666" />
+        <entry key="..\:/Projects/G-Apps22/digitalGcard/src/main/res/layout/fragment_my_gcard.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/drawable-xxhdpi/ic_launcher_background.xml" value="0.12291666666666666" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/drawable/ic_launcher_background.xml" value="0.12291666666666666" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/activity_splash_screen.xml" value="0.19375" />
@@ -26,5 +58,5 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

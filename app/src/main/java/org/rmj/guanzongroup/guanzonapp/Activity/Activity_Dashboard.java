@@ -1,8 +1,11 @@
-package org.rmj.guanzongroup.guanzonapp;
+package org.rmj.guanzongroup.guanzonapp.Activity;
 
 import android.os.Bundle;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -14,6 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 
 public class Activity_Dashboard extends AppCompatActivity {
@@ -29,13 +33,13 @@ public class Activity_Dashboard extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarActivityDashboard.toolbar);
-        binding.appBarActivityDashboard.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        binding.appBarActivityDashboard.fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
@@ -43,7 +47,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
                 R.id.nav_notifications,
-                R.id.nav_orders,
+                R.id.nav_purchases,
                 R.id.nav_wishlist,
                 R.id.nav_item_cart,
                 R.id.nav_my_gcard,
@@ -58,12 +62,15 @@ public class Activity_Dashboard extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_activity_dashboard);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        setUpHeader(navigationView);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity__dashboard, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.marketplace_menu, menu);
         return true;
     }
 
@@ -72,5 +79,19 @@ public class Activity_Dashboard extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_activity_dashboard);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private void setUpHeader(NavigationView foNavigxx) {
+        View headerLayout = foNavigxx.getHeaderView(0);
+        TextView txtSignUp = headerLayout.findViewById(R.id.lbl_Signup);
+        TextView txtLogin = headerLayout.findViewById(R.id.lbl_Login);
+
+        txtSignUp.setOnClickListener(v -> {
+            Toast.makeText(Activity_Dashboard.this, "Sign up clicked", Toast.LENGTH_SHORT).show();
+        });
+
+        txtLogin.setOnClickListener(v -> {
+            Toast.makeText(Activity_Dashboard.this, "Log in clicked", Toast.LENGTH_SHORT).show();
+        });
     }
 }
