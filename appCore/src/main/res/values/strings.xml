@@ -28,7 +28,9 @@
 
     <string name="lblMarketplace">Marketplace</string>
     <string name="lblActiveGcard">Active GCard</string>
+    <string name="lblOtherGcard">Other GCard</string>
     <string name="lblManageGcard">Manage GCard</string>
+    <string name="lblAddGcard">Add GCard</string>
     <string name="lblScheduleService">Schedule Service Date</string>
     <string name="lblLogin">Log In</string>
     <string name="lblSignup">Sign Up</string>

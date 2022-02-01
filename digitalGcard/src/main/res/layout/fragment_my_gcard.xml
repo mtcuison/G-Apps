@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.Fragment_MyGcard"
+    tools:context=".Fragment.Fragment_MyGcard"
     android:theme="@style/FragmentTheme">
 
     <TextView
@@ -32,12 +32,16 @@
         android:id="@+id/card_gCard"
         android:layout_width="0dp"
         android:layout_height="150dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/guanzon_digital_orange"
-        app:cardElevation="5dp"
         app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lblManageGcard"
-        app:layout_constraintRight_toRightOf="parent">
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true">
 
     </androidx.cardview.widget.CardView>
 
@@ -46,7 +50,7 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:backgroundTint="@color/guanzon_digital_grey"
-        app:cardElevation="5dp"
+        app:cardElevation="3dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_gCard"
@@ -83,7 +87,7 @@
     <View
         android:id="@+id/divider"
         android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_height="0.4dp"
         android:background="@color/font_light"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iconMotorcycle"
@@ -93,7 +97,7 @@
         android:id="@+id/card_schedule"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:cardElevation="5dp"
+        app:cardElevation="3dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider"
