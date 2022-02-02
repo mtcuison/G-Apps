@@ -2,12 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.rmj.guanzongroup.digitalgcard">
 
-    <application
-        android:theme="@style/GuanzonMarketplace.Theme">
+    <application>
+        <activity
+            android:name=".Activity.Activity_AddGcard"
+            android:exported="true"/>
         <activity
             android:name=".Activity.Activity_ManageGcard"
-            android:theme="@style/GuanzonMarketplace.Theme"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/GuanzonMarketplace.Theme" />
     </application>
 
 </manifest>

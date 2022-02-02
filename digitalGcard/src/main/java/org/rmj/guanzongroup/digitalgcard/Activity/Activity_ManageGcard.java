@@ -6,9 +6,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.google.android.material.button.MaterialButton;
 
 import org.rmj.guanzongroup.digitalgcard.Adapter.Adapter_GcardList;
 import org.rmj.guanzongroup.digitalgcard.Model.GcardInfo;
@@ -21,6 +24,7 @@ import java.util.Objects;
 public class Activity_ManageGcard extends AppCompatActivity {
 
     private Adapter_GcardList poAdapter;
+    private MaterialButton btnAddGcard;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
 
@@ -33,6 +37,11 @@ public class Activity_ManageGcard extends AppCompatActivity {
         initViews();
         setUpToolbar();
         setGcardAdapter();
+
+        btnAddGcard.setOnClickListener(v -> {
+            Intent loIntent = new Intent(Activity_ManageGcard.this, Activity_AddGcard.class);
+            startActivity(loIntent);
+        });
     }
 
     @Override
@@ -51,6 +60,7 @@ public class Activity_ManageGcard extends AppCompatActivity {
 
     // Initialize this first before anything else.
     private void initViews() {
+        btnAddGcard = findViewById(R.id.btnAddGcard);
         toolbar = findViewById(R.id.toolbar_transaction);
         recyclerView = findViewById(R.id.card_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(Activity_ManageGcard.this));
