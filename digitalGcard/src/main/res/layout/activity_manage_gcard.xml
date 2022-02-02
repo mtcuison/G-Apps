@@ -85,7 +85,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:text="@string/lblAddGcard"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/ButtonStyle.Grey.Small"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
