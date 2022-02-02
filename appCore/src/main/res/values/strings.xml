@@ -31,6 +31,9 @@
     <string name="lblOtherGcard">Other GCard</string>
     <string name="lblManageGcard">Manage GCard</string>
     <string name="lblAddGcard">Add GCard</string>
+    <string name="lblOr">or</string>
+    <string name="lblGcardNumber">GCard Number</string>
+    <string name="lblBirthdate">Birth Date</string>
     <string name="lblScheduleService">Schedule Service Date</string>
     <string name="lblLogin">Log In</string>
     <string name="lblSignup">Sign Up</string>
