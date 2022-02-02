@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         style="@style/FragmentTheme"
-        android:paddingTop="30dp">
+        android:paddingTop="35dp">
 
         <TextView
             android:id="@+id/lblGcardNo"
@@ -82,7 +82,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_birth_date"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="70dp"/>
+            android:layout_marginTop="70dp"
+            style="@style/ButtonStyle.Orange.Medium"/>
 
 
         <TextView
@@ -102,11 +103,12 @@
             android:id="@+id/btnScanGcard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/lblAddGcard"
+            android:text="@string/lblScanGcard"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnAddGcard"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginTop="50dp"
+            style="@style/ButtonStyle.Grey.Medium"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
