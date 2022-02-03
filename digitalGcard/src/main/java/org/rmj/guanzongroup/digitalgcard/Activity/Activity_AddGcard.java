@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.guanzongroup.digitalgcard.R;
+import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,6 +21,7 @@ import java.util.Objects;
 
 public class Activity_AddGcard extends AppCompatActivity {
 
+    private VMGCardSystem mViewModel;
     private Toolbar toolbar;
     private TextInputEditText txtBdatex;
 

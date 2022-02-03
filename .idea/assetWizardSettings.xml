@@ -360,7 +360,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/schedule/baseline_schedule_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/info/baseline_info_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -370,8 +370,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="282828" />
-                            <entry key="outputName" value="ic_baseline_schedule_24" />
+                            <entry key="color" value="2bbc55" />
+                            <entry key="outputName" value="ic_baseline_info_24" />
                             <entry key="sourceFile" value="C:\Users\user\Desktop\default_user_image.svg" />
                           </map>
                         </option>

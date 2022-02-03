@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.guanzonapp.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 
 public class Activity_Dashboard extends AppCompatActivity {
 
@@ -87,11 +90,13 @@ public class Activity_Dashboard extends AppCompatActivity {
         TextView txtLogin = headerLayout.findViewById(R.id.lbl_Login);
 
         txtSignUp.setOnClickListener(v -> {
-            Toast.makeText(Activity_Dashboard.this, "Sign up clicked", Toast.LENGTH_SHORT).show();
+            Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SignUp.class);
+            startActivity(loIntent);
         });
 
         txtLogin.setOnClickListener(v -> {
-            Toast.makeText(Activity_Dashboard.this, "Log in clicked", Toast.LENGTH_SHORT).show();
+            Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
+            startActivity(loIntent);
         });
     }
 }
