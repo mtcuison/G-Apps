@@ -79,7 +79,11 @@
         android:id="@+id/nav_account_settings"
         android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_AccountSettings"
         android:label="@string/menu_account_settings"
-        tools:layout="@layout/fragment_my_gcard_base_container" />
+        tools:layout="@layout/fragment_my_gcard_base_container" >
+        <action
+            android:id="@+id/action_nav_account_settings_to_nav_my_gcard"
+            app:destination="@id/nav_my_gcard" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_find_us"

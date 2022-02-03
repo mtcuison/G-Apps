@@ -1,8 +1,6 @@
 package org.rmj.guanzongroup.guanzonapp.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import org.rmj.guanzongroup.appcore.Etc.AppConstants;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMAccountSettings;
@@ -39,6 +36,7 @@ public class Fragment_AccountSettings extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_account_settings, container, false);
         setUpViews(v);
+        setSettingsAdapter(v);
         return v;
     }
 
@@ -48,7 +46,6 @@ public class Fragment_AccountSettings extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMAccountSettings.class);
         // TODO: Use the ViewModel
 
-        setSettingsAdapter();
     }
 
     private void setUpViews(View v) {
@@ -57,10 +54,15 @@ public class Fragment_AccountSettings extends Fragment {
         recyclerView.setHasFixedSize(true);
     }
 
-    private void setSettingsAdapter() {
+    private void setSettingsAdapter(View view) {
         poAdapter = new Adapter_AccountSettings(getMenuList(), position -> {
-//            Intent loIntent = new Intent();
-            Toast.makeText(getActivity(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+            switch(position) {
+                case 3:
+                    Bundle loBundle = new Bundle();
+                    loBundle.putInt("gcardInstance", 1);
+                    Navigation.findNavController(view).navigate(R.id.action_nav_account_settings_to_nav_my_gcard, loBundle);
+                    break;
+            }
         });
         recyclerView.setAdapter(poAdapter);
         poAdapter.notifyDataSetChanged();
