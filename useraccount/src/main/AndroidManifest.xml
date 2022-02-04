@@ -4,13 +4,16 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_ForgotPassword"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_SignUp"
             android:exported="false"
-            android:theme="@style/GuanzonMarketplace.Theme"/>
+            android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_Login"
             android:exported="false"
-            android:theme="@style/GuanzonMarketplace.Theme"/>
+            android:theme="@style/GuanzonMarketplace.Theme" />
     </application>
 
 </manifest>
