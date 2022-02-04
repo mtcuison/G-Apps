@@ -5,7 +5,8 @@
     <application>
         <activity
             android:name=".Activity.Activity_ForgotPassword"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_SignUp"
             android:exported="false"

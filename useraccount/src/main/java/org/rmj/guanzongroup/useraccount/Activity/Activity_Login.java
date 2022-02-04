@@ -97,7 +97,7 @@ public class Activity_Login extends AppCompatActivity {
                     default:
                         tilEmail.setVisibility(View.VISIBLE);
                         tilMobile.setVisibility(View.INVISIBLE);
-                        lblUser.setText(R.string.lblEmail);
+                        lblUser.setText(R.string.lblEmailAddress);
                         break;
                 }
             }
