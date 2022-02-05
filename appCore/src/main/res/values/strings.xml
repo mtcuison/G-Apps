@@ -50,6 +50,7 @@
     <string name="lblScheduleService">Schedule Service Date</string>
     <string name="lblLogin">Log In</string>
     <string name="lblSignup">Sign Up</string>
+    <string name="lblResendPassword">Re-send Password</string>
     <string name="lblNext">Next</string>
     <string name="lblPrevious">Previous</string>
     <string name="lblBack">Back</string>
