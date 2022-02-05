@@ -3,23 +3,35 @@ package org.rmj.guanzongroup.useraccount.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import org.rmj.guanzongroup.appcore.Etc.FragmentAdapter;
+import org.rmj.guanzongroup.appcore.Etc.NonSwipeableViewPager;
+import org.rmj.guanzongroup.useraccount.Fragment.Fragment_SignUpInfo;
+import org.rmj.guanzongroup.useraccount.Fragment.Fragment_SignUpPassword;
 import org.rmj.guanzongroup.useraccount.R;
 
 import java.util.Objects;
 
 public class Activity_SignUp extends AppCompatActivity {
 
+    private static Activity_SignUp instance;
     private Toolbar toolbar;
+    private NonSwipeableViewPager viewPager;
+
+    private Fragment[] poPages = new Fragment[] {
+            new Fragment_SignUpInfo(),
+            new Fragment_SignUpPassword()
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
+        instance = Activity_SignUp.this;
         initViews();
         setUpToolbar();
     }
@@ -37,9 +49,15 @@ public class Activity_SignUp extends AppCompatActivity {
         finish();
     }
 
+    public static Activity_SignUp getInstance() {
+        return instance;
+    }
+
     // Initialize this first before anything else.
     private void initViews() {
         toolbar = findViewById(R.id.toolbar);
+        viewPager = findViewById(R.id.viewpager_signup);
+        viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), poPages));
     }
 
     // Initialize initViews() before this method.
@@ -47,6 +65,10 @@ public class Activity_SignUp extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Sign Up");
+    }
+
+    public void moveToPageNumber(int fnPageNum){
+        viewPager.setCurrentItem(fnPageNum);
     }
 
 }
