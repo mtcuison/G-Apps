@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.digitalgcard.Fragments;
+package org.rmj.guanzongroup.digitalgcard.Fragment;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,26 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.digitalgcard.R;
-import org.rmj.guanzongroup.digitalgcard.ViewModel.VMCustomerService;
+import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGcardLedger;
 
-public class Fragment_CustomerService extends Fragment {
+public class Fragment_GcardLedger extends Fragment {
 
-    private VMCustomerService mViewModel;
+    private VMGcardLedger mViewModel;
 
-    public static Fragment_CustomerService newInstance() {
-        return new Fragment_CustomerService();
+    public static Fragment_GcardLedger newInstance() {
+        return new Fragment_GcardLedger();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_customer_service, container, false);
+        return inflater.inflate(R.layout.fragment_gcard_ledger, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMCustomerService.class);
+        mViewModel = new ViewModelProvider(this).get(VMGcardLedger.class);
         // TODO: Use the ViewModel
     }
 

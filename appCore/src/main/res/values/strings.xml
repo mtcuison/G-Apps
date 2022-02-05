@@ -28,10 +28,28 @@
 
     <string name="lblMarketplace">Marketplace</string>
     <string name="lblActiveGcard">Active GCard</string>
+    <string name="lblOtherGcard">Other GCard</string>
     <string name="lblManageGcard">Manage GCard</string>
+    <string name="lblAddGcard">Add GCard</string>
+    <string name="lblScanGcard">Scan GCard</string>
+    <string name="lblOr">or</string>
+    <string name="lblGcardNumber">GCard Number</string>
+    <string name="lblEmail">Email</string>
+    <string name="lblMobile">Mobile</string>
+    <string name="lblEmailAddress">Email Address</string>
+    <string name="lblMobileNumber">Mobile Number</string>
+    <string name="lblPassword">Password</string>
+    <string name="lblForgotPass">Forgot Password?</string>
+    <string name="lblCreateAccount">Create Account</string>
+    <string name="lblLastname">Last Name</string>
+    <string name="lblFirstname">First Name</string>
+    <string name="lblMiddname">Middle Name</string>
+    <string name="lblSuffix">Suffix</string>
+    <string name="lblBirthdate">Birth Date</string>
     <string name="lblScheduleService">Schedule Service Date</string>
     <string name="lblLogin">Log In</string>
     <string name="lblSignup">Sign Up</string>
+    <string name="lblNext">Next</string>
 
     <string name="descServiceDate">Your next service date:</string>
 

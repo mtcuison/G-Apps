@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.digitalgcard.Fragments;
+package org.rmj.guanzongroup.digitalgcard.Fragment;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,26 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.digitalgcard.R;
-import org.rmj.guanzongroup.digitalgcard.ViewModel.VMRedeemables;
+import org.rmj.guanzongroup.digitalgcard.ViewModel.VMCustomerService;
 
-public class Fragment_Redeemables extends Fragment {
+public class Fragment_CustomerService extends Fragment {
 
-    private VMRedeemables mViewModel;
+    private VMCustomerService mViewModel;
 
-    public static Fragment_Redeemables newInstance() {
-        return new Fragment_Redeemables();
+    public static Fragment_CustomerService newInstance() {
+        return new Fragment_CustomerService();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_redeemables, container, false);
+        return inflater.inflate(R.layout.fragment_customer_service, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMRedeemables.class);
+        mViewModel = new ViewModelProvider(this).get(VMCustomerService.class);
         // TODO: Use the ViewModel
     }
 

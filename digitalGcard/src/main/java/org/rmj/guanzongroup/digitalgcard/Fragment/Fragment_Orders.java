@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.digitalgcard.Fragments;
+package org.rmj.guanzongroup.digitalgcard.Fragment;
 
 import android.os.Bundle;
 

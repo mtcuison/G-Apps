@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.digitalgcard.Fragments;
+package org.rmj.guanzongroup.digitalgcard.Fragment;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,26 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.digitalgcard.R;
-import org.rmj.guanzongroup.digitalgcard.ViewModel.VMFindUs;
+import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGcardOrders;
 
-public class Fragment_FindUs extends Fragment {
+public class Fragment_GcardOrders extends Fragment {
 
-    private VMFindUs mViewModel;
+    private VMGcardOrders mViewModel;
 
-    public static Fragment_FindUs newInstance() {
-        return new Fragment_FindUs();
+    public static Fragment_GcardOrders newInstance() {
+        return new Fragment_GcardOrders();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_find_us, container, false);
+        return inflater.inflate(R.layout.fragment_gcard_orders, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMFindUs.class);
+        mViewModel = new ViewModelProvider(this).get(VMGcardOrders.class);
         // TODO: Use the ViewModel
     }
 
