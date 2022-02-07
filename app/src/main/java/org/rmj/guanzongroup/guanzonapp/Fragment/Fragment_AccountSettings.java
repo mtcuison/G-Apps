@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.guanzonapp.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.guanzongroup.appcore.Etc.AppConstants;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMAccountSettings;
+import org.rmj.guanzongroup.guanzonapp.Activity.Activity_AccountDetails;
 import org.rmj.guanzongroup.guanzonapp.Adapter.Adapter_AccountSettings;
 import org.rmj.guanzongroup.guanzonapp.R;
 
@@ -57,6 +59,10 @@ public class Fragment_AccountSettings extends Fragment {
     private void setSettingsAdapter(View view) {
         poAdapter = new Adapter_AccountSettings(getMenuList(), position -> {
             switch(position) {
+                case 0:
+                    Intent loIntent = new Intent(getActivity(), Activity_AccountDetails.class);
+                    startActivity(loIntent);
+                    break;
                 case 3:
                     Bundle loBundle = new Bundle();
                     loBundle.putInt("gcardInstance", 1);

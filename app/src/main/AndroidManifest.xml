@@ -31,6 +31,10 @@
         android:theme="@style/GuanzonMarketplace.Theme"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".Activity.Activity_AccountDetails"
+            android:exported="false"
+            android:theme="@style/GuanzonMarketplace.Theme"/>
+        <activity
             android:name=".Activity.Activity_Settings"
             android:exported="true" />
         <activity
