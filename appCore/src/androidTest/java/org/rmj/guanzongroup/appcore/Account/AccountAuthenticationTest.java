@@ -8,6 +8,7 @@ import androidx.test.core.app.ApplicationProvider;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.rmj.guanzongroup.appcore.Etc.SessionManager;
 
