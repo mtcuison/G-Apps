@@ -40,7 +40,9 @@
     <string name="lblMobileNumber">Mobile Number</string>
     <string name="lblPassword">Password</string>
     <string name="lblForgotPass">Forgot Password?</string>
+    <string name="lblRetypePass">Re-type Password</string>
     <string name="lblCreateAccount">Create Account</string>
+    <string name="lblFullName">Full Name</string>
     <string name="lblLastname">Last Name</string>
     <string name="lblFirstname">First Name</string>
     <string name="lblMiddname">Middle Name</string>
@@ -49,7 +51,15 @@
     <string name="lblScheduleService">Schedule Service Date</string>
     <string name="lblLogin">Log In</string>
     <string name="lblSignup">Sign Up</string>
+    <string name="lblResendPassword">Re-send Password</string>
     <string name="lblNext">Next</string>
+    <string name="lblPrevious">Previous</string>
+    <string name="lblBack">Back</string>
+    <string name="lblAgree">I Agree</string>
+    <string name="lblSetNow">Set Now</string>
+
+    <string name="lblInfoPassword">Please provide a password for your account.</string>
+    <string name="lblTermsConditions"> with the Terms and Conditions.</string>
 
     <string name="descServiceDate">Your next service date:</string>
 
