@@ -133,6 +133,13 @@ public class AppConstants {
             "Solo Parent",
             "Saturday"};
 
+    public static String[][] ACCOUNT_SETTINGS_MENU = new String[][]{
+            new String[] {"0","Account Details","Manage Email, Mobile Number, Password and Personal Information."},
+            new String[] {"1","Payment Options","Manage payment options for transactions made in the app."},
+            new String[] {"2","Shipping Address","Manage shipping address for delivery of ordered products."},
+            new String[] {"3","My GCard", "Manage GCard account for Motorcyle Services and Points for Redeemables."}
+    };
+
     public static String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
     public static String CURRENT_DATE = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());

@@ -7,26 +7,26 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_Dashboard"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_dashboard" />
+        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_Home"
+        android:label="@string/lblMarketplace"
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_notifications"
-        android:name="org.rmj.guanzongroup.digitalgcard.Fragments.Fragment_Notifications"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_Notifications"
         android:label="@string/menu_notifications"
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
-        android:id="@+id/nav_orders"
+        android:id="@+id/nav_purchases"
         android:name="org.rmj.guanzongroup.marketplace.Fragment.Fragment_Orders"
-        android:label="@string/menu_orders"
+        android:label="@string/menu_purchases"
         tools:layout="@layout/fragment_orders" />
 
     <fragment
         android:id="@+id/nav_wishlist"
         android:name="org.rmj.guanzongroup.marketplace.Fragment.Fragment_Wishlist"
-        android:label="@string/menu_orders"
+        android:label="@string/menu_wishlist"
         tools:layout="@layout/fragment_wishlist" />
 
     <fragment
@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/nav_my_gcard"
-        android:name="org.rmj.guanzongroup.digitalgcard.Fragments.Fragment_MyGcardBaseContainer"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcardBaseContainer"
         android:label="@string/menu_my_gcard"
         tools:layout="@layout/fragment_my_gcard_base_container" >
         <argument android:name="gcardInstance"
@@ -47,7 +47,7 @@
 
     <fragment
         android:id="@+id/nav_redeemables"
-        android:name="org.rmj.guanzongroup.digitalgcard.Fragments.Fragment_MyGcardBaseContainer"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcardBaseContainer"
         android:label="@string/menu_redeemables"
         tools:layout="@layout/fragment_my_gcard_base_container">>
         <argument android:name="gcardInstance"
@@ -57,7 +57,7 @@
 
     <fragment
         android:id="@+id/nav_gcard_orders"
-        android:name="org.rmj.guanzongroup.digitalgcard.Fragments.Fragment_MyGcardBaseContainer"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcardBaseContainer"
         android:label="@string/menu_gcard_orders"
         tools:layout="@layout/fragment_my_gcard_base_container" >
         <argument android:name="gcardInstance"
@@ -67,7 +67,7 @@
 
     <fragment
         android:id="@+id/nav_gcard_transactions"
-        android:name="org.rmj.guanzongroup.digitalgcard.Fragments.Fragment_MyGcardBaseContainer"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcardBaseContainer"
         android:label="@string/menu_gcard_transactions"
         tools:layout="@layout/fragment_my_gcard_base_container" >
         <argument android:name="gcardInstance"
@@ -77,19 +77,23 @@
 
     <fragment
         android:id="@+id/nav_account_settings"
-        android:name="org.rmj.guanzongroup.digitalgcard.Fragments.Fragment_AccountSettings"
+        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_AccountSettings"
         android:label="@string/menu_account_settings"
-        tools:layout="@layout/fragment_my_gcard_base_container" />
+        tools:layout="@layout/fragment_my_gcard_base_container" >
+        <action
+            android:id="@+id/action_nav_account_settings_to_nav_my_gcard"
+            app:destination="@id/nav_my_gcard" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_find_us"
-        android:name="org.rmj.guanzongroup.digitalgcard.Fragments.Fragment_FindUs"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_FindUs"
         android:label="@string/menu_find_us"
         tools:layout="@layout/fragment_my_gcard_base_container" />
 
     <fragment
         android:id="@+id/nav_customer_service"
-        android:name="org.rmj.guanzongroup.digitalgcard.Fragments.Fragment_CustomerService"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_CustomerService"
         android:label="@string/menu_customer_service"
         tools:layout="@layout/fragment_customer_service" />
 </navigation>
