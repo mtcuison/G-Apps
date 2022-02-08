@@ -10,6 +10,8 @@
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22407407407407406" />
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/drawable/side_nav_bar.xml" value="0.22407407407407406" />
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/drawable/user_image.xml" value="0.22870370370370371" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/account_menu_item.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/activity_account_details.xml" value="0.21614583333333334" />
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/activity_dashboard.xml" value="0.21197916666666666" />
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/activity_settings.xml" value="0.21614583333333334" />
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/activity_splash_screen.xml" value="0.21614583333333334" />
@@ -18,6 +20,7 @@
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/fragment_about.xml" value="0.21614583333333334" />
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/fragment_account_settings.xml" value="0.20871794871794871" />
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/fragment_home.xml" value="0.20871794871794871" />
+        <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/menu_header_layout.xml" value="0.21614583333333334" />
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/nav_header_activity_dashboard.xml" value="0.22" />
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/layout/settings_menu_list.xml" value="0.21197916666666666" />
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/menu/activity__dashboard.xml" value="0.21197916666666666" />
@@ -43,6 +46,9 @@
         <entry key="..\:/Projects/G-Apps22/useraccount/src/main/res/layout/activity_forgot_password.xml" value="0.21614583333333334" />
         <entry key="..\:/Projects/G-Apps22/useraccount/src/main/res/layout/activity_login.xml" value="0.21614583333333334" />
         <entry key="..\:/Projects/G-Apps22/useraccount/src/main/res/layout/activity_sign_up.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps22/useraccount/src/main/res/layout/fragment_sign_up_1.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps22/useraccount/src/main/res/layout/fragment_sign_up_info.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps22/useraccount/src/main/res/layout/fragment_sign_up_password.xml" value="0.20208333333333334" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/drawable-xxhdpi/ic_launcher_background.xml" value="0.12291666666666666" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/drawable/ic_launcher_background.xml" value="0.12291666666666666" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/activity_settings.xml" value="0.19375" />
