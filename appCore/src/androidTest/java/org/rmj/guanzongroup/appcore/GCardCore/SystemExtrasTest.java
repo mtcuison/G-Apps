@@ -6,19 +6,25 @@ import android.content.Context;
 
 import androidx.annotation.UiThread;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@RunWith(AndroidJUnit4.class)
 public class SystemExtrasTest {
 
     private Context mContext;
     private iGCardSystem poSystem;
-    private boolean isSuccess = false;
-    private JSONObject loJson;
+    private static boolean isSuccess = false;
+    private static JSONObject loJson;
 
     @Before
     public void setUp() throws Exception {
@@ -31,7 +37,7 @@ public class SystemExtrasTest {
     }
 
     @Test
-    public void downloadBranchesList() throws Exception{
+    public void test01DownloadBranchesList() throws Exception{
         poSystem.DownloadBranchesList(new GCardSystem.GCardSystemCallback() {
             @Override
             public void OnSuccess(String args) {
@@ -53,22 +59,22 @@ public class SystemExtrasTest {
     }
 
     @Test
-    public void saveBranchesList() throws Exception{
+    public void test02SaveBranchesList() throws Exception{
         poSystem.SaveBranchesList(loJson);
     }
 
     @Test @UiThread
-    public void getMobileBranchList() {
+    public void test03GetMobileBranchList() {
         poSystem.GetMobileBranchList().observeForever(eBranchInfos -> assertEquals(1, eBranchInfos.size()));
     }
 
     @Test @UiThread
-    public void getMotorcycleBranchList() {
+    public void test04GetMotorcycleBranchList() {
         poSystem.GetMotorcycleBranchList().observeForever(eBranchInfos -> assertEquals(1, eBranchInfos.size()));
     }
 
     @Test
-    public void downloadPromotions() throws Exception{
+    public void test05DownloadPromotions() throws Exception{
         poSystem.DownloadPromotions(new GCardSystem.GCardSystemCallback() {
             @Override
             public void OnSuccess(String args) {
@@ -90,17 +96,17 @@ public class SystemExtrasTest {
     }
 
     @Test
-    public void savePromotions() throws Exception{
+    public void test06SavePromotions() throws Exception{
         poSystem.SavePromotions(loJson);
     }
 
     @Test @UiThread
-    public void getPromotions() {
+    public void test07GetPromotions() {
         poSystem.GetPromotions().observeForever(ePromos -> assertEquals(1, ePromos.size()));
     }
 
     @Test
-    public void downloadNewsEvents() throws Exception{
+    public void test08DownloadNewsEvents() throws Exception{
         poSystem.DownloadNewsEvents(new GCardSystem.GCardSystemCallback() {
             @Override
             public void OnSuccess(String args) {
@@ -122,12 +128,12 @@ public class SystemExtrasTest {
     }
 
     @Test
-    public void saveNewsEvents() throws Exception{
+    public void test09SaveNewsEvents() throws Exception{
         poSystem.SaveNewsEvents(loJson);
     }
 
     @Test @UiThread
-    public void getNewsEvents() {
+    public void test10GetNewsEvents() {
         poSystem.GetNewsEvents().observeForever(eEvents -> assertEquals(1, eEvents.size()));
     }
 }

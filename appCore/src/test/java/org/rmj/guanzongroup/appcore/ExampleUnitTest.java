@@ -26,4 +26,13 @@ public class ExampleUnitTest {
         }
         assertTrue(hasDecimal);
     }
+
+    @Test
+    public void testDateTrim(){
+        String lsDate1 = "2022-02-11 09:08:01";
+        String lsDate2 = "2022-02-11";
+        String result = lsDate1.substring(0, 10);
+        assertEquals(lsDate2, result);
+    }
+
 }

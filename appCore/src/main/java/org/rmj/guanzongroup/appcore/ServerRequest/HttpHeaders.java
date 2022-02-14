@@ -11,11 +11,11 @@
 
 package org.rmj.guanzongroup.appcore.ServerRequest;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 
+import org.rmj.guanzongroup.appcore.Account.AccountInfo;
 import org.rmj.guanzongroup.appcore.Etc.AppConfigPreference;
 import org.rmj.guanzongroup.appcore.Etc.SecUtil;
 import org.rmj.guanzongroup.appcore.Etc.SessionManager;
@@ -30,12 +30,12 @@ public class HttpHeaders {
 
     private final Telephony poTlphony;
     private final AppConfigPreference poConfigx;
-    private final SessionManager poSession;
+    private final AccountInfo poAccount;
 
     public HttpHeaders(Context context){
         this.poTlphony = new Telephony(context);
         this.poConfigx = new AppConfigPreference(context);
-        this.poSession = new SessionManager(context);
+        this.poAccount = new AccountInfo(context);
     }
 
     private Map<String, String> initHttpHeaders() {
@@ -47,8 +47,8 @@ public class HttpHeaders {
         Calendar calendar = Calendar.getInstance();
 
         //TODO: Change Values on user testing and production
-        String lsUserIDx = poSession.getUserID();
-        String lsClientx = "";
+        String lsUserIDx = poAccount.getUserID();
+        String lsClientx = poAccount.getClientID();
         String lsLogNoxx = "";
 //        String lsTokenxx = poConfigx.getAppToken();
         String lsTokenxx = "c6mOUp7sSzimo_IGMqD-1Y:APA91bG_xsUb2n6S4AlKXjI4uKuQpWBdx7wec9HuYlRiHaRLcuBNCZHPL20sxwsjQ_LPozaanRgl100RMj2pYwo_uj-M3r3xqu1b9t6ozMaNslZEQVIslEblgH-I5IU4oQjwYRJPammH";

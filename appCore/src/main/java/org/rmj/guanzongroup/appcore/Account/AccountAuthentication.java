@@ -9,7 +9,8 @@ import org.rmj.guanzongroup.appcore.ServerRequest.WebClient;
 public class AccountAuthentication {
     private static final String TAG = AccountAuthentication.class.getSimpleName();
 
-    private static final String SIGN_IN = "https://restgk.guanzongroup.com.ph/security/signin.php";
+//    private static final String SIGN_IN = "https://restgk.guanzongroup.com.ph/security/signin.php";
+    private static final String SIGN_IN = "http://192.168.10.141/security/signin.php";
     private static final String REGISTRATION = "https://restgk.guanzongroup.com.ph/security/signup.php";
     private static final String RETRIEVE_PASSWORD = "https://restgk.guanzongroup.com.ph/security/forgotpswd.php";
 
@@ -50,24 +51,26 @@ public class AccountAuthentication {
 
     public void initAccount(JSONObject foAccount) throws Exception{
         AccountInfo loInfo = new AccountInfo(mContext);
-        loInfo.setClientId(foAccount.getString("sClientID"));
-        loInfo.setLastname(foAccount.getString("sLastName"));
-        loInfo.setFirstName(foAccount.getString("sFrstName"));
-        loInfo.setMiddlename(foAccount.getString("sMiddName"));
-        loInfo.setSuffix(foAccount.getString("sSuffixNm"));
-        loInfo.setGender(foAccount.getString("sGenderCd"));
-        loInfo.setCivilStatus(foAccount.getString("sCvilStat"));
-        loInfo.setCitizenship(foAccount.getString("sCitizenx"));
-        loInfo.setBirthdate(foAccount.getString("sBirthDte"));
-        loInfo.setBirthplace(foAccount.getString("sBirthPlc"));
-        loInfo.setTaxId(foAccount.getString("sTaxIdxxx"));
-        loInfo.setEmailAdd(foAccount.getString("sEmailAdd"));
-        loInfo.setMobileNo(foAccount.getString("sMobileNo"));
-        loInfo.setHouseNo(foAccount.getString("sHouseNox"));
-        loInfo.setAddress(foAccount.getString("sAddressx"));
-        loInfo.setBarangay(foAccount.getString("sBrgyName"));
-        loInfo.setTownName(foAccount.getString("sTownName"));
-        loInfo.setProvince(foAccount.getString("sProvName"));
+        loInfo.setUserID(foAccount.getString("sUserIDxx"));
+        loInfo.setFullName(foAccount.getString("sUserName"));
+//        loInfo.setClientId(foAccount.getString("sClientID"));
+//        loInfo.setLastname(foAccount.getString("sLastName"));
+//        loInfo.setFirstName(foAccount.getString("sFrstName"));
+//        loInfo.setMiddlename(foAccount.getString("sMiddName"));
+//        loInfo.setSuffix(foAccount.getString("sSuffixNm"));
+//        loInfo.setGender(foAccount.getString("sGenderCd"));
+//        loInfo.setCivilStatus(foAccount.getString("sCvilStat"));
+//        loInfo.setCitizenship(foAccount.getString("sCitizenx"));
+//        loInfo.setBirthdate(foAccount.getString("sBirthDte"));
+//        loInfo.setBirthplace(foAccount.getString("sBirthPlc"));
+//        loInfo.setTaxId(foAccount.getString("sTaxIdxxx"));
+//        loInfo.setEmailAdd(foAccount.getString("sEmailAdd"));
+//        loInfo.setMobileNo(foAccount.getString("sMobileNo"));
+//        loInfo.setHouseNo(foAccount.getString("sHouseNox"));
+//        loInfo.setAddress(foAccount.getString("sAddressx"));
+//        loInfo.setBarangay(foAccount.getString("sBrgyName"));
+//        loInfo.setTownName(foAccount.getString("sTownName"));
+//        loInfo.setProvince(foAccount.getString("sProvName"));
         loInfo.setLoginStatus(true);
     }
 
@@ -127,6 +130,7 @@ public class AccountAuthentication {
         private String sLastName = "";
         private String sFrstName = "";
         private String sMiddName = "";
+        private String sSuffixxx = "";
         private String sEmailAdd = "";
         private String sPassword = "";
         private String sPasswrd2 = "";
@@ -163,6 +167,14 @@ public class AccountAuthentication {
 
         public void setMiddName(String sMiddName) {
             this.sMiddName = sMiddName;
+        }
+
+        public String getsSuffixxx() {
+            return sSuffixxx;
+        }
+
+        public void setsSuffixxx(String sSuffixxx) {
+            this.sSuffixxx = sSuffixxx;
         }
 
         public String getsEmailAdd() {

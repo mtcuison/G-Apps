@@ -10,7 +10,9 @@ public class AccountInfo {
     private final SharedPreferences.Editor editor;
 
     private static final String ACCOUNT_CREDENTIALS = "GApp_AccountCredentials";
+    private static final String USERID = "sUserIDxx";
     private static final String CLIENTID = "sClientID";
+    private static final String FULLNAME = "sUserName";
     private static final String LASTNAME = "sLastName";
     private static final String FIRSTNAME = "sFrstName";
     private static final String MIDDLENAME = "sMiddName";
@@ -36,8 +38,18 @@ public class AccountInfo {
         editor = pref.edit();
     }
 
-    public void setClientId(String clientId){
+    public void setUserID(String userID){
+        editor.putString(USERID, userID);
+        editor.commit();
+    }
+
+    public void setClientID(String clientId){
         editor.putString(CLIENTID, clientId);
+        editor.commit();
+    }
+
+    public void setFullName(String fullName){
+        editor.putString(FULLNAME, fullName);
         editor.commit();
     }
 
@@ -131,8 +143,16 @@ public class AccountInfo {
         editor.commit();
     }
 
+    public String getUserID(){
+        return pref.getString(USERID, "");
+    }
+
     public String getClientID(){
         return pref.getString(CLIENTID, "");
+    }
+
+    public String getFullName(){
+        return pref.getString(FULLNAME, "");
     }
 
     public String getLastName(){
