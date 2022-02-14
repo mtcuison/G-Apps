@@ -42,7 +42,8 @@ public class Activity_Login extends AppCompatActivity {
         setUpToolbar();
         setTabLayout();
         setClickLinkListeners();
-        acccountLogin();
+
+        btnLogin.setOnClickListener(v -> acccountLogin());
     }
 
     @Override
@@ -97,28 +98,26 @@ public class Activity_Login extends AppCompatActivity {
     }
 
     private void acccountLogin() {
-        btnLogin.setOnClickListener(v -> {
-            String lsEmailxx = Objects.requireNonNull(tieEmail.getText().toString().trim());
-            String lsMobilex = Objects.requireNonNull(tieMobile.getText().toString().trim());
-            String lsPasswrd = Objects.requireNonNull(tiePassword.getText().toString().trim());
-            AccountAuthentication.LoginCredentials loCrednts =
-                    new AccountAuthentication.LoginCredentials(lsEmailxx, lsPasswrd, lsMobilex);
-            try {
-                mViewModel.LoginAccount(loCrednts, new AccountAuthentication.OnLoginCallback() {
-                    @Override
-                    public void OnSuccessLogin(String message) {
-                        Toast.makeText(Activity_Login.this, message, Toast.LENGTH_LONG).show();
-                    }
+        String lsEmailxx = Objects.requireNonNull(tieEmail.getText().toString().trim());
+        String lsMobilex = Objects.requireNonNull(tieMobile.getText().toString().trim());
+        String lsPasswrd = Objects.requireNonNull(tiePassword.getText().toString().trim());
+        AccountAuthentication.LoginCredentials loCrednts =
+                new AccountAuthentication.LoginCredentials(lsEmailxx, lsPasswrd, lsMobilex);
+        try {
+            mViewModel.LoginAccount(loCrednts, new AccountAuthentication.OnLoginCallback() {
+                @Override
+                public void OnSuccessLogin(String message) {
+                    Toast.makeText(Activity_Login.this, message, Toast.LENGTH_LONG).show();
+                }
 
-                    @Override
-                    public void OnFailedLogin(String message) {
-                        Toast.makeText(Activity_Login.this, message, Toast.LENGTH_LONG).show();
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+                @Override
+                public void OnFailedLogin(String message) {
+                    Toast.makeText(Activity_Login.this, message, Toast.LENGTH_LONG).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setTabLayout(){
