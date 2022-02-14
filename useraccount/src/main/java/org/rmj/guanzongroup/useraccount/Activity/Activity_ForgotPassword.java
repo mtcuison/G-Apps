@@ -3,34 +3,48 @@ package org.rmj.guanzongroup.useraccount.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.guanzongroup.appcore.Account.AccountAuthentication;
 import org.rmj.guanzongroup.useraccount.R;
+import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
 
 import java.util.Objects;
 
 public class Activity_ForgotPassword extends AppCompatActivity {
 
+    private VMAccountAuthentication mViewModel;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private TextView lblUser;
     private TextInputLayout tilEmail, tilMobile;
+    private TextInputEditText tieEmail, tieMobile;
+    private MaterialButton btnResend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
+        mViewModel = new ViewModelProvider(Activity_ForgotPassword.this)
+                .get(VMAccountAuthentication.class);
 
         initViews();
         setUpToolbar();
         setTabLayout();
+        retrievePassword();
+
+        btnResend.setOnClickListener(v -> retrievePassword());
     }
 
     @Override
@@ -56,6 +70,10 @@ public class Activity_ForgotPassword extends AppCompatActivity {
         lblUser = findViewById(R.id.lblUser);
         tilEmail = findViewById(R.id.til_email);
         tilMobile = findViewById(R.id.til_mobile);
+
+        tieEmail = findViewById(R.id.tie_email);
+        tieMobile = findViewById(R.id.tie_mobile);
+        btnResend = findViewById(R.id.btnResend);
     }
 
     // Initialize initViews() before this method.
@@ -63,6 +81,26 @@ public class Activity_ForgotPassword extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Forgot Password");
+    }
+
+    private void retrievePassword() {
+        String lsEmailxx = Objects.requireNonNull(tieEmail.getText().toString().trim());
+        String lsMobilex = Objects.requireNonNull(tieMobile.getText().toString().trim());
+        try {
+            mViewModel.RetrievePassword(lsEmailxx, new AccountAuthentication.OnRetrievePasswordCallback() {
+                @Override
+                public void OnSuccessRetrieve(String message) {
+                    Toast.makeText(Activity_ForgotPassword.this, message, Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void OnFailedRetrieve(String message) {
+                    Toast.makeText(Activity_ForgotPassword.this, message, Toast.LENGTH_LONG).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setTabLayout(){
