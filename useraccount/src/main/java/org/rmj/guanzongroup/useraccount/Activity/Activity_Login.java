@@ -3,39 +3,47 @@ package org.rmj.guanzongroup.useraccount.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.guanzongroup.appcore.Account.AccountAuthentication;
 import org.rmj.guanzongroup.useraccount.R;
+import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
 
 import java.util.Objects;
 
 public class Activity_Login extends AppCompatActivity {
 
+    private VMAccountAuthentication mViewModel;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private TextView lblUser, lblForgot, lblCreate;
     private TextInputLayout tilEmail, tilMobile;
+    private TextInputEditText tieEmail, tieMobile, tiePassword;
+    private MaterialButton btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        mViewModel = new ViewModelProvider(Activity_Login.this).get(VMAccountAuthentication.class);
         initViews();
         setUpToolbar();
         setTabLayout();
         setClickLinkListeners();
+
+        btnLogin.setOnClickListener(v -> acccountLogin());
     }
 
     @Override
@@ -63,6 +71,11 @@ public class Activity_Login extends AppCompatActivity {
         lblUser = findViewById(R.id.lblUser);
         lblForgot = findViewById(R.id.lblForgotPassword);
         lblCreate = findViewById(R.id.lblSignUp);
+
+        tieEmail = findViewById(R.id.tie_email);
+        tieMobile = findViewById(R.id.tie_mobile);
+        tiePassword = findViewById(R.id.tie_password);
+        btnLogin = findViewById(R.id.btnLogin);
     }
 
     // Initialize initViews() before this method.
@@ -82,6 +95,29 @@ public class Activity_Login extends AppCompatActivity {
             Intent loIntent = new Intent(Activity_Login.this, Activity_SignUp.class);
             startActivity(loIntent);
         });
+    }
+
+    private void acccountLogin() {
+        String lsEmailxx = Objects.requireNonNull(tieEmail.getText().toString().trim());
+        String lsMobilex = Objects.requireNonNull(tieMobile.getText().toString().trim());
+        String lsPasswrd = Objects.requireNonNull(tiePassword.getText().toString().trim());
+        AccountAuthentication.LoginCredentials loCrednts =
+                new AccountAuthentication.LoginCredentials(lsEmailxx, lsPasswrd, lsMobilex);
+        try {
+            mViewModel.LoginAccount(loCrednts, new AccountAuthentication.OnLoginCallback() {
+                @Override
+                public void OnSuccessLogin(String message) {
+                    Toast.makeText(Activity_Login.this, message, Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void OnFailedLogin(String message) {
+                    Toast.makeText(Activity_Login.this, message, Toast.LENGTH_LONG).show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setTabLayout(){

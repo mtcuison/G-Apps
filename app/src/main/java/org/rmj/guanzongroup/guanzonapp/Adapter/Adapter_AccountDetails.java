@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.guanzonapp.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,13 +47,24 @@ public class Adapter_AccountDetails extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Log.e("TAG", String.valueOf(position));
         AccountDetailsInfo loDetail = poAcctInf.get(position);
-        if(holder instanceof ViewHolderHeader) {
-            ((ViewHolderHeader) holder).lblMenuHeader.setText(loDetail.getHeader());
-        } else if(holder instanceof ViewHolderItem) {
-            ((ViewHolderItem) holder).lblMenuTitle.setText(loDetail.getLabel());
-            ((ViewHolderItem) holder).txtData.setText(loDetail.getContent());
+        switch(holder.getItemViewType()) {
+            case TYPE_HEADER:
+                ((ViewHolderHeader) holder).lblMenuHeader.setText(loDetail.getHeader());
+                break;
+            case TYPE_ITEM:
+                Log.e("Tuamtalon ka ba dito", "00");
+                ((ViewHolderItem) holder).lblMenuTitle.setText(loDetail.getLabel());
+                ((ViewHolderItem) holder).txtData.setText(loDetail.getContent());
+                break;
         }
+//        if(holder instanceof ViewHolderHeader) {
+//            ((ViewHolderHeader) holder).lblMenuHeader.setText(loDetail.getHeader());
+//        } else if(holder instanceof ViewHolderItem) {
+//            ((ViewHolderItem) holder).lblMenuTitle.setText(loDetail.getLabel());
+//            ((ViewHolderItem) holder).txtData.setText(loDetail.getContent());
+//        }
 
     }
 
@@ -63,9 +75,9 @@ public class Adapter_AccountDetails extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemViewType(int position) {
-        if(poAcctInf.get(position).getHeader() != null) {
+        if(!"".equalsIgnoreCase(poAcctInf.get(position).getHeader()))
             return TYPE_HEADER;
-        }
+
         return TYPE_ITEM;
     }
 
