@@ -7,15 +7,18 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.rmj.guanzongroup.appcore.Account.AccountAuthentication;
+import org.rmj.guanzongroup.useraccount.Model.SignUpInfoModel;
 
 public class VMAccountAuthentication extends AndroidViewModel {
     private static final String TAG = VMAccountAuthentication.class.getSimpleName();
     private final AccountAuthentication poActAuth;
+    private final SignUpInfoModel poSignUpM;
 
     public VMAccountAuthentication(@NonNull Application application) {
         super(application);
         Log.e(TAG, "Initialized");
         this.poActAuth = new AccountAuthentication(application);
+        this.poSignUpM = new SignUpInfoModel();
     }
 
     public void LoginAccount(AccountAuthentication.LoginCredentials foCrednts,
@@ -27,6 +30,10 @@ public class VMAccountAuthentication extends AndroidViewModel {
                                 AccountAuthentication.OnCreateAccountCallback foCallbck)
                                 throws Exception {
         poActAuth.RegisterAccount(foCrednts, foCallbck);
+    }
+
+    public SignUpInfoModel getSignUpModel() {
+        return poSignUpM;
     }
 
     public void RetrievePassword(String fsEmailxx,
