@@ -70,7 +70,7 @@ public class Fragment_SignUpInfo extends Fragment {
 
         poSignUpM.setLastName(lsLastNme);
         poSignUpM.setFrstName(lsFrstNme);
-        poSignUpM.setMiddName(lsMiddNme);
+        poSignUpM.setMiddName("".equalsIgnoreCase(lsMiddNme) ? "-" : lsMiddNme);
         poSignUpM.setSuffixNm(lsSuffixN);
         poSignUpM.setEmailAdd(lsEmailAd);
         poSignUpM.setMobileNo(lsMobileN);
