@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.guanzongroup.appcore.Account.AccountAuthentication;
+import org.rmj.guanzongroup.appcore.Etc.Telephony;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
 
@@ -99,7 +100,8 @@ public class Activity_Login extends AppCompatActivity {
 
     private void acccountLogin() {
         String lsEmailxx = Objects.requireNonNull(tieEmail.getText().toString().trim());
-        String lsMobilex = Objects.requireNonNull(tieMobile.getText().toString().trim());
+//        String lsMobilex = Objects.requireNonNull(tieMobile.getText().toString().trim());
+        String lsMobilex = "09171870011";
         String lsPasswrd = Objects.requireNonNull(tiePassword.getText().toString().trim());
         AccountAuthentication.LoginCredentials loCrednts =
                 new AccountAuthentication.LoginCredentials(lsEmailxx, lsPasswrd, lsMobilex);

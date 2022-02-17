@@ -53,6 +53,7 @@ public class AccountAuthentication {
         AccountInfo loInfo = new AccountInfo(mContext);
         loInfo.setUserID(foAccount.getString("sUserIDxx"));
         loInfo.setFullName(foAccount.getString("sUserName"));
+        loInfo.setEmailAdd(foAccount.getString("sEmailAdd"));
 //        loInfo.setClientId(foAccount.getString("sClientID"));
 //        loInfo.setLastname(foAccount.getString("sLastName"));
 //        loInfo.setFirstName(foAccount.getString("sFrstName"));
@@ -64,7 +65,6 @@ public class AccountAuthentication {
 //        loInfo.setBirthdate(foAccount.getString("sBirthDte"));
 //        loInfo.setBirthplace(foAccount.getString("sBirthPlc"));
 //        loInfo.setTaxId(foAccount.getString("sTaxIdxxx"));
-//        loInfo.setEmailAdd(foAccount.getString("sEmailAdd"));
 //        loInfo.setMobileNo(foAccount.getString("sMobileNo"));
 //        loInfo.setHouseNo(foAccount.getString("sHouseNox"));
 //        loInfo.setAddress(foAccount.getString("sAddressx"));
