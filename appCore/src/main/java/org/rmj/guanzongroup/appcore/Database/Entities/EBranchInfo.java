@@ -32,6 +32,11 @@ public class EBranchInfo {
     @ColumnInfo(name = "sEmailAdd")
     private String EmailAdd;
 
+    @ColumnInfo(name = "cRecdStat")
+    private String RecdStat;
+
+    @ColumnInfo(name = "dTimeStmp")
+    private String TimeStmp;
     public EBranchInfo() {
     }
 
@@ -92,4 +97,19 @@ public class EBranchInfo {
         EmailAdd = emailAdd;
     }
 
+    public String getRecdStat() {
+        return RecdStat;
+    }
+
+    public void setRecdStat(String recdStat) {
+        RecdStat = recdStat;
+    }
+
+    public String getTimeStmp() {
+        return TimeStmp;
+    }
+
+    public void setTimeStmp(String timeStmp) {
+        TimeStmp = timeStmp;
+    }
 }

@@ -14,17 +14,5 @@ public class AccountManager {
         this.mContext = mContext;
     }
 
-    public void initAccount(JSONObject foAccount) throws Exception{
-        AccountInfo loInfo = new AccountInfo(mContext);
-        loInfo.setFullName("");
-        loInfo.setGender("");
-        loInfo.setBirthdate("");
-        loInfo.setBirthplace("");
-        loInfo.setCitizenship("");
-        loInfo.setTaxId("");
-        loInfo.setEmailAdd("");
-        loInfo.setMobileNo("");
-        loInfo.setPassword("");
-        loInfo.setAddress("");
-    }
+
 }

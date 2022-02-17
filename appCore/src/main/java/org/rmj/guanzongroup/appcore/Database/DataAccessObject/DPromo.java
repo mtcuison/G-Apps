@@ -3,9 +3,7 @@ package org.rmj.guanzongroup.appcore.Database.DataAccessObject;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import org.rmj.guanzongroup.appcore.Database.Entities.EPromo;
 
@@ -16,12 +14,6 @@ public interface DPromo {
 
     @Insert
     void insert(EPromo ePromo);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertBulkData(List<EPromo> ePromoList);
-
-    @Update
-    void update(EPromo ePromo);
 
     @Query("SELECT * FROM Promo_Link_Info")
     LiveData<List<EPromo>> getAllPromo();
@@ -35,11 +27,33 @@ public interface DPromo {
     @Query("SELECT COUNT(*) FROM Promo_Link_Info WHERE cNotified = '0'")
     LiveData<Integer> getPromoCount();
 
-
     @Query("SELECT EXISTS(SELECT * FROM Promo_Link_Info WHERE sTransNox =:TransNox AND cNotified = '1')")
     boolean getPromoExist(String TransNox);
 
     @Query("UPDATE Promo_Link_Info SET sImagePath =:imgPath WHERE sTransNox =:transNox ")
     void updatePromoImgPath(String imgPath, String transNox);
 
+    @Query("SELECT * FROM PROMO_LINK_INFO WHERE sTransNox =:TransNox")
+    EPromo getPromoInfoIfExist(String TransNox);
+
+    @Query("UPDATE PROMO_LINK_INFO SET dTransact=:Transact, " +
+            "dDateFrom=:DateFrom, " +
+            "dDateThru=:DateThru, " +
+            "sCaptionx=:Captionx, " +
+            "sImageUrl=:ImageUrl, " +
+            "sImgeByte=:ImgeByte, " +
+            "sPromoUrl=:PromoUrl, " +
+            "cNotified=:Notified, " +
+            "cDivision=:Division  " +
+            "WHERE sTransNox=:TransNox")
+    void UpdatePromoInfo(String Transact,
+                         String DateFrom,
+                         String DateThru,
+                         String Captionx,
+                         String ImageUrl,
+                         String ImgeByte,
+                         String PromoUrl,
+                         String Notified,
+                         String Division,
+                         String TransNox);
 }

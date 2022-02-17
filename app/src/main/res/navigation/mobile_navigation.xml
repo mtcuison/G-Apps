@@ -89,7 +89,7 @@
         android:id="@+id/nav_find_us"
         android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_FindUs"
         android:label="@string/menu_find_us"
-        tools:layout="@layout/fragment_my_gcard_base_container" />
+        tools:layout="@layout/fragment_find_us" />
 
     <fragment
         android:id="@+id/nav_customer_service"
