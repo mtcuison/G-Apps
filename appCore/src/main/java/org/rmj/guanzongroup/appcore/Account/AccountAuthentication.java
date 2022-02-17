@@ -3,15 +3,14 @@ package org.rmj.guanzongroup.appcore.Account;
 import android.content.Context;
 
 import org.json.JSONObject;
-import org.rmj.guanzongroup.appcore.Etc.AppConstants;
-import org.rmj.guanzongroup.appcore.Etc.SessionManager;
 import org.rmj.guanzongroup.appcore.ServerRequest.HttpHeaders;
 import org.rmj.guanzongroup.appcore.ServerRequest.WebClient;
 
 public class AccountAuthentication {
     private static final String TAG = AccountAuthentication.class.getSimpleName();
 
-    private static final String SIGN_IN = "https://restgk.guanzongroup.com.ph/security/signin.php";
+//    private static final String SIGN_IN = "https://restgk.guanzongroup.com.ph/security/signin.php";
+    private static final String SIGN_IN = "http://192.168.10.141/security/signin.php";
     private static final String REGISTRATION = "https://restgk.guanzongroup.com.ph/security/signup.php";
     private static final String RETRIEVE_PASSWORD = "https://restgk.guanzongroup.com.ph/security/forgotpswd.php";
 
@@ -39,14 +38,7 @@ public class AccountAuthentication {
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if (lsResult.equalsIgnoreCase("success")) {
-                    SessionManager loSession = new SessionManager(mContext);
-                    String lsUserIDx = loResponse.getString("sUserIDxx");
-                    String lsEmailxx = loResponse.getString("sEmailAdd");
-                    String lsMobilex = loResponse.getString("sMobileNo");
-                    String lsUserNme = loResponse.getString("sUserName");
-                    String lsCreated = loResponse.getString("dCreatedx");
-                    String lsDateLog = AppConstants.DATE_MODIFIED;
-                    loSession.initUserSession(lsUserIDx, lsEmailxx, lsMobilex, lsUserNme, lsCreated, lsDateLog);
+                    initAccount(loResponse);
                     callback.OnSuccessLogin("Login success.");
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
@@ -55,6 +47,31 @@ public class AccountAuthentication {
                 }
             }
         }
+    }
+
+    public void initAccount(JSONObject foAccount) throws Exception{
+        AccountInfo loInfo = new AccountInfo(mContext);
+        loInfo.setUserID(foAccount.getString("sUserIDxx"));
+        loInfo.setFullName(foAccount.getString("sUserName"));
+        loInfo.setEmailAdd(foAccount.getString("sEmailAdd"));
+//        loInfo.setClientId(foAccount.getString("sClientID"));
+//        loInfo.setLastname(foAccount.getString("sLastName"));
+//        loInfo.setFirstName(foAccount.getString("sFrstName"));
+//        loInfo.setMiddlename(foAccount.getString("sMiddName"));
+//        loInfo.setSuffix(foAccount.getString("sSuffixNm"));
+//        loInfo.setGender(foAccount.getString("sGenderCd"));
+//        loInfo.setCivilStatus(foAccount.getString("sCvilStat"));
+//        loInfo.setCitizenship(foAccount.getString("sCitizenx"));
+//        loInfo.setBirthdate(foAccount.getString("sBirthDte"));
+//        loInfo.setBirthplace(foAccount.getString("sBirthPlc"));
+//        loInfo.setTaxId(foAccount.getString("sTaxIdxxx"));
+//        loInfo.setMobileNo(foAccount.getString("sMobileNo"));
+//        loInfo.setHouseNo(foAccount.getString("sHouseNox"));
+//        loInfo.setAddress(foAccount.getString("sAddressx"));
+//        loInfo.setBarangay(foAccount.getString("sBrgyName"));
+//        loInfo.setTownName(foAccount.getString("sTownName"));
+//        loInfo.setProvince(foAccount.getString("sProvName"));
+        loInfo.setLoginStatus(true);
     }
 
     public static class LoginCredentials{
@@ -113,6 +130,7 @@ public class AccountAuthentication {
         private String sLastName = "";
         private String sFrstName = "";
         private String sMiddName = "";
+        private String sSuffixxx = "";
         private String sEmailAdd = "";
         private String sPassword = "";
         private String sPasswrd2 = "";
@@ -149,6 +167,14 @@ public class AccountAuthentication {
 
         public void setMiddName(String sMiddName) {
             this.sMiddName = sMiddName;
+        }
+
+        public String getsSuffixxx() {
+            return sSuffixxx;
+        }
+
+        public void setsSuffixxx(String sSuffixxx) {
+            this.sSuffixxx = sSuffixxx;
         }
 
         public String getsEmailAdd() {

@@ -2,11 +2,13 @@ package org.rmj.guanzongroup.appcore.GCardCore;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.guanzongroup.appcore.Database.Entities.EBranchInfo;
 import org.rmj.guanzongroup.appcore.Database.Entities.EEvents;
 import org.rmj.guanzongroup.appcore.Database.Entities.EGCardTransactionLedger;
@@ -24,7 +26,10 @@ import org.rmj.guanzongroup.appcore.ServerRequest.GCardAPI;
 import org.rmj.guanzongroup.appcore.ServerRequest.HttpHeaders;
 import org.rmj.guanzongroup.appcore.ServerRequest.WebClient;
 
+import java.sql.ResultSet;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class SystemExtras implements iGCardSystem{
     private static final String TAG = SystemExtras.class.getSimpleName();
@@ -170,15 +175,18 @@ public class SystemExtras implements iGCardSystem{
         String lsResponse = WebClient.httpsPostJSon(GCardAPI.URL_IMPORT_BRANCH, params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
+            Log.d(TAG, "Unable to retrieve data from server. Server no response.");
         } else {
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("success")){
                 callback.OnSuccess(loResponse.toString());
+                Log.d(TAG, "Branch records retrieve successfully.");
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
                 String lsMessage = loError.getString("message");
                 callback.OnFailed(lsMessage);
+                Log.d(TAG, "Unable to retrieve records from server. Message : " + lsMessage);
             }
         }
     }
@@ -188,15 +196,41 @@ public class SystemExtras implements iGCardSystem{
         JSONArray laDetail = detail.getJSONArray("detail");
         for(int x = 0; x < laDetail.length(); x++){
             JSONObject loJson = laDetail.getJSONObject(x);
-            EBranchInfo info = new EBranchInfo();
-            info.setBranchCd(loJson.getString("sBranchCD"));
-            info.setBranchNm(loJson.getString("sBranchNm"));
-            info.setDescript(loJson.getString("sDescript"));
-            info.setAddressx(loJson.getString("sAddressx"));
-            info.setContactx(loJson.getString("sContactx"));
-            info.setTelNumbr(loJson.getString("sTelNumbr"));
-            info.setEmailAdd(loJson.getString("sEMailAdd"));
-            poBranch.insert(info);
+            EBranchInfo loBranch = poBranch.getBranchIfExist(loJson.getString("sBranchCD"));
+            //Insert new record if not exist
+            if(loBranch == null){
+                //check the records from API, if record status is not equal to 1, record is inactive, do not insert
+                if(!"1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
+                    // insert saving method inside...
+                    EBranchInfo info = new EBranchInfo();
+                    info.setBranchCd(loJson.getString("sBranchCD"));
+                    info.setBranchNm(loJson.getString("sBranchNm"));
+                    info.setDescript(loJson.getString("sDescript"));
+                    info.setAddressx(loJson.getString("sAddressx"));
+                    info.setContactx(loJson.getString("sContactx"));
+                    info.setTelNumbr(loJson.getString("sTelNumbr"));
+                    info.setEmailAdd(loJson.getString("sEMailAdd"));
+                    info.setRecdStat(loJson.getString("cRecdStat"));
+                    info.setTimeStmp(loJson.getString("dTimeStmp"));
+                    poBranch.insert(info);
+                    Log.d(TAG, "New record save!");
+                }
+            } else {
+                // if exist check timestamp for latest record and replace current record on local
+                Date ldDate1 = SQLUtil.toDate(loBranch.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                if(!ldDate1.equals(ldDate2)){
+                    poBranch.UpdateBranchInfo(
+                            loJson.getString("sBranchCD"),
+                            loJson.getString("sBranchNm"),
+                            loJson.getString("sDescript"),
+                            loJson.getString("sAddressx"),
+                            loJson.getString("sContactx"),
+                            loJson.getString("sTelNumbr"),
+                            loJson.getString("sEMailAdd"));
+                    Log.d(TAG, "A record has been updated!");
+                }
+            }
         }
     }
 
@@ -216,15 +250,18 @@ public class SystemExtras implements iGCardSystem{
         String lsResponse = WebClient.httpsPostJSon(GCardAPI.URL_IMPORT_PROMOLINK, params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
+            Log.d(TAG, "Unable to retrieve data from server. Server no response.");
         } else {
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("success")){
                 callback.OnSuccess(loResponse.toString());
+                Log.d(TAG, "Promo records retrieve successfully.");
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
                 String lsMessage = loError.getString("message");
                 callback.OnFailed(lsMessage);
+                Log.d(TAG, "Unable to retrieve records from server. Message : " + lsMessage);
             }
         }
     }
@@ -234,21 +271,30 @@ public class SystemExtras implements iGCardSystem{
         JSONArray laDetail = detail.getJSONArray("detail");
         for(int x = 0; x < laDetail.length(); x++){
             JSONObject loJson = laDetail.getJSONObject(x);
-            EPromo info = new EPromo();
-            info.setTransNox(loJson.getString("sTransNox"));
-            info.setTransact(loJson.getString("dTransact"));
-            info.setImageUrl(loJson.getString("sImageURL"));
-            info.setPromoUrl(loJson.getString("sPromoURL"));
-            info.setCaptionx(loJson.getString("sCaptionx"));
-            info.setDateFrom(loJson.getString("dDateFrom"));
-            info.setDateThru(loJson.getString("dDateThru"));
-            poPromo.insert(info);
+            EPromo loPromo = poPromo.getPromoInfoIfExist(loJson.getString("sTransNox"));
+            if(loPromo == null) {
+                //check the records from API, if record status is not equal to 1, record is inactive, do not insert
+//                if(!"1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
+//                    // insert saving method inside...
+//                }
+                EPromo info = new EPromo();
+                info.setTransNox(loJson.getString("sTransNox"));
+                info.setTransact(loJson.getString("dTransact"));
+                info.setImageUrl(loJson.getString("sImageURL"));
+                info.setPromoUrl(loJson.getString("sPromoURL"));
+                info.setCaptionx(loJson.getString("sCaptionx"));
+                info.setDateFrom(loJson.getString("dDateFrom"));
+                info.setDateThru(loJson.getString("dDateThru"));
+                poPromo.insert(info);
+            } else {
+
+            }
         }
     }
 
     @Override
     public LiveData<List<EPromo>> GetPromotions() {
-        return null;
+        return poPromo.getAllPromo();
     }
 
     @Override

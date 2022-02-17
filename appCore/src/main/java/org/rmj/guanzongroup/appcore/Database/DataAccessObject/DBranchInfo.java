@@ -13,14 +13,9 @@ import java.util.List;
 
 @Dao
 public interface DBranchInfo {
+
     @Insert
     void insert(EBranchInfo branchInfo);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertBulkData(List<EBranchInfo> branchInfoList);
-
-    @Update
-    void update(EBranchInfo branchInfo);
 
     @Query("SELECT * FROM BranchInfo")
     LiveData<List<EBranchInfo>> getAllBranchs();
@@ -31,4 +26,22 @@ public interface DBranchInfo {
     @Query("SELECT * FROM BranchInfo WHERE sBranchCd LIKE 'C%'")
     LiveData<List<EBranchInfo>> getMobileBranches();
 
+    @Query("SELECT * FROM BranchInfo WHERE sBranchCd=:BranchCde")
+    EBranchInfo getBranchIfExist(String BranchCde);
+
+    @Query("UPDATE BranchInfo SET " +
+            "sBranchNm =:BranchNm, " +
+            "sDescript =:Descript, " +
+            "sAddressx =:Addressx, " +
+            "sContactx =:Contactx, " +
+            "sTelNumbr =:TelNumbr, " +
+            "sEmailAdd =:EmailAdd " +
+            "WHERE sBranchCd =:BranchCd")
+    void UpdateBranchInfo(String BranchCd,
+                            String BranchNm,
+                            String Descript,
+                            String Addressx,
+                            String Contactx,
+                            String TelNumbr,
+                            String EmailAdd);
 }
