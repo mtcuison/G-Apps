@@ -8,15 +8,21 @@ import android.content.Context;
 import androidx.annotation.UiThread;
 import androidx.lifecycle.Observer;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.rmj.guanzongroup.appcore.Database.Entities.ERedeemablesInfo;
 import org.rmj.guanzongroup.appcore.GCardCore.Obj.CartItem;
 
 import java.util.List;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@RunWith(AndroidJUnit4.class)
 public class RedemptionManagerTest {
 
     private Context mContext;

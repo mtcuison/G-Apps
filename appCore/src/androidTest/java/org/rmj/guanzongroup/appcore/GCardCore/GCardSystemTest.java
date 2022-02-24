@@ -31,29 +31,12 @@ public class GCardSystemTest {
     }
 
     @Test
-    public void getInstance() {
+    public void test01() {
 
     }
 
     @Test
     public void testNullPointerMethods() throws Exception{
-        try {
-            poSystem.DownloadTransactions(new GCardSystem.GCardSystemCallback() {
-                @Override
-                public void OnSuccess(String args) {
 
-                }
-
-                @Override
-                public void OnFailed(String message) {
-
-                }
-            });
-            isSuccess = false;
-        } catch (Exception e){
-            e.printStackTrace();
-            isSuccess = true;
-        }
-        assertTrue(isSuccess);
     }
 }

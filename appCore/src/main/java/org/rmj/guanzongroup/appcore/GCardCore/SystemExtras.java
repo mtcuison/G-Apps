@@ -25,6 +25,7 @@ import org.rmj.guanzongroup.appcore.GCardCore.Obj.GcardCredentials;
 import org.rmj.guanzongroup.appcore.ServerRequest.GCardAPI;
 import org.rmj.guanzongroup.appcore.ServerRequest.HttpHeaders;
 import org.rmj.guanzongroup.appcore.ServerRequest.WebClient;
+import org.rmj.guanzongroup.appcore.Utils.GuanzonAppConfig;
 
 import java.sql.ResultSet;
 import java.util.Date;
@@ -40,6 +41,8 @@ public class SystemExtras implements iGCardSystem{
     private final RPromo poPromo;
     private final REvents poEvents;
     private final HttpHeaders poHeaders;
+    private final GuanzonAppConfig poConfig;
+    private final GCardAPI poAPI;
 
     public SystemExtras(Context context) {
         this.mContext = context;
@@ -47,6 +50,13 @@ public class SystemExtras implements iGCardSystem{
         this.poPromo = new RPromo(mContext);
         this.poEvents = new REvents(mContext);
         this.poHeaders = new HttpHeaders(mContext);
+        this.poConfig = new GuanzonAppConfig(mContext);
+        this.poAPI = new GCardAPI(poConfig.getTestCase());
+    }
+
+    @Override
+    public void SetTestCase(boolean val) {
+        poConfig.setTestCase(val);
     }
 
     @Override
@@ -172,7 +182,7 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public void DownloadBranchesList(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(GCardAPI.URL_IMPORT_BRANCH, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_BRANCH, params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
             Log.d(TAG, "Unable to retrieve data from server. Server no response.");
@@ -247,7 +257,7 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public void DownloadPromotions(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(GCardAPI.URL_IMPORT_PROMOLINK, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_PROMOLINK, params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
             Log.d(TAG, "Unable to retrieve data from server. Server no response.");
@@ -300,7 +310,7 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public void DownloadNewsEvents(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(GCardAPI.URL_IMPORT_EVENTS, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_EVENTS, params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
         } else {

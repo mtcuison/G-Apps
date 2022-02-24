@@ -14,14 +14,17 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.rmj.guanzongroup.appcore.Database.Entities.EGCardTransactionLedger;
 import org.rmj.guanzongroup.appcore.Database.Entities.EGcardApp;
 
 import java.util.List;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
 public class GCardManagerTest {
 
@@ -40,6 +43,7 @@ public class GCardManagerTest {
         mContext = ApplicationProvider.getApplicationContext();
         poGcard = new GCardSystem(mContext);
         poSystem = poGcard.getInstance(GCardSystem.CoreFunctions.GCARD);
+        poSystem.SetTestCase(true);
     }
 
     @After
@@ -48,7 +52,7 @@ public class GCardManagerTest {
     }
 
     @Test
-    public void DownloadGCardNumberTest() throws Exception{
+    public void test01DownloadGCardNumber() throws Exception{
         poSystem.DownloadGcardNumbers(new GCardSystem.GCardSystemCallback() {
             @Override
             public void OnSuccess(String args) {
@@ -71,7 +75,7 @@ public class GCardManagerTest {
     }
 
     @Test @UiThread
-    public void GCardSavingTest() throws Exception {
+    public void test02GCardSavingTest() throws Exception {
         LiveData<List<EGcardApp>> loGcard = poSystem.GetGCardList();
         loGcard.observeForever(new Observer<List<EGcardApp>>() {
             @Override
@@ -82,7 +86,7 @@ public class GCardManagerTest {
     }
 
     @Test
-    public void DownloadGCardTransactionTest() throws Exception{
+    public void test03DownloadGCardTransactionTest() throws Exception{
         poSystem.DownloadTransactions(new GCardSystem.GCardSystemCallback() {
             @Override
             public void OnSuccess(String args) {
@@ -99,7 +103,7 @@ public class GCardManagerTest {
     }
 
     @Test @UiThread
-    public void GetGCardTransactionsTest(){
+    public void test04GetGCardTransactionsTest(){
         poSystem.GetGcardTransactions().observeForever(new Observer<List<EGCardTransactionLedger>>() {
             @Override
             public void onChanged(List<EGCardTransactionLedger> egCardTransactionLedgers) {
@@ -109,7 +113,7 @@ public class GCardManagerTest {
     }
 
     @Test @UiThread
-    public void GetGCardTransactionsTestPointsEntryList(){
+    public void test05GetGCardTransactionsTestPointsEntryList(){
         poSystem.GetPointsEntryTransactions().observeForever(new Observer<List<EGCardTransactionLedger>>() {
             @Override
             public void onChanged(List<EGCardTransactionLedger> egCardTransactionLedgers) {
@@ -119,7 +123,7 @@ public class GCardManagerTest {
     }
 
     @Test @UiThread
-    public void GetGCardTransactionsTestRedemptionList(){
+    public void test06GetGCardTransactionsTestRedemptionList(){
         poSystem.GetRedemptionTransactions().observeForever(new Observer<List<EGCardTransactionLedger>>() {
             @Override
             public void onChanged(List<EGCardTransactionLedger> egCardTransactionLedgers) {
@@ -129,7 +133,7 @@ public class GCardManagerTest {
     }
 
     @Test @UiThread
-    public void DownloadMCRegistrationTest() throws Exception{
+    public void test07DownloadMCRegistrationTest() throws Exception{
         poSystem.DownloadRegistrationInfo(new GCardSystem.GCardSystemCallback() {
             @Override
             public void OnSuccess(String args) {
