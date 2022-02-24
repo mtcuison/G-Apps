@@ -126,7 +126,7 @@ dependencies {
 
     implementation project(':digitalGcard')
     implementation project(':marketplace')
-    implementation project(':appCore')
+    implementation project(':g3appdriver')
     implementation project(':useraccount')
     implementation project(':notifications')
 }

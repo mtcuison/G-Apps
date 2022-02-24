@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.guanzongroup.appcore.Account.AccountAuthentication;
+import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 import org.rmj.guanzongroup.useraccount.Model.SignUpInfoModel;
 import org.rmj.guanzongroup.useraccount.R;

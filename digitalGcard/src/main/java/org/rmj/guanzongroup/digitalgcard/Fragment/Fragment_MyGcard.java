@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.rmj.guanzongroup.appcore.GCardCore.GCardSystem;
+import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_ManageGcard;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
