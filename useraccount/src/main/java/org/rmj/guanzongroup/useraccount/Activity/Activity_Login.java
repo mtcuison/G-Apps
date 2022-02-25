@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -113,13 +114,13 @@ public class Activity_Login extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(String fsMessage) {
-                    Toast.makeText(Activity_Login.this, fsMessage, Toast.LENGTH_LONG).show();
+                    Log.e("Login Success", fsMessage);
                     finish();
                 }
 
                 @Override
                 public void onFailed(String fsMessage) {
-                    Toast.makeText(Activity_Login.this, fsMessage, Toast.LENGTH_LONG).show();
+                    Log.e("Login Error", fsMessage);
                 }
             });
         } catch (Exception e) {

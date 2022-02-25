@@ -88,31 +88,35 @@ public class Activity_AddGcard extends AppCompatActivity {
         String lsGcardNo = Objects.requireNonNull(txtGcardN.getText().toString().trim());
         String lsBrtDate = Objects.requireNonNull(txtBdatex.getText().toString().trim());
         GcardCredentials loGcard = new GcardCredentials(lsGcardNo, lsBrtDate);
-        try {
-            mViewModel.addGcard(loGcard, new VMGCardSystem.GcardTransactionCallback() {
-                @Override
-                public void onLoad() {
-                    Toast.makeText(Activity_AddGcard.this, "Loading", Toast.LENGTH_SHORT).show();
-                }
+        if(loGcard.isDataValid()) {
+            try {
+                mViewModel.addGcard(loGcard, new VMGCardSystem.GcardTransactionCallback() {
+                    @Override
+                    public void onLoad() {
+                        Toast.makeText(Activity_AddGcard.this, "Loading", Toast.LENGTH_SHORT).show();
+                    }
 
-                @Override
-                public void onSuccess(String fsMessage) {
-                    Toast.makeText(Activity_AddGcard.this, fsMessage, Toast.LENGTH_LONG).show();
-                }
+                    @Override
+                    public void onSuccess(String fsMessage) {
+                        Toast.makeText(Activity_AddGcard.this, fsMessage, Toast.LENGTH_LONG).show();
+                    }
 
-                @Override
-                public void onFailed(String fsMessage) {
-                    Log.e("ADD GCARD ERROR", fsMessage);
+                    @Override
+                    public void onFailed(String fsMessage) {
+                        Log.e("ADD GCARD ERROR", fsMessage);
 //                Toast.makeText(Activity_AddGcard.this, fsMessage, Toast.LENGTH_LONG).show();
-                }
+                    }
 
-                @Override
-                public void onQrGenerate(Bitmap foBitmap) {
+                    @Override
+                    public void onQrGenerate(Bitmap foBitmap) {
 
-                }
-            });
-        } catch(Exception e) {
-            e.printStackTrace();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.e("ADD GCARD ERROR", loGcard.getMessage());
         }
     }
 
@@ -124,7 +128,7 @@ public class Activity_AddGcard extends AppCompatActivity {
     private void datePicker() {
         final Calendar newCalendar = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat")
-        final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+        final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         final DatePickerDialog dateFrom = new DatePickerDialog(Activity_AddGcard.this, (view, year, month, dayOfMonth) -> {
             try {
                 Calendar newDate = Calendar.getInstance();

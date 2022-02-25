@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -95,12 +96,12 @@ public class Activity_ForgotPassword extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(String fsMessage) {
-                    Toast.makeText(Activity_ForgotPassword.this, fsMessage, Toast.LENGTH_LONG).show();
+                    Log.e("Retrieve Success", fsMessage);
                 }
 
                 @Override
                 public void onFailed(String fsMessage) {
-                    Toast.makeText(Activity_ForgotPassword.this, fsMessage, Toast.LENGTH_LONG).show();
+                    Log.e("Retrieve Password Error", fsMessage);
                 }
             });
         } catch (Exception e) {
