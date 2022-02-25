@@ -87,15 +87,20 @@ public class Activity_ForgotPassword extends AppCompatActivity {
         String lsEmailxx = Objects.requireNonNull(tieEmail.getText().toString().trim());
         String lsMobilex = Objects.requireNonNull(tieMobile.getText().toString().trim());
         try {
-            mViewModel.RetrievePassword(lsEmailxx, new AccountAuthentication.OnRetrievePasswordCallback() {
+            mViewModel.RetrievePassword(lsEmailxx, new VMAccountAuthentication.AuthTransactionCallback() {
                 @Override
-                public void OnSuccessRetrieve(String message) {
-                    Toast.makeText(Activity_ForgotPassword.this, message, Toast.LENGTH_LONG).show();
+                public void onLoad() {
+
                 }
 
                 @Override
-                public void OnFailedRetrieve(String message) {
-                    Toast.makeText(Activity_ForgotPassword.this, message, Toast.LENGTH_LONG).show();
+                public void onSuccess(String fsMessage) {
+                    Toast.makeText(Activity_ForgotPassword.this, fsMessage, Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+                    Toast.makeText(Activity_ForgotPassword.this, fsMessage, Toast.LENGTH_LONG).show();
                 }
             });
         } catch (Exception e) {

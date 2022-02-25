@@ -19,7 +19,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.rmj.guanzongroup.appcore.Account.AccountInfo;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.GuanzonAppConfig;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
@@ -31,11 +33,14 @@ public class Activity_Dashboard extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityDashboardBinding binding;
+    private AppConfigPreference appConfig;
     private AccountInfo poActPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appConfig = new AppConfigPreference(Activity_Dashboard.this);
+        new GuanzonAppConfig(Activity_Dashboard.this).setTestCase(true);
         poActPref = new AccountInfo(Activity_Dashboard.this);
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

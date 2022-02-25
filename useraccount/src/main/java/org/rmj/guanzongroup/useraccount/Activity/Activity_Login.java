@@ -105,15 +105,21 @@ public class Activity_Login extends AppCompatActivity {
         AccountAuthentication.LoginCredentials loCrednts =
                 new AccountAuthentication.LoginCredentials(lsEmailxx, lsPasswrd, lsMobilex);
         try {
-            mViewModel.LoginAccount(loCrednts, new AccountAuthentication.OnLoginCallback() {
+            mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
                 @Override
-                public void OnSuccessLogin(String message) {
-                    Toast.makeText(Activity_Login.this, message, Toast.LENGTH_LONG).show();
+                public void onLoad() {
+                    Toast.makeText(Activity_Login.this, "Loading", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
-                public void OnFailedLogin(String message) {
-                    Toast.makeText(Activity_Login.this, message, Toast.LENGTH_LONG).show();
+                public void onSuccess(String fsMessage) {
+                    Toast.makeText(Activity_Login.this, fsMessage, Toast.LENGTH_LONG).show();
+                    finish();
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+                    Toast.makeText(Activity_Login.this, fsMessage, Toast.LENGTH_LONG).show();
                 }
             });
         } catch (Exception e) {
