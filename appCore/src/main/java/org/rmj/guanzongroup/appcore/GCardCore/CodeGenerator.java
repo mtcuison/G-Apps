@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class CodeGenerator {
 
-    private String EncryptionKEY = "20190625";
+    private static final String EncryptionKEY = "20190625";
     MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
     MySQLAES poEncrypt = new MySQLAES();
     BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
@@ -81,7 +81,9 @@ public class CodeGenerator {
     }
 
     public String generateSecureNo(String SecureNo){
-        return poEncrypt.Encrypt(SecureNo, EncryptionKEY);
+        poEncrypt = new MySQLAES();
+        String lsValue = poEncrypt.Encrypt(SecureNo, EncryptionKEY);
+        return lsValue;
     }
 
     public String encryptPassword(String Password){

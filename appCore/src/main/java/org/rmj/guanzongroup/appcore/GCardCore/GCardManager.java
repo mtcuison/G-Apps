@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.guanzongroup.appcore.Account.AccountInfo;
 import org.rmj.guanzongroup.appcore.Database.Entities.EBranchInfo;
 import org.rmj.guanzongroup.appcore.Database.Entities.EEvents;
 import org.rmj.guanzongroup.appcore.Database.Entities.EGCardTransactionLedger;
@@ -27,6 +28,7 @@ import org.rmj.guanzongroup.appcore.GCardCore.Obj.GcardCredentials;
 import org.rmj.guanzongroup.appcore.ServerRequest.GCardAPI;
 import org.rmj.guanzongroup.appcore.ServerRequest.HttpHeaders;
 import org.rmj.guanzongroup.appcore.ServerRequest.WebClient;
+import org.rmj.guanzongroup.appcore.Utils.GuanzonAppConfig;
 
 import java.util.List;
 
@@ -38,20 +40,29 @@ public class GCardManager implements iGCardSystem{
     private final HttpHeaders poHeaders;
     private final CodeGenerator poCode;
     private final RGcardApp poGCard;
-    private final SessionManager poSession;
+    private final AccountInfo poSession;
     private final Telephony poDevicex;
     private final RServiceInfo poService;
     private final RGCardTransactionLedger poLedger;
+    private final GuanzonAppConfig poConfig;
+    private final GCardAPI poAPI;
 
     public GCardManager(Context context) {
         this.mContext = context;
         this.poHeaders = new HttpHeaders(mContext);
         this.poCode = new CodeGenerator();
         this.poGCard = new RGcardApp(mContext);
-        this.poSession = new SessionManager(mContext);
+        this.poSession = new AccountInfo(mContext);
         this.poDevicex = new Telephony(mContext);
         this.poService = new RServiceInfo(mContext);
         this.poLedger = new RGCardTransactionLedger(mContext);
+        this.poConfig = new GuanzonAppConfig(mContext);
+        this.poAPI = new GCardAPI(poConfig.getTestCase());
+    }
+
+    @Override
+    public void SetTestCase(boolean val) {
+        poConfig.setTestCase(val);
     }
 
     @Override
@@ -59,7 +70,7 @@ public class GCardManager implements iGCardSystem{
         if(!gcardInfo.isDataValid()){
             callback.OnFailed(gcardInfo.getMessage());
         } else {
-            String lsResponse = WebClient.httpsPostJSon(GCardAPI.URL_ADD_NEW_GCARD, gcardInfo.getJSONParameters(), poHeaders.getHeaders());
+            String lsResponse = WebClient.httpsPostJSon(poAPI.URL_ADD_NEW_GCARD, gcardInfo.getJSONParameters(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("No server response.");
             } else {
@@ -85,7 +96,7 @@ public class GCardManager implements iGCardSystem{
     public void AddGCardQrCode(String GCardNumber, GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
         params.put("secureno", poCode.generateSecureNo(GCardNumber));
-        String lsResponse = WebClient.httpsPostJSon(GCardAPI.URL_ADD_NEW_GCARD, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_ADD_NEW_GCARD, params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("No server response.");
         } else {
@@ -104,8 +115,8 @@ public class GCardManager implements iGCardSystem{
     @Override
     public void DownloadGcardNumbers(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject param = new JSONObject();
-        param.put("user_id", poSession.getUserID());
-        String lsResponse = WebClient.httpsPostJSon(GCardAPI.URL_IMPORT_GCARD, param.toString(), poHeaders.getHeaders());
+        param.put("user_id", poCode.generateSecureNo(poSession.getUserID()));
+        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_GCARD, param.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
         } else {
@@ -204,10 +215,10 @@ public class GCardManager implements iGCardSystem{
         try {
             JSONObject params = new JSONObject();
             params.put("secureno", poCode.generateSecureNo(poGCard.getCardNo()));
-            String[] Ledger_Address = {GCardAPI.URL_IMPORT_TRANSACTIONS_OFFLINE,
-                    GCardAPI.URL_IMPORT_TRANSACTIONS_ONLINE,
-                    GCardAPI.URL_IMPORT_TRANSACTIONS_PREORDER,
-                    GCardAPI.URL_IMPORT_TRANSACTIONS_REDEMPTION};
+            String[] Ledger_Address = {poAPI.URL_IMPORT_TRANSACTIONS_OFFLINE,
+                    poAPI.URL_IMPORT_TRANSACTIONS_ONLINE,
+                    poAPI.URL_IMPORT_TRANSACTIONS_PREORDER,
+                    poAPI.URL_IMPORT_TRANSACTIONS_REDEMPTION};
             for (String ledger_address : Ledger_Address) {
                 String lsResponse = WebClient.httpsPostJSon(ledger_address, params.toString(), poHeaders.getHeaders());
                 if (lsResponse == null) {
@@ -273,7 +284,7 @@ public class GCardManager implements iGCardSystem{
         JSONObject params = new JSONObject();
         String lsSecureNo = new CodeGenerator().generateSecureNo(poGCard.getCardNo());
         params.put("secureno", lsSecureNo);
-        String lsResponse = WebClient.httpsPostJSon(GCardAPI.URL_IMPORT_SERVICE, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_SERVICE, params.toString(), poHeaders.getHeaders());
         if (lsResponse == null) {
             callback.OnFailed("Server no response");
         } else {
@@ -294,7 +305,7 @@ public class GCardManager implements iGCardSystem{
         JSONObject params = new JSONObject();
         String lsSecureNo = new CodeGenerator().generateSecureNo(poGCard.getCardNo());
         params.put("secureno", lsSecureNo);
-        String lsResponse = WebClient.httpsPostJSon(GCardAPI.URL_IMPORT_MC_REGISTRATION, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_MC_REGISTRATION, params.toString(), poHeaders.getHeaders());
         if (lsResponse == null) {
             callback.OnFailed("Server no response");
         } else {

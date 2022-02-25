@@ -6,7 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import org.rmj.guanzongroup.appcore.Account.AccountAuthentication;
+import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
 import org.rmj.guanzongroup.useraccount.Model.SignUpInfoModel;
 
 public class VMAccountAuthentication extends AndroidViewModel {

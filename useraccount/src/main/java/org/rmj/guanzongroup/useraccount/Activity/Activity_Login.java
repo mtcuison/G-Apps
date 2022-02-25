@@ -17,8 +17,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.guanzongroup.appcore.Account.AccountAuthentication;
-import org.rmj.guanzongroup.appcore.Etc.Telephony;
+import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
 

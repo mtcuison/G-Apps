@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import org.rmj.guanzongroup.appcore.Etc.FragmentAdapter;
-import org.rmj.guanzongroup.appcore.Etc.NonSwipeableViewPager;
+import org.rmj.g3appdriver.etc.FragmentAdapter;
+import org.rmj.g3appdriver.etc.NonSwipeableViewPager;
 import org.rmj.guanzongroup.useraccount.Fragment.Fragment_SignUpInfo;
 import org.rmj.guanzongroup.useraccount.Fragment.Fragment_SignUpPassword;
 import org.rmj.guanzongroup.useraccount.R;

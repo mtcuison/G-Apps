@@ -25,6 +25,7 @@ import org.rmj.guanzongroup.appcore.GCardCore.Obj.GcardCredentials;
 import org.rmj.guanzongroup.appcore.ServerRequest.GCardAPI;
 import org.rmj.guanzongroup.appcore.ServerRequest.HttpHeaders;
 import org.rmj.guanzongroup.appcore.ServerRequest.WebClient;
+import org.rmj.guanzongroup.appcore.Utils.GuanzonAppConfig;
 
 import java.util.List;
 
@@ -36,6 +37,8 @@ public class RedemptionManager implements iGCardSystem{
     private final RRedeemItemInfo poRedeem;
     private final HttpHeaders poHeaders;
     private final RRedeemablesInfo poRedeemables;
+    private final GuanzonAppConfig poConfig;
+    private final GCardAPI poAPI;
 
     public RedemptionManager(Context context) {
         this.mContext = context;
@@ -43,6 +46,13 @@ public class RedemptionManager implements iGCardSystem{
         this.poRedeem = new RRedeemItemInfo(mContext);
         this.poHeaders = new HttpHeaders(mContext);
         this.poRedeemables = new RRedeemablesInfo(mContext);
+        this.poConfig = new GuanzonAppConfig(mContext);
+        this.poAPI = new GCardAPI(poConfig.getTestCase());
+    }
+
+    @Override
+    public void SetTestCase(boolean val) {
+        poConfig.setTestCase(val);
     }
 
     @Override
@@ -83,7 +93,7 @@ public class RedemptionManager implements iGCardSystem{
     @Override
     public void DownloadRedeemables(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(GCardAPI.URL_IMPORT_REDEEM_ITEMS, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_REDEEM_ITEMS, params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
         } else {
@@ -174,7 +184,7 @@ public class RedemptionManager implements iGCardSystem{
             params.put("branchcd", BranchCD);
             params.put("detail", items);
 
-            String lsResponse = WebClient.httpsPostJSon(GCardAPI.URL_PLACE_ODER, params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.httpsPostJSon(poAPI.URL_PLACE_ODER, params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
             } else {

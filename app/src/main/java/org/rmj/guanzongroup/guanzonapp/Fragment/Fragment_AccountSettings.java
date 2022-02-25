@@ -15,7 +15,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.appcore.Etc.AppConstants;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMAccountSettings;
 import org.rmj.guanzongroup.guanzonapp.Activity.Activity_AccountDetails;
 import org.rmj.guanzongroup.guanzonapp.Adapter.Adapter_AccountSettings;
