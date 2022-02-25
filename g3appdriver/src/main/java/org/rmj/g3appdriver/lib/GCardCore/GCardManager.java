@@ -65,7 +65,7 @@ public class GCardManager implements iGCardSystem{
         if(!gcardInfo.isDataValid()){
             callback.OnFailed(gcardInfo.getMessage());
         } else {
-            String lsResponse = WebClient.httpsPostJSon(poAPI.URL_ADD_NEW_GCARD, gcardInfo.getJSONParameters(), poHeaders.getHeaders());
+            String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_ADD_NEW_GCARD(), gcardInfo.getJSONParameters(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("No server response.");
             } else {
@@ -96,7 +96,7 @@ public class GCardManager implements iGCardSystem{
     public void AddGCardQrCode(String GCardNumber, GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
         params.put("secureno", poCode.generateSecureNo(GCardNumber));
-        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_ADD_NEW_GCARD, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_ADD_NEW_GCARD(), params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("No server response.");
         } else {
@@ -115,7 +115,7 @@ public class GCardManager implements iGCardSystem{
     @Override
     public void ConfirmAddGCard(GcardCredentials gcardInfo, GCardSystem.GCardSystemCallback callback) throws Exception {
         gcardInfo.setsConfirmx("1");
-        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_ADD_NEW_GCARD, gcardInfo.getJSONParameters(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_ADD_NEW_GCARD(), gcardInfo.getJSONParameters(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("No server response.");
         } else {
@@ -135,7 +135,7 @@ public class GCardManager implements iGCardSystem{
     public void DownloadGcardNumbers(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject param = new JSONObject();
         param.put("user_id", poCode.generateSecureNo(poSession.getUserID()));
-        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_GCARD, param.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_GCARD(), param.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
         } else {
@@ -235,10 +235,10 @@ public class GCardManager implements iGCardSystem{
         try {
             JSONObject params = new JSONObject();
             params.put("secureno", poCode.generateSecureNo(poGCard.getCardNo()));
-            String[] Ledger_Address = {poAPI.URL_IMPORT_TRANSACTIONS_OFFLINE,
-                    poAPI.URL_IMPORT_TRANSACTIONS_ONLINE,
-                    poAPI.URL_IMPORT_TRANSACTIONS_PREORDER,
-                    poAPI.URL_IMPORT_TRANSACTIONS_REDEMPTION};
+            String[] Ledger_Address = {poAPI.getURL_IMPORT_TRANSACTIONS_OFFLINE(),
+                    poAPI.getURL_IMPORT_TRANSACTIONS_ONLINE(),
+                    poAPI.getURL_IMPORT_TRANSACTIONS_PREORDER(),
+                    poAPI.getURL_IMPORT_TRANSACTIONS_REDEMPTION()};
             for (String ledger_address : Ledger_Address) {
                 String lsResponse = WebClient.httpsPostJSon(ledger_address, params.toString(), poHeaders.getHeaders());
                 if (lsResponse == null) {
@@ -305,7 +305,7 @@ public class GCardManager implements iGCardSystem{
         JSONObject params = new JSONObject();
         String lsSecureNo = new CodeGenerator().generateSecureNo(poGCard.getCardNo());
         params.put("secureno", lsSecureNo);
-        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_SERVICE, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_SERVICE(), params.toString(), poHeaders.getHeaders());
         if (lsResponse == null) {
             callback.OnFailed("Server no response");
         } else {
@@ -327,7 +327,7 @@ public class GCardManager implements iGCardSystem{
         JSONObject params = new JSONObject();
         String lsSecureNo = new CodeGenerator().generateSecureNo(poGCard.getCardNo());
         params.put("secureno", lsSecureNo);
-        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_MC_REGISTRATION, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_MC_REGISTRATION(), params.toString(), poHeaders.getHeaders());
         if (lsResponse == null) {
             callback.OnFailed("Server no response");
         } else {

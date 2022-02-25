@@ -183,7 +183,7 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public void DownloadBranchesList(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_BRANCH, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_BRANCH(), params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
             Log.d(TAG, "Unable to retrieve data from server. Server no response.");
@@ -259,7 +259,7 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public void DownloadPromotions(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_PROMOLINK, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_PROMOLINK(), params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
             Log.d(TAG, "Unable to retrieve data from server. Server no response.");
@@ -313,7 +313,7 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public void DownloadNewsEvents(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_EVENTS, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_EVENTS(), params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
         } else {

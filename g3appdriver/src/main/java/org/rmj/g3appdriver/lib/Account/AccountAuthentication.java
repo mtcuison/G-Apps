@@ -36,7 +36,7 @@ public class AccountAuthentication {
         if (!credentials.isDataValid()) {
             callback.OnFailedLogin(credentials.getMessage());
         } else {
-            String lsResponse = WebClient.httpsPostJSon(poApi.SIGN_IN, credentials.getJSONParameters(), poHeaders.getHeaders());
+            String lsResponse = WebClient.httpsPostJSon(poApi.getSIGN_IN(), credentials.getJSONParameters(), poHeaders.getHeaders());
             if (lsResponse == null) {
                 callback.OnFailedLogin("Unable to login account. Server no response.");
             } else {
@@ -269,7 +269,7 @@ public class AccountAuthentication {
         if(!credentials.isDataValid()){
             callback.OnFailedRegister(credentials.getMessage());
         } else {
-            String lsResponse = WebClient.httpsPostJSon(poApi.REGISTRATION, credentials.getParameters(), poHeaders.getHeaders());
+            String lsResponse = WebClient.httpsPostJSon(poApi.getREGISTRATION(), credentials.getParameters(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailedRegister("Server no response.");
             } else {
@@ -299,7 +299,7 @@ public class AccountAuthentication {
             JSONObject params = new JSONObject();
             params.put("email", email);
 
-            String lsResponse = WebClient.httpsPostJSon(poApi.RETRIEVE_PASSWORD, params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.httpsPostJSon(poApi.getRETRIEVE_PASSWORD(), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailedRetrieve("Server no response.");
             } else {
