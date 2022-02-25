@@ -261,21 +261,21 @@ public class AccountAuthenticationTest {
 
     @Test
     public void test16credentialsValidationTestNoPassword() {
-        poCredentials = new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "", "09171870011");
+        poCredentials = new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "", "09171870011");
         assertFalse(poCredentials.isDataValid());
         assertEquals("Please enter password", poCredentials.getMessage());
     }
 
     @Test
     public void test17credentialsValidationTestInvalidMobileNo() {
-        poCredentials = new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "123456", "+639171870011");
+        poCredentials = new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "123456", "+639171870011");
         assertFalse(poCredentials.isDataValid());
         assertEquals("Mobile number must start with '09'", poCredentials.getMessage());
     }
 
     @Test
     public void test18credentialsValidationTestLessMobileNo() {
-        poCredentials = new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "123456", "0917187001");
+        poCredentials = new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "123456", "0917187001");
         assertFalse(poCredentials.isDataValid());
         assertEquals("Mobile number must be 11 characters", poCredentials.getMessage());
     }
@@ -283,7 +283,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test19LoginAccountTest() throws Exception{
         AccountAuthentication loAuth = new AccountAuthentication(mContext);
-        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("venuzpomarijos@gmail.com", "venuz0127", "09270359402"), new AccountAuthentication.OnLoginCallback() {
+        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "12345678", "09270359402"), new AccountAuthentication.OnLoginCallback() {
             @Override
             public void OnSuccessLogin(String message) {
                 isSucccess = true;
@@ -301,7 +301,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test20LoginAccountTestIncorrectPassword() throws Exception{
         AccountAuthentication loAuth = new AccountAuthentication(mContext);
-        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "qwerty123", "09270359402"), new AccountAuthentication.OnLoginCallback() {
+        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "qwerty123", "09270359402"), new AccountAuthentication.OnLoginCallback() {
             @Override
             public void OnSuccessLogin(String message) {
                 isSucccess = true;
@@ -321,7 +321,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test21LoginAccountTest() throws Exception{
         AccountAuthentication loAuth = new AccountAuthentication(mContext);
-        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "12345678", "09270359402"), new AccountAuthentication.OnLoginCallback() {
+        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "12345678", "09270359402"), new AccountAuthentication.OnLoginCallback() {
             @Override
             public void OnSuccessLogin(String message) {
                 isSucccess = true;
@@ -355,7 +355,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test23LoginAccountTestInvalidEmail() throws Exception{
         AccountAuthentication loAuth = new AccountAuthentication(mContext);
-        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("mikegarcia87@gmail.com", "qwerty123", "09270359402"), new AccountAuthentication.OnLoginCallback() {
+        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "qwerty123", "09270359402"), new AccountAuthentication.OnLoginCallback() {
             @Override
             public void OnSuccessLogin(String message) {
                 isSucccess = true;
@@ -393,7 +393,7 @@ public class AccountAuthenticationTest {
 
     @Test
     public void test25ForgotPasswordTestInvalidEmail() throws Exception{
-        poLogin.RetrievePassword("mikegarcia87@gmail.com", new AccountAuthentication.OnRetrievePasswordCallback() {
+        poLogin.RetrievePassword("garciamike8748@gmail.com", new AccountAuthentication.OnRetrievePasswordCallback() {
             @Override
             public void OnSuccessRetrieve(String message) {
                 isSucccess = true;
@@ -412,7 +412,7 @@ public class AccountAuthenticationTest {
 
     @Test
     public void test26ForgotPasswordTest() throws Exception{
-        poLogin.RetrievePassword("mikegarcia8748@gmail.com", new AccountAuthentication.OnRetrievePasswordCallback() {
+        poLogin.RetrievePassword("garciamike8748@gmail.com", new AccountAuthentication.OnRetrievePasswordCallback() {
             @Override
             public void OnSuccessRetrieve(String message) {
                 isSucccess = true;

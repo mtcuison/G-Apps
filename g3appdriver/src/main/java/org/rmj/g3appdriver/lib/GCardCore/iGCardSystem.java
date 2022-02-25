@@ -19,10 +19,10 @@ import java.util.List;
 
 public interface iGCardSystem {
 
-    void SetTestCase(boolean val);
     void AddGCard(GcardCredentials gcardInfo, GCardSystem.GCardSystemCallback callback) throws Exception;
     LiveData<List<EGcardApp>> GetGCardList();
     void AddGCardQrCode(String GcardNo, GCardSystem.GCardSystemCallback callback) throws Exception;
+    void ConfirmAddGCard(GcardCredentials gcardInfo, GCardSystem.GCardSystemCallback callback) throws Exception;
     void DownloadGcardNumbers(GCardSystem.GCardSystemCallback callback) throws Exception;
     void SaveGCardInfo(JSONObject detail) throws Exception;
     void ActivateGcard(String GcardNo) throws Exception;

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
@@ -62,12 +61,6 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
-    public void SetTestCase(boolean val) {
-        poConfig.setTestCase(val);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
     public void AddGCard(GcardCredentials gcardInfo, GCardSystem.GCardSystemCallback callback) throws Exception{
         if(!gcardInfo.isDataValid()){
             callback.OnFailed(gcardInfo.getMessage());
@@ -82,8 +75,13 @@ public class GCardManager implements iGCardSystem{
                     callback.OnSuccess("New gcard has been added successfully.");
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
-                    String lsMessage = loError.getString("message");
-                    callback.OnFailed(lsMessage);
+                    String lsCode = loError.getString("code");
+                    if(lsCode.equalsIgnoreCase("CNF")){
+                        callback.OnFailed(loError.toString());
+                    } else {
+                        String lsMessage = loError.getString("message");
+                        callback.OnFailed(lsMessage);
+                    }
                 }
             }
         }
@@ -94,7 +92,6 @@ public class GCardManager implements iGCardSystem{
         return poGCard.getAllGCardInfo();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void AddGCardQrCode(String GCardNumber, GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
@@ -115,7 +112,25 @@ public class GCardManager implements iGCardSystem{
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void ConfirmAddGCard(GcardCredentials gcardInfo, GCardSystem.GCardSystemCallback callback) throws Exception {
+        gcardInfo.setsConfirmx("1");
+        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_ADD_NEW_GCARD, gcardInfo.getJSONParameters(), poHeaders.getHeaders());
+        if(lsResponse == null){
+            callback.OnFailed("No server response.");
+        } else {
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("success")){
+                callback.OnSuccess("New gcard has been added successfully.");
+            } else {
+                JSONObject loError = loResponse.getJSONObject("error");
+                String lsMessage = loError.getString("message");
+                callback.OnFailed(lsMessage);
+            }
+        }
+    }
+
     @Override
     public void DownloadGcardNumbers(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject param = new JSONObject();
@@ -214,7 +229,7 @@ public class GCardManager implements iGCardSystem{
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+
     @Override
     public void DownloadTransactions(GCardSystem.GCardSystemCallback callback) {
         try {
@@ -284,7 +299,7 @@ public class GCardManager implements iGCardSystem{
         return poLedger.getRedemptionTransactionsList();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+
     @Override
     public void DownloadMCServiceInfo(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
@@ -306,7 +321,7 @@ public class GCardManager implements iGCardSystem{
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+
     @Override
     public void DownloadRegistrationInfo(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();

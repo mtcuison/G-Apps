@@ -7,7 +7,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import org.rmj.appdriver.crypt.MySQLAES;
+import org.rmj.g3appdriver.utils.MySQLAESCrypt;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ public class CodeGenerator {
 
     private static final String EncryptionKEY = "20190625";
     MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-    MySQLAES poEncrypt = new MySQLAES();
+    MySQLAESCrypt poEncrypt = new MySQLAESCrypt();
     BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
     static String EncryptedQrCode = "";
     static String scanType = "";
@@ -81,7 +81,7 @@ public class CodeGenerator {
     }
 
     public String generateSecureNo(String SecureNo){
-        poEncrypt = new MySQLAES();
+        poEncrypt = new MySQLAESCrypt();
         String lsValue = poEncrypt.Encrypt(SecureNo, EncryptionKEY);
         return lsValue;
     }

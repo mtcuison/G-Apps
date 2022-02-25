@@ -55,11 +55,6 @@ public class SystemExtras implements iGCardSystem{
     }
 
     @Override
-    public void SetTestCase(boolean val) {
-        poConfig.setTestCase(val);
-    }
-
-    @Override
     public void AddGCard(GcardCredentials gcardInfo, GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }
@@ -71,6 +66,11 @@ public class SystemExtras implements iGCardSystem{
 
     @Override
     public void AddGCardQrCode(String GcardNo, GCardSystem.GCardSystemCallback callback) throws Exception {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public void ConfirmAddGCard(GcardCredentials gcardInfo, GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }
 

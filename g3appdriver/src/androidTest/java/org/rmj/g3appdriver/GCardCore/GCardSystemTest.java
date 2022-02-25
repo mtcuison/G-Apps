@@ -9,6 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
+import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 
 @RunWith(AndroidJUnit4.class)
 public class GCardSystemTest {

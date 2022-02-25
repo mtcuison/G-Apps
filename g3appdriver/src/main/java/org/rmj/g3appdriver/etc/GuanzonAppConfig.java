@@ -29,6 +29,7 @@ public class GuanzonAppConfig {
      */
     public void setTestCase(boolean val){
         editor.putBoolean(TEST_CASE, val);
+        editor.commit();
     }
 
     public boolean getTestCase(){

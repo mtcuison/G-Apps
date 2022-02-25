@@ -15,6 +15,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 
@@ -26,6 +27,7 @@ public class AccountAuthenticationTest {
     private AccountAuthentication poLogin;
     private AccountAuthentication.LoginCredentials poCredentials;
     private AccountAuthentication.AccountCredentials poAccount;
+    private GuanzonAppConfig poConfig;
 
     private boolean isSucccess = false;
     private String message = "";
@@ -34,6 +36,8 @@ public class AccountAuthenticationTest {
     public void setUp() throws Exception {
         mContext = ApplicationProvider.getApplicationContext();
         poLogin = new AccountAuthentication(mContext);
+        poConfig = new GuanzonAppConfig(mContext);
+        poConfig.setTestCase(true);
     }
 
     @After
@@ -46,7 +50,7 @@ public class AccountAuthenticationTest {
         poAccount.setLastName("");
         poAccount.setFrstName("Michael");
         poAccount.setMiddName("Permison");
-        poAccount.setEmailAdd("mikegarcia8748@gmail.com");
+        poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("123456");
         poAccount.setMobileNo("09171870011");
@@ -60,7 +64,7 @@ public class AccountAuthenticationTest {
         poAccount.setLastName("Garcia");
         poAccount.setFrstName("");
         poAccount.setMiddName("Permison");
-        poAccount.setEmailAdd("mikegarcia8748@gmail.com");
+        poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("123456");
         poAccount.setMobileNo("09171870011");
@@ -74,7 +78,7 @@ public class AccountAuthenticationTest {
         poAccount.setLastName("Garcia");
         poAccount.setFrstName("Michael");
         poAccount.setMiddName("");
-        poAccount.setEmailAdd("mikegarcia8748@gmail.com");
+        poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("123456");
         poAccount.setMobileNo("09171870011");
@@ -102,7 +106,7 @@ public class AccountAuthenticationTest {
         poAccount.setLastName("Garcia");
         poAccount.setFrstName("Michael");
         poAccount.setMiddName("Permison");
-        poAccount.setEmailAdd("mikegarcia8748@gmail.com");
+        poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("");
         poAccount.setPasswrd2("123456");
         poAccount.setMobileNo("09171870011");
@@ -116,7 +120,7 @@ public class AccountAuthenticationTest {
         poAccount.setLastName("Garcia");
         poAccount.setFrstName("Michael");
         poAccount.setMiddName("Permison");
-        poAccount.setEmailAdd("mikegarcia8748@gmail.com");
+        poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("12345");
         poAccount.setPasswrd2("12345");
         poAccount.setMobileNo("");
@@ -130,7 +134,7 @@ public class AccountAuthenticationTest {
         poAccount.setLastName("Garcia");
         poAccount.setFrstName("Michael");
         poAccount.setMiddName("Permison");
-        poAccount.setEmailAdd("mikegarcia8748@gmail.com");
+        poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("1234567");
         poAccount.setMobileNo("09171870011");
@@ -144,7 +148,7 @@ public class AccountAuthenticationTest {
         poAccount.setLastName("Garcia");
         poAccount.setFrstName("Michael");
         poAccount.setMiddName("Permison");
-        poAccount.setEmailAdd("mikegarcia8748@gmail.com");
+        poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("123456");
         poAccount.setMobileNo("");
@@ -158,7 +162,7 @@ public class AccountAuthenticationTest {
         poAccount.setLastName("Garcia");
         poAccount.setFrstName("Michael");
         poAccount.setMiddName("Permison");
-        poAccount.setEmailAdd("mikegarcia8748@gmail.com");
+        poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("1234567");
         poAccount.setPasswrd2("1234567");
         poAccount.setMobileNo("0917187001");
@@ -172,7 +176,7 @@ public class AccountAuthenticationTest {
         poAccount.setLastName("Garcia");
         poAccount.setFrstName("Michael");
         poAccount.setMiddName("Permison");
-        poAccount.setEmailAdd("mikegarcia8748@gmail.com");
+        poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("1234567");
         poAccount.setPasswrd2("1234567");
         poAccount.setMobileNo("+639171870011");
@@ -186,7 +190,7 @@ public class AccountAuthenticationTest {
         poAccount.setLastName("Garcia");
         poAccount.setFrstName("Michael");
         poAccount.setMiddName("Permison");
-        poAccount.setEmailAdd("mikegarcia8748@gmail.com");
+        poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("1234567");
         poAccount.setPasswrd2("1234567");
         poAccount.setMobileNo("08171870011");
@@ -200,7 +204,7 @@ public class AccountAuthenticationTest {
         poAccount.setLastName("Garcia");
         poAccount.setFrstName("Michael");
         poAccount.setMiddName("Permison");
-        poAccount.setEmailAdd("mikegarcia8748@gmail.com");
+        poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("123456");
         poAccount.setMobileNo("09171870011");
@@ -264,21 +268,21 @@ public class AccountAuthenticationTest {
 
     @Test
     public void test16credentialsValidationTestNoPassword() {
-        poCredentials = new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "", "09171870011");
+        poCredentials = new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "", "09171870011");
         assertFalse(poCredentials.isDataValid());
         assertEquals("Please enter password", poCredentials.getMessage());
     }
 
     @Test
     public void test17credentialsValidationTestInvalidMobileNo() {
-        poCredentials = new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "123456", "+639171870011");
+        poCredentials = new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "123456", "+639171870011");
         assertFalse(poCredentials.isDataValid());
         assertEquals("Mobile number must start with '09'", poCredentials.getMessage());
     }
 
     @Test
     public void test18credentialsValidationTestLessMobileNo() {
-        poCredentials = new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "123456", "0917187001");
+        poCredentials = new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "123456", "0917187001");
         assertFalse(poCredentials.isDataValid());
         assertEquals("Mobile number must be 11 characters", poCredentials.getMessage());
     }
@@ -286,7 +290,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test19LoginAccountTest() throws Exception{
         AccountAuthentication loAuth = new AccountAuthentication(mContext);
-        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("venuzpomarijos@gmail.com", "venuz0127", "09270359402"), new AccountAuthentication.OnLoginCallback() {
+        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "12345678", "09270359402"), new AccountAuthentication.OnLoginCallback() {
             @Override
             public void OnSuccessLogin(String message) {
                 isSucccess = true;
@@ -304,7 +308,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test20LoginAccountTestIncorrectPassword() throws Exception{
         AccountAuthentication loAuth = new AccountAuthentication(mContext);
-        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "qwerty123", "09270359402"), new AccountAuthentication.OnLoginCallback() {
+        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "qwerty123", "09270359402"), new AccountAuthentication.OnLoginCallback() {
             @Override
             public void OnSuccessLogin(String message) {
                 isSucccess = true;
@@ -324,7 +328,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test21LoginAccountTest() throws Exception{
         AccountAuthentication loAuth = new AccountAuthentication(mContext);
-        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "12345678", "09270359402"), new AccountAuthentication.OnLoginCallback() {
+        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "12345678", "09270359402"), new AccountAuthentication.OnLoginCallback() {
             @Override
             public void OnSuccessLogin(String message) {
                 isSucccess = true;
@@ -349,7 +353,7 @@ public class AccountAuthenticationTest {
 //        String lsCreated = loSession.getDateCreated();
 
         assertEquals("GAP0190554", lsUserIDx);
-        assertEquals("mikegarcia8748@gmail.com", lsEmailxx);
+        assertEquals("garciamike8748@gmail.com", lsEmailxx);
         assertEquals("Doe, Garcia Michael ", lsUserNme);
         assertEquals("09270359402", lsMobilex);
 //        assertEquals("2019-08-28 09:20:25", lsCreated);
@@ -415,7 +419,7 @@ public class AccountAuthenticationTest {
 
     @Test
     public void test26ForgotPasswordTest() throws Exception{
-        poLogin.RetrievePassword("mikegarcia8748@gmail.com", new AccountAuthentication.OnRetrievePasswordCallback() {
+        poLogin.RetrievePassword("garciamike8748@gmail.com", new AccountAuthentication.OnRetrievePasswordCallback() {
             @Override
             public void OnSuccessRetrieve(String message) {
                 isSucccess = true;

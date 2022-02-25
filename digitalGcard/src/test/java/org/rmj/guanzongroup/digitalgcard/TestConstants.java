@@ -5,9 +5,9 @@ import android.content.Context;
 
 import androidx.test.core.app.ApplicationProvider;
 
-import org.rmj.guanzongroup.appcore.GCardCore.Obj.CartItem;
-import org.rmj.guanzongroup.appcore.GCardCore.Obj.GcardCartItems;
-import org.rmj.guanzongroup.appcore.GCardCore.Obj.GcardCredentials;
+import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
+import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCartItems;
+import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
 
 public class TestConstants{
     public static final Application APPLICATION = ApplicationProvider.getApplicationContext();
