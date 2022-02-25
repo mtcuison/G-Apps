@@ -94,7 +94,7 @@ public class RedemptionManager implements iGCardSystem{
     @Override
     public void DownloadRedeemables(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(poAPI.URL_IMPORT_REDEEM_ITEMS, params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_REDEEM_ITEMS(), params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
         } else {
@@ -185,7 +185,7 @@ public class RedemptionManager implements iGCardSystem{
             params.put("branchcd", BranchCD);
             params.put("detail", items);
 
-            String lsResponse = WebClient.httpsPostJSon(poAPI.URL_PLACE_ODER, params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_PLACE_ODER(), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
             } else {
