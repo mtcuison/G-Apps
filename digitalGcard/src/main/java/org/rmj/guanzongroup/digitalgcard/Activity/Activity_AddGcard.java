@@ -3,50 +3,55 @@ package org.rmj.guanzongroup.digitalgcard.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.guanzongroup.appcore.GCardCore.GCardSystem;
+import org.rmj.guanzongroup.appcore.GCardCore.Obj.GcardCredentials;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class Activity_AddGcard extends AppCompatActivity {
 
     private VMGCardSystem mViewModel;
     private Toolbar toolbar;
-    private TextInputEditText txtBdatex;
+    private TextInputEditText txtBdatex, txtGcardN;
+    private MaterialButton btnAddCrd, btnScanGc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_gcard);
-
+        mViewModel = new ViewModelProvider(Activity_AddGcard.this).get(VMGCardSystem.class);
+        mViewModel.setInstance(GCardSystem.CoreFunctions.GCARD);
         initViews();
         setUpToolbar();
 
-        txtBdatex.setOnClickListener(v -> {
-            final Calendar newCalendar = Calendar.getInstance();
-            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-            final DatePickerDialog StartTime = new DatePickerDialog(Activity_AddGcard.this, (view131, year, monthOfYear, dayOfMonth) -> {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                String lsDate;
-                lsDate = dateFormatter.format(newDate.getTime());
-                txtBdatex.setText(lsDate);
-//                mViewModel.setPsPtpDate(lsDate);
-            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-            StartTime.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-            StartTime.show();
-        });
+        txtBdatex.setOnClickListener(v -> datePicker());
+        btnAddCrd.setOnClickListener(v -> addGcard());
+        btnScanGc.setOnClickListener(v -> scanGcard());
     }
 
     @Override
@@ -66,7 +71,10 @@ public class Activity_AddGcard extends AppCompatActivity {
     // Initialize this first before anything else.
     private void initViews() {
         toolbar = findViewById(R.id.toolbar);
+        txtGcardN = findViewById(R.id.tie_gcard_number);
         txtBdatex = findViewById(R.id.tie_birth_date);
+        btnAddCrd = findViewById(R.id.btnAddGcard);
+        btnScanGc = findViewById(R.id.btnScanGcard);
     }
 
     // Initialize initViews() before this method.
@@ -74,6 +82,59 @@ public class Activity_AddGcard extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Add GCard");
+    }
+
+    private void addGcard() {
+        String lsGcardNo = Objects.requireNonNull(txtGcardN.getText().toString().trim());
+        String lsBrtDate = Objects.requireNonNull(txtBdatex.getText().toString().trim());
+        GcardCredentials loGcard = new GcardCredentials(lsGcardNo, lsBrtDate);
+        try {
+            mViewModel.addGcard(loGcard, new VMGCardSystem.GcardTransactionCallback() {
+                @Override
+                public void onLoad() {
+                    Toast.makeText(Activity_AddGcard.this, "Loading", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onSuccess(String fsMessage) {
+                    Toast.makeText(Activity_AddGcard.this, fsMessage, Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+                    Log.e("ADD GCARD ERROR", fsMessage);
+//                Toast.makeText(Activity_AddGcard.this, fsMessage, Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onQrGenerate(Bitmap foBitmap) {
+
+                }
+            });
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void scanGcard() {
+        Intent loIntent = new Intent(Activity_AddGcard.this, Activity_QrCodeScanner.class);
+        startActivity(loIntent);
+    }
+
+    private void datePicker() {
+        final Calendar newCalendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat")
+        final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+        final DatePickerDialog dateFrom = new DatePickerDialog(Activity_AddGcard.this, (view, year, month, dayOfMonth) -> {
+            try {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, month, dayOfMonth);
+                txtBdatex.setText(dateFormatter.format(newDate.getTime()));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        dateFrom.show();
     }
 
 }

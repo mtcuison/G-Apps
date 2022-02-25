@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,20 +19,24 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.rmj.guanzongroup.appcore.Account.AccountInfo;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 
+import java.util.Objects;
+
 public class Activity_Dashboard extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityDashboardBinding binding;
+    private AccountInfo poActPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        poActPref = new AccountInfo(Activity_Dashboard.this);
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -86,17 +91,26 @@ public class Activity_Dashboard extends AppCompatActivity {
 
     private void setUpHeader(NavigationView foNavigxx) {
         View headerLayout = foNavigxx.getHeaderView(0);
+        LinearLayout lnAuthxxx = headerLayout.findViewById(R.id.ln_authenticate);
         TextView txtSignUp = headerLayout.findViewById(R.id.lbl_Signup);
-        TextView txtLogin = headerLayout.findViewById(R.id.lbl_Login);
+        TextView txtLoginx = headerLayout.findViewById(R.id.lbl_Login);
+        TextView txtFullNm = headerLayout.findViewById(R.id.lbl_UserFullName);
+        if(poActPref.getLoginStatus()) {
+            lnAuthxxx.setVisibility(View.GONE);
+            txtFullNm.setVisibility(View.VISIBLE);
+            txtFullNm.setText(Objects.requireNonNull(poActPref.getFullName()));
+        } else {
+            lnAuthxxx.setVisibility(View.VISIBLE);
+            txtFullNm.setVisibility(View.GONE);
+            txtSignUp.setOnClickListener(v -> {
+                Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SignUp.class);
+                startActivity(loIntent);
+            });
 
-        txtSignUp.setOnClickListener(v -> {
-            Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SignUp.class);
-            startActivity(loIntent);
-        });
-
-        txtLogin.setOnClickListener(v -> {
-            Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
-            startActivity(loIntent);
-        });
+            txtLoginx.setOnClickListener(v -> {
+                Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
+                startActivity(loIntent);
+            });
+        }
     }
 }
