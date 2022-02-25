@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,17 +84,23 @@ public class Fragment_SignUpPassword extends Fragment {
             loCrednts.setPasswrd2(poSignUpM.getsPasswrd2());
 
             try {
-                mViewModel.RegisterAccount(loCrednts, new AccountAuthentication.OnCreateAccountCallback() {
+                mViewModel.RegisterAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
                     @Override
-                    public void OnSuccessRegister(String message) {
-                        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                    public void onLoad() {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String fsMessage) {
+                        Log.e("Sign Up Success: ", fsMessage);
                         getActivity().finish();
                     }
 
                     @Override
-                    public void OnFailedRegister(String message) {
-                        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                    public void onFailed(String fsMessage) {
+                        Log.e("Sign Up Failed: ", fsMessage);
                     }
+
                 });
             } catch (Exception e) {
                 e.printStackTrace();

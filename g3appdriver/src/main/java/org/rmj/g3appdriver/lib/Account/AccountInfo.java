@@ -222,4 +222,9 @@ public class AccountInfo {
     public String getProvince(){
         return pref.getString(PROVINCE, "");
     }
+
+    public boolean getLoginStatus() {
+        return  pref.getBoolean(SESSION_ACTIVE,false);
+    }
+
 }

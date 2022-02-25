@@ -13,7 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ClearAppTheme.ActionBar.Transparent"/>
 
-    <org.rmj.guanzongroup.appcore.Etc.NonSwipeableViewPager
+    <org.rmj.g3appdriver.etc.NonSwipeableViewPager
         android:id="@+id/viewpager_signup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

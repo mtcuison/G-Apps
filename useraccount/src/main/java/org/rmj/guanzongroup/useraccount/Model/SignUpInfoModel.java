@@ -117,7 +117,7 @@ public class SignUpInfoModel {
         } else if(sPasswrd2.isEmpty()) {
             message = "Please re-type password";
             return false;
-        } else if(!sPassword.equalsIgnoreCase(sPasswrd2)){
+        } else if(!sPassword.equals(sPasswrd2)){
             message = "Passwords does not match";
             return false;
         } else if(sPassword.length() < 6){
