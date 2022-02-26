@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -105,15 +106,21 @@ public class Activity_Login extends AppCompatActivity {
         AccountAuthentication.LoginCredentials loCrednts =
                 new AccountAuthentication.LoginCredentials(lsEmailxx, lsPasswrd, lsMobilex);
         try {
-            mViewModel.LoginAccount(loCrednts, new AccountAuthentication.OnLoginCallback() {
+            mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
                 @Override
-                public void OnSuccessLogin(String message) {
-                    Toast.makeText(Activity_Login.this, message, Toast.LENGTH_LONG).show();
+                public void onLoad() {
+                    Toast.makeText(Activity_Login.this, "Loading", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
-                public void OnFailedLogin(String message) {
-                    Toast.makeText(Activity_Login.this, message, Toast.LENGTH_LONG).show();
+                public void onSuccess(String fsMessage) {
+                    Log.e("Login Success", fsMessage);
+                    finish();
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+                    Log.e("Login Error", fsMessage);
                 }
             });
         } catch (Exception e) {

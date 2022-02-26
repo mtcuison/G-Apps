@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.rmj.guanzongroup.digitalgcard">
+    package="org.rmj.guanzongroup.digitalgcard" >
 
     <application>
         <activity
+            android:name=".Activity.Activity_QrCodeScanner"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_AddGcard"
             android:exported="true"
-            android:theme="@style/GuanzonMarketplace.Theme"/>
+            android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_ManageGcard"
             android:exported="true"

@@ -143,6 +143,8 @@ public class AccountInfo {
         editor.commit();
     }
 
+    public boolean getLoginStatus() { return pref.getBoolean(SESSION_ACTIVE, false); }
+
     public String getUserID(){
         return pref.getString(USERID, "");
     }
