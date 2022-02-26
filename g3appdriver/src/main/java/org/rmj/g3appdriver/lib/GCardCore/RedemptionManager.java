@@ -134,7 +134,7 @@ public class RedemptionManager implements iGCardSystem{
     }
 
     @Override
-    public void AddToCart(CartItem item, GCardSystem.GCardSystemCallback callback) throws Exception {
+    public void AddToCart(CartItem item, GCardSystem.GCardSystemCallback callback) {
         if (!isPointsValid(item.getTotalItemPoints())) {
             ERedeemItemInfo loItem = new ERedeemItemInfo();
             loItem.setTransNox(new CodeGenerator().generateTransNox());

@@ -210,7 +210,7 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
-    public void AddToCart(CartItem item, GCardSystem.GCardSystemCallback callback) throws Exception {
+    public void AddToCart(CartItem item, GCardSystem.GCardSystemCallback callback) {
         throw new NullPointerException();
     }
 

@@ -31,7 +31,7 @@ public interface iGCardSystem {
     void DownloadRedeemables(GCardSystem.GCardSystemCallback callback) throws Exception;
     void SaveRedeemables(JSONObject detail) throws Exception;
     LiveData<List<ERedeemablesInfo>> GetRedeemablesList();
-    void AddToCart(CartItem item, GCardSystem.GCardSystemCallback callback) throws Exception;
+    void AddToCart(CartItem item, GCardSystem.GCardSystemCallback callback);
     void UpdateCartItem(CartItem item, GCardSystem.GCardSystemCallback callback) throws Exception;
     void PlaceOrder(List<ERedeemItemInfo> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception;
     Bitmap GenerateGCardOrderQrCode() throws Exception;
