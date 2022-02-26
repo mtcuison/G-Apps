@@ -253,41 +253,6 @@ public class AccountAuthenticationTest {
     }
 
     @Test
-    public void test14credentialsValidationTest() {
-        poCredentials = new AccountAuthentication.LoginCredentials("", "", "09171870011");
-        assertFalse(poCredentials.isDataValid());
-        assertEquals("Please enter email", poCredentials.getMessage());
-    }
-
-    @Test
-    public void test15credentialsValidationTestNoEmail() {
-        poCredentials = new AccountAuthentication.LoginCredentials("", "123456", "09171870011");
-        assertFalse(poCredentials.isDataValid());
-        assertEquals("Please enter email", poCredentials.getMessage());
-    }
-
-    @Test
-    public void test16credentialsValidationTestNoPassword() {
-        poCredentials = new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "", "09171870011");
-        assertFalse(poCredentials.isDataValid());
-        assertEquals("Please enter password", poCredentials.getMessage());
-    }
-
-    @Test
-    public void test17credentialsValidationTestInvalidMobileNo() {
-        poCredentials = new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "123456", "+639171870011");
-        assertFalse(poCredentials.isDataValid());
-        assertEquals("Mobile number must start with '09'", poCredentials.getMessage());
-    }
-
-    @Test
-    public void test18credentialsValidationTestLessMobileNo() {
-        poCredentials = new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "123456", "0917187001");
-        assertFalse(poCredentials.isDataValid());
-        assertEquals("Mobile number must be 11 characters", poCredentials.getMessage());
-    }
-
-    @Test
     public void test19LoginAccountTest() throws Exception{
         AccountAuthentication loAuth = new AccountAuthentication(mContext);
         loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "12345678", "09270359402"), new AccountAuthentication.OnLoginCallback() {
@@ -350,13 +315,11 @@ public class AccountAuthenticationTest {
         String lsEmailxx = loSession.getEmailAdd();
         String lsUserNme = loSession.getFullName();
         String lsMobilex = loSession.getMobileNo();
-//        String lsCreated = loSession.getDateCreated();
 
         assertEquals("GAP0190554", lsUserIDx);
         assertEquals("garciamike8748@gmail.com", lsEmailxx);
         assertEquals("Doe, Garcia Michael ", lsUserNme);
         assertEquals("09270359402", lsMobilex);
-//        assertEquals("2019-08-28 09:20:25", lsCreated);
     }
 
     @Test

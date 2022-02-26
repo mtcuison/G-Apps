@@ -56,11 +56,6 @@ public class ImportRedeemablesTest {
     }
 
     @Test
-    public void isPointsValid() {
-
-    }
-
-    @Test
     public void test01DownloadRedeemables() throws Exception {
         poSystem.DownloadRedeemables(new GCardSystem.GCardSystemCallback() {
             @Override
@@ -95,36 +90,6 @@ public class ImportRedeemablesTest {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-        });
-    }
-
-    @Test
-    public void test03ddToCart() throws Exception{
-        poSystem.AddToCart(new CartItem("", "", 1, 50.00), new GCardSystem.GCardSystemCallback() {
-            @Override
-            public void OnSuccess(String args) {
-                isSuccess = true;
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                isSuccess = false;
-            }
-        });
-    }
-
-    @Test
-    public void test04AddToCartUpdateExistingItemOnCart() throws Exception{
-        poSystem.AddToCart(new CartItem("", "", 1, 50.00), new GCardSystem.GCardSystemCallback() {
-            @Override
-            public void OnSuccess(String args) {
-
-            }
-
-            @Override
-            public void OnFailed(String message) {
-
             }
         });
     }
