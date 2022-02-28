@@ -22,6 +22,9 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
 import org.rmj.guanzongroup.digitalgcard.R;
@@ -103,8 +106,11 @@ public class Activity_AddGcard extends AppCompatActivity {
 
                     @Override
                     public void onFailed(String fsMessage) {
-                        Log.e("ADD GCARD ERROR", fsMessage);
-//                Toast.makeText(Activity_AddGcard.this, fsMessage, Toast.LENGTH_LONG).show();
+                        if(isJSONValid(fsMessage)) {
+
+                        } else {
+                            Log.e("ADD GCARD ERROR", fsMessage);
+                        }
                     }
 
                     @Override
@@ -139,6 +145,19 @@ public class Activity_AddGcard extends AppCompatActivity {
             }
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
         dateFrom.show();
+    }
+
+    public boolean isJSONValid(String fsMessage) {
+        try {
+            new JSONObject(fsMessage);
+        } catch (JSONException ex) {
+            try {
+                new JSONArray(fsMessage);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
