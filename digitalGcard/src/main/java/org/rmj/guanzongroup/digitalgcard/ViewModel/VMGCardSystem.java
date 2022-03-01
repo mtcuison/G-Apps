@@ -1,5 +1,9 @@
 package org.rmj.guanzongroup.digitalgcard.ViewModel;
 
+import static org.rmj.g3appdriver.utils.CallbackJson.CallbackStatus.FAILED;
+import static org.rmj.g3appdriver.utils.CallbackJson.CallbackStatus.SUCCESS;
+import static org.rmj.g3appdriver.utils.CallbackJson.parse;
+
 import android.app.Application;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -125,7 +129,7 @@ public class VMGCardSystem extends AndroidViewModel {
     }
 
     // ------- ASYNCTASKS -------- //
-    private static class AddGcardTask extends AsyncTask<Void, Void, Void> {
+    private static class AddGcardTask extends AsyncTask<Void, Void, String> {
         private static final String ADD_GCARD_TAG = AddGcardTask.class.getSimpleName();
         private final iGCardSystem mGcardSys;
         private final ConnectionUtil loConnect;
@@ -146,7 +150,8 @@ public class VMGCardSystem extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected String doInBackground(Void... voids) {
+            final String[] lsResult = {""};
             try {
                 if(loConnect.isDeviceConnected()) {
                     mGcardSys.AddGCard(loGcardxx, new GCardSystem.GCardSystemCallback() {
@@ -155,33 +160,51 @@ public class VMGCardSystem extends AndroidViewModel {
                             try {
                                 JSONObject loDetail = new JSONObject(args);
                                 mGcardSys.SaveGCardInfo(loDetail);
-                                loCallbck.onSuccess(args);
+                                lsResult[0] = parse(SUCCESS, args);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Log.e(ADD_GCARD_TAG, e.getMessage());
-                                loCallbck.onFailed(ADD_GCARD_TAG + e.getMessage());
+                                lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 Log.e(ADD_GCARD_TAG, e.getMessage());
-                                loCallbck.onFailed(ADD_GCARD_TAG + e.getMessage());
+                                lsResult[0] = parse(FAILED,ADD_GCARD_TAG + e.getMessage());
                             }
                         }
 
                         @Override
                         public void OnFailed(String message) {
-                            loCallbck.onFailed(message);
+                            lsResult[0] = parse(FAILED, message);
                         }
 
                     });
                 } else {
-                    loCallbck.onFailed(AppConstants.SERVER_NO_RESPONSE());
+                    lsResult[0] = parse(FAILED, AppConstants.SERVER_NO_RESPONSE());
                 }
             } catch(Exception e) {
                 e.printStackTrace();
                 Log.e(ADD_GCARD_TAG, e.getMessage());
-                loCallbck.onFailed(ADD_GCARD_TAG + e.getMessage());
+                lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
             }
-            return null;
+            return lsResult[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject loJson = new JSONObject(s);
+                String lsStatus =String.valueOf(loJson.get("status"));
+                String lsMessage = loJson.getString("message");
+                if(lsStatus.equals(SUCCESS.toString())) {
+                    loCallbck.onSuccess(lsMessage);
+                } else if(lsStatus.equals(FAILED.toString())) {
+                    loCallbck.onFailed(lsMessage);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
 
     }

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Confirmation;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 
@@ -40,6 +43,7 @@ public class Activity_AddGcard extends AppCompatActivity {
 
     private VMGCardSystem mViewModel;
     private Toolbar toolbar;
+    private Dialog_Loading poLoading;
     private TextInputEditText txtBdatex, txtGcardN;
     private MaterialButton btnAddCrd, btnScanGc;
 
@@ -96,20 +100,57 @@ public class Activity_AddGcard extends AppCompatActivity {
                 mViewModel.addGcard(loGcard, new VMGCardSystem.GcardTransactionCallback() {
                     @Override
                     public void onLoad() {
-                        Toast.makeText(Activity_AddGcard.this, "Loading", Toast.LENGTH_SHORT).show();
+                        poLoading = new Dialog_Loading(Activity_AddGcard.this);
+                        poLoading.iniDialog("Adding GCard", "Please wait for a while.");
+                        poLoading.show();
                     }
 
                     @Override
                     public void onSuccess(String fsMessage) {
-                        Toast.makeText(Activity_AddGcard.this, fsMessage, Toast.LENGTH_LONG).show();
+                        poLoading.dismiss();
                     }
 
                     @Override
                     public void onFailed(String fsMessage) {
+                        poLoading.dismiss();
                         if(isJSONValid(fsMessage)) {
+                            String lsErrCode = "";
+                            try {
+                                JSONObject loJson = new JSONObject(fsMessage);
+                                lsErrCode = loJson.getString("code");
+                                if("CNF".equalsIgnoreCase(lsErrCode)) {
+                                    Dialog_Confirmation loDialog = new Dialog_Confirmation(Activity_AddGcard.this);
+                                    loDialog.iniDialog("Add GCard Confirmation", loJson.getString("message")
+                                            , new Dialog_Confirmation.OnDialogConfirmation() {
+                                                @Override
+                                                public void onConfirm(AlertDialog dialog) {
+                                                    dialog.dismiss();
+                                                }
 
+                                                @Override
+                                                public void onCancel(AlertDialog dialog) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                    loDialog.show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         } else {
-                            Log.e("ADD GCARD ERROR", fsMessage);
+                            Dialog_Confirmation loDialog = new Dialog_Confirmation(Activity_AddGcard.this);
+                            loDialog.iniDialog("Add GCard Failed", fsMessage, new Dialog_Confirmation.OnDialogConfirmation() {
+                                @Override
+                                public void onConfirm(AlertDialog dialog) {
+                                    dialog.dismiss();
+                                }
+
+                                @Override
+                                public void onCancel(AlertDialog dialog) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            loDialog.show();
                         }
                     }
 
