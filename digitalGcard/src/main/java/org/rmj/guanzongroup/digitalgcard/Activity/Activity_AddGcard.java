@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -12,13 +11,8 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -28,16 +22,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Confirmation;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public class Activity_AddGcard extends AppCompatActivity {
 
@@ -119,9 +111,10 @@ public class Activity_AddGcard extends AppCompatActivity {
                                 JSONObject loJson = new JSONObject(fsMessage);
                                 lsErrCode = loJson.getString("code");
                                 if("CNF".equalsIgnoreCase(lsErrCode)) {
-                                    Dialog_Confirmation loDialog = new Dialog_Confirmation(Activity_AddGcard.this);
-                                    loDialog.iniDialog("Add GCard Confirmation", loJson.getString("message")
-                                            , new Dialog_Confirmation.OnDialogConfirmation() {
+                                    Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_AddGcard.this);
+                                    loDialog.setButtonText("Confirm", "Cancel");
+                                    loDialog.iniDialog("GCard Confirmation", loJson.getString("message")
+                                            , new Dialog_DoubleButton.OnDialogConfirmation() {
                                                 @Override
                                                 public void onConfirm(AlertDialog dialog) {
                                                     dialog.dismiss();
@@ -138,8 +131,9 @@ public class Activity_AddGcard extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         } else {
-                            Dialog_Confirmation loDialog = new Dialog_Confirmation(Activity_AddGcard.this);
-                            loDialog.iniDialog("Add GCard Failed", fsMessage, new Dialog_Confirmation.OnDialogConfirmation() {
+                            Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_AddGcard.this);
+                            loDialog.setButtonText("Confirm", "Cancel");
+                            loDialog.iniDialog("Add GCard Failed", fsMessage, new Dialog_DoubleButton.OnDialogConfirmation() {
                                 @Override
                                 public void onConfirm(AlertDialog dialog) {
                                     dialog.dismiss();

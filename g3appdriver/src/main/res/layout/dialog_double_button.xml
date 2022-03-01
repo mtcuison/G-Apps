@@ -46,11 +46,10 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn_cancel"
+                android:id="@+id/btn_negative"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cancel"
                 style="@style/ButtonStyle.Light.Small"
                 android:paddingHorizontal="0dp"/>
 
@@ -59,11 +58,10 @@
                 android:layout_height="0dp" />
 
             <Button
-                android:id="@+id/btn_confirm"
+                android:id="@+id/btn_positive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Confirm"
                 style="@style/ButtonStyle.Orange.Small"
                 android:paddingHorizontal="0dp"/>
 
