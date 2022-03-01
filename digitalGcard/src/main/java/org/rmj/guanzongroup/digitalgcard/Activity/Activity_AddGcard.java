@@ -104,9 +104,7 @@ public class Activity_AddGcard extends AppCompatActivity {
                     public void onSuccess(String fsMessage) {
                         poLoading.dismiss();
                         poDialog.setButtonText("Okay");
-                        poDialog.initDialog("Add GCard", fsMessage, dialog -> {
-                            dialog.dismiss();
-                        });
+                        poDialog.initDialog("Add GCard", fsMessage, dialog -> dialog.dismiss());
                         poDialog.show();
                     }
 
@@ -125,6 +123,7 @@ public class Activity_AddGcard extends AppCompatActivity {
                                             , new Dialog_DoubleButton.OnDialogConfirmation() {
                                                 @Override
                                                 public void onConfirm(AlertDialog dialog) {
+                                                    confirmAddGcard(loGcard);
                                                     dialog.dismiss();
                                                 }
 
@@ -140,9 +139,7 @@ public class Activity_AddGcard extends AppCompatActivity {
                             }
                         } else {
                             poDialog.setButtonText("Okay");
-                            poDialog.initDialog("Add GCard Failed",fsMessage, dialog -> {
-                                dialog.dismiss();
-                            });
+                            poDialog.initDialog("Add GCard Failed", fsMessage, dialog -> dialog.dismiss());
                             poDialog.show();
                         }
                     }
@@ -156,7 +153,45 @@ public class Activity_AddGcard extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
-            Log.e("ADD GCARD ERROR", loGcard.getMessage());
+            poDialog.setButtonText("Okay");
+            poDialog.initDialog("Add GCard Failed", loGcard.getMessage(), dialog -> dialog.dismiss());
+            poDialog.show();
+        }
+    }
+
+    private void confirmAddGcard(GcardCredentials foGcard) {
+        try {
+            mViewModel.confirmAddGCard(foGcard, new VMGCardSystem.GcardTransactionCallback() {
+                @Override
+                public void onLoad() {
+                    poLoading = new Dialog_Loading(Activity_AddGcard.this);
+                    poLoading.initDialog("Adding GCard", "Please wait for a while.");
+                    poLoading.show();
+                }
+
+                @Override
+                public void onSuccess(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialog.setButtonText("Okay");
+                    poDialog.initDialog("Add GCard", fsMessage, dialog -> dialog.dismiss());
+                    poDialog.show();
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialog.setButtonText("Okay");
+                    poDialog.initDialog("Add GCard Failed", fsMessage, dialog -> dialog.dismiss());
+                    poDialog.show();
+                }
+
+                @Override
+                public void onQrGenerate(Bitmap foBitmap) {
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
