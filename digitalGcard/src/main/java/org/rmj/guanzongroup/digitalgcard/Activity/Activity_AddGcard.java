@@ -24,6 +24,7 @@ import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 
@@ -36,6 +37,7 @@ public class Activity_AddGcard extends AppCompatActivity {
     private VMGCardSystem mViewModel;
     private Toolbar toolbar;
     private Dialog_Loading poLoading;
+    private Dialog_SingleButton poDialog;
     private TextInputEditText txtBdatex, txtGcardN;
     private MaterialButton btnAddCrd, btnScanGc;
 
@@ -74,6 +76,7 @@ public class Activity_AddGcard extends AppCompatActivity {
         txtBdatex = findViewById(R.id.tie_birth_date);
         btnAddCrd = findViewById(R.id.btnAddGcard);
         btnScanGc = findViewById(R.id.btnScanGcard);
+        poDialog = new Dialog_SingleButton(Activity_AddGcard.this);
     }
 
     // Initialize initViews() before this method.
@@ -93,13 +96,18 @@ public class Activity_AddGcard extends AppCompatActivity {
                     @Override
                     public void onLoad() {
                         poLoading = new Dialog_Loading(Activity_AddGcard.this);
-                        poLoading.iniDialog("Adding GCard", "Please wait for a while.");
+                        poLoading.initDialog("Adding GCard", "Please wait for a while.");
                         poLoading.show();
                     }
 
                     @Override
                     public void onSuccess(String fsMessage) {
                         poLoading.dismiss();
+                        poDialog.setButtonText("Okay");
+                        poDialog.initDialog("Add GCard", fsMessage, dialog -> {
+                            dialog.dismiss();
+                        });
+                        poDialog.show();
                     }
 
                     @Override
@@ -113,7 +121,7 @@ public class Activity_AddGcard extends AppCompatActivity {
                                 if("CNF".equalsIgnoreCase(lsErrCode)) {
                                     Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_AddGcard.this);
                                     loDialog.setButtonText("Confirm", "Cancel");
-                                    loDialog.iniDialog("GCard Confirmation", loJson.getString("message")
+                                    loDialog.initDialog("GCard Confirmation", loJson.getString("message")
                                             , new Dialog_DoubleButton.OnDialogConfirmation() {
                                                 @Override
                                                 public void onConfirm(AlertDialog dialog) {
@@ -131,20 +139,11 @@ public class Activity_AddGcard extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         } else {
-                            Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_AddGcard.this);
-                            loDialog.setButtonText("Confirm", "Cancel");
-                            loDialog.iniDialog("Add GCard Failed", fsMessage, new Dialog_DoubleButton.OnDialogConfirmation() {
-                                @Override
-                                public void onConfirm(AlertDialog dialog) {
-                                    dialog.dismiss();
-                                }
-
-                                @Override
-                                public void onCancel(AlertDialog dialog) {
-                                    dialog.dismiss();
-                                }
+                            poDialog.setButtonText("Okay");
+                            poDialog.initDialog("Add GCard Failed",fsMessage, dialog -> {
+                                dialog.dismiss();
                             });
-                            loDialog.show();
+                            poDialog.show();
                         }
                     }
 

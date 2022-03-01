@@ -14,21 +14,20 @@ import org.rmj.g3appdriver.R;
 
 import java.util.Objects;
 
-public class Dialog_DoubleButton {
+public class Dialog_SingleButton {
     private static final String TAG = Dialog_DoubleButton.class.getSimpleName();
 
     private AlertDialog poDialogx;
     private final Context poContext;
-    private String psPositiv = "";
-    private String psNegativ = "";
+    private String psBtnText = "";
 
-    public Dialog_DoubleButton(Context foContext) {
+    public Dialog_SingleButton(Context foContext) {
         this.poContext = foContext;
     }
 
-    public void initDialog(String foTitlexx, String foMessage, OnDialogConfirmation foCallBck){
+    public void initDialog(String foTitlexx, String foMessage, OnButtonClick foCallBck){
         Log.e(TAG, "Initialized.");
-        View view = LayoutInflater.from(poContext).inflate(R.layout.dialog_double_button,
+        View view = LayoutInflater.from(poContext).inflate(R.layout.dialog_single_button,
                 null, false);
         AlertDialog.Builder loBuilder = new AlertDialog.Builder(poContext);
         loBuilder.setView(view).setCancelable(false);
@@ -37,23 +36,19 @@ public class Dialog_DoubleButton {
 
         TextView lblTitlex = view.findViewById(R.id.lbl_title);
         TextView lblMesgxx = view.findViewById(R.id.lbl_message);
-        Button btnPositive = view.findViewById(R.id.btn_positive);
-        Button btnNegative = view.findViewById(R.id.btn_negative);
+        Button button = view.findViewById(R.id.button);
 
         lblTitlex.setText(Objects.requireNonNull(foTitlexx));
         lblMesgxx.setText(Objects.requireNonNull(foMessage));
-        btnPositive.setText(psPositiv);
-        btnNegative.setText(psNegativ);
+        button.setText(psBtnText);
 
-        btnPositive.setOnClickListener(v -> foCallBck.onConfirm(poDialogx));
-        btnNegative.setOnClickListener(v -> foCallBck.onCancel(poDialogx));
+        button.setOnClickListener(v -> foCallBck.onClick(poDialogx));
     }
 
 
     /** Sets positive and negative button text display */
-    public void setButtonText(String fsPositiv, String fsNegativ) {
-        this.psPositiv = Objects.requireNonNull(fsPositiv);
-        this.psNegativ = Objects.requireNonNull(fsNegativ);
+    public void setButtonText(String fsBtnText) {
+        this.psBtnText = Objects.requireNonNull(fsBtnText);
     }
 
     public void show(){
@@ -62,9 +57,8 @@ public class Dialog_DoubleButton {
         poDialogx.show();
     }
 
-    public interface OnDialogConfirmation {
-        void onConfirm(AlertDialog dialog);
-        void onCancel(AlertDialog dialog);
+    public interface OnButtonClick {
+        void onClick(AlertDialog dialog);
     }
 
 }

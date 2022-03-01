@@ -38,7 +38,7 @@ public class Dialog_Loading {
         this.poContext = foContext;
     }
 
-    public void iniDialog(String foTitlexx, String foMessage){
+    public void initDialog(String foTitlexx, String fsMessage){
         Log.e(TAG, "Initialized.");
         View view = LayoutInflater.from(poContext).inflate(R.layout.dialog_loading ,
                 null, false);
@@ -55,7 +55,7 @@ public class Dialog_Loading {
         spinner.setIndeterminateDrawable(drawable);
 
         lblTitlex.setText(Objects.requireNonNull(foTitlexx));
-        lblMesgxx.setText(Objects.requireNonNull(foMessage));
+        lblMesgxx.setText(Objects.requireNonNull(fsMessage));
     }
 
     public void show() {
