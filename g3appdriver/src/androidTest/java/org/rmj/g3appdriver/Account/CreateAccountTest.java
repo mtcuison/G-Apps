@@ -9,7 +9,6 @@ import android.content.Context;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -17,11 +16,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
-import org.rmj.g3appdriver.lib.Account.AccountInfo;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class AccountAuthenticationTest {
+public class CreateAccountTest {
 
     private Context mContext;
     private AccountAuthentication poLogin;
@@ -38,10 +36,6 @@ public class AccountAuthenticationTest {
         poLogin = new AccountAuthentication(mContext);
         poConfig = new GuanzonAppConfig(mContext);
         poConfig.setTestCase(true);
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 
     @Test
@@ -198,6 +192,7 @@ public class AccountAuthenticationTest {
         assertEquals("Mobile number must start with '09'", poAccount.getMessage());
     }
 
+
     @Test
     public void test12createAccountTestAccountAlreadyExist() throws Exception{
         poAccount = new AccountAuthentication.AccountCredentials();
@@ -249,151 +244,6 @@ public class AccountAuthenticationTest {
             }
         });
         //this will return false and fail the test cause email use to test registration is already registered...
-        assertTrue(isSucccess);
-    }
-
-    @Test
-    public void test19LoginAccountTest() throws Exception{
-        AccountAuthentication loAuth = new AccountAuthentication(mContext);
-        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "12345678", "09270359402"), new AccountAuthentication.OnLoginCallback() {
-            @Override
-            public void OnSuccessLogin(String message) {
-                isSucccess = true;
-            }
-
-            @Override
-            public void OnFailedLogin(String message) {
-                isSucccess = false;
-            }
-        });
-
-        assertTrue(isSucccess);
-    }
-
-    @Test
-    public void test20LoginAccountTestIncorrectPassword() throws Exception{
-        AccountAuthentication loAuth = new AccountAuthentication(mContext);
-        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "qwerty123", "09270359402"), new AccountAuthentication.OnLoginCallback() {
-            @Override
-            public void OnSuccessLogin(String message) {
-                isSucccess = true;
-            }
-
-            @Override
-            public void OnFailedLogin(String fsMessage) {
-                isSucccess = false;
-                message = fsMessage;
-            }
-        });
-
-        assertFalse(isSucccess);
-        assertEquals("Invalid password detected.", message);
-    }
-
-    @Test
-    public void test21LoginAccountTest() throws Exception{
-        AccountAuthentication loAuth = new AccountAuthentication(mContext);
-        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("garciamike8748@gmail.com", "12345678", "09270359402"), new AccountAuthentication.OnLoginCallback() {
-            @Override
-            public void OnSuccessLogin(String message) {
-                isSucccess = true;
-            }
-
-            @Override
-            public void OnFailedLogin(String fsMessage) {
-                isSucccess = false;
-            }
-        });
-
-        assertTrue(isSucccess);
-    }
-
-    @Test
-    public void test22SessionManageAfterLoginTest() throws Exception{
-        AccountInfo loSession = new AccountInfo(mContext);
-        String lsUserIDx = loSession.getUserID();
-        String lsEmailxx = loSession.getEmailAdd();
-        String lsUserNme = loSession.getFullName();
-        String lsMobilex = loSession.getMobileNo();
-
-        assertEquals("GAP0190554", lsUserIDx);
-        assertEquals("garciamike8748@gmail.com", lsEmailxx);
-        assertEquals("Doe, Garcia Michael ", lsUserNme);
-        assertEquals("09270359402", lsMobilex);
-    }
-
-    @Test
-    public void test23LoginAccountTestInvalidEmail() throws Exception{
-        AccountAuthentication loAuth = new AccountAuthentication(mContext);
-        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("mikegarcia87@gmail.com", "qwerty123", "09270359402"), new AccountAuthentication.OnLoginCallback() {
-            @Override
-            public void OnSuccessLogin(String message) {
-                isSucccess = true;
-            }
-
-            @Override
-            public void OnFailedLogin(String fsMessage) {
-                isSucccess = false;
-                message = fsMessage;
-            }
-        });
-
-        assertFalse(isSucccess);
-        assertEquals("Invalid email detected.", message);
-    }
-
-    @Test
-    public void test24ForgotPasswordTestNoEmail() throws Exception{
-        poLogin.RetrievePassword("", new AccountAuthentication.OnRetrievePasswordCallback() {
-            @Override
-            public void OnSuccessRetrieve(String message) {
-                isSucccess = true;
-            }
-
-            @Override
-            public void OnFailedRetrieve(String fsMessage) {
-                isSucccess = false;
-                message = fsMessage;
-            }
-        });
-
-        assertFalse(isSucccess);
-        assertEquals("Please enter email.", message);
-    }
-
-    @Test
-    public void test25ForgotPasswordTestInvalidEmail() throws Exception{
-        poLogin.RetrievePassword("mikegarcia87@gmail.com", new AccountAuthentication.OnRetrievePasswordCallback() {
-            @Override
-            public void OnSuccessRetrieve(String message) {
-                isSucccess = true;
-            }
-
-            @Override
-            public void OnFailedRetrieve(String fsMessage) {
-                isSucccess = false;
-                message = fsMessage;
-            }
-        });
-
-        assertFalse(isSucccess);
-        assertEquals("Invalid account detected.", message);
-    }
-
-    @Test
-    public void test26ForgotPasswordTest() throws Exception{
-        poLogin.RetrievePassword("garciamike8748@gmail.com", new AccountAuthentication.OnRetrievePasswordCallback() {
-            @Override
-            public void OnSuccessRetrieve(String message) {
-                isSucccess = true;
-            }
-
-            @Override
-            public void OnFailedRetrieve(String fsMessage) {
-                isSucccess = false;
-                message = fsMessage;
-            }
-        });
         assertTrue(isSucccess);
     }
 }

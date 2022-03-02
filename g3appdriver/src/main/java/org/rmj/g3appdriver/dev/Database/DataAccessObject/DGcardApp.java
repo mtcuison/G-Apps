@@ -63,7 +63,7 @@ public interface DGcardApp {
     @Query("SELECT * FROM GCard_App_Master")
     List<EGcardApp> getAllGCard();
 
-    @Query("SELECT * FROM Gcard_App_Master WHERE sCardNmbr =:CardNmbr")
+    @Query("SELECT sAvlPoint FROM Gcard_App_Master WHERE sCardNmbr =:CardNmbr")
     double getGCardTotPoints(String CardNmbr);
 
     @Query("SELECT SUM(nPointsxx) FROM redeem_item WHERE sGCardNox =:GCardNox AND cTranStat IN ('0', '1')")
