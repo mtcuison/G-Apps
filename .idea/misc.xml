@@ -4,6 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Projects/G-Apps/digitalGcard/src/main/res/layout/fragment_my_gcard.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps/g3appdriver/src/main/res/layout/dialog_confirmation.xml" value="0.16" />
+        <entry key="..\:/Projects/G-Apps/g3appdriver/src/main/res/layout/dialog_double_button.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps/g3appdriver/src/main/res/layout/dialog_loading.xml" value="0.25" />
+        <entry key="..\:/Projects/G-Apps/g3appdriver/src/main/res/layout/dialog_single_button.xml" value="0.21614583333333334" />
+        <entry key="..\:/Projects/G-Apps/g3appdriver/src/main/res/layout/dialog_two_button.xml" value="0.21614583333333334" />
         <entry key="..\:/Projects/G-Apps/useraccount/src/main/res/layout/activity_sign_up.xml" value="0.1" />
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/drawable-v21/ic_menu_camera.xml" value="0.22407407407407406" />
         <entry key="..\:/Projects/G-Apps22/app/src/main/res/drawable-v21/ic_menu_gallery.xml" value="0.22407407407407406" />
