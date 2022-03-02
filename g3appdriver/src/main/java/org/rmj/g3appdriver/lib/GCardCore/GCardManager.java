@@ -72,7 +72,7 @@ public class GCardManager implements iGCardSystem{
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccess("New gcard has been added successfully.");
+                    callback.OnSuccess(lsResponse);
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
                     String lsCode = loError.getString("code");
@@ -122,7 +122,7 @@ public class GCardManager implements iGCardSystem{
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("success")){
-                callback.OnSuccess("New gcard has been added successfully.");
+                callback.OnSuccess(lsResponse);
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
                 String lsMessage = loError.getString("message");
@@ -153,22 +153,38 @@ public class GCardManager implements iGCardSystem{
 
     @Override
     public void SaveGCardInfo(JSONObject detail) throws Exception {
-        JSONArray laJson = detail.getJSONArray("detail");
-        for(int x = 0; x < laJson.length(); x++) {
-            JSONObject loJson = laJson.getJSONObject(x);
+        if(!detail.has("detail")){
             EGcardApp loGCard = new EGcardApp();
-            loGCard.setGCardNox(loJson.getString("sGCardNox"));
-            loGCard.setCardNmbr(loJson.getString("sCardNmbr"));
+            loGCard.setGCardNox(detail.getString("sGCardNox"));
+            loGCard.setCardNmbr(detail.getString("sCardNmbr"));
             loGCard.setUserIDxx(poSession.getUserID());
-            loGCard.setNmOnCard(loJson.getString("sNmOnCard"));
-            loGCard.setMemberxx(loJson.getString("dMemberxx"));
-            loGCard.setCardType(loJson.getString("cCardType"));
-            loGCard.setAvlPoint(loJson.getString("nAvlPoint"));
-            loGCard.setTotPoint(loJson.getString("nTotPoint"));
-            loGCard.setTranStat(loJson.getString("cCardStat"));
+            loGCard.setNmOnCard(detail.getString("sNmOnCard"));
+            loGCard.setMemberxx(detail.getString("dMemberxx"));
+            loGCard.setCardType(detail.getString("cCardType"));
+            loGCard.setAvlPoint(detail.getString("nAvlPoint"));
+            loGCard.setTotPoint(detail.getString("nTotPoint"));
+            loGCard.setTranStat(detail.getString("cCardStat"));
             loGCard.setActvStat("1");
             loGCard.setNotified("1");
             poGCard.insert(loGCard);
+        } else {
+            JSONArray laJson = detail.getJSONArray("detail");
+            for(int x = 0; x < laJson.length(); x++) {
+                JSONObject loJson = laJson.getJSONObject(x);
+                EGcardApp loGCard = new EGcardApp();
+                loGCard.setGCardNox(loJson.getString("sGCardNox"));
+                loGCard.setCardNmbr(loJson.getString("sCardNmbr"));
+                loGCard.setUserIDxx(poSession.getUserID());
+                loGCard.setNmOnCard(loJson.getString("sNmOnCard"));
+                loGCard.setMemberxx(loJson.getString("dMemberxx"));
+                loGCard.setCardType(loJson.getString("cCardType"));
+                loGCard.setAvlPoint(loJson.getString("nAvlPoint"));
+                loGCard.setTotPoint(loJson.getString("nTotPoint"));
+                loGCard.setTranStat(loJson.getString("cCardStat"));
+                loGCard.setActvStat("1");
+                loGCard.setNotified("1");
+                poGCard.insert(loGCard);
+            }
         }
     }
 
