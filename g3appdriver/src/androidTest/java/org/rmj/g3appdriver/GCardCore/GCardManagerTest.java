@@ -151,7 +151,14 @@ public class GCardManagerTest {
         poSystem.AddGCard(new GcardCredentials("0011800067804", "2000-04-01"), new GCardSystem.GCardSystemCallback() {
             @Override
             public void OnSuccess(String args) {
-                isSuccess = true;
+                try{
+                    JSONObject loJson = new JSONObject(args);
+                    poSystem.SaveGCardInfo(loJson);
+                    isSuccess = true;
+                } catch (Exception e){
+                    e.printStackTrace();
+                    isSuccess = false;
+                }
             }
 
             @Override
@@ -161,7 +168,14 @@ public class GCardManagerTest {
                     poSystem.ConfirmAddGCard(new GcardCredentials("0011800067804", "2000-04-01"), new GCardSystem.GCardSystemCallback() {
                         @Override
                         public void OnSuccess(String args) {
-                            isSuccess = true;
+                            try{
+                                JSONObject loJson = new JSONObject(args);
+                                poSystem.SaveGCardInfo(loJson);
+                                isSuccess = true;
+                            } catch (Exception e){
+                                e.printStackTrace();
+                                isSuccess = false;
+                            }
                         }
 
                         @Override
