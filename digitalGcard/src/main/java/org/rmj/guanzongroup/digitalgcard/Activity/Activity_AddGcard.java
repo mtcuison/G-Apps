@@ -104,7 +104,10 @@ public class Activity_AddGcard extends AppCompatActivity {
                     public void onSuccess(String fsMessage) {
                         poLoading.dismiss();
                         poDialog.setButtonText("Okay");
-                        poDialog.initDialog("Add GCard", fsMessage, dialog -> dialog.dismiss());
+                        poDialog.initDialog("Add GCard", "GCard Successfully Added.", dialog -> {
+                            dialog.dismiss();
+                            finish();
+                        });
                         poDialog.show();
                     }
 
@@ -173,7 +176,10 @@ public class Activity_AddGcard extends AppCompatActivity {
                 public void onSuccess(String fsMessage) {
                     poLoading.dismiss();
                     poDialog.setButtonText("Okay");
-                    poDialog.initDialog("Add GCard", fsMessage, dialog -> dialog.dismiss());
+                    poDialog.initDialog("Add GCard", "GCard Successfully Added.", dialog -> {
+                        dialog.dismiss();
+                        finish();
+                    });
                     poDialog.show();
                 }
 
