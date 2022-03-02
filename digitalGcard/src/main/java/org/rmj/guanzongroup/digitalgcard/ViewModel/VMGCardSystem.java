@@ -132,6 +132,21 @@ public class VMGCardSystem extends AndroidViewModel {
         new ScheduleNextServiceDateTask(mGcardSys, poConnect, callback).execute(date);
     }
 
+    private static void setCallBack(String fsResultx, GcardTransactionCallback foCallBck) {
+        try {
+            JSONObject loJson = new JSONObject(fsResultx);
+            String lsStatus =String.valueOf(loJson.get("status"));
+            String lsMessage = loJson.getString("message");
+            if(lsStatus.equals(SUCCESS.toString())) {
+                foCallBck.onSuccess(lsMessage);
+            } else if(lsStatus.equals(FAILED.toString())) {
+                foCallBck.onFailed(lsMessage);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     // ------- ASYNCTASKS -------- //
     private static class AddGcardTask extends AsyncTask<Void, Void, String> {
         private static final String ADD_GCARD_TAG = AddGcardTask.class.getSimpleName();
@@ -196,19 +211,7 @@ public class VMGCardSystem extends AndroidViewModel {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                String lsStatus =String.valueOf(loJson.get("status"));
-                String lsMessage = loJson.getString("message");
-                if(lsStatus.equals(SUCCESS.toString())) {
-                    loCallbck.onSuccess(lsMessage);
-                } else if(lsStatus.equals(FAILED.toString())) {
-                    loCallbck.onFailed(lsMessage);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
+            setCallBack(s, loCallbck);
         }
 
     }
@@ -276,19 +279,7 @@ public class VMGCardSystem extends AndroidViewModel {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                String lsStatus =String.valueOf(loJson.get("status"));
-                String lsMessage = loJson.getString("message");
-                if(lsStatus.equals(SUCCESS.toString())) {
-                    loCallbck.onSuccess(lsMessage);
-                } else if(lsStatus.equals(FAILED.toString())) {
-                    loCallbck.onFailed(lsMessage);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
+            setCallBack(s, loCallbck);
         }
 
     }
