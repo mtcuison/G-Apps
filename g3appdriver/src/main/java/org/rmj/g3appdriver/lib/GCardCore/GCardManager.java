@@ -72,7 +72,7 @@ public class GCardManager implements iGCardSystem{
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccess("New gcard has been added successfully.");
+                    callback.OnSuccess(lsResponse);
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
                     String lsCode = loError.getString("code");
@@ -122,7 +122,7 @@ public class GCardManager implements iGCardSystem{
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("success")){
-                callback.OnSuccess("New gcard has been added successfully.");
+                callback.OnSuccess(lsResponse);
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
                 String lsMessage = loError.getString("message");
