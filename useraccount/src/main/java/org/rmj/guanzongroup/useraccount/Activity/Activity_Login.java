@@ -19,6 +19,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
 
@@ -27,6 +29,8 @@ import java.util.Objects;
 public class Activity_Login extends AppCompatActivity {
 
     private VMAccountAuthentication mViewModel;
+    private Dialog_Loading poLoading;
+    private Dialog_SingleButton poDialogx;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private TextView lblUser, lblForgot, lblCreate;
@@ -62,6 +66,7 @@ public class Activity_Login extends AppCompatActivity {
 
     // Initialize this first before anything else.
     private void initViews() {
+        poDialogx = new Dialog_SingleButton(Activity_Login.this);
         toolbar = findViewById(R.id.toolbar);
         tabLayout = findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Email"));
@@ -109,18 +114,28 @@ public class Activity_Login extends AppCompatActivity {
             mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
                 @Override
                 public void onLoad() {
-                    Toast.makeText(Activity_Login.this, "Loading", Toast.LENGTH_LONG).show();
+                    poLoading = new Dialog_Loading(Activity_Login.this);
+                    poLoading.initDialog("Logging In", "Please wait for a while.");
+                    poLoading.show();
                 }
 
                 @Override
                 public void onSuccess(String fsMessage) {
-                    Log.e("Login Success", fsMessage);
-                    finish();
+                    poLoading.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Log In", fsMessage, dialog -> {
+                        dialog.dismiss();
+                        finish();
+                    });
+                    poDialogx.show();
                 }
 
                 @Override
                 public void onFailed(String fsMessage) {
-                    Log.e("Login Error", fsMessage);
+                    poLoading.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Log in Failed", fsMessage, dialog -> dialog.dismiss());
+                    poDialogx.show();
                 }
             });
         } catch (Exception e) {
