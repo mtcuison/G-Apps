@@ -39,7 +39,6 @@ public class Dialog_Loading {
     }
 
     public void initDialog(String foTitlexx, String fsMessage){
-        Log.e(TAG, "Initialized.");
         View view = LayoutInflater.from(poContext).inflate(R.layout.dialog_loading ,
                 null, false);
         AlertDialog.Builder loBuilder = new AlertDialog.Builder(poContext);

@@ -26,7 +26,6 @@ public class Dialog_SingleButton {
     }
 
     public void initDialog(String foTitlexx, String foMessage, OnButtonClick foCallBck){
-        Log.e(TAG, "Initialized.");
         View view = LayoutInflater.from(poContext).inflate(R.layout.dialog_single_button,
                 null, false);
         AlertDialog.Builder loBuilder = new AlertDialog.Builder(poContext);
