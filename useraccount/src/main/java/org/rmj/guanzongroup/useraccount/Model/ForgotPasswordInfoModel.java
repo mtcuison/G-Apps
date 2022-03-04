@@ -4,32 +4,24 @@ import org.rmj.guanzongroup.useraccount.Etc.LogType;
 
 public class ForgotPasswordInfoModel {
     private final LogType poLogType;
-    private String sEmailAdd = "";
-    private String sMobileNo = "";
+    private String sLogUserx = "";
     private String sMessagex = "";
 
-    public ForgotPasswordInfoModel(LogType foLogType) {
+    public ForgotPasswordInfoModel(LogType foLogType, String fsLogUser) {
         this.poLogType = foLogType;
+        this.sLogUserx = fsLogUser;
+    }
+
+    public LogType getLogType() {
+        return poLogType;
+    }
+
+    public String getLogUser() {
+        return sLogUserx;
     }
 
     public String getMessage() {
         return sMessagex;
-    }
-
-    public String getEmailAdd() {
-        return sEmailAdd;
-    }
-
-    public void setEmailAdd(String sEmailAdd) {
-        this.sEmailAdd = sEmailAdd;
-    }
-
-    public String getMobileNo() {
-        return sMobileNo;
-    }
-
-    public void setMobileNo(String sMobileNo) {
-        this.sMobileNo = sMobileNo;
     }
 
     public boolean isDataNotEmpty() {
@@ -44,7 +36,7 @@ public class ForgotPasswordInfoModel {
     }
 
     private boolean isEmailNotEmpty() {
-        if(sEmailAdd.isEmpty()) {
+        if(sLogUserx.isEmpty()) {
             sMessagex = "Please enter your email";
             return false;
         }
@@ -52,13 +44,13 @@ public class ForgotPasswordInfoModel {
     }
 
     private boolean isMobileNoClear() {
-        if(sMobileNo.isEmpty()){
+        if(sLogUserx.isEmpty()){
             sMessagex = "Please enter mobile number";
             return false;
-        } else if(!sMobileNo.substring(0, 2).equalsIgnoreCase("09")){
+        } else if(!sLogUserx.substring(0, 2).equalsIgnoreCase("09")){
             sMessagex = "Mobile number must start with '09'";
             return false;
-        } else if(sMobileNo.length() != 11){
+        } else if(sLogUserx.length() != 11){
             sMessagex = "Mobile number must be 11 characters";
             return false;
         }

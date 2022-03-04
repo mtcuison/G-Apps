@@ -8,9 +8,9 @@ public class LoginInfoModel {
     private String sPassword = "";
     private String sMessagex = "";
 
-    public LoginInfoModel(LogType foLogType, String foLogUser, String fsPasswrd) {
+    public LoginInfoModel(LogType foLogType, String fsLogUser, String fsPasswrd) {
         this.poLogType = foLogType;
-        this.sLogUserx = foLogUser;
+        this.sLogUserx = fsLogUser;
         this.sPassword = fsPasswrd;
     }
 

@@ -92,11 +92,10 @@ public class Activity_ForgotPassword extends AppCompatActivity {
     private void retrievePassword() {
         String lsEmailxx = Objects.requireNonNull(tieEmail.getText().toString().trim());
         String lsMobilex = Objects.requireNonNull(tieMobile.getText().toString().trim());
-        ForgotPasswordInfoModel infoModel = new ForgotPasswordInfoModel(LogType.EMAIL);
-        infoModel.setEmailAdd(lsEmailxx);
+        ForgotPasswordInfoModel infoModel = new ForgotPasswordInfoModel(LogType.EMAIL, lsEmailxx);
         if(infoModel.isDataNotEmpty()) {
             try {
-                mViewModel.RetrievePassword(infoModel.getEmailAdd(), new VMAccountAuthentication.AuthTransactionCallback() {
+                mViewModel.RetrievePassword(infoModel.getLogUser(), new VMAccountAuthentication.AuthTransactionCallback() {
                     @Override
                     public void onLoad() {
                         poLoading = new Dialog_Loading(Activity_ForgotPassword.this);
