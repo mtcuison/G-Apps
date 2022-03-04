@@ -34,18 +34,15 @@ public class VMAccountAuthentication extends AndroidViewModel {
         this.poSignUpM = new SignUpInfoModel();
     }
 
-    public void LoginAccount(AccountAuthentication.LoginCredentials foCrednts,
-                             AuthTransactionCallback foCallbck) {
-        new LoginAccountTask(poConnect, foCrednts, poActAuth, foCallbck).execute();
+    public void LoginAccount(AccountAuthentication.LoginCredentials foCrednts, AuthTransactionCallback foCallbck) {
+        new LoginAccountTask(poConnect, poActAuth, foCallbck).execute(foCrednts);
     }
 
-    public void RegisterAccount(AccountAuthentication.AccountCredentials foCrednts,
-                                AuthTransactionCallback foCallbck) {
-        new RegisterAccountTask(poConnect, foCrednts, poActAuth, foCallbck).execute();
+    public void RegisterAccount(AccountAuthentication.AccountCredentials foCrednts, AuthTransactionCallback foCallbck) {
+        new RegisterAccountTask(poConnect, poActAuth, foCallbck).execute(foCrednts);
     }
 
-    public void RetrievePassword(String fsEmailxx,
-                                 AuthTransactionCallback foCallbck) {
+    public void RetrievePassword(String fsEmailxx, AuthTransactionCallback foCallbck) {
         new RetrievePasswordTask(poConnect, poActAuth, foCallbck).execute(fsEmailxx);
     }
 
@@ -68,15 +65,13 @@ public class VMAccountAuthentication extends AndroidViewModel {
         }
     }
 
-    private static class LoginAccountTask extends AsyncTask<Void, Void, String> {
+    private static class LoginAccountTask extends AsyncTask<AccountAuthentication.LoginCredentials, Void, String> {
         private final ConnectionUtil loConnect;
-        private final AccountAuthentication.LoginCredentials loCrednts;
         private final AccountAuthentication loActAuth;
         private final AuthTransactionCallback loCallbck;
 
-        private LoginAccountTask(ConnectionUtil foConnect, AccountAuthentication.LoginCredentials foCrednts, AccountAuthentication foActAuth, AuthTransactionCallback foCallbck) {
+        private LoginAccountTask(ConnectionUtil foConnect, AccountAuthentication foActAuth, AuthTransactionCallback foCallbck) {
             this.loConnect = foConnect;
-            this.loCrednts = foCrednts;
             this.loActAuth = foActAuth;
             this.loCallbck = foCallbck;
         }
@@ -88,7 +83,8 @@ public class VMAccountAuthentication extends AndroidViewModel {
         }
 
         @Override
-        protected String doInBackground(Void... voids) {
+        protected String doInBackground(AccountAuthentication.LoginCredentials... foCrednts) {
+            AccountAuthentication.LoginCredentials loCrednts = foCrednts[0];
             final String[] lsResultx = {""};
             try {
                 if(loConnect.isDeviceConnected()) {
@@ -120,15 +116,13 @@ public class VMAccountAuthentication extends AndroidViewModel {
         }
     }
 
-    private static class RegisterAccountTask extends AsyncTask<Void, Void, String> {
+    private static class RegisterAccountTask extends AsyncTask<AccountAuthentication.AccountCredentials, Void, String> {
         private final ConnectionUtil loConnect;
-        private final AccountAuthentication.AccountCredentials loCrednts;
         private final AccountAuthentication loActAuth;
         private final AuthTransactionCallback loCallbck;
 
-        private RegisterAccountTask(ConnectionUtil foConnect, AccountAuthentication.AccountCredentials foCrednts, AccountAuthentication foActAuth, AuthTransactionCallback foCallbck) {
+        private RegisterAccountTask(ConnectionUtil foConnect, AccountAuthentication foActAuth, AuthTransactionCallback foCallbck) {
             this.loConnect = foConnect;
-            this.loCrednts = foCrednts;
             this.loActAuth = foActAuth;
             this.loCallbck = foCallbck;
         }
@@ -140,7 +134,8 @@ public class VMAccountAuthentication extends AndroidViewModel {
         }
 
         @Override
-        protected String doInBackground(Void... voids) {
+        protected String doInBackground(AccountAuthentication.AccountCredentials... foCrednts) {
+            AccountAuthentication.AccountCredentials loCrednts = foCrednts[0];
             final String[] lsResultx = {""};
             try {
                 if(loConnect.isDeviceConnected()) {
