@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.useraccount.Model;
 
+import org.rmj.guanzongroup.useraccount.Etc.LogType;
+
 public class ForgotPasswordInfoModel {
     private final LogType poLogType;
     private String sEmailAdd = "";
@@ -41,7 +43,7 @@ public class ForgotPasswordInfoModel {
         }
     }
 
-    public boolean isEmailNotEmpty() {
+    private boolean isEmailNotEmpty() {
         if(sEmailAdd.isEmpty()) {
             sMessagex = "Please enter your email";
             return false;
@@ -49,7 +51,7 @@ public class ForgotPasswordInfoModel {
         return true;
     }
 
-    public boolean isMobileNoClear() {
+    private boolean isMobileNoClear() {
         if(sMobileNo.isEmpty()){
             sMessagex = "Please enter mobile number";
             return false;
@@ -61,12 +63,6 @@ public class ForgotPasswordInfoModel {
             return false;
         }
         return true;
-    }
-
-
-    public enum LogType {
-        EMAIL,
-        MOBILE
     }
 
 }

@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.guanzongroup.useraccount.Etc.LogType;
 import org.rmj.guanzongroup.useraccount.Model.ForgotPasswordInfoModel;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
@@ -91,11 +92,11 @@ public class Activity_ForgotPassword extends AppCompatActivity {
     private void retrievePassword() {
         String lsEmailxx = Objects.requireNonNull(tieEmail.getText().toString().trim());
         String lsMobilex = Objects.requireNonNull(tieMobile.getText().toString().trim());
-        ForgotPasswordInfoModel infoModel = new ForgotPasswordInfoModel(ForgotPasswordInfoModel.LogType.EMAIL);
+        ForgotPasswordInfoModel infoModel = new ForgotPasswordInfoModel(LogType.EMAIL);
         infoModel.setEmailAdd(lsEmailxx);
         if(infoModel.isDataNotEmpty()) {
             try {
-                mViewModel.RetrievePassword(lsEmailxx, new VMAccountAuthentication.AuthTransactionCallback() {
+                mViewModel.RetrievePassword(infoModel.getEmailAdd(), new VMAccountAuthentication.AuthTransactionCallback() {
                     @Override
                     public void onLoad() {
                         poLoading = new Dialog_Loading(Activity_ForgotPassword.this);

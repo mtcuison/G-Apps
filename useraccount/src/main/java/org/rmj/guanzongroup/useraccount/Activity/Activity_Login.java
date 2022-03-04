@@ -21,6 +21,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.guanzongroup.useraccount.Etc.LogType;
+import org.rmj.guanzongroup.useraccount.Model.LoginInfoModel;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
 
@@ -105,41 +107,50 @@ public class Activity_Login extends AppCompatActivity {
 
     private void acccountLogin() {
         String lsEmailxx = Objects.requireNonNull(tieEmail.getText().toString().trim());
-//        String lsMobilex = Objects.requireNonNull(tieMobile.getText().toString().trim());
         String lsMobilex = "09171870011";
         String lsPasswrd = Objects.requireNonNull(tiePassword.getText().toString().trim());
-        AccountAuthentication.LoginCredentials loCrednts =
-                new AccountAuthentication.LoginCredentials(lsEmailxx, lsPasswrd, lsMobilex);
-        try {
-            mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
-                @Override
-                public void onLoad() {
-                    poLoading = new Dialog_Loading(Activity_Login.this);
-                    poLoading.initDialog("Logging In", "Please wait for a while.");
-                    poLoading.show();
-                }
+        LoginInfoModel infoModel = new LoginInfoModel(LogType.EMAIL, lsEmailxx, lsPasswrd);
+        if(infoModel.isDataNotEmpty()) {
+            AccountAuthentication.LoginCredentials loCrednts = new AccountAuthentication.LoginCredentials(
+                    infoModel.getLogUser(),
+                    infoModel.getPassword(),
+                    lsMobilex
+            );
+            try {
+                mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
+                    @Override
+                    public void onLoad() {
+                        poLoading = new Dialog_Loading(Activity_Login.this);
+                        poLoading.initDialog("Logging In", "Please wait for a while.");
+                        poLoading.show();
+                    }
 
-                @Override
-                public void onSuccess(String fsMessage) {
-                    poLoading.dismiss();
-                    poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Log In", fsMessage, dialog -> {
-                        dialog.dismiss();
-                        finish();
-                    });
-                    poDialogx.show();
-                }
+                    @Override
+                    public void onSuccess(String fsMessage) {
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Log In", fsMessage, dialog -> {
+                            dialog.dismiss();
+                            finish();
+                        });
+                        poDialogx.show();
+                    }
 
-                @Override
-                public void onFailed(String fsMessage) {
-                    poLoading.dismiss();
-                    poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Log in Failed", fsMessage, dialog -> dialog.dismiss());
-                    poDialogx.show();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+                    @Override
+                    public void onFailed(String fsMessage) {
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Log in Failed", fsMessage, dialog -> dialog.dismiss());
+                        poDialogx.show();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            poDialogx.setButtonText("Okay");
+            poDialogx.initDialog("Log in Failed", infoModel.getMessage(), dialog -> dialog.dismiss());
+            poDialogx.show();
         }
     }
 
