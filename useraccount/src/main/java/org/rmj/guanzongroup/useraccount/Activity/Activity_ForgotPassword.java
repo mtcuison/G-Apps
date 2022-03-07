@@ -18,6 +18,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.guanzongroup.useraccount.Etc.LogType;
+import org.rmj.guanzongroup.useraccount.Model.ForgotPasswordInfoModel;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
 
@@ -27,6 +31,8 @@ public class Activity_ForgotPassword extends AppCompatActivity {
 
     private VMAccountAuthentication mViewModel;
     private Toolbar toolbar;
+    private Dialog_Loading poLoading;
+    private Dialog_SingleButton poDialogx;
     private TabLayout tabLayout;
     private TextView lblUser;
     private TextInputLayout tilEmail, tilMobile;
@@ -43,7 +49,6 @@ public class Activity_ForgotPassword extends AppCompatActivity {
         initViews();
         setUpToolbar();
         setTabLayout();
-        retrievePassword();
 
         btnResend.setOnClickListener(v -> retrievePassword());
     }
@@ -87,25 +92,50 @@ public class Activity_ForgotPassword extends AppCompatActivity {
     private void retrievePassword() {
         String lsEmailxx = Objects.requireNonNull(tieEmail.getText().toString().trim());
         String lsMobilex = Objects.requireNonNull(tieMobile.getText().toString().trim());
-        try {
-            mViewModel.RetrievePassword(lsEmailxx, new VMAccountAuthentication.AuthTransactionCallback() {
-                @Override
-                public void onLoad() {
+        ForgotPasswordInfoModel infoModel = new ForgotPasswordInfoModel(LogType.EMAIL, lsEmailxx);
+        if(infoModel.isDataNotEmpty()) {
+            try {
+                mViewModel.RetrievePassword(infoModel.getLogUser(), new VMAccountAuthentication.AuthTransactionCallback() {
+                    @Override
+                    public void onLoad() {
+                        poLoading = new Dialog_Loading(Activity_ForgotPassword.this);
+                        poLoading.initDialog("Resending Password", "Please wait while re-sending your password to your email.");
+                        poLoading.show();
+                    }
 
-                }
+                    @Override
+                    public void onSuccess(String fsMessage) {
+                        poLoading.dismiss();
+                        poDialogx = new Dialog_SingleButton(Activity_ForgotPassword.this);
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Forgot Password", fsMessage, dialog -> {
+                            dialog.dismiss();
+                            finish();
+                        });
+                        poDialogx.show();
+                    }
 
-                @Override
-                public void onSuccess(String fsMessage) {
-                    Log.e("Retrieve Success", fsMessage);
-                }
-
-                @Override
-                public void onFailed(String fsMessage) {
-                    Log.e("Retrieve Password Error", fsMessage);
-                }
+                    @Override
+                    public void onFailed(String fsMessage) {
+                        poLoading.dismiss();
+                        poDialogx = new Dialog_SingleButton(Activity_ForgotPassword.this);
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Retrieving Password Failed", fsMessage, dialog -> {
+                            dialog.dismiss();
+                        });
+                        poDialogx.show();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            poDialogx = new Dialog_SingleButton(Activity_ForgotPassword.this);
+            poDialogx.setButtonText("Okay");
+            poDialogx.initDialog("Retrieving Password Failed", infoModel.getMessage(), dialog -> {
+                dialog.dismiss();
             });
-        } catch (Exception e) {
-            e.printStackTrace();
+            poDialogx.show();
         }
     }
 

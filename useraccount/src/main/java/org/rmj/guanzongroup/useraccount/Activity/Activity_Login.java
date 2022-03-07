@@ -19,6 +19,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.guanzongroup.useraccount.Etc.LogType;
+import org.rmj.guanzongroup.useraccount.Model.LoginInfoModel;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
 
@@ -27,6 +31,8 @@ import java.util.Objects;
 public class Activity_Login extends AppCompatActivity {
 
     private VMAccountAuthentication mViewModel;
+    private Dialog_Loading poLoading;
+    private Dialog_SingleButton poDialogx;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private TextView lblUser, lblForgot, lblCreate;
@@ -62,6 +68,7 @@ public class Activity_Login extends AppCompatActivity {
 
     // Initialize this first before anything else.
     private void initViews() {
+        poDialogx = new Dialog_SingleButton(Activity_Login.this);
         toolbar = findViewById(R.id.toolbar);
         tabLayout = findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Email"));
@@ -100,31 +107,50 @@ public class Activity_Login extends AppCompatActivity {
 
     private void acccountLogin() {
         String lsEmailxx = Objects.requireNonNull(tieEmail.getText().toString().trim());
-//        String lsMobilex = Objects.requireNonNull(tieMobile.getText().toString().trim());
         String lsMobilex = "09171870011";
         String lsPasswrd = Objects.requireNonNull(tiePassword.getText().toString().trim());
-        AccountAuthentication.LoginCredentials loCrednts =
-                new AccountAuthentication.LoginCredentials(lsEmailxx, lsPasswrd, lsMobilex);
-        try {
-            mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
-                @Override
-                public void onLoad() {
-                    Toast.makeText(Activity_Login.this, "Loading", Toast.LENGTH_LONG).show();
-                }
+        LoginInfoModel infoModel = new LoginInfoModel(LogType.EMAIL, lsEmailxx, lsPasswrd);
+        if(infoModel.isDataNotEmpty()) {
+            AccountAuthentication.LoginCredentials loCrednts = new AccountAuthentication.LoginCredentials(
+                    infoModel.getLogUser(),
+                    infoModel.getPassword(),
+                    lsMobilex
+            );
+            try {
+                mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
+                    @Override
+                    public void onLoad() {
+                        poLoading = new Dialog_Loading(Activity_Login.this);
+                        poLoading.initDialog("Logging In", "Please wait for a while.");
+                        poLoading.show();
+                    }
 
-                @Override
-                public void onSuccess(String fsMessage) {
-                    Log.e("Login Success", fsMessage);
-                    finish();
-                }
+                    @Override
+                    public void onSuccess(String fsMessage) {
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Log In", fsMessage, dialog -> {
+                            dialog.dismiss();
+                            finish();
+                        });
+                        poDialogx.show();
+                    }
 
-                @Override
-                public void onFailed(String fsMessage) {
-                    Log.e("Login Error", fsMessage);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+                    @Override
+                    public void onFailed(String fsMessage) {
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Log in Failed", fsMessage, dialog -> dialog.dismiss());
+                        poDialogx.show();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            poDialogx.setButtonText("Okay");
+            poDialogx.initDialog("Log in Failed", infoModel.getMessage(), dialog -> dialog.dismiss());
+            poDialogx.show();
         }
     }
 

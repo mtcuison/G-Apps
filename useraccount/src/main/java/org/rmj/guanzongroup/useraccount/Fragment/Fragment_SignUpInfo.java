@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 import org.rmj.guanzongroup.useraccount.Model.SignUpInfoModel;
 import org.rmj.guanzongroup.useraccount.R;
@@ -78,7 +79,10 @@ public class Fragment_SignUpInfo extends Fragment {
         if(poSignUpM.isFirstPageClear()) {
             Activity_SignUp.getInstance().moveToPageNumber(1);
         } else {
-            Toast.makeText(getActivity(), poSignUpM.getMessage(), Toast.LENGTH_SHORT).show();
+            Dialog_SingleButton loDialog = new Dialog_SingleButton(requireActivity());
+            loDialog.setButtonText("Okay");
+            loDialog.initDialog("Sign Up", poSignUpM.getMessage(), dialog -> dialog.dismiss());
+            loDialog.show();
         }
     }
 

@@ -27,7 +27,6 @@ public class Dialog_DoubleButton {
     }
 
     public void initDialog(String foTitlexx, String foMessage, OnDialogConfirmation foCallBck){
-        Log.e(TAG, "Initialized.");
         View view = LayoutInflater.from(poContext).inflate(R.layout.dialog_double_button,
                 null, false);
         AlertDialog.Builder loBuilder = new AlertDialog.Builder(poContext);

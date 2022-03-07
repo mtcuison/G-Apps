@@ -97,7 +97,7 @@ public class SignUpInfoModel {
             message = "Please enter email";
             return false;
         } else if(sMobileNo.isEmpty()){
-            message = "Please enter mobile no";
+            message = "Please enter mobile number";
             return false;
         } else if(!sMobileNo.substring(0, 2).equalsIgnoreCase("09")){
             message = "Mobile number must start with '09'";
