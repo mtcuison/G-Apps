@@ -11,16 +11,36 @@
             android:id="@+id/layout_add_gcard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:theme="@style/FragmentTheme"
-            android:visibility="gone">
+            android:theme="@style/FragmentTheme">
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:constraint_referenced_ids=""
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/lblNoGcardAvailable"
+                    android:textColor="@color/font_light"
+                    android:textSize="16sp"
+                    android:layout_margin="0dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddGcard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lblAddGcard"
+                    style="@style/ButtonStyle.Orange.Small"
+                    android:layout_margin="15dp"/>
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
