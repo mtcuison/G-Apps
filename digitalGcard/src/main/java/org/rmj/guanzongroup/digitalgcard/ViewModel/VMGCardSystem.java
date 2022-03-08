@@ -1,5 +1,9 @@
 package org.rmj.guanzongroup.digitalgcard.ViewModel;
 
+import static org.rmj.g3appdriver.utils.CallbackJson.CallbackStatus.FAILED;
+import static org.rmj.g3appdriver.utils.CallbackJson.CallbackStatus.SUCCESS;
+import static org.rmj.g3appdriver.utils.CallbackJson.parse;
+
 import android.app.Application;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -38,7 +42,7 @@ public class VMGCardSystem extends AndroidViewModel {
         this.poConnect = new ConnectionUtil(application);
     }
 
-    // TODO: Initialize this method whenever it is used to return a fragment instance.
+    /** Initialize this method whenever it is used to return a GCard function instance to be used. */
     public void setInstance(GCardSystem.CoreFunctions foCore) {
         mGcardSys = poGcrdSys.getInstance(foCore);
     }
@@ -65,11 +69,15 @@ public class VMGCardSystem extends AndroidViewModel {
     }
 
     public void addGcard(GcardCredentials foCardDta, GcardTransactionCallback foCallBck) {
-        new AddGcardTask(mGcardSys, poConnect, foCardDta, foCallBck).execute();
+        new AddGcardTask(mGcardSys, poConnect, foCallBck).execute(foCardDta);
     }
 
     public void addGCardQrCode(String foGcardQr, GcardTransactionCallback callback) {
         new AddGCardQrCodeTask(mGcardSys, poConnect,callback).execute();
+    }
+
+    public void confirmAddGCard(GcardCredentials foCardDta, GcardTransactionCallback foCallBck) {
+        new ConfirmAddGCardTask(mGcardSys, poConnect, foCallBck).execute(foCardDta);
     }
 
     public void downloadGcardNumbers(GcardTransactionCallback callback) {
@@ -89,15 +97,15 @@ public class VMGCardSystem extends AndroidViewModel {
     }
 
     public void addToCart(CartItem item, GcardTransactionCallback callback) {
-        new AddToCartTask(mGcardSys, item, poConnect, callback).execute();
+        new AddToCartTask(mGcardSys, poConnect, callback).execute(item);
     }
 
     public void UpdateCartItem(CartItem item, GcardTransactionCallback callback) {
-        new UpdateCartItemTask(mGcardSys, item, poConnect, callback);
+        new UpdateCartItemTask(mGcardSys, poConnect, callback).execute(item);
     }
 
     public void PlaceOrder(GcardCartItems items, GcardTransactionCallback callback) {
-        new PlaceOrderTask(mGcardSys, items, poConnect, callback).execute();
+        new PlaceOrderTask(mGcardSys, poConnect, callback).execute(items);
     }
 
     public void generateGCardOrderQrCode(GcardTransactionCallback callBack) {
@@ -124,18 +132,31 @@ public class VMGCardSystem extends AndroidViewModel {
         new ScheduleNextServiceDateTask(mGcardSys, poConnect, callback).execute(date);
     }
 
+    private static void setCallBack(String fsResultx, GcardTransactionCallback foCallBck) {
+        try {
+            JSONObject loJson = new JSONObject(fsResultx);
+            String lsStatus =String.valueOf(loJson.get("status"));
+            String lsMessage = loJson.getString("message");
+            if(lsStatus.equals(SUCCESS.toString())) {
+                foCallBck.onSuccess(lsMessage);
+            } else if(lsStatus.equals(FAILED.toString())) {
+                foCallBck.onFailed(lsMessage);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     // ------- ASYNCTASKS -------- //
-    private static class AddGcardTask extends AsyncTask<Void, Void, Void> {
+    private static class AddGcardTask extends AsyncTask<GcardCredentials, Void, String> {
         private static final String ADD_GCARD_TAG = AddGcardTask.class.getSimpleName();
         private final iGCardSystem mGcardSys;
         private final ConnectionUtil loConnect;
-        private final GcardCredentials loGcardxx;
         private final GcardTransactionCallback loCallbck;
 
-        private AddGcardTask(iGCardSystem foGcrdSys, ConnectionUtil foConnect, GcardCredentials gcardInfo, GcardTransactionCallback callBack) {
+        private AddGcardTask(iGCardSystem foGcrdSys, ConnectionUtil foConnect, GcardTransactionCallback callBack) {
             this.mGcardSys = foGcrdSys;
             this.loConnect = foConnect;
-            this.loGcardxx = gcardInfo;
             this.loCallbck = callBack;
         }
 
@@ -146,7 +167,9 @@ public class VMGCardSystem extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected String doInBackground(GcardCredentials... foGcardxx) {
+            GcardCredentials loGcardxx = foGcardxx[0];
+            final String[] lsResult = {""};
             try {
                 if(loConnect.isDeviceConnected()) {
                     mGcardSys.AddGCard(loGcardxx, new GCardSystem.GCardSystemCallback() {
@@ -155,33 +178,106 @@ public class VMGCardSystem extends AndroidViewModel {
                             try {
                                 JSONObject loDetail = new JSONObject(args);
                                 mGcardSys.SaveGCardInfo(loDetail);
-                                loCallbck.onSuccess(args);
+                                lsResult[0] = parse(SUCCESS, args);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Log.e(ADD_GCARD_TAG, e.getMessage());
-                                loCallbck.onFailed(ADD_GCARD_TAG + e.getMessage());
+                                lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 Log.e(ADD_GCARD_TAG, e.getMessage());
-                                loCallbck.onFailed(ADD_GCARD_TAG + e.getMessage());
+                                lsResult[0] = parse(FAILED,ADD_GCARD_TAG + e.getMessage());
                             }
                         }
 
                         @Override
                         public void OnFailed(String message) {
-                            loCallbck.onFailed(message);
+                            lsResult[0] = parse(FAILED, message);
                         }
 
                     });
                 } else {
-                    loCallbck.onFailed(AppConstants.SERVER_NO_RESPONSE());
+                    lsResult[0] = parse(FAILED, AppConstants.SERVER_NO_RESPONSE());
                 }
             } catch(Exception e) {
                 e.printStackTrace();
                 Log.e(ADD_GCARD_TAG, e.getMessage());
-                loCallbck.onFailed(ADD_GCARD_TAG + e.getMessage());
+                lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
             }
-            return null;
+            return lsResult[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            setCallBack(s, loCallbck);
+        }
+
+    }
+
+    private static class ConfirmAddGCardTask extends AsyncTask<GcardCredentials, Void, String> {
+        private static final String CONFIRM_ADD_TAG = ConfirmAddGCardTask.class.getSimpleName();
+        private final iGCardSystem mGcardSys;
+        private final ConnectionUtil loConnect;
+        private final GcardTransactionCallback loCallbck;
+
+        private ConfirmAddGCardTask(iGCardSystem foGcrdSys, ConnectionUtil foConnect, GcardTransactionCallback callBack) {
+            this.mGcardSys = foGcrdSys;
+            this.loConnect = foConnect;
+            this.loCallbck = callBack;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loCallbck.onLoad();
+        }
+
+        @Override
+        protected String doInBackground(GcardCredentials... foGcardxx) {
+            GcardCredentials loGcardxx = foGcardxx[0];
+            final String[] lsResult = {""};
+            try {
+                if(loConnect.isDeviceConnected()) {
+                    mGcardSys.ConfirmAddGCard(loGcardxx, new GCardSystem.GCardSystemCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            try {
+                                JSONObject loDetail = new JSONObject(args);
+                                mGcardSys.SaveGCardInfo(loDetail);
+                                lsResult[0] = parse(SUCCESS, args);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.e(CONFIRM_ADD_TAG, e.getMessage());
+                                lsResult[0] = parse(FAILED, CONFIRM_ADD_TAG + e.getMessage());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Log.e(CONFIRM_ADD_TAG, e.getMessage());
+                                lsResult[0] = parse(FAILED,CONFIRM_ADD_TAG + e.getMessage());
+                            }
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResult[0] = parse(FAILED, message);
+                        }
+
+                    });
+                } else {
+                    lsResult[0] = parse(FAILED, AppConstants.SERVER_NO_RESPONSE());
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+                Log.e(CONFIRM_ADD_TAG, e.getMessage());
+                lsResult[0] = parse(FAILED, CONFIRM_ADD_TAG + e.getMessage());
+            }
+            return lsResult[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            setCallBack(s, loCallbck);
         }
 
     }
@@ -433,16 +529,14 @@ public class VMGCardSystem extends AndroidViewModel {
 
     }
 
-    private static class AddToCartTask extends AsyncTask<String, Void, Void> {
+    private static class AddToCartTask extends AsyncTask<CartItem, Void, Void> {
         private static final String ADD_TO_CART_TAG = AddToCartTask.class.getSimpleName();
-        private final CartItem loCartItm;
         private final iGCardSystem mGcardSys;
         private final ConnectionUtil loConnect;
         private final GcardTransactionCallback loCallbck;
 
-        private AddToCartTask(iGCardSystem foGcrdSys, CartItem foCartItm, ConnectionUtil foConnect, GcardTransactionCallback callBack) {
+        private AddToCartTask(iGCardSystem foGcrdSys, ConnectionUtil foConnect, GcardTransactionCallback callBack) {
             this.mGcardSys = foGcrdSys;
-            this.loCartItm = foCartItm;
             this.loConnect = foConnect;
             this.loCallbck = callBack;
         }
@@ -454,7 +548,8 @@ public class VMGCardSystem extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(String... strings) {
+        protected Void doInBackground(CartItem... foCartItm) {
+            CartItem loCartItm = foCartItm[0];
             try {
                 if(loConnect.isDeviceConnected()) {
                     mGcardSys.AddToCart(loCartItm, new GCardSystem.GCardSystemCallback() {
@@ -482,16 +577,14 @@ public class VMGCardSystem extends AndroidViewModel {
 
     }
 
-    private static class UpdateCartItemTask extends AsyncTask<String, Void, Void> {
+    private static class UpdateCartItemTask extends AsyncTask<CartItem, Void, Void> {
         private static final String UPDATE_CART_TAG = UpdateCartItemTask.class.getSimpleName();
-        private final CartItem loCartItm;
         private final iGCardSystem mGcardSys;
         private final ConnectionUtil loConnect;
         private final GcardTransactionCallback loCallbck;
 
-        private UpdateCartItemTask(iGCardSystem foGcrdSys, CartItem foCartItm, ConnectionUtil foConnect, GcardTransactionCallback callBack) {
+        private UpdateCartItemTask(iGCardSystem foGcrdSys, ConnectionUtil foConnect, GcardTransactionCallback callBack) {
             this.mGcardSys = foGcrdSys;
-            this.loCartItm = foCartItm;
             this.loConnect = foConnect;
             this.loCallbck = callBack;
         }
@@ -503,7 +596,8 @@ public class VMGCardSystem extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(String... strings) {
+        protected Void doInBackground(CartItem... foCartItm) {
+            CartItem loCartItm = foCartItm[0];
             try {
                 if(loConnect.isDeviceConnected()) {
                     mGcardSys.UpdateCartItem(loCartItm, new GCardSystem.GCardSystemCallback() {
@@ -531,16 +625,14 @@ public class VMGCardSystem extends AndroidViewModel {
 
     }
 
-    private static class PlaceOrderTask extends AsyncTask<String, Void, Void> {
+    private static class PlaceOrderTask extends AsyncTask<GcardCartItems, Void, Void> {
         private static final String PLACE_ORDER_TAG = PlaceOrderTask.class.getSimpleName();
         private final iGCardSystem mGcardSys;
-        private final GcardCartItems loCartItm;
         private final ConnectionUtil loConnect;
         private final GcardTransactionCallback loCallbck;
 
-        private PlaceOrderTask(iGCardSystem foGcrdSys, GcardCartItems foCartItm, ConnectionUtil foConnect, GcardTransactionCallback callBack) {
+        private PlaceOrderTask(iGCardSystem foGcrdSys, ConnectionUtil foConnect, GcardTransactionCallback callBack) {
             this.mGcardSys = foGcrdSys;
-            this.loCartItm = foCartItm;
             this.loConnect = foConnect;
             this.loCallbck = callBack;
         }
@@ -552,7 +644,8 @@ public class VMGCardSystem extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(String... strings) {
+        protected Void doInBackground(GcardCartItems... foCartItm) {
+            GcardCartItems loCartItm = foCartItm[0];
             try {
                 if(loConnect.isDeviceConnected()) {
 //                    mGcardSys.PlaceOrder(loCartItm, new GCardSystem.GCardSystemCallback() {
