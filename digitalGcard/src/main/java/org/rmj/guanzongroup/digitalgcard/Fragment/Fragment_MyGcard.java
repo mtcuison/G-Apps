@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.digitalgcard.Fragment;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -22,6 +23,7 @@ import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 public class Fragment_MyGcard extends Fragment {
 
     private VMGCardSystem mViewModel;
+    private ConstraintLayout vAddGcard, vMyGcardx;
     private TextView txtManage;
 
     public static Fragment_MyGcard newInstance() {
@@ -41,15 +43,29 @@ public class Fragment_MyGcard extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
         mViewModel.setInstance(GCardSystem.CoreFunctions.GCARD);
-
+        mViewModel.hasActiveGcard().observe(requireActivity(), eGcardApp -> {
+            try {
+                if("".equalsIgnoreCase(eGcardApp.getCardNmbr())) {
+                    vAddGcard.setVisibility(View.VISIBLE);
+                    vMyGcardx.setVisibility(View.GONE);
+                } else {
+                    vAddGcard.setVisibility(View.GONE);
+                    vMyGcardx.setVisibility(View.VISIBLE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         txtManage.setOnClickListener(v -> {
-            Intent loIntent = new Intent(getActivity(), Activity_ManageGcard.class);
+            Intent loIntent = new Intent(requireActivity(), Activity_ManageGcard.class);
             startActivity(loIntent);
         });
 
     }
 
     private void initViews(View v) {
+        vAddGcard = v.findViewById(R.id.layout_add_gcard);
+        vMyGcardx = v.findViewById(R.id.layout_my_gcard);
         txtManage = v.findViewById(R.id.lblManageGcard);
     }
 

@@ -7,18 +7,22 @@
     tools:context=".Fragment.Fragment_MyGcard"
     android:orientation="vertical">
 
-    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-    <!--        android:id="@+id/layout_add_gcard"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:theme="@style/FragmentTheme">-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_add_gcard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:theme="@style/FragmentTheme"
+            android:visibility="gone">
 
-    <!--        <ImageView-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="0dp"-->
-    <!--            app:constraint_referenced_ids=""-->
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:constraint_referenced_ids=""
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
 
-    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_my_gcard"

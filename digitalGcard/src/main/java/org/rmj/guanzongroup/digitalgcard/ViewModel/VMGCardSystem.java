@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RGcardApp;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
@@ -32,6 +33,7 @@ public class VMGCardSystem extends AndroidViewModel {
 
     private static final String TAG = VMGCardSystem.class.getSimpleName();
     private final GCardSystem poGcrdSys;
+    private final RGcardApp poGcardxx;
     private final ConnectionUtil poConnect;
     private iGCardSystem mGcardSys;
 
@@ -39,6 +41,7 @@ public class VMGCardSystem extends AndroidViewModel {
         super(application);
         Log.e(TAG, "Initialized.");
         this.poGcrdSys = new GCardSystem(application);
+        this.poGcardxx = new RGcardApp(application);
         this.poConnect = new ConnectionUtil(application);
     }
 
@@ -48,6 +51,11 @@ public class VMGCardSystem extends AndroidViewModel {
     }
 
     // ------- METHODS ------- //
+
+    public LiveData<EGcardApp> hasActiveGcard() {
+        return poGcardxx.hasNoGcard();
+    }
+
     public LiveData<List<EGcardApp>> GetGCardList() {
         return mGcardSys.GetGCardList();
     }
