@@ -236,6 +236,11 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
+    public LiveData<List<ERedeemItemInfo>> GetCartItems() {
+        return null;
+    }
+
+    @Override
     public void PlaceOrder(List<ERedeemItemInfo> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }

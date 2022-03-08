@@ -6,6 +6,8 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.dev.Database.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
@@ -18,12 +20,14 @@ public class AccountAuthentication {
     private final GuanzonAppConfig poConfig;
     private final ServerAPIs poApi;
     private final HttpHeaders poHeaders;
+    private final RClientInfo poClient;
 
     public AccountAuthentication(Context context) {
         this.mContext = context;
         this.poConfig = new GuanzonAppConfig(mContext);
         this.poApi = new ServerAPIs(poConfig.getTestCase());
         this.poHeaders = new HttpHeaders(mContext);
+        this.poClient = new RClientInfo(mContext);
     }
 
     public interface OnLoginCallback{
@@ -77,6 +81,15 @@ public class AccountAuthentication {
 //        loInfo.setTownName(foAccount.getString("sTownName"));
 //        loInfo.setProvince(foAccount.getString("sProvName"));
         loInfo.setLoginStatus(true);
+
+        EClientInfo loClient = new EClientInfo();
+        loClient.setUserName(foAccount.getString("sUserName"));
+        loClient.setDateMmbr(foAccount.getString("dDateMmbr"));
+        loClient.setLoginxxx(foAccount.getString("dLoginxxx"));
+        loClient.setEmailAdd(foAccount.getString("sEmailAdd"));
+        loClient.setMobileNo(foAccount.getString("sMobileNo"));
+        loClient.setUserIDxx(foAccount.getString("sUserIDxx"));
+        poClient.insert(loClient);
     }
 
     public static class LoginCredentials{

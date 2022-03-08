@@ -23,6 +23,9 @@ public interface DRedeemItemInfo {
     @Update
     void update(ERedeemItemInfo redeemItemInfo);
 
+    @Query("SELECT * FROM Redeem_Item WHERE sGCardNox = (SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1')")
+    LiveData<List<ERedeemItemInfo>> getCartItems();
+
     @Query("SELECT COUNT(*) FROM Redeem_Item WHERE sGCardNox =:GCardNox AND cTranStat = '0' AND cPlcOrder = '0'")
     LiveData<Integer> getCartItemCount(String GCardNox);
 

@@ -27,4 +27,5 @@ public interface DClientInfo {
 
     @Query("SELECT * FROM Client_Info_Master")
     LiveData<EClientInfo> getClientInfo();
+
 }

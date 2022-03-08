@@ -37,6 +37,7 @@ public class RedemptionManager implements iGCardSystem{
     private final RRedeemItemInfo poRedeem;
     private final HttpHeaders poHeaders;
     private final RRedeemablesInfo poRedeemables;
+    private final RRedeemItemInfo poCart;
     private final GuanzonAppConfig poConfig;
     private final ServerAPIs poAPI;
 
@@ -46,6 +47,7 @@ public class RedemptionManager implements iGCardSystem{
         this.poRedeem = new RRedeemItemInfo(mContext);
         this.poHeaders = new HttpHeaders(mContext);
         this.poRedeemables = new RRedeemablesInfo(mContext);
+        this.poCart = new RRedeemItemInfo(mContext);
         this.poConfig = new GuanzonAppConfig(mContext);
         this.poAPI = new ServerAPIs(poConfig.getTestCase());
     }
@@ -167,11 +169,17 @@ public class RedemptionManager implements iGCardSystem{
     }
 
     @Override
+    public LiveData<List<ERedeemItemInfo>> GetCartItems() {
+        return poCart.getCartItems();
+    }
+
+    @Override
     public void PlaceOrder(List<ERedeemItemInfo> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONArray items = new JSONArray();
         JSONObject params = new JSONObject();
         JSONObject details;
         if(redeemables.size() <= 0) {
+            callback.OnFailed("No item to place.");
         } else {
             for(int x = 0; x < redeemables.size(); x++){
                 details = new JSONObject();
@@ -192,9 +200,11 @@ public class RedemptionManager implements iGCardSystem{
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
-
+                    callback.OnSuccess("");
                 } else {
-
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    String lsMessage = loError.getString("message");
+                    callback.OnFailed(lsMessage);
                 }
             }
         }
