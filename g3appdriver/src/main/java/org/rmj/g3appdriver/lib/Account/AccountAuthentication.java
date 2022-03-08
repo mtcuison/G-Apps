@@ -11,6 +11,7 @@ import org.rmj.g3appdriver.dev.Database.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 
 public class AccountAuthentication {
@@ -84,8 +85,8 @@ public class AccountAuthentication {
 
         EClientInfo loClient = new EClientInfo();
         loClient.setUserName(foAccount.getString("sUserName"));
-        loClient.setDateMmbr(foAccount.getString("dDateMmbr"));
-        loClient.setLoginxxx(foAccount.getString("dLoginxxx"));
+        loClient.setDateMmbr(foAccount.getString("dCreatedx"));
+        loClient.setLoginxxx(new AppConstants().GCARD_DATE_TIME);
         loClient.setEmailAdd(foAccount.getString("sEmailAdd"));
         loClient.setMobileNo(foAccount.getString("sMobileNo"));
         loClient.setUserIDxx(foAccount.getString("sUserIDxx"));
