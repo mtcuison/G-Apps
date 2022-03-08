@@ -18,11 +18,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -34,7 +36,8 @@ public class RedeemablesTransactionTest {
     private iGCardSystem poSystem;
 
     private boolean isSuccess = false;
-    private String message = "";
+
+    List<ERedeemItemInfo> poCartItem = new ArrayList<>();
 
     private static JSONObject poJson;
 
@@ -57,7 +60,7 @@ public class RedeemablesTransactionTest {
         poSystem.GetRedeemablesList().observeForever(new Observer<List<ERedeemablesInfo>>() {
             @Override
             public void onChanged(List<ERedeemablesInfo> eRedeemablesInfos) {
-                ERedeemablesInfo loItem = eRedeemablesInfos.get(1);
+                ERedeemablesInfo loItem = eRedeemablesInfos.get(2);
                 CartItem loCart = new CartItem(loItem.getTransNox(),
                         loItem.getPromoCde(),
                         1,
@@ -74,6 +77,29 @@ public class RedeemablesTransactionTest {
                         isSuccess = false;
                     }
                 });
+            }
+        });
+        assertTrue(isSuccess);
+    }
+
+    @Test @UiThread
+    public void test02PlaceOrder() throws Exception{
+        poSystem.GetCartItems().observeForever(new Observer<List<ERedeemItemInfo>>() {
+            @Override
+            public void onChanged(List<ERedeemItemInfo> eRedeemItemInfos) {
+                poCartItem = eRedeemItemInfos;
+            }
+        });
+
+        poSystem.PlaceOrder(poCartItem, "M001", new GCardSystem.GCardSystemCallback() {
+            @Override
+            public void OnSuccess(String args) {
+                isSuccess = true;
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                isSuccess = false;
             }
         });
         assertTrue(isSuccess);

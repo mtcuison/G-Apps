@@ -33,6 +33,7 @@ public interface iGCardSystem {
     LiveData<List<ERedeemablesInfo>> GetRedeemablesList();
     void AddToCart(CartItem item, GCardSystem.GCardSystemCallback callback);
     void UpdateCartItem(CartItem item, GCardSystem.GCardSystemCallback callback) throws Exception;
+    LiveData<List<ERedeemItemInfo>> GetCartItems();
     void PlaceOrder(List<ERedeemItemInfo> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception;
     Bitmap GenerateGCardOrderQrCode() throws Exception;
 

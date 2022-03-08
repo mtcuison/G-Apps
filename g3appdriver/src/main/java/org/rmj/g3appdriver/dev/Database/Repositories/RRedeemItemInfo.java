@@ -38,6 +38,11 @@ public class RRedeemItemInfo implements DRedeemItemInfo {
     }
 
     @Override
+    public LiveData<List<ERedeemItemInfo>> getCartItems() {
+        return itemDao.getCartItems();
+    }
+
+    @Override
     public LiveData<Integer> getCartItemCount(String GCardNox) {
         return itemDao.getCartItemCount(GCardNox);
     }
