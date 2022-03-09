@@ -56,6 +56,10 @@ public class VMGCardSystem extends AndroidViewModel {
         return poGcardxx.hasNoGcard();
     }
 
+    public LiveData<List<EGcardApp>> hasInactiveGCard() {
+        return poGcardxx.hasUnCheckGCard();
+    }
+
     public LiveData<List<EGcardApp>> GetGCardList() {
         return mGcardSys.GetGCardList();
     }
