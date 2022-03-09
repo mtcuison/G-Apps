@@ -45,7 +45,7 @@ public class Fragment_AccountSettings extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMAccountSettings.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMAccountSettings.class);
         // TODO: Use the ViewModel
 
     }

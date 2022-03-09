@@ -7,18 +7,42 @@
     tools:context=".Fragment.Fragment_MyGcard"
     android:orientation="vertical">
 
-    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-    <!--        android:id="@+id/layout_add_gcard"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:theme="@style/FragmentTheme">-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_add_gcard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:theme="@style/FragmentTheme">
 
-    <!--        <ImageView-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="0dp"-->
-    <!--            app:constraint_referenced_ids=""-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/lblNoGcardAvailable"
+                    android:textColor="@color/font_light"
+                    android:textSize="16sp"
+                    android:layout_margin="0dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddGcard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lblAddGcard"
+                    style="@style/ButtonStyle.Orange.Small"
+                    android:layout_margin="15dp"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_my_gcard"
@@ -49,18 +73,12 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_gCard"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/guanzon_digital_orange"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="5dp"
-            app:layout_constraintHorizontal_bias="0.47"
+            style="@style/GcardInfoStyle"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblManageGcard"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true">
+            app:layout_constraintTop_toBottomOf="@id/lblManageGcard">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -72,31 +90,38 @@
                     android:id="@+id/lbl_gcard_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_bold"
-                    android:textColor="@color/white"
                     android:textAllCaps="true"
                     android:layout_margin="0dp"
+                    style="@style/GcardTextInfoStyle.Active.Bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
-                    android:id="@+id/lbl_gcard_number"
+                    android:id="@+id/lbl_card_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/white"
                     android:layout_margin="0dp"
+                    style="@style/GcardTextInfoStyle.Active"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lbl_gcard_user"/>
+
+                <TextView
+                    android:id="@+id/txt_lbl_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Points Earned: "
+                    android:layout_margin="0dp"
+                    style="@style/GcardTextInfoStyle.Active"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <TextView
                     android:id="@+id/lbl_gcard_points"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/white"
                     android:layout_margin="0dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    style="@style/GcardTextInfoStyle.Active"
+                    app:layout_constraintLeft_toRightOf="@id/txt_lbl_points"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <ImageView

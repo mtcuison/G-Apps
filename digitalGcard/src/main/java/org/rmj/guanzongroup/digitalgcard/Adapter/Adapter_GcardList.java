@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.guanzongroup.digitalgcard.Model.GcardInfo;
 import org.rmj.guanzongroup.digitalgcard.R;
 
@@ -17,9 +18,9 @@ import java.util.List;
 
 public class Adapter_GcardList extends RecyclerView.Adapter<Adapter_GcardList.GcardHolder> {
 
-    private final List<GcardInfo> poGcard;
+    private final List<EGcardApp> poGcard;
 
-    public Adapter_GcardList(List<GcardInfo> foGcard) {
+    public Adapter_GcardList(List<EGcardApp> foGcard) {
         this.poGcard = foGcard;
     }
 
@@ -33,8 +34,10 @@ public class Adapter_GcardList extends RecyclerView.Adapter<Adapter_GcardList.Gc
 
     @Override
     public void onBindViewHolder(@NonNull GcardHolder holder, int position) {
-        GcardInfo loGcard = poGcard.get(position);
-        holder.lblGcardNo.setText(loGcard.getGcardNumber());
+        EGcardApp loGcard = poGcard.get(position);
+        holder.txtUserNm.setText(loGcard.getNmOnCard());
+        holder.txtCardNo.setText(loGcard.getCardNmbr());
+        holder.txtPoints.setText(loGcard.getTotPoint());
     }
 
     @Override
@@ -44,16 +47,16 @@ public class Adapter_GcardList extends RecyclerView.Adapter<Adapter_GcardList.Gc
 
     public static class GcardHolder extends RecyclerView.ViewHolder{
 
-        public TextView lblGcardNo;
+        public TextView txtUserNm;
+        public TextView txtCardNo;
+        public TextView txtPoints;
 
         public GcardHolder(@NonNull View itemView) {
             super(itemView);
-                lblGcardNo = itemView.findViewById(R.id.lblMenuTitle);
+            txtUserNm = itemView.findViewById(R.id.lbl_gcard_user);
+            txtCardNo = itemView.findViewById(R.id.lbl_card_number);
+            txtPoints = itemView.findViewById(R.id.lbl_gcard_points);
         }
-    }
-
-    public interface OnSettingsMenuSelection {
-        void onClick(int position);
     }
 
 }

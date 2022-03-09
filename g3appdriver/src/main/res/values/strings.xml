@@ -60,6 +60,7 @@
 
     <string name="lblInfoPassword">Please provide a password for your account.</string>
     <string name="lblTermsConditions"> with the Terms and Conditions.</string>
+    <string name="lblNoGcardAvailable">No GCard Available.</string>
 
     <string name="descServiceDate">Your next service date:</string>
 

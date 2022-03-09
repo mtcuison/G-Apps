@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -23,6 +24,7 @@ import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
@@ -33,16 +35,14 @@ public class Activity_Dashboard extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityDashboardBinding binding;
-    private AppConfigPreference appConfig;
-    private AccountInfo poActPref;
+    private VMDashboard mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appConfig = new AppConfigPreference(Activity_Dashboard.this);
         new GuanzonAppConfig(Activity_Dashboard.this).setTestCase(true);
-        poActPref = new AccountInfo(Activity_Dashboard.this);
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
+        mViewModel = new ViewModelProvider(Activity_Dashboard.this).get(VMDashboard.class);
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarActivityDashboard.toolbar);
@@ -100,22 +100,45 @@ public class Activity_Dashboard extends AppCompatActivity {
         TextView txtSignUp = headerLayout.findViewById(R.id.lbl_Signup);
         TextView txtLoginx = headerLayout.findViewById(R.id.lbl_Login);
         TextView txtFullNm = headerLayout.findViewById(R.id.lbl_UserFullName);
-        if(poActPref.getLoginStatus()) {
-            lnAuthxxx.setVisibility(View.GONE);
-            txtFullNm.setVisibility(View.VISIBLE);
-            txtFullNm.setText(Objects.requireNonNull(poActPref.getFullName()));
-        } else {
-            lnAuthxxx.setVisibility(View.VISIBLE);
-            txtFullNm.setVisibility(View.GONE);
-            txtSignUp.setOnClickListener(v -> {
-                Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SignUp.class);
-                startActivity(loIntent);
-            });
+        mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
+            try {
+                if(eClientinfo != null) {
+                    lnAuthxxx.setVisibility(View.GONE);
+                    txtFullNm.setVisibility(View.VISIBLE);
+                    txtFullNm.setText(Objects.requireNonNull(eClientinfo.getUserName()));
+                } else {
+                    lnAuthxxx.setVisibility(View.VISIBLE);
+                    txtFullNm.setVisibility(View.GONE);
+                    txtSignUp.setOnClickListener(v -> {
+                        Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SignUp.class);
+                        startActivity(loIntent);
+                    });
 
-            txtLoginx.setOnClickListener(v -> {
-                Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
-                startActivity(loIntent);
-            });
-        }
+                    txtLoginx.setOnClickListener(v -> {
+                        Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
+                        startActivity(loIntent);
+                    });
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        });
+//        if(poActPref.getLoginStatus()) {
+//            lnAuthxxx.setVisibility(View.GONE);
+//            txtFullNm.setVisibility(View.VISIBLE);
+//            txtFullNm.setText(Objects.requireNonNull(poActPref.getFullName()));
+//        } else {
+//            lnAuthxxx.setVisibility(View.VISIBLE);
+//            txtFullNm.setVisibility(View.GONE);
+//            txtSignUp.setOnClickListener(v -> {
+//                Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SignUp.class);
+//                startActivity(loIntent);
+//            });
+//
+//            txtLoginx.setOnClickListener(v -> {
+//                Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
+//                startActivity(loIntent);
+//            });
+//        }
     }
 }

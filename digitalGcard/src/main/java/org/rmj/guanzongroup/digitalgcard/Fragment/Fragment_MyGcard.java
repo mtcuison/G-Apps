@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.digitalgcard.Fragment;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -14,19 +15,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
+
+import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
+import org.rmj.guanzongroup.digitalgcard.Activity.Activity_AddGcard;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_ManageGcard;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 
+import java.util.Objects;
+
 public class Fragment_MyGcard extends Fragment {
 
     private VMGCardSystem mViewModel;
-    private TextView txtManage;
-
-    public static Fragment_MyGcard newInstance() {
-        return new Fragment_MyGcard();
-    }
+    private ConstraintLayout vAddGcard, vMyGcardx;
+    private TextView txtManage, txtUserNm, txtCardNo, txtPoints;
+    private MaterialButton btnAddCrd;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -42,15 +47,48 @@ public class Fragment_MyGcard extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
         mViewModel.setInstance(GCardSystem.CoreFunctions.GCARD);
 
-        txtManage.setOnClickListener(v -> {
-            Intent loIntent = new Intent(getActivity(), Activity_ManageGcard.class);
-            startActivity(loIntent);
-        });
-
+        initMyGcard();
     }
 
     private void initViews(View v) {
+        vAddGcard = v.findViewById(R.id.layout_add_gcard);
+        vMyGcardx = v.findViewById(R.id.layout_my_gcard);
         txtManage = v.findViewById(R.id.lblManageGcard);
+        txtUserNm = v.findViewById(R.id.lbl_gcard_user);
+        txtCardNo = v.findViewById(R.id.lbl_card_number);
+        txtPoints = v.findViewById(R.id.lbl_gcard_points);
+        btnAddCrd = v.findViewById(R.id.btnAddGcard);
+    }
+
+    private void initMyGcard() {
+        mViewModel.hasActiveGcard().observe(getViewLifecycleOwner(), eGcardApp -> {
+            try {
+                if(eGcardApp == null) {
+                    vAddGcard.setVisibility(View.VISIBLE);
+                    vMyGcardx.setVisibility(View.GONE);
+                    btnAddCrd.setOnClickListener(v -> {
+                        Intent loIntent = new Intent(requireActivity(), Activity_AddGcard.class);
+                        startActivity(loIntent);
+                    });
+                } else {
+                    vAddGcard.setVisibility(View.GONE);
+                    vMyGcardx.setVisibility(View.VISIBLE);
+                    displayGcardInfo(eGcardApp);
+                    txtManage.setOnClickListener(v -> {
+                        Intent loIntent = new Intent(requireActivity(), Activity_ManageGcard.class);
+                        startActivity(loIntent);
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void displayGcardInfo(EGcardApp foGcardxx) {
+        txtUserNm.setText(Objects.requireNonNull(foGcardxx.getNmOnCard()));
+        txtCardNo.setText(Objects.requireNonNull(foGcardxx.getCardNmbr()));
+        txtPoints.setText(Objects.requireNonNull(foGcardxx.getTotPoint()));
     }
 
 }
