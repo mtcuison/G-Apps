@@ -11,8 +11,7 @@
             android:id="@+id/layout_add_gcard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:theme="@style/FragmentTheme"
-            android:visibility="gone">
+            android:theme="@style/FragmentTheme">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -74,18 +73,12 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_gCard"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/guanzon_digital_orange"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="5dp"
-            app:layout_constraintHorizontal_bias="0.47"
+            style="@style/GcardInfoStyle"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblManageGcard"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true">
+            app:layout_constraintTop_toBottomOf="@id/lblManageGcard">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

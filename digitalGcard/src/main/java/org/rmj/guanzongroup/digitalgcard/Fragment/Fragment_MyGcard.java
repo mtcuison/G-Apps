@@ -33,10 +33,6 @@ public class Fragment_MyGcard extends Fragment {
     private TextView txtManage, txtUserNm, txtCardNo, txtPoints;
     private MaterialButton btnAddCrd;
 
-    public static Fragment_MyGcard newInstance() {
-        return new Fragment_MyGcard();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {

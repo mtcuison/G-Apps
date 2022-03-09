@@ -123,6 +123,19 @@
         <item name="backgroundTint">@color/guanzon_digital_grey</item>
     </style>
 
+    <style name="GcardInfoStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardElevation">5dp</item>
+    </style>
+
+    <style name="GcardInfoStyle.Inactive" parent="GcardInfoStyle">
+        <item name="backgroundTint">@color/white</item>
+    </style>
+
     <style name="GcardTextInfoStyle">
         <item name="android:textSize">16sp</item>
     </style>
