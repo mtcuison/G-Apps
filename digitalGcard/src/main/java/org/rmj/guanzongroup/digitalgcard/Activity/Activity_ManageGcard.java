@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.Adapter.Adapter_GcardList;
 import org.rmj.guanzongroup.digitalgcard.Model.GcardInfo;
 import org.rmj.guanzongroup.digitalgcard.R;
@@ -28,6 +31,8 @@ import java.util.Objects;
 
 public class Activity_ManageGcard extends AppCompatActivity {
     private VMGCardSystem mViewModel;
+    private Dialog_Loading poLoading;
+    private Dialog_SingleButton poDialogx;
     private Adapter_GcardList poAdapter;
     private MaterialButton btnAddGcard;
     private Toolbar toolbar;
@@ -91,7 +96,7 @@ public class Activity_ManageGcard extends AppCompatActivity {
     }
 
     private void displayActiveGcard() {
-        mViewModel.hasActiveGcard().observe(Activity_ManageGcard.this, eGcardApp -> {
+        mViewModel.getActiveGcard().observe(Activity_ManageGcard.this, eGcardApp -> {
             try {
                 if(eGcardApp != null) {
                     txtUserNm.setText(Objects.requireNonNull(eGcardApp.getNmOnCard()));
@@ -105,11 +110,47 @@ public class Activity_ManageGcard extends AppCompatActivity {
     }
 
     private void displayInactiveGcard() {
-        mViewModel.hasInactiveGCard().observe(Activity_ManageGcard.this, eGcardApps -> {
+        mViewModel.getInactiveGCard().observe(Activity_ManageGcard.this, eGcardApps -> {
             try {
                 if(eGcardApps.size() > 0) {
                     lblOtherx.setVisibility(View.VISIBLE);
-                    poAdapter = new Adapter_GcardList(eGcardApps);
+                    poAdapter = new Adapter_GcardList(eGcardApps, fsCardNox -> {
+                        mViewModel.setActiveGcard(fsCardNox, new VMGCardSystem.GcardTransactionCallback() {
+                            @Override
+                            public void onLoad() {
+                                poLoading = new Dialog_Loading(Activity_ManageGcard.this);
+                                poLoading.initDialog("Activating GCard", "Please wait for a while.");
+                                poLoading.show();
+                            }
+
+                            @Override
+                            public void onSuccess(String fsMessage) {
+                                poLoading.dismiss();
+                                poDialogx = new Dialog_SingleButton(Activity_ManageGcard.this);
+                                poDialogx.setButtonText("Okay");
+                                poDialogx.initDialog("GCard Activation", fsMessage, dialog -> {
+                                    dialog.dismiss();
+                                });
+                                poDialogx.show();
+                            }
+
+                            @Override
+                            public void onFailed(String fsMessage) {
+                                poLoading.dismiss();
+                                poDialogx = new Dialog_SingleButton(Activity_ManageGcard.this);
+                                poDialogx.setButtonText("Okay");
+                                poDialogx.initDialog("GCard Activation", fsMessage, dialog -> {
+                                    dialog.dismiss();
+                                });
+                                poDialogx.show();
+                            }
+
+                            @Override
+                            public void onQrGenerate(Bitmap foBitmap) {
+
+                            }
+                        });
+                    });
                     recyclerView.setAdapter(poAdapter);
                     poAdapter.notifyDataSetChanged();
                 } else {

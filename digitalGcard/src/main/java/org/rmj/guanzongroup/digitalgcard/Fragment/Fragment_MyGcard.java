@@ -61,7 +61,7 @@ public class Fragment_MyGcard extends Fragment {
     }
 
     private void initMyGcard() {
-        mViewModel.hasActiveGcard().observe(getViewLifecycleOwner(), eGcardApp -> {
+        mViewModel.getActiveGcard().observe(getViewLifecycleOwner(), eGcardApp -> {
             try {
                 if(eGcardApp == null) {
                     vAddGcard.setVisibility(View.VISIBLE);
