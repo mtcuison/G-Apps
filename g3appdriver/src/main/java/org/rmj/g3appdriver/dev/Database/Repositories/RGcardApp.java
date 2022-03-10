@@ -46,8 +46,13 @@ public class RGcardApp implements DGcardApp {
     }
 
     @Override
-    public void updateGCardApp() {
-        gcardDao.updateGCardApp();
+    public void updateGCardActiveStatus() {
+        gcardDao.updateGCardActiveStatus();
+    }
+
+    @Override
+    public void updateGCardActiveStatus(String GCardNmbr) {
+        gcardDao.updateGCardActiveStatus(GCardNmbr);
     }
 
     @Override
@@ -142,7 +147,7 @@ public class RGcardApp implements DGcardApp {
 
     public void checkUserGcardForActive(){
         if(gcardDao.hasNoGcard().getValue() == null){
-            gcardDao.updateGCardApp();
+            gcardDao.updateGCardActiveStatus();
         }
     }
     public boolean insertNewGCard(JSONObject loJson) {
@@ -158,7 +163,7 @@ public class RGcardApp implements DGcardApp {
             info.setAvlPoint(loJson.getString("nAvlPoint"));
             info.setTotPoint(loJson.getString("nTotPoint"));
             info.setTranStat(loJson.getString("cCardStat"));
-            info.setActvStat("1");
+            info.setActvStat("0");
             info.setNotified("1");
             gcardDao.insert(info);
             return true;
@@ -171,10 +176,9 @@ public class RGcardApp implements DGcardApp {
         if (hasGcard().size() > 0){
             if(!(hasActiveGcard().size() > 0)){
                 if(hasMultipleGCard().size() <= 1){
-                    updateGCardApp();
+                    updateGCardActiveStatus();
                 } else {
                     updateGCardAppWithHighestPoints();
-
                 }
             }
         }
