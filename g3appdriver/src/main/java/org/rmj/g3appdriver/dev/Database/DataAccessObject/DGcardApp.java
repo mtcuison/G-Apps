@@ -27,7 +27,10 @@ public interface DGcardApp {
     void deleteGCard();
 
     @Query("UPDATE Gcard_App_Master SET cActvStat = '1'")
-    void updateGCardApp();
+    void updateGCardActiveStatus();
+
+    @Query("UPDATE Gcard_App_Master SET cActvStat = '1' WHERE sCardNmbr =:GCardNmbr")
+    void updateGCardActiveStatus(String GCardNmbr);
 
     @Query("UPDATE Gcard_App_Master SET cActvStat = '1' WHERE sCardNmbr = (SELECT sCardNmbr FROM Gcard_App_Master WHERE sTotPoint IN (SELECT MAX(sTotPoint) FROM Gcard_App_Master))")
     void updateGCardAppWithHighestPoints();
