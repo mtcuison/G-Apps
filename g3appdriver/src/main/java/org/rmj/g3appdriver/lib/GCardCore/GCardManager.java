@@ -153,6 +153,7 @@ public class GCardManager implements iGCardSystem{
 
     @Override
     public void SaveGCardInfo(JSONObject detail) throws Exception {
+        poGCard.updateGCardDeactiveStatus();
         if(!detail.has("detail")){
             EGcardApp loGCard = new EGcardApp();
             loGCard.setGCardNox(detail.getString("sGCardNox"));
@@ -164,7 +165,7 @@ public class GCardManager implements iGCardSystem{
             loGCard.setAvlPoint(detail.getString("nAvlPoint"));
             loGCard.setTotPoint(detail.getString("nTotPoint"));
             loGCard.setTranStat(detail.getString("cCardStat"));
-            loGCard.setActvStat("1");
+            loGCard.setActvStat("0");
             loGCard.setNotified("1");
             poGCard.insert(loGCard);
         } else {
@@ -181,11 +182,12 @@ public class GCardManager implements iGCardSystem{
                 loGCard.setAvlPoint(loJson.getString("nAvlPoint"));
                 loGCard.setTotPoint(loJson.getString("nTotPoint"));
                 loGCard.setTranStat(loJson.getString("cCardStat"));
-                loGCard.setActvStat("1");
+                loGCard.setActvStat("0");
                 loGCard.setNotified("1");
                 poGCard.insert(loGCard);
             }
         }
+        poGCard.updateGCardAppWithHighestPoints();
     }
 
     @Override
