@@ -26,8 +26,8 @@ public interface DGcardApp {
     @Query("DELETE FROM GCard_App_Master")
     void deleteGCard();
 
-    @Query("UPDATE Gcard_App_Master SET cActvStat = '1'")
-    void updateGCardActiveStatus();
+    @Query("UPDATE Gcard_App_Master SET cActvStat = '0'")
+    void updateGCardDeactiveStatus();
 
     @Query("UPDATE Gcard_App_Master SET cActvStat = '1' WHERE sCardNmbr =:GCardNmbr")
     void updateGCardActiveStatus(String GCardNmbr);

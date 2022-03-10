@@ -46,11 +46,6 @@ public class RGcardApp implements DGcardApp {
     }
 
     @Override
-    public void updateGCardActiveStatus() {
-        gcardDao.updateGCardActiveStatus();
-    }
-
-    @Override
     public void updateGCardActiveStatus(String GCardNmbr) {
         gcardDao.updateGCardActiveStatus(GCardNmbr);
     }
@@ -145,11 +140,11 @@ public class RGcardApp implements DGcardApp {
         new DeleteUserTask(mContext, gcardDao).execute();
     }
 
-    public void checkUserGcardForActive(){
-        if(gcardDao.hasNoGcard().getValue() == null){
-            gcardDao.updateGCardActiveStatus();
-        }
+    @Override
+    public void updateGCardDeactiveStatus() {
+        gcardDao.updateGCardDeactiveStatus();
     }
+
     public boolean insertNewGCard(JSONObject loJson) {
         try {
             Log.e(TAG, loJson.getString("sGCardNox"));
@@ -172,17 +167,7 @@ public class RGcardApp implements DGcardApp {
             return false;
         }
     }
-    public void saveGCardUpdate(){
-        if (hasGcard().size() > 0){
-            if(!(hasActiveGcard().size() > 0)){
-                if(hasMultipleGCard().size() <= 1){
-                    updateGCardActiveStatus();
-                } else {
-                    updateGCardAppWithHighestPoints();
-                }
-            }
-        }
-    }
+
     public boolean insertGCard(JSONObject jsonResponse) throws Exception {
         try {
             JSONArray jsonArray = jsonResponse.getJSONArray("detail");
