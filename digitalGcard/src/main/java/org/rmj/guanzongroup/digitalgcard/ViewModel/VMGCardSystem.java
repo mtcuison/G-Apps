@@ -194,7 +194,24 @@ public class VMGCardSystem extends AndroidViewModel {
                             try {
                                 JSONObject loDetail = new JSONObject(args);
                                 mGcardSys.SaveGCardInfo(loDetail);
-                                lsResult[0] = parse(SUCCESS, args);
+                                mGcardSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
+                                    @Override
+                                    public void OnSuccess(String args) {
+                                        try {
+                                            JSONObject loDetail = new JSONObject(args);
+                                            mGcardSys.SaveMcServiceInfo(loDetail);
+                                            lsResult[0] = parse(SUCCESS, "GCard Added Successfully.");
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        lsResult[0] = parse(FAILED, message);
+                                    }
+                                });
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Log.e(ADD_GCARD_TAG, e.getMessage());
@@ -261,7 +278,24 @@ public class VMGCardSystem extends AndroidViewModel {
                             try {
                                 JSONObject loDetail = new JSONObject(args);
                                 mGcardSys.SaveGCardInfo(loDetail);
-                                lsResult[0] = parse(SUCCESS, args);
+                                mGcardSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
+                                    @Override
+                                    public void OnSuccess(String args) {
+                                        try {
+                                            JSONObject loDetail = new JSONObject(args);
+                                            mGcardSys.SaveMcServiceInfo(loDetail);
+                                            lsResult[0] = parse(SUCCESS, "GCard Added Successfully.");
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            lsResult[0] = parse(FAILED, CONFIRM_ADD_TAG + e.getMessage());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        lsResult[0] = parse(FAILED, message);
+                                    }
+                                });
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Log.e(CONFIRM_ADD_TAG, e.getMessage());
