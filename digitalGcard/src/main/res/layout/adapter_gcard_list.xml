@@ -4,8 +4,7 @@
     android:layout_height="150dp"
     app:cardCornerRadius="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:clickable="true">
+    android:foreground="?android:attr/selectableItemBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -51,12 +50,14 @@
             app:layout_constraintLeft_toRightOf="@id/txt_lbl_points"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <ImageView
-            android:id="@+id/ic_qrCode"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_margin="0dp"
-            android:src="@drawable/ic_baseline_qr_code_24"
+        <TextView
+            android:id="@+id/lbl_set_active"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/GcardTextInfoStyle.Inactive"
+            android:text="Set as Active"
+            android:textAllCaps="true"
+            android:textColor="@color/link_text_color"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 

@@ -52,11 +52,11 @@ public class VMGCardSystem extends AndroidViewModel {
 
     // ------- METHODS ------- //
 
-    public LiveData<EGcardApp> hasActiveGcard() {
+    public LiveData<EGcardApp> getActiveGcard() {
         return poGcardxx.hasNoGcard();
     }
 
-    public LiveData<List<EGcardApp>> hasInactiveGCard() {
+    public LiveData<List<EGcardApp>> getInactiveGCard() {
         return poGcardxx.hasUnCheckGCard();
     }
 
@@ -78,6 +78,10 @@ public class VMGCardSystem extends AndroidViewModel {
 
     public LiveData<List<EGCardTransactionLedger>> GetRedemptionTransactions() {
         return  mGcardSys.GetRedemptionTransactions();
+    }
+
+    public void setActiveGcard(String fsCardNox, GcardTransactionCallback foCallBck) {
+        new SetActiveGcardTask(poGcardxx, foCallBck).execute(fsCardNox);
     }
 
     public void addGcard(GcardCredentials foCardDta, GcardTransactionCallback foCallBck) {
@@ -190,7 +194,24 @@ public class VMGCardSystem extends AndroidViewModel {
                             try {
                                 JSONObject loDetail = new JSONObject(args);
                                 mGcardSys.SaveGCardInfo(loDetail);
-                                lsResult[0] = parse(SUCCESS, args);
+                                mGcardSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
+                                    @Override
+                                    public void OnSuccess(String args) {
+                                        try {
+                                            JSONObject loDetail = new JSONObject(args);
+                                            mGcardSys.SaveMcServiceInfo(loDetail);
+                                            lsResult[0] = parse(SUCCESS, "GCard Added Successfully.");
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        lsResult[0] = parse(FAILED, message);
+                                    }
+                                });
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Log.e(ADD_GCARD_TAG, e.getMessage());
@@ -257,7 +278,24 @@ public class VMGCardSystem extends AndroidViewModel {
                             try {
                                 JSONObject loDetail = new JSONObject(args);
                                 mGcardSys.SaveGCardInfo(loDetail);
-                                lsResult[0] = parse(SUCCESS, args);
+                                mGcardSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
+                                    @Override
+                                    public void OnSuccess(String args) {
+                                        try {
+                                            JSONObject loDetail = new JSONObject(args);
+                                            mGcardSys.SaveMcServiceInfo(loDetail);
+                                            lsResult[0] = parse(SUCCESS, "GCard Added Successfully.");
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            lsResult[0] = parse(FAILED, CONFIRM_ADD_TAG + e.getMessage());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        lsResult[0] = parse(FAILED, message);
+                                    }
+                                });
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Log.e(CONFIRM_ADD_TAG, e.getMessage());
@@ -969,6 +1007,46 @@ public class VMGCardSystem extends AndroidViewModel {
             return null;
         }
 
+    }
+
+    private static class SetActiveGcardTask extends AsyncTask<String, Void, String> {
+
+        private final RGcardApp loGcardxx;
+        private final GcardTransactionCallback loCallBck;
+
+        private SetActiveGcardTask(RGcardApp foGcardxx, GcardTransactionCallback foCallbck) {
+            this.loGcardxx = foGcardxx;
+            this.loCallBck = foCallbck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loCallBck.onLoad();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String lsCardNox = strings[0];
+            String lsResultx = "";
+
+            try {
+                loGcardxx.updateGCardDeactiveStatus();
+                loGcardxx.updateGCardActiveStatus(lsCardNox);
+                lsResultx = parse(SUCCESS, "Selected GCard has been activated.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResultx = parse(FAILED, e.getMessage());
+            }
+
+            return lsResultx;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            setCallBack(s, loCallBck);
+        }
     }
 
     public interface GcardTransactionCallback {

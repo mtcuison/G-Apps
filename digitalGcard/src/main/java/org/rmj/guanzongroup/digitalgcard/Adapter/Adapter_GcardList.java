@@ -19,9 +19,11 @@ import java.util.List;
 public class Adapter_GcardList extends RecyclerView.Adapter<Adapter_GcardList.GcardHolder> {
 
     private final List<EGcardApp> poGcard;
+    private final OnGcardActivation poCallBck;
 
-    public Adapter_GcardList(List<EGcardApp> foGcard) {
+    public Adapter_GcardList(List<EGcardApp> foGcard, OnGcardActivation foCallBck) {
         this.poGcard = foGcard;
+        this.poCallBck = foCallBck;
     }
 
     @NonNull
@@ -29,7 +31,7 @@ public class Adapter_GcardList extends RecyclerView.Adapter<Adapter_GcardList.Gc
     public GcardHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter_gcard_list, parent, false);
-        return new GcardHolder(view);
+        return new GcardHolder(view, poCallBck);
     }
 
     @Override
@@ -50,13 +52,24 @@ public class Adapter_GcardList extends RecyclerView.Adapter<Adapter_GcardList.Gc
         public TextView txtUserNm;
         public TextView txtCardNo;
         public TextView txtPoints;
+        public TextView lblStActv;
 
-        public GcardHolder(@NonNull View itemView) {
+        public GcardHolder(@NonNull View itemView, OnGcardActivation foCallBck) {
             super(itemView);
             txtUserNm = itemView.findViewById(R.id.lbl_gcard_user);
             txtCardNo = itemView.findViewById(R.id.lbl_card_number);
             txtPoints = itemView.findViewById(R.id.lbl_gcard_points);
+            lblStActv = itemView.findViewById(R.id.lbl_set_active);
+
+            lblStActv.setOnClickListener(v -> {
+                foCallBck.onActivate(txtCardNo.getText().toString().trim());
+            });
         }
+
+    }
+
+    public interface OnGcardActivation {
+        void onActivate(String fsCardNox);
     }
 
 }
