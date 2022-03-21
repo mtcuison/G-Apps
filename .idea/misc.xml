@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/account_menu_item.xml" value="0.2" />
+        <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/activity_account_details.xml" value="0.19692307692307692" />
+        <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/menu_header_layout.xml" value="0.1" />
         <entry key="..\:/Projects/G-Apps/digitalGcard/src/main/res/layout/activity_add_gcard.xml" value="0.21614583333333334" />
         <entry key="..\:/Projects/G-Apps/digitalGcard/src/main/res/layout/activity_manage_gcard.xml" value="0.21614583333333334" />
         <entry key="..\:/Projects/G-Apps/digitalGcard/src/main/res/layout/adapter_gcard_list.xml" value="0.21614583333333334" />

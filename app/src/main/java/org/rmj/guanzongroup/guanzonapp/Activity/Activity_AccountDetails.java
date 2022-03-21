@@ -70,7 +70,6 @@ public class Activity_AccountDetails extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        mViewModel.setAccountDetailsList();
         mViewModel.getAccountDetailsList().observe(Activity_AccountDetails.this, details -> {
             poAdapter = new Adapter_AccountDetails(details);
             Log.e(TAG, String.valueOf(poAdapter.getItemCount()));
