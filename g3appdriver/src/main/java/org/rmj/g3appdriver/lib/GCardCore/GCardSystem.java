@@ -14,7 +14,7 @@ public class GCardSystem {
 
     public enum CoreFunctions{
         GCARD,
-        REDEEMPTION,
+        REDEMPTION,
         EXTRAS
     }
 
@@ -30,7 +30,7 @@ public class GCardSystem {
     public iGCardSystem getInstance(CoreFunctions core){
         if(core == CoreFunctions.GCARD){
             return new GCardManager(mContext);
-        } else if(core == CoreFunctions.REDEEMPTION){
+        } else if(core == CoreFunctions.REDEMPTION){
             return new RedemptionManager(mContext);
         } else {
             return new SystemExtras(mContext);

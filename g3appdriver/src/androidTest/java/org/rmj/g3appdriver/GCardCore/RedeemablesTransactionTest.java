@@ -47,7 +47,7 @@ public class RedeemablesTransactionTest {
     @Before
     public void setUp() throws Exception {
         mContext = ApplicationProvider.getApplicationContext();
-        poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.REDEEMPTION);
+        poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
     }
 
     @After

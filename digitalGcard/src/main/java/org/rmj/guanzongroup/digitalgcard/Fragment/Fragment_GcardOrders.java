@@ -12,28 +12,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.guanzongroup.digitalgcard.R;
+import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGcardOrders;
 
 public class Fragment_GcardOrders extends Fragment {
 
-    private VMGcardOrders mViewModel;
-
-    public static Fragment_GcardOrders newInstance() {
-        return new Fragment_GcardOrders();
-    }
+    private VMGCardSystem mViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_gcard_orders, container, false);
+        View view =  inflater.inflate(R.layout.fragment_gcard_orders, container, false);
+        initViews(view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMGcardOrders.class);
-        // TODO: Use the ViewModel
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
+        mViewModel.setInstance(GCardSystem.CoreFunctions.REDEMPTION);
+
+        initOrders();
+    }
+
+    private void initViews(View v) {
+
+    }
+
+    private void initOrders() {
+
     }
 
 }
