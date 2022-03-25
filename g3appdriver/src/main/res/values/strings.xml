@@ -62,6 +62,7 @@
     <string name="lblTermsConditions"> with the Terms and Conditions.</string>
     <string name="lblNoGcardAvailable">No GCard Available.</string>
     <string name="lblNoOrdersAvailable">No Orders Available.</string>
+    <string name="lblNoRedeemablesList">No Redeemable Items Available.</string>
 
     <string name="descServiceDate">Your next service date:</string>
 
