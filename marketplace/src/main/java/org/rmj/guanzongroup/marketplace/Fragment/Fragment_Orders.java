@@ -17,23 +17,23 @@ import org.rmj.guanzongroup.marketplace.ViewModel.VMOrders;
 
 public class Fragment_Orders extends Fragment {
 
-    private VMOrders mViewModel;
-
-    public static Fragment_Orders newInstance() {
-        return new Fragment_Orders();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_orders, container, false);
+        View view = inflater.inflate(R.layout.fragment_orders, container, false);
+        initViews(view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMOrders.class);
-        // TODO: Use the ViewModel
+
+    }
+
+    private void initViews(View v) {
+
     }
 
 }
