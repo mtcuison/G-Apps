@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/nav_notifications"
-        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_Notifications"
+        android:name="org.rmj.guanzongroup.notifications.Fragment.Fragment_Notifications"
         android:label="@string/menu_notifications"
         tools:layout="@layout/fragment_notifications" />
 
