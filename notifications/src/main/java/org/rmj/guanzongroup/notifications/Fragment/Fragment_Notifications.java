@@ -1,25 +1,22 @@
-package org.rmj.guanzongroup.digitalgcard.Fragment;
+package org.rmj.guanzongroup.notifications.Fragment;
 
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.guanzongroup.digitalgcard.R;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-public class Fragment_Wishlist extends Fragment {
+import org.rmj.guanzongroup.notifications.R;
 
-    public Fragment_Wishlist() { }
+public class Fragment_Notifications extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_wishlist, container, false);
-        initViews(v);
-        return v;
+        View view = inflater.inflate(R.layout.fragment_notifications, container, false);
+        initViews(view);
+        return view;
     }
 
     @Override

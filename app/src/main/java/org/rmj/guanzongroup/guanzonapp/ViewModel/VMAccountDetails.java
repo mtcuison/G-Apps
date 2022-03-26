@@ -19,10 +19,10 @@ public class VMAccountDetails extends AndroidViewModel {
 
     public VMAccountDetails(@NonNull Application application) {
         super(application);
-
+        setAccountDetailsList();
     }
 
-    public void setAccountDetailsList() {
+    private void setAccountDetailsList() {
         List<AccountDetailsInfo> loAcctInf = new ArrayList<>();
         loAcctInf.add(new AccountDetailsInfo(true, "Personal Information", "",""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Full Name", ""));

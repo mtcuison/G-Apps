@@ -16,24 +16,22 @@ import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMWishlist;
 
 public class Fragment_Wishlist extends Fragment {
-
-    private VMWishlist mViewModel;
-
-    public static Fragment_Wishlist newInstance() {
-        return new Fragment_Wishlist();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_wishlist, container, false);
+        View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
+        initViews(view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMWishlist.class);
-        // TODO: Use the ViewModel
+
+    }
+
+    private void initViews(View v) {
+
     }
 
 }

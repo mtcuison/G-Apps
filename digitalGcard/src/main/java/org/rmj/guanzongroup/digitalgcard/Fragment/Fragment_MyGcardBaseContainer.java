@@ -61,12 +61,12 @@ public class Fragment_MyGcardBaseContainer extends Fragment {
         switch (lnFragArg) {
             case 1:
                 return new Fragment_MyGcard();
-//            case 2:
-//                return new Fragment_Redeemables();
-//            case 3:
-//                return new Fragment_GcardOrders();
-//            case 4:
-//                return new Fragment_GcardLedger();
+            case 2:
+                return new Fragment_Redeemables();
+            case 3:
+                return new Fragment_GcardOrders();
+            case 4:
+                return new Fragment_GcardLedger();
             default:
                 return null;
         }
