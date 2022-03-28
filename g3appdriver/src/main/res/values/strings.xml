@@ -61,6 +61,7 @@
     <string name="lblInfoPassword">Please provide a password for your account.</string>
     <string name="lblTermsConditions"> with the Terms and Conditions.</string>
     <string name="lblNoGcardAvailable">No GCard Available.</string>
+    <string name="lblNoGcardTransactions">No GCard Transactions Available.</string>
     <string name="lblNoNotifications">No Notifications Available.</string>
     <string name="lblNoWishlist">No Wishlist Available.</string>
     <string name="lblNoOrdersAvailable">No Orders Available.</string>
