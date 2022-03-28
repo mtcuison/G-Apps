@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.guanzonapp.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuInflater;
@@ -97,6 +98,8 @@ public class Activity_Dashboard extends AppCompatActivity {
         } else if (item.getItemId() == R.id.item_search) {
             Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
             startActivity(loIntent);
+        } else if (item.getItemId() == R.id.item_cart) {
+//            Navigation.findNavController(findViewById(android.R.id.content).getRootView()).navigate(R.id.nav_item_cart);
         }
         return super.onOptionsItemSelected(item);
     }
