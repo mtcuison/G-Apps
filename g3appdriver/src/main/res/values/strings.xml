@@ -65,6 +65,7 @@
     <string name="lblNoWishlist">No Wishlist Available.</string>
     <string name="lblNoOrdersAvailable">No Orders Available.</string>
     <string name="lblNoRedeemablesList">No Redeemable Items Available.</string>
+    <string name="lblNoCartItem">No Items on Cart.</string>
 
     <string name="descServiceDate">Your next service date:</string>
 

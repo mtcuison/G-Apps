@@ -11,11 +11,13 @@
         <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/activity_manage_gcard.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/adapter_gcard_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/adapter_gcard_orders.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/fragment_cart.xml" value="0.1" />
         <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/fragment_gcard_orders.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/fragment_my_gcard.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/fragment_my_gcard_base_container.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/fragment_notifications.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/fragment_redeemables.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_item_cart.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_orders.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_wishlist.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/notifications/src/main/res/layout/adapter_notifications.xml" value="0.20416666666666666" />
