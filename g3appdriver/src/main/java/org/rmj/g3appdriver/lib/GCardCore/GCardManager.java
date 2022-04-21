@@ -13,13 +13,15 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
+import org.rmj.g3appdriver.dev.Database.Entities.EMCSerialRegistration;
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EServiceInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RGCardTransactionLedger;
-import org.rmj.g3appdriver.dev.Database.Repositories.RGcardApp;
-import org.rmj.g3appdriver.dev.Database.Repositories.RServiceInfo;
+import org.rmj.g3appdriver.dev.Repositories.RGCardTransactionLedger;
+import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
+import org.rmj.g3appdriver.dev.Repositories.RMCSerialRegistration;
+import org.rmj.g3appdriver.dev.Repositories.RServiceInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
@@ -43,6 +45,7 @@ public class GCardManager implements iGCardSystem{
     private final AccountInfo poSession;
     private final Telephony poDevicex;
     private final RServiceInfo poService;
+    private final RMCSerialRegistration poMcReg;
     private final RGCardTransactionLedger poLedger;
     private final GuanzonAppConfig poConfig;
     private final ServerAPIs poAPI;
@@ -55,6 +58,7 @@ public class GCardManager implements iGCardSystem{
         this.poSession = new AccountInfo(mContext);
         this.poDevicex = new Telephony(mContext);
         this.poService = new RServiceInfo(mContext);
+        this.poMcReg = new RMCSerialRegistration(mContext);
         this.poLedger = new RGCardTransactionLedger(mContext);
         this.poConfig = new GuanzonAppConfig(mContext);
         this.poAPI = new ServerAPIs(poConfig.getTestCase());
@@ -65,7 +69,7 @@ public class GCardManager implements iGCardSystem{
         if(!gcardInfo.isDataValid()){
             callback.OnFailed(gcardInfo.getMessage());
         } else {
-            String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_ADD_NEW_GCARD(), gcardInfo.getJSONParameters(), poHeaders.getHeaders());
+            String lsResponse = WebClient.httpsPostJSon(poAPI.getAddNewGCardAPI(), gcardInfo.getJSONParameters(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("No server response.");
             } else {
@@ -96,7 +100,7 @@ public class GCardManager implements iGCardSystem{
     public void AddGCardQrCode(String GCardNumber, GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
         params.put("secureno", poCode.generateSecureNo(GCardNumber));
-        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_ADD_NEW_GCARD(), params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getAddNewGCardAPI(), params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("No server response.");
         } else {
@@ -115,7 +119,7 @@ public class GCardManager implements iGCardSystem{
     @Override
     public void ConfirmAddGCard(GcardCredentials gcardInfo, GCardSystem.GCardSystemCallback callback) throws Exception {
         gcardInfo.setsConfirmx("1");
-        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_ADD_NEW_GCARD(), gcardInfo.getJSONParameters(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getAddNewGCardAPI(), gcardInfo.getJSONParameters(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("No server response.");
         } else {
@@ -135,7 +139,7 @@ public class GCardManager implements iGCardSystem{
     public void DownloadGcardNumbers(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject param = new JSONObject();
         param.put("user_id", poCode.generateSecureNo(poSession.getUserID()));
-        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_GCARD(), param.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getImportGCardAPI(), param.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
         } else {
@@ -258,10 +262,10 @@ public class GCardManager implements iGCardSystem{
         try {
             JSONObject params = new JSONObject();
             params.put("secureno", poCode.generateSecureNo(poGCard.getCardNo()));
-            String[] Ledger_Address = {poAPI.getURL_IMPORT_TRANSACTIONS_OFFLINE(),
-                    poAPI.getURL_IMPORT_TRANSACTIONS_ONLINE(),
-                    poAPI.getURL_IMPORT_TRANSACTIONS_PREORDER(),
-                    poAPI.getURL_IMPORT_TRANSACTIONS_REDEMPTION()};
+            String[] Ledger_Address = {poAPI.getImportOfflineTransAPI(),
+                    poAPI.getImportOnlineTransAPI(),
+                    poAPI.getImportPreOrderAPI(),
+                    poAPI.getImportReedemptionsAPI()};
             for (String ledger_address : Ledger_Address) {
                 String lsResponse = WebClient.httpsPostJSon(ledger_address, params.toString(), poHeaders.getHeaders());
                 if (lsResponse == null) {
@@ -326,9 +330,10 @@ public class GCardManager implements iGCardSystem{
     @Override
     public void DownloadMCServiceInfo(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
-        String lsSecureNo = new CodeGenerator().generateSecureNo(poGCard.getCardNo());
+        String lsGcardNo = poGCard.getCardNo();
+        String lsSecureNo = new CodeGenerator().generateSecureNo(lsGcardNo);
         params.put("secureno", lsSecureNo);
-        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_SERVICE(), params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getServiceInfoAPI(), params.toString(), poHeaders.getHeaders());
         if (lsResponse == null) {
             callback.OnFailed("Server no response");
         } else {
@@ -350,7 +355,7 @@ public class GCardManager implements iGCardSystem{
         JSONObject params = new JSONObject();
         String lsSecureNo = new CodeGenerator().generateSecureNo(poGCard.getCardNo());
         params.put("secureno", lsSecureNo);
-        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_MC_REGISTRATION(), params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getMCRegistrationAPI(), params.toString(), poHeaders.getHeaders());
         if (lsResponse == null) {
             callback.OnFailed("Server no response");
         } else {
@@ -373,17 +378,16 @@ public class GCardManager implements iGCardSystem{
             for (int x = 0; x < laJson.length(); x++) {
                 JSONObject loJson = laJson.getJSONObject(x);
                 EServiceInfo loService = new EServiceInfo();
+                loService.setGCardNox(poGCard.getCardNox());
                 loService.setSerialID(loJson.getString("sSerialID"));
                 loService.setEngineNo(loJson.getString("sEngineNo"));
                 loService.setFrameNox(loJson.getString("sFrameNox"));
-                loService.setBrandNme(loJson.getString("sBrandNme"));
                 loService.setModelNme(loJson.getString("sModelNme"));
                 loService.setFSEPStat(loJson.getString("cFSEPStat"));
                 loService.setLastSrvc(loJson.getString("dLastSrvc"));
+                loService.setPurchase(loJson.getString("dPurchase"));
                 loService.setYellowxx(loJson.getInt("nYellowxx"));
                 loService.setWhitexxx(loJson.getInt("nWhitexxx"));
-                loService.setYlwCtrxx(loJson.getInt("nYlwCtrxx"));
-                loService.setWhtCtrxx(loJson.getInt("nWhtCtrxx"));
                 loService.setMIlAgexx(loJson.getInt("nMilagexx"));
                 loService.setNxtRmnds(loJson.getString("dNxtRmndS"));
                 poService.insert(loService);
@@ -393,7 +397,21 @@ public class GCardManager implements iGCardSystem{
 
     @Override
     public void SaveRegistrationInfo(JSONObject detail) throws Exception {
-
+        JSONArray laJson = detail.getJSONArray("detail");
+        if(laJson.length() > 0) {
+            for (int x = 0; x < laJson.length(); x++) {
+                JSONObject loJson = laJson.getJSONObject(x);
+                EMCSerialRegistration loMcSerial = new EMCSerialRegistration();
+                loMcSerial.setGCardNox(poGCard.getCardNox());
+                loMcSerial.setSerialID(loJson.getString("sSerialID"));
+                loMcSerial.setEngineNo(loJson.getString("sEngineNo"));
+                loMcSerial.setFrameNox(loJson.getString("sFrameNox"));
+                loMcSerial.setModelNme(loJson.getString("sModelNme"));
+                loMcSerial.setFSEPStat(loJson.getString("cFSEPStat"));
+                loMcSerial.setRegStatx(loJson.getString("cRegStatx"));
+                poMcReg.insert(loMcSerial);
+            }
+        }
     }
 
     @Override

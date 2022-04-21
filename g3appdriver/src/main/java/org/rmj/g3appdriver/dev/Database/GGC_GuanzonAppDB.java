@@ -10,6 +10,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
@@ -24,8 +25,10 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemablesInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DServiceInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DUserInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
@@ -35,10 +38,12 @@ import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
+import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EServiceInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ETokenInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EUserInfo;
 
 @Database(entities = {
@@ -57,7 +62,11 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUserInfo;
         EServiceInfo.class,
         EEmployeeInfo.class,
         EUserInfo.class,
-        ETokenInfo.class}, version = 2, exportSchema = false)
+        ETokenInfo.class,
+        EBarangayInfo.class,
+        ETownInfo.class,
+        EProvinceInfo.class,
+        ECountryInfo.class}, version = 2, exportSchema = false)
 public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     private static final String TAG = "GuanzonApp_DB_Manager";
     private static GGC_GuanzonAppDB instance;
@@ -78,6 +87,7 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     public abstract DEmployeeInfo EmployeeDao();
     public abstract DNotifications NotificationDao();
     public abstract DEvents EventDao();
+    public abstract DAddress AddDao();
 
     public static synchronized GGC_GuanzonAppDB getInstance(Context context){
         if(instance == null){

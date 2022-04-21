@@ -1,6 +1,6 @@
-package org.rmj.g3appdriver.dev.Database.Repositories;
+package org.rmj.g3appdriver.dev.Repositories;
 
-import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMCSerialRegistration;
@@ -12,12 +12,12 @@ import java.util.List;
 
 public class RMCSerialRegistration implements DMCSerialRegistration {
     private static final String TAG = "RAppEventInfo";
-    private final Application application;
+    private final Context mContext;
 
     private final DMCSerialRegistration mcDao;
-    public RMCSerialRegistration(Application application){
-        GGC_GuanzonAppDB database = GGC_GuanzonAppDB.getInstance(application);
-        this.application = application;
+    public RMCSerialRegistration(Context instance){
+        GGC_GuanzonAppDB database = GGC_GuanzonAppDB.getInstance(instance);
+        this.mContext = instance;
         this.mcDao = database.EMCSerialRegistrationDao();
     }
 
@@ -38,15 +38,15 @@ public class RMCSerialRegistration implements DMCSerialRegistration {
 
     @Override
     public void deleteMC() {
-        new DeleteUserTask(application, mcDao).execute();
+        new DeleteUserTask(mContext, mcDao).execute();
     }
 
     public static class DeleteUserTask extends AsyncTask<Void, Void, Void> {
         private DMCSerialRegistration mcDao;
         private SessionManager sessionManager;
-        public DeleteUserTask(Application application,DMCSerialRegistration mcDao ) {
+        public DeleteUserTask(Context instance,DMCSerialRegistration mcDao ) {
             this.mcDao = mcDao;
-            this.sessionManager = new SessionManager(application);
+            this.sessionManager = new SessionManager(instance);
         }
 
         @Override
