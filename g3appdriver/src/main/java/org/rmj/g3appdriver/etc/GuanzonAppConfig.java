@@ -35,6 +35,4 @@ public class GuanzonAppConfig {
     public boolean getTestCase(){
         return pref.getBoolean(TEST_CASE, false);
     }
-
-
 }

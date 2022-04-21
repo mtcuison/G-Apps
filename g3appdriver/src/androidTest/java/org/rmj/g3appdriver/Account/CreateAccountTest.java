@@ -35,7 +35,7 @@ public class CreateAccountTest {
         mContext = ApplicationProvider.getApplicationContext();
         poLogin = new AccountAuthentication(mContext);
         poConfig = new GuanzonAppConfig(mContext);
-        poConfig.setTestCase(true);
+        poConfig.setTestCase(false);
     }
 
     @Test
@@ -212,6 +212,7 @@ public class CreateAccountTest {
 
             @Override
             public void OnFailedRegister(String fsMessage) {
+
                 isSucccess = false;
                 message = fsMessage;
             }
@@ -223,9 +224,9 @@ public class CreateAccountTest {
     @Test
     public void test13createAccountTestAccount() throws Exception{
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("Team");
-        poAccount.setFrstName("MIS");
-        poAccount.setMiddName("Android");
+        poAccount.setLastName("Doe");
+        poAccount.setFrstName("Smith");
+        poAccount.setMiddName("John");
         poAccount.setEmailAdd("rmjbranchapps75@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("123456");

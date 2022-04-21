@@ -18,7 +18,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RGcardApp;
+import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
