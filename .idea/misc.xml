@@ -37,6 +37,9 @@
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/product_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/notifications/src/main/res/layout/adapter_notifications.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/notifications/src/main/res/layout/fragment_notifications.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_sign_up.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/fragment_sign_up_info.xml" value="0.25" />
+        <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/fragment_sign_up_password.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/G-Apps/digitalGcard/src/main/res/layout/activity_add_gcard.xml" value="0.21614583333333334" />
         <entry key="..\:/Projects/G-Apps/digitalGcard/src/main/res/layout/activity_manage_gcard.xml" value="0.21614583333333334" />
         <entry key="..\:/Projects/G-Apps/digitalGcard/src/main/res/layout/adapter_gcard_list.xml" value="0.21614583333333334" />

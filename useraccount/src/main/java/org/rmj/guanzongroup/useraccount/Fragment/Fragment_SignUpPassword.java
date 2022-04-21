@@ -67,7 +67,7 @@ public class Fragment_SignUpPassword extends Fragment {
         btnBack = v.findViewById(R.id.btnBack);
 
         lblTerms.setOnClickListener(view -> { });
-        btnBack.setOnClickListener(view -> Activity_SignUp.getInstance().moveToPageNumber(0));
+//        btnBack.setOnClickListener(view -> Activity_SignUp.getInstance().moveToPageNumber(0));
     }
 
     private void registerAccount() {
@@ -81,8 +81,8 @@ public class Fragment_SignUpPassword extends Fragment {
 
             AccountAuthentication.AccountCredentials loCrednts = new AccountAuthentication.AccountCredentials();
             loCrednts.setLastName(poSignUpM.getLastName());
-            loCrednts.setFrstName(poSignUpM.getFrstName());
-            loCrednts.setMiddName(poSignUpM.getMiddName());
+//            loCrednts.setFrstName(poSignUpM.getFrstName());
+//            loCrednts.setMiddName(poSignUpM.getMiddName());
             loCrednts.setEmailAdd(poSignUpM.getEmailAdd());
             loCrednts.setMobileNo(poSignUpM.getMobileNo());
             loCrednts.setPassword(poSignUpM.getPassword());

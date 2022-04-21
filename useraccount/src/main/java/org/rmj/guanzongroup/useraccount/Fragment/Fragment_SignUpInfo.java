@@ -52,10 +52,10 @@ public class Fragment_SignUpInfo extends Fragment {
     }
 
     private void initViews(View v) {
-        tieLastNm = v.findViewById(R.id.tie_lastname);
-        tieFrstNm = v.findViewById(R.id.tie_firstname);
-        tieMiddNm = v.findViewById(R.id.tie_middname);
-        tieSuffix = v.findViewById(R.id.tie_suffix);
+//        tieLastNm = v.findViewById(R.id.tie_lastname);
+//        tieFrstNm = v.findViewById(R.id.tie_firstname);
+//        tieMiddNm = v.findViewById(R.id.tie_middname);
+//        tieSuffix = v.findViewById(R.id.tie_suffix);
         tieEmailx = v.findViewById(R.id.tie_email);
         tieMobile = v.findViewById(R.id.tie_mobile);
         btnNext = v.findViewById(R.id.btnNext);
@@ -77,7 +77,7 @@ public class Fragment_SignUpInfo extends Fragment {
         poSignUpM.setMobileNo(lsMobileN);
 
         if(poSignUpM.isFirstPageClear()) {
-            Activity_SignUp.getInstance().moveToPageNumber(1);
+//            Activity_SignUp.getInstance().moveToPageNumber(1);
         } else {
             Dialog_SingleButton loDialog = new Dialog_SingleButton(requireActivity());
             loDialog.setButtonText("Okay");

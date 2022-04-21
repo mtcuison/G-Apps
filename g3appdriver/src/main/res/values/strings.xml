@@ -43,6 +43,7 @@
     <string name="lblForgotPass">Forgot Password?</string>
     <string name="lblRetypePass">Re-type Password</string>
     <string name="lblCreateAccount">Create Account</string>
+    <string name="lblUsername">Username</string>
     <string name="lblFullName">Full Name</string>
     <string name="lblLastname">Last Name</string>
     <string name="lblFirstname">First Name</string>
