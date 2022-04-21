@@ -98,9 +98,9 @@ dependencies {
     implementation 'com.karumi:dexter:5.0.0'
 
     //google firebase
-    implementation 'com.google.firebase:firebase-messaging:23.0.0'
-    implementation 'com.google.firebase:firebase-core:20.0.2'
-    implementation 'com.google.firebase:firebase-inappmessaging-display:20.1.1'
+    implementation 'com.google.firebase:firebase-messaging:23.0.2'
+    implementation 'com.google.firebase:firebase-core:20.1.2'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:20.1.2'
     apply plugin: 'com.google.gms.google-services'
 
     //Spinners and Loading Screens
@@ -118,7 +118,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
 
     //Obtain Mobile No.
-    implementation 'com.google.android.gms:play-services-auth:20.0.1'
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
 
     implementation 'com.facebook.android:facebook-common:12.2.0'
     //Facebook integration Login

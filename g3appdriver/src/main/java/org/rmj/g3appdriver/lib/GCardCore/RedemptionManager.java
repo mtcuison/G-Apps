@@ -9,9 +9,9 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.Repositories.RGcardApp;
-import org.rmj.g3appdriver.dev.Database.Repositories.RRedeemItemInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RRedeemablesInfo;
+import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
+import org.rmj.g3appdriver.dev.Repositories.RRedeemItemInfo;
+import org.rmj.g3appdriver.dev.Repositories.RRedeemablesInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
@@ -96,7 +96,7 @@ public class RedemptionManager implements iGCardSystem{
     @Override
     public void DownloadRedeemables(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_REDEEM_ITEMS(), params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getImportRedeemItemsAPI(), params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
         } else {
@@ -193,7 +193,7 @@ public class RedemptionManager implements iGCardSystem{
             params.put("branchcd", BranchCD);
             params.put("detail", items);
 
-            String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_PLACE_ODER(), params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.httpsPostJSon(poAPI.getPlaceOrderAPI(), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailed("Server no response.");
             } else {

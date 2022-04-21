@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface DMCSerialRegistration {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(EMCSerialRegistration emcSerialRegistration);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

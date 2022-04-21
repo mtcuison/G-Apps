@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RClientInfo;
+import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 
 public class VMDashboard extends AndroidViewModel {
     private final RClientInfo poClientx;

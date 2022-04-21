@@ -13,7 +13,7 @@ import java.util.List;
 
 @Dao
 public interface DClientInfo {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(EClientInfo eClientInfo);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -26,6 +26,8 @@ public interface DClientInfo {
     void deleteClient();
 
     @Query("SELECT * FROM Client_Info_Master")
-    LiveData<EClientInfo> getClientInfo();
+    EClientInfo getUserInfoForUpdate();
 
+    @Query("SELECT * FROM Client_Info_Master")
+    LiveData<EClientInfo> getClientInfo();
 }
