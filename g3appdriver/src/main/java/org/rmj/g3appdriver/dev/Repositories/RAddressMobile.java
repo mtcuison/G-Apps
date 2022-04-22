@@ -21,15 +21,15 @@ import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RAddress {
-    private static final String TAG = RAddress.class.getSimpleName();
+public class RAddressMobile {
+    private static final String TAG = RAddressMobile.class.getSimpleName();
 
     private final Context mContext;
     private final DAddress poDao;
     private JSONObject data;
     private String message;
 
-    public RAddress(Context instance) {
+    public RAddressMobile(Context instance) {
         this.mContext = instance;
         this.poDao = GGC_GuanzonAppDB.getInstance(mContext).AddDao();
     }
