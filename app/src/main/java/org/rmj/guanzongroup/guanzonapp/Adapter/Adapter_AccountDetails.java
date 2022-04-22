@@ -39,11 +39,11 @@ public class Adapter_AccountDetails extends RecyclerView.Adapter<Adapter_Account
         holder.isHeader = loDetail.isHeader();
         holder.isContent = loDetail.isContent();
         if(loDetail.isHeader() == View.VISIBLE) {
-            holder.lblHeadTitle.setVisibility(loDetail.isHeader());
+            holder.menuHead.setVisibility(loDetail.isHeader());
             holder.menuItem.setVisibility(View.GONE);
             holder.lblHeadTitle.setText(loDetail.getHeader());
         } else if(loDetail.isContent() == View.VISIBLE) {
-            holder.lblHeadTitle.setVisibility(View.GONE);
+            holder.menuHead.setVisibility(View.GONE);
             holder.menuItem.setVisibility(loDetail.isContent());
             holder.lblMenuTitle.setText(loDetail.getLabel());
             holder.txtData.setText("".equalsIgnoreCase(loDetail.getContent()) ? "Set Now" : loDetail.getContent());
@@ -57,12 +57,13 @@ public class Adapter_AccountDetails extends RecyclerView.Adapter<Adapter_Account
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{
         public int isHeader, isContent;
-        public ConstraintLayout menuItem;
+        public ConstraintLayout menuItem, menuHead;
         public TextView lblHeadTitle, lblMenuTitle, txtData;
 
         public ViewHolderItem(@NonNull View itemView) {
             super(itemView);
             menuItem = itemView.findViewById(R.id.menu_item);
+            menuHead = itemView.findViewById(R.id.menu_header);
             lblHeadTitle = itemView.findViewById(R.id.lblMenuHeader);
             lblMenuTitle = itemView.findViewById(R.id.lblMenuTitle);
             txtData = itemView.findViewById(R.id.txtData);
