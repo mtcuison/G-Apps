@@ -28,6 +28,10 @@ public class EAddressInfo {
     private String BrgyIDxx;
     @ColumnInfo(name = "cPrimaryx")
     private String Primaryx;
+    @ColumnInfo(name = "sSourceCD")
+    private String SourceCD;
+    @ColumnInfo(name = "sSourceNo")
+    private String SourceNo;
     @ColumnInfo(name = "nLatitude")
     private String Latitude;
     @ColumnInfo(name = "nLongitud")
@@ -183,5 +187,21 @@ public class EAddressInfo {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public String getSourceCD() {
+        return SourceCD;
+    }
+
+    public void setSourceCD(String sourceCD) {
+        SourceCD = sourceCD;
+    }
+
+    public String getSourceNo() {
+        return SourceNo;
+    }
+
+    public void setSourceNo(String sourceNo) {
+        SourceNo = sourceNo;
     }
 }

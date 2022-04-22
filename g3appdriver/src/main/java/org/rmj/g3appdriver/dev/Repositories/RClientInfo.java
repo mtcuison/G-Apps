@@ -78,7 +78,7 @@ public class RClientInfo {
                     message = loError.getString("message");
                     return false;
                 } else {
-                    EClientInfo loDetail = poDao.getUserInfoForUpdate();
+                    EClientInfo loDetail = poDao.GetUserInfo();
                     loDetail.setLastName(loResponse.getString("sLastName"));
                     loDetail.setFrstName(loResponse.getString("sFrstName"));
                     loDetail.setMiddName(loResponse.getString("sMiddName"));

@@ -20,6 +20,10 @@ public class EMobileInfo {
     private String MobileNo;
     @ColumnInfo(name = "cPrimaryx")
     private String Primaryx;
+    @ColumnInfo(name = "sSourceCD")
+    private String SourceCD;
+    @ColumnInfo(name = "sSourceNo")
+    private String SourceNo;
     @ColumnInfo(name = "sRemarksx")
     private String Remarksx;
     @ColumnInfo(name = "cTranStat")
@@ -123,5 +127,21 @@ public class EMobileInfo {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public String getSourceCD() {
+        return SourceCD;
+    }
+
+    public void setSourceCD(String sourceCD) {
+        SourceCD = sourceCD;
+    }
+
+    public String getSourceNo() {
+        return SourceNo;
+    }
+
+    public void setSourceNo(String sourceNo) {
+        SourceNo = sourceNo;
     }
 }
