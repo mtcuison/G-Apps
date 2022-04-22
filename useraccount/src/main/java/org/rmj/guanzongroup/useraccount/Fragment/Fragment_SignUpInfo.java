@@ -43,7 +43,7 @@ public class Fragment_SignUpInfo extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMAccountAuthentication.class);
         try {
-            poSignUpM = mViewModel.getSignUpModel();
+//            poSignUpM = mViewModel.getSignUpModel();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,21 +69,21 @@ public class Fragment_SignUpInfo extends Fragment {
         String lsEmailAd = Objects.requireNonNull(tieEmailx.getText().toString().trim());
         String lsMobileN = Objects.requireNonNull(tieMobile.getText().toString().trim());
 
-        poSignUpM.setLastName(lsLastNme);
-        poSignUpM.setFrstName(lsFrstNme);
-        poSignUpM.setMiddName("".equalsIgnoreCase(lsMiddNme) ? "-" : lsMiddNme);
-        poSignUpM.setSuffixNm(lsSuffixN);
-        poSignUpM.setEmailAdd(lsEmailAd);
-        poSignUpM.setMobileNo(lsMobileN);
-
-        if(poSignUpM.isFirstPageClear()) {
-//            Activity_SignUp.getInstance().moveToPageNumber(1);
-        } else {
-            Dialog_SingleButton loDialog = new Dialog_SingleButton(requireActivity());
-            loDialog.setButtonText("Okay");
-            loDialog.initDialog("Sign Up", poSignUpM.getMessage(), dialog -> dialog.dismiss());
-            loDialog.show();
-        }
+//        poSignUpM.setLastName(lsLastNme);
+//        poSignUpM.setFrstName(lsFrstNme);
+//        poSignUpM.setMiddName("".equalsIgnoreCase(lsMiddNme) ? "-" : lsMiddNme);
+//        poSignUpM.setSuffixNm(lsSuffixN);
+//        poSignUpM.setEmailAdd(lsEmailAd);
+//        poSignUpM.setMobileNo(lsMobileN);
+//
+//        if(poSignUpM.isFirstPageClear()) {
+////            Activity_SignUp.getInstance().moveToPageNumber(1);
+//        } else {
+//            Dialog_SingleButton loDialog = new Dialog_SingleButton(requireActivity());
+//            loDialog.setButtonText("Okay");
+//            loDialog.initDialog("Sign Up", poSignUpM.getMessage(), dialog -> dialog.dismiss());
+//            loDialog.show();
+//        }
     }
 
 }

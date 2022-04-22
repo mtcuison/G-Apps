@@ -24,14 +24,12 @@ public class VMAccountAuthentication extends AndroidViewModel {
     private static final String TAG = VMAccountAuthentication.class.getSimpleName();
     private final ConnectionUtil poConnect;
     private final AccountAuthentication poActAuth;
-    private final SignUpInfoModel poSignUpM;
 
     public VMAccountAuthentication(@NonNull Application application) {
         super(application);
         Log.e(TAG, "Initialized");
         this.poConnect = new ConnectionUtil(application);
         this.poActAuth = new AccountAuthentication(application);
-        this.poSignUpM = new SignUpInfoModel();
     }
 
     public void LoginAccount(AccountAuthentication.LoginCredentials foCrednts, AuthTransactionCallback foCallbck) {
@@ -44,10 +42,6 @@ public class VMAccountAuthentication extends AndroidViewModel {
 
     public void RetrievePassword(String fsEmailxx, AuthTransactionCallback foCallbck) {
         new RetrievePasswordTask(poConnect, poActAuth, foCallbck).execute(fsEmailxx);
-    }
-
-    public SignUpInfoModel getSignUpModel() {
-        return poSignUpM;
     }
 
     private static void setCallBack(String fsResultx, AuthTransactionCallback foCallBck) {

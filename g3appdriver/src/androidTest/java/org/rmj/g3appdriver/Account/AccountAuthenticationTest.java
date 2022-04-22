@@ -47,7 +47,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test01createAccountTestNoLastName() {
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("");
+        poAccount.setUserName("");
         poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("123456");
@@ -59,7 +59,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test02createAccountTestNoFirstName() {
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("Garcia");
+        poAccount.setUserName("Garcia");
         poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("123456");
@@ -71,7 +71,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test03createAccountTestNoMiddleName() {
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("Garcia");
+        poAccount.setUserName("Garcia");
         poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("123456");
@@ -83,7 +83,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test04createAccountTestNoEmail() {
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("Garcia");
+        poAccount.setUserName("Garcia");
         poAccount.setEmailAdd("");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("123456");
@@ -95,7 +95,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test05createAccountTestNoPassword() {
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("Garcia");
+        poAccount.setUserName("Garcia");
         poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("");
         poAccount.setPasswrd2("123456");
@@ -107,7 +107,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test06createAccountTestPasswordTooShort() {
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("Garcia");
+        poAccount.setUserName("Garcia");
         poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("12345");
         poAccount.setPasswrd2("12345");
@@ -119,7 +119,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test07createAccountTestPasswordNotMatch() {
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("Garcia");
+        poAccount.setUserName("Garcia");
         poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("1234567");
@@ -131,7 +131,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test08createAccountTestNoMobileNo() {
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("Garcia");
+        poAccount.setUserName("Garcia");
         poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("123456");
@@ -143,7 +143,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test09createAccountTestInvalidMobileNo() {
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("Garcia");
+        poAccount.setUserName("Garcia");
         poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("1234567");
         poAccount.setPasswrd2("1234567");
@@ -155,7 +155,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test10createAccountTestInvalidMobileNo1() {
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("Garcia");
+        poAccount.setUserName("Garcia");
         poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("1234567");
         poAccount.setPasswrd2("1234567");
@@ -167,7 +167,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test11createAccountTestInvalidMobileNo2() {
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("Garcia");
+        poAccount.setUserName("Garcia");
         poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("1234567");
         poAccount.setPasswrd2("1234567");
@@ -179,7 +179,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test12createAccountTestAccountAlreadyExist() throws Exception{
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("Garcia");
+        poAccount.setUserName("Garcia");
         poAccount.setEmailAdd("garciamike8748@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("123456");
@@ -204,7 +204,7 @@ public class AccountAuthenticationTest {
     @Test
     public void test13createAccountTestAccount() throws Exception{
         poAccount = new AccountAuthentication.AccountCredentials();
-        poAccount.setLastName("Team");
+        poAccount.setUserName("Team");
         poAccount.setEmailAdd("rmjbranchapps75@gmail.com");
         poAccount.setPassword("123456");
         poAccount.setPasswrd2("123456");

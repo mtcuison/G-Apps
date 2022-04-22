@@ -50,7 +50,7 @@ public class Dialog_Loading {
         TextView lblTitlex = view.findViewById(R.id.lbl_title);
         TextView lblMesgxx = view.findViewById(R.id.lbl_message);
 
-        Sprite drawable = new DoubleBounce();
+        Sprite drawable = new FadingCircle();
         spinner.setIndeterminateDrawable(drawable);
 
         lblTitlex.setText(Objects.requireNonNull(foTitlexx));
