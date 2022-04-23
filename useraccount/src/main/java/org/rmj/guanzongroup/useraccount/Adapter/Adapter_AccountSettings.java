@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Adapter;
+package org.rmj.guanzongroup.useraccount.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.useraccount.R;
 
 import java.util.ArrayList;
 

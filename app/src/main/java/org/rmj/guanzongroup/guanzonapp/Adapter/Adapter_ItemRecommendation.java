@@ -9,10 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.guanzonapp.Model.AccountDetailsInfo;
 import org.rmj.guanzongroup.guanzonapp.R;
-
-import java.util.List;
 
 public class Adapter_ItemRecommendation extends RecyclerView.Adapter<Adapter_ItemRecommendation.ViewHolderItem> {
 

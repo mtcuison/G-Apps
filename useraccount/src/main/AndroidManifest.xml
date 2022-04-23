@@ -4,6 +4,9 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_AccountDetails"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_ForgotPassword"
             android:exported="false"
             android:theme="@style/GuanzonMarketplace.Theme" />

@@ -35,9 +35,6 @@
             android:exported="false"
             android:theme="@style/GuanzonMarketplace.Theme"/>
         <activity
-            android:name=".Activity.Activity_Settings"
-            android:exported="true" />
-        <activity
             android:name=".Activity.Activity_Dashboard"
             android:exported="true"
             android:theme="@style/GuanzonMarketplace.Theme">

@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.digitalgcard.ViewModel;
+package org.rmj.guanzongroup.useraccount.ViewModel;
 
 import androidx.lifecycle.ViewModel;
 
