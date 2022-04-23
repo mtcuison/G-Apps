@@ -3,24 +3,17 @@ package org.rmj.guanzongroup.useraccount.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.etc.FragmentAdapter;
-import org.rmj.g3appdriver.etc.NonSwipeableViewPager;
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
-import org.rmj.guanzongroup.useraccount.Fragment.Fragment_SignUpInfo;
-import org.rmj.guanzongroup.useraccount.Fragment.Fragment_SignUpPassword;
-import org.rmj.guanzongroup.useraccount.Model.SignUpInfoModel;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
 

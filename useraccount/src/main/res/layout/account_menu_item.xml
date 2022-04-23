@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
 
                 android:fontFamily="@font/roboto_regular"
-                android:text="@string/lblSetNow"
+                android:text="@string/lblNotSet"
                 android:textColor="@color/font_light"
                 android:textSize="14sp"
                 app:layout_constraintTop_toTopOf="parent"

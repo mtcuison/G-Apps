@@ -32,13 +32,13 @@ public class VMAccountDetails extends AndroidViewModel {
         loAcctInf.add(new AccountDetailsInfo(false, "", "Civil Status", ""));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Tax ID", ""));
 
+        loAcctInf.add(new AccountDetailsInfo(true, "Present Address", "",""));
+        loAcctInf.add(new AccountDetailsInfo(false,"","Address", ""));
+
         loAcctInf.add(new AccountDetailsInfo(true, "Account Information", "",""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Email Address", ""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Mobile Number", ""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Password", ""));
-
-        loAcctInf.add(new AccountDetailsInfo(true, "Present Address", "",""));
-        loAcctInf.add(new AccountDetailsInfo(false,"","Address", ""));
 
         poAcctInf.setValue(loAcctInf);
     }

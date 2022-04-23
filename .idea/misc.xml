@@ -20,7 +20,7 @@
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/settings_menu_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/menu/activity__dashboard.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/menu/activity_dashboard_drawer.xml" value="0.20416666666666666" />
-        <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/activity_manage_gcard.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/activity_manage_gcard.xml" value="0.1" />
         <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/adapter_gcard_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/adapter_gcard_orders.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/fragment_cart.xml" value="0.1" />
@@ -41,9 +41,10 @@
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/product_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/notifications/src/main/res/layout/adapter_notifications.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/notifications/src/main/res/layout/fragment_notifications.xml" value="0.20416666666666666" />
-        <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/account_menu_item.xml" value="0.20416666666666666" />
-        <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_account_details.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/account_menu_item.xml" value="0.1" />
+        <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_account_details.xml" value="0.1" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_sign_up.xml" value="0.14" />
+        <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/fragment_account_details_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/fragment_account_settings.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/fragment_edit_personal_info.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/fragment_sign_up_info.xml" value="0.25" />
