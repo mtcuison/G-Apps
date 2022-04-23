@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMAccountSettings;
-import org.rmj.guanzongroup.guanzonapp.Activity.Activity_AccountDetails;
 import org.rmj.guanzongroup.guanzonapp.Adapter.Adapter_AccountSettings;
 import org.rmj.guanzongroup.guanzonapp.R;
 
