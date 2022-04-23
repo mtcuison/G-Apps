@@ -1,14 +1,296 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
     tools:context="org.rmj.guanzongroup.useraccount.Fragment.Fragment_EditAccountInfo">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:theme="@style/ScrollViewTheme">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/lblEditAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/lblActiveGcard"
+            android:textColor="@color/font_regular"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/lblLastname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblLastname"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblEditAccount"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            style="@style/TextInputLabel" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_lastname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblLastname"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/lblFirstname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblFirstname"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_lastname"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            style="@style/TextInputLabel" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_firstname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblFirstname"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/lblMiddname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblMiddname"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_firstname"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            style="@style/TextInputLabel" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_middname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblMiddname"
+            app:layout_constraintRight_toLeftOf="@id/til_suffix"
+            app:layout_constraintWidth_percent="0.7"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_middname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/lbl_suffix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblSuffix"
+            app:layout_constraintLeft_toLeftOf="@id/til_suffix"
+            app:layout_constraintTop_toBottomOf="@id/til_firstname"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            style="@style/TextInputLabel" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_suffix"
+            style="@style/TextInputStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/til_middname"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblMiddname">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_suffix"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/lblBdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblBirthdate"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_middname"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            style="@style/TextInputLabel" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_bdate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblBdate"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_bdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/lblBPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblBirthplace"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_bdate"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            style="@style/TextInputLabel" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_bplace"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblBPlace"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_bplace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/lblGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblGender"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_bplace"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            style="@style/TextInputLabel" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_gender"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblGender"
+            app:layout_constraintRight_toLeftOf="@id/til_civil_stat"
+            app:layout_constraintWidth_percent="0.5"
+            android:paddingRight="8dp"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/lblCivilStat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblCivilStat"
+            app:layout_constraintLeft_toLeftOf="@id/til_civil_stat"
+            app:layout_constraintTop_toBottomOf="@id/til_bplace"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            style="@style/TextInputLabel" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_civil_stat"
+            style="@style/TextInputStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/til_gender"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblCivilStat">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_civil_stat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/lblCitizen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblCitizenship"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_gender"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            style="@style/TextInputLabel" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_citizen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblCitizen"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_citizen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnUpdate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/lblUpdate"
+            style="@style/ButtonStyle.Orange.Medium"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_citizen"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

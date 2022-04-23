@@ -50,7 +50,12 @@
     <string name="lblMiddname">Middle Name</string>
     <string name="lblSuffix">Suffix</string>
     <string name="lblBirthdate">Birth Date</string>
+    <string name="lblBirthplace">Birth Place</string>
+    <string name="lblGender">Gender</string>
+    <string name="lblCivilStat">Civil Status</string>
+    <string name="lblCitizenship">Citizenship</string>
     <string name="lblScheduleService">Schedule Service Date</string>
+    <string name="lblUpdate">Update</string>
     <string name="lblLogin">Log In</string>
     <string name="lblSignup">Sign Up</string>
     <string name="lblResendPassword">Re-send Password</string>

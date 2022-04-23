@@ -34,6 +34,12 @@
         <item name="android:layout_margin" tools:ignore="NewApi">17dp</item>
     </style>
 
+    <style name="ScrollViewTheme">
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:layout_marginVertical" tools:ignore="NewApi">5dp</item>
+        <item name="android:layout_marginHorizontal" tools:ignore="NewApi">17dp</item>
+    </style>
+
     <style name="TextInputLabel">
         <item name="fontFamily">@font/roboto_bold</item>
         <item name="android:textColor">@color/font_regular</item>
