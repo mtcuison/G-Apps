@@ -30,7 +30,6 @@ public class VMAccountDetails extends AndroidViewModel {
             "Account Information"
     };
 
-
     public VMAccountDetails(@NonNull Application application) {
         super(application);
         this.poConnect = new ConnectionUtil(application);

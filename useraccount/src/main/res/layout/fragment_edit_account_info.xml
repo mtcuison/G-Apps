@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:theme="@style/ScrollViewTheme">
+        style="@style/ScrollViewTheme">
 
         <TextView
             android:id="@+id/lblEditAccount"
@@ -101,6 +101,7 @@
             android:id="@+id/til_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lblPassword"
             app:layout_constraintRight_toRightOf="parent"
@@ -132,6 +133,7 @@
             android:id="@+id/til_retype"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lblRetype"
             app:layout_constraintRight_toRightOf="parent"

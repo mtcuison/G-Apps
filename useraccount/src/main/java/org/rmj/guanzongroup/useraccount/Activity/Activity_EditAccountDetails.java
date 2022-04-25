@@ -6,11 +6,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import org.rmj.g3appdriver.etc.FragmentAdapter;
 import org.rmj.g3appdriver.etc.NonSwipeableViewPager;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.guanzongroup.useraccount.Fragment.Fragment_EditAccountInfo;
 import org.rmj.guanzongroup.useraccount.Fragment.Fragment_EditAddress;
 import org.rmj.guanzongroup.useraccount.Fragment.Fragment_EditPersonalInfo;
@@ -25,6 +27,7 @@ public class Activity_EditAccountDetails extends AppCompatActivity {
     private VMAccountDetails mViewModel;
     private Toolbar toolbar;
     private NonSwipeableViewPager viewPager;
+    private Dialog_DoubleButton poDialogx;
     private int index;
 
     private Fragment[] poPages = new Fragment[] {
@@ -49,14 +52,14 @@ public class Activity_EditAccountDetails extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            finish();
+            popUpCloseConfirmationDialog();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        popUpCloseConfirmationDialog();
     }
 
     public static Activity_EditAccountDetails getInstance() {
@@ -68,6 +71,7 @@ public class Activity_EditAccountDetails extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         viewPager = findViewById(R.id.viewpager_signup);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), poPages));
+        poDialogx = new Dialog_DoubleButton(Activity_EditAccountDetails.this);
     }
 
     // Initialize initViews() before this method.
@@ -79,6 +83,22 @@ public class Activity_EditAccountDetails extends AppCompatActivity {
 
     public void moveToPageNumber(int fnPageNum){
         viewPager.setCurrentItem(fnPageNum);
+    }
+
+    private void popUpCloseConfirmationDialog() {
+        poDialogx.setButtonText("Yes", "No");
+        poDialogx.initDialog("Edit Account Details", "Are you sure you want to cancel editing?", new Dialog_DoubleButton.OnDialogConfirmation() {
+            @Override
+            public void onConfirm(AlertDialog dialog) {
+                finish();
+            }
+
+            @Override
+            public void onCancel(AlertDialog dialog) {
+                dialog.dismiss();
+            }
+        });
+        poDialogx.show();
     }
 
 }
