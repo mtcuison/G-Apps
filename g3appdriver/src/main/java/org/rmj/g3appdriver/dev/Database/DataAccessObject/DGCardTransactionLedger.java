@@ -43,13 +43,12 @@ public interface DGCardTransactionLedger {
             "OR sSourceDs = 'OFFLINE'")
     LiveData<List<EGCardTransactionLedger>> getPointsEntryTransactionsList();
 
-    @Query("SELECT COUNT(sReferNox) FROM G_Card_Transaction_Ledger WHERE "  +
+    @Query("SELECT * FROM G_Card_Transaction_Ledger WHERE "  +
                 "sGCardNox =:gcardNo AND " +
                 "sSourceDs =:srcedsc AND " +
                 "sReferNox =:referno AND " +
                 "sTranDesc =:trandsc AND " +
                 "sSourceNo =:srcenox AND " +
                 "nPointsxx =:pointsx ")
-    LiveData<Integer> isTransactionValid(String gcardNo, String srcedsc, String referno, String trandsc, String srcenox, String pointsx);
-
+    EGCardTransactionLedger isTransactionValid(String gcardNo, String srcedsc, String referno, String trandsc, String srcenox, String pointsx);
 }

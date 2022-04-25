@@ -2,6 +2,9 @@ package org.rmj.g3appdriver.lib.GCardCore;
 
 import android.content.Context;
 
+import org.rmj.g3appdriver.utils.BackgroundThread;
+import org.rmj.g3appdriver.utils.iBackground;
+
 public class GCardSystem {
     private static final String TAG = GCardSystem.class.getSimpleName();
 

@@ -1,0 +1,111 @@
+package org.rmj.g3appdriver.lib.GCardCore;
+
+import android.content.Context;
+
+import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
+import org.rmj.g3appdriver.dev.Repositories.RGCardTransactionLedger;
+import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
+import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
+import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
+import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
+import org.rmj.g3appdriver.etc.GuanzonAppConfig;
+import org.rmj.g3appdriver.etc.Telephony;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
+
+public class GCardScanner {
+    private static final String TAG = GCardScanner.class.getSimpleName();
+
+    private Context mContext;
+    private CodeGenerator loCodeGen;
+
+    private String message;
+    private String PIN;
+    private boolean isSuccess;
+    private boolean isTransaction;
+
+    public GCardScanner(Context context){
+        this.mContext = context;
+        this.loCodeGen = new CodeGenerator();
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getPIN() {
+        return PIN;
+    }
+
+    public boolean isTransaction(){
+        return isTransaction;
+    }
+
+    public boolean ParseQrCodeValue(String fsValue){
+        try{
+            loCodeGen.setEncryptedQrCode(fsValue);
+            if(!loCodeGen.isCodeValid()){
+                message = "Qr Code is not applicable to any GCard transaction.";
+                return false;
+            } else if(loCodeGen.isQrCodeTransaction()){
+                isTransaction = true;
+                PIN = loCodeGen.getTransactionPIN();
+                return SaveGCardTransaction();
+            } else {
+                isTransaction = false;
+                new GCardManager(mContext).AddGCardQrCode(loCodeGen.getGCardNumber(), new GCardSystem.GCardSystemCallback() {
+                    @Override
+                    public void OnSuccess(String args) {
+                        isSuccess = true;
+                    }
+
+                    @Override
+                    public void OnFailed(String errorMsg) {
+                        message = errorMsg;
+                        isSuccess = false;
+                    }
+                });
+                return isSuccess;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    private boolean SaveGCardTransaction() throws Exception{
+        RGcardApp loGcard = new RGcardApp(mContext);
+        String lsMobile = new Telephony(mContext).getMobilNumbers();
+        String lsUserID = new AccountInfo(mContext).getUserID();
+        String lsCardNm = loGcard.getCardNo();
+        if(!loCodeGen.isDeviceValid(lsMobile, lsUserID, lsCardNm)){
+            message = "Mobile Number or Account is not valid to confirm this transaction";
+            return false;
+        } else {
+            RGCardTransactionLedger loLedger = new RGCardTransactionLedger(mContext);
+            if(loLedger.isTransactionValid(lsCardNm,
+                    loCodeGen.getTransSource(),
+                    loCodeGen.getSourceNo(),
+                    loCodeGen.getSourceCD(),
+                    loCodeGen.getSourceNo(),
+                    loCodeGen.getPointsxx()) != null){
+                EGCardTransactionLedger loTrans = new EGCardTransactionLedger();
+                loTrans.setReferNox(loCodeGen.getSourceNo());
+                loTrans.setGCardNox(lsCardNm);
+                loTrans.setTransact(loCodeGen.getDTransact());
+                loTrans.setSourceDs(loCodeGen.getTransSource());
+                loTrans.setTranDesc(loCodeGen.getSourceCD());
+                loTrans.setSourceNo(loCodeGen.getSourceNo());
+                loTrans.setPointsxx(Double.parseDouble(loCodeGen.getPointsxx()));
+                loTrans.setQRCodexx("1");
+                loTrans.setReceived("0");
+                loLedger.Save(loTrans);
+                return true;
+            } else {
+                message = "Invalid transaction.";
+                return false;
+            }
+        }
+    }
+}

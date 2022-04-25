@@ -59,7 +59,7 @@ public class RGCardTransactionLedger implements DGCardTransactionLedger {
     }
 
     @Override
-    public LiveData<Integer> isTransactionValid(String gcardNo, String srcedsc, String referno, String trandsc, String srcenox, String pointsx) {
+    public EGCardTransactionLedger isTransactionValid(String gcardNo, String srcedsc, String referno, String trandsc, String srcenox, String pointsx) {
         return ledgerDao.isTransactionValid(gcardNo,  srcedsc,  referno,  trandsc,  srcenox,  pointsx);
     }
 
