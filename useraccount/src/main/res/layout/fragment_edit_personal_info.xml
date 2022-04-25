@@ -10,14 +10,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:theme="@style/ScrollViewTheme">
+        style="@style/ScrollViewTheme">
 
         <TextView
-            android:id="@+id/lblEditAccount"
+            android:id="@+id/lblEditInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
-            android:text="@string/lblActiveGcard"
+            android:text="@string/lblEditPersonalInfo"
             android:textColor="@color/font_regular"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="@string/lblLastname"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lblEditAccount"
+            app:layout_constraintTop_toBottomOf="@id/lblEditInfo"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0"
             style="@style/TextInputLabel" />
@@ -47,7 +47,10 @@
                 android:id="@+id/tie_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
+                android:maxLength="50"
+                android:inputType="textCapWords"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/tie_firstname" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +78,10 @@
                 android:id="@+id/tie_firstname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
+                android:maxLength="50"
+                android:inputType="textCapWords"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/tie_middname" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,6 +100,7 @@
             android:id="@+id/til_middname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:paddingRight="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lblMiddname"
             app:layout_constraintRight_toLeftOf="@id/til_suffix"
@@ -104,7 +111,10 @@
                 android:id="@+id/tie_middname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
+                android:maxLength="50"
+                android:inputType="textCapWords"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/tie_suffix" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,7 +142,10 @@
                 android:id="@+id/tie_suffix"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
+                android:maxLength="5"
+                android:inputType="textCapWords"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/tie_bdate" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -160,7 +173,10 @@
                 android:id="@+id/tie_bdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
+                android:maxLength="20"
+                android:inputType="number|none"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/tie_bplace" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -184,11 +200,14 @@
             app:layout_constraintRight_toRightOf="parent"
             style="@style/TextInputStyle">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/tie_bplace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
+                android:maxLength="100"
+                android:inputType="textCapWords"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/tie_civil_stat" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -246,7 +265,11 @@
                 android:id="@+id/tie_civil_stat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
+                android:inputType="textCapWords"
+                android:maxLength="30"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/tie_citizen"
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -270,11 +293,13 @@
             app:layout_constraintRight_toRightOf="parent"
             style="@style/TextInputStyle">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/tie_citizen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
+                android:inputType="textCapWords"
+                android:maxLength="50"
+                android:imeOptions="actionDone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -283,13 +308,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/lblUpdate"
-            style="@style/ButtonStyle.Orange.Medium"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_citizen"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="1"/>
-
+            app:layout_constraintVertical_bias="1"
+            style="@style/ButtonStyle.Orange.Medium"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
