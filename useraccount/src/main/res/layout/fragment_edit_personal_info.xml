@@ -208,7 +208,8 @@
                 android:maxLength="100"
                 android:inputType="textCapWords"
                 android:imeOptions="actionNext"
-                android:nextFocusForward="@id/tie_civil_stat" />
+                android:nextFocusForward="@id/tie_civil_stat"
+                style="@style/AutoCompleteStyleTheme"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -300,7 +301,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords"
                 android:maxLength="50"
-                android:imeOptions="actionDone"/>
+                android:imeOptions="actionDone"
+                style="@style/AutoCompleteStyleTheme"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

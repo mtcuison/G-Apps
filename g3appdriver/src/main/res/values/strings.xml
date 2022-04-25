@@ -57,6 +57,11 @@
     <string name="lblGender">Gender</string>
     <string name="lblCivilStat">Civil Status</string>
     <string name="lblCitizenship">Citizenship</string>
+    <string name="lblHouseNo">House No.</string>
+    <string name="lblStreet">Street</string>
+    <string name="lblProvince">Province</string>
+    <string name="lblTownCity">Town/City</string>
+    <string name="lblBarangay">Barangay</string>
     <string name="lblScheduleService">Schedule Service Date</string>
     <string name="lblUpdate">Update</string>
     <string name="lblLogin">Log In</string>
