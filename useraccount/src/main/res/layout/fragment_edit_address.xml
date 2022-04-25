@@ -82,7 +82,7 @@
                 android:id="@+id/tie_street"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="50"
+                android:maxLength="20"
                 android:inputType="textCapWords"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/tie_province" />

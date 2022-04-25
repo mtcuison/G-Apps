@@ -24,6 +24,13 @@ public class VMAccountDetails extends AndroidViewModel {
     private final RClientInfo poClientx;
     private final MutableLiveData<List<AccountDetailsInfo>> poAcctInf = new MutableLiveData<>();
 
+    private final String[] psLstHead = new String[] {
+            "Personal Information",
+            "Present Address",
+            "Account Information"
+    };
+
+
     public VMAccountDetails(@NonNull Application application) {
         super(application);
         this.poConnect = new ConnectionUtil(application);
@@ -49,7 +56,7 @@ public class VMAccountDetails extends AndroidViewModel {
 
     private void setAccountDetailsList() {
         List<AccountDetailsInfo> loAcctInf = new ArrayList<>();
-        loAcctInf.add(new AccountDetailsInfo(true, "Personal Information", "",""));
+        loAcctInf.add(new AccountDetailsInfo(true, psLstHead[0], "",""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Full Name", ""));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Gender", ""));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Birth Date", ""));
@@ -58,15 +65,19 @@ public class VMAccountDetails extends AndroidViewModel {
         loAcctInf.add(new AccountDetailsInfo(false, "", "Civil Status", ""));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Tax ID", ""));
 
-        loAcctInf.add(new AccountDetailsInfo(true, "Present Address", "",""));
+        loAcctInf.add(new AccountDetailsInfo(true, psLstHead[1], "",""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Address", ""));
 
-        loAcctInf.add(new AccountDetailsInfo(true, "Account Information", "",""));
+        loAcctInf.add(new AccountDetailsInfo(true, psLstHead[2], "",""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Email Address", ""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Mobile Number", ""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Password", ""));
 
         poAcctInf.setValue(loAcctInf);
+    }
+
+    public String[] getListHeaders() {
+        return psLstHead;
     }
 
     private static class ImportAccountInfoTask extends AsyncTask<Void, Void, String> {

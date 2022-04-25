@@ -51,7 +51,17 @@ public class Fragment_AccountDetailsList extends Fragment {
 
     private void setAdapter() {
         mViewModel.getAccountDetailsList().observe(getViewLifecycleOwner(), details -> {
-            poAdapter = new Adapter_AccountDetails(details);
+            poAdapter = new Adapter_AccountDetails(details, (label) -> {
+                    if (label.equals("Personal Information")) {
+                        Activity_AccountDetails.getInstance().moveToPageNumber(1);
+                    }
+                    else if (label.equals("Present Address")) {
+                        Activity_AccountDetails.getInstance().moveToPageNumber(2);
+                    }
+                    else if (label.equals("Account Information")) {
+                        Activity_AccountDetails.getInstance().moveToPageNumber(3);
+                    }
+            });
             recyclerView.setAdapter(poAdapter);
             poAdapter.notifyDataSetChanged();
         });

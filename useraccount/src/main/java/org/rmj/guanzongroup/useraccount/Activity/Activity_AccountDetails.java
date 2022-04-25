@@ -33,8 +33,8 @@ public class Activity_AccountDetails extends AppCompatActivity {
     private NonSwipeableViewPager viewPager;
 
     private Fragment[] poPages = new Fragment[] {
-//            new Fragment_AccountDetailsList(),
-//            new Fragment_EditPersonalInfo(),
+            new Fragment_AccountDetailsList(),
+            new Fragment_EditPersonalInfo(),
             new Fragment_EditAddress(),
             new Fragment_EditAccountInfo()
     };
