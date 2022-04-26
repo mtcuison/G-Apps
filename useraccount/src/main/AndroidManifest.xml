@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.rmj.guanzongroup.useraccount" >
+    package="org.rmj.guanzongroup.useraccount">
 
     <application>
+        <activity
+            android:name=".Activity.Activity_CompleteAccountDetails"
+            android:exported="false" />
         <activity
             android:name=".Activity.Activity_EditAccountDetails"
             android:exported="false" />

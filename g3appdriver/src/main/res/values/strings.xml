@@ -57,12 +57,15 @@
     <string name="lblGender">Gender</string>
     <string name="lblCivilStat">Civil Status</string>
     <string name="lblCitizenship">Citizenship</string>
+    <string name="lblTaxId">Tax ID No.</string>
+    <string name="lblAddress">Address</string>
     <string name="lblHouseNo">House No.</string>
     <string name="lblStreet">Street</string>
     <string name="lblProvince">Province</string>
     <string name="lblTownCity">Town/City</string>
     <string name="lblBarangay">Barangay</string>
     <string name="lblScheduleService">Schedule Service Date</string>
+    <string name="lblSave">Save</string>
     <string name="lblUpdate">Update</string>
     <string name="lblLogin">Log In</string>
     <string name="lblSignup">Sign Up</string>
@@ -75,6 +78,7 @@
     <string name="lblNotSet">Not Set</string>
 
     <string name="lblInfoPassword">Please provide a password for your account.</string>
+    <string name="lblCompleteInfo">Please provide the complete details.</string>
     <string name="lblTermsConditions"> with the Terms and Conditions.</string>
     <string name="lblNoGcardAvailable">No GCard Available.</string>
     <string name="lblNoGcardTransactions">No GCard Transactions Available.</string>

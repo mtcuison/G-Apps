@@ -34,6 +34,7 @@ public class Activity_AccountDetails extends AppCompatActivity {
 
         initViews();
         setUpToolbar();
+        importAccountInfo();
         setAdapter();
     }
 
@@ -65,24 +66,49 @@ public class Activity_AccountDetails extends AppCompatActivity {
         getSupportActionBar().setTitle("Account Details");
     }
 
-    private void setAdapter() {
-        mViewModel.getAccountDetailsList().observe(Activity_AccountDetails.this, details -> {
-            poAdapter = new Adapter_AccountDetails(details, (label) -> {
-                Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_EditAccountDetails.class);
-                if (label.equals("Personal Information")) {
-                    loIntent.putExtra("index", 0);
+    private void importAccountInfo() {
+        try {
+            mViewModel.importAccountInfo(new VMAccountDetails.OnTransactionCallBack() {
+                @Override
+                public void onLoading() {
+
                 }
-                else if (label.equals("Present Address")) {
-                    loIntent.putExtra("index", 1);
+
+                @Override
+                public void onSuccess(String fsMessage) {
+
                 }
-                else if (label.equals("Account Information")) {
-                    loIntent.putExtra("index", 2);
+
+                @Override
+                public void onFailed(String fsMessage) {
+
                 }
-                startActivity(loIntent);
             });
-            recyclerView.setAdapter(poAdapter);
-            poAdapter.notifyDataSetChanged();
-        });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setAdapter() {
+        try {
+            mViewModel.getAccountDetailsList().observe(Activity_AccountDetails.this, details -> {
+                poAdapter = new Adapter_AccountDetails(details, (label) -> {
+                    Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_EditAccountDetails.class);
+                    if (label.equals("Personal Information")) {
+                        loIntent.putExtra("index", 0);
+                    } else if (label.equals("Present Address")) {
+                        loIntent.putExtra("index", 1);
+                    } else if (label.equals("Account Information")) {
+                        loIntent.putExtra("index", 2);
+                    }
+                    startActivity(loIntent);
+                });
+                recyclerView.setAdapter(poAdapter);
+                poAdapter.notifyDataSetChanged();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

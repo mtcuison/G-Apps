@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_AccountDetails;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
 import org.rmj.guanzongroup.useraccount.Adapter.Adapter_AccountSettings;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountSettings;
 import org.rmj.guanzongroup.useraccount.R;
@@ -56,7 +57,7 @@ public class Fragment_AccountSettings extends Fragment {
         poAdapter = new Adapter_AccountSettings(getMenuList(), position -> {
             switch(position) {
                 case 0:
-                    Intent loIntent = new Intent(getActivity(), Activity_AccountDetails.class);
+                    Intent loIntent = new Intent(getActivity(), Activity_CompleteAccountDetails.class);
                     startActivity(loIntent);
                     break;
                 case 3:
