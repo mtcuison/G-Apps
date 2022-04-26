@@ -27,5 +27,4 @@ public class Activity_QrCodeScanner extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
-
 }

@@ -78,7 +78,7 @@ public class RClientInfo {
                     message = loError.getString("message");
                     return false;
                 } else {
-                    EClientInfo loDetail = poDao.getUserInfoForUpdate();
+                    EClientInfo loDetail = poDao.GetUserInfo();
                     loDetail.setLastName(loResponse.getString("sLastName"));
                     loDetail.setFrstName(loResponse.getString("sFrstName"));
                     loDetail.setMiddName(loResponse.getString("sMiddName"));
@@ -165,64 +165,6 @@ public class RClientInfo {
             String lsResponse = WebClient.httpsPostJSon(
                     loApis.getUpdateAccountInfo(),
                     param.toString(),
-                    new HttpHeaders(mContext).getHeaders());
-            if(lsResponse == null){
-                message = "Unable to retrieve server response.";
-                return false;
-            } else {
-                JSONObject loResponse = new JSONObject(lsResponse);
-                String lsResult = loResponse.getString("result");
-                if(!lsResult.equalsIgnoreCase("success")){
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    message = loError.getString("message");
-                    return false;
-                } else {
-                    poJson = loResponse;
-                    return true;
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return false;
-        }
-    }
-
-    public boolean UpdateMobileNo(){
-        try{
-            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
-            String lsResponse = WebClient.httpsPostJSon(
-                    loApis.getUpdateMobileNo(),
-                    new JSONObject().toString(),
-                    new HttpHeaders(mContext).getHeaders());
-            if(lsResponse == null){
-                message = "Unable to retrieve server response.";
-                return false;
-            } else {
-                JSONObject loResponse = new JSONObject(lsResponse);
-                String lsResult = loResponse.getString("result");
-                if(!lsResult.equalsIgnoreCase("success")){
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    message = loError.getString("message");
-                    return false;
-                } else {
-                    poJson = loResponse;
-                    return true;
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return false;
-        }
-    }
-
-    public boolean UpdateAddress(){
-        try{
-            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
-            String lsResponse = WebClient.httpsPostJSon(
-                    loApis.getUpdateAddress(),
-                    new JSONObject().toString(),
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
                 message = "Unable to retrieve server response.";

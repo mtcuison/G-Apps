@@ -18,7 +18,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
-import org.rmj.g3appdriver.dev.Repositories.RAddress;
+import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import java.util.List;
 public class AddressListTest {
 
     private Context mContext;
-    private RAddress poAddress;
+    private RAddressMobile poAddress;
 
     private boolean isSuccess = false;
     private List<DAddress.oTownObj> poTownList;
@@ -40,7 +40,7 @@ public class AddressListTest {
     @Before
     public void setup() throws Exception{
         mContext = ApplicationProvider.getApplicationContext();
-        poAddress = new RAddress(mContext);
+        poAddress = new RAddressMobile(mContext);
     }
 
     @Test

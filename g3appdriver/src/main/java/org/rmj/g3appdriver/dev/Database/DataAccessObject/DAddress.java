@@ -43,8 +43,6 @@ public interface DAddress {
             "ON a.sProvIDxx = b.sProvIDxx")
     LiveData<List<oTownObj>> GetTownList();
 
-
-
     class oTownObj{
         public String sTownID;
         public String sTownNm;
