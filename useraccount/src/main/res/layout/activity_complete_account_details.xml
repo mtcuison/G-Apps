@@ -435,7 +435,7 @@
                     android:maxLength="20"
                     android:inputType="textCapWords"
                     android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/tie_province" />
+                    android:nextFocusForward="@id/tie_towncity" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
