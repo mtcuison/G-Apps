@@ -1,8 +1,10 @@
 package org.rmj.guanzongroup.guanzonapp.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.LinearLayout;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -26,6 +29,7 @@ import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 
@@ -85,6 +89,19 @@ public class Activity_Dashboard extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.marketplace_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+//            finish();
+        } else if (item.getItemId() == R.id.item_search) {
+            Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
+            startActivity(loIntent);
+        } else if (item.getItemId() == R.id.item_cart) {
+//            Navigation.findNavController(findViewById(android.R.id.content).getRootView()).navigate(R.id.nav_item_cart);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

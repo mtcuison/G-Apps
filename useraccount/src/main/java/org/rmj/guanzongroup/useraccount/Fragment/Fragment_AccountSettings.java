@@ -1,26 +1,23 @@
-package org.rmj.guanzongroup.guanzonapp.Fragment;
+package org.rmj.guanzongroup.useraccount.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.guanzongroup.digitalgcard.ViewModel.VMAccountSettings;
-import org.rmj.guanzongroup.guanzonapp.Activity.Activity_AccountDetails;
-import org.rmj.guanzongroup.guanzonapp.Adapter.Adapter_AccountSettings;
-import org.rmj.guanzongroup.guanzonapp.R;
-
+import org.rmj.guanzongroup.useraccount.Activity.Activity_AccountDetails;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
+import org.rmj.guanzongroup.useraccount.Adapter.Adapter_AccountSettings;
+import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountSettings;
+import org.rmj.guanzongroup.useraccount.R;
 import java.util.ArrayList;
 
 public class Fragment_AccountSettings extends Fragment {
@@ -60,13 +57,13 @@ public class Fragment_AccountSettings extends Fragment {
         poAdapter = new Adapter_AccountSettings(getMenuList(), position -> {
             switch(position) {
                 case 0:
-                    Intent loIntent = new Intent(getActivity(), Activity_AccountDetails.class);
+                    Intent loIntent = new Intent(getActivity(), Activity_CompleteAccountDetails.class);
                     startActivity(loIntent);
                     break;
                 case 3:
                     Bundle loBundle = new Bundle();
                     loBundle.putInt("gcardInstance", 1);
-                    Navigation.findNavController(view).navigate(R.id.action_nav_account_settings_to_nav_my_gcard, loBundle);
+//                    Navigation.findNavController(view).navigate(R.id.action_nav_account_settings_to_nav_my_gcard, loBundle);
                     break;
             }
         });

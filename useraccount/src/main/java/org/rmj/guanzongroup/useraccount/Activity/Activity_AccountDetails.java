@@ -1,33 +1,29 @@
-package org.rmj.guanzongroup.guanzonapp.Activity;
+package org.rmj.guanzongroup.useraccount.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
-import org.rmj.guanzongroup.guanzonapp.Adapter.Adapter_AccountDetails;
-import org.rmj.guanzongroup.guanzonapp.Adapter.Adapter_AccountSettings;
-import org.rmj.guanzongroup.guanzonapp.R;
-import org.rmj.guanzongroup.guanzonapp.ViewModel.VMAccountDetails;
+import org.rmj.guanzongroup.useraccount.Adapter.Adapter_AccountDetails;
+import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountDetails;
 
 import java.util.Objects;
+import org.rmj.guanzongroup.useraccount.R;
+
 
 public class Activity_AccountDetails extends AppCompatActivity {
     private static final String TAG = Activity_AccountDetails.class.getSimpleName();
     private VMAccountDetails mViewModel;
     private Adapter_AccountDetails poAdapter;
-    private RecyclerView recyclerView;
     private Toolbar toolbar;
-
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +34,7 @@ public class Activity_AccountDetails extends AppCompatActivity {
 
         initViews();
         setUpToolbar();
+        importAccountInfo();
         setAdapter();
     }
 
@@ -64,18 +61,55 @@ public class Activity_AccountDetails extends AppCompatActivity {
 
     // Initialize initViews() before this method.
     private void setUpToolbar() {
-       setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Account Details");
     }
 
-    private void setAdapter() {
-        mViewModel.getAccountDetailsList().observe(Activity_AccountDetails.this, details -> {
-            poAdapter = new Adapter_AccountDetails(details);
-            Log.e(TAG, String.valueOf(poAdapter.getItemCount()));
-            recyclerView.setAdapter(poAdapter);
-            poAdapter.notifyDataSetChanged();
-        });
+    private void importAccountInfo() {
+        try {
+            mViewModel.importAccountInfo(new VMAccountDetails.OnTransactionCallBack() {
+                @Override
+                public void onLoading() {
+
+                }
+
+                @Override
+                public void onSuccess(String fsMessage) {
+
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+    private void setAdapter() {
+        try {
+            mViewModel.getAccountDetailsList().observe(Activity_AccountDetails.this, details -> {
+                poAdapter = new Adapter_AccountDetails(details, (label) -> {
+                    Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_EditAccountDetails.class);
+                    if (label.equals("Personal Information")) {
+                        loIntent.putExtra("index", 0);
+                    } else if (label.equals("Present Address")) {
+                        loIntent.putExtra("index", 1);
+                    } else if (label.equals("Account Information")) {
+                        loIntent.putExtra("index", 2);
+                    }
+                    startActivity(loIntent);
+                });
+                recyclerView.setAdapter(poAdapter);
+                poAdapter.notifyDataSetChanged();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

@@ -1,8 +1,10 @@
-package org.rmj.guanzongroup.marketplace;
+package org.rmj.guanzongroup.marketplace.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import org.rmj.guanzongroup.marketplace.R;
 
 public class Activity_PlaceOrder extends AppCompatActivity {
 

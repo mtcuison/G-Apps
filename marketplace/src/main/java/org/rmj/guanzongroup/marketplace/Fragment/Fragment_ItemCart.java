@@ -17,23 +17,22 @@ import org.rmj.guanzongroup.marketplace.ViewModel.VMItemCart;
 
 public class Fragment_ItemCart extends Fragment {
 
-    private VMItemCart mViewModel;
-
-    public static Fragment_ItemCart newInstance() {
-        return new Fragment_ItemCart();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_item_cart, container, false);
+        View view = inflater.inflate(R.layout.fragment_item_cart, container, false);
+        initViews(view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMItemCart.class);
-        // TODO: Use the ViewModel
+
+    }
+
+    private void initViews(View v) {
+
     }
 
 }

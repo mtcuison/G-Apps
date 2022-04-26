@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Model;
+package org.rmj.guanzongroup.useraccount.Model;
 
 import android.view.View;
 

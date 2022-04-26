@@ -76,8 +76,18 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_pre_termination"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_PreTermination"
+        android:label="@string/menu_pre_termination"
+        tools:layout="@layout/fragment_my_gcard_base_container" >
+        <argument android:name="gcardInstance"
+            app:argType="integer"
+            android:defaultValue="5" />
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_account_settings"
-        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_AccountSettings"
+        android:name="org.rmj.guanzongroup.useraccount.Fragment.Fragment_AccountSettings"
         android:label="@string/menu_account_settings"
         tools:layout="@layout/fragment_my_gcard_base_container" >
         <action
