@@ -18,9 +18,9 @@ import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.REvents;
-import org.rmj.g3appdriver.dev.Database.Repositories.RPromo;
+import org.rmj.g3appdriver.dev.Repositories.RBranchInfo;
+import org.rmj.g3appdriver.dev.Repositories.REvents;
+import org.rmj.g3appdriver.dev.Repositories.RPromo;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
@@ -188,7 +188,7 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public void DownloadBranchesList(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_BRANCH(), params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getImportBranchesAPI(), params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
             Log.d(TAG, "Unable to retrieve data from server. Server no response.");
@@ -264,7 +264,7 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public void DownloadPromotions(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_PROMOLINK(), params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getImportPromosAPI(), params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
             Log.d(TAG, "Unable to retrieve data from server. Server no response.");
@@ -318,7 +318,7 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public void DownloadNewsEvents(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(poAPI.getURL_IMPORT_EVENTS(), params.toString(), poHeaders.getHeaders());
+        String lsResponse = WebClient.httpsPostJSon(poAPI.getImportEventsAPI(), params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
         } else {

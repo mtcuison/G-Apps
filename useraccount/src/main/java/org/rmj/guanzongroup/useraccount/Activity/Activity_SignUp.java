@@ -3,16 +3,17 @@ package org.rmj.guanzongroup.useraccount.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import org.rmj.g3appdriver.etc.FragmentAdapter;
-import org.rmj.g3appdriver.etc.NonSwipeableViewPager;
-import org.rmj.guanzongroup.useraccount.Fragment.Fragment_SignUpInfo;
-import org.rmj.guanzongroup.useraccount.Fragment.Fragment_SignUpPassword;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+
+import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
 
@@ -21,23 +22,20 @@ import java.util.Objects;
 public class Activity_SignUp extends AppCompatActivity {
 
     private VMAccountAuthentication mViewModel;
-    private static Activity_SignUp instance;
+    private Dialog_Loading poLoading;
+    private Dialog_SingleButton poDialogx;
     private Toolbar toolbar;
-    private NonSwipeableViewPager viewPager;
-
-    private Fragment[] poPages = new Fragment[] {
-            new Fragment_SignUpInfo(),
-            new Fragment_SignUpPassword()
-    };
+    private TextInputEditText txtUserNm, txtEmailx, txtMobile, txtPasswd, txtRetype;
+    private MaterialButton btnSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        instance = Activity_SignUp.this;
         mViewModel = new ViewModelProvider(Activity_SignUp.this).get(VMAccountAuthentication.class);
         initViews();
         setUpToolbar();
+        btnSignUp.setOnClickListener(view -> signUp());
     }
 
     @Override
@@ -53,15 +51,16 @@ public class Activity_SignUp extends AppCompatActivity {
         finish();
     }
 
-    public static Activity_SignUp getInstance() {
-        return instance;
-    }
-
     // Initialize this first before anything else.
     private void initViews() {
+        poDialogx = new Dialog_SingleButton(Activity_SignUp.this);
         toolbar = findViewById(R.id.toolbar);
-        viewPager = findViewById(R.id.viewpager_signup);
-        viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), poPages));
+        txtUserNm = findViewById(R.id.tie_username);
+        txtEmailx = findViewById(R.id.tie_email);
+        txtMobile = findViewById(R.id.tie_mobile);
+        txtPasswd = findViewById(R.id.tie_password);
+        txtRetype = findViewById(R.id.tie_retype);
+        btnSignUp = findViewById(R.id.btnSignUp);
     }
 
     // Initialize initViews() before this method.
@@ -71,8 +70,44 @@ public class Activity_SignUp extends AppCompatActivity {
         getSupportActionBar().setTitle("Sign Up");
     }
 
-    public void moveToPageNumber(int fnPageNum){
-        viewPager.setCurrentItem(fnPageNum);
+    private void signUp() {
+        AccountAuthentication.AccountCredentials loCrednts = new AccountAuthentication.AccountCredentials();
+        loCrednts.setUserName(Objects.requireNonNull(txtUserNm.getText().toString().trim()));
+        loCrednts.setEmailAdd(Objects.requireNonNull(txtEmailx.getText().toString().trim()));
+        loCrednts.setMobileNo(Objects.requireNonNull(txtMobile.getText().toString().trim()));
+        loCrednts.setPassword(Objects.requireNonNull(txtPasswd.getText().toString().trim()));
+        loCrednts.setPasswrd2(Objects.requireNonNull(txtRetype.getText().toString().trim()));
+        try {
+            mViewModel.RegisterAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
+                @Override
+                public void onLoad() {
+                    poLoading = new Dialog_Loading(Activity_SignUp.this);
+                    poLoading.initDialog("Signing Up", "Please wait for a while.");
+                    poLoading.show();
+                }
+
+                @Override
+                public void onSuccess(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Sign Up", fsMessage, dialog -> {
+                        dialog.dismiss();
+                        finish();
+                    });
+                    poDialogx.show();
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Sign Up Failed", fsMessage, dialog -> dialog.dismiss());
+                    poDialogx.show();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

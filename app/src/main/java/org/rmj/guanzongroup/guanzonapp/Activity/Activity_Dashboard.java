@@ -122,7 +122,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                 if(eClientinfo != null) {
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
-                    txtFullNm.setText(Objects.requireNonNull(eClientinfo.getUserName()));
+                    txtFullNm.setText(Objects.requireNonNull(eClientinfo.getLastName()));
                 } else {
                     lnAuthxxx.setVisibility(View.VISIBLE);
                     txtFullNm.setVisibility(View.GONE);

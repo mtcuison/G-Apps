@@ -7,7 +7,7 @@ import androidx.annotation.RequiresApi;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RClientInfo;
+import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
@@ -48,7 +48,24 @@ public class AccountAuthentication {
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if (lsResult.equalsIgnoreCase("success")) {
-                    initAccount(loResponse);
+                    AccountInfo loInfo = new AccountInfo(mContext);
+                    loInfo.setUserID(loResponse.getString("sUserIDxx"));
+                    loInfo.setFullName(loResponse.getString("sUserName"));
+                    loInfo.setEmailAdd(loResponse.getString("sEmailAdd"));
+                    loInfo.setLoginStatus(true);
+
+                    EClientInfo loClient = new EClientInfo();
+
+                    loClient.setLastName("");
+                    loClient.setFrstName("");
+                    loClient.setMiddName("");
+                    loClient.setSuffixNm("");
+                    loClient.setDateMmbr(loResponse.getString("dCreatedx"));
+                    loClient.setLoginxxx(new AppConstants().GCARD_DATE_TIME);
+                    loClient.setEmailAdd(loResponse.getString("sEmailAdd"));
+                    loClient.setMobileNo(loResponse.getString("sMobileNo"));
+                    loClient.setUserIDxx(loResponse.getString("sUserIDxx"));
+                    poClient.insert(loClient);
                     callback.OnSuccessLogin("Login success.");
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
@@ -57,40 +74,6 @@ public class AccountAuthentication {
                 }
             }
         }
-    }
-
-    public void initAccount(JSONObject foAccount) throws Exception{
-        AccountInfo loInfo = new AccountInfo(mContext);
-        loInfo.setUserID(foAccount.getString("sUserIDxx"));
-        loInfo.setFullName(foAccount.getString("sUserName"));
-        loInfo.setEmailAdd(foAccount.getString("sEmailAdd"));
-//        loInfo.setClientId(foAccount.getString("sClientID"));
-//        loInfo.setLastname(foAccount.getString("sLastName"));
-//        loInfo.setFirstName(foAccount.getString("sFrstName"));
-//        loInfo.setMiddlename(foAccount.getString("sMiddName"));
-//        loInfo.setSuffix(foAccount.getString("sSuffixNm"));
-//        loInfo.setGender(foAccount.getString("sGenderCd"));
-//        loInfo.setCivilStatus(foAccount.getString("sCvilStat"));
-//        loInfo.setCitizenship(foAccount.getString("sCitizenx"));
-//        loInfo.setBirthdate(foAccount.getString("sBirthDte"));
-//        loInfo.setBirthplace(foAccount.getString("sBirthPlc"));
-//        loInfo.setTaxId(foAccount.getString("sTaxIdxxx"));
-//        loInfo.setMobileNo(foAccount.getString("sMobileNo"));
-//        loInfo.setHouseNo(foAccount.getString("sHouseNox"));
-//        loInfo.setAddress(foAccount.getString("sAddressx"));
-//        loInfo.setBarangay(foAccount.getString("sBrgyName"));
-//        loInfo.setTownName(foAccount.getString("sTownName"));
-//        loInfo.setProvince(foAccount.getString("sProvName"));
-        loInfo.setLoginStatus(true);
-
-        EClientInfo loClient = new EClientInfo();
-        loClient.setUserName(foAccount.getString("sUserName"));
-        loClient.setDateMmbr(foAccount.getString("dCreatedx"));
-        loClient.setLoginxxx(new AppConstants().GCARD_DATE_TIME);
-        loClient.setEmailAdd(foAccount.getString("sEmailAdd"));
-        loClient.setMobileNo(foAccount.getString("sMobileNo"));
-        loClient.setUserIDxx(foAccount.getString("sUserIDxx"));
-        poClient.insert(loClient);
     }
 
     public static class LoginCredentials{
@@ -146,10 +129,7 @@ public class AccountAuthentication {
     }
 
     public static class AccountCredentials{
-        private String sLastName = "";
-        private String sFrstName = "";
-        private String sMiddName = "";
-        private String sSuffixxx = "";
+        private String sUserName = "";
         private String sEmailAdd = "";
         private String sPassword = "";
         private String sPasswrd2 = "";
@@ -164,36 +144,12 @@ public class AccountAuthentication {
             return message;
         }
 
-        public String getsLastName() {
-            return sLastName;
+        public String getsUserName() {
+            return sUserName;
         }
 
-        public void setLastName(String sLastName) {
-            this.sLastName = sLastName;
-        }
-
-        public String getsFrstName() {
-            return sFrstName;
-        }
-
-        public void setFrstName(String sFrstName) {
-            this.sFrstName = sFrstName;
-        }
-
-        public String getsMiddName() {
-            return sMiddName;
-        }
-
-        public void setMiddName(String sMiddName) {
-            this.sMiddName = sMiddName;
-        }
-
-        public String getsSuffixxx() {
-            return sSuffixxx;
-        }
-
-        public void setsSuffixxx(String sSuffixxx) {
-            this.sSuffixxx = sSuffixxx;
+        public void setUserName(String sLastName) {
+            this.sUserName = sLastName;
         }
 
         public String getsEmailAdd() {
@@ -229,26 +185,11 @@ public class AccountAuthentication {
         }
 
         public boolean isDataValid(){
-            if(sLastName.isEmpty()){
-                message = "Please enter last name";
-                return false;
-            } else if(sFrstName.isEmpty()){
-                message = "Please enter first name";
-                return false;
-            } else if(sMiddName.isEmpty()){
-                message = "Please enter middle name";
+            if(sUserName.isEmpty()){
+                message = "Please enter username";
                 return false;
             } else if(sEmailAdd.isEmpty()){
-                message = "Please enter email";
-                return false;
-            } else if(sPassword.isEmpty()){
-                message = "Please enter password";
-                return false;
-            } else if(!sPassword.equalsIgnoreCase(sPasswrd2)){
-                message = "Passwords does not match";
-                return false;
-            } else if(sPassword.length() < 6){
-                message = "Password is too short";
+                message = "Please enter email address";
                 return false;
             } else if(sMobileNo.isEmpty()){
                 message = "Please enter mobile no";
@@ -259,6 +200,18 @@ public class AccountAuthentication {
             } else if(sMobileNo.length() != 11){
                 message = "Mobile number must be 11 characters";
                 return false;
+            } else if(sPassword.isEmpty()){
+                message = "Please enter password";
+                return false;
+            }  else if(sPassword.length() < 6){
+                message = "Password is too short";
+                return false;
+            } else if(sPasswrd2.isEmpty()) {
+                message = "Please re-type password";
+                return false;
+            } else if(!sPassword.equals(sPasswrd2)){
+                message = "Passwords does not match";
+                return false;
             } else {
                 return true;
             }
@@ -266,15 +219,11 @@ public class AccountAuthentication {
 
         public String getParameters() throws Exception{
             JSONObject params = new JSONObject();
-            params.put("name", getFullName());
+            params.put("name", sUserName);
             params.put("mail", sEmailAdd);
             params.put("pswd", sPassword);
             params.put("mobile", sMobileNo);
             return params.toString();
-        }
-
-        private String getFullName(){
-            return sLastName + ", " + sFrstName + " " + sMiddName;
         }
     }
 
@@ -283,7 +232,8 @@ public class AccountAuthentication {
         if(!credentials.isDataValid()){
             callback.OnFailedRegister(credentials.getMessage());
         } else {
-            String lsResponse = WebClient.httpsPostJSon(poApi.getREGISTRATION(), credentials.getParameters(), poHeaders.getHeaders());
+            String lsAddress = poApi.getRegisterAcountAPI();
+            String lsResponse = WebClient.httpsPostJSon(lsAddress, credentials.getParameters(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailedRegister("Server no response.");
             } else {
@@ -313,7 +263,7 @@ public class AccountAuthentication {
             JSONObject params = new JSONObject();
             params.put("email", email);
 
-            String lsResponse = WebClient.httpsPostJSon(poApi.getRETRIEVE_PASSWORD(), params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.httpsPostJSon(poApi.getRetrievePasswordAPI(), params.toString(), poHeaders.getHeaders());
             if(lsResponse == null){
                 callback.OnFailedRetrieve("Server no response.");
             } else {
