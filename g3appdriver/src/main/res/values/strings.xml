@@ -90,6 +90,8 @@
 
     <string name="descServiceDate">Your next service date:</string>
 
+    <string name="hintBdayFormat">(MM/DD/YYYY)</string>
+
     <string name="mock_fullname">Juan Sison Dela Cruz</string>
     <string name="mock_mc_name">Yamaha Aerox 155</string>
     <string name="mock_date">January 1, 2022</string>
