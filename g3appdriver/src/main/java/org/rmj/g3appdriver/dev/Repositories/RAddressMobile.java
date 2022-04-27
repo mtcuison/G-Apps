@@ -101,7 +101,9 @@ public class RAddressMobile {
     public ArrayList<String> getCountryForInput(List<ECountryInfo> foList){
         ArrayList<String> loCountry = new ArrayList<>();
         for(int x = 0; x < foList.size(); x++){
-            loCountry.add(foList.get(x).getCntryNme());
+            if(foList.get(x).getNational() != null && !foList.get(x).getNational().isEmpty()) {
+                loCountry.add(foList.get(x).getNational());
+            }
         }
         return loCountry;
     }
@@ -277,10 +279,10 @@ public class RAddressMobile {
                         JSONObject loJson = new JSONObject(laJson.getString(x));
                         ECountryInfo loDetail = new ECountryInfo();
                         loDetail.setCntryCde(loJson.getString("sCntryCde"));
-                        loDetail.setCntryCde(loJson.getString("sCntryNme"));
-                        loDetail.setCntryCde(loJson.getString("sNational"));
-                        loDetail.setCntryCde(loJson.getString("cRecdStat"));
-                        loDetail.setCntryCde(loJson.getString("dTimeStmp"));
+                        loDetail.setCntryNme(loJson.getString("sCntryNme"));
+                        loDetail.setNational(loJson.getString("sNational"));
+                        loDetail.setRecdStat(loJson.getString("cRecdStat"));
+                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
                         laDetail.add(loDetail);
                     }
                     poDao.SaveCountry(laDetail);

@@ -315,6 +315,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textAutoComplete|textCapWords"
                     android:maxLength="50"
+                    android:completionThreshold="2"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_taxId"
                     style="@style/AutoCompleteStyleTheme"/>

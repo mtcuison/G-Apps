@@ -113,7 +113,8 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                 ArrayList<String> lsCountry = mViewModel.getCountryForInput(countries);
                 txtCtizen.setAdapter(
                         InputFieldController.getAutoCompleteData(
-                                Activity_CompleteAccountDetails.this, lsCountry
+                                Activity_CompleteAccountDetails.this,
+                                lsCountry
                         )
                 );
             } catch (Exception e) {
@@ -160,6 +161,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                 }
             });
         });
+        txtCtizen.setOnItemClickListener((adapterView, view, i, l) -> {});
         txtGender.setOnItemClickListener((adapterView, view, i, l) -> {});
         txtCivilS.setOnItemClickListener((adapterView, view, i, l) -> {});
     }
