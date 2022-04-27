@@ -220,9 +220,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="100"
-                    android:inputType="textCapWords"
+                    android:inputType="textAutoComplete|textCapWords"
                     android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/tie_civil_stat"
+                    android:nextFocusForward="@id/tie_gender"
                     style="@style/AutoCompleteStyleTheme"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -247,13 +247,15 @@
                 app:layout_constraintRight_toLeftOf="@id/til_civil_stat"
                 app:layout_constraintWidth_percent="0.5"
                 android:paddingRight="8dp"
-                style="@style/TextInputStyle">
+                style="@style/CustomDropDownTilStyle">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/tie_gender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords" />
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/tie_civil_stat"
+                    style="@style/DropdownStyleTheme"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -270,22 +272,20 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_civil_stat"
-                style="@style/TextInputStyle"
+                style="@style/CustomDropDownTilStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toRightOf="@id/til_gender"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblCivilStat">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/tie_civil_stat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
-                    android:maxLength="30"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_citizen"
-                    />
+                    style="@style/DropdownStyleTheme"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -313,7 +313,7 @@
                     android:id="@+id/tie_citizen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
+                    android:inputType="textAutoComplete|textCapWords"
                     android:maxLength="50"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_taxId"
@@ -435,7 +435,7 @@
                     android:maxLength="20"
                     android:inputType="textCapWords"
                     android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/tie_province" />
+                    android:nextFocusForward="@id/tie_towncity" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -464,7 +464,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="100"
-                    android:inputType="textCapWords"
+                    android:inputType="textAutoComplete|textCapWords"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_barangay"
                     style="@style/AutoCompleteStyleTheme"/>
@@ -495,8 +495,8 @@
                     android:id="@+id/tie_barangay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="20"
-                    android:inputType="textCapWords"
+                    android:maxLength="30"
+                    android:inputType="textAutoComplete|textCapWords"
                     android:imeOptions="actionDone"
                     style="@style/AutoCompleteStyleTheme"/>
 

@@ -6,25 +6,32 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.etc.OnDateSetListener;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
+import org.rmj.g3appdriver.etc.InputFieldController;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountDetails;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_CompleteAccountDetails extends AppCompatActivity {
 
     private VMAccountDetails mViewModel;
     private Toolbar toolbar;
-    private TextInputEditText txtLastNm, txtFirstN, txtMidNme, txtSuffix, txtBdatex, txtGender,
-            txtCivilS, txtTaxNox, txtHouseN, txtStreet;
-    private AutoCompleteTextView txtBplace, txtCtizen, txtTownCt, txtBarngy;
+    private TextInputEditText txtLastNm, txtFirstN, txtMidNme, txtSuffix, txtBdatex, txtTaxNox,
+            txtHouseN, txtStreet;
+    private AutoCompleteTextView txtBplace, txtGender, txtCivilS, txtCtizen, txtTownCt, txtBarngy;
+
+    private List<DAddress.oTownObj> poTownCty = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +42,6 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         initViews();
         setUpToolbar();
         setInputOptions();
-
     }
 
     @Override
@@ -78,7 +84,84 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     }
 
     private void setInputOptions() {
-        txtBdatex.addTextChangedListener(new OnDateSetListener(txtBdatex));
+        /** Date Auto Formatter */
+        txtBdatex.addTextChangedListener(new InputFieldController.OnDateSetListener(txtBdatex));
+
+        /** AutoCompleteTextviews */
+
+        // Setup auto complete town/city fields.
+        mViewModel.getTownCityList().observe(Activity_CompleteAccountDetails.this, townObj ->{
+            try {
+                ArrayList<String> lsTownCts = mViewModel.getTownCityForInput(townObj);
+                txtBplace.setAdapter(
+                        InputFieldController.getAutoCompleteData(
+                                Activity_CompleteAccountDetails.this, lsTownCts
+                        )
+                );
+                txtTownCt.setAdapter(
+                        InputFieldController.getAutoCompleteData(
+                                Activity_CompleteAccountDetails.this, lsTownCts
+                        )
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.getCountryList().observe(Activity_CompleteAccountDetails.this, countries -> {
+            try {
+                ArrayList<String> lsCountry = mViewModel.getCountryForInput(countries);
+                txtCtizen.setAdapter(
+                        InputFieldController.getAutoCompleteData(
+                                Activity_CompleteAccountDetails.this, lsCountry
+                        )
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        /** Dropdowns */
+
+        // Setup gender field.
+        txtGender.setAdapter(
+                InputFieldController.getAutoCompleteData(
+                        Activity_CompleteAccountDetails.this,
+                        mViewModel.getGenderList()
+                )
+        );
+
+        // Setup Civil status field.
+        txtCivilS.setAdapter(
+                InputFieldController.getAutoCompleteData(
+                    Activity_CompleteAccountDetails.this,
+                    mViewModel.getCivilStatusList()
+                )
+        );
+
+
+        /** Set OnItemClickListeners on Auto Complete Input Fields */
+        txtBplace.setOnItemClickListener((adapterView, view, i, l) -> {});
+        txtTownCt.setOnItemClickListener((adapterView, view, i, l) -> {
+            mViewModel.getTownCityList().observe(this, townObjs -> {
+                for(int x = 0; x < townObjs.size(); x++) {
+                    String lsTownCt = townObjs.get(x).sTownNm + ", " + townObjs.get(x).sProvNm;
+                    if(txtTownCt.getText().toString().equalsIgnoreCase(lsTownCt)) {
+                        mViewModel.getBarangayList(townObjs.get(x).sTownID).observe(this, brgys -> {
+                            txtBarngy.setAdapter(
+                                    InputFieldController.getAutoCompleteData(
+                                            Activity_CompleteAccountDetails.this,
+                                            mViewModel.getBarangayForInput(brgys)
+                                    )
+                            );
+                        });
+                        break;
+                    }
+                }
+            });
+        });
+        txtGender.setOnItemClickListener((adapterView, view, i, l) -> {});
+        txtCivilS.setOnItemClickListener((adapterView, view, i, l) -> {});
     }
 
 }

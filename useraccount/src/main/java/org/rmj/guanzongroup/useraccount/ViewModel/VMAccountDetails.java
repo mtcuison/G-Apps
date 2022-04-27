@@ -9,7 +9,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
+import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
+import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
@@ -22,6 +26,7 @@ public class VMAccountDetails extends AndroidViewModel {
     private static final String TAG = VMAccountDetails.class.getSimpleName();
     private final ConnectionUtil poConnect;
     private final RClientInfo poClientx;
+    private final RAddressMobile poAddress;
     private final MutableLiveData<List<AccountDetailsInfo>> poAcctInf = new MutableLiveData<>();
 
     private final String[] psLstHead = new String[] {
@@ -34,11 +39,44 @@ public class VMAccountDetails extends AndroidViewModel {
         super(application);
         this.poConnect = new ConnectionUtil(application);
         this.poClientx = new RClientInfo(application);
+        this.poAddress = new RAddressMobile(application);
         setAccountDetailsList();
     }
 
     public LiveData<EClientInfo> getClientInfo(){
         return poClientx.getClientInfo();
+    }
+
+    public ArrayList<String> getGenderList() {
+        return poClientx.getGenderList();
+    }
+
+    public ArrayList<String> getCivilStatusList() {
+        return poClientx.getCivilStatusList();
+    }
+
+    public LiveData<List<EBarangayInfo>> getBarangayList(String fsTownID){
+        return poAddress.GetBarangayList(fsTownID);
+    }
+
+    public LiveData<List<DAddress.oTownObj>> getTownCityList(){
+        return poAddress.GetTownList();
+    }
+
+    public LiveData<List<ECountryInfo>> getCountryList(){
+        return poAddress.GetCountryList();
+    }
+
+    public ArrayList<String> getBarangayForInput(List<EBarangayInfo> foList) {
+        return poAddress.getBarangayForInput(foList);
+    }
+
+    public ArrayList<String> getTownCityForInput(List<DAddress.oTownObj> foList) {
+        return poAddress.getTownCityForInput(foList);
+    }
+
+    public ArrayList<String> getCountryForInput(List<ECountryInfo> foList) {
+        return poAddress.getCountryForInput(foList);
     }
 
     public LiveData<List<AccountDetailsInfo>> getAccountDetailsList() {

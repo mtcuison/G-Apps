@@ -80,6 +80,33 @@ public class RAddressMobile {
         return poDao.GetCountryList();
     }
 
+    public ArrayList<String> getBarangayForInput(List<EBarangayInfo> foList){
+        ArrayList<String> loBrgyDta = new ArrayList<>();
+        for(int x = 0; x < foList.size(); x++){
+            loBrgyDta.add(foList.get(x).getBrgyName());
+        }
+        return loBrgyDta;
+    }
+
+    public ArrayList<String> getTownCityForInput(List<DAddress.oTownObj> foList){
+        String lsTownProv = "";
+        ArrayList<String> loTPList = new ArrayList<>();
+        for(int x = 0; x < foList.size(); x++){
+            lsTownProv = foList.get(x).sTownNm + ", " + foList.get(x).sProvNm;
+            loTPList.add(lsTownProv);
+        }
+        return loTPList;
+    }
+
+    public ArrayList<String> getCountryForInput(List<ECountryInfo> foList){
+        ArrayList<String> loCountry = new ArrayList<>();
+        for(int x = 0; x < foList.size(); x++){
+            loCountry.add(foList.get(x).getCntryNme());
+        }
+        return loCountry;
+    }
+
+
     public boolean ImportBarangayList(){
         try{
             JSONObject param = new JSONObject();

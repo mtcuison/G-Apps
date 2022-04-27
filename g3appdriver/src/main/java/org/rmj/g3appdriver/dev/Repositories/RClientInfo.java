@@ -13,6 +13,8 @@ import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 
+import java.util.ArrayList;
+
 public class RClientInfo {
     private static final String TAG = "RAppEventInfo";
 
@@ -44,12 +46,20 @@ public class RClientInfo {
         return message;
     }
 
-    public String[] getGenderList() {
-        return GENDER;
+    public ArrayList<String> getGenderList() {
+        ArrayList<String> loGender = new ArrayList<>();
+        for(int x = 0; x < GENDER.length; x++) {
+            loGender.add(GENDER[x]);
+        }
+        return loGender;
     }
 
-    public String[] getCivilStatusList() {
-        return CIVIL_STATUS;
+    public ArrayList<String> getCivilStatusList() {
+        ArrayList<String> loCivilSt = new ArrayList<>();
+        for(int x = 0; x < CIVIL_STATUS.length; x++) {
+            loCivilSt.add(CIVIL_STATUS[x]);
+        }
+        return loCivilSt;
     }
 
     public void insert(EClientInfo foInfo){
