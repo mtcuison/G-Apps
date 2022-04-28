@@ -17,7 +17,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
+import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.etc.InputFieldController;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.Model.CompleteAccountDetailsInfo;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountDetails;
@@ -31,6 +34,8 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     private VMAccountDetails mViewModel;
     private CompleteAccountDetailsInfo poDataMdl;
     private Toolbar toolbar;
+    private Dialog_Loading poLoading;
+    private Dialog_SingleButton poDialogx;
     private TextInputEditText txtLastNm, txtFirstN, txtMidNme, txtSuffix, txtBdatex, txtTaxNox,
             txtHouseN, txtStreet;
     private AutoCompleteTextView txtBplace, txtGender, txtCivilS, txtCtizen, txtTownCt, txtBarngy;
@@ -71,6 +76,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     // Initialize this first before anything else.
     private void initViews() {
         toolbar = findViewById(R.id.toolbar);
+        poDialogx = new Dialog_SingleButton(Activity_CompleteAccountDetails.this);
         txtLastNm = findViewById(R.id.tie_lastname);
         txtFirstN = findViewById(R.id.tie_firstname);
         txtMidNme = findViewById(R.id.tie_middname);
@@ -96,6 +102,48 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     }
 
     private void saveAccountDetails() {
+        setInfoModelValues();
+        if(poDataMdl.isDataValid()) {
+            mViewModel.completeClientInfo(poDataMdl.getClientEntityValues(), new VMAccountDetails.OnTransactionCallBack() {
+                @Override
+                public void onLoading() {
+                    poLoading = new Dialog_Loading(Activity_CompleteAccountDetails.this);
+                    poLoading.initDialog("Account Details", "Saving account information. Please wait.");
+                    poLoading.show();
+                }
+
+                @Override
+                public void onSuccess(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Account Details", fsMessage, dialog -> {
+                        dialog.dismiss();
+                        finish();
+                    });
+                    poDialogx.show();
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Account Details", fsMessage, dialog -> {
+                        dialog.dismiss();
+                    });
+                    poDialogx.show();
+                }
+            });
+        } else {
+            poDialogx.setButtonText("Okay");
+            poDialogx.initDialog("Account Details", poDataMdl.getMessage(), dialog -> {
+                dialog.dismiss();
+            });
+            poDialogx.show();
+        }
+
+    }
+
+    private void setInfoModelValues() {
         poDataMdl.setLastName(Objects.requireNonNull(txtLastNm.getText().toString().trim()));
         poDataMdl.setFirstName(Objects.requireNonNull(txtFirstN.getText().toString().trim()));
         poDataMdl.setMiddName(Objects.requireNonNull(txtMidNme.getText().toString().trim()));
@@ -104,13 +152,6 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         poDataMdl.setTaxIdNumber(Objects.requireNonNull(txtTaxNox.getText().toString().trim()));
         poDataMdl.setHouseNumber(Objects.requireNonNull(txtHouseN.getText().toString().trim()));
         poDataMdl.setAddress(Objects.requireNonNull(txtStreet.getText().toString().trim()));
-        if(poDataMdl.isDataValid()) {
-            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-            CompleteAccountDetailsInfo lo = poDataMdl;
-        } else {
-            Toast.makeText(this, poDataMdl.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     private void setInputOptions() {

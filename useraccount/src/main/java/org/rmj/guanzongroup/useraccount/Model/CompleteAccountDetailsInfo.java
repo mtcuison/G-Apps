@@ -1,6 +1,12 @@
 package org.rmj.guanzongroup.useraccount.Model;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class CompleteAccountDetailsInfo {
+    private EClientInfo poClientx;
     private String sLastName = "";
     private String sFirstNme = "";
     private String sMiddName = "-";
@@ -17,7 +23,9 @@ public class CompleteAccountDetailsInfo {
     private String sBarangay = "";
     private String sMessagex = "";
 
-    public CompleteAccountDetailsInfo() { }
+    public CompleteAccountDetailsInfo() {
+        this.poClientx = new EClientInfo();
+    }
 
     public String getMessage() {
         return sMessagex;
@@ -56,7 +64,15 @@ public class CompleteAccountDetailsInfo {
     }
 
     public String getBirthDate() {
-        return sBirthDte;
+        try {
+            SimpleDateFormat userFormat = new SimpleDateFormat("MM/dd/yyyy");
+            SimpleDateFormat tableFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String lsFormatted = tableFormat.format(userFormat.parse(sBirthDte));
+            return lsFormatted;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public void setBirthDate(String sBirthDte) {
@@ -171,6 +187,28 @@ public class CompleteAccountDetailsInfo {
             return false;
         } else {
             return true;
+        }
+    }
+
+    public EClientInfo getClientEntityValues() {
+        if(isDataValid()) {
+            poClientx.setLastName(getLastName());
+            poClientx.setFrstName(getFirstName());
+            poClientx.setMiddName(getMiddName());
+            poClientx.setSuffixNm(getSuffixName());
+            poClientx.setBirthDte(getBirthDate());
+            poClientx.setBirthPlc(getBirthPlace());
+            poClientx.setGenderCd(getGender());
+            poClientx.setCvilStat(getCivilStat());
+            poClientx.setCitizenx(getCitizenship());
+            poClientx.setTaxIDNox(getTaxIdNumber());
+            poClientx.setHouseNox(getHouseNumber());
+            poClientx.setAddressx(getAddress());
+            poClientx.setTownIDxx(getTownCity());
+            poClientx.setBrgyIDxx(getBarangay());
+            return poClientx;
+        } else {
+            return null;
         }
     }
 

@@ -38,7 +38,7 @@ public class AccountAuthentication {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void LoginAccount(LoginCredentials credentials, OnLoginCallback callback) throws Exception{
-        if (!credentials.isDataValid()) {
+         if (!credentials.isDataValid()) {
             callback.OnFailedLogin(credentials.getMessage());
         } else {
             String lsResponse = WebClient.httpsPostJSon(poApi.getSIGN_IN(), credentials.getJSONParameters(), poHeaders.getHeaders());

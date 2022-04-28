@@ -87,8 +87,8 @@ public class VMAccountDetails extends AndroidViewModel {
         new ImportAccountInfoTask(poConnect, poClientx, foCallBck).execute();
     }
 
-    public void completeClientInfo(OnTransactionCallBack foCallBck) {
-        new CompleteClientInfoTask(poConnect, poClientx, foCallBck).execute();
+    public void completeClientInfo(EClientInfo foClientx, OnTransactionCallBack foCallBck) {
+        new CompleteClientInfoTask(poConnect, poClientx, foCallBck).execute(foClientx);
     }
 
     private void setAccountDetailsList() {
@@ -198,10 +198,11 @@ public class VMAccountDetails extends AndroidViewModel {
             try {
                 if(loConnect.isDeviceConnected()) {
                     if(loClientx.CompleteClientInfo(loInfo)) {
+                        loClientx.ImportAccountInfo();
                         lsResultx = "Client info completion success";
                         isSuccess = true;
                     } else {
-                        lsResultx = "Client info completion failed.";
+                        lsResultx = loClientx.getMessage();
                     }
                 } else {
                     lsResultx = AppConstants.SERVER_NO_RESPONSE();

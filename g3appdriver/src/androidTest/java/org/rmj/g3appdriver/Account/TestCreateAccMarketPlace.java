@@ -64,7 +64,7 @@ public class TestCreateAccMarketPlace {
         assertTrue(isSucccess);
     }
 
-    @Test
+//    @Test
     public void test02RetrieveAccount() throws Exception{
         isSucccess = poClient.ImportAccountInfo();
         assertTrue(isSucccess);
@@ -100,6 +100,12 @@ public class TestCreateAccMarketPlace {
         poUserInfo.setTaxIDNox("");
 
         isSucccess = poClient.CompleteClientInfo(poUserInfo);
+        String lsMessage;
+        if(poClient.CompleteClientInfo(poUserInfo)){
+            //perform
+        } else {
+            lsMessage = poClient.getMessage();
+        }
         assertTrue(isSucccess);
     }
 }
