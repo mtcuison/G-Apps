@@ -89,6 +89,7 @@ public class RClientInfo {
                     return false;
                 } else {
                     EClientInfo loDetail = poDao.GetUserInfo();
+                    loDetail.setClientID(loResponse.getString("sClientID"));
                     loDetail.setLastName(loResponse.getString("sLastName"));
                     loDetail.setFrstName(loResponse.getString("sFrstName"));
                     loDetail.setMiddName(loResponse.getString("sMiddName"));
@@ -105,6 +106,7 @@ public class RClientInfo {
                     loDetail.setTaxIDNox(loResponse.getString("sTaxIDNox"));
                     loDetail.setMobileNo(loResponse.getString("sMobileNo"));
                     loDetail.setEmailAdd(loResponse.getString("sEmailAdd"));
+                    loDetail.setRecdStat("1");
                     poDao.update(loDetail);
                     return true;
                 }
