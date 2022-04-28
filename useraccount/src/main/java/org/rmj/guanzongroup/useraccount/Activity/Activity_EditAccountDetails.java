@@ -90,6 +90,7 @@ public class Activity_EditAccountDetails extends AppCompatActivity {
         poDialogx.initDialog("Edit Account Details", "Are you sure you want to cancel editing?", new Dialog_DoubleButton.OnDialogConfirmation() {
             @Override
             public void onConfirm(AlertDialog dialog) {
+                dialog.dismiss();
                 finish();
             }
 

@@ -290,6 +290,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         poDblDiag.initDialog("Complete Account Details", "Are you sure you want to cancel filling in account details?", new Dialog_DoubleButton.OnDialogConfirmation() {
             @Override
             public void onConfirm(AlertDialog dialog) {
+                dialog.dismiss();
                 finish();
             }
 
