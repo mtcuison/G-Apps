@@ -11,11 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
 import org.rmj.g3appdriver.etc.InputFieldController;
+import org.rmj.guanzongroup.useraccount.Model.CompleteAccountDetailsInfo;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountDetails;
 
@@ -26,10 +29,12 @@ import java.util.Objects;
 public class Activity_CompleteAccountDetails extends AppCompatActivity {
 
     private VMAccountDetails mViewModel;
+    private CompleteAccountDetailsInfo poDataMdl;
     private Toolbar toolbar;
     private TextInputEditText txtLastNm, txtFirstN, txtMidNme, txtSuffix, txtBdatex, txtTaxNox,
             txtHouseN, txtStreet;
     private AutoCompleteTextView txtBplace, txtGender, txtCivilS, txtCtizen, txtTownCt, txtBarngy;
+    private MaterialButton btnSaveDt;
 
     private List<DAddress.oTownObj> poTownCty = new ArrayList<>();
 
@@ -37,11 +42,11 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_account_details);
-        mViewModel = new ViewModelProvider(Activity_CompleteAccountDetails.this)
-                .get(VMAccountDetails.class);
+        initObjects();
         initViews();
         setUpToolbar();
         setInputOptions();
+        btnSaveDt.setOnClickListener(v -> saveAccountDetails());
     }
 
     @Override
@@ -55,6 +60,12 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    private void initObjects() {
+        mViewModel = new ViewModelProvider(Activity_CompleteAccountDetails.this)
+                .get(VMAccountDetails.class);
+        poDataMdl = new CompleteAccountDetailsInfo();
     }
 
     // Initialize this first before anything else.
@@ -74,6 +85,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         txtStreet = findViewById(R.id.tie_street);
         txtTownCt = findViewById(R.id.tie_towncity);
         txtBarngy = findViewById(R.id.tie_barangay);
+        btnSaveDt = findViewById(R.id.btnSave);
     }
 
     // Initialize initViews() before this method.
@@ -81,6 +93,24 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Complete Details");
+    }
+
+    private void saveAccountDetails() {
+        poDataMdl.setLastName(Objects.requireNonNull(txtLastNm.getText().toString().trim()));
+        poDataMdl.setFirstName(Objects.requireNonNull(txtFirstN.getText().toString().trim()));
+        poDataMdl.setMiddName(Objects.requireNonNull(txtMidNme.getText().toString().trim()));
+        poDataMdl.setSuffixName(Objects.requireNonNull(txtSuffix.getText().toString().trim()));
+        poDataMdl.setBirthDate(Objects.requireNonNull(txtBdatex.getText().toString().trim()));
+        poDataMdl.setTaxIdNumber(Objects.requireNonNull(txtTaxNox.getText().toString().trim()));
+        poDataMdl.setHouseNumber(Objects.requireNonNull(txtHouseN.getText().toString().trim()));
+        poDataMdl.setAddress(Objects.requireNonNull(txtStreet.getText().toString().trim()));
+        if(poDataMdl.isDataValid()) {
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+            CompleteAccountDetailsInfo lo = poDataMdl;
+        } else {
+            Toast.makeText(this, poDataMdl.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void setInputOptions() {
@@ -142,28 +172,75 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
 
 
         /** Set OnItemClickListeners on Auto Complete Input Fields */
-        txtBplace.setOnItemClickListener((adapterView, view, i, l) -> {});
-        txtTownCt.setOnItemClickListener((adapterView, view, i, l) -> {
-            mViewModel.getTownCityList().observe(this, townObjs -> {
-                for(int x = 0; x < townObjs.size(); x++) {
-                    String lsTownCt = townObjs.get(x).sTownNm + ", " + townObjs.get(x).sProvNm;
-                    if(txtTownCt.getText().toString().equalsIgnoreCase(lsTownCt)) {
-                        mViewModel.getBarangayList(townObjs.get(x).sTownID).observe(this, brgys -> {
-                            txtBarngy.setAdapter(
-                                    InputFieldController.getAutoCompleteData(
-                                            Activity_CompleteAccountDetails.this,
-                                            mViewModel.getBarangayForInput(brgys)
-                                    )
-                            );
-                        });
-                        break;
+        txtBplace.setOnItemClickListener((adapterView, view, i, l) -> {
+            mViewModel.getTownCityList().observe(this, townCties -> {
+                try {
+                    for(int x = 0; x < townCties.size(); x++) {
+                        String lsTownCty = "";
+                        lsTownCty = townCties.get(x).sTownNm + ", " + townCties.get(x).sProvNm;
+                        if(lsTownCty.equalsIgnoreCase(txtBplace.getText().toString().trim())) {
+                            poDataMdl.setBirthPlace(townCties.get(x).sTownID);
+                            break;
+                        }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             });
         });
-        txtCtizen.setOnItemClickListener((adapterView, view, i, l) -> {});
-        txtGender.setOnItemClickListener((adapterView, view, i, l) -> {});
-        txtCivilS.setOnItemClickListener((adapterView, view, i, l) -> {});
+        txtTownCt.setOnItemClickListener((adapterView, view, i, l) -> {
+            mViewModel.getTownCityList().observe(this, townObjs -> {
+                try {
+                    for (int x = 0; x < townObjs.size(); x++) {
+                        String lsTownCt = townObjs.get(x).sTownNm + ", " + townObjs.get(x).sProvNm;
+                        if (txtTownCt.getText().toString().equalsIgnoreCase(lsTownCt)) {
+                            poDataMdl.setTownCity(townObjs.get(x).sTownID);
+                            mViewModel.getBarangayList(townObjs.get(x).sTownID).observe(this, brgys -> {
+                                txtBarngy.setAdapter(
+                                        InputFieldController.getAutoCompleteData(
+                                                Activity_CompleteAccountDetails.this,
+                                                mViewModel.getBarangayForInput(brgys)
+                                        )
+                                );
+
+                                txtBarngy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                        for(int x = 0; x < brgys.size(); x++){
+                                            if(brgys.get(x).getBrgyName().equalsIgnoreCase(txtBarngy.getText().toString().trim())){
+                                                poDataMdl.setBarangay(brgys.get(x).getBrgyIDxx());
+                                                break;
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        });
+        txtCtizen.setOnItemClickListener((adapterView, view, i, l) -> {
+            mViewModel.getCountryList().observe(this, countries -> {
+                try {
+                    for(int x = 0; x < countries.size(); x++) {
+                        if(countries.get(x).getNational() != null && !countries.get(x).getNational().isEmpty()) {
+                            if(countries.get(x).getNational().equalsIgnoreCase(txtCtizen.getText().toString().trim())) {
+                                poDataMdl.setCitizenship(countries.get(x).getCntryCde());
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        });
+        txtGender.setOnItemClickListener((adapterView, view, i, l) -> poDataMdl.setGender(String.valueOf(i)));
+        txtCivilS.setOnItemClickListener((adapterView, view, i, l) -> poDataMdl.setCivilStat(String.valueOf(i)));
     }
 
 }
