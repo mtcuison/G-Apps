@@ -13,8 +13,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_AccountDetails;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 import org.rmj.guanzongroup.useraccount.Adapter.Adapter_AccountSettings;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountSettings;
 import org.rmj.guanzongroup.useraccount.R;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 public class Fragment_AccountSettings extends Fragment {
 
     private VMAccountSettings mViewModel;
+    private AccountInfo poAccount;
     private Adapter_AccountSettings poAdapter;
     private RecyclerView recyclerView;
 
@@ -43,6 +46,7 @@ public class Fragment_AccountSettings extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMAccountSettings.class);
+        poAccount = new AccountInfo(requireActivity());
         // TODO: Use the ViewModel
 
     }
@@ -57,8 +61,24 @@ public class Fragment_AccountSettings extends Fragment {
         poAdapter = new Adapter_AccountSettings(getMenuList(), position -> {
             switch(position) {
                 case 0:
-                    Intent loIntent = new Intent(getActivity(), Activity_CompleteAccountDetails.class);
-                    startActivity(loIntent);
+                    if(!poAccount.getLoginStatus())  {
+                        Intent loIntent = new Intent(requireActivity(), Activity_Login.class);
+                        startActivity(loIntent);
+                    } else {
+                        mViewModel.getClientInfo().observe(getViewLifecycleOwner(), clientInfo -> {
+                            try {
+                                if(clientInfo.getClientID() == null) {
+                                    Intent loIntent = new Intent(requireActivity(), Activity_CompleteAccountDetails.class);
+                                    startActivity(loIntent);
+                                } else {
+                                    Intent loIntent = new Intent(requireActivity(), Activity_AccountDetails.class);
+                                    startActivity(loIntent);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
                     break;
                 case 3:
                     Bundle loBundle = new Bundle();

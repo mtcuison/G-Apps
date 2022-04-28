@@ -5,20 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
-import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.etc.InputFieldController;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.Model.CompleteAccountDetailsInfo;
@@ -36,6 +35,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     private Toolbar toolbar;
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
+    private Dialog_DoubleButton poDblDiag;
     private TextInputEditText txtLastNm, txtFirstN, txtMidNme, txtSuffix, txtBdatex, txtTaxNox,
             txtHouseN, txtStreet;
     private AutoCompleteTextView txtBplace, txtGender, txtCivilS, txtCtizen, txtTownCt, txtBarngy;
@@ -57,14 +57,14 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            finish();
+            popUpCloseConfirmationDialog();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        popUpCloseConfirmationDialog();
     }
 
     private void initObjects() {
@@ -77,6 +77,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     private void initViews() {
         toolbar = findViewById(R.id.toolbar);
         poDialogx = new Dialog_SingleButton(Activity_CompleteAccountDetails.this);
+        poDblDiag = new Dialog_DoubleButton(Activity_CompleteAccountDetails.this);
         txtLastNm = findViewById(R.id.tie_lastname);
         txtFirstN = findViewById(R.id.tie_firstname);
         txtMidNme = findViewById(R.id.tie_middname);
@@ -282,6 +283,22 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         });
         txtGender.setOnItemClickListener((adapterView, view, i, l) -> poDataMdl.setGender(String.valueOf(i)));
         txtCivilS.setOnItemClickListener((adapterView, view, i, l) -> poDataMdl.setCivilStat(String.valueOf(i)));
+    }
+
+    private void popUpCloseConfirmationDialog() {
+        poDblDiag.setButtonText("Yes", "No");
+        poDblDiag.initDialog("Complete Account Details", "Are you sure you want to cancel filling in account details?", new Dialog_DoubleButton.OnDialogConfirmation() {
+            @Override
+            public void onConfirm(AlertDialog dialog) {
+                finish();
+            }
+
+            @Override
+            public void onCancel(AlertDialog dialog) {
+                dialog.dismiss();
+            }
+        });
+        poDblDiag.show();
     }
 
 }
