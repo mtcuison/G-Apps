@@ -19,4 +19,8 @@ public class VMAccountSettings extends AndroidViewModel {
     public LiveData<EClientInfo> getClientInfo() {
         return poClientx.getClientInfo();
     }
+
+    public String getClientId() {
+        return poClientx.getClientId();
+    }
 }

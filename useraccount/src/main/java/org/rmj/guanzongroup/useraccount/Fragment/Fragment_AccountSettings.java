@@ -65,19 +65,13 @@ public class Fragment_AccountSettings extends Fragment {
                         Intent loIntent = new Intent(requireActivity(), Activity_Login.class);
                         startActivity(loIntent);
                     } else {
-                        mViewModel.getClientInfo().observe(getViewLifecycleOwner(), clientInfo -> {
-                            try {
-                                if(clientInfo.getClientID() == null) {
-                                    Intent loIntent = new Intent(requireActivity(), Activity_CompleteAccountDetails.class);
-                                    startActivity(loIntent);
-                                } else {
-                                    Intent loIntent = new Intent(requireActivity(), Activity_AccountDetails.class);
-                                    startActivity(loIntent);
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
+                        if(new AccountInfo(requireActivity()).getClientID().isEmpty()) {
+                            Intent loIntent = new Intent(requireActivity(), Activity_CompleteAccountDetails.class);
+                            startActivity(loIntent);
+                        } else {
+                            Intent loIntent = new Intent(requireActivity(), Activity_AccountDetails.class);
+                            startActivity(loIntent);
+                        }
                     }
                     break;
                 case 3:
