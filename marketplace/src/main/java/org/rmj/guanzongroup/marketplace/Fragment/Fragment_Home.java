@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Fragment;
+package org.rmj.guanzongroup.marketplace.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,12 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import org.rmj.guanzongroup.guanzonapp.R;
-import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
+import org.rmj.guanzongroup.marketplace.R;
+import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
+
 
 public class Fragment_Home extends Fragment {
 
-    private VMDashboard mViewModel;
+    private VMHome mViewModel;
 
     public static Fragment_Home newInstance() {
         return new Fragment_Home();
@@ -30,7 +31,7 @@ public class Fragment_Home extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMDashboard.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMHome.class);
         // TODO: Use the ViewModel
     }
 

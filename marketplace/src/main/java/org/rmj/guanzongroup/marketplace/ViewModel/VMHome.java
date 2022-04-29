@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.ViewModel;
+package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -11,11 +11,11 @@ import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 
-public class VMDashboard extends AndroidViewModel {
+public class VMHome extends AndroidViewModel {
     private final RClientInfo poClientx;
     private final RAddressMobile poAddress;
 
-    public VMDashboard(@NonNull Application application) {
+    public VMHome(@NonNull Application application) {
         super(application);
         this.poClientx = new RClientInfo(application);
         this.poAddress = new RAddressMobile(application);

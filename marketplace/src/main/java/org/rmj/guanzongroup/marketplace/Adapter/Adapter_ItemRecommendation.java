@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Adapter;
+package org.rmj.guanzongroup.marketplace.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.marketplace.R;
+
 
 public class Adapter_ItemRecommendation extends RecyclerView.Adapter<Adapter_ItemRecommendation.ViewHolderItem> {
 
