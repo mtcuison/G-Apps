@@ -70,6 +70,29 @@ public class Activity_AccountDetails extends AppCompatActivity {
         getSupportActionBar().setTitle("Account Details");
     }
 
+    private void setAdapter() {
+        try {
+            mViewModel.getClientInfo().observe(this, eClientInfo -> mViewModel.setAccountDetailsList(eClientInfo));
+            mViewModel.getAccountDetailsList().observe(Activity_AccountDetails.this, details -> {
+                poAdapter = new Adapter_AccountDetails(details, (label) -> {
+                    Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_EditAccountDetails.class);
+                    if (label.equals("Personal Information")) {
+                        loIntent.putExtra("index", 0);
+                    } else if (label.equals("Present Address")) {
+                        loIntent.putExtra("index", 1);
+                    } else if (label.equals("Account Information")) {
+                        loIntent.putExtra("index", 2);
+                    }
+                    startActivity(loIntent);
+                });
+                recyclerView.setAdapter(poAdapter);
+                poAdapter.notifyDataSetChanged();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void importAccountInfo() {
         try {
             mViewModel.importAccountInfo(new VMAccountDetails.OnTransactionCallBack() {
@@ -100,28 +123,5 @@ public class Activity_AccountDetails extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-    private void setAdapter() {
-        try {
-            mViewModel.getAccountDetailsList().observe(Activity_AccountDetails.this, details -> {
-                poAdapter = new Adapter_AccountDetails(details, (label) -> {
-                    Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_EditAccountDetails.class);
-                    if (label.equals("Personal Information")) {
-                        loIntent.putExtra("index", 0);
-                    } else if (label.equals("Present Address")) {
-                        loIntent.putExtra("index", 1);
-                    } else if (label.equals("Account Information")) {
-                        loIntent.putExtra("index", 2);
-                    }
-                    startActivity(loIntent);
-                });
-                recyclerView.setAdapter(poAdapter);
-                poAdapter.notifyDataSetChanged();
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 
 }
