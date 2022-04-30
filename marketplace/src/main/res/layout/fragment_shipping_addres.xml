@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/cardview_light_background"
+    tools:context=".Fragment.FragmentShippingAddress">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="15dp"
+        android:weightSum="3"
+        android:gravity="end">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_bottom_sheet_add_address"
+            style="@style/ButtonStyle.Orange.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Address"
+            android:layout_weight=".5"
+            app:icon="@drawable/ic_baseline_add_24"/>
+    </LinearLayout>
+
+</RelativeLayout>
