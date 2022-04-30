@@ -61,7 +61,7 @@ public class RDashboard {
         try{
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             String lsResponse = WebClient.httpsPostJSon(
-                    loApis.getImportPromoItems(),
+                    loApis.getImportProducts(),
                     new JSONObject().toString(),
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
@@ -90,7 +90,7 @@ public class RDashboard {
         try{
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             String lsResponse = WebClient.httpsPostJSon(
-                    loApis.getImportPromoItems(),
+                    loApis.getImportProducts(),
                     new JSONObject().toString(),
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){

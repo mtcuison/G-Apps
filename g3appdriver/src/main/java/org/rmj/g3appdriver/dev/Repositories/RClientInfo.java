@@ -153,13 +153,13 @@ public class RClientInfo {
         }
     }
 
-    public boolean UpdateAccountInfo(String fsGender, String fsCvilSt, String fsCitizn, String fsTinNox){
+    public boolean UpdateAccountInfo(EClientInfo foValue){
         try{
             JSONObject param = new JSONObject();
-            param.put("cGenderCd", fsGender);
-            param.put("cCvilStat", fsCvilSt);
-            param.put("sCitizenx", fsCitizn);
-            param.put("sTaxIDNox", fsTinNox);
+            param.put("cGenderCd", foValue.getGenderCd());
+            param.put("cCvilStat", foValue.getCvilStat());
+            param.put("sCitizenx", foValue.getCitizenx());
+            param.put("sTaxIDNox", foValue.getTaxIDNox());
 
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             String lsResponse = WebClient.httpsPostJSon(
