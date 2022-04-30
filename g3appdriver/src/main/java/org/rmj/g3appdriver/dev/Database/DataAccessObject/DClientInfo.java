@@ -30,4 +30,7 @@ public interface DClientInfo {
 
     @Query("SELECT * FROM Client_Info_Master")
     LiveData<EClientInfo> getClientInfo();
+
+    @Query("SELECT sClientID FROM CLIENT_INFO_MASTER")
+    String getClientId();
 }

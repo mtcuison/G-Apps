@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.guanzonapp.Activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuInflater;
@@ -9,9 +8,7 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -23,11 +20,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
-import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.guanzongroup.guanzonapp.R;
-import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
+import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
@@ -39,16 +34,16 @@ public class Activity_Dashboard extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityDashboardBinding binding;
-    private VMDashboard mViewModel;
+    private VMHome mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new GuanzonAppConfig(Activity_Dashboard.this).setTestCase(true);
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
-        mViewModel = new ViewModelProvider(Activity_Dashboard.this).get(VMDashboard.class);
+        mViewModel = new ViewModelProvider(Activity_Dashboard.this).get(VMHome.class);
         setContentView(binding.getRoot());
-
+        mViewModel.importAddress();
         setSupportActionBar(binding.appBarActivityDashboard.toolbar);
 //        binding.appBarActivityDashboard.fab.setOnClickListener(new View.OnClickListener() {
 //            @Override

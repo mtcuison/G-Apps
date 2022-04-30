@@ -88,6 +88,35 @@ public class RAddressMobile {
         return poDao.GetTownProvName(fsValue);
     }
 
+    public ArrayList<String> getBarangayForInput(List<EBarangayInfo> foList){
+        ArrayList<String> loBrgyDta = new ArrayList<>();
+        for(int x = 0; x < foList.size(); x++){
+            loBrgyDta.add(foList.get(x).getBrgyName());
+        }
+        return loBrgyDta;
+    }
+
+    public ArrayList<String> getTownCityForInput(List<DAddress.oTownObj> foList){
+        String lsTownProv = "";
+        ArrayList<String> loTPList = new ArrayList<>();
+        for(int x = 0; x < foList.size(); x++){
+            lsTownProv = foList.get(x).sTownNm + ", " + foList.get(x).sProvNm;
+            loTPList.add(lsTownProv);
+        }
+        return loTPList;
+    }
+
+    public ArrayList<String> getCountryForInput(List<ECountryInfo> foList){
+        ArrayList<String> loCountry = new ArrayList<>();
+        for(int x = 0; x < foList.size(); x++){
+            if(foList.get(x).getNational() != null && !foList.get(x).getNational().isEmpty()) {
+                loCountry.add(foList.get(x).getNational());
+            }
+        }
+        return loCountry;
+    }
+
+
     public boolean ImportBarangayList(){
         try{
             JSONObject param = new JSONObject();
@@ -258,10 +287,10 @@ public class RAddressMobile {
                         JSONObject loJson = new JSONObject(laJson.getString(x));
                         ECountryInfo loDetail = new ECountryInfo();
                         loDetail.setCntryCde(loJson.getString("sCntryCde"));
-                        loDetail.setCntryCde(loJson.getString("sCntryNme"));
-                        loDetail.setCntryCde(loJson.getString("sNational"));
-                        loDetail.setCntryCde(loJson.getString("cRecdStat"));
-                        loDetail.setCntryCde(loJson.getString("dTimeStmp"));
+                        loDetail.setCntryNme(loJson.getString("sCntryNme"));
+                        loDetail.setNational(loJson.getString("sNational"));
+                        loDetail.setRecdStat(loJson.getString("cRecdStat"));
+                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
                         laDetail.add(loDetail);
                     }
                     poDao.SaveCountry(laDetail);

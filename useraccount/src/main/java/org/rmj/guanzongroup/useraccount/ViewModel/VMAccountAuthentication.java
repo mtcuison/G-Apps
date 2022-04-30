@@ -90,8 +90,11 @@ public class VMAccountAuthentication extends AndroidViewModel {
                     loActAuth.LoginAccount(loCrednts, new AccountAuthentication.OnLoginCallback() {
                         @Override
                         public void OnSuccessLogin(String message) {
-                            loClientx.ImportAccountInfo();
-                            lsResultx[0] = parse(SUCCESS, message);
+                            if(loClientx.ImportAccountInfo()) {
+                                lsResultx[0] = parse(SUCCESS, message);
+                            } else {
+                                lsResultx[0] = parse(FAILED, loClientx.getMessage());
+                            }
                         }
 
                         @Override
