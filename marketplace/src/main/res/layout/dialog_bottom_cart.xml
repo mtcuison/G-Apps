@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/cardview_dark_background">
+
+    <LinearLayout
+        android:id="@+id/dialog_bottom_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:text="Confirm order"
+            android:textColor="@color/guanzon_digital_light_grey"
+            android:textSize="24sp" />
+        <ImageButton
+            android:id="@+id/btn_bottom_sheet_close"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:adjustViewBounds="true"
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_dialog_button_close" />
+    </LinearLayout>
+
+
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_marginBottom="5dp"-->
+<!--        android:background="@color/guanzon_digital_light_grey" />-->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_bottom_header"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="Sub-total"
+                android:textColor="@color/guanzon_digital_light_grey"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/lbl_dialog_bottom_sub_total"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="end"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="₱ 1,000.00"
+                android:textColor="@color/guanzon_digital_light_grey"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="Shipping Fee"
+                android:textColor="@color/guanzon_digital_light_grey"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/lbl_dialog_bottom_shipping_fee"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="end"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="Free"
+                android:textColor="@color/guanzon_digital_light_grey"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="Other Fee"
+                android:textColor="@color/guanzon_digital_light_grey"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/lbl_dialog_bottom_other_fee"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="end"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="₱ 0.00"
+                android:textColor="@color/guanzon_digital_light_grey"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/guanzon_digital_light_grey" />
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_cond_bold"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="Total Price"
+                android:textColor="@color/guanzon_digital_light_grey"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:id="@+id/lbl_dialog_bottom_total"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:fontFamily="@font/roboto_cond_bold"
+                android:gravity="end"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="₱ 1,000.00"
+                android:textColor="@color/guanzon_digital_light_grey"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_bottom_sheet_cancel"
+                style="@style/ButtonStyle.Orange.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight=".5"
+                android:text="Cancel" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_bottom_sheet_confirm"
+                style="@style/ButtonStyle.Orange.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="Confirm" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

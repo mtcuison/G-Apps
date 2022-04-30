@@ -80,6 +80,14 @@ public class RAddressMobile {
         return poDao.GetCountryList();
     }
 
+    public LiveData<String> ParseBrgyID(String fsValue){
+        return poDao.GetBrgyName(fsValue);
+    }
+
+    public LiveData<String> ParseTownID(String fsValue){
+        return poDao.GetTownProvName(fsValue);
+    }
+
     public ArrayList<String> getBarangayForInput(List<EBarangayInfo> foList){
         ArrayList<String> loBrgyDta = new ArrayList<>();
         for(int x = 0; x < foList.size(); x++){
