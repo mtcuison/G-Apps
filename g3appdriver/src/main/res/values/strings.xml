@@ -30,6 +30,7 @@
     <string name="lblMarketplace">Marketplace</string>
     <string name="lblProductDescription">Product Description</string>
     <string name="lblReviewsAndRatings">Reviews and Ratings</string>
+    <string name="lblAskedQuestions">Asked Questions</string>
     <string name="lblEditPersonalInfo">Edit Personal Information</string>
     <string name="lblEditAccountInfo">Edit Account Information</string>
     <string name="lblEditPresentAddress">Edit Present Address</string>

@@ -367,10 +367,59 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblSeeAll"
+                app:layout_constraintTop_toBottomOf="@id/lblProductRatings"
                 app:layout_constraintRight_toRightOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="0.4dp"
+            android:background="@color/font_light"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_ratings"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_faqs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/FragmentTheme">
+
+            <TextView
+                android:id="@+id/lblProductFaqs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/lblAskedQuestions"
+                android:textColor="@color/font_regular"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/lblSeeAll2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="@string/lblSeeAll"
+                android:textColor="@color/font_light"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="@id/lblProductFaqs"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/lblProductFaqs"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_faqs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblProductFaqs"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </LinearLayout>
 
