@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.marketplace.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +10,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.guanzongroup.marketplace.R;
 
 public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductList.ViewHolderItem> {
 
+    private final JSONArray poProdcts;
     private final OnItemClick poCallBck;
 
-    public Adapter_ProductList(OnItemClick foCallBck){
+    public Adapter_ProductList(JSONArray foProdcts, OnItemClick foCallBck){
+        this.poProdcts = foProdcts;
         this.poCallBck = foCallBck;
     }
 
@@ -28,16 +35,25 @@ public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductLis
 
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
-
+        try {
+            JSONObject loJson = poProdcts.getJSONObject(position);
+            holder.sListIdxx = loJson.getString("sListngID");
+            holder.txtProdNm.setText(loJson.getString("xModelNme"));
+            holder.txtPricex.setText(CashFormatter.parse(loJson.getString("nUnitPrce")));
+            holder.txtSoldxx.setText(loJson.getString("nSoldQtyx") + " Sold");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return poProdcts.length();
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{
 
+        public String sListIdxx = "";
         public ImageView imgProdct;
         public TextView txtProdNm, txtPricex, txtSoldxx;
 
@@ -51,7 +67,7 @@ public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductLis
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION) {
-                    foCallBck.onClick(position);
+                    foCallBck.onClick(sListIdxx);
                 }
             });
         }
@@ -59,7 +75,7 @@ public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductLis
     }
 
     public interface OnItemClick {
-        void onClick(int position);
+        void onClick(String fsListIdx);
     }
 
 }
