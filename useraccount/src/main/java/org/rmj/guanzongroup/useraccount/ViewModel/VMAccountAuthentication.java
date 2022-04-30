@@ -14,6 +14,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
@@ -24,18 +25,18 @@ public class VMAccountAuthentication extends AndroidViewModel {
     private static final String TAG = VMAccountAuthentication.class.getSimpleName();
     private final ConnectionUtil poConnect;
     private final AccountAuthentication poActAuth;
-    private final SignUpInfoModel poSignUpM;
+    private final RClientInfo poClientx;
 
     public VMAccountAuthentication(@NonNull Application application) {
         super(application);
         Log.e(TAG, "Initialized");
         this.poConnect = new ConnectionUtil(application);
         this.poActAuth = new AccountAuthentication(application);
-        this.poSignUpM = new SignUpInfoModel();
+        this.poClientx = new RClientInfo(application);
     }
 
     public void LoginAccount(AccountAuthentication.LoginCredentials foCrednts, AuthTransactionCallback foCallbck) {
-        new LoginAccountTask(poConnect, poActAuth, foCallbck).execute(foCrednts);
+        new LoginAccountTask(poConnect, poActAuth, poClientx, foCallbck).execute(foCrednts);
     }
 
     public void RegisterAccount(AccountAuthentication.AccountCredentials foCrednts, AuthTransactionCallback foCallbck) {
@@ -44,10 +45,6 @@ public class VMAccountAuthentication extends AndroidViewModel {
 
     public void RetrievePassword(String fsEmailxx, AuthTransactionCallback foCallbck) {
         new RetrievePasswordTask(poConnect, poActAuth, foCallbck).execute(fsEmailxx);
-    }
-
-    public SignUpInfoModel getSignUpModel() {
-        return poSignUpM;
     }
 
     private static void setCallBack(String fsResultx, AuthTransactionCallback foCallBck) {
@@ -68,11 +65,13 @@ public class VMAccountAuthentication extends AndroidViewModel {
     private static class LoginAccountTask extends AsyncTask<AccountAuthentication.LoginCredentials, Void, String> {
         private final ConnectionUtil loConnect;
         private final AccountAuthentication loActAuth;
+        private final RClientInfo loClientx;
         private final AuthTransactionCallback loCallbck;
 
-        private LoginAccountTask(ConnectionUtil foConnect, AccountAuthentication foActAuth, AuthTransactionCallback foCallbck) {
+        private LoginAccountTask(ConnectionUtil foConnect, AccountAuthentication foActAuth, RClientInfo foClientx, AuthTransactionCallback foCallbck) {
             this.loConnect = foConnect;
             this.loActAuth = foActAuth;
+            this.loClientx = foClientx;
             this.loCallbck = foCallbck;
         }
 
@@ -91,7 +90,11 @@ public class VMAccountAuthentication extends AndroidViewModel {
                     loActAuth.LoginAccount(loCrednts, new AccountAuthentication.OnLoginCallback() {
                         @Override
                         public void OnSuccessLogin(String message) {
-                            lsResultx[0] = parse(SUCCESS, message);
+                            if(loClientx.ImportAccountInfo()) {
+                                lsResultx[0] = parse(SUCCESS, message);
+                            } else {
+                                lsResultx[0] = parse(FAILED, loClientx.getMessage());
+                            }
                         }
 
                         @Override

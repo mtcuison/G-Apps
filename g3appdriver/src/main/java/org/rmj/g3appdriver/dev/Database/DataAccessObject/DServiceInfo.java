@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface DServiceInfo {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(EServiceInfo eServiceInfo);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

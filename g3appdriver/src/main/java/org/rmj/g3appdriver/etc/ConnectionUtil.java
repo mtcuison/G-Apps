@@ -50,8 +50,14 @@ public class ConnectionUtil {
 
         try
         {
+            String lsAddress;
+            if(new GuanzonAppConfig(context).getTestCase()){
+                lsAddress = "http://192.168.10.141";
+            } else {
+                lsAddress = "https://restgk.guanzongroup.com.ph/index.php";
+            }
             HttpURLConnection httpUrlConnection = (HttpURLConnection) new URL(
-                    "https://restgk.guanzongroup.com.ph/index.php").openConnection();
+                    lsAddress).openConnection();
             httpUrlConnection.setRequestProperty("Connection", "close");
             httpUrlConnection.setRequestMethod("HEAD");
             httpUrlConnection.setConnectTimeout(5000);

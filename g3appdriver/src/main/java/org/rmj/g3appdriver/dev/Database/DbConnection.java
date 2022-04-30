@@ -12,28 +12,30 @@
 package org.rmj.g3appdriver.dev.Database;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import org.rmj.appdriver.base.GConnection;
 import org.rmj.appdriver.base.GProperty;
 import org.rmj.appdriver.crypt.GCryptFactory;
 import org.rmj.appdriver.iface.iGCrypt;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
 
 import java.io.InputStream;
 
 public class DbConnection {
     private static final String TAG = "AppDriver_Connection";
 
-    public static GConnection doConnect(Application application){
+    public static GConnection doConnect(Context context){
         try{
-            InputStream inputStream = application.getAssets().open("GhostRiderXP.properties");
+            InputStream inputStream = context.getAssets().open("GhostRiderXP.properties");
 
             //initialize GProperty
-            GProperty loProperty = new GProperty(inputStream, "IntegSys");
+            GProperty loProperty = new GProperty(inputStream, new AppConfigPreference(context).ProducID());
             if (loProperty.loadConfig()){
                 Log.d(TAG, "Config File was loaded.");
 
-                loProperty.setDBHost(application.getPackageName());
+                loProperty.setDBHost(context.getPackageName());
             } else {
                 Log.e(TAG, "Unable to load config file.");
             }

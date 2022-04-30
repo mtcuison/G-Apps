@@ -2,10 +2,7 @@ package org.rmj.guanzongroup.useraccount.Model;
 
 public class SignUpInfoModel {
 
-    private String sLastName = "";
-    private String sFrstName = "";
-    private String sMiddName = "";
-    private String sSuffixNm = "";
+    private String sUserName = "";
     private String sEmailAdd = "";
     private String sMobileNo = "";
     private String sPassword = "";
@@ -19,36 +16,12 @@ public class SignUpInfoModel {
         return message;
     }
 
-    public String getLastName() {
-        return sLastName;
+    public String getUserName() {
+        return sUserName;
     }
 
-    public void setLastName(String sLastName) {
-        this.sLastName = sLastName;
-    }
-
-    public String getFrstName() {
-        return sFrstName;
-    }
-
-    public void setFrstName(String sFrstName) {
-        this.sFrstName = sFrstName;
-    }
-
-    public String getMiddName() {
-        return sMiddName;
-    }
-
-    public void setMiddName(String sMiddName) {
-        this.sMiddName = sMiddName;
-    }
-
-    public String getSuffixNm() {
-        return sSuffixNm;
-    }
-
-    public void setSuffixNm(String sSuffixNm) {
-        this.sSuffixNm = sSuffixNm;
+    public void setUserName(String sUserName) {
+        this.sUserName = sUserName;
     }
 
     public String getEmailAdd() {
@@ -59,14 +32,6 @@ public class SignUpInfoModel {
         this.sEmailAdd = sEmailAdd;
     }
 
-    public String getPassword() {
-        return sPassword;
-    }
-
-    public void setPassword(String sPassword) {
-        this.sPassword = sPassword;
-    }
-
     public String getMobileNo() {
         return sMobileNo;
     }
@@ -75,23 +40,21 @@ public class SignUpInfoModel {
         this.sMobileNo = sMobileNo;
     }
 
-    public String getsPasswrd2() {
-        return sPasswrd2;
+    public String getPassword() {
+        return sPassword;
+    }
+
+    public void setPassword(String sPassword) {
+        this.sPassword = sPassword;
     }
 
     public void setPasswrd2(String sPasswrd2) {
         this.sPasswrd2 = sPasswrd2;
     }
 
-    public boolean isFirstPageClear() {
-        if(sLastName.isEmpty()){
-            message = "Please enter last name";
-            return false;
-        } else if(sFrstName.isEmpty()){
-            message = "Please enter first name";
-            return false;
-        } else if(sMiddName.isEmpty()){
-            message = "Please enter middle name";
+    public boolean isFormClear() {
+        if(sUserName.isEmpty()){
+            message = "Please enter username";
             return false;
         } else if(sEmailAdd.isEmpty()){
             message = "Please enter email";
@@ -105,13 +68,7 @@ public class SignUpInfoModel {
         } else if(sMobileNo.length() != 11){
             message = "Mobile number must be 11 characters";
             return false;
-        } else {
-            return true;
-        }
-    }
-
-    public boolean isSecondPageClear() {
-        if(sPassword.isEmpty()) {
+        } if(sPassword.isEmpty()) {
             message = "Please enter password";
             return false;
         } else if(sPasswrd2.isEmpty()) {
@@ -127,5 +84,7 @@ public class SignUpInfoModel {
             return true;
         }
     }
+
+
 
 }

@@ -7,6 +7,12 @@
             android:name=".Activity_PaymentMethod"
             android:exported="false" />
         <activity
+            android:name=".Activity.Activity_ProductOverview"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Activity_SearchItem"
+            android:exported="false" />
+        <activity
             android:name=".Activity_PlaceOrder"
             android:exported="true" />
     </application>
