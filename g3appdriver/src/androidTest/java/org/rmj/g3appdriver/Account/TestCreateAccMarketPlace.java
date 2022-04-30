@@ -64,7 +64,7 @@ public class TestCreateAccMarketPlace {
         assertTrue(isSucccess);
     }
 
-//    @Test
+    @Test
     public void test02RetrieveAccount() throws Exception{
         isSucccess = poClient.ImportAccountInfo();
         assertTrue(isSucccess);
