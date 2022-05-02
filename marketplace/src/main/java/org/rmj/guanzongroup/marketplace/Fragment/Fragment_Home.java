@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.marketplace.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
 import org.rmj.guanzongroup.marketplace.Etc.SampleProductData;
 import org.rmj.guanzongroup.marketplace.R;
@@ -62,8 +64,10 @@ public class Fragment_Home extends Fragment {
         try {
             if("success".equals(SampleProductData.getJson().getString("result"))) {
                 JSONArray loArray = SampleProductData.getJson().getJSONArray("detail");
-                poTopDeal = new Adapter_ProductList(loArray, position -> {
-
+                poTopDeal = new Adapter_ProductList(loArray, fsListIdx -> {
+                    Intent loIntent = new Intent(requireActivity(), Activity_ProductOverview.class);
+                    loIntent.putExtra("sListingId", fsListIdx);
+                    startActivity(loIntent);
                 });
                 poRvProds.setAdapter(poTopDeal);
                 poTopDeal.notifyDataSetChanged();

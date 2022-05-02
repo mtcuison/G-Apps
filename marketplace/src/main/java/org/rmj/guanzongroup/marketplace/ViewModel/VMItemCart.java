@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
-import org.rmj.g3appdriver.dev.Database.Repositories.RClientInfo;
+import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
 
 import java.util.ArrayList;
