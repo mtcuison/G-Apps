@@ -33,7 +33,7 @@
         <activity
             android:name="org.rmj.guanzongroup.useraccount.Activity.Activity_AccountDetails"
             android:exported="false"
-            android:theme="@style/GuanzonMarketplace.Theme"/>
+            android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_Dashboard"
             android:exported="true"
