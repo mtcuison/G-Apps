@@ -71,6 +71,8 @@
     <string name="lblTownCity">Town/City</string>
     <string name="lblBarangay">Barangay</string>
     <string name="lblScheduleService">Schedule Service Date</string>
+    <string name="lblBuyNow">Buy Now</string>
+    <string name="lblAddtoCart">Add to Cart</string>
     <string name="lblSave">Save</string>
     <string name="lblUpdate">Update</string>
     <string name="lblLogin">Log In</string>
