@@ -28,7 +28,9 @@
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_share_24.xml" value="0.1385" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.1385" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_shopping_cart_dark_32.xml" value="0.1385" />
+        <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_dialog_button_close.xml" value="0.1385" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_menu_gallery.xml" value="0.109" />
+        <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_no_image_available.xml" value="0.1385" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/layout/dialog_loading.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/layout/dialog_qr_code.xml" value="0.25" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/layout/dialog_single_button.xml" value="0.20416666666666666" />
@@ -43,6 +45,7 @@
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_item_cart.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_orders.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_wishlist.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/layout_item_cart.xml" value="0.22" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/product_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/recommended_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/menu/order_menu.xml" value="0.20416666666666666" />
