@@ -7,6 +7,11 @@
         android:icon="@drawable/ic_baseline_search_24"
         app:showAsAction="ifRoom"/>
     <item
+        android:id="@+id/item_gcardScan"
+        android:title="Scan"
+        android:icon="@drawable/ic_baseline_qr_code_scanner_24"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/item_cart"
         android:title="Cart"
         android:icon="@drawable/ic_baseline_shopping_cart_24"

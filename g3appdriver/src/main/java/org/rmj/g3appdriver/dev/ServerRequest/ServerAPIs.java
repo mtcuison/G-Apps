@@ -49,11 +49,13 @@ public class ServerAPIs {
     private static final String UPDATE_PAYMENT_METHOD = "";
     private static final String IMPORT_SHIPPING_INFO = "";
     private static final String IMPORT_TOP_SELLING_ITEMS = "";
-    private static final String IMPORT_PROMO_ITEMS = "";
+    private static final String IMPORT_PROMO_ITEMS = "integsys/marketplace/download_item_list.php";
     private static final String IMPORT_SEARCH_RESULTS = "";
     private static final String IMPORT_PRODUCT_INFO = "";
-    private static final String UPDATE_CART_ITEM = "";
+    private static final String ADD_TO_CART_ITEM = "integsys/marketplace/add_to_cart.php";
+    private static final String UPDATE_CART_ITEM = "integsys/marketplace/remove_to_cart.php";
     private static final String IMPORT_CART_ITEMS = "";
+    private static final String MKTPL_PLACE_ORDER = "integsys/marketplace/place_order.php";
     private static final String IMPORT_PLACED_ORDERS = "";
     private static final String IMPORT_RETRIEVE_SHIPPING_ADDRESS = "";
     private static final String UPDATE_SHIPPING_ADDRESS = "";
@@ -294,7 +296,7 @@ public class ServerAPIs {
         return LIVE + IMPORT_TOP_SELLING_ITEMS;
     }
 
-    public String getImportPromoItems() {
+    public String getImportProducts() {
         if(isTestUnit){
             return LOCAL + IMPORT_PROMO_ITEMS;
         }
@@ -315,7 +317,7 @@ public class ServerAPIs {
         return LIVE + IMPORT_PRODUCT_INFO;
     }
 
-    public String getUpdateCartItem() {
+    public String getRemoveCartItemAPI() {
         if(isTestUnit){
             return LOCAL + UPDATE_CART_ITEM;
         }
@@ -446,5 +448,19 @@ public class ServerAPIs {
             return LOCAL + URL_UPDATE_MOBILE;
         }
         return LIVE + URL_UPDATE_MOBILE;
+    }
+
+    public String getAddToCartAPI(){
+        if(isTestUnit){
+            return LOCAL + ADD_TO_CART_ITEM;
+        }
+        return LIVE + ADD_TO_CART_ITEM;
+    }
+
+    public String getMarketPlaceOrderAPI(){
+        if(isTestUnit){
+            return LOCAL + MKTPL_PLACE_ORDER;
+        }
+        return LIVE + MKTPL_PLACE_ORDER;
     }
 }

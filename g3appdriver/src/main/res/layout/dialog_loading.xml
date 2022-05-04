@@ -20,11 +20,11 @@
         <com.github.ybq.android.spinkit.SpinKitView
             android:id="@+id/loading_spinner"
             style="@style/SpinKitView.Large.DoubleBounce"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="50dp"
             app:SpinKit_Color="@color/guanzon_digital_orange" />
 
         <TextView

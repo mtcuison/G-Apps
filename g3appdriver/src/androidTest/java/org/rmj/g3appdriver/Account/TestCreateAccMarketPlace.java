@@ -100,6 +100,12 @@ public class TestCreateAccMarketPlace {
         poUserInfo.setTaxIDNox("");
 
         isSucccess = poClient.CompleteClientInfo(poUserInfo);
+        String lsMessage;
+        if(poClient.CompleteClientInfo(poUserInfo)){
+            //perform
+        } else {
+            lsMessage = poClient.getMessage();
+        }
         assertTrue(isSucccess);
     }
 }

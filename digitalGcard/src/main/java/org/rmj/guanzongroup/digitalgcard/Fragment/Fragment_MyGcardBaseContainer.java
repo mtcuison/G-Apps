@@ -67,6 +67,8 @@ public class Fragment_MyGcardBaseContainer extends Fragment {
                 return new Fragment_GcardOrders();
             case 4:
                 return new Fragment_GcardLedger();
+            case 5:
+                return new Fragment_PreTermination();
             default:
                 return null;
         }

@@ -38,7 +38,7 @@ public class AccountAuthentication {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void LoginAccount(LoginCredentials credentials, OnLoginCallback callback) throws Exception{
-        if (!credentials.isDataValid()) {
+         if (!credentials.isDataValid()) {
             callback.OnFailedLogin(credentials.getMessage());
         } else {
             String lsResponse = WebClient.httpsPostJSon(poApi.getSIGN_IN(), credentials.getJSONParameters(), poHeaders.getHeaders());
@@ -148,7 +148,7 @@ public class AccountAuthentication {
             return sUserName;
         }
 
-        public void setLastName(String sLastName) {
+        public void setUserName(String sLastName) {
             this.sUserName = sLastName;
         }
 
@@ -186,19 +186,10 @@ public class AccountAuthentication {
 
         public boolean isDataValid(){
             if(sUserName.isEmpty()){
-                message = "Please enter last name";
+                message = "Please enter username";
                 return false;
             } else if(sEmailAdd.isEmpty()){
-                message = "Please enter email";
-                return false;
-            } else if(sPassword.isEmpty()){
-                message = "Please enter password";
-                return false;
-            } else if(!sPassword.equalsIgnoreCase(sPasswrd2)){
-                message = "Passwords does not match";
-                return false;
-            } else if(sPassword.length() < 6){
-                message = "Password is too short";
+                message = "Please enter email address";
                 return false;
             } else if(sMobileNo.isEmpty()){
                 message = "Please enter mobile no";
@@ -208,6 +199,18 @@ public class AccountAuthentication {
                 return false;
             } else if(sMobileNo.length() != 11){
                 message = "Mobile number must be 11 characters";
+                return false;
+            } else if(sPassword.isEmpty()){
+                message = "Please enter password";
+                return false;
+            }  else if(sPassword.length() < 6){
+                message = "Password is too short";
+                return false;
+            } else if(sPasswrd2.isEmpty()) {
+                message = "Please re-type password";
+                return false;
+            } else if(!sPassword.equals(sPasswrd2)){
+                message = "Passwords does not match";
                 return false;
             } else {
                 return true;

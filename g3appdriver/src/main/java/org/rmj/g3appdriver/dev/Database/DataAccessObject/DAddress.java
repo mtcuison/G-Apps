@@ -34,6 +34,16 @@ public interface DAddress {
     @Query("SELECT * FROM Country_Info")
     LiveData<List<ECountryInfo>> GetCountryList();
 
+    @Query("SELECT sBrgyName FROM Barangay_Info WHERE sBrgyIDxx =:fsBrgyID")
+    LiveData<String> GetBrgyName(String fsBrgyID);
+
+    @Query("SELECT a.sTownName || ', ' || b.sProvName " +
+            "FROM Town_Info a " +
+            "LEFT JOIN Province_Info b " +
+            "ON a.sProvIDxx = b.sProvIDxx " +
+            "WHERE a.sTownIDxx =:fsTownID")
+    LiveData<String> GetTownProvName(String fsTownID);
+
     @Query("SELECT " +
             "a.sTownIDxx AS sTownID, " +
             "a.sTownName AS sTownNm, " +
@@ -42,8 +52,6 @@ public interface DAddress {
             "LEFT JOIN Province_Info b " +
             "ON a.sProvIDxx = b.sProvIDxx")
     LiveData<List<oTownObj>> GetTownList();
-
-
 
     class oTownObj{
         public String sTownID;
