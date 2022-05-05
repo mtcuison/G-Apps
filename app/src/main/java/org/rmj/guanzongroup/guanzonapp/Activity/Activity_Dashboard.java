@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -21,6 +22,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
+import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
+import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
@@ -35,6 +39,8 @@ public class Activity_Dashboard extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityDashboardBinding binding;
     private VMHome mViewModel;
+
+    private static final int SCAN_GCARD = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,13 +94,17 @@ public class Activity_Dashboard extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent loIntent;
         if(item.getItemId() == android.R.id.home){
 //            finish();
         } else if (item.getItemId() == R.id.item_search) {
-            Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
+            loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
             startActivity(loIntent);
         } else if (item.getItemId() == R.id.item_cart) {
 //            Navigation.findNavController(findViewById(android.R.id.content).getRootView()).navigate(R.id.nav_item_cart);
+        } else {
+            loIntent = new Intent(Activity_Dashboard.this, Activity_QrCodeScanner.class);
+            startActivityForResult(loIntent, SCAN_GCARD);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -152,5 +162,13 @@ public class Activity_Dashboard extends AppCompatActivity {
 //                startActivity(loIntent);
 //            });
 //        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == SCAN_GCARD){
+            iGCardSystem loGcard = new GCardSystem(Activity_Dashboard.this).getInstance(GCardSystem.CoreFunctions.GCARD);
+        }
     }
 }
