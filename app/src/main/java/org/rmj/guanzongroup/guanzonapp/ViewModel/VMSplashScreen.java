@@ -132,10 +132,13 @@ public class VMSplashScreen extends AndroidViewModel {
                 if (new RProduct(mContext).ImportProductList()) {
                     Log.d(TAG, "Product Sales imported successfully...");
                 }
+
                 Thread.sleep(500);
                 iGCardSystem loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
                 loGcard.DownloadBranchesList(poCallback);
                 Thread.sleep(500);
+                
+
                 if (new AccountInfo(mContext).getLoginStatus()) {
                     loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
                     loGcard.DownloadGcardNumbers(poCallback);

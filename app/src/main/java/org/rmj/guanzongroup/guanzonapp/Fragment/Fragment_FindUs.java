@@ -48,7 +48,9 @@ public class Fragment_FindUs extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("Motorcycle"));
         tabLayout.addTab(tabLayout.newTab().setText("Mobile Phones"));
         recyclerView = v.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+        loManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(loManager);
         recyclerView.setHasFixedSize(true);
     }
 
@@ -59,15 +61,15 @@ public class Fragment_FindUs extends Fragment {
                 switch(tab.getPosition()) {
                     case 0:
                         initMCBranches();
+                        recyclerView.setAdapter(poAdapter);
                         break;
                     case 1:
                         initMPBranches();
+                        recyclerView.setAdapter(poAdapter);
                         break;
                     default:
                         break;
                 }
-                recyclerView.setAdapter(poAdapter);
-                poAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -84,13 +86,23 @@ public class Fragment_FindUs extends Fragment {
 
     private void initMCBranches() {
         mViewModel.getMotorBranches().observe(getViewLifecycleOwner(), motorBranches -> {
-            poAdapter = new Adapter_BranchList(motorBranches, true);
+            try {
+                poAdapter = new Adapter_BranchList(motorBranches, true);
+                poAdapter.notifyDataSetChanged();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
     }
 
     private void initMPBranches() {
         mViewModel.getMobileBranches().observe(getViewLifecycleOwner(), mobileBranches -> {
-            poAdapter = new Adapter_BranchList(mobileBranches, false);
+            try {
+                poAdapter = new Adapter_BranchList(mobileBranches, false);
+                poAdapter.notifyDataSetChanged();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
     }
 

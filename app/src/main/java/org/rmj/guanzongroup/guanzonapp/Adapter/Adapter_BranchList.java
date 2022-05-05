@@ -54,7 +54,7 @@ public class Adapter_BranchList extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return 0;
+        return poBranchs.size();
     }
 
     @Override
