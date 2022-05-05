@@ -13,6 +13,8 @@ public class GuanzonAppConfig {
 
     private static final String TEST_CASE = "cTestStat";
 
+    private static final String PERMISSIONS_GRANT = "cPrmnGrnt";
+
     public GuanzonAppConfig(Context context){
         pref = context.getSharedPreferences(ACCOUNT_CREDENTIALS, Context.MODE_PRIVATE);
         editor = pref.edit();
@@ -28,11 +30,20 @@ public class GuanzonAppConfig {
      *            Default value: False
      */
     public void setTestCase(boolean val){
-        editor.putBoolean(TEST_CASE, val);
+        editor.putBoolean(PERMISSIONS_GRANT, val);
         editor.commit();
     }
 
     public boolean getTestCase(){
-        return pref.getBoolean(TEST_CASE, false);
+        return pref.getBoolean(PERMISSIONS_GRANT, false);
+    }
+
+    public void setIfPermissionsGranted(boolean val){
+        editor.putBoolean(PERMISSIONS_GRANT, val);
+        editor.commit();
+    }
+
+    public boolean IsPermissionsGranted(){
+        return pref.getBoolean(PERMISSIONS_GRANT, false);
     }
 }

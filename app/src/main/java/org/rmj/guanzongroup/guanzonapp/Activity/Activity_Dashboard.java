@@ -21,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
+import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
@@ -88,13 +89,17 @@ public class Activity_Dashboard extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent loIntent;
         if(item.getItemId() == android.R.id.home){
 //            finish();
         } else if (item.getItemId() == R.id.item_search) {
-            Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
+            loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
             startActivity(loIntent);
         } else if (item.getItemId() == R.id.item_cart) {
 //            Navigation.findNavController(findViewById(android.R.id.content).getRootView()).navigate(R.id.nav_item_cart);
+        } else {
+            loIntent = new Intent(Activity_Dashboard.this, Activity_QrCodeScanner.class);
+            startActivity(loIntent);
         }
         return super.onOptionsItemSelected(item);
     }

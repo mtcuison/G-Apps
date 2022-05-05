@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.Fragment_MyGcard"
+    android:theme="@style/GuanzonMarketplace.Theme"
     android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
