@@ -42,6 +42,7 @@
     <string name="lblOr">or</string>
     <string name="lblGcardNumber">GCard Number</string>
     <string name="lblSeeAll">See All ></string>
+    <string name="lblClose">Close</string>
     <string name="lblEmail">Email</string>
     <string name="lblMobile">Mobile</string>
     <string name="lblEmailAddress">Email Address</string>
@@ -50,6 +51,7 @@
     <string name="lblForgotPass">Forgot Password?</string>
     <string name="lblRetypePass">Re-type Password</string>
     <string name="lblCreateAccount">Create Account</string>
+    <string name="lblTapQRToRefresh">Tap QR Code to Refresh</string>
     <string name="lblUsername">Username</string>
     <string name="lblFullName">Full Name</string>
     <string name="lblLastname">Last Name</string>
@@ -69,6 +71,8 @@
     <string name="lblTownCity">Town/City</string>
     <string name="lblBarangay">Barangay</string>
     <string name="lblScheduleService">Schedule Service Date</string>
+    <string name="lblBuyNow">Buy Now</string>
+    <string name="lblAddtoCart">Add to Cart</string>
     <string name="lblSave">Save</string>
     <string name="lblUpdate">Update</string>
     <string name="lblLogin">Log In</string>

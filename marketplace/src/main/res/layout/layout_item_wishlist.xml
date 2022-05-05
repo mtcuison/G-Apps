@@ -4,7 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardUseCompatPadding="true"
-    android:layout_margin="5dp"
     app:cardBackgroundColor="@android:color/white"
     app:cardCornerRadius="0dp"
     android:background="?attr/selectableItemBackground"
@@ -13,25 +12,19 @@
     card_view:cardElevation="0dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="5dp"
+        android:layout_marginHorizontal="10dp">
 
-        android:gravity="center_vertical|center|center_horizontal">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical|center|center_horizontal"
-            >
-            <ImageView
-                android:id="@+id/imgWishProduct"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/ic_no_image_available"
-                />
-        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgWishProduct"
+            android:layout_width="97dp"
+            android:layout_height="97dp"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -44,71 +37,69 @@
                 android:id="@+id/lblWishProdNme"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="16sp"
                 android:ellipsize="end"
-                android:singleLine="true"
+                android:maxLines="1"
+                android:lines="1"
                 android:text="Product Name"/>
 
             <TextView
                 android:id="@+id/lblWishProdPrice"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:letterSpacing="0.1"
-                android:paddingBottom="5dp"
-                android:text="₱ 810.00"
-                android:textColor="@android:color/holo_red_light"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/guanzon_digital_light_orange"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:text="₱ 810.00" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp">
 
                 <TextView
                     android:id="@+id/lblWishProdPrice1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:paddingBottom="5dp"
+                    android:fontFamily="@font/roboto"
                     android:text="₱ 1,000.00"
-                    android:textColor="@color/guanzon_digital_dark_grey"
+                    android:textColor="@color/font_light"
                     android:textSize="14sp" />
+
                 <TextView
                     android:id="@+id/lblWishPercent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
-                    android:paddingBottom="5dp"
-                    android:textColor="@color/guanzon_digital_dark_grey"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/font_light"
                     android:text="   -  19%"/>
-            </LinearLayout>
 
+            </LinearLayout>
 
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_gravity="center|center_horizontal|center_vertical">
+            android:layout_gravity="center|center_horizontal|center_vertical"
+            android:layout_marginLeft="10dp">
 
             <ImageButton
                 android:id="@+id/removeItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:background="@color/white"
-                android:padding="8dp"
-                android:src="@drawable/ic_baseline_delete_forever_24"
-                card_view:targetApi="o" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="3dp"
-                android:background="@color/white"
-                android:padding="8dp"
-                android:src="@drawable/ic_baseline_add_shopping_cart_24"
+                android:src="@drawable/ic_baseline_delete_20"
                 card_view:targetApi="o" />
 
         </RelativeLayout>

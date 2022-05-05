@@ -10,13 +10,16 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
+import org.rmj.g3appdriver.etc.ConnectionUtil;
 
 public class VMHome extends AndroidViewModel {
     private final RClientInfo poClientx;
     private final RAddressMobile poAddress;
+    private final ConnectionUtil poConnect;
 
     public VMHome(@NonNull Application application) {
         super(application);
+        this.poConnect = new ConnectionUtil(application);
         this.poClientx = new RClientInfo(application);
         this.poAddress = new RAddressMobile(application);
     }
@@ -26,24 +29,29 @@ public class VMHome extends AndroidViewModel {
     }
 
     public void importAddress() {
-        new ImportAddressTask(poAddress).execute();
+        new ImportAddressTask(poConnect, poAddress).execute();
     }
 
     private static class ImportAddressTask extends AsyncTask<Void, Void, String> {
-
+        private final ConnectionUtil poConnect;
         private final RAddressMobile poAddress;
 
-        private ImportAddressTask(RAddressMobile foAddress) {
+        private ImportAddressTask(ConnectionUtil foConnect, RAddressMobile foAddress) {
+            this.poConnect = foConnect;
             this.poAddress = foAddress;
         }
 
         @Override
         protected String doInBackground(Void... voids) {
             try {
-                poAddress.ImportBarangayList();
-                poAddress.ImportCountryList();
-                poAddress.ImportProvinceList();
-                poAddress.ImportTownList();
+                if(poConnect.isDeviceConnected()) {
+                    poAddress.ImportBarangayList();
+                    poAddress.ImportCountryList();
+                    poAddress.ImportProvinceList();
+                    poAddress.ImportTownList();
+                } else {
+                    return null;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

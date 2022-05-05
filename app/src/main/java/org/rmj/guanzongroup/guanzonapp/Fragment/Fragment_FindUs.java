@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.guanzonapp.Fragment;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -24,6 +26,7 @@ public class Fragment_FindUs extends Fragment {
     private VMBranchDetails mViewModel;
     private Adapter_BranchList poAdapter;
     private TabLayout tabLayout;
+    private ImageView imgHeader;
     private RecyclerView recyclerView;
 
     public Fragment_FindUs() { }
@@ -52,6 +55,7 @@ public class Fragment_FindUs extends Fragment {
         loManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(loManager);
         recyclerView.setHasFixedSize(true);
+        imgHeader = v.findViewById(R.id.img_header);
     }
 
     private void setTabLayout(){
@@ -85,7 +89,9 @@ public class Fragment_FindUs extends Fragment {
     }
 
     private void initMCBranches() {
+//        setHeaderImage();
         mViewModel.getMotorBranches().observe(getViewLifecycleOwner(), motorBranches -> {
+            poAdapter = new Adapter_BranchList(motorBranches);
             try {
                 poAdapter = new Adapter_BranchList(motorBranches, true);
                 poAdapter.notifyDataSetChanged();
@@ -96,7 +102,9 @@ public class Fragment_FindUs extends Fragment {
     }
 
     private void initMPBranches() {
+//        setHeaderImage();
         mViewModel.getMobileBranches().observe(getViewLifecycleOwner(), mobileBranches -> {
+            poAdapter = new Adapter_BranchList(mobileBranches);
             try {
                 poAdapter = new Adapter_BranchList(mobileBranches, false);
                 poAdapter.notifyDataSetChanged();
@@ -104,6 +112,11 @@ public class Fragment_FindUs extends Fragment {
                 e.printStackTrace();
             }
         });
+    }
+
+    private void setHeaderImage(Bitmap poImage) {
+        /** set image here **/
+        imgHeader.setImageBitmap(poImage);
     }
 
 }

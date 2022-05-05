@@ -15,41 +15,24 @@ import org.rmj.guanzongroup.guanzonapp.R;
 import java.util.List;
 
 public class Adapter_BranchList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int VIEW_HEAD = 0;
     private final List<EBranchInfo> poBranchs;
-    private final boolean isMotor;
 
-    public Adapter_BranchList(List<EBranchInfo> foBranchs, boolean isMotor){
+    public Adapter_BranchList(List<EBranchInfo> foBranchs) {
         this.poBranchs = foBranchs;
-        this.isMotor = isMotor;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(viewType == VIEW_HEAD) {
-            View viewItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_branch_list_head, parent, false);
-            return new HeadImageHolder(viewItem);
-        } else {
-            View viewItem1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_branch_list_content, parent, false);
-            return new ViewHolderItem(viewItem1);
-        }
+        View viewItem1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_branch_list_content, parent, false);
+        return new ViewHolderItem(viewItem1);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         EBranchInfo loBranch = poBranchs.get(position);
-        if(holder instanceof HeadImageHolder) {
-            if(isMotor) {
-
-            } else {
-
-            }
-//            ((HeadImageHolder) holder).imgHeader.setImageBitmap();
-        } else if(holder instanceof ViewHolderItem) {
-            ((ViewHolderItem) holder).txtBranch.setText(loBranch.getBranchNm());
-            ((ViewHolderItem) holder).txtAddrss.setText(loBranch.getAddressx());
-        }
+        ((ViewHolderItem) holder).txtBranch.setText(loBranch.getBranchNm());
+        ((ViewHolderItem) holder).txtAddrss.setText(loBranch.getAddressx());
     }
 
     @Override
@@ -60,17 +43,6 @@ public class Adapter_BranchList extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public int getItemViewType(int position) {
         return super.getItemViewType(position);
-    }
-
-    public static class HeadImageHolder extends RecyclerView.ViewHolder{
-
-        public ImageView imgHeader;
-
-        public HeadImageHolder(@NonNull View itemView) {
-            super(itemView);
-            this.imgHeader = itemView.findViewById(R.id.img_header);
-        }
-
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{
