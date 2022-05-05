@@ -93,7 +93,7 @@ public class Fragment_FindUs extends Fragment {
         mViewModel.getMotorBranches().observe(getViewLifecycleOwner(), motorBranches -> {
             poAdapter = new Adapter_BranchList(motorBranches);
             try {
-                poAdapter = new Adapter_BranchList(motorBranches, true);
+                poAdapter = new Adapter_BranchList(motorBranches);
                 poAdapter.notifyDataSetChanged();
             } catch (Exception e){
                 e.printStackTrace();
@@ -106,7 +106,7 @@ public class Fragment_FindUs extends Fragment {
         mViewModel.getMobileBranches().observe(getViewLifecycleOwner(), mobileBranches -> {
             poAdapter = new Adapter_BranchList(mobileBranches);
             try {
-                poAdapter = new Adapter_BranchList(mobileBranches, false);
+                poAdapter = new Adapter_BranchList(mobileBranches);
                 poAdapter.notifyDataSetChanged();
             } catch (Exception e){
                 e.printStackTrace();
