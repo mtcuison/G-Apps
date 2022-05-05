@@ -34,7 +34,6 @@ public class RProduct {
     public RProduct(Context context){
         this.mContext = context;
         this.poDao = GGC_GuanzonAppDB.getInstance(mContext).prodctDao();
-        this.poProdType.setValue(new oFilterx(FilterType.DEFAULT, null, null));
     }
 
     public JSONObject getData() {

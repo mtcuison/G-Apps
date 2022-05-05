@@ -197,6 +197,7 @@ public class SystemExtras implements iGCardSystem{
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("success")){
                 callback.OnSuccess(loResponse.toString());
+                SaveBranchesList(loResponse);
                 Log.d(TAG, "Branch records retrieve successfully.");
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
@@ -216,21 +217,21 @@ public class SystemExtras implements iGCardSystem{
             //Insert new record if not exist
             if(loBranch == null){
                 //check the records from API, if record status is not equal to 1, record is inactive, do not insert
-                if(!"1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
+//                if(!"1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
                     // insert saving method inside...
                     EBranchInfo info = new EBranchInfo();
                     info.setBranchCd(loJson.getString("sBranchCD"));
                     info.setBranchNm(loJson.getString("sBranchNm"));
                     info.setDescript(loJson.getString("sDescript"));
                     info.setAddressx(loJson.getString("sAddressx"));
-                    info.setContactx(loJson.getString("sContactx"));
+//                    info.setContactx(loJson.getString("sContactx"));
                     info.setTelNumbr(loJson.getString("sTelNumbr"));
                     info.setEmailAdd(loJson.getString("sEMailAdd"));
-                    info.setRecdStat(loJson.getString("cRecdStat"));
-                    info.setTimeStmp(loJson.getString("dTimeStmp"));
+//                    info.setRecdStat(loJson.getString("cRecdStat"));
+//                    info.setTimeStmp(loJson.getString("dTimeStmp"));
                     poBranch.insert(info);
                     Log.d(TAG, "New record save!");
-                }
+//                }
             } else {
                 // if exist check timestamp for latest record and replace current record on local
                 Date ldDate1 = SQLUtil.toDate(loBranch.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
