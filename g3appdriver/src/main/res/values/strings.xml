@@ -41,6 +41,7 @@
     <string name="lblScanGcard">Scan GCard</string>
     <string name="lblOr">or</string>
     <string name="lblGcardNumber">GCard Number</string>
+    <string name="lblTotalPoints">Total Points</string>
     <string name="lblSeeAll">See All ></string>
     <string name="lblClose">Close</string>
     <string name="lblEmail">Email</string>

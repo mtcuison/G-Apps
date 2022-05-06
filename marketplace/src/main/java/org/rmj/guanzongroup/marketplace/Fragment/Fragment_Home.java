@@ -15,11 +15,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
-import org.rmj.guanzongroup.marketplace.Etc.SampleProductData;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 
@@ -48,7 +45,7 @@ public class Fragment_Home extends Fragment {
     }
 
     private void initViews(View v) {
-        poRvProds = v.findViewById(R.id.rv_top_products);
+        poRvProds = v.findViewById(R.id.rv_products);
         poRvCateg = v.findViewById(R.id.rv_categories);
         poRvProds.setLayoutManager(new GridLayoutManager(requireActivity(),
                 2, RecyclerView.VERTICAL, false));

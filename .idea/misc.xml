@@ -26,6 +26,8 @@
         <entry key="..\:/Projects/Android/G-Apps/digitalGcard/src/main/res/layout/fragment_redeemables.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1385" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.1055" />
+        <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_qr_code_24.xml" value="0.1695" />
+        <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_qr_code_scanner_24.xml" value="0.1695" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_share_24.xml" value="0.1385" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.1385" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_shopping_cart_dark_32.xml" value="0.1385" />
@@ -43,14 +45,14 @@
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/activity_search_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_categories.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_grid.xml" value="0.20416666666666666" />
-        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_list.xml" value="0.15" />
-        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_home.xml" value="0.18" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_list.xml" value="0.5" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_item_cart.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_orders.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_payment_method.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_wishlist.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/layout_item_cart.xml" value="0.22" />
-        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/layout_item_wishlist.xml" value="0.5017421602787456" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/layout_item_wishlist.xml" value="0.33" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/layout_item_wishlist2.xml" value="0.2" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/product_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/recommended_item.xml" value="0.20416666666666666" />
