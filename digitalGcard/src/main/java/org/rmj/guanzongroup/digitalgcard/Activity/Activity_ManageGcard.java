@@ -156,7 +156,7 @@ public class Activity_ManageGcard extends AppCompatActivity {
                 } else {
                     lblOtherx.setVisibility(View.GONE);
                 }
-            } catch(Exception e) {
+            } catch(NullPointerException e) {
                 e.printStackTrace();
             }
         });

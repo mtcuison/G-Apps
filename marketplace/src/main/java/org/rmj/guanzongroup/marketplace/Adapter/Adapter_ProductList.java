@@ -13,15 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.guanzongroup.marketplace.R;
 
+import java.util.List;
+
 public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductList.ViewHolderItem> {
 
-    private final JSONArray poProdcts;
+    private final List<EProducts> poProdcts;
     private final OnItemClick poCallBck;
 
-    public Adapter_ProductList(JSONArray foProdcts, OnItemClick foCallBck){
+    public Adapter_ProductList(List<EProducts> foProdcts, OnItemClick foCallBck){
         this.poProdcts = foProdcts;
         this.poCallBck = foCallBck;
     }
@@ -36,19 +39,19 @@ public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductLis
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
         try {
-            JSONObject loJson = poProdcts.getJSONObject(position);
-            holder.sListIdxx = loJson.getString("sListngID");
-            holder.txtProdNm.setText(loJson.getString("xModelNme"));
-            holder.txtPricex.setText(CashFormatter.parse(loJson.getString("nUnitPrce")));
-            holder.txtSoldxx.setText(loJson.getString("nSoldQtyx") + " Sold");
-        } catch (JSONException e) {
+            EProducts loProduct = poProdcts.get(position);
+            holder.sListIdxx = loProduct.getListngID();
+            holder.txtProdNm.setText(loProduct.getModelNme());
+            holder.txtPricex.setText(CashFormatter.parse(loProduct.getUnitPrce()));
+            holder.txtSoldxx.setText(loProduct.getSoldQtyx() + " Sold");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public int getItemCount() {
-        return poProdcts.length();
+        return poProdcts.size();
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{

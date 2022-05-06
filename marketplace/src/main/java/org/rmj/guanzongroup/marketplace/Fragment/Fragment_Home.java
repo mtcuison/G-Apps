@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +27,7 @@ import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 public class Fragment_Home extends Fragment {
 
     private VMHome mViewModel;
-    private Adapter_ProductList poTopDeal, poProduct;
+    private Adapter_ProductList poAdapter;
     private RecyclerView poRvProds, poRvCateg;
 
     public Fragment_Home() {}
@@ -49,7 +50,8 @@ public class Fragment_Home extends Fragment {
     private void initViews(View v) {
         poRvProds = v.findViewById(R.id.rv_top_products);
         poRvCateg = v.findViewById(R.id.rv_categories);
-        poRvProds.setLayoutManager(new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false));
+        poRvProds.setLayoutManager(new GridLayoutManager(requireActivity(),
+                2, RecyclerView.VERTICAL, false));
         poRvCateg.setLayoutManager(new LinearLayoutManager(requireActivity()));
         poRvProds.setHasFixedSize(true);
         poRvCateg.setHasFixedSize(true);
@@ -61,20 +63,21 @@ public class Fragment_Home extends Fragment {
     }
 
     private void setProductAdapter() {
-        try {
-            if("success".equals(SampleProductData.getJson().getString("result"))) {
-                JSONArray loArray = SampleProductData.getJson().getJSONArray("detail");
-                poTopDeal = new Adapter_ProductList(loArray, fsListIdx -> {
-                    Intent loIntent = new Intent(requireActivity(), Activity_ProductOverview.class);
-                    loIntent.putExtra("sListingId", fsListIdx);
-                    startActivity(loIntent);
-                });
-                poRvProds.setAdapter(poTopDeal);
-                poTopDeal.notifyDataSetChanged();
+        mViewModel.getProductList(0).observe(getViewLifecycleOwner(), products -> {
+            try {
+                if(products.size() > 0) {
+                    poAdapter = new Adapter_ProductList(products, listingId -> {
+                        Intent loIntent = new Intent(requireActivity(), Activity_ProductOverview.class);
+                        loIntent.putExtra("sListingId", listingId);
+                        startActivity(loIntent);
+                    });
+                    poRvProds.setAdapter(poAdapter);
+                    poAdapter.notifyDataSetChanged();
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     private void setCategoryAdapter() {

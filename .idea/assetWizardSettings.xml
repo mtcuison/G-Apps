@@ -370,9 +370,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="858585" />
-                            <entry key="outputName" value="ic_baseline_delete_20" />
-                            <entry key="sourceFile" value="C:\Users\user\Desktop\ic-dialog-warning.svg" />
+                            <entry key="outputName" value="sample_image" />
+                            <entry key="sourceFile" value="C:\Users\User\Desktop\Marketplace Sample Image\Sample Image.svg" />
                           </map>
                         </option>
                       </PersistentState>
