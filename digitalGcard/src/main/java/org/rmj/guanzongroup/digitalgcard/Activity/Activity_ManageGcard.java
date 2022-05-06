@@ -101,7 +101,7 @@ public class Activity_ManageGcard extends AppCompatActivity {
                 if(eGcardApp != null) {
                     txtUserNm.setText(Objects.requireNonNull(eGcardApp.getNmOnCard()));
                     txtCardNo.setText(Objects.requireNonNull(eGcardApp.getCardNmbr()));
-                    txtPoints.setText(Objects.requireNonNull(eGcardApp.getTotPoint()));
+                    txtPoints.setText(Objects.requireNonNull(eGcardApp.getAvlPoint()));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

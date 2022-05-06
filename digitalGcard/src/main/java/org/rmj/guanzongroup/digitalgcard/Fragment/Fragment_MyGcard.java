@@ -88,7 +88,7 @@ public class Fragment_MyGcard extends Fragment {
     private void displayGcardInfo(EGcardApp foGcardxx) {
         txtUserNm.setText(Objects.requireNonNull(foGcardxx.getNmOnCard()));
         txtCardNo.setText(Objects.requireNonNull(foGcardxx.getCardNmbr()));
-        txtPoints.setText(Objects.requireNonNull(foGcardxx.getTotPoint()));
+        txtPoints.setText(Objects.requireNonNull(foGcardxx.getAvlPoint()));
     }
 
 }
