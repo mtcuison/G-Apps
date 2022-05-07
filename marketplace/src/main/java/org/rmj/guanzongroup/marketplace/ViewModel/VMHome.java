@@ -8,24 +8,32 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
+import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 
 public class VMHome extends AndroidViewModel {
     private final RClientInfo poClientx;
     private final RAddressMobile poAddress;
     private final ConnectionUtil poConnect;
+    private final RGcardApp poGCard;
 
     public VMHome(@NonNull Application application) {
         super(application);
         this.poConnect = new ConnectionUtil(application);
         this.poClientx = new RClientInfo(application);
         this.poAddress = new RAddressMobile(application);
+        this.poGCard = new RGcardApp(application);
     }
 
     public LiveData<EClientInfo> getClientInfo() {
         return poClientx.getClientInfo();
+    }
+
+    public LiveData<EGcardApp> GetActiveGCard(){
+        return poGCard.getGCardInfo();
     }
 
     public void importAddress() {
@@ -58,5 +66,4 @@ public class VMHome extends AndroidViewModel {
             return null;
         }
     }
-
 }

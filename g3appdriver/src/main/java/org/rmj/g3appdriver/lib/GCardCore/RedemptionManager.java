@@ -24,9 +24,13 @@ import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.Telephony;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class RedemptionManager implements iGCardSystem{
@@ -90,6 +94,11 @@ public class RedemptionManager implements iGCardSystem{
     @Override
     public Bitmap GenerateGCardQrCode() throws Exception {
         return null;
+    }
+
+    @Override
+    public void ParseQrCode(String val, GCardSystem.ParseQrCodeCallback callback) throws Exception {
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -211,8 +220,28 @@ public class RedemptionManager implements iGCardSystem{
     }
 
     @Override
-    public Bitmap GenerateGCardOrderQrCode() throws Exception {
-        return null;
+    public Bitmap GenerateGCardOrderQrCode(String BatchNox) throws Exception {
+        CodeGenerator loCode = new CodeGenerator();
+        AccountInfo loUser = new AccountInfo(mContext);
+        String lsTranTpe = "PREORDER";
+        String lsDevIDxx = new Telephony(mContext).getDeviceID();
+        String lsCardNox = poGcard.getCardNo();
+        String lsUserIDx = loUser.getUserID();
+        String lsMobilex = new Telephony(mContext).getMobilNumbers();
+        String lsDteTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        double lsCardPts = poGcard.getGCardTotPoints(poGcard.getCardNo());
+        String lsBuildxx = Build.MODEL;
+        String lsBatchNo = BatchNox;
+
+        return loCode.generateQrCode(lsTranTpe,
+                lsDevIDxx,
+                lsCardNox,
+                lsUserIDx,
+                lsMobilex,
+                lsDteTime,
+                lsCardPts,
+                lsBuildxx,
+                lsBatchNo);
     }
 
     @Override

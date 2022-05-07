@@ -118,5 +118,4 @@ public class Fragment_FindUs extends Fragment {
         /** set image here **/
         imgHeader.setImageBitmap(poImage);
     }
-
 }
