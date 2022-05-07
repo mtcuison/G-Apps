@@ -54,7 +54,7 @@ public class ServerAPIs {
     private static final String IMPORT_PRODUCT_INFO = "";
     private static final String ADD_TO_CART_ITEM = "integsys/marketplace/add_to_cart.php";
     private static final String UPDATE_CART_ITEM = "integsys/marketplace/remove_to_cart.php";
-    private static final String IMPORT_CART_ITEMS = "";
+    private static final String IMPORT_CART_ITEMS = "integsys/marketplace/download_cart.php";
     private static final String MKTPL_PLACE_ORDER = "integsys/marketplace/place_order.php";
     private static final String IMPORT_PLACED_ORDERS = "";
     private static final String IMPORT_RETRIEVE_SHIPPING_ADDRESS = "";

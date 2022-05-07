@@ -123,6 +123,8 @@ dependencies {
     //Facebook integration Login
     implementation 'com.facebook.android:facebook-login:12.2.0'
 
+    implementation 'com.mikepenz:actionitembadge:3.3.2@aar'
+
     implementation project(':digitalGcard')
     implementation project(':marketplace')
     implementation project(':g3appdriver')

@@ -202,7 +202,12 @@ public class GCardManager implements iGCardSystem{
         String lsUserID = poSession.getUserID();
         String lsMobNox = poDevicex.getMobilNumbers();
         String lsDateTm = new AppConstants().GCARD_DATE_TIME;
-        double lsCardPt = poGCard.getRemainingActiveCardPoints();
+        double lsCardPt;
+        if(poGCard.getRedeemItemPoints() > 0){
+            lsCardPt = Math.abs(poGCard.getAvailableGcardPoints() - poGCard.getRedeemItemPoints());
+        } else {
+            lsCardPt = poGCard.getAvailableGcardPoints();
+        }
         String lsModelx = Build.MODEL;
         String lsTransN = "";
         return poCode.generateGCardCodex(lsSource,

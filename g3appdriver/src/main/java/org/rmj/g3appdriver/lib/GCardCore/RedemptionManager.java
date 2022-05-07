@@ -229,7 +229,7 @@ public class RedemptionManager implements iGCardSystem{
         String lsUserIDx = loUser.getUserID();
         String lsMobilex = new Telephony(mContext).getMobilNumbers();
         String lsDteTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        double lsCardPts = poGcard.getGCardTotPoints(poGcard.getCardNo());
+        double lsCardPts = poGcard.getRemainingActiveCardPoints();
         String lsBuildxx = Build.MODEL;
         String lsBatchNo = BatchNox;
 

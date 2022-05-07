@@ -133,6 +133,16 @@ public class RGcardApp implements DGcardApp {
         return gcardDao.getRemainingActiveCardPoints();
     }
 
+    @Override
+    public double getAvailableGcardPoints() {
+        return gcardDao.getAvailableGcardPoints();
+    }
+
+    @Override
+    public double getRedeemItemPoints() {
+        return gcardDao.getRedeemItemPoints();
+    }
+
     public void deleteGCard(){
         new DeleteUserTask(mContext, gcardDao).execute();
     }

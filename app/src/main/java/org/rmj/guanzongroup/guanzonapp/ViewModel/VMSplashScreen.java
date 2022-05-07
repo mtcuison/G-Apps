@@ -15,6 +15,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
+import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
+import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.oLoadStat;
@@ -130,8 +132,10 @@ public class VMSplashScreen extends AndroidViewModel {
         @Override
         protected String doInBackground(String... strings) {
             try {
-                importAddresses();
-
+//                importAddresses();
+                //TODO : Revise importing data to improve speed on splash screen...
+                //Import Dashboard products only if possible,
+                // import other important must be imported before the operation of usage...
                 if (new RProduct(mContext).ImportProductList()) {
                     Log.d(TAG, "Product Sales imported successfully...");
                 }
@@ -140,18 +144,28 @@ public class VMSplashScreen extends AndroidViewModel {
                 iGCardSystem loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
                 loGcard.DownloadBranchesList(poCallback);
                 pause();
-                
-                Thread.sleep(500);
 
                 if (new AccountInfo(mContext).getLoginStatus()) {
                     loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
                     loGcard.DownloadGcardNumbers(poCallback);
-                    pause();
-                    loGcard.DownloadMCServiceInfo(poCallback);
-                    pause();
-                    loGcard.DownloadTransactions(poCallback);
-                    pause();
                     loGcard.DownloadRedeemables(poCallback);
+                    if(new RGcardApp(mContext).hasActiveGcard().size() > 0){
+                        pause();
+                        loGcard.DownloadMCServiceInfo(poCallback);
+                        pause();
+                        loGcard.DownloadTransactions(poCallback);
+                        pause();
+                    } else {
+                        Log.e(TAG, "No gcard registered on this account.");
+                    }
+
+                    if(!new AccountInfo(mContext).getClientID().isEmpty()){
+                        if(new ROrder(mContext).ImportMarketPlaceItemCart()){
+                            Log.d(TAG, "Marketplace cart items imported successfully...");
+                        }
+                    } else {
+                        Log.e(TAG, "User doesn't have complete details for marketplace.");
+                    }
                 } else {
                     Log.e(TAG, "No account session found.");
                 }
@@ -167,25 +181,25 @@ public class VMSplashScreen extends AndroidViewModel {
             listener.OnFinished("Finished!");
         }
 
-        private void importAddresses() {
-            RAddressMobile poAddress = new RAddressMobile(mContext);
-            if(poAddress.ImportCountryList()) {
-                Log.d(TAG, "Country data imported successfully...");
-                pause();
-            }
-            if(poAddress.ImportProvinceList()) {
-                Log.d(TAG, "Province data imported successfully...");
-                pause();
-            }
-            if(poAddress.ImportTownList()) {
-                Log.d(TAG, "Town and City data imported successfully...");
-                pause();
-            }
-            if(poAddress.ImportBarangayList()) {
-                Log.d(TAG, "Barangay data Sales imported successfully...");
-                pause();
-            }
-        }
+//        private void importAddresses() {
+//            RAddressMobile poAddress = new RAddressMobile(mContext);
+//            if(poAddress.ImportCountryList()) {
+//                Log.d(TAG, "Country data imported successfully...");
+//                pause();
+//            }
+//            if(poAddress.ImportProvinceList()) {
+//                Log.d(TAG, "Province data imported successfully...");
+//                pause();
+//            }
+//            if(poAddress.ImportTownList()) {
+//                Log.d(TAG, "Town and City data imported successfully...");
+//                pause();
+//            }
+//            if(poAddress.ImportBarangayList()) {
+//                Log.d(TAG, "Barangay data Sales imported successfully...");
+//                pause();
+//            }
+//        }
 
         private void pause() {
             try {

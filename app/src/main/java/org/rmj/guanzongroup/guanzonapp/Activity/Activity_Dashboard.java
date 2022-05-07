@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -91,18 +93,22 @@ public class Activity_Dashboard extends AppCompatActivity {
         mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, new Observer<EGcardApp>() {
             @Override
             public void onChanged(EGcardApp eGcardApp) {
-                navigationView = (NavigationView) findViewById(R.id.nav_view);
-                Menu nav_Menu = navigationView.getMenu();
-                if(eGcardApp == null){
-                    nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
-                } else {
-                    nav_Menu.findItem(R.id.nav_redeemables).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_pre_termination).setVisible(true);
+                try {
+                    navigationView = (NavigationView) findViewById(R.id.nav_view);
+                    Menu nav_Menu = navigationView.getMenu();
+                    if (eGcardApp == null) {
+                        nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
+                    } else {
+                        nav_Menu.findItem(R.id.nav_redeemables).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_pre_termination).setVisible(true);
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         });
@@ -115,14 +121,26 @@ public class Activity_Dashboard extends AppCompatActivity {
         lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
         navigationView.getMenu().findItem(R.id.nav_notifications).setActionView(lblBadge);
         lblBadge.setText(GetBadgeValue(15));
+
+        mViewModel.GetCartItemCount().observe(Activity_Dashboard.this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                try {
+                    lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+                    navigationView.getMenu().findItem(R.id.nav_item_cart).setActionView(lblBadge);
+                    lblBadge.setText(GetBadgeValue(integer));
+
+                    ActionItemBadge
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
         lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
         navigationView.getMenu().findItem(R.id.nav_purchases).setActionView(lblBadge);
         lblBadge.setText(GetBadgeValue(10));
         lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
         navigationView.getMenu().findItem(R.id.nav_wishlist).setActionView(lblBadge);
-        lblBadge.setText(GetBadgeValue(10));
-        lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-        navigationView.getMenu().findItem(R.id.nav_item_cart).setActionView(lblBadge);
         lblBadge.setText(GetBadgeValue(10));
 
         setUpHeader(navigationView);
