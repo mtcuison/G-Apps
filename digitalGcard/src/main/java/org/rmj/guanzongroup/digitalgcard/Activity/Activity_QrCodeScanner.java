@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -36,11 +38,11 @@ public class Activity_QrCodeScanner extends AppCompatActivity {
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
-                        scanner.setResultHandler(new ZXingScannerView.ResultHandler() {
-                            @Override
-                            public void handleResult(Result rawResult) {
-
-                            }
+                        scanner.setResultHandler(rawResult -> {
+                            Intent loIntent = new Intent();
+                            loIntent.putExtra("data", rawResult.toString());
+                            setResult(Activity.RESULT_OK, loIntent);
+                            finish();
                         });
                         scanner.startCamera();
                     }

@@ -746,7 +746,7 @@ public class VMGCardSystem extends AndroidViewModel {
             try {
                 if(loConnect.isDeviceConnected()) {
                     //TODO: Add QR Scanner Method here to provide
-                    return mGcardSys.GenerateGCardOrderQrCode();
+                    return mGcardSys.GenerateGCardOrderQrCode("");
                 } else {
                     loCallbck.onFailed(AppConstants.SERVER_NO_RESPONSE());
                 }
@@ -1055,5 +1055,4 @@ public class VMGCardSystem extends AndroidViewModel {
         void onFailed(String fsMessage);
         void onQrGenerate(Bitmap foBitmap);
     }
-
 }
