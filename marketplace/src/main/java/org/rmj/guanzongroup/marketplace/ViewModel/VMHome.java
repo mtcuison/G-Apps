@@ -25,7 +25,6 @@ import java.util.List;
 public class VMHome extends AndroidViewModel {
     private final RClientInfo poClientx;
     private final RAddressMobile poAddress;
-    private final ConnectionUtil poConnect;
     private final RGcardApp poGCard;
     private final RGcardApp poGcardxx;
     private final RProduct poProduct;
@@ -45,12 +44,10 @@ public class VMHome extends AndroidViewModel {
 
     public LiveData<EGcardApp> getActiveGcard() {
         return poGcardxx.hasNoGcard();
-    public LiveData<EGcardApp> GetActiveGCard(){
-        return poGCard.getGCardInfo();
     }
 
-    public void importAddress() {
-        new ImportAddressTask(poConnect, poAddress).execute();
+    public LiveData<EGcardApp> GetActiveGCard(){
+        return poGCard.getGCardInfo();
     }
 
     public LiveData<List<EProducts>> getProductList(int fnIndex) {

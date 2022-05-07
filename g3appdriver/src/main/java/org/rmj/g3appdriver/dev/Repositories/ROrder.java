@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.dev.Repositories;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -10,6 +11,7 @@ import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
+import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
@@ -21,12 +23,14 @@ public class ROrder {
 
     private final Context mContext;
     private final DProduct poDao;
+    private final ConnectionUtil poConnect;
 
     private JSONObject data;
     private String message;
 
     public ROrder(Context context){
         this.mContext = context;
+        this.poConnect = new ConnectionUtil(context);
         this.poDao = GGC_GuanzonAppDB.getInstance(mContext).prodctDao();
     }
 
@@ -271,4 +275,58 @@ public class ROrder {
             }
         }
     }
+
+    /** AsyncTasks */
+
+    private static class AddUpdateCartTask extends AsyncTask<String, Void, Boolean> {
+        private final ConnectionUtil poConnect;
+        private final OnTransactionCallback poCallBck;
+        private final int pnItemQty;
+
+        private AddUpdateCartTask(ConnectionUtil foConnect, int fnItemQty,
+                                  OnTransactionCallback foCallBck) {
+            this.poConnect = foConnect;
+            this.poCallBck = foCallBck;
+            this.pnItemQty = fnItemQty;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            poCallBck.onLoading();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                if(poConnect.isDeviceConnected()) {
+
+                     return null;
+                } else {
+                    return false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean b) {
+            super.onPostExecute(b);
+            if(b) {
+                poCallBck.onSuccess();
+            } else {
+                poCallBck.onFailed();
+            }
+        }
+
+    }
+
+    public interface OnTransactionCallback {
+        void onLoading();
+        void onSuccess();
+        void onFailed();
+    }
+
 }
