@@ -14,6 +14,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.oLoadStat;
@@ -129,23 +130,27 @@ public class VMSplashScreen extends AndroidViewModel {
         @Override
         protected String doInBackground(String... strings) {
             try {
+                importAddresses();
+
                 if (new RProduct(mContext).ImportProductList()) {
                     Log.d(TAG, "Product Sales imported successfully...");
                 }
 
-                Thread.sleep(500);
+                pause();
                 iGCardSystem loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
                 loGcard.DownloadBranchesList(poCallback);
+                pause();
+                
                 Thread.sleep(500);
 
                 if (new AccountInfo(mContext).getLoginStatus()) {
                     loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
                     loGcard.DownloadGcardNumbers(poCallback);
-                    Thread.sleep(500);
+                    pause();
                     loGcard.DownloadMCServiceInfo(poCallback);
-                    Thread.sleep(500);
+                    pause();
                     loGcard.DownloadTransactions(poCallback);
-                    Thread.sleep(500);
+                    pause();
                     loGcard.DownloadRedeemables(poCallback);
                 } else {
                     Log.e(TAG, "No account session found.");
@@ -161,5 +166,34 @@ public class VMSplashScreen extends AndroidViewModel {
             super.onPostExecute(s);
             listener.OnFinished("Finished!");
         }
+
+        private void importAddresses() {
+            RAddressMobile poAddress = new RAddressMobile(mContext);
+            if(poAddress.ImportCountryList()) {
+                Log.d(TAG, "Country data imported successfully...");
+                pause();
+            }
+            if(poAddress.ImportProvinceList()) {
+                Log.d(TAG, "Province data imported successfully...");
+                pause();
+            }
+            if(poAddress.ImportTownList()) {
+                Log.d(TAG, "Town and City data imported successfully...");
+                pause();
+            }
+            if(poAddress.ImportBarangayList()) {
+                Log.d(TAG, "Barangay data Sales imported successfully...");
+                pause();
+            }
+        }
+
+        private void pause() {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

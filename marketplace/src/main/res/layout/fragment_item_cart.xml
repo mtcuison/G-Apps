@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.Fragment_ItemCart"
-    android:background="@color/cardview_light_background"
-    >
+    tools:context=".Fragment.Fragment_ItemCart">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_Cart"

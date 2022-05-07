@@ -57,7 +57,6 @@ public class Activity_Dashboard extends AppCompatActivity {
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         mViewModel = new ViewModelProvider(Activity_Dashboard.this).get(VMHome.class);
         setContentView(binding.getRoot());
-        mViewModel.importAddress();
         setSupportActionBar(binding.appBarActivityDashboard.toolbar);
 //        binding.appBarActivityDashboard.fab.setOnClickListener(new View.OnClickListener() {
 //            @Override

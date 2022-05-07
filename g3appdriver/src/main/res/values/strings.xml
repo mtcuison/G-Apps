@@ -29,6 +29,7 @@
 
     <string name="lblMarketplace">Marketplace</string>
     <string name="lblProductDescription">Product Description</string>
+    <string name="lblProductSpecs">Specifications</string>
     <string name="lblReviewsAndRatings">Reviews and Ratings</string>
     <string name="lblAskedQuestions">Asked Questions</string>
     <string name="lblEditPersonalInfo">Edit Personal Information</string>
@@ -41,6 +42,7 @@
     <string name="lblScanGcard">Scan GCard</string>
     <string name="lblOr">or</string>
     <string name="lblGcardNumber">GCard Number</string>
+    <string name="lblTotalPoints">Total Points</string>
     <string name="lblSeeAll">See All ></string>
     <string name="lblClose">Close</string>
     <string name="lblEmail">Email</string>
