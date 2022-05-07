@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductDescription;
+import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMProductOverview;
 
@@ -31,6 +33,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private RecyclerView rvItmSpec;
     private TextView txtProdNm, txtUntPrc, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
             txtBriefx;
+    private TextView btnAddCrt;
 
     private String psItemIdx = "";
 
@@ -44,6 +47,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
         initViews();
         setUpToolbar();
         displayData();
+
+        btnAddCrt.setOnClickListener(v -> addToCart());
     }
 
     @Override
@@ -85,6 +90,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
         txtColorx = findViewById(R.id.txt_variant);
         txtStocks = findViewById(R.id.txt_stocks);
         txtBriefx = findViewById(R.id.txt_brief_desc);
+
+        btnAddCrt = findViewById(R.id.btnText_addToCart);
     }
 
     private void setUpToolbar() {
@@ -126,6 +133,25 @@ public class Activity_ProductOverview extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void addToCart() {
+        mViewModel.addUpdateCart(psItemIdx, 1, new OnTransactionsCallback() {
+            @Override
+            public void onLoading() {
+
+            }
+
+            @Override
+            public void onSuccess(String fsMessage) {
+                Log.e("Add to cart", fsMessage);
+            }
+
+            @Override
+            public void onFailed(String fsMessage) {
+                Log.e("Add to cart", fsMessage);
+            }
+        });
     }
 
 }
