@@ -29,6 +29,7 @@
 
     <string name="lblMarketplace">Marketplace</string>
     <string name="lblProductDescription">Product Description</string>
+    <string name="lblProductSpecs">Specifications</string>
     <string name="lblReviewsAndRatings">Reviews and Ratings</string>
     <string name="lblAskedQuestions">Asked Questions</string>
     <string name="lblEditPersonalInfo">Edit Personal Information</string>

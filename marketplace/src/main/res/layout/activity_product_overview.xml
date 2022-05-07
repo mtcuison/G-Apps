@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.Activity_ProductOverview"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -309,29 +310,31 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout_full_description"
+                android:id="@+id/layout_specifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="0dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_brief_description"
+                app:layout_constraintRight_toRightOf="parent"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Full Description: "
-                    android:layout_marginVertical="20dp"
-                    android:textColor="@color/font_light"
+                    android:text="@string/lblProductSpecs"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@color/font_regular"
                     android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/txt_full_desc"
-                    android:layout_width="wrap_content"
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_specifications"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="Item full description displays here in bullet list."
-                    android:textColor="@color/font_light"
-                    android:textSize="16sp"/>
+                    android:overScrollMode="never"/>
+
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -378,6 +381,7 @@
                 android:id="@+id/rv_ratings"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:overScrollMode="never"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -427,6 +431,7 @@
                 android:id="@+id/rv_faqs"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:overScrollMode="never"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblProductFaqs"
                 app:layout_constraintRight_toRightOf="parent"/>

@@ -4,14 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.rmj.g3appdriver.etc.CashFormatter;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductDescription;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMProductOverview;
 
@@ -20,6 +27,8 @@ import java.util.Objects;
 public class Activity_ProductOverview extends AppCompatActivity {
     private VMProductOverview mViewModel;
     private Toolbar toolbar;
+    private LinearLayout poItmSpec;
+    private RecyclerView rvItmSpec;
     private TextView txtProdNm, txtUntPrc, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
             txtBriefx;
 
@@ -63,6 +72,11 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
     private void initViews() {
         toolbar = findViewById(R.id.toolbar);
+        poItmSpec = findViewById(R.id.layout_specifications);
+        rvItmSpec = findViewById(R.id.rv_specifications);
+        rvItmSpec.setLayoutManager(new LinearLayoutManager(Activity_ProductOverview.this));
+        rvItmSpec.setHasFixedSize(true);
+
         txtProdNm = findViewById(R.id.txt_product_name);
         txtUntPrc = findViewById(R.id.txt_product_price);
         txtSoldQt = findViewById(R.id.txt_product_sold_count);
@@ -90,11 +104,28 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 txtColorx.setText(Objects.requireNonNull(product.getColorNme()));
                 txtStocks.setText(Objects.requireNonNull(product.getQtyOnHnd()));
                 txtBriefx.setText(Objects.requireNonNull(product.getBriefDsc()));
+                setFullDescription(Objects.requireNonNull(product.getDescript()));
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 finish();
             }
         });
+    }
+
+    private void setFullDescription(String fsDescrip) {
+        try {
+            JSONArray loArrayxx = new JSONArray(fsDescrip);
+            if(loArrayxx.length() > 0) {
+                poItmSpec.setVisibility(View.VISIBLE);
+                Adapter_ProductDescription loAdapter = new Adapter_ProductDescription(loArrayxx);
+                loAdapter.notifyDataSetChanged();
+                rvItmSpec.setAdapter(loAdapter);
+            } else {
+                poItmSpec.setVisibility(View.GONE);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }
