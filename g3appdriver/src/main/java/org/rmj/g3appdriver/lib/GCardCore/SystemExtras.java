@@ -95,6 +95,11 @@ public class SystemExtras implements iGCardSystem{
     }
 
     @Override
+    public void ParseQrCode(String val, GCardSystem.ParseQrCodeCallback callback) throws Exception {
+
+    }
+
+    @Override
     public void DownloadRedeemables(GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }
@@ -130,7 +135,7 @@ public class SystemExtras implements iGCardSystem{
     }
 
     @Override
-    public Bitmap GenerateGCardOrderQrCode() throws Exception {
+    public Bitmap GenerateGCardOrderQrCode(String BatchNox) throws Exception {
         return null;
     }
 

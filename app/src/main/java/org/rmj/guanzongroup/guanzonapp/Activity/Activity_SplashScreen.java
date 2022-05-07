@@ -8,6 +8,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.util.Log;
 
 import org.rmj.g3appdriver.etc.oLoadStat;
 import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonapp.Service.GMessagingService;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMSplashScreen;
 
 import java.util.ArrayList;
@@ -31,6 +34,9 @@ public class Activity_SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        if (!isMyServiceRunning(GMessagingService.class)) {
+            startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
+        }
         mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
         mViewModel.setupApp();
 
@@ -78,5 +84,15 @@ public class Activity_SplashScreen extends AppCompatActivity {
                 mViewModel.setPermissionsGranted(false);
             }
         }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

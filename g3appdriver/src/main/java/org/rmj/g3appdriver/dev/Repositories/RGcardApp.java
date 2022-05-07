@@ -55,7 +55,6 @@ public class RGcardApp implements DGcardApp {
         gcardDao.updateGCardAppWithHighestPoints();
     }
 
-
     @Override
     public List<EGcardApp> hasGcard() {
         return gcardDao.hasGcard();
@@ -98,8 +97,6 @@ public class RGcardApp implements DGcardApp {
     public List<EGcardApp> hasMultipleGCard() {
         return gcardDao.hasMultipleGCard();
     }
-
-
 
     @Override
     public LiveData<EGcardApp> getGCardInfo() {

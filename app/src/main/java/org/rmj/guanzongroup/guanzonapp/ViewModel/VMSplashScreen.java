@@ -141,6 +141,7 @@ public class VMSplashScreen extends AndroidViewModel {
                 loGcard.DownloadBranchesList(poCallback);
                 pause();
                 
+                Thread.sleep(500);
 
                 if (new AccountInfo(mContext).getLoginStatus()) {
                     loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
@@ -153,11 +154,6 @@ public class VMSplashScreen extends AndroidViewModel {
                     loGcard.DownloadRedeemables(poCallback);
                 } else {
                     Log.e(TAG, "No account session found.");
-                }
-                if (!new AccountInfo(mContext).getClientID().isEmpty()) {
-
-                } else {
-                    Log.e(TAG, "No full account record found.");
                 }
             } catch (Exception e){
                 e.printStackTrace();
