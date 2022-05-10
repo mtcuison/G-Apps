@@ -13,13 +13,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_ManageGcard;
 import org.rmj.guanzongroup.guanzonapp.Adapter.Adapter_BranchList;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMBranchDetails;
+
+import java.util.List;
 
 public class Fragment_FindUs extends Fragment {
 
@@ -28,6 +32,10 @@ public class Fragment_FindUs extends Fragment {
     private TabLayout tabLayout;
     private ImageView imgHeader;
     private RecyclerView recyclerView;
+
+    private Adapter_BranchList.OnBranchClickListener mListener;
+    private List<EBranchInfo> poMcBranch;
+    private List<EBranchInfo> poMpBranch;
 
     public Fragment_FindUs() { }
 
@@ -43,6 +51,14 @@ public class Fragment_FindUs extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMBranchDetails.class);
+        mViewModel.DownloadBranches();
+        mViewModel.getMotorBranches().observe(getViewLifecycleOwner(), motorBranches -> {
+            poMcBranch = motorBranches;
+            poAdapter = new Adapter_BranchList(motorBranches, mListener);
+            recyclerView.setAdapter(poAdapter);
+            poAdapter.notifyDataSetChanged();
+        });
+        mViewModel.getMobileBranches().observe(getViewLifecycleOwner(), mobileBranches -> poMpBranch = mobileBranches);
         setTabLayout();
     }
 
@@ -56,6 +72,12 @@ public class Fragment_FindUs extends Fragment {
         recyclerView.setLayoutManager(loManager);
         recyclerView.setHasFixedSize(true);
         imgHeader = v.findViewById(R.id.img_header);
+        mListener = new Adapter_BranchList.OnBranchClickListener() {
+            @Override
+            public void OnClick(String args) {
+                Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
+            }
+        };
     }
 
     private void setTabLayout(){
@@ -89,29 +111,21 @@ public class Fragment_FindUs extends Fragment {
     }
 
     private void initMCBranches() {
-//        setHeaderImage();
-        mViewModel.getMotorBranches().observe(getViewLifecycleOwner(), motorBranches -> {
-            poAdapter = new Adapter_BranchList(motorBranches);
-            try {
-                poAdapter = new Adapter_BranchList(motorBranches);
-                poAdapter.notifyDataSetChanged();
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+        try {
+            poAdapter = new Adapter_BranchList(poMcBranch, mListener);
+            poAdapter.notifyDataSetChanged();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void initMPBranches() {
-//        setHeaderImage();
-        mViewModel.getMobileBranches().observe(getViewLifecycleOwner(), mobileBranches -> {
-            poAdapter = new Adapter_BranchList(mobileBranches);
-            try {
-                poAdapter = new Adapter_BranchList(mobileBranches);
-                poAdapter.notifyDataSetChanged();
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+        try {
+            poAdapter = new Adapter_BranchList(poMpBranch, mListener);
+            poAdapter.notifyDataSetChanged();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void setHeaderImage(Bitmap poImage) {

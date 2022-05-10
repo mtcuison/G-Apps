@@ -239,19 +239,19 @@ public class SystemExtras implements iGCardSystem{
 //                }
             } else {
                 // if exist check timestamp for latest record and replace current record on local
-                Date ldDate1 = SQLUtil.toDate(loBranch.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
-                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-                if(!ldDate1.equals(ldDate2)){
-                    poBranch.UpdateBranchInfo(
-                            loJson.getString("sBranchCD"),
-                            loJson.getString("sBranchNm"),
-                            loJson.getString("sDescript"),
-                            loJson.getString("sAddressx"),
-                            loJson.getString("sContactx"),
-                            loJson.getString("sTelNumbr"),
-                            loJson.getString("sEMailAdd"));
-                    Log.d(TAG, "A record has been updated!");
-                }
+//                Date ldDate1 = SQLUtil.toDate(loBranch.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+//                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+//                if(!ldDate1.equals(ldDate2)){
+//                    poBranch.UpdateBranchInfo(
+//                            loJson.getString("sBranchCD"),
+//                            loJson.getString("sBranchNm"),
+//                            loJson.getString("sDescript"),
+//                            loJson.getString("sAddressx"),
+//                            loJson.getString("sContactx"),
+//                            loJson.getString("sTelNumbr"),
+//                            loJson.getString("sEMailAdd"));
+//                    Log.d(TAG, "A record has been updated!");
+//                }
             }
         }
     }
@@ -279,6 +279,7 @@ public class SystemExtras implements iGCardSystem{
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("success")){
                 callback.OnSuccess(loResponse.toString());
+                SavePromotions(loResponse);
                 Log.d(TAG, "Promo records retrieve successfully.");
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
@@ -332,6 +333,7 @@ public class SystemExtras implements iGCardSystem{
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("success")){
                 callback.OnSuccess(loResponse.toString());
+                SaveNewsEvents(loResponse);
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
                 String lsMessage = loError.getString("message");

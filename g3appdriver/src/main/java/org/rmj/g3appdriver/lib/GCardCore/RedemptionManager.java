@@ -30,6 +30,7 @@ import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -113,6 +114,7 @@ public class RedemptionManager implements iGCardSystem{
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("success")){
                 callback.OnSuccess(loResponse.toString());
+                SaveRedeemables(loResponse);
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
                 String lsMessage = loError.getString("message");
@@ -124,6 +126,7 @@ public class RedemptionManager implements iGCardSystem{
     @Override
     public void SaveRedeemables(JSONObject detail) throws Exception {
         JSONArray laDetail = detail.getJSONArray("detail");
+        List<ERedeemablesInfo> loItems = new ArrayList<>();
         for(int x = 0; x < laDetail.length(); x++){
             JSONObject loJson = laDetail.getJSONObject(x);
             ERedeemablesInfo info = new ERedeemablesInfo();
@@ -135,8 +138,9 @@ public class RedemptionManager implements iGCardSystem{
             info.setDateFrom(loJson.getString("dDateFrom"));
             info.setDateThru(loJson.getString("dDateThru"));
             info.setPreOrder(loJson.getString("cPreOrder"));
-            poRedeemables.insert(info);
+            loItems.add(info);
         }
+        poRedeemables.insertBulkData(loItems);
     }
 
     @Override
@@ -229,7 +233,7 @@ public class RedemptionManager implements iGCardSystem{
         String lsUserIDx = loUser.getUserID();
         String lsMobilex = new Telephony(mContext).getMobilNumbers();
         String lsDteTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        double lsCardPts = poGcard.getGCardTotPoints(poGcard.getCardNo());
+        double lsCardPts = poGcard.getRemainingActiveCardPoints();
         String lsBuildxx = Build.MODEL;
         String lsBatchNo = BatchNox;
 
