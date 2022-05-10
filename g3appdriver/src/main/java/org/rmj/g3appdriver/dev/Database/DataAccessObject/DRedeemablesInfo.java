@@ -16,7 +16,7 @@ import java.util.List;
 @Dao
 public interface DRedeemablesInfo {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insert(ERedeemablesInfo redeemablesInfo);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

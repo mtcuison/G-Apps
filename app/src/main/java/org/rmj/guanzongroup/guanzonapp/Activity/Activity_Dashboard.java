@@ -11,8 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.badge.BadgeDrawable;
-import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -75,6 +73,8 @@ public class Activity_Dashboard extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
+                R.id.nav_promos,
+                R.id.nav_events,
                 R.id.nav_notifications,
                 R.id.nav_purchases,
                 R.id.nav_wishlist,
@@ -89,6 +89,8 @@ public class Activity_Dashboard extends AppCompatActivity {
                 R.id.nav_customer_service)
                 .setOpenableLayout(drawer)
                 .build();
+
+
 
         mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, new Observer<EGcardApp>() {
             @Override
@@ -128,9 +130,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                 try {
                     lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
                     navigationView.getMenu().findItem(R.id.nav_item_cart).setActionView(lblBadge);
-                    lblBadge.setText(GetBadgeValue(integer));
-
-                    ActionItemBadge
+                    lblBadge.setText(GetBadgeValue(10));
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -186,10 +186,15 @@ public class Activity_Dashboard extends AppCompatActivity {
         TextView txtFullNm = headerLayout.findViewById(R.id.lbl_UserFullName);
         mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
             try {
+                Menu nav_Menu = navigationView.getMenu();
                 if(eClientinfo != null) {
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
                     txtFullNm.setText(Objects.requireNonNull(eClientinfo.getLastName()));
+                    nav_Menu.findItem(R.id.nav_notifications).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_wishlist).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
                 } else {
                     lnAuthxxx.setVisibility(View.VISIBLE);
                     txtFullNm.setVisibility(View.GONE);
@@ -202,28 +207,15 @@ public class Activity_Dashboard extends AppCompatActivity {
                         Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
                         startActivity(loIntent);
                     });
+                    nav_Menu.findItem(R.id.nav_notifications).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_wishlist).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
                 }
             } catch(Exception e) {
                 e.printStackTrace();
             }
         });
-//        if(poActPref.getLoginStatus()) {
-//            lnAuthxxx.setVisibility(View.GONE);
-//            txtFullNm.setVisibility(View.VISIBLE);
-//            txtFullNm.setText(Objects.requireNonNull(poActPref.getFullName()));
-//        } else {
-//            lnAuthxxx.setVisibility(View.VISIBLE);
-//            txtFullNm.setVisibility(View.GONE);
-//            txtSignUp.setOnClickListener(v -> {
-//                Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SignUp.class);
-//                startActivity(loIntent);
-//            });
-//
-//            txtLoginx.setOnClickListener(v -> {
-//                Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
-//                startActivity(loIntent);
-//            });
-//        }
     }
 
     @Override

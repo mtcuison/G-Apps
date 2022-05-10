@@ -16,7 +16,7 @@ public interface DProduct {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void SaveProductInfo(List<EProducts> foValue);
 
-    @Query("SELECT * FROM Product_Inventory LIMIT 5 OFFSET:nIndex")
+    @Query("SELECT * FROM Product_Inventory LIMIT 10 OFFSET:nIndex")
     LiveData<List<EProducts>> GetProductList(int nIndex);
 
     @Query("SELECT * FROM Product_Inventory WHERE sListngID=:fsLstID")
@@ -37,7 +37,7 @@ public interface DProduct {
             "nUnitPrce AS sPricexxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
-            "LIMIT 5 OFFSET:fnIndex")
+            "LIMIT 10 OFFSET:fnIndex")
     LiveData<List<oProduct>> GetProductsList(int fnIndex);
 
     @Query("SELECT sListngID AS sProdctID, " +
@@ -46,7 +46,7 @@ public interface DProduct {
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
             "ORDER BY nUnitPrce ASC " +
-            "LIMIT 5 OFFSET:nIndex")
+            "LIMIT 10 OFFSET:nIndex")
     LiveData<List<oProduct>> GetProductsListPriceSortASC(int nIndex);
 
     @Query("SELECT sListngID AS sProdctID, " +
@@ -55,7 +55,7 @@ public interface DProduct {
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
             "ORDER BY nUnitPrce DESC " +
-            "LIMIT 5 OFFSET:nIndex ")
+            "LIMIT 10 OFFSET:nIndex ")
     LiveData<List<oProduct>> GetProductsListPriceSortDESC(int nIndex);
 
     @Query("SELECT sListngID AS sProdctID, " +
@@ -64,7 +64,7 @@ public interface DProduct {
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
             "WHERE xCategrNm =:fsCategory " +
-            "LIMIT 5 OFFSET:nIndex")
+            "LIMIT 10 OFFSET:nIndex")
     LiveData<List<oProduct>> GetProductsListFilterCategory(int nIndex, String fsCategory);
 
     @Query("SELECT sListngID AS sProdctID, " +
@@ -73,7 +73,7 @@ public interface DProduct {
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
             "WHERE xBrandNme LIKE:fsName " +
-            "LIMIT 5 OFFSET:nIndex")
+            "LIMIT 10 OFFSET:nIndex")
     LiveData<List<oProduct>> GetProductsListFilterBrandName(int nIndex, String fsName);
 
     @Query("SELECT sListngID AS sProdctID, " +
@@ -83,7 +83,7 @@ public interface DProduct {
             "FROM Product_Inventory " +
             "WHERE nUnitPrce BETWEEN :fnFrom AND :fnToxx " +
             "ORDER BY nUnitPrce ASC " +
-            "LIMIT 5 OFFSET:nIndex")
+            "LIMIT 10 OFFSET:nIndex")
     LiveData<List<oProduct>> GetProductsListFilterPriceRange(int nIndex, String fnFrom, String fnToxx);
 
     class oProduct{

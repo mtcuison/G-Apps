@@ -31,6 +31,9 @@
         android:theme="@style/GuanzonMarketplace.Theme"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".Activity.Activity_Browser"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_TermsAndConditions"
             android:exported="false" />
         <activity
@@ -67,11 +70,10 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-
         <service
             android:name=".Service.GMessagingService"
-            tools:ignore="InnerclassSeparator"
-            android:exported="false">
+            android:exported="false"
+            tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
