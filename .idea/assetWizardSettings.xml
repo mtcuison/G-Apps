@@ -372,8 +372,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="242424" />
-                            <entry key="outputName" value="ic_sample_image_light" />
-                            <entry key="sourceFile" value="C:\Users\User\Desktop\Marketplace Sample Image\Sample Image-Light.svg" />
+                            <entry key="outputName" value="ic_plus" />
+                            <entry key="sourceFile" value="C:\Users\User\Desktop\Marketplace Sample Image\plus.svg" />
                           </map>
                         </option>
                       </PersistentState>
