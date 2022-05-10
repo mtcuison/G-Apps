@@ -27,14 +27,12 @@ public class ROrder {
 
     private final Context mContext;
     private final DProduct poDao;
-    private final ConnectionUtil poConnect;
 
     private JSONObject data;
     private String message;
 
     public ROrder(Context context){
         this.mContext = context;
-        this.poConnect = new ConnectionUtil(context);
         this.poDao = GGC_GuanzonAppDB.getInstance(mContext).prodctDao();
     }
 
@@ -280,102 +278,4 @@ public class ROrder {
         }
     }
 
-    /** AsyncTasks */
-
-    private static class AddUpdateCartTask extends AsyncTask<String, Void, Boolean> {
-        private final ConnectionUtil poConnect;
-        private final OnTransactionCallback poCallBck;
-        private final int pnItemQty;
-
-        private AddUpdateCartTask(ConnectionUtil foConnect, int fnItemQty,
-                                  OnTransactionCallback foCallBck) {
-            this.poConnect = foConnect;
-            this.poCallBck = foCallBck;
-            this.pnItemQty = fnItemQty;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            poCallBck.onLoading();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            try {
-                if(poConnect.isDeviceConnected()) {
-
-                     return null;
-                } else {
-                    return false;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Boolean b) {
-            super.onPostExecute(b);
-            if(b) {
-                poCallBck.onSuccess();
-            } else {
-                poCallBck.onFailed();
-            }
-        }
-
-    }
-
-    public interface OnTransactionCallback {
-        void onLoading();
-        void onSuccess();
-        void onFailed();
-    }
-
-    public boolean ImportMarketPlaceItemCart(){
-        try{
-            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
-            String lsResponse = WebClient.httpsPostJSon(
-                    loApis.getImportProducts(),
-                    new JSONObject().toString(),
-                    new HttpHeaders(mContext).getHeaders());
-            if(lsResponse == null){
-                message = "Unable to retrieve server response.";
-                return false;
-            } else {
-                JSONObject loResponse = new JSONObject(lsResponse);
-                String lsResult = loResponse.getString("result");
-                if(!lsResult.equalsIgnoreCase("success")){
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    message = loError.getString("message");
-                    return false;
-                } else {
-                    DItemCart loCart = GGC_GuanzonAppDB.getInstance(mContext).itemCartDao();
-                    JSONArray jaDetail = loResponse.getJSONArray("detail");
-                    for(int x = 0; x < jaDetail.length(); x++){
-                        EItemCart loDetail = new EItemCart();
-                        JSONObject loJson = jaDetail.getJSONObject(x);
-                        loDetail.setUserIDxx(loJson.getString("sUserIDxx"));
-                        loDetail.setUserIDxx(loJson.getString("sListIDxx"));
-                        loDetail.setUserIDxx(loJson.getString("nQuantity"));
-                        loDetail.setUserIDxx(loJson.getString("nAvlQtyxx"));
-                        loDetail.setUserIDxx(loJson.getString("dCreatedx"));
-                        loDetail.setUserIDxx(loJson.getString("cTranStat"));
-                        loDetail.setUserIDxx(loJson.getString("dTimeStmp"));
-                        loCart.SaveItemInfo(loDetail);
-                    }
-                    return true;
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public LiveData<Integer> GetCartItemCount(){
-        DItemCart loCart = GGC_GuanzonAppDB.getInstance(mContext).itemCartDao();
-        return loCart.GetCartItemCount();
-    }
 }
