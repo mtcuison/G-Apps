@@ -81,9 +81,15 @@ public interface DGcardApp {
     @Query("SELECT sAvlPoint FROM GCard_App_Master WHERE cActvStat ='1'")
     LiveData<String> getActiveGcardAvlPoints();
 
-    @Query("SELECT (" +
-            "SELECT sAvlPoint FROM GCard_App_Master WHERE cActvStat = '1') - (" +
-            "SELECT nPointsxx FROM Redeem_Item WHERE sGCardNox = (" +
-            "SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1')) AS RemainingPoints")
+    @Query("SELECT (SELECT sAvlPoint FROM GCard_App_Master WHERE cActvStat = '1') - " +
+            "(SELECT nPointsxx FROM Redeem_Item WHERE sGCardNox = " +
+            "(SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1')) AS RemainingPoints")
     double getRemainingActiveCardPoints();
+
+    @Query("SELECT sAvlPoint FROM GCard_App_Master WHERE cActvStat = '1'")
+    double getAvailableGcardPoints();
+
+    @Query("SELECT nPointsxx FROM Redeem_Item WHERE sGCardNox = " +
+            "(SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1') AND cTranStat IN (0, 1)")
+    double getRedeemItemPoints();
 }

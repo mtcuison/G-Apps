@@ -17,6 +17,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEvents;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGcardApp;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMCSerialRegistration;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileAddressInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
@@ -36,6 +37,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
+import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EMCSerialRegistration;
 import org.rmj.g3appdriver.dev.Database.Entities.EMobileInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
@@ -74,7 +76,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUserInfo;
         ECountryInfo.class,
         EMobileInfo.class,
         EAddressInfo.class,
-        EProducts.class}, version = 2, exportSchema = false)
+        EProducts.class,
+        EItemCart.class}, version = 2, exportSchema = false)
 public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     private static final String TAG = "GuanzonApp_DB_Manager";
     private static GGC_GuanzonAppDB instance;
@@ -98,6 +101,7 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     public abstract DAddress AddDao();
     public abstract DMobileAddressInfo mobAddDao();
     public abstract DProduct prodctDao();
+    public abstract DItemCart itemCartDao();
 
     public static synchronized GGC_GuanzonAppDB getInstance(Context context){
         if(instance == null){

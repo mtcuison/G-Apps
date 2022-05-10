@@ -1,12 +1,14 @@
 package org.rmj.guanzongroup.marketplace.Fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -78,6 +80,23 @@ public class Fragment_Home extends Fragment {
                     gcardPane.setVisibility(View.VISIBLE);
                     txtCardNo.setText(Objects.requireNonNull(eGcardApp.getCardNmbr()));
                     txtGcrdPt.setText(Objects.requireNonNull(eGcardApp.getAvlPoint()));
+
+                    gcardPane.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mViewModel.ViewGCardQrCode(new VMHome.OnViewGCardQrCode() {
+                                @Override
+                                public void OnView(Bitmap foVal) {
+                                    //TODO : Create Dialog that will iew QrCode
+                                    if(foVal == null){
+                                        Toast.makeText(requireActivity(), "Failed generating Qr-Code", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(requireActivity(), "Qr-Code Generated", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    });
                 }
             } catch (Exception e) {
                 e.printStackTrace();

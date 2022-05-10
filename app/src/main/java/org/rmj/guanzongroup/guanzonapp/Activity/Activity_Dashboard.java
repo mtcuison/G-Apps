@@ -73,6 +73,8 @@ public class Activity_Dashboard extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
+                R.id.nav_promos,
+                R.id.nav_events,
                 R.id.nav_notifications,
                 R.id.nav_purchases,
                 R.id.nav_wishlist,
@@ -88,21 +90,27 @@ public class Activity_Dashboard extends AppCompatActivity {
                 .setOpenableLayout(drawer)
                 .build();
 
+
+
         mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, new Observer<EGcardApp>() {
             @Override
             public void onChanged(EGcardApp eGcardApp) {
-                navigationView = (NavigationView) findViewById(R.id.nav_view);
-                Menu nav_Menu = navigationView.getMenu();
-                if(eGcardApp == null){
-                    nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
-                } else {
-                    nav_Menu.findItem(R.id.nav_redeemables).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_pre_termination).setVisible(true);
+                try {
+                    navigationView = (NavigationView) findViewById(R.id.nav_view);
+                    Menu nav_Menu = navigationView.getMenu();
+                    if (eGcardApp == null) {
+                        nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
+                    } else {
+                        nav_Menu.findItem(R.id.nav_redeemables).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_pre_termination).setVisible(true);
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         });
@@ -115,14 +123,24 @@ public class Activity_Dashboard extends AppCompatActivity {
         lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
         navigationView.getMenu().findItem(R.id.nav_notifications).setActionView(lblBadge);
         lblBadge.setText(GetBadgeValue(15));
+
+        mViewModel.GetCartItemCount().observe(Activity_Dashboard.this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                try {
+                    lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+                    navigationView.getMenu().findItem(R.id.nav_item_cart).setActionView(lblBadge);
+                    lblBadge.setText(GetBadgeValue(10));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
         lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
         navigationView.getMenu().findItem(R.id.nav_purchases).setActionView(lblBadge);
         lblBadge.setText(GetBadgeValue(10));
         lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
         navigationView.getMenu().findItem(R.id.nav_wishlist).setActionView(lblBadge);
-        lblBadge.setText(GetBadgeValue(10));
-        lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-        navigationView.getMenu().findItem(R.id.nav_item_cart).setActionView(lblBadge);
         lblBadge.setText(GetBadgeValue(10));
 
         setUpHeader(navigationView);
@@ -168,10 +186,15 @@ public class Activity_Dashboard extends AppCompatActivity {
         TextView txtFullNm = headerLayout.findViewById(R.id.lbl_UserFullName);
         mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
             try {
+                Menu nav_Menu = navigationView.getMenu();
                 if(eClientinfo != null) {
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
                     txtFullNm.setText(Objects.requireNonNull(eClientinfo.getLastName()));
+                    nav_Menu.findItem(R.id.nav_notifications).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_wishlist).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
                 } else {
                     lnAuthxxx.setVisibility(View.VISIBLE);
                     txtFullNm.setVisibility(View.GONE);
@@ -184,28 +207,15 @@ public class Activity_Dashboard extends AppCompatActivity {
                         Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
                         startActivity(loIntent);
                     });
+                    nav_Menu.findItem(R.id.nav_notifications).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_wishlist).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
                 }
             } catch(Exception e) {
                 e.printStackTrace();
             }
         });
-//        if(poActPref.getLoginStatus()) {
-//            lnAuthxxx.setVisibility(View.GONE);
-//            txtFullNm.setVisibility(View.VISIBLE);
-//            txtFullNm.setText(Objects.requireNonNull(poActPref.getFullName()));
-//        } else {
-//            lnAuthxxx.setVisibility(View.VISIBLE);
-//            txtFullNm.setVisibility(View.GONE);
-//            txtSignUp.setOnClickListener(v -> {
-//                Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SignUp.class);
-//                startActivity(loIntent);
-//            });
-//
-//            txtLoginx.setOnClickListener(v -> {
-//                Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
-//                startActivity(loIntent);
-//            });
-//        }
     }
 
     @Override
