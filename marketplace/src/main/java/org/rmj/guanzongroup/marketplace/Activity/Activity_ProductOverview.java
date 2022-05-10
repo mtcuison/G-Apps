@@ -13,12 +13,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.rmj.g3appdriver.etc.CashFormatter;
+import org.rmj.g3appdriver.utils.Dialogs.BottomDialog_AddToCart;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductDescription;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.R;
@@ -36,6 +41,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private TextView btnAddCrt;
 
     private String psItemIdx = "";
+    private String psProduct = "";
+    private String psPricexx = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +110,9 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private void displayData() {
         mViewModel.getProductInfo(psItemIdx).observe(Activity_ProductOverview.this, product -> {
             try {
+                psProduct = Objects.requireNonNull(product.getModelNme());
+                psPricexx = CashFormatter.parse(Objects.requireNonNull(product.getUnitPrce()));
+
                 txtProdNm.setText(Objects.requireNonNull(product.getModelNme()));
                 txtUntPrc.setText(CashFormatter.parse(Objects.requireNonNull(product.getUnitPrce())));
                 txtSoldQt.setText(Objects.requireNonNull(product.getSoldQtyx()) + " Sold");
@@ -136,22 +146,25 @@ public class Activity_ProductOverview extends AppCompatActivity {
     }
 
     private void addToCart() {
-        mViewModel.addUpdateCart(psItemIdx, 1, new OnTransactionsCallback() {
-            @Override
-            public void onLoading() {
+        final BottomDialog_AddToCart dialog = new BottomDialog_AddToCart(psItemIdx, psProduct, psPricexx);
+        dialog.show(getSupportFragmentManager(),"Add To Cart");
 
-            }
-
-            @Override
-            public void onSuccess(String fsMessage) {
-                Log.e("Add to cart", fsMessage);
-            }
-
-            @Override
-            public void onFailed(String fsMessage) {
-                Log.e("Add to cart", fsMessage);
-            }
-        });
+//        mViewModel.addUpdateCart(psItemIdx, 1, new OnTransactionsCallback() {
+//            @Override
+//            public void onLoading() {
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(String fsMessage) {
+//                Log.e("Add to cart", fsMessage);
+//            }
+//
+//            @Override
+//            public void onFailed(String fsMessage) {
+//                Log.e("Add to cart", fsMessage);
+//            }
+//        });
     }
 
 }
