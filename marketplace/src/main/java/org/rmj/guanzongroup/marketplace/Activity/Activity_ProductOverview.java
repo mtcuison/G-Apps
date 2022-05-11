@@ -13,17 +13,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.g3appdriver.utils.Dialogs.BottomDialog_AddToCart;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductDescription;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.R;
@@ -34,6 +32,8 @@ import java.util.Objects;
 public class Activity_ProductOverview extends AppCompatActivity {
     private VMProductOverview mViewModel;
     private Toolbar toolbar;
+    private Dialog_Loading poLoading;
+    private Dialog_SingleButton poDialogx;
     private LinearLayout poItmSpec;
     private RecyclerView rvItmSpec;
     private TextView txtProdNm, txtUntPrc, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
@@ -83,6 +83,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
     }
 
     private void initViews() {
+        poDialogx = new Dialog_SingleButton(Activity_ProductOverview.this);
         toolbar = findViewById(R.id.toolbar);
         poItmSpec = findViewById(R.id.layout_specifications);
         rvItmSpec = findViewById(R.id.rv_specifications);
@@ -146,25 +147,38 @@ public class Activity_ProductOverview extends AppCompatActivity {
     }
 
     private void addToCart() {
-        final BottomDialog_AddToCart dialog = new BottomDialog_AddToCart(psItemIdx, psProduct, psPricexx);
-        dialog.show(getSupportFragmentManager(),"Add To Cart");
+        final BottomDialog_AddToCart dialog = new BottomDialog_AddToCart(psProduct, psPricexx, fnItemQty -> {
+            try {
+                mViewModel.addUpdateCart(psItemIdx, fnItemQty, new OnTransactionsCallback() {
+                    @Override
+                    public void onLoading() {
+                        poLoading = new Dialog_Loading(Activity_ProductOverview.this);
+                        poLoading.initDialog("Add to Cart", "Adding to cart. Please wait.");
+                        poLoading.show();
+                    }
 
-//        mViewModel.addUpdateCart(psItemIdx, 1, new OnTransactionsCallback() {
-//            @Override
-//            public void onLoading() {
-//
-//            }
-//
-//            @Override
-//            public void onSuccess(String fsMessage) {
-//                Log.e("Add to cart", fsMessage);
-//            }
-//
-//            @Override
-//            public void onFailed(String fsMessage) {
-//                Log.e("Add to cart", fsMessage);
-//            }
-//        });
+                    @Override
+                    public void onSuccess(String fsMessage) {
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Add to Cart", "Successfully added to cart.",
+                                dialog -> dialog.dismiss());
+                        poDialogx.show();
+                    }
+
+                    @Override
+                    public void onFailed(String fsMessage) {
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Add to Cart", fsMessage, dialog -> dialog.dismiss());
+                        poDialogx.show();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        dialog.show(getSupportFragmentManager(),"Add To Cart");
     }
 
 }
