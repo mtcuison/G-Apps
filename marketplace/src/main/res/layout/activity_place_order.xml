@@ -1,293 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Activity_PlaceOrder"
-    android:id="@+id/myContainer"
-    android:background="@color/cardview_light_background">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activity.Activity_PlaceOrder">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/AppToolbar"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:scrollbars="none"
-        android:background="@color/cardview_light_background"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Deliver Address"
-                        android:textColor="@color/font_heavy"
-                        android:layout_weight="1"
-                        android:textSize="18sp"/>
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBar"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-                    <TextView
-                        android:id="@+id/lblAddressChange"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Change"
-                        android:paddingRight="15dp"
-                        android:paddingLeft="15dp"
-                        android:textColor="@color/font_regular"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:textSize="18sp"/>
-                </LinearLayout>
-                <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="17dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <TextView
+                    android:id="@+id/lblAddress"
+                    android:text="ABATAR"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="10dp"
-                    >
-                    <TextView
-                        android:id="@+id/lblCustomerName"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Customer Name"
-                        android:textColor="@color/font_heavy"
-                        android:layout_weight="1"
-                        android:textSize="18sp"/>
-                    <TextView
-                        android:id="@+id/lblContactNo"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="0912-345-6789"
-                        android:layout_weight="1"
-                        android:textSize="14sp"/>
-                    <TextView
-                        android:id="@+id/lblAddress"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="1 Rizal Street, Poblacion Oeste, Dagupan City,
-                Pangasinan 2400"
-                        android:layout_weight="1"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/cardview_dark_background"
-                    />
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:id="@+id/lbl_chg_address"
+                    android:text="ABATAR"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Deliver Options"
-                    android:textStyle="bold"
-                    android:layout_weight="1"
-                    android:padding="10dp"
-                    android:textSize="18sp"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/txt_client_name"
+                    android:text="ABATAR"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingBottom="10dp"
-                    >
+                    app:layout_constraintTop_toBottomOf="@id/lbl_chg_address"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"/>
 
-                    <RadioGroup
-                        android:id="@+id/rgDelOption"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <RadioButton
-                            android:id="@+id/rbRegular"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Free (Standard Delivery)"
-                            android:textSize="18sp"
-                            />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="30dp"
-                            android:paddingRight="30dp"
-                            android:text="Delivered on or before Saturday, April 23, 2022"
-                            />
-                        <RadioButton
-                            android:id="@+id/rbExpress"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="₱ 150.00 (Express Delivery)"
-                            android:textSize="18sp"
-                            />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="30dp"
-                            android:paddingRight="30dp"
-                            android:text="Delivered on or before Saturday, April 23, 2022"
-                            />
-                        <!--                    <LinearLayout-->
-                        <!--                        android:layout_width="match_parent"-->
-                        <!--                        android:layout_height="wrap_content"-->
-                        <!--                        android:orientation="vertical"-->
-                        <!--                        >-->
-                        <!--                        <LinearLayout-->
-                        <!--                            android:layout_width="match_parent"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:orientation="horizontal">-->
-                        <!--                            <RadioButton-->
-                        <!--                                android:id="@+id/rbRegular"-->
-                        <!--                                android:layout_width="wrap_content"-->
-                        <!--                                android:layout_height="wrap_content"-->
-                        <!--                                android:text="Free"-->
-                        <!--                                android:textSize="18sp"-->
-                        <!--                                />-->
-                        <!--                            <TextView-->
-                        <!--                                android:layout_width="wrap_content"-->
-                        <!--                                android:layout_height="wrap_content"-->
-                        <!--                                android:text="Standard Delivery"-->
-                        <!--                                android:textSize="18sp"-->
-                        <!--                                android:paddingLeft="10dp"/>-->
-                        <!--                        </LinearLayout>-->
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="match_parent"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:paddingLeft="30dp"-->
-                        <!--                            android:paddingRight="30dp"-->
-                        <!--                            android:text="Delivered on or before Saturday, April 23, 2022"-->
-                        <!--                            />-->
-                        <!--                    </LinearLayout>-->
-                        <!--                    <LinearLayout-->
-                        <!--                        android:layout_width="match_parent"-->
-                        <!--                        android:layout_height="wrap_content"-->
-                        <!--                        android:orientation="vertical"-->
-                        <!--                        android:layout_marginTop="10dp"-->
-                        <!--                        >-->
-                        <!--                        <LinearLayout-->
-                        <!--                            android:layout_width="match_parent"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:orientation="horizontal">-->
-                        <!--                            <RadioButton-->
-                        <!--                                android:id="@+id/rbExpress"-->
-                        <!--                                android:layout_width="wrap_content"-->
-                        <!--                                android:layout_height="wrap_content"-->
-                        <!--                                android:text="₱ 150.00"-->
-                        <!--                                android:textSize="18sp"-->
-                        <!--                                />-->
-                        <!--                            <TextView-->
-                        <!--                                android:layout_width="wrap_content"-->
-                        <!--                                android:layout_height="wrap_content"-->
-                        <!--                                android:text="Express Delivery"-->
-                        <!--                                android:textSize="18sp"-->
-                        <!--                                android:paddingLeft="10dp"/>-->
-                        <!--                        </LinearLayout>-->
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="match_parent"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:paddingLeft="30dp"-->
-                        <!--                            android:paddingRight="30dp"-->
-                        <!--                            android:text="Delivered on or before Saturday, April 23, 2022"-->
-                        <!--                            />-->
-                        <!--                    </LinearLayout>-->
-                    </RadioGroup>
-                </LinearLayout>
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/cardview_dark_background"
-                    />
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/txt_mobile_no"
+                    android:text="ABATAR"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp"
-                    >
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Payment Method"
-                        android:textColor="@color/font_heavy"
-                        android:layout_weight="1"
-                        android:textSize="18sp"/>
+                    app:layout_constraintTop_toBottomOf="@id/txt_client_name"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
-                    <TextView
-                        android:id="@+id/lblPaymentChange"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Change"
-                        android:textColor="@color/font_regular"
-                        android:paddingRight="15dp"
-                        android:paddingLeft="15dp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:textSize="18sp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/txt_address"
+                    android:text="ABATAR"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="30dp"
-                    >
-                    <TextView
-                        android:id="@+id/lblPaymentName"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Bank Credit Card  "
-                        android:textColor="@color/font_heavy"
-                        android:layout_weight="1"
-                        android:textSize="18sp"/>
-                    <TextView
-                        android:id="@+id/lblPaymentNo"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="****-****-1213"
-                        android:layout_weight="1"
-                        android:textSize="14sp"/>
-                </LinearLayout>
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:lines="2"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txt_mobile_no"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
 
-            </LinearLayout>
-        </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="0.4dp"
+                android:background="@color/font_light"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_address"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="17dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider1"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <TextView
+                    android:id="@+id/lblPayment"
+                    android:text="ABATAR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/lbl_chg_payment"
+                    android:text="ABATAR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <TextView
+                    android:id="@+id/txt_account_type"
+                    android:text="ABATAR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/lbl_chg_payment"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="0.4dp"
+                android:background="@color/font_light"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_payment"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="17dp"
+                android:overScrollMode="never"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider2"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/cardview_dark_background"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+    <TextView
+        android:id="@+id/btnText_buyNow"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/lblPlaceOrder"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:background="@color/guanzon_digital_orange"
+        android:gravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnPlaceOrder"
-            style="@style/ButtonStyle.Orange.Medium"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center|center_horizontal"
-            android:layout_margin="8dp"
-            android:text="Place Order" />
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
