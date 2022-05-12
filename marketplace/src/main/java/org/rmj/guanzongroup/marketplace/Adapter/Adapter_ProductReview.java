@@ -33,6 +33,7 @@ public class Adapter_ProductReview extends RecyclerView.Adapter<Adapter_ProductR
                 holder.txtClient.setText("");
                 holder.txtDatexx.setText("");
                 holder.txtReview.setText("");
+                holder.txtVriant.setText("");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,7 +47,7 @@ public class Adapter_ProductReview extends RecyclerView.Adapter<Adapter_ProductR
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{
 
-        public TextView txtClient, txtDatexx, txtReview;
+        public TextView txtClient, txtDatexx, txtReview, txtVriant;
 
         public ViewHolderItem(@NonNull View itemView) {
             super(itemView);
@@ -54,6 +55,7 @@ public class Adapter_ProductReview extends RecyclerView.Adapter<Adapter_ProductR
             txtClient = itemView.findViewById(R.id.txt_client_name);
             txtDatexx = itemView.findViewById(R.id.txt_date_review);
             txtReview = itemView.findViewById(R.id.txt_review);
+            txtVriant = itemView.findViewById(R.id.txt_variant);
         }
 
     }
