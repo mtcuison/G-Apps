@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,23 +20,32 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.rmj.g3appdriver.etc.CashFormatter;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
+import org.rmj.g3appdriver.utils.Dialogs.BottomDialog_AddToCart;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductDescription;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMProductOverview;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 
 import java.util.Objects;
 
 public class Activity_ProductOverview extends AppCompatActivity {
     private VMProductOverview mViewModel;
     private Toolbar toolbar;
+    private Dialog_Loading poLoading;
+    private Dialog_SingleButton poDialogx;
     private LinearLayout poItmSpec;
     private RecyclerView rvItmSpec;
     private TextView txtProdNm, txtUntPrc, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
             txtBriefx;
-    private TextView btnAddCrt;
+    private TextView btnAddCrt, btnBuyNow;
 
     private String psItemIdx = "";
+    private String psProduct = "";
+    private String psPricexx = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +59,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
         displayData();
 
         btnAddCrt.setOnClickListener(v -> addToCart());
+        btnBuyNow.setOnClickListener(v -> buyNow());
     }
 
     @Override
@@ -76,6 +87,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
     }
 
     private void initViews() {
+        poDialogx = new Dialog_SingleButton(Activity_ProductOverview.this);
         toolbar = findViewById(R.id.toolbar);
         poItmSpec = findViewById(R.id.layout_specifications);
         rvItmSpec = findViewById(R.id.rv_specifications);
@@ -92,6 +104,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
         txtBriefx = findViewById(R.id.txt_brief_desc);
 
         btnAddCrt = findViewById(R.id.btnText_addToCart);
+        btnBuyNow = findViewById(R.id.btnText_buyNow);
     }
 
     private void setUpToolbar() {
@@ -103,6 +116,9 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private void displayData() {
         mViewModel.getProductInfo(psItemIdx).observe(Activity_ProductOverview.this, product -> {
             try {
+                psProduct = Objects.requireNonNull(product.getModelNme());
+                psPricexx = CashFormatter.parse(Objects.requireNonNull(product.getUnitPrce()));
+
                 txtProdNm.setText(Objects.requireNonNull(product.getModelNme()));
                 txtUntPrc.setText(CashFormatter.parse(Objects.requireNonNull(product.getUnitPrce())));
                 txtSoldQt.setText(Objects.requireNonNull(product.getSoldQtyx()) + " Sold");
@@ -136,22 +152,60 @@ public class Activity_ProductOverview extends AppCompatActivity {
     }
 
     private void addToCart() {
-        mViewModel.addUpdateCart(psItemIdx, 1, new OnTransactionsCallback() {
-            @Override
-            public void onLoading() {
+        if(isLoggedIn()) {
+            final BottomDialog_AddToCart dialog = new BottomDialog_AddToCart(psProduct, psPricexx,
+                    fnItemQty -> {
+                try {
+                    mViewModel.addUpdateCart(psItemIdx, fnItemQty, new OnTransactionsCallback() {
+                        @Override
+                        public void onLoading() {
+                            poLoading = new Dialog_Loading(Activity_ProductOverview.this);
+                            poLoading.initDialog("Add to Cart",
+                                    "Adding to cart. Please wait.");
+                            poLoading.show();
+                        }
 
-            }
+                        @Override
+                        public void onSuccess(String fsMessage) {
+                            poLoading.dismiss();
+                            poDialogx.setButtonText("Okay");
+                            poDialogx.initDialog("Add to Cart",
+                                    "Successfully added to cart.",
+                                    dialog -> dialog.dismiss());
+                            poDialogx.show();
+                        }
 
-            @Override
-            public void onSuccess(String fsMessage) {
-                Log.e("Add to cart", fsMessage);
-            }
+                        @Override
+                        public void onFailed(String fsMessage) {
+                            poLoading.dismiss();
+                            poDialogx.setButtonText("Okay");
+                            poDialogx.initDialog("Add to Cart", fsMessage,
+                                    dialog -> dialog.dismiss());
+                            poDialogx.show();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            dialog.show(getSupportFragmentManager(),"Add To Cart");
+        }
+    }
 
-            @Override
-            public void onFailed(String fsMessage) {
-                Log.e("Add to cart", fsMessage);
-            }
-        });
+    private void buyNow() {
+        if(isLoggedIn()) {
+
+        }
+    }
+
+    private boolean isLoggedIn() {
+        if(!new AccountInfo(Activity_ProductOverview.this).getLoginStatus()) {
+            Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_Login.class);
+            startActivity(loIntent);
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }
