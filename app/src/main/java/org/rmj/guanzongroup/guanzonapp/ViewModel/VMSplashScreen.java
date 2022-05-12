@@ -155,7 +155,6 @@ public class VMSplashScreen extends AndroidViewModel {
                 if (new AccountInfo(mContext).getLoginStatus()) {
                     loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
                     loGcard.DownloadGcardNumbers(poCallback);
-                    loGcard.DownloadRedeemables(poCallback);
                     if(new RGcardApp(mContext).hasActiveGcard().size() > 0){
                         pause();
                         loGcard.DownloadMCServiceInfo(poCallback);
@@ -165,6 +164,8 @@ public class VMSplashScreen extends AndroidViewModel {
                     } else {
                         Log.e(TAG, "No gcard registered on this account.");
                     }
+                    loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
+                    loGcard.DownloadRedeemables(poCallback);
 
                     if(!new AccountInfo(mContext).getClientID().isEmpty()){
                         if(new ROrder(mContext).ImportMarketPlaceItemCart()){

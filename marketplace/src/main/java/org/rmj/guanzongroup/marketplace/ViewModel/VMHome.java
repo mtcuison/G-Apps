@@ -94,4 +94,17 @@ public class VMHome extends AndroidViewModel {
             super.onPostExecute(s);
         }
     }
+
+    public void LogoutUserSession(){
+        new LogoutTask().execute();
+    }
+
+    private class LogoutTask extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            poClientx.LogoutUserSession();
+            return null;
+        }
+    }
 }

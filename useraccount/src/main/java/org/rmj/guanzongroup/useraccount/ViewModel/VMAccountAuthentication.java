@@ -93,10 +93,11 @@ public class VMAccountAuthentication extends AndroidViewModel {
                             try {
                                 Thread.sleep(1000);
                                 if (loClientx.ImportAccountInfo()) {
-                                    lsResultx[0] = parse(SUCCESS, message);
+                                    Log.d(TAG, parse(SUCCESS, message));
                                 } else {
-                                    lsResultx[0] = parse(FAILED, loClientx.getMessage());
+                                    Log.e(TAG, parse(FAILED, loClientx.getMessage()));
                                 }
+                                lsResultx[0] = parse(SUCCESS, message);
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
