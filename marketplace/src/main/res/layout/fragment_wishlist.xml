@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.Fragment_Wishlist"
-    android:orientation="vertical"
-    android:background="@color/cardview_light_background">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/lbl_no_wishlist"

@@ -202,7 +202,12 @@ public class GCardManager implements iGCardSystem{
         String lsUserID = poSession.getUserID();
         String lsMobNox = poDevicex.getMobilNumbers();
         String lsDateTm = new AppConstants().GCARD_DATE_TIME;
-        double lsCardPt = poGCard.getRemainingActiveCardPoints();
+        double lsCardPt;
+        if(poGCard.getRedeemItemPoints() > 0){
+            lsCardPt = Math.abs(poGCard.getAvailableGcardPoints() - poGCard.getRedeemItemPoints());
+        } else {
+            lsCardPt = poGCard.getAvailableGcardPoints();
+        }
         String lsModelx = Build.MODEL;
         String lsTransN = "";
         return poCode.generateGCardCodex(lsSource,
@@ -214,6 +219,37 @@ public class GCardManager implements iGCardSystem{
                 lsCardPt,
                 lsModelx,
                 lsTransN);
+    }
+
+    @Override
+    public void ParseQrCode(String val, GCardSystem.ParseQrCodeCallback callback) throws Exception {
+        poCode.setEncryptedQrCode(val);
+        String lsMobileNo = new Telephony(mContext).getMobilNumbers();
+        String lsUserIDxx = new AccountInfo(mContext).getUserID();
+        String lsGcardNox = poGCard.getCardNo();
+        if(!poCode.isCodeValid()){
+            callback.OnFailed("Invalid Qr Code");
+        } else if (poCode.isQrCodeTransaction()){
+            if(lsUserIDxx.isEmpty()){
+                callback.OnFailed("No user account detected. Please make sure you login account before proceeding.");
+            } else if(lsMobileNo.isEmpty()){
+                callback.OnFailed("Unable to retrieve device mobile no. Please make sure your device has mobile no.");
+            } else if(lsGcardNox.isEmpty()){
+                callback.OnFailed("No GCard number is registered or active in this account. Please make sure a GCard is active.");
+            } else if(poCode.isDeviceValid(lsMobileNo, lsUserIDxx, lsGcardNox)) {
+                callback.TransactionResult(poCode.getTransactionPIN());
+            } else {
+                callback.OnFailed("Mobile Number or Account is not valid to confirm this transaction");
+            }
+        } else {
+            if(lsUserIDxx.isEmpty()){
+                callback.OnFailed("No user account detected. Please make sure you login account before proceeding.");
+            } else if(lsMobileNo.isEmpty()){
+                callback.OnFailed("Unable to retrieve device mobile no. Please make sure your device has mobile no.");
+            } else {
+                callback.ApplicationResult(poCode.getGCardNumber());
+            }
+        }
     }
 
     @Override
@@ -252,7 +288,7 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
-    public Bitmap GenerateGCardOrderQrCode() throws Exception {
+    public Bitmap GenerateGCardOrderQrCode(String BatchNox) throws Exception {
         return null;
     }
 

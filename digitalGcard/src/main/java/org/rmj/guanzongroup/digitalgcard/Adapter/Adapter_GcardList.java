@@ -39,7 +39,7 @@ public class Adapter_GcardList extends RecyclerView.Adapter<Adapter_GcardList.Gc
         EGcardApp loGcard = poGcard.get(position);
         holder.txtUserNm.setText(loGcard.getNmOnCard());
         holder.txtCardNo.setText(loGcard.getCardNmbr());
-        holder.txtPoints.setText(loGcard.getTotPoint());
+        holder.txtPoints.setText(loGcard.getAvlPoint());
     }
 
     @Override

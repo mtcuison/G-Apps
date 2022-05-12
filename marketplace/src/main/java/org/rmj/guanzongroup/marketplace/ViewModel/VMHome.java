@@ -1,6 +1,8 @@
 package org.rmj.guanzongroup.marketplace.ViewModel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
@@ -8,55 +10,89 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
+import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
-import org.rmj.g3appdriver.etc.ConnectionUtil;
+import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
+import org.rmj.g3appdriver.dev.Repositories.ROrder;
+import org.rmj.g3appdriver.dev.Repositories.RProduct;
+import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
+import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+
+import java.util.List;
 
 public class VMHome extends AndroidViewModel {
     private final RClientInfo poClientx;
     private final RAddressMobile poAddress;
-    private final ConnectionUtil poConnect;
+    private final RGcardApp poGCard;
+    private final RGcardApp poGcardxx;
+    private final RProduct poProduct;
+    private final ROrder poOrder;
+    private iGCardSystem poSystem;
+
+    public interface OnViewGCardQrCode{
+        void OnView(Bitmap foVal);
+    }
 
     public VMHome(@NonNull Application application) {
         super(application);
-        this.poConnect = new ConnectionUtil(application);
         this.poClientx = new RClientInfo(application);
+        this.poGcardxx = new RGcardApp(application);
+        this.poProduct = new RProduct(application);
         this.poAddress = new RAddressMobile(application);
+        this.poGCard = new RGcardApp(application);
+        this.poOrder = new ROrder(application);
+        this.poSystem = new GCardSystem(application).getInstance(GCardSystem.CoreFunctions.GCARD);
     }
 
     public LiveData<EClientInfo> getClientInfo() {
         return poClientx.getClientInfo();
     }
 
-    public void importAddress() {
-        new ImportAddressTask(poConnect, poAddress).execute();
+    public LiveData<EGcardApp> getActiveGcard() {
+        return poGcardxx.hasNoGcard();
     }
 
-    private static class ImportAddressTask extends AsyncTask<Void, Void, String> {
-        private final ConnectionUtil poConnect;
-        private final RAddressMobile poAddress;
+    public LiveData<EGcardApp> GetActiveGCard(){
+        return poGCard.getGCardInfo();
+    }
 
-        private ImportAddressTask(ConnectionUtil foConnect, RAddressMobile foAddress) {
-            this.poConnect = foConnect;
-            this.poAddress = foAddress;
+    public LiveData<List<EProducts>> getProductList(int fnIndex) {
+        return poProduct.GetProductList(fnIndex);
+    }
+
+    public LiveData<Integer> GetCartItemCount(){
+        return poOrder.GetCartItemCount();
+    }
+
+    public void ViewGCardQrCode(OnViewGCardQrCode callback){
+        new CreateGCardQrCodeTask(callback).execute();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class CreateGCardQrCodeTask extends AsyncTask<String, Void, Bitmap>{
+        private final OnViewGCardQrCode callback;
+
+        public CreateGCardQrCodeTask(OnViewGCardQrCode callback) {
+            this.callback = callback;
         }
 
         @Override
-        protected String doInBackground(Void... voids) {
+        protected Bitmap doInBackground(String... strings) {
             try {
-                if(poConnect.isDeviceConnected()) {
-                    poAddress.ImportBarangayList();
-                    poAddress.ImportCountryList();
-                    poAddress.ImportProvinceList();
-                    poAddress.ImportTownList();
-                } else {
-                    return null;
-                }
+                return poSystem.GenerateGCardQrCode();
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
         }
-    }
 
+        @Override
+        protected void onPostExecute(Bitmap s) {
+//            callback.OnView(s);
+            super.onPostExecute(s);
+            callback.OnView(s);
+        }
+    }
 }

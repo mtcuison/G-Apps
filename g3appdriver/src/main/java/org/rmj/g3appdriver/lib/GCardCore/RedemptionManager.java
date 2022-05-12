@@ -24,9 +24,14 @@ import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.Telephony;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class RedemptionManager implements iGCardSystem{
@@ -92,6 +97,11 @@ public class RedemptionManager implements iGCardSystem{
         return null;
     }
 
+    @Override
+    public void ParseQrCode(String val, GCardSystem.ParseQrCodeCallback callback) throws Exception {
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void DownloadRedeemables(GCardSystem.GCardSystemCallback callback) throws Exception {
@@ -104,6 +114,7 @@ public class RedemptionManager implements iGCardSystem{
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("success")){
                 callback.OnSuccess(loResponse.toString());
+                SaveRedeemables(loResponse);
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
                 String lsMessage = loError.getString("message");
@@ -115,6 +126,7 @@ public class RedemptionManager implements iGCardSystem{
     @Override
     public void SaveRedeemables(JSONObject detail) throws Exception {
         JSONArray laDetail = detail.getJSONArray("detail");
+        List<ERedeemablesInfo> loItems = new ArrayList<>();
         for(int x = 0; x < laDetail.length(); x++){
             JSONObject loJson = laDetail.getJSONObject(x);
             ERedeemablesInfo info = new ERedeemablesInfo();
@@ -126,8 +138,9 @@ public class RedemptionManager implements iGCardSystem{
             info.setDateFrom(loJson.getString("dDateFrom"));
             info.setDateThru(loJson.getString("dDateThru"));
             info.setPreOrder(loJson.getString("cPreOrder"));
-            poRedeemables.insert(info);
+            loItems.add(info);
         }
+        poRedeemables.insertBulkData(loItems);
     }
 
     @Override
@@ -211,8 +224,28 @@ public class RedemptionManager implements iGCardSystem{
     }
 
     @Override
-    public Bitmap GenerateGCardOrderQrCode() throws Exception {
-        return null;
+    public Bitmap GenerateGCardOrderQrCode(String BatchNox) throws Exception {
+        CodeGenerator loCode = new CodeGenerator();
+        AccountInfo loUser = new AccountInfo(mContext);
+        String lsTranTpe = "PREORDER";
+        String lsDevIDxx = new Telephony(mContext).getDeviceID();
+        String lsCardNox = poGcard.getCardNo();
+        String lsUserIDx = loUser.getUserID();
+        String lsMobilex = new Telephony(mContext).getMobilNumbers();
+        String lsDteTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        double lsCardPts = poGcard.getRemainingActiveCardPoints();
+        String lsBuildxx = Build.MODEL;
+        String lsBatchNo = BatchNox;
+
+        return loCode.generateQrCode(lsTranTpe,
+                lsDevIDxx,
+                lsCardNox,
+                lsUserIDx,
+                lsMobilex,
+                lsDteTime,
+                lsCardPts,
+                lsBuildxx,
+                lsBatchNo);
     }
 
     @Override

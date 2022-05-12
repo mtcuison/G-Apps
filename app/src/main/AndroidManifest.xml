@@ -31,13 +31,19 @@
         android:theme="@style/GuanzonMarketplace.Theme"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".Activity.Activity_Browser"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Activity_TermsAndConditions"
+            android:exported="false" />
+        <activity
             android:name="org.rmj.guanzongroup.useraccount.Activity.Activity_AccountDetails"
             android:exported="false"
             android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
-            android:name=".Activity.Activity_Dashboard"
+            android:name=".Activity.Activity_SplashScreen"
             android:exported="true"
-            android:theme="@style/GuanzonMarketplace.Theme">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,10 +51,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.Activity_SplashScreen"
+            android:name=".Activity.Activity_Dashboard"
             android:exported="true"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/GuanzonMarketplace.Theme" />
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
@@ -63,6 +69,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <service
+            android:name=".Service.GMessagingService"
+            android:exported="false"
+            tools:ignore="InnerclassSeparator">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

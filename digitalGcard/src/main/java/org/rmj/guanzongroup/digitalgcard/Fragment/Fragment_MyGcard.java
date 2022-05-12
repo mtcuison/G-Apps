@@ -18,11 +18,13 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_AddGcard;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_ManageGcard;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 
 import java.util.Objects;
 
@@ -46,8 +48,12 @@ public class Fragment_MyGcard extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
         mViewModel.setInstance(GCardSystem.CoreFunctions.GCARD);
-
-        initMyGcard();
+        if(!new AccountInfo(requireActivity()).getLoginStatus()) {
+            Intent loIntent = new Intent(requireActivity(), Activity_Login.class);
+            startActivity(loIntent);
+        } else {
+            initMyGcard();
+        }
     }
 
     private void initViews(View v) {
@@ -88,7 +94,7 @@ public class Fragment_MyGcard extends Fragment {
     private void displayGcardInfo(EGcardApp foGcardxx) {
         txtUserNm.setText(Objects.requireNonNull(foGcardxx.getNmOnCard()));
         txtCardNo.setText(Objects.requireNonNull(foGcardxx.getCardNmbr()));
-        txtPoints.setText(Objects.requireNonNull(foGcardxx.getTotPoint()));
+        txtPoints.setText(Objects.requireNonNull(foGcardxx.getAvlPoint()));
     }
 
 }

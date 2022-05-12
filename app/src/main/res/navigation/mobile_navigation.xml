@@ -12,6 +12,30 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/nav_promos"
+        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_EventsPromos"
+        android:label="@string/lblPromos"
+        tools:layout="@layout/fragment_home">
+
+        <argument android:name="gcardInstance"
+            app:argType="integer"
+            android:defaultValue="1"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_events"
+        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_EventsPromos"
+        android:label="@string/lblEvents"
+        tools:layout="@layout/fragment_home">
+
+        <argument android:name="gcardInstance"
+            app:argType="integer"
+            android:defaultValue="2"/>
+
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_notifications"
         android:name="org.rmj.guanzongroup.notifications.Fragment.Fragment_Notifications"
         android:label="@string/menu_notifications"

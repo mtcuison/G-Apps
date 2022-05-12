@@ -1,15 +1,21 @@
 package org.rmj.g3appdriver.dev.Repositories;
 
 import android.content.Context;
+import android.os.AsyncTask;
+
+import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
+import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
+import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
@@ -270,5 +276,51 @@ public class ROrder {
                 }
             }
         }
+    }
+
+    public boolean ImportMarketPlaceItemCart(){
+        try{
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getImportProducts(),
+                    new JSONObject().toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    DItemCart loCart = GGC_GuanzonAppDB.getInstance(mContext).itemCartDao();
+                    JSONArray jaDetail = loResponse.getJSONArray("detail");
+                    for(int x = 0; x < jaDetail.length(); x++){
+                        EItemCart loDetail = new EItemCart();
+                        JSONObject loJson = jaDetail.getJSONObject(x);
+                        loDetail.setUserIDxx(loJson.getString("sUserIDxx"));
+                        loDetail.setUserIDxx(loJson.getString("sListIDxx"));
+                        loDetail.setUserIDxx(loJson.getString("nQuantity"));
+                        loDetail.setUserIDxx(loJson.getString("nAvlQtyxx"));
+                        loDetail.setUserIDxx(loJson.getString("dCreatedx"));
+                        loDetail.setUserIDxx(loJson.getString("cTranStat"));
+                        loDetail.setUserIDxx(loJson.getString("dTimeStmp"));
+                        loCart.SaveItemInfo(loDetail);
+                    }
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public LiveData<Integer> GetCartItemCount(){
+        DItemCart loCart = GGC_GuanzonAppDB.getInstance(mContext).itemCartDao();
+        return loCart.GetCartItemCount();
     }
 }

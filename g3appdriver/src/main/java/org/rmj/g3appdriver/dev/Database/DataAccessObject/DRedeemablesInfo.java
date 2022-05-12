@@ -16,7 +16,7 @@ import java.util.List;
 @Dao
 public interface DRedeemablesInfo {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insert(ERedeemablesInfo redeemablesInfo);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -27,6 +27,9 @@ public interface DRedeemablesInfo {
 
     @Query("SELECT COUNT(sTransNox) FROM Redeemables")
     LiveData<Integer> countRedeemables();
+
+    @Query("SELECT COUNT(*) FROM Redeemables")
+    int GetRedeemablesCount();
 
     @Query("SELECT COUNT(sPromoIDx) FROM Redeem_Item WHERE sGcardNox =:GCardNox AND cTranStat != 0 GROUP BY sReferNox")
     LiveData<Integer> getOrdersCount(String GCardNox);

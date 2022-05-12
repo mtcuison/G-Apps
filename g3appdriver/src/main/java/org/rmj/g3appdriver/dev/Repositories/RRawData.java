@@ -11,34 +11,36 @@
 
 package org.rmj.g3appdriver.dev.Repositories;
 
-import android.app.Application;
+import android.content.Context;
+import android.os.AsyncTask;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRawDao;
 import org.rmj.g3appdriver.dev.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 
-public class RRawData implements DRawDao {
+public class RRawData {
 
-    private DRawDao rawDao;
+    private final Context mContext;
+    private DRawDao poDaw;
 
-    public RRawData(Application application){
-        GGC_GuanzonAppDB GGCGriderDB = GGC_GuanzonAppDB.getInstance(application);
-        rawDao = GGCGriderDB.RawDao();
+    public RRawData(Context context){
+        this.mContext = context;
+        GGC_GuanzonAppDB GGCGriderDB = GGC_GuanzonAppDB.getInstance(mContext);
+        poDaw = GGCGriderDB.RawDao();
     }
 
-
-    @Override
-    public void insertTokenInfo(ETokenInfo tokenInfo) {
-        rawDao.insertTokenInfo(tokenInfo);
+    public void SaveNewToken(String val){
+        new SaveNewTokenTask().execute(val);
     }
 
-    @Override
-    public void clearTokenInfo() {
-        rawDao.clearTokenInfo();
-    }
+    private class SaveNewTokenTask extends AsyncTask<String, Void, String>{
 
-    @Override
-    public String getTokenInfo() {
-        return rawDao.getTokenInfo();
+        @Override
+        protected String doInBackground(String... strings) {
+            ETokenInfo loToken = new ETokenInfo();
+            loToken.setTokenInf(strings[0]);
+            poDaw.insertTokenInfo(loToken);
+            return null;
+        }
     }
 }
