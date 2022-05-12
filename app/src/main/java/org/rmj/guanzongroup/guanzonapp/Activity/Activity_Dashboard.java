@@ -1,7 +1,9 @@
 package org.rmj.guanzongroup.guanzonapp.Activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,6 +30,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
@@ -47,7 +50,6 @@ public class Activity_Dashboard extends AppCompatActivity {
     private LayoutInflater loInflate;
 
     private TextView lblBadge;
-
     private static final int SCAN_GCARD = 1;
 
     @Override
@@ -229,29 +231,50 @@ public class Activity_Dashboard extends AppCompatActivity {
                 loGcard.ParseQrCode(lsVal, new GCardSystem.ParseQrCodeCallback() {
                     @Override
                     public void ApplicationResult(String args) {
+//                        Toast.makeText(Activity_Dashboard.this, "ApplicationResult " + args, Toast.LENGTH_LONG).show();
                         //TODO : Add call GCardSystem>AddGCardQrCode()
+
+                        Log.e("ApplicationResult :",args);
+                        showDialog("Transaction ", args);
                     }
 
                     @Override
                     public void TransactionResult(String args) {
-                        Toast.makeText(Activity_Dashboard.this, args, Toast.LENGTH_LONG).show();
+
+                        Log.e("TransactionResult :",args);
+//                        Toast.makeText(Activity_Dashboard.this, "TransactionResult" + args, Toast.LENGTH_LONG).show();
                         //TODO: Create dialog that will display the PIN. After closing the dialog, call GCardSystem>DownloadTransactions()
                         // Display message that transaction won't affect immediately on GCard Ledger.
+                        showDialog("Transaction ", args);
                     }
 
                     @Override
                     public void OnFailed(String message) {
                         //TODO: Display error message dialog
-                        Toast.makeText(Activity_Dashboard.this, message, Toast.LENGTH_LONG).show();
+                        Log.e("OnFailed :",message);
+                        //Toast.makeText(Activity_Dashboard.this, "OnFailed " + message, Toast.LENGTH_LONG).show();
+                        showDialog("Failed", message);
                     }
                 });
             } catch (Exception e) {
                 e.printStackTrace();
+                showDialog("Exception", e.getMessage());
                 Toast.makeText(Activity_Dashboard.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
     }
+    void showDialog(String title, String args){
 
+        Dialog_SingleButton msgDialog = new Dialog_SingleButton(Activity_Dashboard.this);
+        msgDialog.setButtonText("Okay");
+        msgDialog.initDialog(title, args, new Dialog_SingleButton.OnButtonClick() {
+            @Override
+            public void onClick(AlertDialog dialog) {
+                dialog.dismiss();
+            }
+        });
+        msgDialog.show();
+    }
     private String GetBadgeValue(int val){
         if(val > 0){
             lblBadge.setVisibility(View.VISIBLE);
