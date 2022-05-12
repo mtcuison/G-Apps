@@ -40,4 +40,5 @@ dependencies {
 
     // Project Implementations
     implementation project(':g3appdriver')
+    implementation project(':useraccount')
 }
