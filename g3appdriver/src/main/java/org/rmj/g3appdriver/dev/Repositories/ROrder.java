@@ -282,7 +282,7 @@ public class ROrder {
         try{
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             String lsResponse = WebClient.httpsPostJSon(
-                    loApis.getImportProducts(),
+                    loApis.getImportCartItems(),
                     new JSONObject().toString(),
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){

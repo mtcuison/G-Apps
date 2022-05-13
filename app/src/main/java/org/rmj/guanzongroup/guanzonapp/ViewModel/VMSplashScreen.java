@@ -33,6 +33,8 @@ public class VMSplashScreen extends AndroidViewModel {
 
     private final String[] laPermissions =  new String[]{
         Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_PHONE_NUMBERS,
+        Manifest.permission.REQUEST_INSTALL_PACKAGES,
         Manifest.permission.INTERNET,
         Manifest.permission.ACCESS_NETWORK_STATE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -41,8 +43,7 @@ public class VMSplashScreen extends AndroidViewModel {
         Manifest.permission.GET_ACCOUNTS,
         Manifest.permission.CAMERA,
         Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.REQUEST_INSTALL_PACKAGES};
+        Manifest.permission.ACCESS_COARSE_LOCATION,};
 
     private final MutableLiveData<Boolean> poIsGranted = new MutableLiveData<>();
     private final MutableLiveData<oLoadStat> poLoadStat = new MutableLiveData<>();
@@ -62,9 +63,17 @@ public class VMSplashScreen extends AndroidViewModel {
         loConfig.setTestCase(true);
         loConfig.setIfPermissionsGranted(hasPermissions(mContext, laPermissions));
         poLoadStat.setValue(new oLoadStat(
+                loConfig.hasAggreedTermsAndConditions(),
                 loConfig.IsPermissionsGranted(),
                 new AccountInfo(mContext).getLoginStatus(),
                 !new AccountInfo(mContext).getClientID().isEmpty()));
+    }
+
+    public void setAggreedTermsAndConditions(boolean val){
+        oLoadStat loStat = poLoadStat.getValue();
+        Objects.requireNonNull(loStat).setAggreedTermsAndConditions(val);
+        poLoadStat.setValue(loStat);
+        new GuanzonAppConfig(mContext).setAggreedTermsAndConditions(val);
     }
 
     public void setPermissionsGranted(boolean val){
@@ -155,7 +164,6 @@ public class VMSplashScreen extends AndroidViewModel {
                 if (new AccountInfo(mContext).getLoginStatus()) {
                     loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
                     loGcard.DownloadGcardNumbers(poCallback);
-                    loGcard.DownloadRedeemables(poCallback);
                     if(new RGcardApp(mContext).hasActiveGcard().size() > 0){
                         pause();
                         loGcard.DownloadMCServiceInfo(poCallback);
@@ -165,6 +173,8 @@ public class VMSplashScreen extends AndroidViewModel {
                     } else {
                         Log.e(TAG, "No gcard registered on this account.");
                     }
+                    loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
+                    loGcard.DownloadRedeemables(poCallback);
 
                     if(!new AccountInfo(mContext).getClientID().isEmpty()){
                         if(new ROrder(mContext).ImportMarketPlaceItemCart()){

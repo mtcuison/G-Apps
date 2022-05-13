@@ -24,6 +24,7 @@
     <string name="menu_find_us">Find Us</string>
     <string name="menu_customer_service">Customer Service</string>
     <string name="menu_about">About</string>
+    <string name="menu_logout">Logout</string>
     <string name="menu_subtitle_gcard">GCard</string>
     <string name="menu_subtitle_system">System</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -110,4 +111,51 @@
     <string name="mock_fullname">Juan Sison Dela Cruz</string>
     <string name="mock_mc_name">Yamaha Aerox 155</string>
     <string name="mock_date">January 1, 2022</string>
+
+    <string name="Company_Profile">COMPANY PROFILE</string>
+    <string name="CP_Paragraph_1">It all started with the thrill of riding a bicycle and the fondest memories it leaves in the mind of the little child, this is where the dream began.</string>
+    <string name="CP_Paragraph_2">Our roots can be traced from selling kalesa (horse cart) parts onto becoming a progressive and stable partner in the motorcycle and mobile phone retail sales. Now with 170 Motorcycle branches and 80 mobile phone shops, we continue to grow and expand with the commitment to loyalty, honesty and trust.</string>
+
+    <string name="CP_Paragraph_3">The Guanzon Group of Companies, on its 75th year, banners the continued success of its registered companies:</string>
+    <string name="CP_Paragraph_4">Guanzon Merchandising Corporation (1983)</string>
+    <string name="CP_Paragraph_5">LGK Guanzon Incorporated (1990)</string>
+    <string name="CP_Paragraph_6">United Excelsior Marketing Incorporated (1998)</string>
+    <string name="CP_Paragraph_7">Motorcentrum Corporation (2003)</string>
+    <string name="CP_Paragraph_8">Guanzon Telecom (1998)</string>
+
+    <string name="Corporate_Mission">Corporate Mission</string>
+    <string name="CM_Paragraph">Guanzon Group of Companies will always strive in helping every Filipino make their life comfortable by providing the best and quality products and services.</string>
+
+    <string name="Corporate_Vision">Corporate Vision</string>
+    <string name="CV_Paragraph">The Guanzon Group visions to become a national brand and an economically resilient group that brings joy to the Organization and the communities it serves.</string>
+
+    <string name="Mission_Statement">Mission Statement</string>
+    <string name="MS_Paragraph">Guanzon Group of Companies aims to:</string>
+    <string name="MS_Paragraph1">1. To establish and maintain competitiveness in the motorcycle and mobile phone retail industry.</string>
+    <string name="MS_Paragraph2">2. To attain and maintain a harmonious working relationship between the employees and the Management.</string>
+    <string name="MS_Paragraph3">3. To provide an avenue where customers can enjoy the best value products and services.</string>
+    <string name="MS_Paragraph4">4. To foster long term and stable relationship with suppliers thereby enhancing quality and reliability.</string>
+    <string name="MS_Paragraph5">5. To uphold and maintain at all times the highest standard of business ethics.</string>
+
+    <string name="Corporate_Philosophy">Corporate Philosophy</string>
+    <string name="CP_Paragraph">Guanzon Group of Companies’ philosophy is about working hard — in harmony with others and always possess customer oriented set of minds. It is putting together substaintially to achieve Global Market Progress.</string>
+
+    <string name="Our_Milestones">OUR MILESTONES</string>
+    <string name="OM_Paragraph1">1945. Guanzon was founded in Dagupan City as a hardware store selling kalesa parts.</string>
+    <string name="OM_Paragraph2">1964. Guanzon inked a deal with Mariwasa Distributors Inc., becoming the pioneer dealer of Honda motorcycles in the City.</string>
+    <string name="OM_Paragraph3">1975. Suzuki motorcycles were introduced in the Guanzon inventories.</string>
+    <string name="OM_Paragraph4">1993. The Group ventured in the automobile industry thru a partneship with Honda Cars Phils and set up Honda Cars Pangasinan at San Miguel, Calasiao, Pangasinan.</string>
+    <string name="OM_Paragraph5">1998. United Excelsior Marketing Inc., was established; this year also marks the founding of the mobile phone retail venture.</string>
+    <string name="OM_Paragraph6">2003. Motorcentrum Corporation was established.</string>
+    <string name="OM_Paragraph7">2005. Guanzon Manila Office was opened for operations support in Roosevelt, Quezon City; Nissan Cars Pangasinan under North Quadrant Ventures Inc., started its operations in Calasiao, Pangasinan.</string>
+    <string name="OM_Paragraph8">2007. Yamaha Phils and Guanzon signed a partnership for distribution deals.</string>
+    <string name="OM_Paragraph9">2008. Kawasaki Motor Phils and Guanzon signed a distribution partnership; Our first branch in the Panay Island– UEMI Iloilo Yamaha opened for operations.</string>
+    <string name="OM_Paragraph10">2010. Guanzon Group launched its “GCard” program for its loyal clients.</string>
+    <string name="OM_Paragraph11">2014. Guanzon Group opened its 99th motorcycle branch— UEMI Brooke’s Point, Palawan</string>
+    <string name="OM_Paragraph12">2014. Guanzon Group opened its 100th motorcycle branch— UEMI Tumauini, Isabela.</string>
+    <string name="OM_Paragraph13">2015. Guanzon Group opened its 50th mobile phone branch— Oppo Robinsons Calasiao concept store.</string>
+    <string name="OM_Paragraph14">2016. The Guanzon Group acquired Pedritos Restaurant and Bakeshop in Tapuac, Dagupan City thus, Los Pedritos Classic was born.</string>
+    <string name="OM_Paragraph15">2016. Los Pedritos Premium Cafe was opened at Metroplaza, Dagupan City; MCC Tagbilaran opened its doors for customers in the province of Bohol.</string>
+    <string name="OM_Paragraph16">2018. Guanzon Car Trade begun its operations in Calasiao, Pangasinan.</string>
+    <string name="OM_Paragraph17">2019. The Monarch Hotel was opened to the public.</string>
 </resources>

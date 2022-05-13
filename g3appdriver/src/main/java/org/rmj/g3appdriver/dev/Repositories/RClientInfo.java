@@ -222,4 +222,22 @@ public class RClientInfo {
             return false;
         }
     }
+
+    public boolean LogoutUserSession(){
+        try{
+            poDao.LogoutAccount();
+            poDao.LogoutGcard();
+            poDao.LogoutItemCart();
+            poDao.LogoutGcardLedger();
+            poDao.LogoutRedeemItem();
+            poDao.LogoutServiceInfo();
+            poDao.LogoutMCSerial();
+            new AccountInfo(mContext).setLoginStatus(false);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
 }
