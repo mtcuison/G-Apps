@@ -194,7 +194,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
     private void buyNow() {
         if(isLoggedIn()) {
-
+            Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_PlaceOrder.class);
+            startActivity(loIntent);
         }
     }
 

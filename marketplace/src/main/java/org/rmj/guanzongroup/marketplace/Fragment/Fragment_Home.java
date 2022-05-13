@@ -1,9 +1,9 @@
 package org.rmj.guanzongroup.marketplace.Fragment;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_QRCode;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
 import org.rmj.guanzongroup.marketplace.R;
@@ -91,7 +92,15 @@ public class Fragment_Home extends Fragment {
                                     if(foVal == null){
                                         Toast.makeText(requireActivity(), "Failed generating Qr-Code", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(requireActivity(), "Qr-Code Generated", Toast.LENGTH_SHORT).show();
+
+                                        Dialog_QRCode dialog_qrCode = new Dialog_QRCode(requireActivity());
+                                        dialog_qrCode.initDialog("GCard QR Code", foVal, new Dialog_QRCode.QrCodeCallback() {
+                                            @Override
+                                            public void onRefresh(AlertDialog foDialogx) {
+
+                                            }
+                                        });
+                                        dialog_qrCode.show();
                                     }
                                 }
                             });
