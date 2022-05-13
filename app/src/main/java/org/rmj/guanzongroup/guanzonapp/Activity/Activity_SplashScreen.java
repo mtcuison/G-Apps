@@ -1,6 +1,11 @@
 package org.rmj.guanzongroup.guanzonapp.Activity;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -11,6 +16,7 @@ import android.Manifest;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +34,28 @@ public class Activity_SplashScreen extends AppCompatActivity {
 
     private VMSplashScreen mViewModel;
 
+    private static final int TERMS_AND_CONDITIONS = 2;
     private static final int REQUEST_PERMISSION = 1;
+
+    ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    int lnResult = result.getResultCode();
+                    if(lnResult == RESULT_OK){
+                        Intent loIntent = result.getData();
+                        if (loIntent != null) {
+                            lnResult = loIntent.getIntExtra("result", 0);
+                            if(lnResult == 1){
+                                mViewModel.setAggreedTermsAndConditions(true);
+                            } else {
+                                mViewModel.setAggreedTermsAndConditions(false);
+                            }
+                        }
+                    }
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +67,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
         mViewModel.setupApp();
 
+
         mViewModel.GetLoadStatus().observe(Activity_SplashScreen.this, new Observer<oLoadStat>() {
             @Override
             public void onChanged(oLoadStat oLoadStat) {
@@ -48,6 +76,9 @@ public class Activity_SplashScreen extends AppCompatActivity {
                             Activity_SplashScreen.this,
                             mViewModel.GetPermissions(),
                             REQUEST_PERMISSION);
+                } else if(!oLoadStat.hasAggreedTermsAndConditions()){
+                    Intent loIntent = new Intent(Activity_SplashScreen.this, Activity_TermsAndConditions.class);
+                    startActivityForResult.launch(loIntent);
                 } else {
                     mViewModel.InitializeData(new VMSplashScreen.OnInitializeData() {
                         @Override

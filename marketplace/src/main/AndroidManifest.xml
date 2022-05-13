@@ -4,6 +4,9 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_RatingsReviews"
+            android:exported="false" />
+        <activity
             android:name=".Activity_PaymentMethod"
             android:exported="false" />
         <activity

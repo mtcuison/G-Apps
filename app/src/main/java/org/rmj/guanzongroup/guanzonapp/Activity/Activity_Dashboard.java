@@ -30,6 +30,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.R;
@@ -88,11 +90,11 @@ public class Activity_Dashboard extends AppCompatActivity {
                 R.id.nav_pre_termination,
                 R.id.nav_account_settings,
                 R.id.nav_find_us,
-                R.id.nav_customer_service)
+                R.id.nav_customer_service,
+                R.id.nav_about,
+                R.id.nav_logout)
                 .setOpenableLayout(drawer)
                 .build();
-
-
 
         mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, new Observer<EGcardApp>() {
             @Override
@@ -145,6 +147,28 @@ public class Activity_Dashboard extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nav_wishlist).setActionView(lblBadge);
         lblBadge.setText(GetBadgeValue(10));
 
+        navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_Dashboard.this);
+                loDialog.setButtonText("YES", "NO");
+                loDialog.initDialog("Guanzon App", "Log out user session?", new Dialog_DoubleButton.OnDialogConfirmation() {
+                    @Override
+                    public void onConfirm(AlertDialog dialog) {
+                        mViewModel.LogoutUserSession();
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancel(AlertDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                loDialog.show();
+                return false;
+            }
+        });
+
         setUpHeader(navigationView);
     }
 
@@ -153,6 +177,19 @@ public class Activity_Dashboard extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_mrktplc, menu);
+        mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
+            try {
+                if(eClientinfo != null){
+                    menu.findItem(R.id.item_gcardScan).setVisible(true);
+                    menu.findItem(R.id.item_cart).setVisible(true);
+                } else {
+                    menu.findItem(R.id.item_gcardScan).setVisible(false);
+                    menu.findItem(R.id.item_cart).setVisible(false);
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        });
         return true;
     }
 
@@ -186,6 +223,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         TextView txtSignUp = headerLayout.findViewById(R.id.lbl_Signup);
         TextView txtLoginx = headerLayout.findViewById(R.id.lbl_Login);
         TextView txtFullNm = headerLayout.findViewById(R.id.lbl_UserFullName);
+
         mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
             try {
                 Menu nav_Menu = navigationView.getMenu();
@@ -198,6 +236,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
                     nav_Menu.findItem(R.id.nav_wishlist).setVisible(true);
                     nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_logout).setVisible(true);
                 } else {
                     lnAuthxxx.setVisibility(View.VISIBLE);
                     txtFullNm.setVisibility(View.GONE);
@@ -214,6 +253,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
                     nav_Menu.findItem(R.id.nav_wishlist).setVisible(false);
                     nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_logout).setVisible(false);
                 }
             } catch(Exception e) {
                 e.printStackTrace();
@@ -233,9 +273,10 @@ public class Activity_Dashboard extends AppCompatActivity {
                     public void ApplicationResult(String args) {
 //                        Toast.makeText(Activity_Dashboard.this, "ApplicationResult " + args, Toast.LENGTH_LONG).show();
                         //TODO : Add call GCardSystem>AddGCardQrCode()
+                        //Log.e("ApplicationResult :",args);
+                        //showDialog("Transaction ", args);
+                        AddGCard(args);
 
-                        Log.e("ApplicationResult :",args);
-                        showDialog("Transaction ", args);
                     }
 
                     @Override
@@ -283,5 +324,43 @@ public class Activity_Dashboard extends AppCompatActivity {
             lblBadge.setVisibility(View.GONE);
             return "0";
         }
+    }
+
+    public void AddGCard(String fsVal){
+        Dialog_Loading loLoad = new Dialog_Loading(Activity_Dashboard.this);
+        Dialog_SingleButton loMessage = new Dialog_SingleButton(Activity_Dashboard.this);
+        mViewModel.AddNewGCard(fsVal, new VMHome.OnActionCallback() {
+            @Override
+            public void OnLoad() {
+                loLoad.initDialog("Digital GCard", "Adding GCard. Please wait...");
+                loLoad.show();
+            }
+
+            @Override
+            public void OnSuccess(String args) {
+                loLoad.dismiss();
+                loMessage.setButtonText("Okay");
+                loMessage.initDialog("Digital GCard", args, new Dialog_SingleButton.OnButtonClick() {
+                    @Override
+                    public void onClick(AlertDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                loMessage.show();
+            }
+
+            @Override
+            public void OnFailed(String args) {
+                loLoad.dismiss();
+                loMessage.setButtonText("Okay");
+                loMessage.initDialog("Digital GCard", args, new Dialog_SingleButton.OnButtonClick() {
+                    @Override
+                    public void onClick(AlertDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                loMessage.show();
+            }
+        });
     }
 }
