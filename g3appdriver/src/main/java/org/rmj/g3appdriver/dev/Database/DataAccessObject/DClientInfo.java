@@ -22,9 +22,6 @@ public interface DClientInfo {
     @Update
     void update(EClientInfo eClientInfo);
 
-    @Query("DELETE FROM Client_Info_Master")
-    void deleteClient();
-
     @Query("SELECT * FROM Client_Info_Master")
     EClientInfo GetUserInfo();
 
@@ -33,4 +30,25 @@ public interface DClientInfo {
 
     @Query("SELECT sClientID FROM CLIENT_INFO_MASTER")
     String getClientId();
+
+    @Query("DELETE FROM Client_Info_Master")
+    void LogoutAccount();
+
+    @Query("DELETE FROM GCard_App_Master")
+    void LogoutGcard();
+
+    @Query("DELETE FROM MarketPlace_Cart")
+    void LogoutItemCart();
+
+    @Query("DELETE FROM G_Card_Transaction_Ledger")
+    void LogoutGcardLedger();
+
+    @Query("DELETE FROM Redeem_Item")
+    void LogoutRedeemItem();
+
+    @Query("DELETE FROM SERVICE")
+    void LogoutServiceInfo();
+
+    @Query("DELETE FROM MC_Serial_Registration")
+    void LogoutMCSerial();
 }
