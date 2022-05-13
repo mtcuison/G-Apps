@@ -190,10 +190,9 @@ public class Activity_Dashboard extends AppCompatActivity {
             try {
                 Menu nav_Menu = navigationView.getMenu();
                 if(eClientinfo != null) {
-                    String lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
-                    txtFullNm.setText(Objects.requireNonNull(lsFullNme));
+                    txtFullNm.setText(Objects.requireNonNull(eClientinfo.getLastName()));
                     nav_Menu.findItem(R.id.nav_notifications).setVisible(true);
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
                     nav_Menu.findItem(R.id.nav_wishlist).setVisible(true);

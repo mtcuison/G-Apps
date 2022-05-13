@@ -18,19 +18,35 @@
             android:theme="@style/AppToolbar"/>
 
     </com.google.android.material.appbar.AppBarLayout>
-    <ProgressBar
-        android:id="@+id/progress_bar_appBrowser"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="3dp"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:progressTint="@color/guanzon_digital_orange"
-        android:progressBackgroundTint="@color/guanzon_digital_orange"
-        android:progress="0"
-        android:visibility="gone"
-        tools:targetApi="lollipop" />
+        android:layout_height="match_parent"
+        >
 
-    <WebView
-        android:id="@+id/webView_appBrowser"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        <WebView
+            android:id="@+id/webView_appBrowser"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <ImageView
+            android:id="@+id/imgLoading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="25dp"
+            android:src="@drawable/progress_animation"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            app:tint="@color/guanzon_digital_orange" />
+<!--        <ProgressBar-->
+<!--            android:id="@+id/progress_bar_appBrowser"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:progressTint="@color/guanzon_digital_orange"-->
+<!--            style="@style/Widget.AppCompat.ProgressBar"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_centerHorizontal="true"/>-->
+
+    </RelativeLayout>
 </LinearLayout>
