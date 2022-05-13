@@ -227,6 +227,9 @@ public class GCardManager implements iGCardSystem{
         String lsMobileNo = new Telephony(mContext).getMobilNumbers();
         String lsUserIDxx = new AccountInfo(mContext).getUserID();
         String lsGcardNox = poGCard.getCardNo();
+        if(poConfig.getTestCase()){
+            lsMobileNo = "09171870011";
+        }
         if(!poCode.isCodeValid()){
             callback.OnFailed("Invalid Qr Code");
         } else if (poCode.isQrCodeTransaction()){

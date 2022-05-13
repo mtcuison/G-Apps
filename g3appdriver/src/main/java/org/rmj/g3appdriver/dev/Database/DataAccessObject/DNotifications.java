@@ -45,6 +45,9 @@ public interface DNotifications {
     @Update
     void update(ENotificationUser notificationUser);
 
+    @Query("UPDATE Notification_Info_Recepient SET cMesgStat =:status WHERE sTransNox =:MessageID")
+    void updateNotificationStatusFromOtherDevice(String MessageID, String status);
+
     @Query("SELECT COUNT(*) FROM Notification_Info_Master WHERE sMesgIDxx=:TransNox")
     int CheckNotificationIfExist(String TransNox);
 

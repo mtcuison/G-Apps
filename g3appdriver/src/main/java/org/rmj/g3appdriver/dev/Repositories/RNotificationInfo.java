@@ -11,11 +11,7 @@
 
 package org.rmj.g3appdriver.dev.Repositories;
 
-import android.app.Application;
 import android.content.Context;
-import android.util.Log;
-
-import androidx.lifecycle.LiveData;
 
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -35,15 +31,13 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.RemoteMessageParser;
 
-import java.util.List;
-
 public class RNotificationInfo {
     private static final String TAG = RNotificationInfo.class.getSimpleName();
     private final Context mContext;
     private final DNotifications poDao;
 
     private String message = "";
-    private String lsMesgIDx = "";
+    private String psMesgIDx = "";
 
     public RNotificationInfo(Context context){
         this.mContext = context;
@@ -54,12 +48,40 @@ public class RNotificationInfo {
     public boolean SaveNotification(RemoteMessage foVal){
         try{
             RemoteMessageParser loParser = new RemoteMessageParser(foVal);
-            lsMesgIDx = loParser.getValueOf("transno");
-            if(poDao.CheckNotificationIfExist(lsMesgIDx) > 0){
-                Log.e(TAG, "Message already exist.");
-
+            psMesgIDx = loParser.getValueOf("transno");
+            if(poDao.CheckNotificationIfExist(psMesgIDx) >= 1){
+                String lsStatus = loParser.getValueOf("status");
+                poDao.updateNotificationStatusFromOtherDevice(psMesgIDx, lsStatus);
             } else {
+                ENotificationMaster loMaster = new ENotificationMaster();
+                loMaster.setTransNox(getClientNextMasterCode());
+                loMaster.setMesgIDxx(loParser.getValueOf("transno"));
+                loMaster.setParentxx(loParser.getValueOf("parent"));
+                loMaster.setCreatedx(loParser.getValueOf("stamp"));
+                loMaster.setAppSrcex(loParser.getValueOf("appsrce"));
+                loMaster.setCreatrID(loParser.getValueOf("srceid"));
+                loMaster.setCreatrNm(loParser.getValueOf("srcenm"));
+                loMaster.setDataSndx(loParser.getValueOf("infox"));
+                loMaster.setMsgTitle(loParser.getDataValueOf("title"));
+                loMaster.setMessagex(loParser.getDataValueOf("message"));
+                loMaster.setMsgTypex(loParser.getValueOf("msgmon"));
 
+                ENotificationRecipient loRecpnt = new ENotificationRecipient();
+                loRecpnt.setTransNox(loParser.getValueOf("transno"));
+                loRecpnt.setAppRcptx(loParser.getValueOf("apprcpt"));
+                loRecpnt.setRecpntID(loParser.getValueOf("rcptid"));
+                loRecpnt.setRecpntNm(loParser.getValueOf("rcptnm"));
+                loRecpnt.setMesgStat(loParser.getValueOf("status"));
+                loRecpnt.setReceived(new AppConstants().DATE_MODIFIED);
+                loRecpnt.setTimeStmp(new AppConstants().DATE_MODIFIED);
+
+                ENotificationUser loUser = new ENotificationUser();
+                loUser.setUserIDxx(loParser.getValueOf("srceid"));
+                loUser.setUserName(loParser.getValueOf("srcenm"));
+
+                poDao.insert(loMaster);
+                poDao.insert(loUser);
+                poDao.insert(loRecpnt);
             }
             return false;
         } catch (Exception e){
@@ -103,5 +125,18 @@ public class RNotificationInfo {
             message = e.getMessage();
             return false;
         }
+    }
+
+
+    private String getClientNextMasterCode(){
+        String lsNextCode = "";
+        GConnection loConn = DbConnection.doConnect(mContext);
+        try{
+            lsNextCode = MiscUtil.getNextCode("Notification_Info_Master", "sTransNox", true, loConn.getConnection(), "", 12, false);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        loConn = null;
+        return lsNextCode;
     }
 }
