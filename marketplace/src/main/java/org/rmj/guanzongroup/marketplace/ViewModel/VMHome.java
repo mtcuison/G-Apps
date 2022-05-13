@@ -90,8 +90,9 @@ public class VMHome extends AndroidViewModel {
 
         @Override
         protected void onPostExecute(Bitmap s) {
-            callback.OnView(s);
+//            callback.OnView(s);
             super.onPostExecute(s);
+            callback.OnView(s);
         }
     }
 
