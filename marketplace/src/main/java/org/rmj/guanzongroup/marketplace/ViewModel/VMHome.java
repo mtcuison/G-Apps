@@ -94,4 +94,78 @@ public class VMHome extends AndroidViewModel {
             super.onPostExecute(s);
         }
     }
+
+    public void LogoutUserSession(){
+        new LogoutTask().execute();
+    }
+
+    private class LogoutTask extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            poClientx.LogoutUserSession();
+            return null;
+        }
+    }
+
+    public interface OnActionCallback{
+        void OnLoad();
+        void OnSuccess(String args);
+        void OnFailed(String args);
+    }
+
+    public void AddNewGCard(String fsVal, OnActionCallback callback){
+        new AddNewGCardTask(callback).execute(fsVal);
+    }
+
+    private class AddNewGCardTask extends AsyncTask<String, Void, Boolean>{
+        private final OnActionCallback callback;
+
+        private boolean isSuccess = false;
+        private String message = "";
+
+        public AddNewGCardTask(OnActionCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnLoad();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                poSystem.AddGCardQrCode(strings[0], new GCardSystem.GCardSystemCallback() {
+                    @Override
+                    public void OnSuccess(String args) {
+                        isSuccess = true;
+                        message = args;
+                    }
+
+                    @Override
+                    public void OnFailed(String fsMsg) {
+                        isSuccess = false;
+                        message = fsMsg;
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                isSuccess = false;
+                message = e.getMessage();
+            }
+            return isSuccess;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean s) {
+            super.onPostExecute(s);
+            if(s){
+                callback.OnSuccess(message);
+            } else {
+                callback.OnFailed(message);
+            }
+        }
+    }
 }

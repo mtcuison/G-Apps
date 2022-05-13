@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.digitalgcard.Activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,6 +14,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -22,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
+import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -40,6 +43,8 @@ public class Activity_AddGcard extends AppCompatActivity {
     private Dialog_SingleButton poDialog;
     private TextInputEditText txtBdatex, txtGcardN;
     private MaterialButton btnAddCrd, btnScanGc;
+
+    private static final int SCAN_GCARD = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +73,38 @@ public class Activity_AddGcard extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == SCAN_GCARD){
+            iGCardSystem loGcard = new GCardSystem(Activity_AddGcard.this).getInstance(GCardSystem.CoreFunctions.GCARD);
+            try {
+                String lsVal = Objects.requireNonNull(data).getStringExtra("data");
+                loGcard.ParseQrCode(lsVal, new GCardSystem.ParseQrCodeCallback() {
+                    @Override
+                    public void ApplicationResult(String args) {
+                        //TODO : Add call GCardSystem>AddGCardQrCode()
+                    }
+
+                    @Override
+                    public void TransactionResult(String args) {
+                        Toast.makeText(Activity_AddGcard.this, args, Toast.LENGTH_LONG).show();
+                        //TODO: Create dialog that will display the PIN. After closing the dialog, call GCardSystem>DownloadTransactions()
+                        // Display message that transaction won't affect immediately on GCard Ledger.
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+                        //TODO: Display error message dialog
+                        Toast.makeText(Activity_AddGcard.this, message, Toast.LENGTH_LONG).show();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(Activity_AddGcard.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
     // Initialize this first before anything else.
     private void initViews() {
@@ -203,7 +240,7 @@ public class Activity_AddGcard extends AppCompatActivity {
 
     private void scanGcard() {
         Intent loIntent = new Intent(Activity_AddGcard.this, Activity_QrCodeScanner.class);
-        startActivity(loIntent);
+        startActivityForResult(loIntent, SCAN_GCARD);
     }
 
     private void datePicker() {
