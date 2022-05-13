@@ -39,6 +39,9 @@
     <string name="lblEditPersonalInfo">Edit Personal Information</string>
     <string name="lblEditAccountInfo">Edit Account Information</string>
     <string name="lblEditPresentAddress">Edit Present Address</string>
+    <string name="lblShippingAddress">Shipping Address</string>
+    <string name="lblPaymentMethod">Payment Method</string>
+    <string name="lblItemOrders">Item Orders:</string>
     <string name="lblActiveGcard">Active GCard</string>
     <string name="lblOtherGcard">Other GCard</string>
     <string name="lblManageGcard">Manage GCard</string>
@@ -48,6 +51,7 @@
     <string name="lblGcardNumber">GCard Number</string>
     <string name="lblTotalPoints">Total Points</string>
     <string name="lblSeeAll">See All ></string>
+    <string name="lblChange">Change</string>
     <string name="lblClose">Close</string>
     <string name="lblEmail">Email</string>
     <string name="lblMobile">Mobile</string>
