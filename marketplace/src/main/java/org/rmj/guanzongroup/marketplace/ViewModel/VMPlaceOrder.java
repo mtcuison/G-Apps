@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -28,13 +29,13 @@ public class VMPlaceOrder extends AndroidViewModel {
         this.poItmCart = new ROrder(application);
     }
 
-    public void placeOrder(List<EProducts> foItemLst, PaymentMethod foTypexx, String fsReferNo
+    public void placeOrder(List<EItemCart> foItemLst, PaymentMethod foTypexx, String fsReferNo
             , OnTransactionsCallback foCallBck) {
         new PlaceOrderTask(application, foTypexx, fsReferNo, foCallBck).execute(foItemLst);
     }
 
 
-    private static class PlaceOrderTask extends AsyncTask<List<EProducts>, Void, Boolean> {
+    private static class PlaceOrderTask extends AsyncTask<List<EItemCart>, Void, Boolean> {
 
         private final ConnectionUtil loConnect;
         private final ROrder loItmCart;
@@ -53,15 +54,9 @@ public class VMPlaceOrder extends AndroidViewModel {
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            loCallBck.onLoading();
-        }
-
-        @Override
-        protected Boolean doInBackground(List<EProducts>... lists) {
+        protected Boolean doInBackground(List<EItemCart>... lists) {
             try {
-                List<EProducts> loProdcts = lists[0];
+                List<EItemCart> loProdcts = lists[0];
                 if(loConnect.isDeviceConnected()) {
                     boolean isSuccess =  loItmCart.PlaceOrder(loProdcts,loPayment, lsReferNo);
                     lsMessage = loItmCart.getMessage();
@@ -75,6 +70,12 @@ public class VMPlaceOrder extends AndroidViewModel {
                 lsMessage = e.getMessage();
                 return false;
             }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loCallBck.onLoading();
         }
 
         @Override
