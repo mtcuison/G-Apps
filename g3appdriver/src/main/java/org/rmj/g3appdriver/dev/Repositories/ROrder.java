@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderDetail;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderMaster;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
@@ -28,6 +30,9 @@ public class ROrder {
     private final DItemCart poCartDao;
     private final DProduct poProdDao;
 
+    private final DOrderDetail poDetail;
+    private final DOrderMaster poMaster;
+
     private JSONObject data;
     private String message;
 
@@ -35,6 +40,8 @@ public class ROrder {
         this.mContext = context;
         this.poProdDao = GGC_GuanzonAppDB.getInstance(mContext).prodctDao();
         this.poCartDao = GGC_GuanzonAppDB.getInstance(mContext).itemCartDao();
+        this.poDetail = GGC_GuanzonAppDB.getInstance(mContext).orderDetailDao();
+        this.poMaster = GGC_GuanzonAppDB.getInstance(mContext).orderMasterDao();
     }
 
     public JSONObject getData() {
@@ -126,7 +133,7 @@ public class ROrder {
         }
     }
 
-    public boolean PlaceOrder(List<EItemCart> foItemLst, PaymentMethod foTypexx, String fsReferNo){
+    public boolean PlaceOrder(List<EItemCart> foItemLst, PaymentMethod foTypexx, String fsReferNo, boolean fcDirect){
         try {
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             JSONArray jaDetail = new JSONArray();
@@ -140,74 +147,22 @@ public class ROrder {
             String lsPaymnt = null;
             switch (foTypexx){
                 case GCash:
-                    lsPaymnt = "GC";
-                    break;
-                case PayMaya:
-                    lsPaymnt = "PAYM";
-                    break;
-                default:
-                    lsPaymnt = "NP";
-                    break;
-            }
-
-            JSONObject params = new JSONObject();
-            params.put("cCartItem", 1); //0 - direct place order; 1 - place order of cart item
-            params.put("nFreightx", 100.00); //Freight charge
-            params.put("sTermCode", lsPaymnt); //payment term : PayMaya
-            params.put("sReferNox", fsReferNo); //payment reference no.
-
-            params.put("detail", jaDetail);
-
-            String lsResponse = WebClient.httpsPostJSon(
-                    loApis.getImportProducts(),
-                    params.toString(),
-                    new HttpHeaders(mContext).getHeaders());
-            if(lsResponse == null){
-                message = "Unable to retrieve server response.";
-                return false;
-            } else {
-                JSONObject loResponse = new JSONObject(lsResponse);
-                String lsResult = loResponse.getString("result");
-                if(!lsResult.equalsIgnoreCase("success")){
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    message = loError.getString("message");
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return false;
-        }
-    }
-
-    public boolean PlaceOrder(EProducts loCartList, PaymentMethod foTypexx, String fsReferNo){
-        try {
-            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
-            JSONArray jaDetail = new JSONArray();
-
-            JSONObject joDetail = new JSONObject();
-            joDetail.put("sListngID", loCartList.getListngID());
-            joDetail.put("nQuantity", loCartList.getQtyOnHnd());
-            jaDetail.put(joDetail);
-
-            String lsPaymnt = null;
-            switch (foTypexx){
-                case GCash:
                     lsPaymnt = "GCSH";
                     break;
                 case PayMaya:
                     lsPaymnt = "PAYM";
                     break;
                 default:
-                    lsPaymnt = "NP";
+                    lsPaymnt = "COD";
                     break;
             }
 
             JSONObject params = new JSONObject();
-            params.put("cCartItem", 1); //0 - direct place order; 1 - place order of cart item
+            int nDirectxx = 1;
+            if(fcDirect){
+                nDirectxx = 0;
+            }
+            params.put("cCartItem", nDirectxx); //0 - direct place order; 1 - place order of cart item
             params.put("nFreightx", 100.00); //Freight charge
             params.put("sTermCode", lsPaymnt); //payment term : PayMaya
             params.put("sReferNox", fsReferNo); //payment reference no.
@@ -229,6 +184,7 @@ public class ROrder {
                     message = loError.getString("message");
                     return false;
                 } else {
+
                     return true;
                 }
             }
@@ -347,6 +303,10 @@ public class ROrder {
     public LiveData<Integer> GetCartItemCount(){
         DItemCart loCart = GGC_GuanzonAppDB.getInstance(mContext).itemCartDao();
         return loCart.GetCartItemCount();
+    }
+
+    public LiveData<List<EItemCart>> GetItemCartList(){
+        return poCartDao.GetCartItemsList();
     }
 
     public boolean PayOrder(String fsTransno, PaymentMethod foTypexx, String fsReferNo){

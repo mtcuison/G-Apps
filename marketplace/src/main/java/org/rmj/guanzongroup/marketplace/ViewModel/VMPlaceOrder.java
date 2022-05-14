@@ -29,9 +29,12 @@ public class VMPlaceOrder extends AndroidViewModel {
         this.poItmCart = new ROrder(application);
     }
 
-    public void placeOrder(List<EItemCart> foItemLst, PaymentMethod foTypexx, String fsReferNo
-            , OnTransactionsCallback foCallBck) {
-        new PlaceOrderTask(application, foTypexx, fsReferNo, foCallBck).execute(foItemLst);
+    public void placeOrder(List<EItemCart> foItemLst,
+                           PaymentMethod foTypexx,
+                           String fsReferNo,
+                           boolean fcDirectxx,
+                           OnTransactionsCallback foCallBck) {
+        new PlaceOrderTask(application, foTypexx, fsReferNo, fcDirectxx, foCallBck).execute(foItemLst);
     }
 
 
@@ -42,15 +45,20 @@ public class VMPlaceOrder extends AndroidViewModel {
         private final OnTransactionsCallback loCallBck;
         private final PaymentMethod loPayment;
         private final String lsReferNo;
+        private final boolean fcDirectxx;
         private String lsMessage = "";
 
-        private PlaceOrderTask(Application application, PaymentMethod foPayment, String fsReferNo,
+        private PlaceOrderTask(Application application,
+                               PaymentMethod foPayment,
+                               String fsReferNo,
+                               boolean fcDirectxx,
                                OnTransactionsCallback foCallBck) {
             this.loConnect = new ConnectionUtil(application);
             this.loItmCart = new ROrder(application);
             this.loCallBck = foCallBck;
-            loPayment = foPayment;
-            lsReferNo = fsReferNo;
+            this.loPayment = foPayment;
+            this.lsReferNo = fsReferNo;
+            this.fcDirectxx = fcDirectxx;
         }
 
         @Override
@@ -58,7 +66,7 @@ public class VMPlaceOrder extends AndroidViewModel {
             try {
                 List<EItemCart> loProdcts = lists[0];
                 if(loConnect.isDeviceConnected()) {
-                    boolean isSuccess =  loItmCart.PlaceOrder(loProdcts,loPayment, lsReferNo);
+                    boolean isSuccess =  loItmCart.PlaceOrder(loProdcts,loPayment, lsReferNo, fcDirectxx);
                     lsMessage = loItmCart.getMessage();
                     return isSuccess;
                 } else {
