@@ -22,23 +22,15 @@ public class Activity_TermsAndConditions extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_terms_and_conditions);
         TextView lblTermsAndConditions = findViewById(R.id.lbl_termsAndConditions);
-        lblTermsAndConditions.setText(Html.fromHtml(getString(R.string.Privacy_Policy)));
 
-        CheckBox cbAgree = findViewById(R.id.cb_agree);
-        MaterialButton btnConfirm = findViewById(R.id.btnConfirm);
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent loIntent = new Intent();
-                if (cbAgree.isChecked()){
-                    loIntent.putExtra("result", 1);
-                    setResult(Activity.RESULT_OK, loIntent);
-                } else {
-                    Toast.makeText(Activity_TermsAndConditions.this, "Please accept the terms and policy to continue", Toast.LENGTH_SHORT).show();
-                }
-                finish();
+        if(getIntent().hasExtra("cTermsDsp")){
+            int cTermsDsp = getIntent().getIntExtra("cTermsDsp", 0);
+            if(cTermsDsp == 0){
+                lblTermsAndConditions.setText(Html.fromHtml(getString(R.string.Terms_and_Conditions)));
+            } else {
+                lblTermsAndConditions.setText(Html.fromHtml(getString(R.string.Privacy_Policy)));
             }
-        });
+        }
     }
 
     @Override

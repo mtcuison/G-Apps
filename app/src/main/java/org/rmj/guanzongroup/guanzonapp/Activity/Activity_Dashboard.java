@@ -91,7 +91,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                 R.id.nav_account_settings,
                 R.id.nav_find_us,
                 R.id.nav_customer_service,
-                R.id.nav_about,
                 R.id.nav_logout)
                 .setOpenableLayout(drawer)
                 .build();
