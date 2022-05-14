@@ -56,10 +56,6 @@ public class AccountAuthentication {
 
                     EClientInfo loClient = new EClientInfo();
 
-                    loClient.setLastName("");
-                    loClient.setFrstName("");
-                    loClient.setMiddName("");
-                    loClient.setSuffixNm("");
                     loClient.setDateMmbr(loResponse.getString("dCreatedx"));
                     loClient.setLoginxxx(new AppConstants().GCARD_DATE_TIME);
                     loClient.setEmailAdd(loResponse.getString("sEmailAdd"));
@@ -119,6 +115,7 @@ public class AccountAuthentication {
             params.put("user", sUserName);
             params.put("pswd", sPassword);
             params.put("nmbr", sMobileNo);
+            params.put("nmbr", sMobileNo);
             return params.toString();
         }
     }
@@ -134,6 +131,7 @@ public class AccountAuthentication {
         private String sPassword = "";
         private String sPasswrd2 = "";
         private String sMobileNo = "";
+        private String cAgreeTnC = "";
 
         private String message;
 
@@ -184,6 +182,14 @@ public class AccountAuthentication {
             this.sPasswrd2 = sPasswrd2;
         }
 
+        public String getcAgreeTnC() {
+            return cAgreeTnC;
+        }
+
+        public void setcAgreeTnC(String cAgreeTnC) {
+            this.cAgreeTnC = cAgreeTnC;
+        }
+
         public boolean isDataValid(){
             if(sUserName.isEmpty()){
                 message = "Please enter username";
@@ -212,6 +218,9 @@ public class AccountAuthentication {
             } else if(!sPassword.equals(sPasswrd2)){
                 message = "Passwords does not match";
                 return false;
+            } else if(!cAgreeTnC.equalsIgnoreCase("1")){
+                message = "Please indicate that you have agree to the Terms & Conditions and Privacy Policy";
+                return false;
             } else {
                 return true;
             }
@@ -223,6 +232,7 @@ public class AccountAuthentication {
             params.put("mail", sEmailAdd);
             params.put("pswd", sPassword);
             params.put("mobile", sMobileNo);
+            params.put("cAgreeTnC", cAgreeTnC);
             return params.toString();
         }
     }

@@ -21,4 +21,13 @@ public interface DItemCart {
 
     @Query("SELECT * FROM MarketPlace_Cart WHERE sUserIDxx = (SELECT sUserIDxx FROM User_Info_Master)")
     LiveData<List<EItemCart>> GetCartItemsList();
+
+    @Query("SELECT * FROM MarketPlace_Cart WHERE sListIDxx=:fsListID")
+    EItemCart CheckIFItemExist(String fsListID);
+
+    @Query("UPDATE MarketPlace_Cart SET nQuantity =:fnQty WHERE sListIDxx =:fsListID")
+    void UpdateItem(String fsListID, int fnQty);
+
+    @Query("DELETE FROM MarketPlace_Cart WHERE sListIDxx=:fsListID")
+    void DeleteCartItem(String fsListID);
 }

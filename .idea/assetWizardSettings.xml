@@ -372,8 +372,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="242424" />
-                            <entry key="outputName" value="ic_no_image_available" />
-                            <entry key="sourceFile" value="C:\Users\User\Desktop\no_image_available.svg" />
+                            <entry key="outputName" value="splashscreen" />
+                            <entry key="sourceFile" value="C:\Users\User\Desktop\Marketplace Sample Image\Splashscreen.svg" />
                           </map>
                         </option>
                       </PersistentState>

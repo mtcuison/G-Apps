@@ -19,7 +19,7 @@
             android:name=".Activity.Activity_SearchItem"
             android:exported="false" />
         <activity
-            android:name=".Activity_PlaceOrder"
+            android:name=".Activity.Activity_PlaceOrder"
             android:exported="true" />
     </application>
 

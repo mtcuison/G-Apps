@@ -63,17 +63,9 @@ public class VMSplashScreen extends AndroidViewModel {
         loConfig.setTestCase(true);
         loConfig.setIfPermissionsGranted(hasPermissions(mContext, laPermissions));
         poLoadStat.setValue(new oLoadStat(
-                loConfig.hasAggreedTermsAndConditions(),
                 loConfig.IsPermissionsGranted(),
                 new AccountInfo(mContext).getLoginStatus(),
                 !new AccountInfo(mContext).getClientID().isEmpty()));
-    }
-
-    public void setAggreedTermsAndConditions(boolean val){
-        oLoadStat loStat = poLoadStat.getValue();
-        Objects.requireNonNull(loStat).setAggreedTermsAndConditions(val);
-        poLoadStat.setValue(loStat);
-        new GuanzonAppConfig(mContext).setAggreedTermsAndConditions(val);
     }
 
     public void setPermissionsGranted(boolean val){

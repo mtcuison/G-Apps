@@ -14,7 +14,6 @@ public class GuanzonAppConfig {
     private static final String TEST_CASE = "cTestStat";
 
     private static final String PERMISSIONS_GRANT = "cPrmnGrnt";
-    private static final String TERMS_AND_CONDITIONS = "cTrmCndtn";
 
     public GuanzonAppConfig(Context context){
         pref = context.getSharedPreferences(ACCOUNT_CREDENTIALS, Context.MODE_PRIVATE);
@@ -46,14 +45,5 @@ public class GuanzonAppConfig {
 
     public boolean IsPermissionsGranted(){
         return pref.getBoolean(PERMISSIONS_GRANT, false);
-    }
-
-    public void setAggreedTermsAndConditions(boolean val){
-        editor.putBoolean(TERMS_AND_CONDITIONS, val);
-        editor.commit();
-    }
-
-    public boolean hasAggreedTermsAndConditions(){
-        return pref.getBoolean(TERMS_AND_CONDITIONS, false);
     }
 }

@@ -1,12 +1,18 @@
 package org.rmj.guanzongroup.guanzonapp.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import com.google.android.material.button.MaterialButton;
+
+import org.json.JSONObject;
+import org.rmj.guanzongroup.guanzonapp.Activity.Activity_TermsAndConditions;
 import org.rmj.guanzongroup.guanzonapp.R;
 
 /**
@@ -60,6 +66,36 @@ public class Fragment_About extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_about, container, false);
+        View view = inflater.inflate(R.layout.fragment_about, container, false);
+
+        MaterialButton btnComp = view.findViewById(R.id.btn_CompanyProfile);
+        MaterialButton btnTnCx = view.findViewById(R.id.btn_TermsConditions);
+        MaterialButton btnPlcy = view.findViewById(R.id.btn_PrivacyPolicy);
+
+        btnComp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_nav_about_to_nav_comp_profile);
+            }
+        });
+
+        btnTnCx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loIntent = new Intent(requireActivity(), Activity_TermsAndConditions.class);
+                loIntent.putExtra("cTermsDsp", 0);
+                startActivity(loIntent);
+            }
+        });
+
+        btnPlcy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loIntent = new Intent(requireActivity(), Activity_TermsAndConditions.class);
+                loIntent.putExtra("cTermsDsp", 1);
+                startActivity(loIntent);
+            }
+        });
+        return view;
     }
 }
