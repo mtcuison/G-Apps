@@ -1,7 +1,6 @@
 package org.rmj.g3appdriver.dev.Repositories;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -15,7 +14,7 @@ import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
-import org.rmj.g3appdriver.etc.ConnectionUtil;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
@@ -26,14 +25,16 @@ public class ROrder {
     private static final String TAG = ROrder.class.getSimpleName();
 
     private final Context mContext;
-    private final DProduct poDao;
+    private final DItemCart poCartDao;
+    private final DProduct poProdDao;
 
     private JSONObject data;
     private String message;
 
     public ROrder(Context context){
         this.mContext = context;
-        this.poDao = GGC_GuanzonAppDB.getInstance(mContext).prodctDao();
+        this.poProdDao = GGC_GuanzonAppDB.getInstance(mContext).prodctDao();
+        this.poCartDao = GGC_GuanzonAppDB.getInstance(mContext).itemCartDao();
     }
 
     public JSONObject getData() {
@@ -80,7 +81,7 @@ public class ROrder {
                         return false;
                     } else {
                         data = loResponse;
-                        return true;
+                        return AddUpdateCartLocal(fsLstngID, fnQuantity);
                     }
                 }
             } else {
@@ -114,6 +115,7 @@ public class ROrder {
                     message = loError.getString("message");
                     return false;
                 } else {
+                    poCartDao.DeleteCartItem(fsLstngID);
                     return true;
                 }
             }
@@ -124,21 +126,21 @@ public class ROrder {
         }
     }
 
-    public boolean PlaceOrder(List<EProducts> foItemLst, PaymentMethod foTypexx, String fsReferNo){
+    public boolean PlaceOrder(List<EItemCart> foItemLst, PaymentMethod foTypexx, String fsReferNo){
         try {
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             JSONArray jaDetail = new JSONArray();
             for(int x = 0; x < foItemLst.size(); x++){
                 JSONObject joDetail = new JSONObject();
-                joDetail.put("sListngID", foItemLst.get(x).getListngID());
-                joDetail.put("nQuantity", foItemLst.get(x).getQtyOnHnd());
+                joDetail.put("sListngID", foItemLst.get(x).getListIDxx());
+                joDetail.put("nQuantity", foItemLst.get(x).getQuantity());
                 jaDetail.put(joDetail);
             }
 
             String lsPaymnt = null;
             switch (foTypexx){
                 case GCash:
-                    lsPaymnt = "PAYM";
+                    lsPaymnt = "GC";
                     break;
                 case PayMaya:
                     lsPaymnt = "PAYM";
@@ -267,7 +269,7 @@ public class ROrder {
                 String nSoldQtyx = loDetail.getString("nSoldQtyx");
                 String nUnitPrce = loDetail.getString("nUnitPrce");
                 String sListngID = loDetail.getString("sListngID");
-                poDao.UpdateProductQtyInfo(sListngID, nTotalQty, nQtyOnHnd, nResvOrdr, nSoldQtyx, nUnitPrce);
+                poProdDao.UpdateProductQtyInfo(sListngID, nTotalQty, nQtyOnHnd, nResvOrdr, nSoldQtyx, nUnitPrce);
                 if(lnQuantity >= fnQuantity){
                     return true;
                 } else {
@@ -275,6 +277,29 @@ public class ROrder {
                     return false;
                 }
             }
+        }
+    }
+
+    private boolean AddUpdateCartLocal(String fsLstngID, int fnQuantity){
+        try{
+            EItemCart loItem = new EItemCart();
+            loItem.setUserIDxx(new AccountInfo(mContext).getUserID());
+            loItem.setListIDxx(fsLstngID);
+            loItem.setQuantity(String.valueOf(fnQuantity));
+            loItem.setTranStat("0");
+            loItem.setAvlQtyxx("");
+            loItem.setCreatedx(new AppConstants().GCARD_DATE_TIME);
+            loItem.setTimeStmp(new AppConstants().GCARD_DATE_TIME);
+            if(poCartDao.CheckIFItemExist(fsLstngID) == null){
+                poCartDao.SaveItemInfo(loItem);
+            } else {
+                poCartDao.UpdateItem(fsLstngID, fnQuantity);
+            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
         }
     }
 
@@ -322,5 +347,61 @@ public class ROrder {
     public LiveData<Integer> GetCartItemCount(){
         DItemCart loCart = GGC_GuanzonAppDB.getInstance(mContext).itemCartDao();
         return loCart.GetCartItemCount();
+    }
+
+    public boolean PayOrder(String fsTransno, PaymentMethod foTypexx, String fsReferNo){
+        try{
+            JSONObject param = new JSONObject();
+            param.put("sTransNox", fsTransno);
+
+            if(foTypexx != PaymentMethod.CashOnDelivery){
+                if(fsReferNo == null){
+                    message = "Please enter payment reference no.";
+                    return false;
+                } else if(fsReferNo.trim().isEmpty()){
+                    message = "Please enter payment reference no.";
+                    return false;
+                }
+            }
+
+            switch (foTypexx){
+                case CashOnDelivery:
+                    param.put("sTermCode", "COD"); //payment term : PayMaya
+                    param.put("sReferNox", fsReferNo);
+                    break;
+                case PayMaya:
+                    param.put("sTermCode", "PAYMAYA");//payment term : PayMaya
+                    param.put("sReferNox", fsReferNo);
+                    break;
+                default:
+                    param.put("sTermCode", "GCASH");//payment term : PayMaya
+                    param.put("sReferNox", fsReferNo);
+                    break;
+            }
+
+            ServerAPIs loApi = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApi.getOrderPaymentAPI(),
+                    param.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("result")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
     }
 }

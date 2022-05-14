@@ -17,19 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="15dp"
+            android:textColor="@color/black"
             android:paddingTop="30dp"/>
-
-        <CheckBox
-            android:id="@+id/cb_agree"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="I agree to the terms and conditions as set out by the user agreement."/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnConfirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Confirm"/>
     </LinearLayout>
 
 </ScrollView>

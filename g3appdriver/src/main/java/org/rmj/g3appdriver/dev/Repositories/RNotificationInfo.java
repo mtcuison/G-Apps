@@ -13,6 +13,8 @@ package org.rmj.g3appdriver.dev.Repositories;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
@@ -30,6 +32,8 @@ import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.RemoteMessageParser;
+
+import java.util.List;
 
 public class RNotificationInfo {
     private static final String TAG = RNotificationInfo.class.getSimpleName();
@@ -127,7 +131,6 @@ public class RNotificationInfo {
         }
     }
 
-
     private String getClientNextMasterCode(){
         String lsNextCode = "";
         GConnection loConn = DbConnection.doConnect(mContext);
@@ -138,5 +141,9 @@ public class RNotificationInfo {
         }
         loConn = null;
         return lsNextCode;
+    }
+
+    public LiveData<List<DNotifications.ClientNotificationInfo>> getClientNotificationList(){
+        return poDao.getClientNotificationList();
     }
 }

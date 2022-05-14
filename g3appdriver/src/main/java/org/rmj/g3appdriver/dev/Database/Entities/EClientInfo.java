@@ -50,6 +50,8 @@ public class EClientInfo {
     private String MobileNo;
     @ColumnInfo(name = "dLoginxxx")
     private String Loginxxx;
+    @ColumnInfo(name = "cAgreeTnC")
+    private String AgreeTnC;
     @ColumnInfo(name = "dDateMmbr")
     private String DateMmbr;
 
@@ -223,5 +225,13 @@ public class EClientInfo {
 
     public void setCitizenx(String citizenx) {
         Citizenx = citizenx;
+    }
+
+    public String getAgreeTnC() {
+        return AgreeTnC;
+    }
+
+    public void setAgreeTnC(String agreeTnC) {
+        AgreeTnC = agreeTnC;
     }
 }
