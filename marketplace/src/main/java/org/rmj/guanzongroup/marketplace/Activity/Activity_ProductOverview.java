@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,11 +27,13 @@ import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductDescription;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMProductOverview;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 
 import java.util.Objects;
 
 public class Activity_ProductOverview extends AppCompatActivity {
+    private final AccountInfo poAccount = new AccountInfo(Activity_ProductOverview.this);
     private VMProductOverview mViewModel;
     private Toolbar toolbar;
     private Dialog_Loading poLoading;
@@ -194,13 +195,21 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
     private void buyNow() {
         if(isLoggedIn()) {
-            Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_PlaceOrder.class);
-            startActivity(loIntent);
+            if(poAccount.getClientID().isEmpty()) {
+                Intent loIntent = new Intent(Activity_ProductOverview.this,
+                        Activity_CompleteAccountDetails.class);
+                startActivity(loIntent);
+            } else {
+                Intent loIntent = new Intent(Activity_ProductOverview.this,
+                        Activity_PlaceOrder.class);
+                startActivity(loIntent);
+            }
+
         }
     }
 
     private boolean isLoggedIn() {
-        if(!new AccountInfo(Activity_ProductOverview.this).getLoginStatus()) {
+        if(!poAccount.getLoginStatus()) {
             Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_Login.class);
             startActivity(loIntent);
             return false;
