@@ -25,6 +25,8 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductDescription;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
+import org.rmj.guanzongroup.marketplace.Etc.OrderList;
+import org.rmj.guanzongroup.marketplace.Model.OrderInfoModel;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMProductOverview;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
@@ -203,6 +205,11 @@ public class Activity_ProductOverview extends AppCompatActivity {
             } else {
                 Intent loIntent = new Intent(Activity_ProductOverview.this,
                         Activity_PlaceOrder.class);
+
+                OrderList orders = new OrderList();
+                orders.putOrder(new OrderInfoModel(psItemIdx, 1));
+                loIntent.putExtra("sOrderList", orders.getParsedString());
+
                 startActivity(loIntent);
             }
 

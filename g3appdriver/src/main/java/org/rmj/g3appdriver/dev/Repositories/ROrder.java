@@ -196,13 +196,13 @@ public class ROrder {
             String lsPaymnt = null;
             switch (foTypexx){
                 case GCash:
-                    lsPaymnt = "GCSH";
+                    lsPaymnt = "GCASH";
                     break;
                 case PayMaya:
                     lsPaymnt = "PAYM";
                     break;
                 default:
-                    lsPaymnt = "NP";
+                    lsPaymnt = "COD";
                     break;
             }
 

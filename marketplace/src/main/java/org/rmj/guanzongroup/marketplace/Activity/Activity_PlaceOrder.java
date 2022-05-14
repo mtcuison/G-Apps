@@ -3,25 +3,10 @@ package org.rmj.guanzongroup.marketplace.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-
-import com.google.android.material.button.MaterialButton;
-
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
-import org.rmj.guanzongroup.marketplace.Activity_PaymentMethod;
-import org.rmj.guanzongroup.marketplace.Dialog.Dialog_BottomCart;
-import org.rmj.guanzongroup.marketplace.Fragment.FragmentPaymentMethod;
-import org.rmj.guanzongroup.marketplace.Fragment.FragmentShippingAddress;
 
 import org.rmj.guanzongroup.marketplace.R;
 
@@ -31,10 +16,13 @@ public class Activity_PlaceOrder extends AppCompatActivity {
 
     private Toolbar toolbar;
 
+    private String psOrdersx = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_order);
+        getExtras();
         initViews();
         setUpToolbar();
     }
@@ -50,6 +38,11 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    private void getExtras() {
+        psOrdersx = getIntent().getStringExtra("sOrderList");
+        Log.e("Orders", psOrdersx);
     }
 
     private void initViews() {
