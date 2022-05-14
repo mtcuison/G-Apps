@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 
 import java.util.List;
@@ -81,6 +82,26 @@ public interface DRedeemItemInfo {
     @Query("UPDATE Redeem_Item SET nItemQtyx =:ItemQty, nPointsxx=:ItemPts " +
             "WHERE sTransNox=:TransNox AND sPromoIDx =:PromoIDx")
     void UpdateExistingItemOnCart(String TransNox, String PromoIDx, int ItemQty, double ItemPts);
+
+    @Query("SELECT a.sTransNox AS sProdctID, " +
+            "a.sPromoDsc AS sItemDesc, " +
+            "b.nPointsxx AS nItemPtsx," +
+            "b.nItemQtyx AS nItemQtyx " +
+            "FROM Redeemables a " +
+            "LEFT JOIN Redeem_Item b " +
+            "ON a.sTransNox = b.sPromoIDx " +
+            "WHERE b.sGCardNox = (SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1')")
+    LiveData<List<GCardCartItem>> GetGCardCartItemList();
+
+    @Query("SELECT * FROM BranchInfo WHERE sBranchCd LIKE 'M%'")
+    List<EBranchInfo> GetMCBranchesForRedemption();
+
+    class GCardCartItem{
+        public String sProdctID;
+        public String sItemDesc;
+        public String nItemPtsx;
+        public String nItemQtyx;
+    }
 
     class ItemDetail {
         public int quantity;

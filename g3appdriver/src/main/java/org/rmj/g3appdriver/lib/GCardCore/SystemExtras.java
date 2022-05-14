@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
@@ -125,7 +126,12 @@ public class SystemExtras implements iGCardSystem{
     }
 
     @Override
-    public LiveData<List<ERedeemItemInfo>> GetCartItems() {
+    public LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems() {
+        return null;
+    }
+
+    @Override
+    public List<EBranchInfo> GetMCBranchesForRedemption() {
         return null;
     }
 

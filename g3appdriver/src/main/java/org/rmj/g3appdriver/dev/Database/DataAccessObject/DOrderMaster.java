@@ -15,5 +15,5 @@ public interface DOrderMaster {
     @Query("SELECT * FROM MarketPlace_Order_Master WHERE sTransNox=:fsTransNo")
     EOrderMaster CheckOrderMasterIfExist(String fsTransNo);
 
-    void UpdateMasterRecord();
+//    void UpdateMasterRecord();
 }

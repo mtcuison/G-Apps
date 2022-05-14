@@ -7,23 +7,23 @@
     tools:context=".Fragment.Fragment_About">
 
     <LinearLayout
+        android:id="@+id/linear_compProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="10dp">
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/linear_compProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:background="@color/black">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_marginTop="50dp"
                 android:text="@string/Company_Profile"/>
@@ -31,16 +31,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:typeface="serif"
-                android:textSize="14sp"
-                android:layout_marginTop="5dp"
-                android:text="@string/CP_Paragraph"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -49,17 +40,28 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
                 android:text="@string/CP_Paragraph_2"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:typeface="serif"
+                android:textStyle="bold"
+                android:gravity="center"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
                 android:text="@string/CP_Paragraph_3"/>
@@ -108,6 +110,15 @@
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
                 android:text="@string/CP_Paragraph_8"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -226,11 +237,21 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/CP_Paragraph"/>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:background="@color/black">
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_marginTop="30dp"
                 android:text="@string/Our_Milestones"/>
@@ -238,7 +259,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -247,7 +268,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -256,7 +277,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -265,7 +286,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -274,7 +295,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -283,7 +304,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -292,7 +313,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -301,7 +322,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -310,7 +331,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -319,7 +340,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -328,7 +349,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -337,7 +358,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -346,7 +367,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -355,7 +376,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -364,7 +385,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -373,7 +394,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
@@ -382,19 +403,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:typeface="serif"
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph17"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_termsConditions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
 
         </LinearLayout>
