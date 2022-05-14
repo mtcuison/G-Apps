@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
@@ -34,7 +35,8 @@ public interface iGCardSystem {
     LiveData<List<ERedeemablesInfo>> GetRedeemablesList();
     void AddToCart(CartItem item, GCardSystem.GCardSystemCallback callback);
     void UpdateCartItem(CartItem item, GCardSystem.GCardSystemCallback callback) throws Exception;
-    LiveData<List<ERedeemItemInfo>> GetCartItems();
+    LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems();
+    List<EBranchInfo> GetMCBranchesForRedemption();
     void PlaceOrder(List<ERedeemItemInfo> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception;
     Bitmap GenerateGCardOrderQrCode(String BatchNox) throws Exception;
 

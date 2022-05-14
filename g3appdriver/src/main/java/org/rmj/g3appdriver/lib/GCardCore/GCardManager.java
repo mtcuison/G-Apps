@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
@@ -281,7 +282,12 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
-    public LiveData<List<ERedeemItemInfo>> GetCartItems() {
+    public LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems() {
+        return null;
+    }
+
+    @Override
+    public List<EBranchInfo> GetMCBranchesForRedemption() {
         return null;
     }
 
@@ -294,7 +300,6 @@ public class GCardManager implements iGCardSystem{
     public Bitmap GenerateGCardOrderQrCode(String BatchNox) throws Exception {
         return null;
     }
-
 
     @Override
     public void DownloadTransactions(GCardSystem.GCardSystemCallback callback) {

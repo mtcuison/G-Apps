@@ -44,6 +44,15 @@ public interface DAddress {
             "WHERE a.sTownIDxx =:fsTownID")
     LiveData<String> GetTownProvName(String fsTownID);
 
+    @Query("SELECT a.sBrgyName || ', ' || b.sTownName || ', ' || c.sProvName " +
+            "FROM Barangay_Info a " +
+            "LEFT JOIN Town_Info b " +
+            "ON a.sTownIDxx = b.sTownIDxx " +
+            "LEFT JOIN Province_Info c " +
+            "ON b.sTownIDxx = c.sProvIDxx " +
+            "WHERE a.sBrgyIDxx=:fsBrgyID")
+    LiveData<String> GetFullAddressName(String fsBrgyID);
+
     @Query("SELECT " +
             "a.sTownIDxx AS sTownID, " +
             "a.sTownName AS sTownNm, " +
