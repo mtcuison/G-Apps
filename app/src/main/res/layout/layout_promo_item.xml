@@ -10,44 +10,50 @@
     android:id="@+id/linear_list_item_promos_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
 
 <!--        style="@style/AboutUs_CardView"-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/img_list_item_promo_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_no_image_available"
+                android:layout_height="wrap_content"
+                android:src="@drawable/sample_image"
                 android:scaleType="centerInside"
                 android:adjustViewBounds="true"/>
-
-            <TextView
-                android:id="@+id/lbl_list_item_promo_caption"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Looking for Fast, Safe and Convenient? Shop online now at www.guanzongroup.com.ph and get FREE Tripod for every online purchase. Order anytime, anywhere in just a few clicks, FREE DELIVERY at your doorstep. Shop online now!"
-                android:textSize="18sp"
-                android:paddingTop="10dp"
-                android:textColor="@color/cardview_dark_background"
-                tools:ignore="HardcodedText" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <TextView
+                    android:id="@+id/lbl_list_item_promo_caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Looking for Fast, Safe and Convenient? Shop online now at www.guanzongroup.com.ph and get FREE Tripod for every online purchase. Order anytime, anywhere in just a few clicks, FREE DELIVERY at your doorstep. Shop online now!"
+                    android:textSize="18sp"
+                    android:paddingTop="10dp"
+                    android:textColor="@color/cardview_dark_background"
+                    tools:ignore="HardcodedText" />
 
 
-            <TextView
-                android:id="@+id/lbl_list_item_promo_duration"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Promo runs untill December 10, 2020"
-                android:textColor="@color/cardview_dark_background"
-                android:paddingBottom="10dp"
-                android:fontFamily="@font/roboto_regular"/>
+                <TextView
+                    android:id="@+id/lbl_list_item_promo_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Promo runs untill December 10, 2020"
+                    android:textColor="@color/cardview_dark_background"
+                    android:paddingBottom="10dp"
+                    android:fontFamily="@font/roboto_regular"/>
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
