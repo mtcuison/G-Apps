@@ -17,9 +17,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
+import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
+import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
 
 import java.util.List;
 
@@ -46,14 +48,26 @@ public class TestAddToCartItem {
     }
 
     @Test
-    public void test01AddToCart(){
-        poProdct.GetProductList(10).observeForever(new Observer<List<EProducts>>() {
-            @Override
-            public void onChanged(List<EProducts> eProducts) {
-                loList = eProducts;
-            }
-        });
+    public void test01Login() throws Exception{
+        new AccountAuthentication(mContext).
+                LoginAccount(
+                        new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "12345678", "09171870011"),
+                        new AccountAuthentication.OnLoginCallback() {
+                            @Override
+                            public void OnSuccessLogin(String message) {
+                                new RClientInfo(mContext).ImportAccountInfo();
+                            }
 
+                            @Override
+                            public void OnFailedLogin(String message) {
+
+                            }
+                        });
+    }
+
+    @Test
+    public void test02AddToCart(){
+        poProdct.GetProductList(0).observeForever(eProducts -> loList = eProducts);
         if(loList.size() > 0){
             String lsLstID = loList.get(0).getListngID();
             isSuccess = poOrders.AddUpdateCart(lsLstID, 1);
