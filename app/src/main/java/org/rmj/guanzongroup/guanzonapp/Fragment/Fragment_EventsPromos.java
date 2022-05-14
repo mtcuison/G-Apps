@@ -47,7 +47,7 @@ public class Fragment_EventsPromos extends Fragment {
         if(getArguments().get("gcardInstance").toString().equalsIgnoreCase("1")){
             mViewModel.DownloadPromos();
             mViewModel.getPromos().observe(getViewLifecycleOwner(), promos -> {
-                poAdapter = new Adapter_EventsPromos( new Adapter_EventsPromos.OnEventPromoClickListener() {
+                poAdapter = new Adapter_EventsPromos(requireActivity(), new Adapter_EventsPromos.OnEventPromoClickListener() {
                     @Override
                     public void OnClick(String url, String args) {
                         Intent intent = new Intent(getActivity(), Activity_Browser.class);
@@ -62,7 +62,7 @@ public class Fragment_EventsPromos extends Fragment {
         } else {
             mViewModel.DownloadEvents();
             mViewModel.getEvents().observe(getViewLifecycleOwner(), events -> {
-                poAdapter = new Adapter_EventsPromos(events, new Adapter_EventsPromos.OnEventPromoClickListener() {
+                poAdapter = new Adapter_EventsPromos(requireActivity(),events, new Adapter_EventsPromos.OnEventPromoClickListener() {
                     @Override
                     public void OnClick(String url, String args) {
 //                        Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();

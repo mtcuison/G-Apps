@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.rmj.guanzongroup.marketplace.R;
+import org.rmj.guanzongroup.marketplace.ViewModel.VMShippingAddress;
 
 public class FragmentShippingAddress extends Fragment {
 

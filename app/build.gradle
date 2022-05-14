@@ -132,4 +132,5 @@ dependencies {
     implementation project(':g3appdriver')
     implementation project(':useraccount')
     implementation project(':notifications')
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
 }
