@@ -6,6 +6,7 @@
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/account_menu_item.xml" value="0.2" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/activity_account_details.xml" value="0.19692307692307692" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/activity_find_us.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/activity_splash_screen.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/adapter_branch_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/adapter_branch_list_content.xml" value="0.33" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/adapter_branch_list_head.xml" value="0.20416666666666666" />
@@ -33,19 +34,29 @@
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_shopping_cart_dark_32.xml" value="0.1385" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_dialog_button_close.xml" value="0.1385" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_menu_gallery.xml" value="0.109" />
+        <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_minus.xml" value="0.133" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_no_image_available.xml" value="0.1385" />
+        <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_plus.xml" value="0.133" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/sample_image.xml" value="0.1" />
+        <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/upper_corner_round.xml" value="0.133" />
+        <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/layout/bottomsheet_add_to_cart.xml" value="0.22" />
+        <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/layout/dialog_double_button.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/layout/dialog_loading.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/layout/dialog_qr_code.xml" value="0.25" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/layout/dialog_single_button.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/menu/marketplace_menu.xml" value="0.1" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/drawable/top_border.xml" value="0.1385" />
-        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/activity_place_order.xml" value="0.2" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/activity_place_order.xml" value="0.22" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/activity_product_overview.xml" value="0.2" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/activity_search_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_categories.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_order_list.xml" value="0.2" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_description.xml" value="0.17732558139534885" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_grid.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_list.xml" value="0.16" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_queries.xml" value="0.22" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_review.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/dialog_bottom_cart.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_item_cart.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/fragment_orders.xml" value="0.20416666666666666" />
@@ -136,10 +147,10 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/drawable/ic_launcher_background.xml" value="0.12291666666666666" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/activity_browser.xml" value="0.11875" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/activity_settings.xml" value="0.19375" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/activity_splash_screen.xml" value="0.11" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/activity_terms_and_conditions.xml" value="0.21" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/activity_splash_screen.xml" value="0.19375" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/content_activity_dashboard.xml" value="0.1015625" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/content_activity_splash_screen.xml" value="0.1015625" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/fragment_about.xml" value="0.1171875" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/fragment__company_profile.xml" value="0.11614583333333334" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/fragment_about.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/fragment_company_profile.xml" value="0.18" />
@@ -149,22 +160,20 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/nav_action_layout.xml" value="0.33" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/nav_promo_event_badge.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/menu/activity__dashboard.xml" value="0.14" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/menu/activity_dashboard_drawer.xml" value="0.22" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/menu/activity_dashboard_drawer.xml" value="0.2" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/menu/activity_splash_screen_drawer.xml" value="0.1171875" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.12291666666666666" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/digitalGcard/src/main/res/layout/activity_qr_code_scanner.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/digitalGcard/src/main/res/layout/fragment_my_gcard.xml" value="0.12" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/digitalGcard/src/main/res/layout/fragment_redeemables.xml" value="0.17" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/digitalGcard/src/main/res/layout/fragment_redeemables.xml" value="0.10572916666666667" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_home_24.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_location_24.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_promo_24.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1275" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_tc_24.xml" value="0.1525" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/menu/marketplace_menu.xml" value="0.2" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/menu/menu_mrktplc.xml" value="0.1" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/menu/menu_mrktplc_no_acc.xml" value="0.1171875" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/menu/menu_mrktplc_with_acc.xml" value="0.14" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/menu/menu_mrktplc.xml" value="0.11875" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/menu/menu_mrktplc_with_acc.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/guanzonapp/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.12291666666666666" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/guanzonapp/src/main/res/drawable/ic_launcher_background.xml" value="0.20885416666666667" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/guanzonapp/src/main/res/layout/activity_dashboard.xml" value="0.18974358974358974" />
@@ -174,7 +183,6 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/guanzonapp/src/main/res/menu/activity__dashboard.xml" value="0.1171875" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/guanzonapp/src/main/res/menu/activity_main_drawer.xml" value="0.11197916666666667" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/guanzonapp/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/marketplace/src/main/res/layout/activity_ratings_reviews.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/useraccount/src/main/res/layout/activity_complete_account_details.xml" value="0.33" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/useraccount/src/main/res/layout/activity_login.xml" value="0.17314814814814813" />
       </map>
