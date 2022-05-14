@@ -76,9 +76,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
                             Activity_SplashScreen.this,
                             mViewModel.GetPermissions(),
                             REQUEST_PERMISSION);
-                } else if(!oLoadStat.hasAggreedTermsAndConditions()){
-                    Intent loIntent = new Intent(Activity_SplashScreen.this, Activity_TermsAndConditions.class);
-                    startActivityForResult.launch(loIntent);
                 } else {
                     mViewModel.InitializeData(new VMSplashScreen.OnInitializeData() {
                         @Override

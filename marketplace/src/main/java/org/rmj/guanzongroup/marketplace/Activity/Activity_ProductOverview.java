@@ -33,7 +33,7 @@ import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 import java.util.Objects;
 
 public class Activity_ProductOverview extends AppCompatActivity {
-    private final AccountInfo poAccount = new AccountInfo(Activity_ProductOverview.this);
+    private AccountInfo poAccount;
     private VMProductOverview mViewModel;
     private Toolbar toolbar;
     private Dialog_Loading poLoading;
@@ -52,6 +52,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_overview);
+        poAccount = new AccountInfo(Activity_ProductOverview.this);
         mViewModel = new ViewModelProvider(Activity_ProductOverview.this)
                 .get(VMProductOverview.class);
         getExtras();
