@@ -38,9 +38,6 @@ public class VMPlaceOrder extends AndroidViewModel {
         return  poClientx.getClientInfo();
     }
 
-    public void placeOrder(List<EItemCart> foItemLst, PaymentMethod foTypexx, String fsReferNo
-            , OnTransactionsCallback foCallBck) {
-        new PlaceOrderTask(application, foTypexx, fsReferNo, foCallBck).execute(foItemLst);
     public void placeOrder(List<EItemCart> foItemLst,
                            PaymentMethod foTypexx,
                            String fsReferNo,
