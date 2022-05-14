@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.marketplace.Fragment;
+package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import androidx.lifecycle.ViewModel;
 
