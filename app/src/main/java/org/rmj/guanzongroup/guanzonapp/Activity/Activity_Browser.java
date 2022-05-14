@@ -18,6 +18,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import org.rmj.guanzongroup.guanzonapp.R;
@@ -31,7 +32,7 @@ public class Activity_Browser extends AppCompatActivity {
     private Toolbar toolbar;
     private WebView webView;
     private ProgressBar progressBar;
-
+    private ImageView loading;
     private String mCM;
     private ValueCallback<Uri> mUM;
     private ValueCallback<Uri[]> mUMA;
@@ -50,7 +51,9 @@ public class Activity_Browser extends AppCompatActivity {
     void initWidgets(){
         toolbar = findViewById(R.id.toolbar_appBrowser);
         webView = findViewById(R.id.webView_appBrowser);
-        progressBar = findViewById(R.id.progress_bar_appBrowser);
+//        progressBar = findViewById(R.id.progress_bar_appBrowser);
+        loading = findViewById(R.id.imgLoading);
+//        progressBar.setMax(100);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(getIntent().getStringExtra("args").equalsIgnoreCase("1")){
@@ -64,37 +67,40 @@ public class Activity_Browser extends AppCompatActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setBuiltInZoomControls(true);
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
 
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
+
 
     }
 
     private void LoadLink(){
         webView.loadUrl(getIntent().getStringExtra("url_link"));
+
+//        progressBar.setProgress(0);
         webView.setWebViewClient(new AppBrowserWebViewClient());
-//        webView.setWebChromeClient(new AppBrowserChromeClient());
+        webView.setWebChromeClient(new AppBrowserChromeClient());
     }
 
     class AppBrowserWebViewClient extends android.webkit.WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            progressBar.setVisibility(View.VISIBLE);
             webView.loadUrl(getIntent().getStringExtra("url_link"));
             return super.shouldOverrideUrlLoading(view, request);
         }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            progressBar.setVisibility(View.VISIBLE);
             super.onPageStarted(view, url, favicon);
+            loading.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             urlClipBoard = url;
-            progressBar.setVisibility(View.GONE);
             super.onPageFinished(view, url);
+//            progressBar.setVisibility(View.GONE);
+            loading.setVisibility(View.GONE);
         }
     }
 
@@ -104,6 +110,20 @@ public class Activity_Browser extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    class AppBrowserChromeClient extends WebChromeClient{
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+//            progressBar.setProgress(newProgress);
+            Log.e("progress :", String.valueOf(newProgress));
+            if(newProgress == 100){
+//                progressBar.setVisibility(View.GONE);
+                loading.setVisibility(View.GONE);
+            }
+            super.onProgressChanged(view, newProgress);
+        }
     }
 
 
