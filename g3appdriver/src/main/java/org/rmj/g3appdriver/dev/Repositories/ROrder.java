@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.dev.Repositories;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -340,7 +341,8 @@ public class ROrder {
             } else {
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
-                if(!lsResult.equalsIgnoreCase("result")){
+                if(!lsResult.equalsIgnoreCase("success")){
+                    Log.e(TAG, lsResponse);
                     JSONObject loError = loResponse.getJSONObject("error");
                     message = loError.getString("message");
                     return false;

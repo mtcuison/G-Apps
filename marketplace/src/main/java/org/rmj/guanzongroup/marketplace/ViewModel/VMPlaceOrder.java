@@ -91,6 +91,7 @@ public class VMPlaceOrder extends AndroidViewModel {
                 if(loConnect.isDeviceConnected()) {
                     boolean isSuccess = false;
                     if(loItmCart.PlaceOrder(loProdcts, fcDirectxx)) {
+                        Thread.sleep(1000);
                         isSuccess = loItmCart.PayOrder(loItmCart.getTransNox(), loPayment, lsReferNo);
                     }
                     lsMessage = loItmCart.getMessage();

@@ -157,7 +157,6 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                 }
 
                 final Adapter_OrderList loAdapter = new Adapter_OrderList(loListxxx);
-                Log.e("Abateng", String.valueOf(loAdapter.getItemCount()));
                 loAdapter.notifyDataSetChanged();
                 recyclerView.setAdapter(loAdapter);
             }
