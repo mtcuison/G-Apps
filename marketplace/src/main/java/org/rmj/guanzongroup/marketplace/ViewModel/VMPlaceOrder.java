@@ -89,7 +89,10 @@ public class VMPlaceOrder extends AndroidViewModel {
             try {
                 List<EItemCart> loProdcts = lists[0];
                 if(loConnect.isDeviceConnected()) {
-                    boolean isSuccess =  loItmCart.PlaceOrder(loProdcts, fcDirectxx);
+                    boolean isSuccess = false;
+                    if(loItmCart.PlaceOrder(loProdcts, fcDirectxx)) {
+                        isSuccess = loItmCart.PayOrder(loItmCart.getTransNox(), loPayment, lsReferNo);
+                    }
                     lsMessage = loItmCart.getMessage();
                     return isSuccess;
                 } else {
