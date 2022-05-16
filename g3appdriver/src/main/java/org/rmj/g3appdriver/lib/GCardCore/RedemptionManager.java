@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.RRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Repositories.RRedeemablesInfo;
@@ -182,8 +183,13 @@ public class RedemptionManager implements iGCardSystem{
     }
 
     @Override
-    public LiveData<List<ERedeemItemInfo>> GetCartItems() {
-        return poCart.getCartItems();
+    public LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems() {
+        return poCart.GetGCardCartItemList();
+    }
+
+    @Override
+    public List<EBranchInfo> GetMCBranchesForRedemption() {
+        return poCart.GetMCBranchesForRedemption();
     }
 
     @Override

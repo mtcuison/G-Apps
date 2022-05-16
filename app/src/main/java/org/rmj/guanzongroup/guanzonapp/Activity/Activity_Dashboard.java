@@ -102,6 +102,10 @@ public class Activity_Dashboard extends AppCompatActivity {
                 try {
                     navigationView = (NavigationView) findViewById(R.id.nav_view);
                     Menu nav_Menu = navigationView.getMenu();
+
+                    //Disable Pre-Termination page untill project is develop...
+                    nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_customer_service).setVisible(false);
                     if (eGcardApp == null) {
                         nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
                         nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);

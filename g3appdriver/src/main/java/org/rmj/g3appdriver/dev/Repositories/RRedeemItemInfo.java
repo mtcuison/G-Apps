@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 
@@ -90,6 +91,16 @@ public class RRedeemItemInfo implements DRedeemItemInfo {
     @Override
     public void UpdateExistingItemOnCart(String TransNox, String PromoIDx, int ItemQty, double ItemPts) {
         itemDao.UpdateExistingItemOnCart(TransNox, PromoIDx, ItemQty, ItemPts);
+    }
+
+    @Override
+    public LiveData<List<GCardCartItem>> GetGCardCartItemList() {
+        return itemDao.GetGCardCartItemList();
+    }
+
+    @Override
+    public List<EBranchInfo> GetMCBranchesForRedemption() {
+        return itemDao.GetMCBranchesForRedemption();
     }
 
     private static class InsertAsyncTask extends AsyncTask<ERedeemItemInfo, Void, Void> {
