@@ -6,6 +6,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.rmj.g3appdriver.dev.Repositories.RRawData;
+import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 
 public class GMessagingService extends FirebaseMessagingService {
 
@@ -13,6 +14,7 @@ public class GMessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
         new RRawData(GMessagingService.this).SaveNewToken(token);
+        new GuanzonAppConfig(GMessagingService.this).setAppToken(token);
     }
 
     @Override

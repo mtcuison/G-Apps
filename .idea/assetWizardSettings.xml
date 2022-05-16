@@ -372,8 +372,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="242424" />
-                            <entry key="outputName" value="image_placeholder" />
-                            <entry key="sourceFile" value="C:\Users\User\Desktop\Marketplace Sample Image\image_placeholder.svg" />
+                            <entry key="outputName" value="ic_baseline_package_24" />
+                            <entry key="sourceFile" value="C:\Users\User\Downloads\package-box-svgrepo-com.svg" />
                           </map>
                         </option>
                       </PersistentState>

@@ -143,7 +143,11 @@ public class RNotificationInfo {
         return lsNextCode;
     }
 
-    public LiveData<List<DNotifications.ClientNotificationInfo>> getClientNotificationList(){
+    public LiveData<Integer> GetUnreadMessagesCount(){
+        return poDao.getUnreadMessagesCount();
+    }
+
+    public LiveData<List<DNotifications.ClientNotificationInfo>> GetClientNotificationList(){
         return poDao.getClientNotificationList();
     }
 }

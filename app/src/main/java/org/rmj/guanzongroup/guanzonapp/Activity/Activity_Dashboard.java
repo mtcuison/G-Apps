@@ -62,13 +62,6 @@ public class Activity_Dashboard extends AppCompatActivity {
         mViewModel = new ViewModelProvider(Activity_Dashboard.this).get(VMHome.class);
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarActivityDashboard.toolbar);
-//        binding.appBarActivityDashboard.fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = binding.drawerLayout;
         navigationView = binding.navView;
@@ -127,49 +120,52 @@ public class Activity_Dashboard extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         loInflate = LayoutInflater.from(Activity_Dashboard.this);
-        lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-        navigationView.getMenu().findItem(R.id.nav_notifications).setActionView(lblBadge);
-        lblBadge.setText(GetBadgeValue(15));
 
-        mViewModel.GetCartItemCount().observe(Activity_Dashboard.this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                try {
-                    lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-                    navigationView.getMenu().findItem(R.id.nav_item_cart).setActionView(lblBadge);
-                    lblBadge.setText(GetBadgeValue(10));
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+        mViewModel.GetUnreadMessagesCount().observe(Activity_Dashboard.this, count -> {
+            try{
+                lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+                navigationView.getMenu().findItem(R.id.nav_notifications).setActionView(lblBadge);
+                lblBadge.setText(GetBadgeValue(count));
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
-        lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-        navigationView.getMenu().findItem(R.id.nav_purchases).setActionView(lblBadge);
-        lblBadge.setText(GetBadgeValue(10));
-        lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-        navigationView.getMenu().findItem(R.id.nav_wishlist).setActionView(lblBadge);
-        lblBadge.setText(GetBadgeValue(10));
 
-        navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_Dashboard.this);
-                loDialog.setButtonText("YES", "NO");
-                loDialog.initDialog("Guanzon App", "Log out user session?", new Dialog_DoubleButton.OnDialogConfirmation() {
-                    @Override
-                    public void onConfirm(AlertDialog dialog) {
-                        mViewModel.LogoutUserSession();
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void onCancel(AlertDialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                loDialog.show();
-                return false;
+        mViewModel.GetCartItemCount().observe(Activity_Dashboard.this, count -> {
+            try {
+                lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+                navigationView.getMenu().findItem(R.id.nav_item_cart).setActionView(lblBadge);
+                lblBadge.setText(GetBadgeValue(count));
+            } catch (Exception e){
+                e.printStackTrace();
             }
+        });
+
+//        lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+//        navigationView.getMenu().findItem(R.id.nav_purchases).setActionView(lblBadge);
+//        lblBadge.setText(GetBadgeValue(10));
+
+//        lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+//        navigationView.getMenu().findItem(R.id.nav_wishlist).setActionView(lblBadge);
+//        lblBadge.setText(GetBadgeValue(10));
+
+        navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(menuItem -> {
+            Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_Dashboard.this);
+            loDialog.setButtonText("YES", "NO");
+            loDialog.initDialog("Guanzon App", "Log out user session?", new Dialog_DoubleButton.OnDialogConfirmation() {
+                @Override
+                public void onConfirm(AlertDialog dialog) {
+                    mViewModel.LogoutUserSession();
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void onCancel(AlertDialog dialog) {
+                    dialog.dismiss();
+                }
+            });
+            loDialog.show();
+            return false;
         });
 
         setUpHeader(navigationView);

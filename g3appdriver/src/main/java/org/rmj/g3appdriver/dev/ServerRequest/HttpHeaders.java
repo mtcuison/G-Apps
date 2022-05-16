@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.StrictMode;
 
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.SecUtil;
 import org.rmj.g3appdriver.etc.Telephony;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
@@ -28,12 +29,12 @@ import java.util.Map;
 public class HttpHeaders {
 
     private final Telephony poTlphony;
-    private final AppConfigPreference poConfigx;
+    private final GuanzonAppConfig poConfigx;
     private final AccountInfo poAccount;
 
     public HttpHeaders(Context context){
         this.poTlphony = new Telephony(context);
-        this.poConfigx = new AppConfigPreference(context);
+        this.poConfigx = new GuanzonAppConfig(context);
         this.poAccount = new AccountInfo(context);
     }
 
@@ -49,8 +50,8 @@ public class HttpHeaders {
         String lsUserIDx = poAccount.getUserID();
         String lsClientx = poAccount.getClientID();
         String lsLogNoxx = "";
-//        String lsTokenxx = poConfigx.getAppToken();
-        String lsTokenxx = "c6mOUp7sSzimo_IGMqD-1Y:APA91bG_xsUb2n6S4AlKXjI4uKuQpWBdx7wec9HuYlRiHaRLcuBNCZHPL20sxwsjQ_LPozaanRgl100RMj2pYwo_uj-M3r3xqu1b9t6ozMaNslZEQVIslEblgH-I5IU4oQjwYRJPammH";
+        String lsTokenxx = poConfigx.getAppToken();
+//        String lsTokenxx = "c6mOUp7sSzimo_IGMqD-1Y:APA91bG_xsUb2n6S4AlKXjI4uKuQpWBdx7wec9HuYlRiHaRLcuBNCZHPL20sxwsjQ_LPozaanRgl100RMj2pYwo_uj-M3r3xqu1b9t6ozMaNslZEQVIslEblgH-I5IU4oQjwYRJPammH";
 //        String lsProduct = poConfigx.ProducID();
         String lsProduct = "GuanzonApp";
         String lsDevcIDx = poTlphony.getDeviceID();

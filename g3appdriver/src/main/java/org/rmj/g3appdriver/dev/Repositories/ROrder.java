@@ -305,7 +305,7 @@ public class ROrder {
         return loCart.GetCartItemCount();
     }
 
-    public LiveData<List<EItemCart>> GetItemCartList(){
+    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetItemCartList(){
         return poCartDao.GetCartItemsList();
     }
 
