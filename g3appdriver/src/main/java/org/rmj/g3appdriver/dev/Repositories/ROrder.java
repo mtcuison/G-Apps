@@ -170,7 +170,7 @@ public class ROrder {
             params.put("detail", jaDetail);
 
             String lsResponse = WebClient.httpsPostJSon(
-                    loApis.getImportProducts(),
+                    loApis.getMarketPlaceOrderAPI(),
                     params.toString(),
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){

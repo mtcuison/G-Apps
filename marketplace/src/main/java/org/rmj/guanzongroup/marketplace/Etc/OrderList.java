@@ -28,7 +28,7 @@ public class OrderList {
             for (int x = 0; x < orders.size(); x++) {
                 loArray.put(orders.get(x).getJsonObj());
             }
-            loJson.put("fromCart", (fromCart) ? 1 : 0);
+            loJson.put("fromCart", fromCart);
             loJson.put("orders", loArray);
         } catch(JSONException e) {
             e.printStackTrace();
