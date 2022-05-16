@@ -35,6 +35,7 @@ public class ROrder {
 
     private JSONObject data;
     private String message;
+    private String TransNox;
 
     public ROrder(Context context){
         this.mContext = context;
@@ -50,6 +51,10 @@ public class ROrder {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getTransNox() {
+        return TransNox;
     }
 
     public boolean AddUpdateCart(String fsLstngID, int fnQuantity){
@@ -133,7 +138,7 @@ public class ROrder {
         }
     }
 
-    public boolean PlaceOrder(List<EItemCart> foItemLst, PaymentMethod foTypexx, String fsReferNo, boolean fcDirect){
+    public boolean PlaceOrder(List<EItemCart> foItemLst, boolean fcDirect){
         try {
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             JSONArray jaDetail = new JSONArray();
@@ -144,19 +149,6 @@ public class ROrder {
                 jaDetail.put(joDetail);
             }
 
-            String lsPaymnt = null;
-            switch (foTypexx){
-                case GCash:
-                    lsPaymnt = "GCASH";
-                    break;
-                case PayMaya:
-                    lsPaymnt = "PAYM";
-                    break;
-                default:
-                    lsPaymnt = "COD";
-                    break;
-            }
-
             JSONObject params = new JSONObject();
             int nDirectxx = 1;
             if(fcDirect){
@@ -164,8 +156,6 @@ public class ROrder {
             }
             params.put("cCartItem", nDirectxx); //0 - direct place order; 1 - place order of cart item
             params.put("nFreightx", 100.00); //Freight charge
-            params.put("sTermCode", lsPaymnt); //payment term : PayMaya
-            params.put("sReferNox", fsReferNo); //payment reference no.
 
             params.put("detail", jaDetail);
 
@@ -184,7 +174,7 @@ public class ROrder {
                     message = loError.getString("message");
                     return false;
                 } else {
-
+                    TransNox = loResponse.getString("sTransNox");
                     return true;
                 }
             }

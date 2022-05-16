@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
 import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_OrderList;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMPlaceOrder;
@@ -30,10 +33,11 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     private VMPlaceOrder mViewModel;
     private Dialog_SingleButton poDialogx;
     private Dialog_Loading poLoading;
+    private RecyclerView recyclerView;
     private Toolbar toolbar;
     private TextView txtClient, txtMobile, txtAddrss, btnTxtPlc;
 
-    private String psOrdersx = "";
+    private JSONObject poOrdersx = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +66,11 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     }
 
     private void getExtras() {
-        psOrdersx = getIntent().getStringExtra("sOrderList");
+        try {
+            poOrdersx = new JSONObject(getIntent().getStringExtra("sOrderList"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initViews() {
@@ -72,6 +80,10 @@ public class Activity_PlaceOrder extends AppCompatActivity {
         txtMobile = findViewById(R.id.txt_mobile_no);
         txtAddrss = findViewById(R.id.txt_address);
         btnTxtPlc = findViewById(R.id.btnText_place_order);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(Activity_PlaceOrder.this));
+        recyclerView.setHasFixedSize(true);
     }
 
     // Initialize initViews() before this method.
@@ -83,6 +95,9 @@ public class Activity_PlaceOrder extends AppCompatActivity {
 
     private void setOrderPreview() {
         setDefaultShipping();
+        setDefaultPayMethod();
+        setOrderList();
+        setBreakdown();
     }
 
     private void setDefaultShipping() {
@@ -90,23 +105,79 @@ public class Activity_PlaceOrder extends AppCompatActivity {
             try {
                 txtClient.setText(client.getFrstName() + " " + client.getLastName());
                 txtMobile.setText(client.getMobileNo());
-                txtAddrss.setText(client.getHouseNox() + " " + client.getAddressx());
-
+                mViewModel.getFullAddress(client.getBrgyIDxx()).observe(this, address -> {
+                    try {
+                        txtAddrss.setText(client.getHouseNox() + " " + client.getAddressx() + ", "
+                                + address);
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
+                });
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         });
     }
 
+    private void setDefaultPayMethod() {
+
+    }
+
+    private void setOrderList() {
+        try {
+            final List<Adapter_OrderList.OrderListAdapterModel> loListxxx = new ArrayList<>();
+            JSONArray loArray = poOrdersx.getJSONArray("orders");
+
+            if(loArray != null && loArray.length() > 0) {
+                for(int x = 0; x < loArray.length(); x++) {
+                    try {
+                        JSONObject loJson = loArray.getJSONObject(x);
+                        int lnItemQty = loJson.getInt("nQuantityx");
+                        mViewModel.getProductInfo(loJson.getString("sListingId"))
+                                .observe(this, eProduct -> {
+                                    try {
+                                        Adapter_OrderList.OrderListAdapterModel model =
+                                                new Adapter_OrderList.OrderListAdapterModel(
+                                                        eProduct.getListngID(),
+                                                        null,
+                                                        eProduct.getModelNme(),
+                                                        eProduct.getUnitPrce(),
+                                                        lnItemQty
+                                                );
+                                        String mm = model.fsProdNme;
+                                        loListxxx.add(model);
+                                    } catch (NullPointerException e) {
+                                        e.printStackTrace();
+                                    }
+                                });
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                final Adapter_OrderList loAdapter = new Adapter_OrderList(loListxxx);
+                Log.e("Abateng", String.valueOf(loAdapter.getItemCount()));
+                loAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(loAdapter);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setBreakdown() {
+
+    }
+
     private void placeOrder() {
         try {
-            JSONObject loJson = new JSONObject(psOrdersx);
-            if(loJson != null) {
+            if(poOrdersx != null) {
                 mViewModel.placeOrder(
-                        getOrderList(loJson.getJSONArray("orders")),
+                        getOrderList(poOrdersx.getJSONArray("orders")),
                         PaymentMethod.CashOnDelivery,
                         "",
-                        !loJson.getBoolean("fromCart"),
+                        !poOrdersx.getBoolean("fromCart"),
                         new OnTransactionsCallback() {
                             @Override
                             public void onLoading() {

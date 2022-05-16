@@ -10,8 +10,10 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
+import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
+import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.etc.PaymentMethod;
@@ -25,6 +27,8 @@ public class VMPlaceOrder extends AndroidViewModel {
     private final ConnectionUtil poConnect;
     private final RClientInfo poClientx;
     private final ROrder poItmCart;
+    private final RProduct poProdcts;
+    private final RAddressMobile poAddress;
 
     public VMPlaceOrder(@NonNull Application application) {
         super(application);
@@ -32,10 +36,20 @@ public class VMPlaceOrder extends AndroidViewModel {
         this.poConnect = new ConnectionUtil(application);
         this.poClientx = new RClientInfo(application);
         this.poItmCart = new ROrder(application);
+        this.poProdcts = new RProduct(application);
+        this.poAddress = new RAddressMobile(application);
     }
 
     public LiveData<EClientInfo> getClientInfo(){
-        return  poClientx.getClientInfo();
+        return poClientx.getClientInfo();
+    }
+
+    public LiveData<String> getFullAddress(String fsBrgyID) {
+        return poAddress.GetFullAddressName(fsBrgyID);
+    }
+
+    public LiveData<EProducts> getProductInfo(String fsListID) {
+        return poProdcts.GetProductInfo(fsListID);
     }
 
     public void placeOrder(List<EItemCart> foItemLst,
@@ -75,7 +89,7 @@ public class VMPlaceOrder extends AndroidViewModel {
             try {
                 List<EItemCart> loProdcts = lists[0];
                 if(loConnect.isDeviceConnected()) {
-                    boolean isSuccess =  loItmCart.PlaceOrder(loProdcts,loPayment, lsReferNo, fcDirectxx);
+                    boolean isSuccess =  loItmCart.PlaceOrder(loProdcts, fcDirectxx);
                     lsMessage = loItmCart.getMessage();
                     return isSuccess;
                 } else {
