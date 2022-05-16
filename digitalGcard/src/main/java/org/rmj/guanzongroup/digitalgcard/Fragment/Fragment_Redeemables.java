@@ -72,7 +72,6 @@ public class Fragment_Redeemables extends Fragment {
         mViewModel.GetRedeemablesList().observe(getViewLifecycleOwner(), new Observer<List<ERedeemablesInfo>>() {
             @Override
             public void onChanged(List<ERedeemablesInfo> eRedeemablesInfos) {
-                Log.d("COUNT", String.valueOf(eRedeemablesInfos.size()));
                 if(eRedeemablesInfos.size()>0){
                     lbl_no_redeemables.setVisibility(View.GONE);
                 }else{

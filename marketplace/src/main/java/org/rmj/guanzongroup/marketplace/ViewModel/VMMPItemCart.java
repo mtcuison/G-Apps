@@ -25,13 +25,9 @@ public class VMMPItemCart extends AndroidViewModel {
     public VMMPItemCart(@NonNull Application application) {
         super(application);
         this.poClientx = new RClientInfo(application);
-        generateData();
         this.poGCard = new RGcardApp(application);
     }
     public LiveData<List<ItemCartModel>> getMarketPlaceItemCart(){
-        return poItemCart;
-    }
-    private void generateData() {
         ArrayList<ItemCartModel> itemList = new ArrayList<>();
         ItemCartModel model3 = new ItemCartModel();
         model3.setItemImage("https://www.guanzongroup.com.ph/wp-content/uploads/2022/03/samsung-galaxy-s22-plus-1.jpg");
@@ -58,5 +54,6 @@ public class VMMPItemCart extends AndroidViewModel {
         model1.setItemQty("1");
         itemList.add(model1);
         poItemCart.setValue(itemList);
+        return poItemCart;
     }
 }

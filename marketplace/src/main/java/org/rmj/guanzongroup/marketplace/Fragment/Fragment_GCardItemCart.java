@@ -2,8 +2,10 @@ package org.rmj.guanzongroup.marketplace.Fragment;
 
 import static org.rmj.guanzongroup.marketplace.Fragment.Fragment_MPItemCart.currencyFormat;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +24,9 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_Redeemables;
+import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ItemCart;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
 import org.rmj.guanzongroup.marketplace.R;
@@ -32,13 +37,12 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class Fragment_GCardItemCart extends Fragment {
-
-    private VMGCardItemCart mViewModel;
-
-
+    String TAG = Fragment_GCardItemCart.class.getSimpleName();
+    private VMGCardSystem mViewModel;
+    private VMGCardItemCart mVModel;
     private RecyclerView recyclerView;
     private LinearLayout noItem, lnGCardFooter;
-    private MaterialButton btnCheckOut;
+    private MaterialButton btnCheckOut,btnShopNow;
     private TextView lblGrandTotal;
     private Adapter_ItemCart adapter;
     private List<ItemCartModel> itemList;
@@ -57,32 +61,44 @@ public class Fragment_GCardItemCart extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMGCardItemCart.class);
-        mViewModel.getGCardItemCart().observe(requireActivity(), itemCart ->{
-            if (itemCart != null){
-                noItem.setVisibility(View.GONE);
-                lnGCardFooter.setVisibility(View.VISIBLE);
-                adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
-                    @Override
-                    public void onClickAction(String val) {
+        try {
+            mViewModel = new ViewModelProvider(this).get(VMGCardSystem.class);
+            mVModel = new ViewModelProvider(this).get(VMGCardItemCart.class);
+            mVModel.getGCardItemCart().observe(requireActivity(), itemCart ->{
+                if (itemCart.size() > 0){
+                    noItem.setVisibility(View.GONE);
+                    lnGCardFooter.setVisibility(View.VISIBLE);
+                    adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
+                        @Override
+                        public void onClickAction(String val) {
 
+                        }
+                    });
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+                    adapter.notifyDataSetChanged();
+                    double subtotal = 0;
+                    for (int x = 0; x < itemList.size(); x++){
+                        subtotal += Double.parseDouble(itemList.get(x).getItemPrice().replaceAll(",",""));
                     }
-                });
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-                adapter.notifyDataSetChanged();
-                double subtotal = 0;
-                for (int x = 0; x < itemList.size(); x++){
-                    subtotal += Double.parseDouble(itemList.get(x).getItemPrice().replaceAll(",",""));
+                    lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
+                }else {
+                    noItem.setVisibility(View.VISIBLE);
+                    lnGCardFooter.setVisibility(View.GONE);
                 }
-                lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
-            }else {
-                noItem.setVisibility(View.VISIBLE);
-                lnGCardFooter.setVisibility(View.GONE);
-            }
-        });
+            });
+            btnShopNow.setOnClickListener(v->{
+                Intent intent = new Intent(requireActivity(), Activity_ItemCart.class);
+                intent.putExtra("args","2");
+                startActivity(intent);
+            });
+        }catch (NullPointerException e){
+            Log.e(TAG,"NullPointerException " + e.getMessage());
+        }catch (Exception e){
+            Log.e(TAG,"Exception " + e.getMessage());
+        }
     }
 
 
@@ -92,6 +108,7 @@ public class Fragment_GCardItemCart extends Fragment {
         lnGCardFooter = view.findViewById(R.id.lnGCardFooter);
         lblGrandTotal = view.findViewById(R.id.lblGCardGrandTotal);
         btnCheckOut = view.findViewById(R.id.btnGCardCheckOut);
+        btnShopNow = view.findViewById(R.id.btnGCarShopNow);
     }
 
     public static String currencyFormat(double amount) {

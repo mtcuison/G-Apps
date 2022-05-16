@@ -584,6 +584,8 @@ public class VMGCardSystem extends AndroidViewModel {
         private final iGCardSystem mGcardSys;
         private final ConnectionUtil loConnect;
         private final GcardTransactionCallback loCallbck;
+        private String messages = "";
+        private boolean isSuccess = false;
 
         private AddToCartTask(iGCardSystem foGcrdSys, ConnectionUtil foConnect, GcardTransactionCallback callBack) {
             this.mGcardSys = foGcrdSys;
@@ -606,25 +608,43 @@ public class VMGCardSystem extends AndroidViewModel {
                         @Override
                         public void OnSuccess(String args) {
                             // TODO: Call the saving of add to cart item to local database
-                            loCallbck.onSuccess(args);
+                            messages = args;
+                            isSuccess = true;
+//                            loCallbck.onSuccess(args);
                         }
 
                         @Override
                         public void OnFailed(String message) {
-                            loCallbck.onFailed(message);
+                            messages = message;
+                            isSuccess = false;
+//                            loCallbck.onFailed(message);
                         }
                     });
                 } else {
-                    loCallbck.onFailed(AppConstants.SERVER_NO_RESPONSE());
+                    messages = AppConstants.NO_INTERNET();
+                    isSuccess = false;
+//                    loCallbck.onFailed(AppConstants.SERVER_NO_RESPONSE());
                 }
             } catch(Exception e) {
                 e.printStackTrace();
                 Log.e(ADD_TO_CART_TAG, e.getMessage());
-                loCallbck.onFailed(ADD_TO_CART_TAG + e.getMessage());
+                messages = ADD_TO_CART_TAG + " " + e.getMessage();
+                isSuccess = false;
+//                loCallbck.onFailed(ADD_TO_CART_TAG + e.getMessage());
             }
             return null;
         }
 
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            if (isSuccess){
+                loCallbck.onSuccess(messages);
+            }else {
+                loCallbck.onFailed(messages);
+            }
+
+        }
     }
 
     private static class UpdateCartItemTask extends AsyncTask<CartItem, Void, Void> {

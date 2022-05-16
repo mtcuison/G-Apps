@@ -52,7 +52,8 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
                 public void onClick(View view) {
                     BottomCartDialog bottomSheet = new BottomCartDialog();
                     bottomSheet.setCancelable(false);
-                    bottomSheet.setItemIDxxx(loProduct.getPromoCde());
+                    bottomSheet.setItemTransNox(loProduct.getTransNox());
+                    bottomSheet.setItemPromCode(loProduct.getPromoCde());
                     bottomSheet.setItemNamex(loProduct.getPromoDsc());
                     bottomSheet.setItemPntsx(loProduct.getPointsxx());
                     bottomSheet.show(((AppCompatActivity)mContext).getSupportFragmentManager(), "Redeemable Bottom Sheet");
