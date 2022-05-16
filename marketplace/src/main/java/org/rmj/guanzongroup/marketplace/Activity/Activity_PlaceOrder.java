@@ -49,7 +49,6 @@ public class Activity_PlaceOrder extends AppCompatActivity {
 
     private void getExtras() {
         psOrdersx = getIntent().getStringExtra("sOrderList");
-        Log.e("Orders", psOrdersx);
     }
 
     private void initViews() {
