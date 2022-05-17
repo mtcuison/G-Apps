@@ -33,7 +33,7 @@ public class VMMPItemCart extends AndroidViewModel {
     }
 
     public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCartItemsList(){
-        return poOrder.GetItemCartList();
+        return poOrder.GetItemCartList(true);
     }
 
     public LiveData<List<ItemCartModel>> getMarketPlaceItemCart(){

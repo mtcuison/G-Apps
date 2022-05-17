@@ -34,7 +34,9 @@ public class Adapter_Notifications extends RecyclerView.Adapter<Adapter_Notifica
     @Override
     public void onBindViewHolder(@NonNull OrderHolder holder, int position) {
         EGcardApp loGcard = poGcard.get(position);
-
+        holder.lbl_ntfTitle.setText(loGcard.getNotified());
+//        holder.lbl_ntfDateTime.setText(EBranchInfo.getBranchNm());
+//        holder.lbl_ntfMessage.setText(EBranchInfo.getAddressx());
 
     }
 
@@ -45,9 +47,14 @@ public class Adapter_Notifications extends RecyclerView.Adapter<Adapter_Notifica
 
     public static class OrderHolder extends RecyclerView.ViewHolder{
 
-
+        private TextView lbl_ntfTitle;
+        private TextView lbl_ntfDateTime;
+        private TextView lbl_ntfMessage;
         public OrderHolder(@NonNull View itemView, OnGcardActivation foCallBck) {
             super(itemView);
+            lbl_ntfTitle = itemView.findViewById(R.id.lbl_ntfTitle);
+            lbl_ntfDateTime = itemView.findViewById(R.id.lbl_ntfDateTime);
+            lbl_ntfMessage = itemView.findViewById(R.id.lbl_ntfMessage);
 
         }
 
