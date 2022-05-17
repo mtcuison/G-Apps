@@ -46,7 +46,7 @@ public interface DItemCart {
             "FROM MarketPlace_Cart a " +
             "LEFT JOIN Product_Inventory b " +
             "ON a.sListIDxx = b.sListngID " +
-            "WHERE a.cBuyNowxx = '0' AND a.cCheckOut = '1'")
+            "WHERE a.cBuyNowxx = '0'")
     LiveData<List<oMarketplaceCartItem>> GetCartItemsList();
 
     @Query("SELECT a.sListIDxx AS sListIDxx, " +
@@ -59,6 +59,18 @@ public interface DItemCart {
             "ON a.sListIDxx = b.sListngID " +
             "WHERE a.cBuyNowxx = '1' AND cCheckOut = '1'")
     LiveData<List<oMarketplaceCartItem>> GetBuyNowItem();
+
+    @Query("SELECT a.sListIDxx AS sListIDxx, " +
+            "a.nQuantity AS nQuantity, " +
+            "a.cCheckOut AS cCheckOut, " +
+            "b.xModelNme AS xModelNme, " +
+            "b.xDescript AS xDescript," +
+            "b.nUnitPrce AS nUnitPrce " +
+            "FROM MarketPlace_Cart a " +
+            "LEFT JOIN Product_Inventory b " +
+            "ON a.sListIDxx = b.sListngID " +
+            "WHERE a.cBuyNowxx = '0' AND cCheckOut = '1'")
+    LiveData<List<oMarketplaceCartItem>> GetItemsForCheckOut();
 
     public class oMarketplaceCartItem{
         public String sListIDxx;

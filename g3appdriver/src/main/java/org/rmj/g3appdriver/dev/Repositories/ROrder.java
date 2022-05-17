@@ -356,7 +356,7 @@ public class ROrder {
 
     public LiveData<List<DItemCart.oMarketplaceCartItem>> GetItemCartList(boolean cBuyNowxx){
         if(!cBuyNowxx) {
-            return poCartDao.GetCartItemsList();
+            return poCartDao.GetItemsForCheckOut();
         } else {
             return poCartDao.GetBuyNowItem();
         }
