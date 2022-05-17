@@ -135,6 +135,7 @@
         <entry key="..\:/Projects/G-Apps22/useraccount/src/main/res/layout/fragment_sign_up_password.xml" value="0.20208333333333334" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/drawable-xxhdpi/ic_launcher_background.xml" value="0.12291666666666666" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/drawable/ic_launcher_background.xml" value="0.12291666666666666" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/action_menu_item_cart.xml" value="1.0" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/activity_browser.xml" value="0.11875" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/activity_settings.xml" value="0.19375" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/app/src/main/res/layout/activity_splash_screen.xml" value="0.11" />
@@ -164,8 +165,9 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_promo_24.xml" value="0.1" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1275" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/drawable/ic_baseline_tc_24.xml" value="0.1525" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/layout/action_menu_item_cart.xml" value="0.5" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/menu/marketplace_menu.xml" value="0.2" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/menu/menu_mrktplc.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/menu/menu_mrktplc.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/menu/menu_mrktplc_no_acc.xml" value="0.1171875" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/g3appdriver/src/main/res/menu/menu_mrktplc_with_acc.xml" value="0.14" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/guanzonapp/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.12291666666666666" />

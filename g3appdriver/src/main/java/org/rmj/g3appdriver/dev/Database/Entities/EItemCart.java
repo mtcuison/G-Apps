@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
-@Entity(tableName = "MarketPlace_Cart", primaryKeys = {"sUserIDxx", "sListIDxx"})
+@Entity(tableName = "MarketPlace_Cart", primaryKeys = {"sUserIDxx", "sListIDxx", "cBuyNowxx"})
 public class EItemCart {
     @NonNull
     @ColumnInfo(name = "sUserIDxx")
@@ -12,6 +12,10 @@ public class EItemCart {
     @NonNull
     @ColumnInfo(name = "sListIDxx")
     private String ListIDxx;
+    @NonNull
+    @ColumnInfo(name = "cBuyNowxx")
+    private String BuyNowxx = "0";
+
     @ColumnInfo(name = "nQuantity")
     private String Quantity;
     @ColumnInfo(name = "nAvlQtyxx")
@@ -19,7 +23,7 @@ public class EItemCart {
     @ColumnInfo(name = "dCreatedx")
     private String Createdx;
     @ColumnInfo(name = "cTranStat")
-    private String TranStat;
+    private String TranStat = "0";
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
 
@@ -82,5 +86,13 @@ public class EItemCart {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public String getBuyNowxx() {
+        return BuyNowxx;
+    }
+
+    public void setBuyNowxx(String buyNowxx) {
+        BuyNowxx = buyNowxx;
     }
 }

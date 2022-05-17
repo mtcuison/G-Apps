@@ -527,4 +527,26 @@ public class RAddressMobile {
             return false;
         }
     }
+
+    public boolean CheckAddressParameters(){
+        try{
+            if(poDao.CheckProvinceInfo() == 0){
+                ImportProvinceList();
+            }
+            if(poDao.CheckTownInfo() == 0){
+                ImportTownList();
+            }
+            if(poDao.CheckBarangayInfo() == 0){
+                ImportBarangayList();
+            }
+            if(poDao.CheckCountryInfo() == 0){
+                ImportCountryList();
+            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
 }
