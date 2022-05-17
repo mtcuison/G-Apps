@@ -33,8 +33,8 @@ import java.util.List;
 
 public class Fragment_MPItemCart extends Fragment {
     String TAG = Fragment_MPItemCart.class.getSimpleName();
-    private VMMPItemCart mViewModel;
-
+//    private VMMPItemCart mViewModel;
+//    private VM
     private RecyclerView recyclerView;
     private LinearLayout noItem, lnMPFooter;
     private MaterialButton btnCheckOut;
@@ -57,32 +57,32 @@ public class Fragment_MPItemCart extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         try {
-            mViewModel = new ViewModelProvider(requireActivity()).get(VMMPItemCart.class);
-            mViewModel.getMarketPlaceItemCart().observe(requireActivity(), itemCart ->{
-                if (itemCart.size() > 0){
-                    noItem.setVisibility(View.GONE);
-                    lnMPFooter.setVisibility(View.VISIBLE);
-                    adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
-                        @Override
-                        public void onClickAction(String val) {
-
-                        }
-                    });
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-                    adapter.notifyDataSetChanged();
-                    double subtotal = 0;
-                    for (int x = 0; x < itemCart.size(); x++){
-                        subtotal += Double.parseDouble(itemCart.get(x).getItemPrice().replaceAll(",",""));
-                    }
-                    lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
-                }else {
-                    noItem.setVisibility(View.VISIBLE);
-                    lnMPFooter.setVisibility(View.GONE);
-                }
-            });
+//            mViewModel = new ViewModelProvider(requireActivity()).get(VMMPItemCart.class);
+//            mViewModel.getMarketPlaceItemCart().observe(requireActivity(), itemCart ->{
+//                if (itemCart.size() > 0){
+//                    noItem.setVisibility(View.GONE);
+//                    lnMPFooter.setVisibility(View.VISIBLE);
+//                    adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
+//                        @Override
+//                        public void onClickAction(String val) {
+//
+//                        }
+//                    });
+//                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+//                    recyclerView.setAdapter(adapter);
+//                    recyclerView.setLayoutManager(layoutManager);
+//                    recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+//                    adapter.notifyDataSetChanged();
+//                    double subtotal = 0;
+//                    for (int x = 0; x < itemCart.size(); x++){
+//                        subtotal += Double.parseDouble(itemCart.get(x).getItemPrice().replaceAll(",",""));
+//                    }
+//                    lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
+//                }else {
+//                    noItem.setVisibility(View.VISIBLE);
+//                    lnMPFooter.setVisibility(View.GONE);
+//                }
+//            });
             btnCheckOut.setOnClickListener(v ->{
                 startActivity(new Intent(getActivity(), Activity_PlaceOrder.class));
 

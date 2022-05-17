@@ -34,7 +34,7 @@
                     android:id="@+id/imgProduct"
                     android:layout_width="97dp"
                     android:layout_height="97dp"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitCenter"/>
 
             </LinearLayout>
 

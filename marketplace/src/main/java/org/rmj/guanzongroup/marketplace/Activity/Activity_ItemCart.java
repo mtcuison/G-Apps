@@ -21,8 +21,10 @@ import android.widget.ImageButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_Redeemables;
+import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMRedeemables;
 import org.rmj.guanzongroup.marketplace.Adapter.ActivityFragmentAdapter;
 import org.rmj.guanzongroup.marketplace.Fragment.Fragment_GCardItemCart;
@@ -31,15 +33,18 @@ import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMItemCart;
 
+import java.util.List;
+
 public class Activity_ItemCart extends AppCompatActivity {
     String TAG = Activity_ItemCart.class.getSimpleName();
-    private VMItemCart mViewModel;
+    private VMGCardSystem mViewModel;
     private VMRedeemables vmRedeemables;
     private ViewPager viewPager;
     private View view;
     private TabLayout tabLayout;
     private ActivityFragmentAdapter adapter;
     private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +52,7 @@ public class Activity_ItemCart extends AppCompatActivity {
         initWidgets();
 
         try{
-            mViewModel = new ViewModelProvider(this).get(VMItemCart.class);
+            mViewModel = new ViewModelProvider(this).get(VMGCardSystem.class);
 //            mViewModel.GetActiveGCard().observe(this, new Observer<EGcardApp>() {
 //                @Override
 //                public void onChanged(EGcardApp eGcardApp) {
@@ -69,7 +74,7 @@ public class Activity_ItemCart extends AppCompatActivity {
 //            });
             if(getIntent().getStringExtra("args").equalsIgnoreCase("1")){
                 getSupportActionBar().setTitle("Item Cart");
-                mViewModel.GetActiveGCard().observe(this, new Observer<EGcardApp>() {
+                mViewModel.getActiveGcard().observe(this, new Observer<EGcardApp>() {
                     @Override
                     public void onChanged(EGcardApp eGcardApp) {
                         try {

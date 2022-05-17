@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.marketplace.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.guanzongroup.marketplace.R;
 
 import java.util.List;
 
 public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.OrderHolder> {
-
-    private final List<ItemCartModel> poCart;
+    private String TAG = Adapter_ItemCart.class.getSimpleName();
+    private final List<DRedeemItemInfo.GCardCartItem> poCart;
     private final OnCartAction poCallBck;
 
-    public Adapter_ItemCart(List<ItemCartModel> foCart, OnCartAction foCallBck) {
+    public Adapter_ItemCart(List<DRedeemItemInfo.GCardCartItem> foCart, OnCartAction foCallBck) {
         this.poCart = foCart;
         this.poCallBck = foCallBck;
     }
@@ -36,11 +37,11 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
 
     @Override
     public void onBindViewHolder(@NonNull OrderHolder holder, int position) {
-        ItemCartModel loCart = poCart.get(position);
-        holder.lblItemName.setText(loCart.getItemName());
-        holder.lblItemPrice.setText("₱ " + loCart.getItemPrice());
-        holder.lblItemQty.setText(loCart.getItemQty());
-        holder.setImage(loCart.getItemImage());
+        DRedeemItemInfo.GCardCartItem loCart = poCart.get(position);
+        holder.lblItemName.setText(loCart.sPromoDsc);
+        holder.lblItemPrice.setText(loCart.nPointsxx + " point/s");
+        holder.lblItemQty.setText(loCart.nItemQtyx);
+        holder.setImage(loCart.sImageUrl);
     }
 
     @Override

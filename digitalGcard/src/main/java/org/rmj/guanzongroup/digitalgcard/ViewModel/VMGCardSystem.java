@@ -15,9 +15,12 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
+import org.rmj.g3appdriver.dev.Repositories.RBranchInfo;
 import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
@@ -25,6 +28,7 @@ import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCartItems;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
+import org.rmj.g3appdriver.lib.GCardCore.RedemptionManager;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 
 import java.util.List;
@@ -32,6 +36,7 @@ import java.util.List;
 public class VMGCardSystem extends AndroidViewModel {
 
     private static final String TAG = VMGCardSystem.class.getSimpleName();
+    private final Application instance;
     private final GCardSystem poGcrdSys;
     private final RGcardApp poGcardxx;
     private final ConnectionUtil poConnect;
@@ -40,6 +45,7 @@ public class VMGCardSystem extends AndroidViewModel {
     public VMGCardSystem(@NonNull Application application) {
         super(application);
         Log.e(TAG, "Initialized.");
+        this.instance = application;
         this.poGcrdSys = new GCardSystem(application);
         this.poGcardxx = new RGcardApp(application);
         this.poConnect = new ConnectionUtil(application);
@@ -112,6 +118,14 @@ public class VMGCardSystem extends AndroidViewModel {
         new DownloadRedeemablesTask(mGcardSys, poConnect, callback).execute();
     }
 
+    public LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems(){
+        mGcardSys = new GCardSystem(instance).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
+        return mGcardSys.GetCartItems();
+    }
+    public void GetMCBranchesForRedemption(GetBranchCallback callback){
+        new GetMCBranchesForRedemptionTask(instance, callback).execute();
+    }
+//    List<EBranchInfo> GetMCBranchesForRedemption();
     public void addToCart(CartItem item, GcardTransactionCallback callback) {
         new AddToCartTask(mGcardSys, poConnect, callback).execute(item);
     }
@@ -120,7 +134,7 @@ public class VMGCardSystem extends AndroidViewModel {
         new UpdateCartItemTask(mGcardSys, poConnect, callback).execute(item);
     }
 
-    public void PlaceOrder(GcardCartItems items, GcardTransactionCallback callback) {
+    public void PlaceOrder(DRedeemItemInfo.GCardCartItem items, GcardTransactionCallback callback) {
         new PlaceOrderTask(mGcardSys, poConnect, callback).execute(items);
     }
 
@@ -695,7 +709,7 @@ public class VMGCardSystem extends AndroidViewModel {
 
     }
 
-    private static class PlaceOrderTask extends AsyncTask<GcardCartItems, Void, Void> {
+    private static class PlaceOrderTask extends AsyncTask<DRedeemItemInfo.GCardCartItem, Void, Void> {
         private static final String PLACE_ORDER_TAG = PlaceOrderTask.class.getSimpleName();
         private final iGCardSystem mGcardSys;
         private final ConnectionUtil loConnect;
@@ -714,8 +728,8 @@ public class VMGCardSystem extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(GcardCartItems... foCartItm) {
-            GcardCartItems loCartItm = foCartItm[0];
+        protected Void doInBackground(DRedeemItemInfo.GCardCartItem... foCartItm) {
+            DRedeemItemInfo.GCardCartItem loCartItm = foCartItm[0];
             try {
                 if(loConnect.isDeviceConnected()) {
 //                    mGcardSys.PlaceOrder(loCartItm, new GCardSystem.GCardSystemCallback() {
@@ -1069,6 +1083,33 @@ public class VMGCardSystem extends AndroidViewModel {
         }
     }
 
+
+    private static class GetMCBranchesForRedemptionTask  extends AsyncTask<String, Void, Void> {
+
+        private final RedemptionManager loredemp;
+        private final GetBranchCallback loCallBck;
+        private List<EBranchInfo> branchInfos;
+        private GetMCBranchesForRedemptionTask (Application app, GetBranchCallback foCallbck) {
+            this.loredemp = new RedemptionManager(app);
+            this.loCallBck = foCallbck;
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            branchInfos = loredemp.GetMCBranchesForRedemption();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            loCallBck.onSuccess(branchInfos);
+        }
+    }
+
+    public interface GetBranchCallback {
+        void onSuccess(List<EBranchInfo> branchInfos);
+    }
     public interface GcardTransactionCallback {
         void onLoad();
         void onSuccess(String fsMessage);
