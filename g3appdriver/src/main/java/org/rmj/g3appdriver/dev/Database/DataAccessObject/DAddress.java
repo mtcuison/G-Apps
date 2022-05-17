@@ -67,4 +67,16 @@ public interface DAddress {
         public String sTownNm;
         public String sProvNm;
     }
+
+    @Query("SELECT COUNT(sBrgyIDxx) FROM Barangay_Info")
+    int CheckBarangayInfo();
+
+    @Query("SELECT COUNT(sTownIDxx) FROM Town_Info")
+    int CheckTownInfo();
+
+    @Query("SELECT COUNT(sProvIDxx) FROM Province_Info")
+    int CheckProvinceInfo();
+
+    @Query("SELECT COUNT(sCntryCde) FROM Country_Info")
+    int CheckCountryInfo();
 }

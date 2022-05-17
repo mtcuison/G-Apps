@@ -69,10 +69,10 @@ public class Fragment_MPItemCart extends Fragment {
                                 }
                             });
                             Log.e("itemCart = ", String.valueOf(itemCart.size()));
-                            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
                             recyclerView.setAdapter(adapter);
                             recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+                            recyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
                             adapter.notifyDataSetChanged();
                             double subtotal = 0;
                             for (int x = 0; x < itemList.size(); x++){
