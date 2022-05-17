@@ -13,6 +13,7 @@ public class GuanzonAppConfig {
 
     private static final String TEST_CASE = "cTestStat";
 
+    private static final String MESSAGING_TOKEN = "sMsgToken";
     private static final String PERMISSIONS_GRANT = "cPrmnGrnt";
 
     public GuanzonAppConfig(Context context){
@@ -30,12 +31,12 @@ public class GuanzonAppConfig {
      *            Default value: False
      */
     public void setTestCase(boolean val){
-        editor.putBoolean(PERMISSIONS_GRANT, val);
+        editor.putBoolean(TEST_CASE, val);
         editor.commit();
     }
 
     public boolean getTestCase(){
-        return pref.getBoolean(PERMISSIONS_GRANT, false);
+        return pref.getBoolean(TEST_CASE, false);
     }
 
     public void setIfPermissionsGranted(boolean val){
@@ -45,5 +46,14 @@ public class GuanzonAppConfig {
 
     public boolean IsPermissionsGranted(){
         return pref.getBoolean(PERMISSIONS_GRANT, false);
+    }
+
+    public void setAppToken(String val){
+        editor.putString(MESSAGING_TOKEN, val);
+        editor.commit();
+    }
+
+    public String getAppToken(){
+        return pref.getString(MESSAGING_TOKEN, "");
     }
 }

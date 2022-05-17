@@ -8,10 +8,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
+import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class VMItemCart extends AndroidViewModel {
         generateData();
         this.poGCard = new RGcardApp(application);
     }
+
     private void generateData(){
         ArrayList<ItemCartModel> list = new ArrayList<>();
         ItemCartModel model = new ItemCartModel();

@@ -50,41 +50,39 @@ public class Fragment_GCardItemCart extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_gcard_item_cart, container, false);
-        initWidgets(v);
-        return v;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMGCardItemCart.class);
+        initWidgets(v);
         mViewModel.getGCardItemCart().observe(requireActivity(), itemCart ->{
-            if (itemCart != null){
-                noItem.setVisibility(View.GONE);
-                lnGCardFooter.setVisibility(View.VISIBLE);
-                adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
-                    @Override
-                    public void onClickAction(String val) {
+            try {
+                if (itemCart != null) {
+                    noItem.setVisibility(View.GONE);
+                    lnGCardFooter.setVisibility(View.VISIBLE);
+                    adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
+                        @Override
+                        public void onClickAction(String val) {
 
+                        }
+                    });
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+                    adapter.notifyDataSetChanged();
+                    double subtotal = 0;
+                    for (int x = 0; x < itemList.size(); x++) {
+                        subtotal += Double.parseDouble(itemList.get(x).getItemPrice().replaceAll(",", ""));
                     }
-                });
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-                adapter.notifyDataSetChanged();
-                double subtotal = 0;
-                for (int x = 0; x < itemList.size(); x++){
-                    subtotal += Double.parseDouble(itemList.get(x).getItemPrice().replaceAll(",",""));
+                    lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
+                } else {
+                    noItem.setVisibility(View.VISIBLE);
+                    lnGCardFooter.setVisibility(View.GONE);
                 }
-                lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
-            }else {
-                noItem.setVisibility(View.VISIBLE);
-                lnGCardFooter.setVisibility(View.GONE);
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
+        return v;
     }
-
 
     private void initWidgets(View view){
         recyclerView = view.findViewById(R.id.recyclerView_GCardCart);

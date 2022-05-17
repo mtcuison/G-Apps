@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.marketplace.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_PlaceOrder;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ItemCart;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
@@ -49,49 +51,52 @@ public class Fragment_MPItemCart extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_mp_item_cart, container, false);
+        mViewModel = new ViewModelProvider(this).get(VMMPItemCart.class);
         initWidgets(v);
-        return v;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         try {
-            mViewModel = new ViewModelProvider(this).get(VMMPItemCart.class);
-            mViewModel.getMarketPlaceItemCart().observe(requireActivity(), itemCart ->{
-                if (itemCart.size() > 0){
-                    noItem.setVisibility(View.GONE);
-                    lnMPFooter.setVisibility(View.VISIBLE);
-                    adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
-                        @Override
-                        public void onClickAction(String val) {
+            mViewModel.GetCartItemsList().observe(requireActivity(), new Observer<List<DItemCart.oMarketplaceCartItem>>() {
+                @Override
+                public void onChanged(List<DItemCart.oMarketplaceCartItem> items) {
+                    try {
+                        List<ItemCartModel> itemCart = mViewModel.ParseDataForAdapter(items);
+                        if (itemCart.size() > 0){
+                            noItem.setVisibility(View.GONE);
+                            lnMPFooter.setVisibility(View.VISIBLE);
+                            adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
+                                @Override
+                                public void onClickAction(String val) {
 
+                                }
+                            });
+                            Log.e("itemCart = ", String.valueOf(itemCart.size()));
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setLayoutManager(layoutManager);
+                            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+                            adapter.notifyDataSetChanged();
+                            double subtotal = 0;
+                            for (int x = 0; x < itemList.size(); x++){
+                                subtotal += Double.parseDouble(itemList.get(x).getItemPrice().replaceAll(",",""));
+                            }
+                            lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
+                        }else {
+                            noItem.setVisibility(View.VISIBLE);
+                            lnMPFooter.setVisibility(View.GONE);
                         }
-                    });
-                    Log.e("itemCart = ", String.valueOf(itemCart.size()));
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-                    adapter.notifyDataSetChanged();
-                    double subtotal = 0;
-                    for (int x = 0; x < itemList.size(); x++){
-                        subtotal += Double.parseDouble(itemList.get(x).getItemPrice().replaceAll(",",""));
+                    } catch (Exception e){
+                        e.printStackTrace();
                     }
-                    lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
-                }else {
-                    noItem.setVisibility(View.VISIBLE);
-                    lnMPFooter.setVisibility(View.GONE);
                 }
             });
-            btnCheckOut.setOnClickListener(v ->{
+
+            btnCheckOut.setOnClickListener(view ->{
                 startActivity(new Intent(getActivity(), Activity_PlaceOrder.class));
 
             });
         }catch (NullPointerException e){
             Log.e("",e.getMessage());
         }
-
+        return v;
     }
 
     private void initWidgets(View view){
