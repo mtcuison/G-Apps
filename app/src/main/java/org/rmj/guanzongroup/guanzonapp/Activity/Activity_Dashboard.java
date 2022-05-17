@@ -35,7 +35,6 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.R;
-import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
@@ -138,15 +137,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                 lblBadge.setText(GetBadgeValue(count));
             } catch (Exception e){
                 e.printStackTrace();
-            }
-        });
-        navigationView.getMenu().findItem(R.id.nav_item_cart).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Intent intent = new Intent(Activity_Dashboard.this, Activity_ItemCart.class);
-                intent.putExtra("args", "1");
-                startActivity(intent);
-                return false;
             }
         });
 

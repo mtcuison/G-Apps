@@ -3,7 +3,6 @@ package org.rmj.guanzongroup.marketplace.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,13 +20,12 @@ import android.widget.ImageButton;
 import com.google.android.material.tabs.TabLayout;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
-import org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_Redeemables;
 import org.rmj.guanzongroup.marketplace.Adapter.ActivityFragmentAdapter;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMItemCart;
 
 public class Fragment_ItemCart extends Fragment {
-    String TAG = Fragment_ItemCart.class.getSimpleName();
+
     private VMItemCart mViewModel;
     private ViewPager viewPager;
     private View view;
@@ -53,50 +51,30 @@ public class Fragment_ItemCart extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        try{
-            mViewModel = new ViewModelProvider(this).get(VMItemCart.class);
-            if(getArguments().get("gcardInstance").toString().equalsIgnoreCase("1")) {
-
-                getActivity().setTitle("Item Cart");
-                mViewModel.GetActiveGCard().observe(requireActivity(), new Observer<EGcardApp>() {
-                    @Override
-                    public void onChanged(EGcardApp eGcardApp) {
-                        try {
-                            adapter.clear();
-                            adapter.addFragment(new Fragment_MPItemCart());
-                            adapter.addTitle("MarketPlace");
-                            if (eGcardApp != null) {
-                                adapter.addFragment(new Fragment_GCardItemCart());
-                                adapter.addTitle("GCard");
-                            }
-                            viewPager.setAdapter(adapter);
-                            tabLayout.setupWithViewPager(viewPager);
-                            adapter.notifyDataSetChanged();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+        mViewModel = new ViewModelProvider(this).get(VMItemCart.class);
+        mViewModel.GetActiveGCard().observe(requireActivity(), new Observer<EGcardApp>() {
+            @Override
+            public void onChanged(EGcardApp eGcardApp) {
+                try {
+                    adapter.addFragment(new Fragment_MPItemCart());
+                    adapter.addTitle("MarketPlace");
+                    if (eGcardApp != null) {
+                        adapter.addFragment(new Fragment_GCardItemCart());
+                        adapter.addTitle("GCard");
                     }
-                });
-            }else {
-                getActivity().setTitle("Redeemables");
-                tabLayout.setVisibility(View.GONE);
-                adapter.clear();
-                adapter.addFragment(new Fragment_Redeemables());
-                viewPager.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
+                    viewPager.setAdapter(adapter);
+                    tabLayout.setupWithViewPager(viewPager);
+                    adapter.notifyDataSetChanged();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
-        }catch (NullPointerException e){
-            Log.e(TAG, e.getMessage());
-        }
+        });
     }
-    @SuppressLint("NewApi")
     private void initWidgets(View view){
         tabLayout = view.findViewById(R.id.tabLayout_item_cart_fragment_indicator);
         viewPager = view.findViewById(R.id.viewpager_fragment_item_cart);
         adapter = new ActivityFragmentAdapter(getChildFragmentManager());
-
     }
 
     private void setupTabLayoutListener(){
@@ -118,5 +96,4 @@ public class Fragment_ItemCart extends Fragment {
             }
         });
     }
-
 }

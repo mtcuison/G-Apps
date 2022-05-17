@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import org.rmj.g3appdriver.etc.ItemCartModel;
+import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
 import org.rmj.guanzongroup.marketplace.R;
 
 import java.util.List;
 
 public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.OrderHolder> {
-    private String TAG = Adapter_ItemCart.class.getSimpleName();
+
     private final List<ItemCartModel> poCart;
     private final OnCartAction poCallBck;
 
@@ -38,7 +38,7 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
     public void onBindViewHolder(@NonNull OrderHolder holder, int position) {
         ItemCartModel loCart = poCart.get(position);
         holder.lblItemName.setText(loCart.getItemName());
-        holder.lblItemPrice.setText(loCart.getItemPrice());
+        holder.lblItemPrice.setText("₱ " + loCart.getItemPrice());
         holder.lblItemQty.setText(loCart.getItemQty());
         holder.setImage(loCart.getItemImage());
     }

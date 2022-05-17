@@ -16,28 +16,19 @@
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/AppToolbar"/>
     </com.google.android.material.appbar.AppBarLayout>
-    <com.google.android.material.appbar.AppBarLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout_item_cart_fragment_indicator"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/ToolBarMaterialTheme">
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout_item_cart_fragment_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabIndicatorHeight="4dp"
-            style="@style/Widget.MaterialComponents.TabLayout"
-            app:tabGravity="fill"
-            app:tabMode="fixed"
-            app:tabIconTint="@color/tab_select_indicator_dashboard"
-            app:tabIndicatorColor="@color/guanzon_digital_orange"
-            app:tabIndicator="@color/guanzon_digital_orange"
-            app:tabIndicatorAnimationDuration="1"
-            app:tabIndicatorGravity="bottom"
-            app:tabIndicatorFullWidth="true"
-            app:tabTextColor="@color/tab_select_indicator_dashboard"
-            android:backgroundTint="@color/guanzon_digital_dark_grey"
-            android:elevation="5dp"/>
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="50dp"
+        app:tabIndicatorHeight="4dp"
+        style="@style/Widget.MaterialComponents.TabLayout"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabIndicatorAnimationDuration="1"
+        app:tabIndicatorGravity="bottom"
+        app:tabIndicatorFullWidth="true"
+        android:elevation="5dp"/>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager_fragment_item_cart"
         android:layout_width="match_parent"
