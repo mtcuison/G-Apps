@@ -1,7 +1,11 @@
-package org.rmj.guanzongroup.marketplace.Model;
+package org.rmj.g3appdriver.etc;
+
+import java.text.DecimalFormat;
 
 public class ItemCartModel {
 
+
+    private boolean isMarket;
     private String itemImage;
     private String itemName;
     private String itemPrice;
@@ -14,7 +18,14 @@ public class ItemCartModel {
         this.itemName = itemName;
     }
     public String getItemPrice() {
-        return itemPrice;
+        String formatted;
+        if(isMarket){
+            formatted = "₱ " + currencyFormat(Double.parseDouble(itemPrice));
+        }else{
+
+            formatted = currencyFormat(Double.parseDouble(itemPrice)) + " point/s";
+        }
+        return formatted;
     }
     public void setItemPrice(String itemPrice) {
         this.itemPrice = itemPrice;
@@ -32,5 +43,16 @@ public class ItemCartModel {
     public void setItemImage(String itemImage) {
         this.itemImage = itemImage;
     }
+    public boolean isMarket() {
+        return isMarket;
+    }
 
+    public void setIsMarket(boolean market) {
+        this.isMarket = market;
+    }
+
+    public static String currencyFormat(double amount) {
+        DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
+        return formatter.format(amount);
+    }
 }

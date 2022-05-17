@@ -25,12 +25,11 @@ import com.google.android.material.button.MaterialButton;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_PlaceOrder;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ItemCart;
-import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
+import org.rmj.g3appdriver.etc.ItemCartModel;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMMPItemCart;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_MPItemCart extends Fragment {

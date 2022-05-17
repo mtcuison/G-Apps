@@ -15,6 +15,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
@@ -24,6 +25,7 @@ import org.rmj.g3appdriver.dev.Repositories.RBranchInfo;
 import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
+import org.rmj.g3appdriver.etc.ItemCartModel;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCartItems;
@@ -31,6 +33,7 @@ import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
 import org.rmj.g3appdriver.lib.GCardCore.RedemptionManager;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VMGCardSystem extends AndroidViewModel {
@@ -122,6 +125,20 @@ public class VMGCardSystem extends AndroidViewModel {
         mGcardSys = new GCardSystem(instance).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
         return mGcardSys.GetCartItems();
     }
+
+    public List<ItemCartModel> ParseDataForAdapter(List<DRedeemItemInfo.GCardCartItem> foVal) {
+        ArrayList<ItemCartModel> list = new ArrayList<>();
+        for(int x = 0; x < foVal.size(); x++){
+            ItemCartModel loDetail = new ItemCartModel();
+            loDetail.setIsMarket(false);
+            loDetail.setItemName(foVal.get(x).sPromoDsc);
+            loDetail.setItemPrice(foVal.get(x).nPointsxx);
+            loDetail.setItemQty(foVal.get(x).nItemQtyx);
+            loDetail.setItemImage(foVal.get(x).sImageUrl);
+            list.add(loDetail);
+        }
+        return list;
+    }
     public void GetMCBranchesForRedemption(GetBranchCallback callback){
         new GetMCBranchesForRedemptionTask(instance, callback).execute();
     }
@@ -134,8 +151,8 @@ public class VMGCardSystem extends AndroidViewModel {
         new UpdateCartItemTask(mGcardSys, poConnect, callback).execute(item);
     }
 
-    public void PlaceOrder(DRedeemItemInfo.GCardCartItem items, GcardTransactionCallback callback) {
-        new PlaceOrderTask(mGcardSys, poConnect, callback).execute(items);
+    public void PlaceOrder(List<DRedeemItemInfo.GCardCartItem> items, String branchCD,GcardTransactionCallback callback) {
+        new PlaceOrderTask(mGcardSys, items,branchCD,poConnect, callback).execute();
     }
 
     public void generateGCardOrderQrCode(GcardTransactionCallback callBack) {
@@ -709,16 +726,21 @@ public class VMGCardSystem extends AndroidViewModel {
 
     }
 
-    private static class PlaceOrderTask extends AsyncTask<DRedeemItemInfo.GCardCartItem, Void, Void> {
+    private static class PlaceOrderTask extends AsyncTask<String, Void, Void> {
         private static final String PLACE_ORDER_TAG = PlaceOrderTask.class.getSimpleName();
         private final iGCardSystem mGcardSys;
         private final ConnectionUtil loConnect;
         private final GcardTransactionCallback loCallbck;
-
-        private PlaceOrderTask(iGCardSystem foGcrdSys, ConnectionUtil foConnect, GcardTransactionCallback callBack) {
+        private final String branchCD;
+        private final List<DRedeemItemInfo.GCardCartItem> loItem;
+        private boolean isSuccess = false;
+        private String fomessage = "";
+        private PlaceOrderTask(iGCardSystem foGcrdSys, List<DRedeemItemInfo.GCardCartItem> foItem, String branchCode, ConnectionUtil foConnect, GcardTransactionCallback callBack) {
             this.mGcardSys = foGcrdSys;
             this.loConnect = foConnect;
             this.loCallbck = callBack;
+            this.branchCD = branchCode;
+            this.loItem = foItem;
         }
 
         @Override
@@ -728,33 +750,47 @@ public class VMGCardSystem extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(DRedeemItemInfo.GCardCartItem... foCartItm) {
-            DRedeemItemInfo.GCardCartItem loCartItm = foCartItm[0];
+        protected Void doInBackground(String ... strings) {
+//            DRedeemItemInfo.GCardCartItem loCartItm = foCartItm[0];
             try {
                 if(loConnect.isDeviceConnected()) {
-//                    mGcardSys.PlaceOrder(loCartItm, new GCardSystem.GCardSystemCallback() {
-//                        @Override
-//                        public void OnSuccess(String args) {
-//                            // TODO: Call the update of cart to local database
-//                            loCallbck.onSuccess(args);
-//                        }
-//
-//                        @Override
-//                        public void OnFailed(String message) {
-//                            loCallbck.onFailed(message);
-//                        }
-//                    });
+                    mGcardSys.PlaceOrder(loItem, branchCD, new GCardSystem.GCardSystemCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            // TODO: Call the update of cart to local database
+                            isSuccess = true;
+
+                            fomessage = args;
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            isSuccess = false;
+                            fomessage = message;
+                        }
+                    });
                 } else {
-                    loCallbck.onFailed(AppConstants.SERVER_NO_RESPONSE());
+                    isSuccess = false;
+                    fomessage = AppConstants.NO_INTERNET();
                 }
             } catch(Exception e) {
                 e.printStackTrace();
                 Log.e(PLACE_ORDER_TAG, e.getMessage());
-                loCallbck.onFailed(PLACE_ORDER_TAG + e.getMessage());
+                isSuccess = false;
+                fomessage= e.getMessage();
             }
             return null;
         }
 
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            if (isSuccess){
+                loCallbck.onSuccess(fomessage);
+            }else {
+                loCallbck.onFailed(fomessage);
+            }
+        }
     }
 
     private static class GenerateGCardOrderQrCode extends AsyncTask<String, Void, Bitmap> {

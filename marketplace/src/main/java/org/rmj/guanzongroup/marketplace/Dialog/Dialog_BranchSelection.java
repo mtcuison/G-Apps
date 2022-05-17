@@ -67,11 +67,14 @@ public class Dialog_BranchSelection {
         adapter = new Adapter_BranchSelection(branchInfo, new Adapter_BranchSelection.onBranchContentClickListener() {
             @Override
             public void onClick(EBranchInfo eBranchInfo) {
+
                 confimDialog.setButtonText("Confirm", "Cancel");
                 confimDialog.initDialog("Branch Selection", "Are you sure you want to select " + eBranchInfo.getBranchNm() + "?", new Dialog_DoubleButton.OnDialogConfirmation() {
                     @Override
-                    public void onConfirm(AlertDialog dialog) {
-                        callback.onConfirm(eBranchInfo);
+                    public void onConfirm(AlertDialog dialogS) {
+                        callback.onConfirm(eBranchInfo,dialog);
+                        dialogS.dismiss();
+
                     }
 
                     @Override
@@ -79,7 +82,8 @@ public class Dialog_BranchSelection {
                         dialog.dismiss();
                     }
                 });
-                dialog.dismiss();
+                confimDialog.show();
+//                dialog.dismiss();
             }
 
 //            @Override
@@ -108,7 +112,7 @@ public class Dialog_BranchSelection {
     }
 
     public interface onConfirmBranch {
-        void onConfirm(EBranchInfo branchInfo);
+        void onConfirm(EBranchInfo branchInfo, AlertDialog dialog);
     }
 
     class searchFilterer implements TextWatcher{

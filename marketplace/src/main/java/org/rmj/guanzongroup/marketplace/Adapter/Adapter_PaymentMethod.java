@@ -9,9 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
-
-import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
 import org.rmj.guanzongroup.marketplace.Model.PaymentMethodModel;
 import org.rmj.guanzongroup.marketplace.R;
 

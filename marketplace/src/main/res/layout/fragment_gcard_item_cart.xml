@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="17dp"
-            android:text="Checkout"
+            android:text="Place Order"
             style="@style/ButtonStyle.Orange.Medium"/>
 
     </LinearLayout>
