@@ -136,7 +136,7 @@ public class SystemExtras implements iGCardSystem{
     }
 
     @Override
-    public void PlaceOrder(List<ERedeemItemInfo> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
+    public void PlaceOrder(List<DRedeemItemInfo.GCardCartItem> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }
 
