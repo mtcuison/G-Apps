@@ -1,7 +1,6 @@
 package org.rmj.g3appdriver.dev.Repositories;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -113,7 +112,6 @@ public class RClientInfo {
                     loDetail.setMobileNo(loResponse.getString("sMobileNo"));
                     loDetail.setEmailAdd(loResponse.getString("sEmailAdd"));
                     loDetail.setRecdStat("1");
-                    Log.e(TAG, loDetail.toString());
                     poDao.update(loDetail);
                     AccountInfo loAcc = new AccountInfo(mContext);
                     loAcc.setClientID(loResponse.getString("sClientID"));
