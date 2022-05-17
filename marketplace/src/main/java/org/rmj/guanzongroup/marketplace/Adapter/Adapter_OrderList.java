@@ -10,8 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONArray;
-import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
 import org.rmj.guanzongroup.marketplace.R;
 
 import java.util.List;
@@ -20,6 +18,8 @@ import java.util.List;
 public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.ViewHolderItem> {
 
     private final List<OrderListAdapterModel> poItemsxx;
+    private static double pnSubTotl;
+
 
     public Adapter_OrderList(List<OrderListAdapterModel> foItemsxx){
         this.poItemsxx = foItemsxx;
@@ -40,6 +40,7 @@ public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.Vi
             holder.txtProdNm.setText(loItemxxx.fsProdNme);
             holder.txtPricex.setText(loItemxxx.fsPricexx);
             holder.txtItemQt.setText("Qty: " + loItemxxx.fnItemQty);
+            pnSubTotl += Double.parseDouble(loItemxxx.fsPricexx) * loItemxxx.fnItemQty;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,6 +49,10 @@ public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.Vi
     @Override
     public int getItemCount() {
         return poItemsxx.size();
+    }
+
+    public double getSubTotal() {
+        return pnSubTotl;
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{
