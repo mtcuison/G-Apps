@@ -28,8 +28,14 @@ public interface DItemCart {
     @Query("DELETE FROM MarketPlace_Cart WHERE sListIDxx=:fsListID")
     void DeleteCartItem(String fsListID);
 
-    @Query("DELETE FROM MarketPlace_Cart WHERE cBuyNowxx = '1'")
+    @Query("DELETE FROM MarketPlace_Cart WHERE cBuyNowxx = '1' AND cCheckOut = '1'")
     void CancelBuyNowItem();
+
+    @Query("UPDATE MarketPlace_Cart SET cCheckOut = '1' WHERE sListIDxx =:fsListID")
+    void UpdateForCheckOut(String fsListID);
+
+    @Query("SELECT COUNT(*) FROM MarketPlace_Cart WHERE cCheckOut ='1'")
+    int CheckCartItemsForOrder();
 
     @Query("SELECT a.sListIDxx AS sListIDxx, " +
             "a.nQuantity AS nQuantity, " +
@@ -39,7 +45,7 @@ public interface DItemCart {
             "FROM MarketPlace_Cart a " +
             "LEFT JOIN Product_Inventory b " +
             "ON a.sListIDxx = b.sListngID " +
-            "WHERE a.cBuyNowxx = '0'")
+            "WHERE a.cBuyNowxx = '0' AND a.cCheckOut = '1'")
     LiveData<List<oMarketplaceCartItem>> GetCartItemsList();
 
     @Query("SELECT a.sListIDxx AS sListIDxx, " +
@@ -50,7 +56,7 @@ public interface DItemCart {
             "FROM MarketPlace_Cart a " +
             "LEFT JOIN Product_Inventory b " +
             "ON a.sListIDxx = b.sListngID " +
-            "WHERE a.cBuyNowxx = '1'")
+            "WHERE a.cBuyNowxx = '1' AND cCheckOut = '1'")
     LiveData<List<oMarketplaceCartItem>> GetBuyNowItem();
 
     public class oMarketplaceCartItem{
@@ -59,5 +65,6 @@ public interface DItemCart {
         public String xModelNme;
         public String xDescript;
         public String nUnitPrce;
+        public String cCheckOut;
     }
 }
