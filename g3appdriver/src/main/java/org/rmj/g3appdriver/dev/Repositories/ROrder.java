@@ -150,6 +150,18 @@ public class ROrder {
         }
     }
 
+
+    public boolean RemoveForCheckOut(String fsLstngID){
+        try {
+            poCartDao.RemoveForCheckOut(fsLstngID);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
     public boolean CheckCartItemsForCheckOut(){
         try{
             int lnCountxx = poCartDao.CheckCartItemsForOrder();
