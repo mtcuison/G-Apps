@@ -34,6 +34,9 @@ public interface DItemCart {
     @Query("UPDATE MarketPlace_Cart SET cCheckOut = '1' WHERE sListIDxx =:fsListID")
     void UpdateForCheckOut(String fsListID);
 
+    @Query("UPDATE MarketPlace_Cart SET cCheckOut = '0' WHERE sListIDxx =:fsListID")
+    void RemoveForCheckOut(String fsListID);
+
     @Query("SELECT COUNT(*) FROM MarketPlace_Cart WHERE cCheckOut ='1'")
     int CheckCartItemsForOrder();
 
