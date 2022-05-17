@@ -31,7 +31,8 @@ public class DbConnection {
             InputStream inputStream = context.getAssets().open("GhostRiderXP.properties");
 
             //initialize GProperty
-            GProperty loProperty = new GProperty(inputStream, new AppConfigPreference(context).ProducID());
+
+            GProperty loProperty = new GProperty(inputStream, "GuanzonApp");
             if (loProperty.loadConfig()){
                 Log.d(TAG, "Config File was loaded.");
 
@@ -58,4 +59,6 @@ public class DbConnection {
             return null;
         }
     }
+
+
 }

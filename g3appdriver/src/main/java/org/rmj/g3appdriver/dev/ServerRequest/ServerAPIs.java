@@ -8,7 +8,7 @@ import static org.rmj.g3appdriver.dev.ServerRequest.APILocation.SECURITY;
 
 public class ServerAPIs {
 
-    private final boolean isTestUnit;
+    private boolean isTestUnit;
 
     private static final String SIGN_IN = SECURITY + "signin.php";
     private static final String REGISTRATION = SECURITY + "signup.php";
@@ -44,8 +44,8 @@ public class ServerAPIs {
     private static final String UPDATE_ACCOUNT_INFO = "integsys/marketplace/update_client_info.php";
     private static final String UPDATE_MOBILE_NO = "integsys/marketplace/request_mobile_update.php";
     private static final String UPDATE_ADDRESS = "integsys/marketplace/request_address_update.php";
-    private static final String URL_UPDATE_ADDRESS = "integsys/dcp/request_address_update.php";
-    private static final String URL_UPDATE_MOBILE = "integsys/dcp/request_mobile_update.php";
+    private static final String URL_UPDATE_ADDRESS = "integsys/marketplace/request_address_update.php";
+    private static final String URL_UPDATE_MOBILE = "integsys/marketplace/request_mobile_update.php";
     private static final String IMPORT_PAYMENT_METHODS = "";
     private static final String UPDATE_PAYMENT_METHOD = "";
     private static final String IMPORT_SHIPPING_INFO = "";

@@ -70,7 +70,6 @@ public class Fragment_ItemCart extends Fragment {
                 }
             }
         });
-
     }
     private void initWidgets(View view){
         tabLayout = view.findViewById(R.id.tabLayout_item_cart_fragment_indicator);

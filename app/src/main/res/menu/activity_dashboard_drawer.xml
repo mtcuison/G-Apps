@@ -25,6 +25,11 @@
             android:title="@string/menu_notifications" />
 
         <item
+            android:id="@+id/nav_item_cart"
+            android:icon="@drawable/ic_baseline_shopping_cart_24"
+            android:title="@string/menu_item_cart" />
+
+        <item
             android:id="@+id/nav_purchases"
             android:icon="@drawable/ic_baseline_shopping_bag_24"
             android:title="@string/menu_purchases" />
@@ -33,11 +38,6 @@
             android:id="@+id/nav_wishlist"
             android:icon="@drawable/ic_baseline_heart_24"
             android:title="@string/menu_wishlist" />
-
-        <item
-            android:id="@+id/nav_item_cart"
-            android:icon="@drawable/ic_baseline_shopping_cart_24"
-            android:title="@string/menu_item_cart" />
 
         <item android:title="@string/menu_subtitle_gcard">
             <menu>
@@ -53,7 +53,7 @@
 
                 <item
                     android:id="@+id/nav_gcard_orders"
-                    android:icon="@drawable/ic_menu_slideshow"
+                    android:icon="@drawable/ic_baseline_package_24"
                     android:title="@string/menu_gcard_orders" />
 
                 <item

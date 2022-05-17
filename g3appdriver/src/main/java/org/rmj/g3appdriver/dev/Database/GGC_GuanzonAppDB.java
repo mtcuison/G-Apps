@@ -130,5 +130,4 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
             Log.e(TAG, "Local database has been created.");
         }
     };
-
 }

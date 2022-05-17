@@ -15,6 +15,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
+import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
@@ -29,6 +30,7 @@ public class VMHome extends AndroidViewModel {
     private final RGcardApp poGcardxx;
     private final RProduct poProduct;
     private final ROrder poOrder;
+    private final RNotificationInfo poNotif;
     private iGCardSystem poSystem;
 
     public interface OnViewGCardQrCode{
@@ -43,6 +45,7 @@ public class VMHome extends AndroidViewModel {
         this.poAddress = new RAddressMobile(application);
         this.poGCard = new RGcardApp(application);
         this.poOrder = new ROrder(application);
+        this.poNotif = new RNotificationInfo(application);
         this.poSystem = new GCardSystem(application).getInstance(GCardSystem.CoreFunctions.GCARD);
     }
 
@@ -60,6 +63,10 @@ public class VMHome extends AndroidViewModel {
 
     public LiveData<List<EProducts>> getProductList(int fnIndex) {
         return poProduct.GetProductList(fnIndex);
+    }
+
+    public LiveData<Integer> GetUnreadMessagesCount(){
+        return poNotif.GetUnreadMessagesCount();
     }
 
     public LiveData<Integer> GetCartItemCount(){
