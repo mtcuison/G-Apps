@@ -31,12 +31,12 @@ public class GuanzonAppConfig {
      *            Default value: False
      */
     public void setTestCase(boolean val){
-        editor.putBoolean(PERMISSIONS_GRANT, val);
+        editor.putBoolean(TEST_CASE, val);
         editor.commit();
     }
 
     public boolean getTestCase(){
-        return pref.getBoolean(PERMISSIONS_GRANT, false);
+        return pref.getBoolean(TEST_CASE, false);
     }
 
     public void setIfPermissionsGranted(boolean val){

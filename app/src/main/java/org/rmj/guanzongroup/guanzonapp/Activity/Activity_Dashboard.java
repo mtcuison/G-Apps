@@ -57,7 +57,6 @@ public class Activity_Dashboard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new GuanzonAppConfig(Activity_Dashboard.this).setTestCase(true);
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         mViewModel = new ViewModelProvider(Activity_Dashboard.this).get(VMHome.class);
         setContentView(binding.getRoot());

@@ -51,8 +51,6 @@ public class HttpHeaders {
         String lsClientx = poAccount.getClientID();
         String lsLogNoxx = "";
         String lsTokenxx = poConfigx.getAppToken();
-//        String lsTokenxx = "c6mOUp7sSzimo_IGMqD-1Y:APA91bG_xsUb2n6S4AlKXjI4uKuQpWBdx7wec9HuYlRiHaRLcuBNCZHPL20sxwsjQ_LPozaanRgl100RMj2pYwo_uj-M3r3xqu1b9t6ozMaNslZEQVIslEblgH-I5IU4oQjwYRJPammH";
-//        String lsProduct = poConfigx.ProducID();
         String lsProduct = "GuanzonApp";
         String lsDevcIDx = poTlphony.getDeviceID();
         String lsDateTme = SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss");

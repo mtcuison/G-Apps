@@ -18,10 +18,7 @@ import androidx.lifecycle.LiveData;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
-import org.rmj.appdriver.base.GConnection;
-import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
-import org.rmj.g3appdriver.dev.Database.DbConnection;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
@@ -49,6 +46,14 @@ public class RNotificationInfo {
         poDao = GGCGriderDB.NotificationDao();
     }
 
+    public String getMessage(){
+        return message;
+    }
+
+    public String getMessageID(){
+        return psMesgIDx;
+    }
+
     public boolean SaveNotification(RemoteMessage foVal){
         try{
             RemoteMessageParser loParser = new RemoteMessageParser(foVal);
@@ -58,7 +63,7 @@ public class RNotificationInfo {
                 poDao.updateNotificationStatusFromOtherDevice(psMesgIDx, lsStatus);
             } else {
                 ENotificationMaster loMaster = new ENotificationMaster();
-                loMaster.setTransNox(getClientNextMasterCode());
+                loMaster.setTransNox(getClientNextCode("Notification_Info_Master"));
                 loMaster.setMesgIDxx(loParser.getValueOf("transno"));
                 loMaster.setParentxx(loParser.getValueOf("parent"));
                 loMaster.setCreatedx(loParser.getValueOf("stamp"));
@@ -131,16 +136,8 @@ public class RNotificationInfo {
         }
     }
 
-    private String getClientNextMasterCode(){
-        String lsNextCode = "";
-        GConnection loConn = DbConnection.doConnect(mContext);
-        try{
-            lsNextCode = MiscUtil.getNextCode("Notification_Info_Master", "sTransNox", true, loConn.getConnection(), "", 12, false);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        loConn = null;
-        return lsNextCode;
+    private String getClientNextCode(String fsTable){
+        return "";
     }
 
     public LiveData<Integer> GetUnreadMessagesCount(){
