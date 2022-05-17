@@ -143,9 +143,9 @@ public class VMSplashScreen extends AndroidViewModel {
 
                 pause();
                 iGCardSystem loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
-//                loGcard.DownloadBranchesList(poCallback);
-//                Log.d(TAG, "Branches imported successfully...");
-//                pause();
+                loGcard.DownloadBranchesList(poCallback);
+                Log.d(TAG, "Branches imported successfully...");
+                pause();
 //                loGcard.DownloadPromotions(poCallback);
 //                Log.d(TAG, "Promotions imported successfully...");
 //                pause();
@@ -189,26 +189,6 @@ public class VMSplashScreen extends AndroidViewModel {
             super.onPostExecute(s);
             listener.OnFinished("Finished!");
         }
-
-//        private void importAddresses() {
-//            RAddressMobile poAddress = new RAddressMobile(mContext);
-//            if(poAddress.ImportCountryList()) {
-//                Log.d(TAG, "Country data imported successfully...");
-//                pause();
-//            }
-//            if(poAddress.ImportProvinceList()) {
-//                Log.d(TAG, "Province data imported successfully...");
-//                pause();
-//            }
-//            if(poAddress.ImportTownList()) {
-//                Log.d(TAG, "Town and City data imported successfully...");
-//                pause();
-//            }
-//            if(poAddress.ImportBarangayList()) {
-//                Log.d(TAG, "Barangay data Sales imported successfully...");
-//                pause();
-//            }
-//        }
 
         private void pause() {
             try {

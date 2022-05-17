@@ -192,6 +192,25 @@ public class Activity_Dashboard extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_Dashboard.this);
+        loDialog.setButtonText("YES", "NO");
+        loDialog.initDialog("Guanzon App", "Exit Guanzon App?", new Dialog_DoubleButton.OnDialogConfirmation() {
+            @Override
+            public void onConfirm(AlertDialog dialog) {
+                dialog.dismiss();
+                finish();
+            }
+
+            @Override
+            public void onCancel(AlertDialog dialog) {
+                dialog.dismiss();
+            }
+        });
+        loDialog.show();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent loIntent;
         if(item.getItemId() == android.R.id.home){
@@ -200,7 +219,7 @@ public class Activity_Dashboard extends AppCompatActivity {
             loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
             startActivity(loIntent);
         } else if (item.getItemId() == R.id.item_cart) {
-//            Navigation.findNavController(findViewById(android.R.id.content).getRootView()).navigate(R.id.nav_item_cart);
+            Navigation.findNavController(findViewById(android.R.id.content).getRootView()).navigate(R.id.nav_item_cart);
         } else {
             loIntent = new Intent(Activity_Dashboard.this, Activity_QrCodeScanner.class);
             startActivityForResult(loIntent, SCAN_GCARD);
@@ -314,6 +333,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         });
         msgDialog.show();
     }
+
     private String GetBadgeValue(int val){
         if(val > 0){
             lblBadge.setVisibility(View.VISIBLE);
