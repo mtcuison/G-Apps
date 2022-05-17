@@ -22,11 +22,14 @@ public interface DItemCart {
     @Query("SELECT * FROM MarketPlace_Cart WHERE sListIDxx=:fsListID")
     EItemCart CheckIFItemExist(String fsListID);
 
-    @Query("UPDATE MarketPlace_Cart SET nQuantity =:fnQty WHERE sListIDxx =:fsListID")
+    @Query("UPDATE MarketPlace_Cart SET nQuantity = nQuantity +:fnQty WHERE sListIDxx =:fsListID")
     void UpdateItem(String fsListID, int fnQty);
 
     @Query("DELETE FROM MarketPlace_Cart WHERE sListIDxx=:fsListID")
     void DeleteCartItem(String fsListID);
+
+    @Query("DELETE FROM MarketPlace_Cart WHERE cBuyNowxx = '1'")
+    void CancelBuyNowItem();
 
     @Query("SELECT a.sListIDxx AS sListIDxx, " +
             "a.nQuantity AS nQuantity, " +
@@ -35,8 +38,20 @@ public interface DItemCart {
             "b.nUnitPrce AS nUnitPrce " +
             "FROM MarketPlace_Cart a " +
             "LEFT JOIN Product_Inventory b " +
-            "ON a.sListIDxx = b.sListngID")
-    LiveData<List<oMarketplaceCartItem>>GetCartItemsList();
+            "ON a.sListIDxx = b.sListngID " +
+            "WHERE a.cBuyNowxx = '0'")
+    LiveData<List<oMarketplaceCartItem>> GetCartItemsList();
+
+    @Query("SELECT a.sListIDxx AS sListIDxx, " +
+            "a.nQuantity AS nQuantity, " +
+            "b.xModelNme AS xModelNme, " +
+            "b.xDescript AS xDescript," +
+            "b.nUnitPrce AS nUnitPrce " +
+            "FROM MarketPlace_Cart a " +
+            "LEFT JOIN Product_Inventory b " +
+            "ON a.sListIDxx = b.sListngID " +
+            "WHERE a.cBuyNowxx = '1'")
+    LiveData<List<oMarketplaceCartItem>> GetBuyNowItem();
 
     public class oMarketplaceCartItem{
         public String sListIDxx;

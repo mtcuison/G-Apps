@@ -219,7 +219,7 @@ public class Activity_Dashboard extends AppCompatActivity {
             loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
             startActivity(loIntent);
         } else if (item.getItemId() == R.id.item_cart) {
-            Navigation.findNavController(findViewById(android.R.id.content).getRootView()).navigate(R.id.nav_item_cart);
+//            Navigation.findNavController(findViewById(android.R.id.content).getRootView()).navigate(R.id.nav_item_cart);
         } else {
             loIntent = new Intent(Activity_Dashboard.this, Activity_QrCodeScanner.class);
             startActivityForResult(loIntent, SCAN_GCARD);
