@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.marketplace.Adapter;
 
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,9 @@ import java.util.List;
 
 public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.ViewHolderItem> {
 
-    private final List<EItemCart> poItemsxx;
+    private final List<OrderListAdapterModel> poItemsxx;
 
-    public Adapter_OrderList(List<EItemCart> foItemsxx){
+    public Adapter_OrderList(List<OrderListAdapterModel> foItemsxx){
         this.poItemsxx = foItemsxx;
     }
 
@@ -34,11 +35,11 @@ public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.Vi
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
         try {
-            EItemCart loItemxxx = poItemsxx.get(position);
+            OrderListAdapterModel loItemxxx = poItemsxx.get(position);
 //            holder.imgProdct.setImageBitmap();
-            holder.txtProdNm.setText("");
-            holder.txtPricex.setText("");
-            holder.txtItemQt.setText("");
+            holder.txtProdNm.setText(loItemxxx.fsProdNme);
+            holder.txtPricex.setText(loItemxxx.fsPricexx);
+            holder.txtItemQt.setText("Qty: " + loItemxxx.fnItemQty);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,6 +63,23 @@ public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.Vi
             txtItemQt = itemView.findViewById(R.id.txt_item_quantity);
         }
 
+    }
+
+    public static class OrderListAdapterModel {
+        public String fsListIdx;
+        public Bitmap foImagexx;
+        public String fsProdNme;
+        public String fsPricexx;
+        public int fnItemQty;
+
+        public OrderListAdapterModel(String fsListIdx, Bitmap foImagexx, String fsProdNme,
+                String fsPricexx, int fnItemQty) {
+            this.fsListIdx = fsListIdx;
+            this.foImagexx = foImagexx;
+            this.fsProdNme = fsProdNme;
+            this.fsPricexx = fsPricexx;
+            this.fnItemQty =fnItemQty;
+        }
     }
 
 }

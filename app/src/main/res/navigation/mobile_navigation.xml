@@ -153,8 +153,8 @@
 
             <argument
                 android:name="args_about"
-                app:argType="integer"
-                android:defaultValue="0"/>
+                android:defaultValue="0"
+                app:argType="integer" />
         </action>
 
     </fragment>

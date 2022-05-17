@@ -206,7 +206,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 Intent loIntent = new Intent(Activity_ProductOverview.this,
                         Activity_PlaceOrder.class);
 
-                OrderList orders = new OrderList();
+                OrderList orders = new OrderList(false);
                 orders.putOrder(new OrderInfoModel(psItemIdx, 1));
                 loIntent.putExtra("sOrderList", orders.getParsedString());
 
