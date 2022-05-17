@@ -193,7 +193,7 @@ public class RedemptionManager implements iGCardSystem{
     }
 
     @Override
-    public void PlaceOrder(List<ERedeemItemInfo> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
+    public void PlaceOrder(List<DRedeemItemInfo.GCardCartItem> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONArray items = new JSONArray();
         JSONObject params = new JSONObject();
         JSONObject details;
@@ -202,8 +202,8 @@ public class RedemptionManager implements iGCardSystem{
         } else {
             for(int x = 0; x < redeemables.size(); x++){
                 details = new JSONObject();
-                details.put("promoidx", redeemables.get(x).getPromoIDx());
-                details.put("itemqtyx", redeemables.get(x).getItemQtyx());
+                details.put("promoidx", redeemables.get(x).sProdctID);
+                details.put("itemqtyx", redeemables.get(x).nItemQtyx);
                 items.put(details);
             }
 

@@ -37,7 +37,7 @@ public interface iGCardSystem {
     void UpdateCartItem(CartItem item, GCardSystem.GCardSystemCallback callback) throws Exception;
     LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems();
     List<EBranchInfo> GetMCBranchesForRedemption();
-    void PlaceOrder(List<ERedeemItemInfo> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception;
+    void PlaceOrder(List<DRedeemItemInfo.GCardCartItem> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception;
     Bitmap GenerateGCardOrderQrCode(String BatchNox) throws Exception;
 
     void DownloadTransactions(GCardSystem.GCardSystemCallback callback) throws Exception;

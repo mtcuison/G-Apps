@@ -92,17 +92,17 @@ public class RedeemablesTransactionTest {
 //            }
 //        });
 
-        poSystem.PlaceOrder(poCartItem, "M001", new GCardSystem.GCardSystemCallback() {
-            @Override
-            public void OnSuccess(String args) {
-                isSuccess = true;
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                isSuccess = false;
-            }
-        });
+//        poSystem.PlaceOrder(poCartItem, "M001", new GCardSystem.GCardSystemCallback() {
+//            @Override
+//            public void OnSuccess(String args) {
+//                isSuccess = true;
+//            }
+//
+//            @Override
+//            public void OnFailed(String message) {
+//                isSuccess = false;
+//            }
+//        });
         assertTrue(isSuccess);
     }
 }
