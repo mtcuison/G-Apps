@@ -25,7 +25,7 @@ public class RRedeemItemInfo implements DRedeemItemInfo {
 
     @Override
     public void insert(ERedeemItemInfo redeemItemInfo) {
-        new InsertAsyncTask(itemDao).execute(redeemItemInfo);
+        itemDao.insert(redeemItemInfo);
     }
 
     @Override

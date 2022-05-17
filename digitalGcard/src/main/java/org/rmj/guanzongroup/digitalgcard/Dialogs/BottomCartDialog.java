@@ -1,13 +1,17 @@
 package org.rmj.guanzongroup.digitalgcard.Dialogs;
 
+import android.app.AlertDialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +21,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
+import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMRedeemables;
@@ -25,7 +32,10 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
 
 //    private VMRedeemables mViewModel;
     private VMGCardSystem mViewModel;
-    private String itemIDxxx;
+
+
+    private String itemTransNox;
+    private String itemPromCode;
     private String itemNamex;
     private double itemPntsx;
 
@@ -36,10 +46,17 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
     private EditText txtQuantity;
     private MaterialButton btnAddToCart;
 
-
+    private Dialog_Loading dialog_loading;
+    private Dialog_SingleButton dialog_success;
     private int Quantity = 1;
 
-    public void setItemIDxxx(String itemIDxxx) { this.itemIDxxx = itemIDxxx; }
+    public void setItemTransNox(String itemTransNox) {
+        this.itemTransNox = itemTransNox;
+    }
+
+    public void setItemPromCode(String itemPromCode) {
+        this.itemPromCode = itemPromCode;
+    }
 
     public void setItemNamex(String itemNamex) { this.itemNamex = itemNamex; }
 
@@ -54,80 +71,79 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
     }
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
-        mViewModel.setInstance(GCardSystem.CoreFunctions.REDEMPTION);
-        mViewModel.getActiveGcard().observe(requireActivity(), gcard ->{
-            lblGcardPoints.setText(String.valueOf(gcard.getAvlPoint()));
-        });
-//        mViewModel.getRemainingActiveCardPoints().observe(requireActivity(),val ->{
-//            lblGcardPoints.setText(String.valueOf(val));
-//        });
-        lblItemName.setText(itemNamex);
-        lblItemPoints.setText(String.valueOf(itemPntsx));
-        lblItemTotPoints.setText(String.valueOf(getTotPoints()));
-//        lblGcardPoints.setText(String.valueOf(new PointsManager(getActivity()).getRemainingGCardPoints()));
+        try{
+            mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
+            mViewModel.setInstance(GCardSystem.CoreFunctions.REDEMPTION);
+            mViewModel.getActiveGcard().observe(requireActivity(), gcard ->{
+                lblGcardPoints.setText(String.valueOf(gcard.getAvlPoint()));
+            });
+            lblItemName.setText(itemNamex);
+            lblItemPoints.setText(String.valueOf(itemPntsx));
+            lblItemTotPoints.setText(String.valueOf(getTotPoints()));
+            btnClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
 
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+            btnAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Quantity += 1;
+                            txtQuantity.setText(String.valueOf(getQuantity()));
+                            lblItemTotPoints.setText(String.valueOf(getTotPoints()));
+                        }
+                    });
+                }
+            });
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Quantity += 1;
-                        txtQuantity.setText(String.valueOf(getQuantity()));
-                        lblItemTotPoints.setText(String.valueOf(getTotPoints()));
-                    }
-                });
-            }
-        });
+            btnDeduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Quantity -= 1;
+                            txtQuantity.setText(String.valueOf(getQuantity()));
+                            lblItemTotPoints.setText(String.valueOf(getTotPoints()));
+                        }
+                    });
+                }
+            });
 
-        btnDeduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Quantity -= 1;
-                        txtQuantity.setText(String.valueOf(getQuantity()));
-                        lblItemTotPoints.setText(String.valueOf(getTotPoints()));
-                    }
-                });
-            }
-        });
+            btnAddToCart.setOnClickListener(v -> {
+                    CartItem item = new CartItem(itemTransNox, itemPromCode, Integer.parseInt(txtQuantity.getText().toString()), Double.parseDouble(lblItemTotPoints.getText().toString()));
+                    mViewModel.addToCart(item, new VMGCardSystem.GcardTransactionCallback() {
+                        @Override
+                        public void onLoad() {
+                            dialog_loading.initDialog("Add to Cart","Adding redeemable item to cart, please wait...");
+                            dialog_loading.show();
+                        }
 
-//        btnAddToCart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//            new CartManager(getActivity()).add(itemIDxxx, Quantity, Double.parseDouble(lblItemTotPoints.getText().toString()),
-//                new CartManager.onAddToCartListener() {
-//                    @Override
-//                    public void onAddToCartSuccess() {
-//                        dismiss();
-//                        toast.setType(CustomToast.CustomToastType.ADDED_TO_CART);
-//                        toast.setMessage("Item added on cart.");
-//                        toast.show();
-//                        new Activity_Redeemables().getInstance().setBadgeView();
-//                        new Activity_DashBoard().getInstance().invalidateOptionsMenu();
-//                        new Fragment_DashBoard().getInstance().refreshUI();
-//                    }
-//
-//                    @Override
-//                    public void onAddToCartFailed(String errorMessage) {
-//                        toast.setType(CustomToast.CustomToastType.WARNING);
-//                        toast.setMessage(errorMessage);
-//                        toast.show();
-//                        dismiss();
-//                    }
-//                });
-//            }
-//        });
+                        @Override
+                        public void onSuccess(String fsMessage) {
+                            dialog_loading.dismiss();
+                            showMessage("Success", fsMessage);
+                        }
+
+                        @Override
+                        public void onFailed(String fsMessage) {
+                            showMessage("Failed", fsMessage);
+                        }
+
+                        @Override
+                        public void onQrGenerate(Bitmap foBitmap) {
+
+                        }
+                    });
+            });
+        }catch (NullPointerException e){
+            showMessage("Error", e.getMessage());
+        }
     }
 
     private void setupWidgets(View v){
@@ -140,9 +156,21 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
         btnAdd = v.findViewById(R.id.btn_bottom_sheet_add);
         btnDeduct = v.findViewById(R.id.btn_bottom_sheet_deduct);
         btnAddToCart = v.findViewById(R.id.btn_bottom_sheet_addToCart);
+        dialog_loading = new Dialog_Loading(requireActivity());
 
     }
-
+    private void showMessage(String fsTitle,String fsMessage){
+        dialog_success = new Dialog_SingleButton(requireActivity());
+        dialog_success.setButtonText("Okay");
+        dialog_success.initDialog(fsTitle, fsMessage, new Dialog_SingleButton.OnButtonClick() {
+            @Override
+            public void onClick(AlertDialog dialog) {
+                dialog.dismiss();
+                dismiss();
+            }
+        });
+        dialog_success.show();
+    }
     private double getTotPoints(){
         return Integer.parseInt(txtQuantity.getText().toString()) * itemPntsx;
     }

@@ -6,11 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
-import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
+import org.rmj.g3appdriver.etc.ItemCartModel;
 
 import java.util.ArrayList;
 import java.util.List;
