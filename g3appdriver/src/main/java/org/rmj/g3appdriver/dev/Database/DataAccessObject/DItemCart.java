@@ -39,6 +39,7 @@ public interface DItemCart {
 
     @Query("SELECT a.sListIDxx AS sListIDxx, " +
             "a.nQuantity AS nQuantity, " +
+            "a.cCheckOut AS cCheckOut, " +
             "b.xModelNme AS xModelNme, " +
             "b.xDescript AS xDescript," +
             "b.nUnitPrce AS nUnitPrce " +
