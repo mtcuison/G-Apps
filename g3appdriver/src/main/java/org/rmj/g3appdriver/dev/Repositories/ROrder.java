@@ -139,6 +139,45 @@ public class ROrder {
         }
     }
 
+    public boolean ForCheckOut(String fsLstngID){
+        try {
+            poCartDao.UpdateForCheckOut(fsLstngID);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+
+    public boolean RemoveForCheckOut(String fsLstngID){
+        try {
+            poCartDao.RemoveForCheckOut(fsLstngID);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean CheckCartItemsForCheckOut(){
+        try{
+            int lnCountxx = poCartDao.CheckCartItemsForOrder();
+            if(lnCountxx > 0){
+                return true;
+            } else {
+                message = "Select items for check out.";
+                return false;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
     public boolean PlaceOrder(List<EItemCart> foItemLst, boolean fcDirect){
         try {
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
@@ -303,6 +342,7 @@ public class ROrder {
             loItem.setListIDxx(fsLstngID);
             loItem.setQuantity(String.valueOf(fnQuantity));
             loItem.setBuyNowxx("1");
+            loItem.setCheckOut("1");
             loItem.setAvlQtyxx("");
             loItem.setCreatedx(new AppConstants().GCARD_DATE_TIME);
             loItem.setTimeStmp(new AppConstants().GCARD_DATE_TIME);
@@ -328,7 +368,7 @@ public class ROrder {
 
     public LiveData<List<DItemCart.oMarketplaceCartItem>> GetItemCartList(boolean cBuyNowxx){
         if(!cBuyNowxx) {
-            return poCartDao.GetCartItemsList();
+            return poCartDao.GetItemsForCheckOut();
         } else {
             return poCartDao.GetBuyNowItem();
         }

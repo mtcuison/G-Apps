@@ -24,6 +24,8 @@ public class EItemCart {
     private String Createdx;
     @ColumnInfo(name = "cTranStat")
     private String TranStat = "0";
+    @ColumnInfo(name = "cCheckOut")
+    private String CheckOut = "0";
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
 
@@ -94,5 +96,13 @@ public class EItemCart {
 
     public void setBuyNowxx(String buyNowxx) {
         BuyNowxx = buyNowxx;
+    }
+
+    public String getCheckOut() {
+        return CheckOut;
+    }
+
+    public void setCheckOut(String checkOut) {
+        CheckOut = checkOut;
     }
 }
