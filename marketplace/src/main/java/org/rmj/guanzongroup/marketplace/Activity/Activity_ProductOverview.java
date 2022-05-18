@@ -209,14 +209,31 @@ public class Activity_ProductOverview extends AppCompatActivity {
                         Activity_CompleteAccountDetails.class);
                 startActivity(loIntent);
             } else {
-                Intent loIntent = new Intent(Activity_ProductOverview.this,
-                        Activity_PlaceOrder.class);
+                mViewModel.buyNow(psItemIdx, 1, new OnTransactionsCallback() {
+                    @Override
+                    public void onLoading() {
+                        poLoading = new Dialog_Loading(Activity_ProductOverview.this);
+                        poLoading.initDialog("Marketplace", "Order processing. Please wait.");
+                        poLoading.show();
+                    }
 
-                OrderList orders = new OrderList(false);
-                orders.putOrder(new OrderInfoModel(psItemIdx, 1));
-                loIntent.putExtra("sOrderList", orders.getParsedString());
+                    @Override
+                    public void onSuccess(String fsMessage) {
+                        poLoading.dismiss();
+                        Intent loIntent = new Intent(Activity_ProductOverview.this,
+                                Activity_PlaceOrder.class);
+                        loIntent.putExtra("cBuyNowxx", true);
+                        startActivity(loIntent);
+                    }
 
-                startActivity(loIntent);
+                    @Override
+                    public void onFailed(String fsMessage) {
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Marketplace", fsMessage, dialog -> dialog.dismiss());
+                        poDialogx.show();
+                    }
+                });
             }
 
         }

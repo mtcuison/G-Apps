@@ -178,14 +178,14 @@ public class ROrder {
         }
     }
 
-    public boolean PlaceOrder(List<EItemCart> foItemLst, boolean fcDirect){
+    public boolean PlaceOrder(List<DItemCart.oMarketplaceCartItem> foItemLst, boolean fcDirect){
         try {
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             JSONArray jaDetail = new JSONArray();
             for(int x = 0; x < foItemLst.size(); x++){
                 JSONObject joDetail = new JSONObject();
-                joDetail.put("sListngID", foItemLst.get(x).getListIDxx());
-                joDetail.put("nQuantity", foItemLst.get(x).getQuantity());
+                joDetail.put("sListngID", foItemLst.get(x).sListIDxx);
+                joDetail.put("nQuantity", foItemLst.get(x).nQuantity);
                 jaDetail.put(joDetail);
             }
 
@@ -365,8 +365,11 @@ public class ROrder {
             return false;
         }
     }
+    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetItemCartList(){
+        return poCartDao.GetCartItemsList();
+    }
 
-    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetItemCartList(boolean cBuyNowxx){
+    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCheckoutItems(boolean cBuyNowxx){
         if(!cBuyNowxx) {
             return poCartDao.GetItemsForCheckOut();
         } else {

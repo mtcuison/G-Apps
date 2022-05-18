@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
@@ -48,11 +49,11 @@ public class VMPlaceOrder extends AndroidViewModel {
         return poAddress.GetFullAddressName(fsBrgyID);
     }
 
-    public LiveData<EProducts> getProductInfo(String fsListID) {
-        return poProdcts.GetProductInfo(fsListID);
+    public LiveData<List<DItemCart.oMarketplaceCartItem>> getCheckoutItems(boolean cBuyNowxx) {
+        return poItmCart.GetCheckoutItems(cBuyNowxx);
     }
 
-    public void placeOrder(List<EItemCart> foItemLst,
+    public void placeOrder(List<DItemCart.oMarketplaceCartItem> foItemLst,
                            PaymentMethod foTypexx,
                            String fsReferNo,
                            boolean fcDirectxx,
@@ -61,7 +62,7 @@ public class VMPlaceOrder extends AndroidViewModel {
     }
 
 
-    private static class PlaceOrderTask extends AsyncTask<List<EItemCart>, Void, Boolean> {
+    private static class PlaceOrderTask extends AsyncTask<List<DItemCart.oMarketplaceCartItem>, Void, Boolean> {
 
         private final ConnectionUtil loConnect;
         private final ROrder loItmCart;
@@ -85,9 +86,9 @@ public class VMPlaceOrder extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(List<EItemCart>... lists) {
+        protected Boolean doInBackground(List<DItemCart.oMarketplaceCartItem>... lists) {
             try {
-                List<EItemCart> loProdcts = lists[0];
+                List<DItemCart.oMarketplaceCartItem> loProdcts = lists[0];
                 if(loConnect.isDeviceConnected()) {
                     boolean isSuccess = false;
                     if(loItmCart.PlaceOrder(loProdcts, fcDirectxx)) {
