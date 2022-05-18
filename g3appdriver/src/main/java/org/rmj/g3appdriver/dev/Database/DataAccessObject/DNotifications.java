@@ -174,6 +174,12 @@ public interface DNotifications {
             "AND cMesgStat == '2'")
     void updateMessageReadStatus(String SenderID, String DateTime);
 
+    @Query("SELECT COUNT(*) FROM Notification_Info_Master a " +
+            "LEFT JOIN Notification_Info_Recepient b " +
+            "ON a.sMesgIDxx = b.sTransNox " +
+            "WHERE b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master)")
+    int GetNotificationCount();
+
     class ClientNotificationInfo{
         public String MesgIDxx;
         public String AppSrcex;
@@ -194,6 +200,7 @@ public interface DNotifications {
         public String Messagex;
         public String Received;
     }
+
 }
 
 

@@ -30,7 +30,10 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.RemoteMessageParser;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class RNotificationInfo {
     private static final String TAG = RNotificationInfo.class.getSimpleName();
@@ -63,7 +66,7 @@ public class RNotificationInfo {
                 poDao.updateNotificationStatusFromOtherDevice(psMesgIDx, lsStatus);
             } else {
                 ENotificationMaster loMaster = new ENotificationMaster();
-                loMaster.setTransNox(getClientNextCode("Notification_Info_Master"));
+                loMaster.setTransNox(CreateUniqueID());
                 loMaster.setMesgIDxx(loParser.getValueOf("transno"));
                 loMaster.setParentxx(loParser.getValueOf("parent"));
                 loMaster.setCreatedx(loParser.getValueOf("stamp"));
@@ -125,9 +128,9 @@ public class RNotificationInfo {
                     message = loError.getString("message");
                     return false;
                 } else {
-
+                    poDao.updateRecipientRecievedStatus("lsMessageID" ,new AppConstants().GCARD_DATE_TIME);
+                    return true;
                 }
-                return true;
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -136,15 +139,29 @@ public class RNotificationInfo {
         }
     }
 
-    private String getClientNextCode(String fsTable){
-        return "";
-    }
-
     public LiveData<Integer> GetUnreadMessagesCount(){
         return poDao.getUnreadMessagesCount();
     }
 
     public LiveData<List<DNotifications.ClientNotificationInfo>> GetClientNotificationList(){
         return poDao.getClientNotificationList();
+    }
+
+    private String CreateUniqueID(){
+        String lsUniqIDx = "";
+        try{
+            String lsBranchCd = "MX01";
+            String lsCrrYear = new SimpleDateFormat("yy", Locale.getDefault()).format(new Date());
+            StringBuilder loBuilder = new StringBuilder(lsBranchCd);
+            loBuilder.append(lsCrrYear);
+
+            int lnLocalID = poDao.GetNotificationCount() + 1;
+            String lsPadNumx = String.format("%05d", lnLocalID);
+            loBuilder.append(lsPadNumx);
+            lsUniqIDx = loBuilder.toString();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return lsUniqIDx;
     }
 }
