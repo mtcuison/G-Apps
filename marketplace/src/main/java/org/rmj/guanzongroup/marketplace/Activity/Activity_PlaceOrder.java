@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
 import org.rmj.g3appdriver.etc.PaymentMethod;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_OrderList;
@@ -58,14 +60,14 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            finish();
+            popUpCloseConfirmationDialog();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        popUpCloseConfirmationDialog();
     }
 
     private void getExtras() {
@@ -171,5 +173,43 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                 }
         });
     }
+    private void popUpCloseConfirmationDialog() {
+        Dialog_DoubleButton loDblDiag = new Dialog_DoubleButton(Activity_PlaceOrder.this);
+        loDblDiag.setButtonText("Yes", "No");
+        loDblDiag.initDialog("Marketplace", "Are you sure you want to cancel placing your order?",
+                new Dialog_DoubleButton.OnDialogConfirmation() {
+            @Override
+            public void onConfirm(AlertDialog dialog) {
+                dialog.dismiss();
+                mViewModel.cancelBuyNow(cIsBuyNow, new OnTransactionsCallback() {
+                    @Override
+                    public void onLoading() {
+                        poLoading = new Dialog_Loading(Activity_PlaceOrder.this);
+                        poLoading.initDialog("Marketplace", "Processing. Please wait.");
+                        poLoading.show();
+                    }
+
+                    @Override
+                    public void onSuccess(String fsMessage) {
+                        poLoading.dismiss();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailed(String fsMessage) {
+                        poLoading.dismiss();
+                        Log.e("Cancel Order", fsMessage);
+                    }
+                });
+            }
+
+            @Override
+            public void onCancel(AlertDialog dialog) {
+                dialog.dismiss();
+            }
+        });
+        loDblDiag.show();
+    }
+
 
 }

@@ -53,6 +53,12 @@ public class VMPlaceOrder extends AndroidViewModel {
         return poItmCart.GetCheckoutItems(cBuyNowxx);
     }
 
+    public void cancelBuyNow(boolean fromBuyNow, OnTransactionsCallback foCallBck) {
+        if(fromBuyNow) {
+            new CancelBuyNowTask(application, foCallBck).execute();
+        }
+    }
+
     public void placeOrder(List<DItemCart.oMarketplaceCartItem> foItemLst,
                            PaymentMethod foTypexx,
                            String fsReferNo,
@@ -61,6 +67,53 @@ public class VMPlaceOrder extends AndroidViewModel {
         new PlaceOrderTask(application, foTypexx, fsReferNo, fcDirectxx, foCallBck).execute(foItemLst);
     }
 
+
+    private static class CancelBuyNowTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final ROrder loItmCart;
+        private final ConnectionUtil loConnect;
+        private final OnTransactionsCallback loCallBck;
+        private String lsMessage = "";
+
+        private CancelBuyNowTask(Application application, OnTransactionsCallback foCallBck) {
+            this.loItmCart = new ROrder(application);
+            this.loConnect = new ConnectionUtil(application);
+            this.loCallBck = foCallBck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loCallBck.onLoading();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                if(loConnect.isDeviceConnected()) {
+                    return loItmCart.CancelBuyNow();
+                } else {
+                    lsMessage = AppConstants.SERVER_NO_RESPONSE();
+                    return false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsMessage = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean) {
+                loCallBck.onSuccess(lsMessage);
+            } else {
+                loCallBck.onFailed(lsMessage);
+            }
+        }
+
+    }
 
     private static class PlaceOrderTask extends AsyncTask<List<DItemCart.oMarketplaceCartItem>, Void, Boolean> {
 
