@@ -7,17 +7,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
-import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
+import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.g3appdriver.etc.PaymentMethod;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_OrderList;
@@ -36,9 +34,10 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     private Dialog_Loading poLoading;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
-    private TextView txtClient, txtMobile, txtAddrss, btnTxtPlc;
+    private TextView txtClient, txtMobile, txtAddrss, txtSubTot, txtShipFe, txtOthFee, txtTotalx,
+            btnTxtPlc;
 
-    private final List<DItemCart.oMarketplaceCartItem> poLstOrder = new ArrayList<>();
+    private List<DItemCart.oMarketplaceCartItem> poLstOrder = new ArrayList<>();
     private boolean cIsBuyNow;
 
     @Override
@@ -57,26 +56,20 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            finish();
+            popUpCloseConfirmationDialog();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        popUpCloseConfirmationDialog();
     }
 
     private void getExtras() {
         if(getIntent().hasExtra("cBuyNowxx")) {
             cIsBuyNow = getIntent().getBooleanExtra("cBuyNowxx", true);
         }
-        mViewModel.getCheckoutItems(cIsBuyNow).observe(Activity_PlaceOrder.this, orders -> {
-            if(orders != null) {
-                Log.e("Shamawaasada", String.valueOf(orders.size()));
-                poLstOrder.addAll(orders);
-            }
-        });
     }
 
     private void initViews() {
@@ -85,8 +78,11 @@ public class Activity_PlaceOrder extends AppCompatActivity {
         txtClient = findViewById(R.id.txt_client_name);
         txtMobile = findViewById(R.id.txt_mobile_no);
         txtAddrss = findViewById(R.id.txt_address);
+        txtSubTot = findViewById(R.id.txt_sub_total);
+        txtShipFe = findViewById(R.id.txt_shipping_fee);
+        txtOthFee = findViewById(R.id.txt_other_fee);
+        txtTotalx = findViewById(R.id.txt_total_price);
         btnTxtPlc = findViewById(R.id.btnText_place_order);
-
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(Activity_PlaceOrder.this));
         recyclerView.setHasFixedSize(true);
@@ -103,7 +99,6 @@ public class Activity_PlaceOrder extends AppCompatActivity {
         setDefaultShipping();
         setDefaultPayMethod();
         setOrderList();
-        setBreakdown();
     }
 
     private void setDefaultShipping() {
@@ -130,14 +125,35 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     }
 
     private void setOrderList() {
-        final Adapter_OrderList loAdapter = new Adapter_OrderList(poLstOrder);
-        Log.e("Shawaram", String.valueOf(loAdapter.getItemCount()));
-        loAdapter.notifyDataSetChanged();
-        recyclerView.setAdapter(loAdapter);
+        mViewModel.getCheckoutItems(cIsBuyNow).observe(Activity_PlaceOrder.this, orders -> {
+            if(orders != null) {
+                poLstOrder = orders;
+                final Adapter_OrderList poAdapter = new Adapter_OrderList(orders);
+                poAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(poAdapter);
+                setBreakdown(orders);
+            }
+        });
     }
 
-    private void setBreakdown () {
+    private void setBreakdown (List<DItemCart.oMarketplaceCartItem> orders) {
+        double lnSubTotl = 0.0;
+        double lnShipFee = 0.0;
+        double lnOthrFee = 0.0;
 
+        if(orders.size() > 0) {
+            for(int x = 0; x < orders.size(); x++) {
+                lnSubTotl += Double.parseDouble(orders.get(x).nUnitPrce)
+                        * Integer.parseInt(orders.get(x).nQuantity);
+            }
+        }
+
+        double lnTotalPr = lnSubTotl + lnShipFee + lnOthrFee;
+
+        txtSubTot.setText(CashFormatter.parse(String.valueOf(lnSubTotl)));
+        txtShipFe.setText(CashFormatter.parse(String.valueOf(lnShipFee)));
+        txtOthFee.setText(CashFormatter.parse(String.valueOf(lnOthrFee)));
+        txtTotalx.setText(CashFormatter.parse(String.valueOf(lnTotalPr)));
     }
 
     private void placeOrder () {
@@ -171,6 +187,46 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                     poDialogx.show();
                 }
         });
+    }
+
+    private void popUpCloseConfirmationDialog() {
+        Dialog_DoubleButton loDblDiag = new Dialog_DoubleButton(Activity_PlaceOrder.this);
+        loDblDiag.setButtonText("Yes", "No");
+        loDblDiag.initDialog("Marketplace", "Are you sure you want to cancel placing your order?",
+                new Dialog_DoubleButton.OnDialogConfirmation() {
+            @Override
+            public void onConfirm(AlertDialog dialog) {
+                dialog.dismiss();
+                mViewModel.cancelBuyNow(cIsBuyNow, new OnTransactionsCallback() {
+                    @Override
+                    public void onLoading() {
+                        poLoading = new Dialog_Loading(Activity_PlaceOrder.this);
+                        poLoading.initDialog("Marketplace", "Processing. Please wait.");
+                        poLoading.show();
+                    }
+
+                    @Override
+                    public void onSuccess(String fsMessage) {
+                        poLoading.dismiss();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailed(String fsMessage) {
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Marketplace", fsMessage, dialog -> dialog.dismiss());
+                        poDialogx.show();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancel(AlertDialog dialog) {
+                dialog.dismiss();
+            }
+        });
+        loDblDiag.show();
     }
 
 }
