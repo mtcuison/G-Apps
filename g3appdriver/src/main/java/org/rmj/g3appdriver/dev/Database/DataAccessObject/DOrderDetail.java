@@ -13,8 +13,14 @@ import java.util.List;
 public interface DOrderDetail {
 
     @Insert
-    void SaveDetailOrder(List<EOrderDetail> foVal);
+    void SaveDetailOrder(EOrderDetail foVal);
 
     @Query("SELECT * FROM MarketPlace_Order_Detail WHERE sTransNox =:fsTransNo")
     LiveData<List<EOrderDetail>> GetOrderDetail(String fsTransNo);
+
+    @Query("SELECT COUNT(sTransNox) FROM MarketPlace_Order_Detail")
+    int CheckIfDetailHasRecord();
+
+    @Query("SELECT dTimeStmp FROM MarketPlace_Order_Detail ORDER BY dTimeStmp DESC LIMIT 1")
+    String getDetailLatestTimeStmp();
 }

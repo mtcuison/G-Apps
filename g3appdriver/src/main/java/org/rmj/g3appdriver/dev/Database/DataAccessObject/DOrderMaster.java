@@ -1,5 +1,6 @@
 package org.rmj.g3appdriver.dev.Database.DataAccessObject;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -15,5 +16,12 @@ public interface DOrderMaster {
     @Query("SELECT * FROM MarketPlace_Order_Master WHERE sTransNox=:fsTransNo")
     EOrderMaster CheckOrderMasterIfExist(String fsTransNo);
 
-//    void UpdateMasterRecord();
+    @Query("SELECT COUNT(sTransNox) FROM MarketPlace_Order_Master")
+    int CheckIfMasterHasRecord();
+
+    @Query("SELECT dTimeStmp FROM MarketPlace_Order_Detail ORDER BY dTimeStmp DESC LIMIT 1")
+    String getMasterLatestTimeStmp();
+
+    @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master")
+    LiveData<Integer> GetToPayOrders();
 }

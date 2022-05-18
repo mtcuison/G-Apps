@@ -19,6 +19,22 @@ public interface DItemCart {
     @Query("SELECT COUNT(*) FROM MarketPlace_Cart WHERE sUserIDxx = (SELECT sUserIDxx FROM Client_Info_Master)")
     LiveData<Integer> GetCartItemCount();
 
+    @Query("SELECT COUNT(*) FROM MarketPlace_Cart")
+    int CheckIfCartHasRecord();
+
+    @Query("SELECT dTimeStmp FROM MarketPlace_Cart ORDER BY dTimeStmp DESC LIMIT 1")
+    String GetLatestCartTimeStamp();
+
+    @Query("SELECT * FROM MarketPlace_Cart WHERE cBuyNowxx = '1' AND cCheckOut = '1'")
+    LiveData<List<oMarketplaceCartItem>> CheckCartIfHasForPlaceOrder();
+
+    @Query("SELECT COUNT(*) FROM MarketPlace_Cart " +
+            "WHERE sListIDxx =:fsListID " +
+            "AND sUserIDxx = (SELECT sUserIDxx FROM Client_Info_Master) " +
+            "AND cBuyNowxx = '1' " +
+            "AND cCheckOut = '1'")
+    int CheckIfItemForBuyNowExist(String fsListID);
+
     @Query("SELECT * FROM MarketPlace_Cart WHERE sListIDxx=:fsListID")
     EItemCart CheckIFItemExist(String fsListID);
 

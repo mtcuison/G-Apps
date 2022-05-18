@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.guanzonapp.Activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonapp.Service.OnLoginReceiver;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
@@ -53,6 +55,8 @@ public class Activity_Dashboard extends AppCompatActivity {
 
     private TextView lblBadge;
     private static final int SCAN_GCARD = 1;
+
+    private final OnLoginReceiver poLogRcv = new OnLoginReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +99,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                     Menu nav_Menu = navigationView.getMenu();
 
                     //Disable Pre-Termination page untill project is develop...
+                    nav_Menu.findItem(R.id.nav_wishlist).setVisible(false);
                     nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
                     nav_Menu.findItem(R.id.nav_customer_service).setVisible(false);
                     if (eGcardApp == null) {
@@ -140,13 +145,18 @@ public class Activity_Dashboard extends AppCompatActivity {
             }
         });
 
-//        lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-//        navigationView.getMenu().findItem(R.id.nav_purchases).setActionView(lblBadge);
-//        lblBadge.setText(GetBadgeValue(10));
-
-//        lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-//        navigationView.getMenu().findItem(R.id.nav_wishlist).setActionView(lblBadge);
-//        lblBadge.setText(GetBadgeValue(10));
+        mViewModel.GetToPayOrders().observe(Activity_Dashboard.this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer count) {
+                try{
+                    lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+                    navigationView.getMenu().findItem(R.id.nav_purchases).setActionView(lblBadge);
+                    lblBadge.setText(GetBadgeValue(count));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
 
         navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(menuItem -> {
             Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_Dashboard.this);
@@ -211,6 +221,19 @@ public class Activity_Dashboard extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        IntentFilter intentFilter = new IntentFilter("android.intent.action.SUCCESS_LOGIN");
+        registerReceiver(poLogRcv, intentFilter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(poLogRcv);
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent loIntent;
         if(item.getItemId() == android.R.id.home){
@@ -245,7 +268,12 @@ public class Activity_Dashboard extends AppCompatActivity {
             try {
                 Menu nav_Menu = navigationView.getMenu();
                 if(eClientinfo != null) {
-                    String lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
+                    String lsFullNme;
+                    if(eClientinfo.getClientID() != null) {
+                        lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
+                    } else {
+                        lsFullNme = eClientinfo.getUserName();
+                    }
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
                     txtFullNm.setText(Objects.requireNonNull(lsFullNme));

@@ -73,6 +73,10 @@ public class VMHome extends AndroidViewModel {
         return poOrder.GetCartItemCount();
     }
 
+    public LiveData<Integer> GetToPayOrders(){
+        return poOrder.GetToPayOrders();
+    }
+
     public void ViewGCardQrCode(OnViewGCardQrCode callback){
         new CreateGCardQrCodeTask(callback).execute();
     }

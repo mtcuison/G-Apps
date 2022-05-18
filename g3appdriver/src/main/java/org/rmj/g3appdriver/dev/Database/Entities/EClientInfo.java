@@ -16,6 +16,8 @@ public class EClientInfo {
     private String ClientID;
     @ColumnInfo(name = "sEmailAdd")
     private String EmailAdd;
+    @ColumnInfo(name = "sUserName")
+    private String UserName;
     @ColumnInfo(name = "sLastName")
     private String LastName;
     @ColumnInfo(name = "sFrstName")
@@ -81,6 +83,14 @@ public class EClientInfo {
 
     public void setEmailAdd(String emailAdd) {
         EmailAdd = emailAdd;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
     }
 
     public String getLastName() {

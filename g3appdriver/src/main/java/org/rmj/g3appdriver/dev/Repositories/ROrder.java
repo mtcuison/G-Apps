@@ -12,6 +12,8 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderDetail;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderMaster;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
+import org.rmj.g3appdriver.dev.Database.Entities.EOrderDetail;
+import org.rmj.g3appdriver.dev.Database.Entities.EOrderMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
@@ -22,6 +24,7 @@ import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ROrder {
@@ -149,7 +152,6 @@ public class ROrder {
             return false;
         }
     }
-
 
     public boolean RemoveForCheckOut(String fsLstngID){
         try {
@@ -292,9 +294,13 @@ public class ROrder {
     public boolean ImportMarketPlaceItemCart(){
         try{
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            JSONObject params = new JSONObject();
+            if(poCartDao.CheckIfCartHasRecord() > 0){
+                params.put("dTimeStmp", poCartDao.GetLatestCartTimeStamp());
+            }
             String lsResponse = WebClient.httpsPostJSon(
                     loApis.getImportCartItems(),
-                    new JSONObject().toString(),
+                    params.toString(),
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
                 message = "Unable to retrieve server response.";
@@ -307,32 +313,31 @@ public class ROrder {
                     message = loError.getString("message");
                     return false;
                 } else {
-                    DItemCart loCart = GGC_GuanzonAppDB.getInstance(mContext).itemCartDao();
                     JSONArray jaDetail = loResponse.getJSONArray("detail");
                     for(int x = 0; x < jaDetail.length(); x++){
                         EItemCart loDetail = new EItemCart();
                         JSONObject loJson = jaDetail.getJSONObject(x);
                         loDetail.setUserIDxx(loJson.getString("sUserIDxx"));
-                        loDetail.setUserIDxx(loJson.getString("sListIDxx"));
-                        loDetail.setUserIDxx(loJson.getString("nQuantity"));
-                        loDetail.setUserIDxx(loJson.getString("nAvlQtyxx"));
-                        loDetail.setUserIDxx(loJson.getString("dCreatedx"));
-                        loDetail.setUserIDxx(loJson.getString("cTranStat"));
-                        loDetail.setUserIDxx(loJson.getString("dTimeStmp"));
-                        loCart.SaveItemInfo(loDetail);
+                        loDetail.setListIDxx(loJson.getString("sListngID"));
+                        loDetail.setQuantity(loJson.getString("nQuantity"));
+                        loDetail.setAvlQtyxx(loJson.getString("nAvlQtyxx"));
+                        loDetail.setCreatedx(loJson.getString("dCreatedx"));
+                        loDetail.setTranStat(loJson.getString("cTranStat"));
+                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poCartDao.SaveItemInfo(loDetail);
                     }
                     return true;
                 }
             }
         } catch (Exception e){
             e.printStackTrace();
+            message = e.getMessage();
             return false;
         }
     }
 
     public LiveData<Integer> GetCartItemCount(){
-        DItemCart loCart = GGC_GuanzonAppDB.getInstance(mContext).itemCartDao();
-        return loCart.GetCartItemCount();
+        return poCartDao.GetCartItemCount();
     }
 
     public boolean BuyNow(String fsLstngID, int fnQuantity){
@@ -346,7 +351,9 @@ public class ROrder {
             loItem.setAvlQtyxx("");
             loItem.setCreatedx(new AppConstants().GCARD_DATE_TIME);
             loItem.setTimeStmp(new AppConstants().GCARD_DATE_TIME);
-            poCartDao.SaveItemInfo(loItem);
+            if(poCartDao.CheckIfCartHasRecord() > 0) {
+                poCartDao.SaveItemInfo(loItem);
+            }
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -365,6 +372,7 @@ public class ROrder {
             return false;
         }
     }
+
     public LiveData<List<DItemCart.oMarketplaceCartItem>> GetItemCartList(){
         return poCartDao.GetCartItemsList();
     }
@@ -432,5 +440,81 @@ public class ROrder {
             message = e.getMessage();
             return false;
         }
+    }
+
+    public boolean ImportPurchases(){
+        try{
+            DOrderMaster loMaster = GGC_GuanzonAppDB.getInstance(mContext).orderMasterDao();
+            DOrderDetail loDetail = GGC_GuanzonAppDB.getInstance(mContext).orderDetailDao();
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+
+            JSONObject params = new JSONObject();
+            if(loMaster.CheckIfMasterHasRecord() > 0){
+                params.put("dTimeStmp", loMaster.getMasterLatestTimeStmp());
+            }
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getImportPurchasesAPI(),
+                    params.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if (!lsResult.equalsIgnoreCase("success")) {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    JSONArray jaMaster = loResponse.getJSONArray("master");
+                    JSONArray jaDetail = loResponse.getJSONArray("detail");
+                    for(int x = 0; x < jaMaster.length(); x++){
+                        JSONObject joMaster = jaMaster.getJSONObject(x);
+                        EOrderMaster oMaster = new EOrderMaster();
+                        oMaster.setTransNox(joMaster.getString("sTransNox"));
+                        oMaster.setTransact(joMaster.getString("dTransact"));
+                        oMaster.setExpected(joMaster.getString("dExpected"));
+                        oMaster.setClientID(joMaster.getString("sClientID"));
+                        oMaster.setTranTotl(joMaster.getString("nTranTotl"));
+                        oMaster.setDiscount(joMaster.getString("nDiscount"));
+                        oMaster.setFreightx(joMaster.getString("nFreightx"));
+                        oMaster.setTermCode(joMaster.getString("sTermCode"));
+                        oMaster.setTransact(joMaster.getString("cTranStat"));
+                        oMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
+
+                        loMaster.SaveOrderMaster(oMaster);
+
+                        for(int i = 0; i <jaDetail.length(); i++){
+                            JSONObject joDetail = jaDetail.getJSONObject(i);
+                            EOrderDetail oDetail = new EOrderDetail();
+                            oDetail.setTransNox(joMaster.getString("sTransNox"));
+                            oDetail.setEntryNox(joDetail.getString("nEntryNox"));
+                            oDetail.setQuantity(joDetail.getString("nQuantity"));
+                            oDetail.setUnitPrce(joDetail.getString("nUnitPrce"));
+                            oDetail.setDiscount(joDetail.getString("nDiscount"));
+                            oDetail.setAddDiscx(joDetail.getString("nAddDiscx"));
+                            oDetail.setApproved(joDetail.getString("nApproved"));
+                            oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
+                            oDetail.setCancelld(joDetail.getString("nCancelld"));
+                            oDetail.setReferNox(joDetail.getString("sReferNox"));
+                            oDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
+                            oDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
+                            loDetail.SaveDetailOrder(oDetail);
+                        }
+                    }
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public LiveData<Integer> GetToPayOrders(){
+        DOrderMaster loMaster = GGC_GuanzonAppDB.getInstance(mContext).orderMasterDao();
+        return loMaster.GetToPayOrders();
     }
 }
