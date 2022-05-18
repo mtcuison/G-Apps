@@ -40,7 +40,9 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
         holder.lblItemName.setText(loCart.getItemName());
         holder.lblItemPrice.setText("₱ " + loCart.getItemPrice());
         holder.lblItemQty.setText(loCart.getItemQty());
-        holder.setImage(loCart.getItemImage());
+        if(!loCart.isMarket()){
+            holder.setImage(loCart.getItemImage());
+        }
     }
 
     @Override

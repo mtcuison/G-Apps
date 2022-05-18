@@ -35,8 +35,9 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.R;
-import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
+import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
@@ -167,6 +168,12 @@ public class Activity_Dashboard extends AppCompatActivity {
             return false;
         });
 
+        navigationView.getMenu().findItem(R.id.nav_item_cart).setOnMenuItemClickListener(menuItem -> {
+            Intent intent = new Intent(Activity_Dashboard.this, Activity_ItemCart.class);
+            intent.putExtra("args", "1");
+            startActivity(intent);
+            return false;
+        });
         setUpHeader(navigationView);
     }
 

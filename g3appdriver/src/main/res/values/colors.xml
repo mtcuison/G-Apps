@@ -11,4 +11,5 @@
     <color name="white">#FFFFFF</color>
     <color name="status_bar">#0A0A0A</color>
     <color name="guanzon_digital_light_grey">#f0f0f5</color>
+    <color name="guanzon_digital_red">#ff1a1a</color>
 </resources>
