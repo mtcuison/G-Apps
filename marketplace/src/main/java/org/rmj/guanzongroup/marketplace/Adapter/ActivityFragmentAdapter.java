@@ -35,6 +35,10 @@ public class ActivityFragmentAdapter extends FragmentStatePagerAdapter {
     public void addFragment(Fragment fragment){
         this.mFragmentList.add(fragment);
     }
+    public void clear(){
+        this.mFragmentList.clear();
+        this.mTitle.clear();
+    }
     public void addTitle(String title){
         this.mTitle.add(title);
     }

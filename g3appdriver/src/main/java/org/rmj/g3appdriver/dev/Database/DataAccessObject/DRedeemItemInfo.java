@@ -83,24 +83,26 @@ public interface DRedeemItemInfo {
             "WHERE sTransNox=:TransNox AND sPromoIDx =:PromoIDx")
     void UpdateExistingItemOnCart(String TransNox, String PromoIDx, int ItemQty, double ItemPts);
 
-    @Query("SELECT a.sTransNox AS sProdctID, " +
-            "a.sPromoDsc AS sItemDesc, " +
-            "b.nPointsxx AS nItemPtsx," +
-            "b.nItemQtyx AS nItemQtyx " +
-            "FROM Redeemables a " +
-            "LEFT JOIN Redeem_Item b " +
-            "ON a.sTransNox = b.sPromoIDx " +
-            "WHERE b.sGCardNox = (SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1')")
+    @Query("SELECT a.sTransNox, " +
+            "b.sPromoDsc, " +
+            "a.nPointsxx," +
+            "a.nItemQtyx, " +
+            "b.sImageUrl " +
+            "FROM Redeem_Item a " +
+            "LEFT JOIN Redeemables b " +
+            "ON a.sPromoIDx = b.sPromoCde " +
+            "WHERE a.sGCardNox = (SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1')")
     LiveData<List<GCardCartItem>> GetGCardCartItemList();
 
-    @Query("SELECT * FROM BranchInfo WHERE sBranchCd LIKE 'M%'")
+    @Query("SELECT * FROM BranchInfo WHERE sBranchCd LIKE '%M%'")
     List<EBranchInfo> GetMCBranchesForRedemption();
 
     class GCardCartItem{
-        public String sProdctID;
-        public String sItemDesc;
-        public String nItemPtsx;
+        public String sTransNox;
+        public String sPromoDsc;
+        public String nPointsxx;
         public String nItemQtyx;
+        public String sImageUrl;
     }
 
     class ItemDetail {

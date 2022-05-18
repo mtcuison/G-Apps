@@ -202,7 +202,7 @@ public class RedemptionManager implements iGCardSystem{
         } else {
             for(int x = 0; x < redeemables.size(); x++){
                 details = new JSONObject();
-                details.put("promoidx", redeemables.get(x).sProdctID);
+                details.put("promoidx", redeemables.get(x).sTransNox);
                 details.put("itemqtyx", redeemables.get(x).nItemQtyx);
                 items.put(details);
             }
