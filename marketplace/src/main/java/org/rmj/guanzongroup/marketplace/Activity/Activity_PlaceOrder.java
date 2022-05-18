@@ -198,7 +198,9 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                     @Override
                     public void onFailed(String fsMessage) {
                         poLoading.dismiss();
-                        Log.e("Cancel Order", fsMessage);
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Marketplace", fsMessage, dialog -> dialog.dismiss());
+                        poDialogx.show();
                     }
                 });
             }
