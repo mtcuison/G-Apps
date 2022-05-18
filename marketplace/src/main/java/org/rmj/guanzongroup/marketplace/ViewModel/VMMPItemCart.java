@@ -34,7 +34,7 @@ public class VMMPItemCart extends AndroidViewModel {
     }
 
     public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCartItemsList(){
-        return poOrder.GetItemCartList(true);
+        return poOrder.GetItemCartList();
     }
 
     public LiveData<List<ItemCartModel>> getMarketPlaceItemCart(){

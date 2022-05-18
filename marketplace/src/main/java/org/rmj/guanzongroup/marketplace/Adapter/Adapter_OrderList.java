@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONArray;
-import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
+import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.guanzongroup.marketplace.R;
 
 import java.util.List;
@@ -19,9 +19,11 @@ import java.util.List;
 
 public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.ViewHolderItem> {
 
-    private final List<OrderListAdapterModel> poItemsxx;
+    private final List<DItemCart.oMarketplaceCartItem> poItemsxx;
+    private static double pnSubTotl;
 
-    public Adapter_OrderList(List<OrderListAdapterModel> foItemsxx){
+
+    public Adapter_OrderList(List<DItemCart.oMarketplaceCartItem> foItemsxx){
         this.poItemsxx = foItemsxx;
     }
 
@@ -35,11 +37,12 @@ public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.Vi
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
         try {
-            OrderListAdapterModel loItemxxx = poItemsxx.get(position);
+            DItemCart.oMarketplaceCartItem loItemxxx = poItemsxx.get(position);
 //            holder.imgProdct.setImageBitmap();
-            holder.txtProdNm.setText(loItemxxx.fsProdNme);
-            holder.txtPricex.setText(loItemxxx.fsPricexx);
-            holder.txtItemQt.setText("Qty: " + loItemxxx.fnItemQty);
+            holder.txtProdNm.setText(loItemxxx.xModelNme);
+            holder.txtPricex.setText(CashFormatter.parse(loItemxxx.nUnitPrce));
+            holder.txtItemQt.setText("Qty: " + loItemxxx.nQuantity);
+            pnSubTotl += Double.parseDouble(loItemxxx.nUnitPrce) * Integer.parseInt(loItemxxx.nQuantity);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,6 +51,10 @@ public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.Vi
     @Override
     public int getItemCount() {
         return poItemsxx.size();
+    }
+
+    public double getSubTotal() {
+        return pnSubTotl;
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{
@@ -63,23 +70,6 @@ public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.Vi
             txtItemQt = itemView.findViewById(R.id.txt_item_quantity);
         }
 
-    }
-
-    public static class OrderListAdapterModel {
-        public String fsListIdx;
-        public Bitmap foImagexx;
-        public String fsProdNme;
-        public String fsPricexx;
-        public int fnItemQty;
-
-        public OrderListAdapterModel(String fsListIdx, Bitmap foImagexx, String fsProdNme,
-                String fsPricexx, int fnItemQty) {
-            this.fsListIdx = fsListIdx;
-            this.foImagexx = foImagexx;
-            this.fsProdNme = fsProdNme;
-            this.fsPricexx = fsPricexx;
-            this.fnItemQty =fnItemQty;
-        }
     }
 
 }

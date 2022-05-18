@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
 import org.rmj.g3appdriver.etc.PaymentMethod;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_OrderList;
@@ -33,11 +36,13 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     private VMPlaceOrder mViewModel;
     private Dialog_SingleButton poDialogx;
     private Dialog_Loading poLoading;
+    private  Adapter_OrderList poAdapter;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
     private TextView txtClient, txtMobile, txtAddrss, btnTxtPlc;
 
-    private JSONObject poOrdersx = new JSONObject();
+    private List<DItemCart.oMarketplaceCartItem> poLstOrder = new ArrayList<>();
+    private boolean cIsBuyNow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,21 +60,19 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            finish();
+            popUpCloseConfirmationDialog();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        popUpCloseConfirmationDialog();
     }
 
     private void getExtras() {
-        try {
-            poOrdersx = new JSONObject(getIntent().getStringExtra("sOrderList"));
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if(getIntent().hasExtra("cBuyNowxx")) {
+            cIsBuyNow = getIntent().getBooleanExtra("cBuyNowxx", true);
         }
     }
 
@@ -124,115 +127,91 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     }
 
     private void setOrderList() {
-        try {
-            final List<Adapter_OrderList.OrderListAdapterModel> loListxxx = new ArrayList<>();
-            JSONArray loArray = poOrdersx.getJSONArray("orders");
+        mViewModel.getCheckoutItems(cIsBuyNow).observe(Activity_PlaceOrder.this, orders -> {
+            if(orders != null) {
+                poLstOrder = orders;
+                poAdapter = new Adapter_OrderList(poLstOrder);
+                poAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(poAdapter);
+            }
+        });
+    }
 
-            if(loArray != null && loArray.length() > 0) {
-                for(int x = 0; x < loArray.length(); x++) {
-                    try {
-                        JSONObject loJson = loArray.getJSONObject(x);
-                        int lnItemQty = loJson.getInt("nQuantityx");
-                        mViewModel.getProductInfo(loJson.getString("sListingId"))
-                                .observe(this, eProduct -> {
-                                    try {
-                                        Adapter_OrderList.OrderListAdapterModel model =
-                                                new Adapter_OrderList.OrderListAdapterModel(
-                                                        eProduct.getListngID(),
-                                                        null,
-                                                        eProduct.getModelNme(),
-                                                        eProduct.getUnitPrce(),
-                                                        lnItemQty
-                                                );
-                                        String mm = model.fsProdNme;
-                                        loListxxx.add(model);
-                                    } catch (NullPointerException e) {
-                                        e.printStackTrace();
-                                    }
-                                });
+    private void setBreakdown () {
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+    }
+
+    private void placeOrder () {
+        mViewModel.placeOrder(poLstOrder, PaymentMethod.CashOnDelivery, "", cIsBuyNow,
+                new OnTransactionsCallback() {
+                @Override
+                public void onLoading() {
+                    poLoading = new Dialog_Loading(Activity_PlaceOrder.this);
+                    poLoading.initDialog("Place Order", "Placing Order. Please wait.");
+                    poLoading.show();
+                }
+
+                @Override
+                public void onSuccess(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Place Order", "Order placed successfully.", dialog -> {
+                            dialog.dismiss();
+                            finish();
+                    });
+                    poDialogx.show();
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Place Order", fsMessage, dialog -> {
+                        dialog.dismiss();
+                    });
+                    poDialogx.show();
+                }
+        });
+    }
+    private void popUpCloseConfirmationDialog() {
+        Dialog_DoubleButton loDblDiag = new Dialog_DoubleButton(Activity_PlaceOrder.this);
+        loDblDiag.setButtonText("Yes", "No");
+        loDblDiag.initDialog("Marketplace", "Are you sure you want to cancel placing your order?",
+                new Dialog_DoubleButton.OnDialogConfirmation() {
+            @Override
+            public void onConfirm(AlertDialog dialog) {
+                dialog.dismiss();
+                mViewModel.cancelBuyNow(cIsBuyNow, new OnTransactionsCallback() {
+                    @Override
+                    public void onLoading() {
+                        poLoading = new Dialog_Loading(Activity_PlaceOrder.this);
+                        poLoading.initDialog("Marketplace", "Processing. Please wait.");
+                        poLoading.show();
                     }
-                }
 
-                final Adapter_OrderList loAdapter = new Adapter_OrderList(loListxxx);
-                loAdapter.notifyDataSetChanged();
-                recyclerView.setAdapter(loAdapter);
+                    @Override
+                    public void onSuccess(String fsMessage) {
+                        poLoading.dismiss();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailed(String fsMessage) {
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Marketplace", fsMessage, dialog -> dialog.dismiss());
+                        poDialogx.show();
+                    }
+                });
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
-    private void setBreakdown() {
-
-    }
-
-    private void placeOrder() {
-        try {
-            if(poOrdersx != null) {
-                mViewModel.placeOrder(
-                        getOrderList(poOrdersx.getJSONArray("orders")),
-                        PaymentMethod.CashOnDelivery,
-                        "",
-                        !poOrdersx.getBoolean("fromCart"),
-                        new OnTransactionsCallback() {
-                            @Override
-                            public void onLoading() {
-                                poLoading = new Dialog_Loading(Activity_PlaceOrder.this);
-                                poLoading.initDialog("Place Order",
-                                        "Placing Order. Please wait.");
-                                poLoading.show();
-                            }
-
-                            @Override
-                            public void onSuccess(String fsMessage) {
-                                poLoading.dismiss();
-                                poDialogx.setButtonText("Okay");
-                                poDialogx.initDialog("Place Order",
-                                        "Order placed successfully.", dialog -> {
-                                    dialog.dismiss();
-                                    finish();
-                                });
-                                poDialogx.show();
-                            }
-
-                            @Override
-                            public void onFailed(String fsMessage) {
-                                poLoading.dismiss();
-                                poDialogx.setButtonText("Okay");
-                                poDialogx.initDialog("Place Order", fsMessage, dialog -> {
-                                    dialog.dismiss();
-                                });
-                                poDialogx.show();
-                            }
-                        }
-                );
+            @Override
+            public void onCancel(AlertDialog dialog) {
+                dialog.dismiss();
             }
-        } catch(JSONException e) {
-            e.printStackTrace();
-        }
+        });
+        loDblDiag.show();
     }
 
-    private List<EItemCart> getOrderList(JSONArray foArray) {
-        List<EItemCart> loItems = new ArrayList<>();
-        if(foArray != null && foArray.length() > 0) {
-            for(int x = 0; x < foArray.length(); x++) {
-                try {
-                    EItemCart loItem = new EItemCart();
-                    JSONObject loJson = foArray.getJSONObject(x);
-
-                    loItem.setListIDxx(loJson.getString("sListingId"));
-                    loItem.setQuantity(String.valueOf(loJson.getInt("nQuantityx")));
-
-                    loItems.add(loItem);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return loItems;
-    }
 
 }
