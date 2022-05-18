@@ -6,6 +6,7 @@ public class ItemCartModel {
     private String itemName;
     private String itemPrice;
     private String itemQty;
+    private boolean isMarket;
     public ItemCartModel(){}
     public String getItemName() {
         return itemName;
@@ -31,6 +32,15 @@ public class ItemCartModel {
 
     public void setItemImage(String itemImage) {
         this.itemImage = itemImage;
+    }
+
+
+    public boolean isMarket() {
+        return isMarket;
+    }
+
+    public void setMarket(boolean market) {
+        isMarket = market;
     }
 
 }

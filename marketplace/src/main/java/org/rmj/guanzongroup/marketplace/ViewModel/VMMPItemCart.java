@@ -74,6 +74,7 @@ public class VMMPItemCart extends AndroidViewModel {
         ArrayList<ItemCartModel> list = new ArrayList<>();
         for(int x = 0; x < foVal.size(); x++){
             ItemCartModel loDetail = new ItemCartModel();
+            loDetail.setMarket(true);
             loDetail.setItemName(foVal.get(x).xModelNme);
             loDetail.setItemPrice(foVal.get(x).nUnitPrce);
             loDetail.setItemQty(foVal.get(x).nQuantity);
