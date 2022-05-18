@@ -34,6 +34,7 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     private VMPlaceOrder mViewModel;
     private Dialog_SingleButton poDialogx;
     private Dialog_Loading poLoading;
+    private  Adapter_OrderList poAdapter;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
     private TextView txtClient, txtMobile, txtAddrss, btnTxtPlc;
@@ -71,14 +72,6 @@ public class Activity_PlaceOrder extends AppCompatActivity {
         if(getIntent().hasExtra("cBuyNowxx")) {
             cIsBuyNow = getIntent().getBooleanExtra("cBuyNowxx", true);
         }
-        mViewModel.getCheckoutItems(cIsBuyNow).observe(Activity_PlaceOrder.this, orders -> {
-            if(orders != null) {
-                poLstOrder = orders;
-                final Adapter_OrderList loAdapter = new Adapter_OrderList(poLstOrder);
-                loAdapter.notifyDataSetChanged();
-                recyclerView.setAdapter(loAdapter);
-            }
-        });
     }
 
     private void initViews() {
@@ -104,6 +97,7 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     private void setOrderPreview() {
         setDefaultShipping();
         setDefaultPayMethod();
+        setOrderList();
         setBreakdown();
     }
 
@@ -128,6 +122,17 @@ public class Activity_PlaceOrder extends AppCompatActivity {
 
     private void setDefaultPayMethod() {
 
+    }
+
+    private void setOrderList() {
+        mViewModel.getCheckoutItems(cIsBuyNow).observe(Activity_PlaceOrder.this, orders -> {
+            if(orders != null) {
+                poLstOrder = orders;
+                poAdapter = new Adapter_OrderList(poLstOrder);
+                poAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(poAdapter);
+            }
+        });
     }
 
     private void setBreakdown () {
