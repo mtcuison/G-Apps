@@ -38,7 +38,7 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView txtClient, txtMobile, txtAddrss, btnTxtPlc;
 
-    private final List<DItemCart.oMarketplaceCartItem> poLstOrder = new ArrayList<>();
+    private List<DItemCart.oMarketplaceCartItem> poLstOrder = new ArrayList<>();
     private boolean cIsBuyNow;
 
     @Override
@@ -73,8 +73,10 @@ public class Activity_PlaceOrder extends AppCompatActivity {
         }
         mViewModel.getCheckoutItems(cIsBuyNow).observe(Activity_PlaceOrder.this, orders -> {
             if(orders != null) {
-                Log.e("Shamawaasada", String.valueOf(orders.size()));
-                poLstOrder.addAll(orders);
+                poLstOrder = orders;
+                final Adapter_OrderList loAdapter = new Adapter_OrderList(poLstOrder);
+                loAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(loAdapter);
             }
         });
     }
@@ -102,7 +104,6 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     private void setOrderPreview() {
         setDefaultShipping();
         setDefaultPayMethod();
-        setOrderList();
         setBreakdown();
     }
 
@@ -127,13 +128,6 @@ public class Activity_PlaceOrder extends AppCompatActivity {
 
     private void setDefaultPayMethod() {
 
-    }
-
-    private void setOrderList() {
-        final Adapter_OrderList loAdapter = new Adapter_OrderList(poLstOrder);
-        Log.e("Shawaram", String.valueOf(loAdapter.getItemCount()));
-        loAdapter.notifyDataSetChanged();
-        recyclerView.setAdapter(loAdapter);
     }
 
     private void setBreakdown () {
