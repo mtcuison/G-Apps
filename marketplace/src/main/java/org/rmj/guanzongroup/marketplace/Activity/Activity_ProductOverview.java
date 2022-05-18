@@ -25,8 +25,6 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductDescription;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
-import org.rmj.guanzongroup.marketplace.Etc.OrderList;
-import org.rmj.guanzongroup.marketplace.Model.OrderInfoModel;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMProductOverview;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;

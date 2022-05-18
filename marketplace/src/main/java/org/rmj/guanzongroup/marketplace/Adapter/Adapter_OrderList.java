@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.marketplace.Adapter;
 
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import java.util.List;
 public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.ViewHolderItem> {
 
     private final List<DItemCart.oMarketplaceCartItem> poItemsxx;
-    private static double pnSubTotl;
 
 
     public Adapter_OrderList(List<DItemCart.oMarketplaceCartItem> foItemsxx){
@@ -42,7 +40,6 @@ public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.Vi
             holder.txtProdNm.setText(loItemxxx.xModelNme);
             holder.txtPricex.setText(CashFormatter.parse(loItemxxx.nUnitPrce));
             holder.txtItemQt.setText("Qty: " + loItemxxx.nQuantity);
-            pnSubTotl += Double.parseDouble(loItemxxx.nUnitPrce) * Integer.parseInt(loItemxxx.nQuantity);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,10 +48,6 @@ public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.Vi
     @Override
     public int getItemCount() {
         return poItemsxx.size();
-    }
-
-    public double getSubTotal() {
-        return pnSubTotl;
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{
