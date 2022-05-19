@@ -6,9 +6,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.guanzongroup.marketplace.R;
@@ -27,19 +27,8 @@ public class Activity_PayOrder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_order);
         mViewModel = new ViewModelProvider(Activity_PayOrder.this).get(VMPayOrder.class);
+        getExtra();
         initViews();
-    }
-
-    @Override
-    public void startActivityForResult(Intent intent, int requestCode) {
-        super.startActivityForResult(intent, requestCode);
-        if(requestCode == RESULT_OK) {
-            if(intent.hasExtra("sTransNox")) {
-                psTransNo = Objects.requireNonNull(intent.getStringExtra("sTransNox"));
-            } else {
-                finish();
-            }
-        }
     }
 
     @Override
@@ -53,6 +42,16 @@ public class Activity_PayOrder extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         popUpCloseConfirmationDialog();
+    }
+
+    private void getExtra() {
+        if(getIntent().hasExtra("sTransNox")) {
+            psTransNo = Objects.requireNonNull(getIntent().getStringExtra("sTransNox"));
+        } else {
+            Toast.makeText(Activity_PayOrder.this, "Cannot find specific transaction.",
+                    Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
 
     private void initViews() {
