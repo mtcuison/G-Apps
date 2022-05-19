@@ -4,11 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.guanzongroup.marketplace.R;
@@ -20,6 +23,8 @@ public class Activity_PayOrder extends AppCompatActivity {
 
     private VMPayOrder mViewModel;
     private Toolbar toolBar;
+    private RecyclerView recyclerView;
+    private MaterialButton btnPayOrd;
     private String psTransNo = "";
 
     @Override
@@ -29,6 +34,10 @@ public class Activity_PayOrder extends AppCompatActivity {
         mViewModel = new ViewModelProvider(Activity_PayOrder.this).get(VMPayOrder.class);
         getExtra();
         initViews();
+        setUpToolbar();
+        displayPaymentOptions();
+
+        btnPayOrd.setOnClickListener(v -> {});
     }
 
     @Override
@@ -55,7 +64,19 @@ public class Activity_PayOrder extends AppCompatActivity {
     }
 
     private void initViews() {
-//        toolBar = findViewById(R.id.toolbar);
+        toolBar = findViewById(R.id.toolbar);
+        recyclerView = findViewById(R.id.recyclerView);
+        btnPayOrd = findViewById(R.id.btnPayOrder);
+    }
+
+    private void setUpToolbar() {
+        setSupportActionBar(toolBar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Pay Order");
+    }
+
+    private void displayPaymentOptions() {
+
     }
 
     private void popUpCloseConfirmationDialog() {
