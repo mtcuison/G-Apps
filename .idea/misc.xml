@@ -36,9 +36,11 @@
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_menu_gallery.xml" value="0.109" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/ic_no_image_available.xml" value="0.1385" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/drawable/sample_image.xml" value="0.1" />
+        <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/layout/dialog_double_button.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/layout/dialog_loading.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/layout/dialog_qr_code.xml" value="0.25" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/layout/dialog_single_button.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/layout/dialog_text_input.xml" value="0.203125" />
         <entry key="..\:/Projects/Android/G-Apps/g3appdriver/src/main/res/menu/marketplace_menu.xml" value="0.1" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/drawable/top_border.xml" value="0.1385" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/activity_pay_order.xml" value="0.20416666666666666" />
@@ -65,7 +67,7 @@
         <entry key="..\:/Projects/Android/G-Apps/notifications/src/main/res/layout/fragment_notifications.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/account_menu_item.xml" value="0.25" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_account_details.xml" value="0.1" />
-        <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_complete_account_details.xml" value="0.1" />
+        <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_complete_account_details.xml" value="0.2430254184748915" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_edit_acount_details.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_forgot_password.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />

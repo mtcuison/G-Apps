@@ -93,6 +93,8 @@
     <string name="lblNext">Next</string>
     <string name="lblPrevious">Previous</string>
     <string name="lblBack">Back</string>
+    <string name="lblConfirm">Confirm</string>
+    <string name="lblCancel">Cancel</string>
     <string name="lblAgree">I Agree</string>
     <string name="lblSetNow">Set Now</string>
     <string name="lblNotSet">Not Set</string>
