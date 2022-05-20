@@ -30,7 +30,6 @@ public class Activity_PayOrder extends AppCompatActivity {
     private Toolbar toolBar;
     private Dialog_SingleButton poDialogx;
     private Dialog_Loading poLoading;
-    private RecyclerView recyclerView;
     private MaterialButton btnPayOrd;
 
     private PaymentMethod poPayMeth;
@@ -77,7 +76,6 @@ public class Activity_PayOrder extends AppCompatActivity {
     private void initViews() {
         toolBar = findViewById(R.id.toolbar);
         poDialogx = new Dialog_SingleButton(Activity_PayOrder.this);
-        recyclerView = findViewById(R.id.recyclerView);
         btnPayOrd = findViewById(R.id.btnPayOrder);
     }
 
@@ -97,8 +95,9 @@ public class Activity_PayOrder extends AppCompatActivity {
             @Override
             public void onConfirm(String fsInputx, AlertDialog dialog) {
                 if(!fsInputx.isEmpty()) {
+                    String lsRefNoxx = fsInputx;
                     dialog.dismiss();
-                    mViewModel.payOrder(psTransNo, poPayMeth, fsInputx, new OnTransactionsCallback() {
+                    mViewModel.payOrder(psTransNo, poPayMeth, lsRefNoxx, new OnTransactionsCallback() {
                         @Override
                         public void onLoading() {
                             poLoading = new Dialog_Loading(Activity_PayOrder.this);
