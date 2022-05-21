@@ -53,6 +53,8 @@ public class VMPlaceOrder extends AndroidViewModel {
     public void cancelBuyNow(boolean fromBuyNow, OnTransactionsCallback foCallBck) {
         if(fromBuyNow) {
             new CancelBuyNowTask(application, foCallBck).execute();
+        } else {
+            foCallBck.onSuccess("");
         }
     }
 
