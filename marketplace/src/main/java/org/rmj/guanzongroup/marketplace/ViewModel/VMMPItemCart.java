@@ -7,12 +7,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
+import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
 
 import java.util.ArrayList;
@@ -95,6 +95,10 @@ public class VMMPItemCart extends AndroidViewModel {
         new RemoveForCheckoutTask(poOrder).execute(fsListIdx);
     }
 
+    public void checkCartItemsForCheckOut(OnTransactionsCallback foCallBck) {
+        new CheckCartItemsForCheckOutTask(poOrder, foCallBck);
+    }
+
     private static class ForCheckoutTask extends AsyncTask<String, Void, Void> {
 
         private final ROrder loItmCart;
@@ -125,6 +129,46 @@ public class VMMPItemCart extends AndroidViewModel {
             loItmCart.RemoveForCheckOut(lsListIdx);
             return null;
         }
+    }
+
+    private static class CheckCartItemsForCheckOutTask extends AsyncTask<String, Void, Boolean> {
+
+        private final ROrder loItmCart;
+        private final OnTransactionsCallback loCallBck;
+        private String lsMessage = "";
+
+        private CheckCartItemsForCheckOutTask(ROrder foItmCart, OnTransactionsCallback foCallBck) {
+            this.loItmCart = foItmCart;
+            this.loCallBck = foCallBck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loCallBck.onLoading();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            String lsListIdx = strings[0];
+            if(loItmCart.CheckCartItemsForCheckOut()) {
+                return true;
+            } else {
+                lsMessage = loItmCart.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean) {
+                loCallBck.onSuccess(lsMessage);
+            } else {
+                loCallBck.onFailed(lsMessage);
+            }
+        }
+
     }
 
 }

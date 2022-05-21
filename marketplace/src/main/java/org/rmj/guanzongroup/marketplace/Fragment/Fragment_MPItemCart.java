@@ -23,8 +23,11 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_PlaceOrder;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ItemCart;
+import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMMPItemCart;
@@ -39,6 +42,8 @@ public class Fragment_MPItemCart extends Fragment {
 
     private RecyclerView recyclerView;
     private LinearLayout noItem, lnMPFooter;
+    private Dialog_Loading poLoading;
+    private Dialog_SingleButton poDialogx;
     private MaterialButton btnCheckOut;
     private TextView lblGrandTotal;
     private Adapter_ItemCart adapter;
@@ -95,10 +100,31 @@ public class Fragment_MPItemCart extends Fragment {
             });
 
             btnCheckOut.setOnClickListener(view ->{
-                Intent loIntent = new Intent(requireActivity(), Activity_PlaceOrder.class);
-                loIntent.putExtra("cBuyNowxx", false);
-                startActivity(loIntent);
+                mViewModel.checkCartItemsForCheckOut(new OnTransactionsCallback() {
+                    @Override
+                    public void onLoading() {
+                        poLoading.initDialog("Item Cart", "Processing. Please wait.");
+                        poLoading.show();
+                    }
+
+                    @Override
+                    public void onSuccess(String fsMessage) {
+                        poLoading.dismiss();
+                        Intent loIntent = new Intent(requireActivity(), Activity_PlaceOrder.class);
+                        loIntent.putExtra("cBuyNowxx", false);
+                        startActivity(loIntent);
+                    }
+
+                    @Override
+                    public void onFailed(String fsMessage) {
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Item Cart", fsMessage, dialog -> dialog.dismiss());
+                        poDialogx.show();
+                    }
+                });
             });
+
         }catch (NullPointerException e){
             Log.e("",e.getMessage());
         }
@@ -106,6 +132,8 @@ public class Fragment_MPItemCart extends Fragment {
     }
 
     private void initWidgets(View view){
+        poLoading = new Dialog_Loading(requireActivity());
+        poDialogx = new Dialog_SingleButton(requireActivity());
         recyclerView = view.findViewById(R.id.recyclerView_MPCart);
         noItem = view.findViewById(R.id.layoutMPNoItem);
         lnMPFooter = view.findViewById(R.id.lnMPFooter);
