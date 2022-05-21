@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -17,10 +18,29 @@ public class VMPayOrder extends AndroidViewModel {
     private final Application application;
     private final ROrder poItmCart;
 
+    private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
+    private final MutableLiveData<PaymentMethod> poPayMeth = new MutableLiveData<>();
+
     public VMPayOrder(@NonNull Application application) {
         super(application);
         this.application = application;
         this.poItmCart = new ROrder(application);
+    }
+
+    public void setTransactionNumber(String fsTransNo) {
+        this.psTransNo.setValue(fsTransNo);
+    }
+
+    public void setPaymentMethod(PaymentMethod foPayMeth) {
+        this.poPayMeth.setValue(foPayMeth);
+    }
+
+    public String getTransactionNumber() {
+        return psTransNo.getValue();
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return poPayMeth.getValue();
     }
 
     public void payOrder(String fsTransNo, PaymentMethod foPayMeth, String fsReferNo,

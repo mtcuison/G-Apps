@@ -3,8 +3,8 @@ package org.rmj.guanzongroup.marketplace.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -19,6 +19,8 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_TextInput;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
+import org.rmj.guanzongroup.marketplace.Fragment.Fragment_PaymentInfo;
+import org.rmj.guanzongroup.marketplace.Fragment.Fragment_PaymentSelection;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMPayOrder;
 
@@ -26,19 +28,24 @@ import java.util.Objects;
 
 public class Activity_PayOrder extends AppCompatActivity {
 
+    private static Activity_PayOrder instance;
     private VMPayOrder mViewModel;
     private Toolbar toolBar;
     private Dialog_SingleButton poDialogx;
     private Dialog_Loading poLoading;
     private MaterialButton btnPayOrd;
 
-    private PaymentMethod poPayMeth;
-    private String psTransNo = "";
+    private Fragment[] poPages = new Fragment[] {
+            new Fragment_PaymentSelection(),
+            new Fragment_PaymentInfo()
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_order);
+        instance = Activity_PayOrder.this;
         mViewModel = new ViewModelProvider(Activity_PayOrder.this).get(VMPayOrder.class);
         getExtra();
         initViews();
@@ -65,7 +72,12 @@ public class Activity_PayOrder extends AppCompatActivity {
 
     private void getExtra() {
         if(getIntent().hasExtra("sTransNox")) {
-            psTransNo = Objects.requireNonNull(getIntent().getStringExtra("sTransNox"));
+            mViewModel.setTransactionNumber(Objects.requireNonNull(getIntent().getStringExtra("sTransNox")));
+            if(getIntent().hasExtra("oPayMethd")) {
+                mViewModel.setPaymentMethod((PaymentMethod) Objects.requireNonNull(
+                        getIntent().getSerializableExtra("oPayMethd")
+                ));
+            }
         } else {
             Toast.makeText(Activity_PayOrder.this, "Cannot find specific transaction.",
                     Toast.LENGTH_LONG).show();
@@ -97,7 +109,9 @@ public class Activity_PayOrder extends AppCompatActivity {
                 if(!fsInputx.isEmpty()) {
                     String lsRefNoxx = fsInputx;
                     dialog.dismiss();
-                    mViewModel.payOrder(psTransNo, poPayMeth, lsRefNoxx, new OnTransactionsCallback() {
+                    mViewModel.payOrder(mViewModel.getTransactionNumber(),
+                            mViewModel.getPaymentMethod(),
+                            lsRefNoxx, new OnTransactionsCallback() {
                         @Override
                         public void onLoading() {
                             poLoading = new Dialog_Loading(Activity_PayOrder.this);
@@ -144,7 +158,7 @@ public class Activity_PayOrder extends AppCompatActivity {
     }
 
     private boolean isMethodSelected() {
-        if(poPayMeth == null) {
+        if(mViewModel.getPaymentMethod() == null) {
             poDialogx.setButtonText("Okay");
             poDialogx.initDialog("Pay Order",
                     "Please select payment method for your order.", dialog -> {
@@ -173,5 +187,13 @@ public class Activity_PayOrder extends AppCompatActivity {
         });
         poDblDiag.show();
     }
+
+    public static Activity_PayOrder getInstance() {
+        return instance;
+    }
+
+//    private void moveToPageNumber(int fnPageNum){
+//        viewPager.setCurrentItem(fnPageNum);
+//    }
 
 }
