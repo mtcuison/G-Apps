@@ -90,8 +90,9 @@ public class Fragment_MPItemCart extends Fragment {
             });
 
             btnCheckOut.setOnClickListener(view ->{
-                startActivity(new Intent(getActivity(), Activity_PlaceOrder.class));
-
+                Intent loIntent = new Intent(requireActivity(), Activity_PlaceOrder.class);
+                loIntent.putExtra("cBuyNowxx", false);
+                startActivity(loIntent);
             });
         }catch (NullPointerException e){
             Log.e("",e.getMessage());
