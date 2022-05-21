@@ -71,7 +71,12 @@ public class Fragment_GCardItemCart extends Fragment {
                     lnGCardFooter.setVisibility(View.VISIBLE);
                     adapter = new Adapter_ItemCart(items, new Adapter_ItemCart.OnCartAction() {
                         @Override
-                        public void onClickAction(String val) {
+                        public void onItemSelect(String fsListIdx) {
+
+                        }
+
+                        @Override
+                        public void onItemDeselect(String fsListIdx) {
 
                         }
                     });

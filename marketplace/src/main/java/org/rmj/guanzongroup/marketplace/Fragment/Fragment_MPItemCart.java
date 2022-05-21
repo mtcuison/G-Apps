@@ -64,8 +64,13 @@ public class Fragment_MPItemCart extends Fragment {
                             lnMPFooter.setVisibility(View.VISIBLE);
                             adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
                                 @Override
-                                public void onClickAction(String val) {
+                                public void onItemSelect(String fsListIdx) {
+                                    mViewModel.forCheckOut(fsListIdx);
+                                }
 
+                                @Override
+                                public void onItemDeselect(String fsListIdx) {
+                                    mViewModel.removeForCheckOut(fsListIdx);
                                 }
                             });
                             Log.e("itemCart = ", String.valueOf(itemCart.size()));

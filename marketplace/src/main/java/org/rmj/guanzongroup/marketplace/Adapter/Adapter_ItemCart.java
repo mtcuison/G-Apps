@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.marketplace.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
     @Override
     public void onBindViewHolder(@NonNull OrderHolder holder, int position) {
         ItemCartModel loCart = poCart.get(position);
+        holder.lsListIdx = loCart.getListingId();
         holder.lblItemName.setText(loCart.getItemName());
         holder.lblItemPrice.setText("₱ " + loCart.getItemPrice());
         holder.lblItemQty.setText(loCart.getItemQty());
@@ -51,7 +53,8 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
     }
 
     public static class OrderHolder extends RecyclerView.ViewHolder{
-
+        public String lsListIdx = "";
+        public CheckBox checkBox;
         public TextView lblItemName;
         public TextView lblItemPrice;
         public TextView lblItemQty;
@@ -59,16 +62,20 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
 
         public OrderHolder(@NonNull View itemView, OnCartAction foCallBck) {
             super(itemView);
+            checkBox = itemView.findViewById(R.id.checkBox);
             lblItemName = itemView.findViewById(R.id.lblProdNme);
             lblItemPrice = itemView.findViewById(R.id.lblProdPrice);
             lblItemQty = itemView.findViewById(R.id.lblQty);
             imgItem = itemView.findViewById(R.id.imgProduct);
 
+            if(checkBox.isChecked()) {
+                foCallBck.onItemSelect(lsListIdx);
+            } else {
+                foCallBck.onItemDeselect(lsListIdx);
+            }
 
-//            lblStActv.setOnClickListener(v -> {
-//                foCallBck.onActivate(txtCardNo.getText().toString().trim());
-//            });
         }
+
         public void setImage(String image){
             Picasso.get().load(image).placeholder(R.drawable.ic_no_image_available)
                     .error(R.drawable.ic_no_image_available).into(imgItem);
@@ -77,7 +84,8 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
     }
 
     public interface OnCartAction {
-        void onClickAction(String val);
+        void onItemSelect(String fsListIdx);
+        void onItemDeselect(String fsListIdx);
     }
 
 }

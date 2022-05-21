@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -32,6 +33,8 @@ public class VMMPItemCart extends AndroidViewModel {
         this.poOrder = new ROrder(application);
 //        generateData();
     }
+
+
 
     public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCartItemsList(){
         return poOrder.GetItemCartList();
@@ -75,6 +78,7 @@ public class VMMPItemCart extends AndroidViewModel {
         for(int x = 0; x < foVal.size(); x++){
             ItemCartModel loDetail = new ItemCartModel();
             loDetail.setMarket(true);
+            loDetail.setListingId(foVal.get(x).sListIDxx);
             loDetail.setItemName(foVal.get(x).xModelNme);
             loDetail.setItemPrice(foVal.get(x).nUnitPrce);
             loDetail.setItemQty(foVal.get(x).nQuantity);
@@ -82,4 +86,45 @@ public class VMMPItemCart extends AndroidViewModel {
         }
         return list;
     }
+
+    public void forCheckOut(String fsListIdx) {
+        new ForCheckoutTask(poOrder).execute(fsListIdx);
+    }
+
+    public void removeForCheckOut(String fsListIdx) {
+        new RemoveForCheckoutTask(poOrder).execute(fsListIdx);
+    }
+
+    private static class ForCheckoutTask extends AsyncTask<String, Void, Void> {
+
+        private final ROrder loItmCart;
+
+        private ForCheckoutTask(ROrder foItmCart) {
+            this.loItmCart = foItmCart;
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            String lsListIdx = strings[0];
+            loItmCart.ForCheckOut(lsListIdx);
+            return null;
+        }
+    }
+
+    private static class RemoveForCheckoutTask extends AsyncTask<String, Void, Void> {
+
+        private final ROrder loItmCart;
+
+        private RemoveForCheckoutTask(ROrder foItmCart) {
+            this.loItmCart = foItmCart;
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            String lsListIdx = strings[0];
+            loItmCart.RemoveForCheckOut(lsListIdx);
+            return null;
+        }
+    }
+
 }
