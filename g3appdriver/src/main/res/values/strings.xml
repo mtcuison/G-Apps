@@ -85,6 +85,7 @@
     <string name="lblBuyNow">Buy Now</string>
     <string name="lblAddtoCart">Add to Cart</string>
     <string name="lblPlaceOrder">Place Order</string>
+    <string name="lblPayOrder">Pay Order</string>
     <string name="lblSave">Save</string>
     <string name="lblUpdate">Update</string>
     <string name="lblLogin">Log In</string>
@@ -93,6 +94,8 @@
     <string name="lblNext">Next</string>
     <string name="lblPrevious">Previous</string>
     <string name="lblBack">Back</string>
+    <string name="lblConfirm">Confirm</string>
+    <string name="lblCancel">Cancel</string>
     <string name="lblAgree">I Agree</string>
     <string name="lblSetNow">Set Now</string>
     <string name="lblNotSet">Not Set</string>
@@ -107,6 +110,7 @@
     <string name="lblNoOrdersAvailable">No Orders Available.</string>
     <string name="lblNoRedeemablesList">No Redeemable Items Available.</string>
     <string name="lblNoCartItem">No Items on Cart.</string>
+    <string name="lblSelectPaymentMethod">Please select a payment method for your order.</string>
 
     <string name="descServiceDate">Your next service date:</string>
 
