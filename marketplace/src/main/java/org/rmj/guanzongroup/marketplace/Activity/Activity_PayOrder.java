@@ -77,6 +77,7 @@ public class Activity_PayOrder extends AppCompatActivity {
                 mViewModel.setPaymentMethod((PaymentMethod) Objects.requireNonNull(
                         getIntent().getSerializableExtra("oPayMethd")
                 ));
+//                moveToPageNumber(1);
             }
         } else {
             Toast.makeText(Activity_PayOrder.this, "Cannot find specific transaction.",
