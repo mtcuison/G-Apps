@@ -42,7 +42,7 @@ public class Adapter_Notifications extends RecyclerView.Adapter<Adapter_Notifica
 
     @Override
     public int getItemCount() {
-        return 1;
+        return poNotif.size();
     }
 
     public static class NotifocationHolder extends RecyclerView.ViewHolder{

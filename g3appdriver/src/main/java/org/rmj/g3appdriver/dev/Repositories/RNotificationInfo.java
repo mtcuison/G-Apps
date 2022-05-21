@@ -128,7 +128,7 @@ public class RNotificationInfo {
                     message = loError.getString("message");
                     return false;
                 } else {
-                    poDao.updateRecipientRecievedStatus("lsMessageID" ,new AppConstants().GCARD_DATE_TIME);
+                    poDao.updateRecipientReceivedStatus(lsMessageID ,new AppConstants().GCARD_DATE_TIME);
                     return true;
                 }
             }

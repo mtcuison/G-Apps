@@ -62,7 +62,7 @@ public class OnLoginReceiver extends BroadcastReceiver {
                     Log.e(TAG, "Failed to download client info. " + loClient.getMessage());
                 }
                 pause();
-                if (!loClient.getClientId().isEmpty()) {
+                if (loClient.getClientId() != null) {
                     ROrder loPurchase = new ROrder(mContext);
                     if (loPurchase.ImportMarketPlaceItemCart()) {
                         Log.d(TAG, "Cart items downloaded successfully.");
