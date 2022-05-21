@@ -100,7 +100,7 @@ public class Activity_PayOrder extends AppCompatActivity {
         return instance;
     }
 
-    private void moveToPageNumber(int fnPageNum){
+    public void moveToPageNumber(int fnPageNum){
         binding.viewPager.setCurrentItem(fnPageNum);
     }
 
