@@ -7,7 +7,7 @@
             android:name=".Activity_PayOrder"
             android:exported="false" />
         <activity
-            android:name=".Activity.Activity_ItemCart"
+            android:name="org.rmj.guanzongroup.guanzonapp.Activity.Activity_ItemCart"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_RatingsReviews"

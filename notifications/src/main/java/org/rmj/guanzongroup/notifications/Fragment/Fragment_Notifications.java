@@ -22,16 +22,11 @@ public class Fragment_Notifications extends Fragment {
     private TextView noNotif;
     private RecyclerView recyclerView;
     private Adapter_Notifications adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
         initViews(view);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMNotifications.class);
         mViewModel.GetClientNotificationList().observe(requireActivity(), notif ->{
             if(notif.size() > 0){
@@ -52,6 +47,8 @@ public class Fragment_Notifications extends Fragment {
                 noNotif.setVisibility(View.VISIBLE);
             }
         });
+
+        return view;
     }
 
     private void initViews(View v) {
