@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -96,7 +97,7 @@ public class VMMPItemCart extends AndroidViewModel {
     }
 
     public void checkCartItemsForCheckOut(OnTransactionsCallback foCallBck) {
-        new CheckCartItemsForCheckOutTask(poOrder, foCallBck);
+        new CheckCartItemsForCheckOutTask(poOrder, foCallBck).execute();
     }
 
     private static class ForCheckoutTask extends AsyncTask<String, Void, Void> {
@@ -131,7 +132,7 @@ public class VMMPItemCart extends AndroidViewModel {
         }
     }
 
-    private static class CheckCartItemsForCheckOutTask extends AsyncTask<String, Void, Boolean> {
+    private static class CheckCartItemsForCheckOutTask extends AsyncTask<Void, Void, Boolean> {
 
         private final ROrder loItmCart;
         private final OnTransactionsCallback loCallBck;
@@ -149,8 +150,7 @@ public class VMMPItemCart extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(String... strings) {
-            String lsListIdx = strings[0];
+        protected Boolean doInBackground(Void... voids) {
             if(loItmCart.CheckCartItemsForCheckOut()) {
                 return true;
             } else {

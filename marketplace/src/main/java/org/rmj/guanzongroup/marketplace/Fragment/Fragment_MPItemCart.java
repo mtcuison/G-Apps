@@ -56,8 +56,15 @@ public class Fragment_MPItemCart extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_mp_item_cart, container, false);
-        mViewModel = new ViewModelProvider(this).get(VMMPItemCart.class);
         initWidgets(v);
+        return v;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMMPItemCart.class);
+
         try {
             mViewModel.GetCartItemsList().observe(requireActivity(), new Observer<List<DItemCart.oMarketplaceCartItem>>() {
                 @Override
@@ -85,8 +92,8 @@ public class Fragment_MPItemCart extends Fragment {
                             recyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
                             adapter.notifyDataSetChanged();
                             double subtotal = 0;
-                            for (int x = 0; x < itemList.size(); x++){
-                                subtotal += Double.parseDouble(itemList.get(x).getItemPrice().replaceAll(",",""));
+                            for (int x = 0; x < itemCart.size(); x++){
+                                subtotal += Double.parseDouble(itemCart.get(x).getItemPrice().replaceAll(",",""));
                             }
                             lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
                         }else {
@@ -99,36 +106,35 @@ public class Fragment_MPItemCart extends Fragment {
                 }
             });
 
-            btnCheckOut.setOnClickListener(view ->{
-                mViewModel.checkCartItemsForCheckOut(new OnTransactionsCallback() {
-                    @Override
-                    public void onLoading() {
-                        poLoading.initDialog("Item Cart", "Processing. Please wait.");
-                        poLoading.show();
-                    }
-
-                    @Override
-                    public void onSuccess(String fsMessage) {
-                        poLoading.dismiss();
-                        Intent loIntent = new Intent(requireActivity(), Activity_PlaceOrder.class);
-                        loIntent.putExtra("cBuyNowxx", false);
-                        startActivity(loIntent);
-                    }
-
-                    @Override
-                    public void onFailed(String fsMessage) {
-                        poLoading.dismiss();
-                        poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Item Cart", fsMessage, dialog -> dialog.dismiss());
-                        poDialogx.show();
-                    }
-                });
-            });
-
         }catch (NullPointerException e){
             Log.e("",e.getMessage());
         }
-        return v;
+
+        btnCheckOut.setOnClickListener(view ->{
+            mViewModel.checkCartItemsForCheckOut(new OnTransactionsCallback() {
+                @Override
+                public void onLoading() {
+                    poLoading.initDialog("Item Cart", "Processing. Please wait.");
+                    poLoading.show();
+                }
+
+                @Override
+                public void onSuccess(String fsMessage) {
+                    poLoading.dismiss();
+                    Intent loIntent = new Intent(requireActivity(), Activity_PlaceOrder.class);
+                    loIntent.putExtra("cBuyNowxx", false);
+                    startActivity(loIntent);
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Item Cart", fsMessage, dialog -> dialog.dismiss());
+                    poDialogx.show();
+                }
+            });
+        });
     }
 
     private void initWidgets(View view){

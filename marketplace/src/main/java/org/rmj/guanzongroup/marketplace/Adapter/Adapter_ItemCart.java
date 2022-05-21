@@ -68,11 +68,14 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
             lblItemQty = itemView.findViewById(R.id.lblQty);
             imgItem = itemView.findViewById(R.id.imgProduct);
 
-            if(checkBox.isChecked()) {
-                foCallBck.onItemSelect(lsListIdx);
-            } else {
-                foCallBck.onItemDeselect(lsListIdx);
-            }
+
+            checkBox.setOnCheckedChangeListener(((buttonView, isChecked) -> {
+                if(isChecked) {
+                    foCallBck.onItemSelect(lsListIdx);
+                } else {
+                    foCallBck.onItemDeselect(lsListIdx);
+                }
+            }));
 
         }
 
