@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -157,35 +158,31 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     }
 
     private void placeOrder () {
-        mViewModel.placeOrder(poLstOrder, PaymentMethod.CashOnDelivery, "", cIsBuyNow,
-                new OnTransactionsCallback() {
-                @Override
-                public void onLoading() {
-                    poLoading = new Dialog_Loading(Activity_PlaceOrder.this);
-                    poLoading.initDialog("Place Order", "Placing Order. Please wait.");
-                    poLoading.show();
-                }
+        mViewModel.placeOrder(poLstOrder, cIsBuyNow, new OnTransactionsCallback() {
+            @Override
+            public void onLoading() {
+                poLoading = new Dialog_Loading(Activity_PlaceOrder.this);
+                poLoading.initDialog("Place Order", "Placing Order. Please wait.");
+                poLoading.show();
+            }
 
-                @Override
-                public void onSuccess(String fsMessage) {
-                    poLoading.dismiss();
-                    poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Place Order", "Order placed successfully.", dialog -> {
-                            dialog.dismiss();
-                            finish();
-                    });
-                    poDialogx.show();
-                }
+            @Override
+            public void onSuccess(String fsMessage) {
+                poLoading.dismiss();
+                Intent loIntent = new Intent(Activity_PlaceOrder.this, Activity_PayOrder.class);
+                loIntent.putExtra("sTransNox", fsMessage);
+                startActivity(loIntent);
+            }
 
-                @Override
-                public void onFailed(String fsMessage) {
-                    poLoading.dismiss();
-                    poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Place Order", fsMessage, dialog -> {
-                        dialog.dismiss();
-                    });
-                    poDialogx.show();
-                }
+            @Override
+            public void onFailed(String fsMessage) {
+                poLoading.dismiss();
+                poDialogx.setButtonText("Okay");
+                poDialogx.initDialog("Place Order", fsMessage, dialog -> {
+                    dialog.dismiss();
+                });
+                poDialogx.show();
+            }
         });
     }
 

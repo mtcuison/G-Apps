@@ -9,15 +9,12 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
-import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
-import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 
 import java.util.List;
@@ -59,12 +56,9 @@ public class VMPlaceOrder extends AndroidViewModel {
         }
     }
 
-    public void placeOrder(List<DItemCart.oMarketplaceCartItem> foItemLst,
-                           PaymentMethod foTypexx,
-                           String fsReferNo,
-                           boolean fcDirectxx,
+    public void placeOrder(List<DItemCart.oMarketplaceCartItem> foItemLst, boolean fcDirectxx,
                            OnTransactionsCallback foCallBck) {
-        new PlaceOrderTask(application, foTypexx, fsReferNo, fcDirectxx, foCallBck).execute(foItemLst);
+        new PlaceOrderTask(application, fcDirectxx, foCallBck).execute(foItemLst);
     }
 
 
@@ -120,21 +114,13 @@ public class VMPlaceOrder extends AndroidViewModel {
         private final ConnectionUtil loConnect;
         private final ROrder loItmCart;
         private final OnTransactionsCallback loCallBck;
-        private final PaymentMethod loPayment;
-        private final String lsReferNo;
         private final boolean fcDirectxx;
         private String lsMessage = "";
 
-        private PlaceOrderTask(Application application,
-                               PaymentMethod foPayment,
-                               String fsReferNo,
-                               boolean fcDirectxx,
-                               OnTransactionsCallback foCallBck) {
+        private PlaceOrderTask(Application application, boolean fcDirectxx, OnTransactionsCallback foCallBck) {
             this.loConnect = new ConnectionUtil(application);
             this.loItmCart = new ROrder(application);
             this.loCallBck = foCallBck;
-            this.loPayment = foPayment;
-            this.lsReferNo = fsReferNo;
             this.fcDirectxx = fcDirectxx;
         }
 
@@ -143,13 +129,13 @@ public class VMPlaceOrder extends AndroidViewModel {
             try {
                 List<DItemCart.oMarketplaceCartItem> loProdcts = lists[0];
                 if(loConnect.isDeviceConnected()) {
-                    boolean isSuccess = false;
                     if(loItmCart.PlaceOrder(loProdcts, fcDirectxx)) {
-                        Thread.sleep(1000);
-                        isSuccess = loItmCart.PayOrder(loItmCart.getTransNox(), loPayment, lsReferNo);
+                        lsMessage = loItmCart.getTransNox();
+                        return true;
+                    } else {
+                        lsMessage = loItmCart.getMessage();
+                        return false;
                     }
-                    lsMessage = loItmCart.getMessage();
-                    return isSuccess;
                 } else {
                     lsMessage = AppConstants.SERVER_NO_RESPONSE();
                     return false;

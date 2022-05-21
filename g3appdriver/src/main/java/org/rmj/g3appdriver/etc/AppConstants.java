@@ -69,7 +69,8 @@ public class AppConstants {
         loError.put("code", "404");
         loError.put("message", "No response receive from server.\n Please check your internet connection \n and try again later.");
         loJson.put("error", loError);
-        return loJson.toString();
+//        return loJson.toString();
+        return loJson.getString("message");
     }
 
     public static String APPROVAL_CODE_EMPTY(String fsMessage) throws Exception{
