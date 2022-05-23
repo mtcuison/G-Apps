@@ -29,6 +29,7 @@
         app:layout_constraintBottom_toTopOf="@id/btnSelect">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/crdGcashx"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -44,7 +45,7 @@
                 android:layout_marginVertical="15dp">
 
                 <RadioButton
-                    android:id="@+id/check_payment0"
+                    android:id="@+id/rdGcashxx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -58,6 +59,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/crdPayMya"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -73,7 +75,7 @@
                 android:layout_marginVertical="15dp">
 
                 <RadioButton
-                    android:id="@+id/check_payment1"
+                    android:id="@+id/rdPayMaya"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -87,6 +89,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/crdCashOD"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -102,7 +105,7 @@
                 android:layout_marginVertical="15dp">
 
                 <RadioButton
-                    android:id="@+id/check_payment2"
+                    android:id="@+id/rdCashOnD"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

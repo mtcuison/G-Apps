@@ -38,6 +38,7 @@ public class Fragment_PaymentInfo extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPayOrder.class);
         poDialogx = new Dialog_SingleButton(requireActivity());
+        displayPaymentInfo();
         binding.btnConfrm.setOnClickListener(v -> {
             if(isMethodSelected()) { payOrder(); }
         });
@@ -47,6 +48,12 @@ public class Fragment_PaymentInfo extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void displayPaymentInfo() {
+        binding.txtPayTyp.setText(mViewModel.getPaymentMethod().toString());
+        binding.txtAccNme.setText("Guanzon Group of Companies");
+        binding.txtMobile.setText("Paymaya");
     }
 
     private void payOrder() {
