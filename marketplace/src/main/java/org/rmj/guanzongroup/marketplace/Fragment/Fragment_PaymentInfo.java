@@ -113,7 +113,7 @@ public class Fragment_PaymentInfo extends Fragment {
     }
 
     private boolean isMethodSelected() {
-        if(mViewModel.getPaymentMethod() == null) {
+        if(mViewModel.getPaymentMethod().getValue() == null) {
             poDialogx.setButtonText("Okay");
             poDialogx.initDialog("Pay Order",
                     "Please select payment method for your order.", dialog -> {
