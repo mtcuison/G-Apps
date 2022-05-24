@@ -79,21 +79,25 @@ public class Activity_PayOrder extends AppCompatActivity {
     }
 
     private void popUpCloseConfirmationDialog() {
-        Dialog_DoubleButton poDblDiag = new Dialog_DoubleButton(Activity_PayOrder.this);
-        poDblDiag.setButtonText("Yes", "No");
-        poDblDiag.initDialog("Order Payment", "Are you sure you want to cancel payment?", new Dialog_DoubleButton.OnDialogConfirmation() {
-            @Override
-            public void onConfirm(AlertDialog dialog) {
-                dialog.dismiss();
-                finish();
-            }
+        if(binding.viewPager.getCurrentItem() > 0) {
+            moveToPageNumber(binding.viewPager.getCurrentItem() - 1);
+        } else {
+            Dialog_DoubleButton poDblDiag = new Dialog_DoubleButton(Activity_PayOrder.this);
+            poDblDiag.setButtonText("Yes", "No");
+            poDblDiag.initDialog("Order Payment", "Are you sure you want to cancel payment?", new Dialog_DoubleButton.OnDialogConfirmation() {
+                @Override
+                public void onConfirm(AlertDialog dialog) {
+                    dialog.dismiss();
+                    finish();
+                }
 
-            @Override
-            public void onCancel(AlertDialog dialog) {
-                dialog.dismiss();
-            }
-        });
-        poDblDiag.show();
+                @Override
+                public void onCancel(AlertDialog dialog) {
+                    dialog.dismiss();
+                }
+            });
+            poDblDiag.show();
+        }
     }
 
     public static Activity_PayOrder getInstance() {
