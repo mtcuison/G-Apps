@@ -51,9 +51,9 @@ public class Fragment_PaymentInfo extends Fragment {
     }
 
     private void displayPaymentInfo() {
-        binding.txtPayTyp.setText(mViewModel.getPaymentMethod().toString());
+        mViewModel.getPaymentMethod().observe(getViewLifecycleOwner(), payMeth -> binding.txtPayTyp.setText(payMeth.toString()));
         binding.txtAccNme.setText("Guanzon Group of Companies");
-        binding.txtMobile.setText("Paymaya");
+        binding.txtMobile.setText("09123456789");
     }
 
     private void payOrder() {
@@ -65,7 +65,7 @@ public class Fragment_PaymentInfo extends Fragment {
                     String lsRefNoxx = fsInputx;
                     dialog.dismiss();
                     mViewModel.payOrder(mViewModel.getTransactionNumber(),
-                            mViewModel.getPaymentMethod(),
+                            mViewModel.getPaymentMethod().getValue(),
                             lsRefNoxx, new OnTransactionsCallback() {
                                 @Override
                                 public void onLoading() {

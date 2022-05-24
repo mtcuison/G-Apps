@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
@@ -39,8 +40,8 @@ public class VMPayOrder extends AndroidViewModel {
         return psTransNo.getValue();
     }
 
-    public PaymentMethod getPaymentMethod() {
-        return poPayMeth.getValue();
+    public LiveData<PaymentMethod> getPaymentMethod() {
+        return poPayMeth;
     }
 
     public void payOrder(String fsTransNo, PaymentMethod foPayMeth, String fsReferNo,

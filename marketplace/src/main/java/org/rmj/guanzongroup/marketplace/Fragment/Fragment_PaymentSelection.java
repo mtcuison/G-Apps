@@ -22,6 +22,8 @@ public class Fragment_PaymentSelection extends Fragment {
     private FragmentPaymentSelectBinding binding;
     private Dialog_SingleButton poDialogx;
 
+    private PaymentMethod poPayMeth;
+
     public Fragment_PaymentSelection() { }
 
     @Override
@@ -38,6 +40,7 @@ public class Fragment_PaymentSelection extends Fragment {
         selectPayment();
         binding.btnSelect.setOnClickListener(v -> {
             if(isMethodSelected()) {
+                mViewModel.setPaymentMethod(poPayMeth);
                 Activity_PayOrder.getInstance().moveToPageNumber(1);
             }
         });
@@ -54,24 +57,24 @@ public class Fragment_PaymentSelection extends Fragment {
             binding.rdGcashxx.setChecked(true);
             binding.rdPayMaya.setChecked(false);
             binding.rdCashOnD.setChecked(false);
-            mViewModel.setPaymentMethod(PaymentMethod.GCash);
+            poPayMeth = PaymentMethod.GCash;
         });
         binding.crdPayMya.setOnClickListener(v -> {
             binding.rdGcashxx.setChecked(false);
             binding.rdPayMaya.setChecked(true);
             binding.rdCashOnD.setChecked(false);
-            mViewModel.setPaymentMethod(PaymentMethod.PayMaya);
+            poPayMeth = PaymentMethod.PayMaya;
         });
         binding.crdCashOD.setOnClickListener(v -> {
             binding.rdGcashxx.setChecked(false);
             binding.rdPayMaya.setChecked(false);
             binding.rdCashOnD.setChecked(true);
-            mViewModel.setPaymentMethod(PaymentMethod.CashOnDelivery);
+            poPayMeth = PaymentMethod.CashOnDelivery;
         });
     }
 
     private boolean isMethodSelected() {
-        if(mViewModel.getPaymentMethod() == null) {
+        if(poPayMeth == null) {
             poDialogx.setButtonText("Okay");
             poDialogx.initDialog("Pay Order",
                     "Please select payment method for your order.", dialog -> {
