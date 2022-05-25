@@ -13,6 +13,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
+import org.rmj.guanzongroup.marketplace.Etc.AddUpdateCartTask;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
 
@@ -23,12 +24,14 @@ public class VMMPItemCart extends AndroidViewModel {
     private static final String TAG = VMMPItemCart.class.getSimpleName();
 
     private final MutableLiveData<List<ItemCartModel>> poItemCart = new MutableLiveData<>();
+    private final Application application;
     private final RClientInfo poClientx;
     private final RGcardApp poGCard;
     private final ROrder poOrder;
 
     public VMMPItemCart(@NonNull Application application) {
         super(application);
+        this.application = application;
         this.poClientx = new RClientInfo(application);
         this.poGCard = new RGcardApp(application);
         this.poOrder = new ROrder(application);
@@ -83,9 +86,14 @@ public class VMMPItemCart extends AndroidViewModel {
             loDetail.setItemName(foVal.get(x).xModelNme);
             loDetail.setItemPrice(foVal.get(x).nUnitPrce);
             loDetail.setItemQty(foVal.get(x).nQuantity);
+            loDetail.setcMktCheck(foVal.get(x).cCheckOut.equalsIgnoreCase("1"));
             list.add(loDetail);
         }
         return list;
+    }
+
+    public void addUpdateCart(String fsListId, int fnItemQty, OnTransactionsCallback foCallBck) {
+        new AddUpdateCartTask(application, fnItemQty, foCallBck).execute(fsListId);
     }
 
     public void forCheckOut(String fsListIdx) {

@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,10 +22,15 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
 
     private final List<ItemCartModel> poCart;
     private final OnCartAction poCallBck;
+    private OnCartQuantityUpdate poQtyCall;
 
     public Adapter_ItemCart(List<ItemCartModel> foCart, OnCartAction foCallBck) {
         this.poCart = foCart;
         this.poCallBck = foCallBck;
+    }
+
+    public void setQuantityCallback(OnCartQuantityUpdate foVal){
+        this.poQtyCall = foVal;
     }
 
     @NonNull
@@ -42,9 +48,31 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
         holder.lblItemName.setText(loCart.getItemName());
         holder.lblItemPrice.setText("₱ " + loCart.getItemPrice());
         holder.lblItemQty.setText(loCart.getItemQty());
+        holder.checkBox.setChecked(loCart.iscMktCheck());
         if(!loCart.isMarket()){
             holder.setImage(loCart.getItemImage());
         }
+
+        holder.checkBox.setOnCheckedChangeListener(((buttonView, isChecked) -> {
+            if(isChecked) {
+                poCallBck.onItemSelect(loCart.getListingId());
+            } else {
+                poCallBck.onItemDeselect(loCart.getListingId());
+            }
+        }));
+
+       holder.btnPlus.setOnClickListener(v -> {
+//            holder.lblItemQty.setText(String.valueOf(Integer.parseInt(holder.lblItemQty.getText().toString()) + 1));
+                poQtyCall.onQuantityClick(loCart.getListingId(), Integer.parseInt(holder.lblItemQty.getText().toString()) + 1);
+        });
+
+        holder.btnMinus.setOnClickListener(v -> {
+            if(Integer.parseInt(holder.lblItemQty.getText().toString()) > 1) {
+//                holder.lblItemQty.setText(String.valueOf(Integer.parseInt(holder.lblItemQty.getText().toString()) - 1));
+                poQtyCall.onQuantityClick(loCart.getListingId(), Integer.parseInt(holder.lblItemQty.getText().toString()) - 1);
+            }
+        });
+
     }
 
     @Override
@@ -59,6 +87,8 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
         public TextView lblItemPrice;
         public TextView lblItemQty;
         public ImageView imgItem;
+        public ImageButton btnPlus;
+        public ImageButton btnMinus;
 
         public OrderHolder(@NonNull View itemView, OnCartAction foCallBck) {
             super(itemView);
@@ -67,16 +97,8 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
             lblItemPrice = itemView.findViewById(R.id.lblProdPrice);
             lblItemQty = itemView.findViewById(R.id.lblQty);
             imgItem = itemView.findViewById(R.id.imgProduct);
-
-
-            checkBox.setOnCheckedChangeListener(((buttonView, isChecked) -> {
-                if(isChecked) {
-                    foCallBck.onItemSelect(lsListIdx);
-                } else {
-                    foCallBck.onItemDeselect(lsListIdx);
-                }
-            }));
-
+            btnPlus = itemView.findViewById(R.id.btnPlus);
+            btnMinus = itemView.findViewById(R.id.btnMinus);
         }
 
         public void setImage(String image){
@@ -91,4 +113,7 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
         void onItemDeselect(String fsListIdx);
     }
 
+    public interface OnCartQuantityUpdate{
+        void onQuantityClick(String fsListIdx, int fnItemQty);
+    }
 }

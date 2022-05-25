@@ -38,6 +38,7 @@ public class Fragment_PaymentInfo extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPayOrder.class);
         poDialogx = new Dialog_SingleButton(requireActivity());
+        displayPaymentInfo();
         binding.btnConfrm.setOnClickListener(v -> {
             if(isMethodSelected()) { payOrder(); }
         });
@@ -49,6 +50,12 @@ public class Fragment_PaymentInfo extends Fragment {
         binding = null;
     }
 
+    private void displayPaymentInfo() {
+        mViewModel.getPaymentMethod().observe(getViewLifecycleOwner(), payMeth -> binding.txtPayTyp.setText(payMeth.toString()));
+        binding.txtAccNme.setText("Guanzon Group of Companies");
+        binding.txtMobile.setText("09123456789");
+    }
+
     private void payOrder() {
         final Dialog_TextInput loDialog = new Dialog_TextInput(requireActivity());
         loDialog.initDialog("Reference Number", new Dialog_TextInput.OnDialogConfirmation() {
@@ -58,7 +65,7 @@ public class Fragment_PaymentInfo extends Fragment {
                     String lsRefNoxx = fsInputx;
                     dialog.dismiss();
                     mViewModel.payOrder(mViewModel.getTransactionNumber(),
-                            mViewModel.getPaymentMethod(),
+                            mViewModel.getPaymentMethod().getValue(),
                             lsRefNoxx, new OnTransactionsCallback() {
                                 @Override
                                 public void onLoading() {
@@ -106,7 +113,7 @@ public class Fragment_PaymentInfo extends Fragment {
     }
 
     private boolean isMethodSelected() {
-        if(mViewModel.getPaymentMethod() == null) {
+        if(mViewModel.getPaymentMethod().getValue() == null) {
             poDialogx.setButtonText("Okay");
             poDialogx.initDialog("Pay Order",
                     "Please select payment method for your order.", dialog -> {
