@@ -12,6 +12,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.RRawData;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
+import org.rmj.guanzongroup.notifications.Etc.GNotifBuilder;
 
 public class GMessagingService extends FirebaseMessagingService {
     private static final String TAG = GMessagingService.class.getSimpleName();
@@ -32,6 +33,7 @@ public class GMessagingService extends FirebaseMessagingService {
         poNotif = new RNotificationInfo(GMessagingService.this);
         poNotif.SaveNotification(message);
         poNotif.SendResponse(poNotif.getMessageID());
+        GNotifBuilder.createFirebaseNotification(GMessagingService.this, message, 1).show();
         Log.e(TAG, "Message received!");
     }
 }

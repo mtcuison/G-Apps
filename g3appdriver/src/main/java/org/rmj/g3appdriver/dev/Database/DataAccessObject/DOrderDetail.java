@@ -23,4 +23,7 @@ public interface DOrderDetail {
 
     @Query("SELECT dTimeStmp FROM MarketPlace_Order_Detail ORDER BY dTimeStmp DESC LIMIT 1")
     String getDetailLatestTimeStmp();
+
+    @Query("SELECT * FROM MarketPlace_Order_Detail WHERE sTransNox =:fsTransNo")
+    LiveData<List<EOrderDetail>> GetDetailInfo(String fsTransNo);
 }

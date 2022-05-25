@@ -72,8 +72,25 @@ public interface DNotifications {
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.cMesgStat <> '5' " +
             "AND a.sMsgTypex == '00000' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master)")
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master) " +
+            "ORDER BY b.dReceived DESC")
     LiveData<List<ClientNotificationInfo>> getClientNotificationList();
+
+    @Query("SELECT a.sMesgIDxx AS MesgIDxx," +
+            "a.sAppSrcex AS AppSrcex," +
+            "b.dReceived AS Received," +
+            "a.sMessagex AS Messagex," +
+            "a.sCreatrID AS CreatrID," +
+            "a.sCreatrNm AS CreatrNm," +
+            "b.cMesgStat AS MesgStat," +
+            "a.sMsgTitle AS MsgTitle," +
+            "a.sMsgTypex AS MsgTypex, " +
+            "a.sDataSndx AS DataInfo " +
+            "FROM Notification_Info_Master a " +
+            "LEFT JOIN Notification_Info_Recepient b " +
+            "ON a.sMesgIDxx = b.sTransNox " +
+            "WHERE a.sMesgIDxx =:fsMesgID")
+    LiveData<ClientNotificationInfo> GetNotificationInfo(String fsMesgID);
 
     @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
             "a.sMsgTitle AS MsgTitle, " +
@@ -188,6 +205,7 @@ public interface DNotifications {
         public String CreatrID;
         public String CreatrNm;
         public String MesgStat;
+        public String DataInfo;
         public String MsgTitle;
         public String MsgTypex;
     }
@@ -200,7 +218,6 @@ public interface DNotifications {
         public String Messagex;
         public String Received;
     }
-
 }
 
 

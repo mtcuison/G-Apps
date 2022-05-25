@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.rmj.guanzongroup.guanzonapp"
-    android:targetSandboxVersion="1"
-    tools:targetApi="o">
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
@@ -37,6 +35,9 @@
         <activity
             android:name=".Activity.Activity_TermsAndConditions"
             android:exported="false" />
+
+        <activity android:name=".Activity.Activity_ItemCart"
+            android:exported="false"/>
         <activity
             android:name="org.rmj.guanzongroup.useraccount.Activity.Activity_AccountDetails"
             android:exported="false"
@@ -44,7 +45,7 @@
         <activity
             android:name=".Activity.Activity_SplashScreen"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -517,4 +517,12 @@ public class ROrder {
         DOrderMaster loMaster = GGC_GuanzonAppDB.getInstance(mContext).orderMasterDao();
         return loMaster.GetToPayOrders();
     }
+
+    public LiveData<EOrderMaster> GetOrderMasterInfo(String fsVal){
+        return poMaster.GetMasterInfo(fsVal);
+    }
+
+    public LiveData<List<EOrderDetail>> GetOrderDetailInfo(String fsVal){
+        return poDetail.GetDetailInfo(fsVal);
+    }
 }

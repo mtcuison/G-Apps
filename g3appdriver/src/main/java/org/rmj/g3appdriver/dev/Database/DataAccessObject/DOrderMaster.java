@@ -24,4 +24,7 @@ public interface DOrderMaster {
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master")
     LiveData<Integer> GetToPayOrders();
+
+    @Query("SELECT * FROM MarketPlace_Order_Master WHERE sTransNox =:fsTransNo")
+    LiveData<EOrderMaster> GetMasterInfo(String fsTransNo);
 }

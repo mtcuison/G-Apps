@@ -139,12 +139,30 @@ public class RNotificationInfo {
         }
     }
 
+    public boolean ParseMessageInfo(RemoteMessage foVal){
+        try{
+            RemoteMessageParser loParser = new RemoteMessageParser(foVal);
+            psMesgIDx = loParser.getValueOf("transno");
+            String lsValue = loParser.getValueOf("infox");
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
     public LiveData<Integer> GetUnreadMessagesCount(){
         return poDao.getUnreadMessagesCount();
     }
 
     public LiveData<List<DNotifications.ClientNotificationInfo>> GetClientNotificationList(){
         return poDao.getClientNotificationList();
+    }
+
+    public LiveData<DNotifications.ClientNotificationInfo> GetNotificationInfo(String fsMesgID){
+        return poDao.GetNotificationInfo(fsMesgID);
     }
 
     private String CreateUniqueID(){
