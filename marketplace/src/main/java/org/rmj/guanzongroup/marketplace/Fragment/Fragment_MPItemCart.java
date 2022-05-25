@@ -64,45 +64,42 @@ public class Fragment_MPItemCart extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMMPItemCart.class);
-
         try {
-            mViewModel.GetCartItemsList().observe(requireActivity(), new Observer<List<DItemCart.oMarketplaceCartItem>>() {
-                @Override
-                public void onChanged(List<DItemCart.oMarketplaceCartItem> items) {
-                    try {
-                        List<ItemCartModel> itemCart = mViewModel.ParseDataForAdapter(items);
-                        if (itemCart.size() > 0){
-                            noItem.setVisibility(View.GONE);
-                            lnMPFooter.setVisibility(View.VISIBLE);
-                            adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
-                                @Override
-                                public void onItemSelect(String fsListIdx) {
-                                    mViewModel.forCheckOut(fsListIdx);
-                                }
 
-                                @Override
-                                public void onItemDeselect(String fsListIdx) {
-                                    mViewModel.removeForCheckOut(fsListIdx);
-                                }
-                            });
-                            Log.e("itemCart = ", String.valueOf(itemCart.size()));
-                            LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
-                            recyclerView.setAdapter(adapter);
-                            recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
-                            adapter.notifyDataSetChanged();
-                            double subtotal = 0;
-                            for (int x = 0; x < itemCart.size(); x++){
-                                subtotal += Double.parseDouble(itemCart.get(x).getItemPrice().replaceAll(",",""));
+            LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
+            mViewModel.GetCartItemsList().observe(getViewLifecycleOwner(), items -> {
+                try {
+                    List<ItemCartModel> itemCart = mViewModel.ParseDataForAdapter(items);
+                    if (itemCart.size() > 0){
+                        noItem.setVisibility(View.GONE);
+                        lnMPFooter.setVisibility(View.VISIBLE);
+                        adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
+                            @Override
+                            public void onItemSelect(String fsListIdx) {
+                                mViewModel.forCheckOut(fsListIdx);
                             }
-                            lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
-                        }else {
-                            noItem.setVisibility(View.VISIBLE);
-                            lnMPFooter.setVisibility(View.GONE);
+
+                            @Override
+                            public void onItemDeselect(String fsListIdx) {
+                                mViewModel.removeForCheckOut(fsListIdx);
+                            }
+                        });
+                        Log.e("itemCart = ", String.valueOf(itemCart.size()));
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                        double subtotal = 0;
+                        for (int x = 0; x < itemCart.size(); x++){
+                            subtotal += Double.parseDouble(itemCart.get(x).getItemPrice().replaceAll(",",""));
                         }
-                    } catch (Exception e){
-                        e.printStackTrace();
+                        lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
+                    }else {
+                        noItem.setVisibility(View.VISIBLE);
+                        lnMPFooter.setVisibility(View.GONE);
                     }
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             });
 

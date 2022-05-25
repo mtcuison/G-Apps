@@ -42,9 +42,18 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
         holder.lblItemName.setText(loCart.getItemName());
         holder.lblItemPrice.setText("₱ " + loCart.getItemPrice());
         holder.lblItemQty.setText(loCart.getItemQty());
+        holder.checkBox.setChecked(loCart.iscMktCheck());
         if(!loCart.isMarket()){
             holder.setImage(loCart.getItemImage());
         }
+
+        holder.checkBox.setOnCheckedChangeListener(((buttonView, isChecked) -> {
+            if(isChecked) {
+                poCallBck.onItemSelect(loCart.getListingId());
+            } else {
+                poCallBck.onItemDeselect(loCart.getListingId());
+            }
+        }));
     }
 
     @Override
@@ -67,16 +76,6 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
             lblItemPrice = itemView.findViewById(R.id.lblProdPrice);
             lblItemQty = itemView.findViewById(R.id.lblQty);
             imgItem = itemView.findViewById(R.id.imgProduct);
-
-
-            checkBox.setOnCheckedChangeListener(((buttonView, isChecked) -> {
-                if(isChecked) {
-                    foCallBck.onItemSelect(lsListIdx);
-                } else {
-                    foCallBck.onItemDeselect(lsListIdx);
-                }
-            }));
-
         }
 
         public void setImage(String image){

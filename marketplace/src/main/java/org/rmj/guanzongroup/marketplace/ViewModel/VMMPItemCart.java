@@ -83,6 +83,7 @@ public class VMMPItemCart extends AndroidViewModel {
             loDetail.setItemName(foVal.get(x).xModelNme);
             loDetail.setItemPrice(foVal.get(x).nUnitPrce);
             loDetail.setItemQty(foVal.get(x).nQuantity);
+            loDetail.setcMktCheck(foVal.get(x).cCheckOut.equalsIgnoreCase("1"));
             list.add(loDetail);
         }
         return list;

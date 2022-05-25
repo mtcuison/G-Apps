@@ -7,6 +7,7 @@ public class ItemCartModel {
     private String itemName;
     private String itemPrice;
     private String itemQty;
+    private boolean cMktCheck;
     private boolean isMarket;
 
     public ItemCartModel(){}
@@ -60,4 +61,11 @@ public class ItemCartModel {
         isMarket = market;
     }
 
+    public boolean iscMktCheck() {
+        return cMktCheck;
+    }
+
+    public void setcMktCheck(boolean cMktCheck) {
+        this.cMktCheck = cMktCheck;
+    }
 }
