@@ -86,6 +86,26 @@ public class Fragment_MPItemCart extends Fragment {
                                 mViewModel.removeForCheckOut(fsListIdx);
                             }
                         });
+                        adapter.setQuantityCallback((fsListIdx, fnItemQty) -> mViewModel.addUpdateCart(fsListIdx, fnItemQty, new OnTransactionsCallback() {
+                            @Override
+                            public void onLoading() {
+                                poLoading.initDialog("Item Cart", "Processing. Please wait.");
+                                poLoading.show();
+                            }
+
+                            @Override
+                            public void onSuccess(String fsMessage) {
+                                poLoading.dismiss();
+                            }
+
+                            @Override
+                            public void onFailed(String fsMessage) {
+                                poLoading.dismiss();
+                                poDialogx.setButtonText("Okay");
+                                poDialogx.initDialog("Item Cart", fsMessage, dialog -> dialog.dismiss());
+                                poDialogx.show();
+                            }
+                        }));
                         Log.e("itemCart = ", String.valueOf(itemCart.size()));
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
