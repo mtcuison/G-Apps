@@ -23,8 +23,11 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_PlaceOrder;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ItemCart;
+import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMMPItemCart;
@@ -39,6 +42,8 @@ public class Fragment_MPItemCart extends Fragment {
 
     private RecyclerView recyclerView;
     private LinearLayout noItem, lnMPFooter;
+    private Dialog_Loading poLoading;
+    private Dialog_SingleButton poDialogx;
     private MaterialButton btnCheckOut;
     private TextView lblGrandTotal;
     private Adapter_ItemCart adapter;
@@ -51,55 +56,107 @@ public class Fragment_MPItemCart extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_mp_item_cart, container, false);
-        mViewModel = new ViewModelProvider(this).get(VMMPItemCart.class);
         initWidgets(v);
-        try {
-            mViewModel.GetCartItemsList().observe(requireActivity(), new Observer<List<DItemCart.oMarketplaceCartItem>>() {
-                @Override
-                public void onChanged(List<DItemCart.oMarketplaceCartItem> items) {
-                    try {
-                        List<ItemCartModel> itemCart = mViewModel.ParseDataForAdapter(items);
-                        if (itemCart.size() > 0){
-                            noItem.setVisibility(View.GONE);
-                            lnMPFooter.setVisibility(View.VISIBLE);
-                            adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
-                                @Override
-                                public void onClickAction(String val) {
-
-                                }
-                            });
-                            Log.e("itemCart = ", String.valueOf(itemCart.size()));
-                            LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
-                            recyclerView.setAdapter(adapter);
-                            recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
-                            adapter.notifyDataSetChanged();
-                            double subtotal = 0;
-                            for (int x = 0; x < itemList.size(); x++){
-                                subtotal += Double.parseDouble(itemList.get(x).getItemPrice().replaceAll(",",""));
-                            }
-                            lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
-                        }else {
-                            noItem.setVisibility(View.VISIBLE);
-                            lnMPFooter.setVisibility(View.GONE);
-                        }
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            btnCheckOut.setOnClickListener(view ->{
-                startActivity(new Intent(getActivity(), Activity_PlaceOrder.class));
-
-            });
-        }catch (NullPointerException e){
-            Log.e("",e.getMessage());
-        }
         return v;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMMPItemCart.class);
+        try {
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
+            mViewModel.GetCartItemsList().observe(getViewLifecycleOwner(), items -> {
+                try {
+                    List<ItemCartModel> itemCart = mViewModel.ParseDataForAdapter(items);
+                    if (itemCart.size() > 0){
+                        noItem.setVisibility(View.GONE);
+                        lnMPFooter.setVisibility(View.VISIBLE);
+                        adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
+                            @Override
+                            public void onItemSelect(String fsListIdx) {
+                                mViewModel.forCheckOut(fsListIdx);
+                            }
+
+                            @Override
+                            public void onItemDeselect(String fsListIdx) {
+                                mViewModel.removeForCheckOut(fsListIdx);
+                            }
+                        });
+                        adapter.setQuantityCallback((fsListIdx, fnItemQty) -> mViewModel.addUpdateCart(fsListIdx, fnItemQty, new OnTransactionsCallback() {
+                            @Override
+                            public void onLoading() {
+                                poLoading.initDialog("Item Cart", "Processing. Please wait.");
+                                poLoading.show();
+                            }
+
+                            @Override
+                            public void onSuccess(String fsMessage) {
+                                poLoading.dismiss();
+                            }
+
+                            @Override
+                            public void onFailed(String fsMessage) {
+                                poLoading.dismiss();
+                                poDialogx.setButtonText("Okay");
+                                poDialogx.initDialog("Item Cart", fsMessage, dialog -> dialog.dismiss());
+                                poDialogx.show();
+                            }
+                        }));
+                        Log.e("itemCart = ", String.valueOf(itemCart.size()));
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                        double subtotal = 0;
+                        for (int x = 0; x < itemCart.size(); x++){
+                            subtotal += Double.parseDouble(itemCart.get(x).getItemPrice().replaceAll(",",""));
+                        }
+                        lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
+                    }else {
+                        noItem.setVisibility(View.VISIBLE);
+                        lnMPFooter.setVisibility(View.GONE);
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            });
+
+        }catch (NullPointerException e){
+            Log.e("",e.getMessage());
+        }
+
+        btnCheckOut.setOnClickListener(view ->{
+            mViewModel.checkCartItemsForCheckOut(new OnTransactionsCallback() {
+                @Override
+                public void onLoading() {
+                    poLoading.initDialog("Item Cart", "Processing. Please wait.");
+                    poLoading.show();
+                }
+
+                @Override
+                public void onSuccess(String fsMessage) {
+                    poLoading.dismiss();
+                    Intent loIntent = new Intent(requireActivity(), Activity_PlaceOrder.class);
+                    loIntent.putExtra("cBuyNowxx", false);
+                    startActivity(loIntent);
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Item Cart", fsMessage, dialog -> dialog.dismiss());
+                    poDialogx.show();
+                }
+            });
+        });
+    }
+
     private void initWidgets(View view){
+        poLoading = new Dialog_Loading(requireActivity());
+        poDialogx = new Dialog_SingleButton(requireActivity());
         recyclerView = view.findViewById(R.id.recyclerView_MPCart);
         noItem = view.findViewById(R.id.layoutMPNoItem);
         lnMPFooter = view.findViewById(R.id.lnMPFooter);

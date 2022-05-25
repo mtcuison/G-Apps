@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.guanzongroup.marketplace.R;
+import org.rmj.g3appdriver.etc.PaymentMethod;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_PayOrder;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMPayOrder;
 import org.rmj.guanzongroup.marketplace.databinding.FragmentPaymentSelectBinding;
 
@@ -18,6 +20,9 @@ public class Fragment_PaymentSelection extends Fragment {
 
     private VMPayOrder mViewModel;
     private FragmentPaymentSelectBinding binding;
+    private Dialog_SingleButton poDialogx;
+
+    private PaymentMethod poPayMeth;
 
     public Fragment_PaymentSelection() { }
 
@@ -31,12 +36,54 @@ public class Fragment_PaymentSelection extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPayOrder.class);
+        poDialogx = new Dialog_SingleButton(requireActivity());
+        selectPayment();
+        binding.btnSelect.setOnClickListener(v -> {
+            if(isMethodSelected()) {
+                mViewModel.setPaymentMethod(poPayMeth);
+                Activity_PayOrder.getInstance().moveToPageNumber(1);
+            }
+        });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void selectPayment() {
+        binding.crdGcashx.setOnClickListener(v -> {
+            binding.rdGcashxx.setChecked(true);
+            binding.rdPayMaya.setChecked(false);
+            binding.rdCashOnD.setChecked(false);
+            poPayMeth = PaymentMethod.GCash;
+        });
+        binding.crdPayMya.setOnClickListener(v -> {
+            binding.rdGcashxx.setChecked(false);
+            binding.rdPayMaya.setChecked(true);
+            binding.rdCashOnD.setChecked(false);
+            poPayMeth = PaymentMethod.PayMaya;
+        });
+        binding.crdCashOD.setOnClickListener(v -> {
+            binding.rdGcashxx.setChecked(false);
+            binding.rdPayMaya.setChecked(false);
+            binding.rdCashOnD.setChecked(true);
+            poPayMeth = PaymentMethod.CashOnDelivery;
+        });
+    }
+
+    private boolean isMethodSelected() {
+        if(poPayMeth == null) {
+            poDialogx.setButtonText("Okay");
+            poDialogx.initDialog("Pay Order",
+                    "Please select payment method for your order.", dialog -> {
+                        dialog.dismiss();
+                    });
+            poDialogx.show();
+            return false;
+        }
+        return true;
     }
 
 }

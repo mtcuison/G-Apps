@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.etc.CashFormatter;
-import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -74,6 +73,7 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     }
 
     private void initViews() {
+        poLoading = new Dialog_Loading(Activity_PlaceOrder.this);
         poDialogx = new Dialog_SingleButton(Activity_PlaceOrder.this);
         toolbar = findViewById(R.id.toolbar);
         txtClient = findViewById(R.id.txt_client_name);
@@ -197,7 +197,6 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                 mViewModel.cancelBuyNow(cIsBuyNow, new OnTransactionsCallback() {
                     @Override
                     public void onLoading() {
-                        poLoading = new Dialog_Loading(Activity_PlaceOrder.this);
                         poLoading.initDialog("Marketplace", "Processing. Please wait.");
                         poLoading.show();
                     }
