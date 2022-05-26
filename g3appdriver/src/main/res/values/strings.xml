@@ -86,6 +86,7 @@
     <string name="lblAddtoCart">Add to Cart</string>
     <string name="lblPlaceOrder">Place Order</string>
     <string name="lblPayOrder">Pay Order</string>
+    <string name="lblRateProduct">Rate this Product</string>
     <string name="lblSave">Save</string>
     <string name="lblUpdate">Update</string>
     <string name="lblLogin">Log In</string>
@@ -114,6 +115,7 @@
 
     <string name="descServiceDate">Your next service date:</string>
 
+    <string name="hintReviewProduct">Write product review here</string>
     <string name="hintBdayFormat">(MM/DD/YYYY)</string>
 
     <string name="mock_fullname">Juan Sison Dela Cruz</string>

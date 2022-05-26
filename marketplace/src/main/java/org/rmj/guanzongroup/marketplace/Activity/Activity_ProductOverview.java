@@ -55,8 +55,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
         poAccount = new AccountInfo(Activity_ProductOverview.this);
         mViewModel = new ViewModelProvider(Activity_ProductOverview.this)
                 .get(VMProductOverview.class);
-        getExtras();
         initViews();
+        getExtras();
         setUpToolbar();
         displayData();
 
@@ -85,7 +85,16 @@ public class Activity_ProductOverview extends AppCompatActivity {
     }
 
     private void getExtras() {
-        psItemIdx = getIntent().getStringExtra("sListingId");
+        if(getIntent().hasExtra("sListingId")) {
+            psItemIdx = getIntent().getStringExtra("sListingId");
+        } else {
+            poDialogx.setButtonText("Okay");
+            poDialogx.initDialog("Marketplace", "Product does not exist.", d -> {
+                d.dismiss();
+                finish();
+            });
+            poDialogx.show();
+        }
     }
 
     private void initViews() {
