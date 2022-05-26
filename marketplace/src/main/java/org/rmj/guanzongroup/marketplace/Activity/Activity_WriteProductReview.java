@@ -9,22 +9,26 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMWriteProductReview;
 import org.rmj.guanzongroup.marketplace.databinding.ActivityWriteProductReviewBinding;
+
+import java.util.Objects;
 
 public class Activity_WriteProductReview extends AppCompatActivity {
 
     private VMWriteProductReview mViewModel;
     private ActivityWriteProductReviewBinding mBinding;
     private Dialog_SingleButton poDialogx;
+    private Dialog_Loading poLoading;
 
     private String psItemIdx = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mViewModel = new ViewModelProvider(Activity_WriteProductReview.this)
                 .get(VMWriteProductReview.class);
 
@@ -32,8 +36,12 @@ public class Activity_WriteProductReview extends AppCompatActivity {
         setContentView(mBinding.getRoot());
 
         poDialogx = new Dialog_SingleButton(this);
+        poLoading = new Dialog_Loading(this);
 
         getExtra();
+        setProductDetails();
+
+        mBinding.btnSaveRv.setOnClickListener(v -> saveReview());
     }
 
     @Override
@@ -59,6 +67,59 @@ public class Activity_WriteProductReview extends AppCompatActivity {
                 finish();
             });
             poDialogx.show();
+        }
+    }
+
+    private void setProductDetails() {
+        mViewModel.getProductInfo(psItemIdx).observe(Activity_WriteProductReview.this, eProduct -> {
+            try {
+                // mBinding.imgProdct.setImageBitmap(Objects.requireNonNull());
+                mBinding.txtProdNm.setText(Objects.requireNonNull(eProduct.getModelNme()));
+                mBinding.txtPricex.setText(Objects.requireNonNull(eProduct.getUnitPrce()));
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void saveReview() {
+        if(mBinding.txtReview.getText().toString().trim().isEmpty()) {
+            poDialogx.setButtonText("Okay");
+            poDialogx.initDialog("Product Review", "Please enter a product review.", dialog -> {
+                dialog.dismiss();
+            });
+            poDialogx.show();
+        } else {
+            String lsReviewx = mBinding.txtReview.getText().toString().trim();
+            mViewModel.saveReview(psItemIdx, mBinding.ratingBar.getNumStars(), lsReviewx,
+                    new OnTransactionsCallback() {
+                @Override
+                public void onLoading() {
+                    poLoading.initDialog("Product Review", "Processing. Please wait.");
+                    poLoading.show();
+                }
+
+                @Override
+                public void onSuccess(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Product Review", fsMessage, dialog -> {
+                        dialog.dismiss();
+                        finish();
+                    });
+                    poDialogx.show();
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Product Review", fsMessage, dialog -> {
+                        dialog.dismiss();
+                    });
+                    poDialogx.show();
+                }
+            });
         }
     }
 
