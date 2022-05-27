@@ -3,10 +3,7 @@
 
     <application>
         <activity
-            android:name=".Activity_WriteProductReview"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.Activity_PayOrder"
+            android:name=".Activity.Activity_WriteProductReview"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_PayOrder"

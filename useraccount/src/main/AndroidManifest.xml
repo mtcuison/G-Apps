@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".Activity_ShippingAddress"
+            android:name=".Activity.Activity_ShippingAddress"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_CompleteAccountDetails"
