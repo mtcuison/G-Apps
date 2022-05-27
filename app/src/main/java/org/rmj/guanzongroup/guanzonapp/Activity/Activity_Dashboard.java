@@ -184,11 +184,11 @@ public class Activity_Dashboard extends AppCompatActivity {
             return false;
         });
 
-        navigationView.getMenu().findItem(R.id.nav_purchases).setOnMenuItemClickListener(menuItem -> {
-            Intent intent = new Intent(Activity_Dashboard.this, Activity_Purchases.class);
-            startActivity(intent);
-            return false;
-        });
+//        navigationView.getMenu().findItem(R.id.nav_purchases).setOnMenuItemClickListener(menuItem -> {
+//            Intent intent = new Intent(Activity_Dashboard.this, Activity_Purchases.class);
+//            startActivity(intent);
+//            return false;
+//        });
         setUpHeader(navigationView);
     }
 

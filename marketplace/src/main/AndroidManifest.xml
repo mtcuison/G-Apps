@@ -4,6 +4,8 @@
     <application>
         <activity
             android:name=".Activity.Activity_Purchases"
+            android:theme="@style/GuanzonMarketplace.Theme"
+            android:label="Orders"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_PayOrder"

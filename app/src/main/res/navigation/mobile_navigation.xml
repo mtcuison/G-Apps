@@ -41,11 +41,11 @@
         android:label="@string/menu_notifications"
         tools:layout="@layout/fragment_notifications" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/nav_purchases"-->
-<!--        android:name="org.rmj.guanzongroup.marketplace.Fragment.Fragment_Orders"-->
-<!--        android:label="@string/menu_purchases"-->
-<!--        tools:layout="@layout/fragment_orders" />-->
+    <fragment
+        android:id="@+id/nav_purchases"
+        android:name="org.rmj.guanzongroup.marketplace.Fragment.Fragment_Orders"
+        android:label="@string/menu_purchases"
+        tools:layout="@layout/fragment_orders" />
 
     <fragment
         android:id="@+id/nav_wishlist"

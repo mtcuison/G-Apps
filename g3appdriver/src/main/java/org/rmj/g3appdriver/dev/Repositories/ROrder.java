@@ -351,9 +351,8 @@ public class ROrder {
             loItem.setAvlQtyxx("");
             loItem.setCreatedx(new AppConstants().GCARD_DATE_TIME);
             loItem.setTimeStmp(new AppConstants().GCARD_DATE_TIME);
-            if(poCartDao.CheckIfCartHasRecord() > 0) {
-                poCartDao.SaveItemInfo(loItem);
-            }
+            poCartDao.CancelBuyNowItem();
+            poCartDao.SaveItemInfo(loItem);
             return true;
         } catch (Exception e){
             e.printStackTrace();
@@ -375,6 +374,10 @@ public class ROrder {
 
     public LiveData<List<DItemCart.oMarketplaceCartItem>> GetItemCartList(){
         return poCartDao.GetCartItemsList();
+    }
+
+    public LiveData<Double> GetItemCartTotalPrice(){
+        return poCartDao.GetItemCartTotalPrice();
     }
 
     public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCheckoutItems(boolean cBuyNowxx){
@@ -480,7 +483,7 @@ public class ROrder {
                         oMaster.setDiscount(joMaster.getString("nDiscount"));
                         oMaster.setFreightx(joMaster.getString("nFreightx"));
                         oMaster.setTermCode(joMaster.getString("sTermCode"));
-                        oMaster.setTransact(joMaster.getString("cTranStat"));
+                        oMaster.setTranStat(joMaster.getString("cTranStat"));
                         oMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
 
                         loMaster.SaveOrderMaster(oMaster);
@@ -524,5 +527,25 @@ public class ROrder {
 
     public LiveData<List<EOrderDetail>> GetOrderDetailInfo(String fsVal){
         return poDetail.GetDetailInfo(fsVal);
+    }
+
+    public LiveData<List<EOrderMaster>> GetMasterOrderHistory(String fsVal){
+        return poMaster.GetMasterOrderHistory(fsVal);
+    }
+
+    public LiveData<List<EOrderMaster>> GetMasterOrderHistory(){
+        return poMaster.GetMasterOrderHistory();
+    }
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(){
+        return poMaster.GetOrderHistoryList();
+    }
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(String fsVal){
+        return poMaster.GetOrderHistoryList(fsVal);
+    }
+
+    public LiveData<List<DOrderDetail.OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal){
+        return poDetail.GetOrderHistoryDetail(fsVal);
     }
 }

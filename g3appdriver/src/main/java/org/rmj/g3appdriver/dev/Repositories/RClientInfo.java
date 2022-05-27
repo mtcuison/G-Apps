@@ -228,6 +228,8 @@ public class RClientInfo {
             poDao.LogoutAccount();
             poDao.LogoutGcard();
             poDao.LogoutItemCart();
+            poDao.LogoutMasterPurchase();
+            poDao.LogoutDetailPurchase();
             poDao.LogoutGcardLedger();
             poDao.LogoutRedeemItem();
             poDao.LogoutServiceInfo();
