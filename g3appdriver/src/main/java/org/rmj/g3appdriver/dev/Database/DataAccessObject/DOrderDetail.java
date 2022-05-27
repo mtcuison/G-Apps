@@ -3,6 +3,7 @@ package org.rmj.g3appdriver.dev.Database.DataAccessObject;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EOrderDetail;
@@ -12,7 +13,7 @@ import java.util.List;
 @Dao
 public interface DOrderDetail {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void SaveDetailOrder(EOrderDetail foVal);
 
     @Query("SELECT * FROM MarketPlace_Order_Detail WHERE sTransNox =:fsTransNo")
@@ -36,7 +37,8 @@ public interface DOrderDetail {
             "b.xBrandNme, " +
             "b.xModelNme, " +
             "b.xColorNme, " +
-            "b.xCategrNm " +
+            "b.xCategrNm, " +
+            "c.cTranStat " +
             "FROM MarketPlace_Order_Detail a " +
             "LEFT JOIN Product_Inventory b " +
             "ON a.sReferNox = b.sListngID " +
@@ -45,8 +47,16 @@ public interface DOrderDetail {
             "WHERE c.sTransNox =:fsVal " +
             "AND c.sClientID = (" +
             "SELECT sClientID " +
-            "FROM Client_Info_Master)")
+            "FROM Client_Info_Master) " +
+            "ORDER BY c.dTransact DESC")
     LiveData<List<OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal);
+
+    @Query("SELECT a.sListngID AS sListIDxx, " +
+            "a.xModelNme, " +
+            "a.nUnitPrce, " +
+            "b.nQuantity FROM Product_Inventory a LEFT JOIN MarketPlace_Order_Detail b " +
+            "ON a.sListngID = b.sReferNox WHERE b.sTransNox =:fsVal")
+    LiveData<List<OrderedItemsInfo>> GetOrderedItems(String fsVal);
 
     class OrderHistoryDetail{
         public String nEntryNox;
@@ -59,5 +69,13 @@ public interface DOrderDetail {
         public String xModelNme;
         public String xColorNme;
         public String xCategrNm;
+        public String cTranStat;
+    }
+
+    class OrderedItemsInfo{
+        public String sListIDxx;
+        public String xModelNme;
+        public String nUnitPrce;
+        public String nQuantity;
     }
 }

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 
+import org.rmj.guanzongroup.marketplace.Activity.Activity_PayOrder;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_Purchases;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_OrderHistory;
 import org.rmj.guanzongroup.marketplace.R;
@@ -28,6 +29,21 @@ public class Fragment_Orders extends Fragment {
     private RecyclerView recyclerView;
 
     private VMOrders mViewModel;
+
+    private Adapter_OrderHistory loAdapter;
+
+
+    private Adapter_OrderHistory.OnOrderHistoryClickListener loListener = (args, args1) -> {
+        Intent loIntent;
+        if(args1.equalsIgnoreCase("0")){
+            loIntent = new Intent(requireActivity(), Activity_PayOrder.class);
+            loIntent.putExtra("sTransNox", args);
+        } else {
+            loIntent = new Intent(requireActivity(), Activity_Purchases.class);
+            loIntent.putExtra("sOrderIDx", args);
+        }
+        startActivity(loIntent);
+    };
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -74,20 +90,12 @@ public class Fragment_Orders extends Fragment {
             try{
                 if(s.isEmpty()){
                     mViewModel.GetOrderHistoryList().observe(getViewLifecycleOwner(), eOrderMasters -> {
-                        Adapter_OrderHistory loAdapter = new Adapter_OrderHistory(eOrderMasters, args -> {
-                            Intent loIntent = new Intent(requireActivity(), Activity_Purchases.class);
-                            loIntent.putExtra("sOrderIDx", args);
-                            startActivity(loIntent);
-                        });
+                        loAdapter = new Adapter_OrderHistory(eOrderMasters, loListener);
                         recyclerView.setAdapter(loAdapter);
                     });
                 } else {
                     mViewModel.GetOrderHistoryList(s).observe(getViewLifecycleOwner(), eOrderMasters -> {
-                        Adapter_OrderHistory loAdapter = new Adapter_OrderHistory(eOrderMasters, args -> {
-                            Intent loIntent = new Intent(requireActivity(), Activity_Purchases.class);
-                            loIntent.putExtra("sOrderIDx", args);
-                            startActivity(loIntent);
-                        });
+                        loAdapter = new Adapter_OrderHistory(eOrderMasters, loListener);
                         recyclerView.setAdapter(loAdapter);
                     });
                 }
@@ -95,6 +103,7 @@ public class Fragment_Orders extends Fragment {
                 e.printStackTrace();
             }
         });
+
         return view;
     }
 }

@@ -74,4 +74,12 @@ public class VMOrders extends AndroidViewModel {
             return null;
         }
     }
+
+    public LiveData<EOrderMaster> GetOrderMaster(String fsVal){
+        return poORder.GetOrderMasterInfo(fsVal);
+    }
+
+    public LiveData<List<DOrderDetail.OrderedItemsInfo>> GetOrderedItemsList(String fsVal){
+        return poORder.GetOrderedItems(fsVal);
+    }
 }

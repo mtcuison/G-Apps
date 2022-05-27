@@ -41,8 +41,6 @@ public class Fragment_ViewMessage extends Fragment {
         lblTitle = loView.findViewById(R.id.lbl_messageTitle);
         lblMesgx = loView.findViewById(R.id.lbl_messageBody);
 
-//        StateProgressBar progressBar = (StateProgressBar) loView.findViewById(R.id.your_state_progress_bar_id);
-//        progressBar.setStateDescriptionData(descriptionData);
 
         if(requireActivity().getIntent().hasExtra("sMsgIDxxx")){
             String lsMesgID = requireActivity().getIntent().getStringExtra("sMsgIDxxx");

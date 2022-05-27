@@ -20,7 +20,7 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
     private final OnOrderHistoryClickListener mListener;
 
     public interface OnOrderHistoryClickListener{
-        void OnClick(String args);
+        void OnClick(String args, String args1);
     }
 
     public Adapter_OrderHistory(List<DOrderMaster.OrderHistory> poMaster, OnOrderHistoryClickListener listener) {
@@ -46,7 +46,7 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
         holder.lblItmDisc.setText(GetDiscount(loMaster.nDiscount));
         holder.lblItmPrce.setText(CashFormatter.parse(loMaster.nUnitPrce));
         holder.lblItmQtyx.setText(loMaster.nQuantity);
-        holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sTransNox));
+        holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sTransNox, loMaster.cTranStat));
     }
 
     @Override

@@ -487,24 +487,25 @@ public class ROrder {
                         oMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
 
                         loMaster.SaveOrderMaster(oMaster);
+                    }
 
-                        for(int i = 0; i <jaDetail.length(); i++){
-                            JSONObject joDetail = jaDetail.getJSONObject(i);
-                            EOrderDetail oDetail = new EOrderDetail();
-                            oDetail.setTransNox(joMaster.getString("sTransNox"));
-                            oDetail.setEntryNox(joDetail.getString("nEntryNox"));
-                            oDetail.setQuantity(joDetail.getString("nQuantity"));
-                            oDetail.setUnitPrce(joDetail.getString("nUnitPrce"));
-                            oDetail.setDiscount(joDetail.getString("nDiscount"));
-                            oDetail.setAddDiscx(joDetail.getString("nAddDiscx"));
-                            oDetail.setApproved(joDetail.getString("nApproved"));
-                            oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
-                            oDetail.setCancelld(joDetail.getString("nCancelld"));
-                            oDetail.setReferNox(joDetail.getString("sReferNox"));
-                            oDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
-                            oDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
-                            loDetail.SaveDetailOrder(oDetail);
-                        }
+                    for(int i = 0; i <jaDetail.length(); i++){
+                        JSONObject joDetail = jaDetail.getJSONObject(i);
+                        EOrderDetail oDetail = new EOrderDetail();
+                        oDetail.setTransNox(joDetail.getString("sTransNox"));
+                        oDetail.setEntryNox(joDetail.getString("nEntryNox"));
+                        oDetail.setQuantity(joDetail.getString("nQuantity"));
+                        oDetail.setUnitPrce(joDetail.getString("nUnitPrce"));
+                        oDetail.setDiscount(joDetail.getString("nDiscount"));
+                        oDetail.setAddDiscx(joDetail.getString("nAddDiscx"));
+                        oDetail.setApproved(joDetail.getString("nApproved"));
+                        oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
+                        oDetail.setCancelld(joDetail.getString("nCancelld"));
+                        oDetail.setReferNox(joDetail.getString("sReferNox"));
+                        oDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
+                        oDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
+
+                        loDetail.SaveDetailOrder(oDetail);
                     }
                     return true;
                 }
@@ -547,5 +548,9 @@ public class ROrder {
 
     public LiveData<List<DOrderDetail.OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal){
         return poDetail.GetOrderHistoryDetail(fsVal);
+    }
+
+    public LiveData<List<DOrderDetail.OrderedItemsInfo>> GetOrderedItems(String fsVal){
+        return poDetail.GetOrderedItems(fsVal);
     }
 }
