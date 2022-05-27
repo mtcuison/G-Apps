@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -28,35 +29,34 @@ public class Activity_SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         setContentView(R.layout.activity_splash_screen);
+        splashScreen.setKeepOnScreenCondition(() -> true );
         if (!isMyServiceRunning(GMessagingService.class)) {
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
         }
         mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
         mViewModel.setupApp();
 
-        mViewModel.GetLoadStatus().observe(Activity_SplashScreen.this, new Observer<oLoadStat>() {
-            @Override
-            public void onChanged(oLoadStat oLoadStat) {
-                if(!oLoadStat.getPermissionGranted()){
-                    ActivityCompat.requestPermissions(
-                            Activity_SplashScreen.this,
-                            mViewModel.GetPermissions(),
-                            REQUEST_PERMISSION);
-                } else {
-                    mViewModel.InitializeData(new VMSplashScreen.OnInitializeData() {
-                        @Override
-                        public void OnLoad(String args) {
-                            Log.d(TAG, "Loading Marketplace...");
-                        }
+        mViewModel.GetLoadStatus().observe(Activity_SplashScreen.this, oLoadStat -> {
+            if(!oLoadStat.getPermissionGranted()){
+                ActivityCompat.requestPermissions(
+                        Activity_SplashScreen.this,
+                        mViewModel.GetPermissions(),
+                        REQUEST_PERMISSION);
+            } else {
+                mViewModel.InitializeData(new VMSplashScreen.OnInitializeData() {
+                    @Override
+                    public void OnLoad(String args) {
+                        Log.d(TAG, "Loading Marketplace...");
+                    }
 
-                        @Override
-                        public void OnFinished(String args) {
-                            startActivity(new Intent(Activity_SplashScreen.this, Activity_Dashboard.class));
-                            finish();
-                        }
-                    });
-                }
+                    @Override
+                    public void OnFinished(String args) {
+                        startActivity(new Intent(Activity_SplashScreen.this, Activity_Dashboard.class));
+                        finish();
+                    }
+                });
             }
         });
     }

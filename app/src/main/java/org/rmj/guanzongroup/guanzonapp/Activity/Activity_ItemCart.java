@@ -1,33 +1,26 @@
-package org.rmj.guanzongroup.marketplace.Activity;
+package org.rmj.guanzongroup.guanzonapp.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
 
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_Redeemables;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 import org.rmj.guanzongroup.marketplace.Adapter.ActivityFragmentAdapter;
-import org.rmj.guanzongroup.marketplace.Fragment.Fragment_GCardItemCart;
+import org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_GCardItemCart;
 import org.rmj.guanzongroup.marketplace.Fragment.Fragment_MPItemCart;
 import org.rmj.guanzongroup.marketplace.R;
-import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
-import org.rmj.guanzongroup.marketplace.ViewModel.VMItemCart;
 
 public class Activity_ItemCart extends AppCompatActivity {
     private VMGCardSystem mViewModel;
@@ -55,11 +48,13 @@ public class Activity_ItemCart extends AppCompatActivity {
                         if (eGcardApp != null) {
                             adapter.addFragment(new Fragment_GCardItemCart());
                             adapter.addTitle("GCard");
+                            tabLayout.setVisibility(View.VISIBLE);
+                        } else {
+                            tabLayout.setVisibility(View.GONE);
                         }
                         viewPager.setAdapter(adapter);
                         tabLayout.setupWithViewPager(viewPager);
                         adapter.notifyDataSetChanged();
-                        tabLayout.setVisibility(View.VISIBLE);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

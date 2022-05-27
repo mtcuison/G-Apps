@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.etc.DateTimeFormatter;
 import org.rmj.guanzongroup.notifications.R;
 
 import java.util.List;
@@ -34,34 +35,36 @@ public class Adapter_Notifications extends RecyclerView.Adapter<Adapter_Notifica
     @Override
     public void onBindViewHolder(@NonNull NotifocationHolder holder, int position) {
         DNotifications.ClientNotificationInfo notif = poNotif.get(position);
+        holder.lsMessageID = notif.MesgIDxx;
+        holder.lsMesgType = notif.MsgTypex;
         holder.lbl_ntfTitle.setText(notif.MsgTitle);
-        holder.lbl_ntfDateTime.setText(notif.Received);
+        holder.lbl_ntfDateTime.setText(DateTimeFormatter.ParseDateForList(notif.Received));
         holder.lbl_ntfMessage.setText(notif.Messagex);
-
     }
 
     @Override
     public int getItemCount() {
-        return 1;
+        return poNotif.size();
     }
 
     public static class NotifocationHolder extends RecyclerView.ViewHolder{
 
-        private TextView lbl_ntfTitle;
-        private TextView lbl_ntfDateTime;
-        private TextView lbl_ntfMessage;
+        private String lsMessageID, lsMesgType;
+        private final TextView lbl_ntfTitle;
+        private final TextView lbl_ntfDateTime;
+        private final TextView lbl_ntfMessage;
         public NotifocationHolder(@NonNull View itemView, OnNotificationsListener foCallBck) {
             super(itemView);
             lbl_ntfTitle = itemView.findViewById(R.id.lbl_ntfTitle);
             lbl_ntfDateTime = itemView.findViewById(R.id.lbl_ntfDateTime);
             lbl_ntfMessage = itemView.findViewById(R.id.lbl_ntfMessage);
 
+            itemView.setOnClickListener(v -> foCallBck.OnClick(lsMessageID, lsMesgType));
         }
 
     }
 
     public interface OnNotificationsListener {
-        void onNotif(String fomessages);
+        void OnClick(String fsMesgIDxx, String fsMesgType);
     }
-
 }

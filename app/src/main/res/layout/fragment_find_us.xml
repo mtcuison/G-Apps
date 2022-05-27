@@ -25,9 +25,27 @@
         android:layout_width="match_parent"
         android:layout_height="120dp" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_searchBranch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        style="@style/TextInputStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_searchBranch"
+            android:layout_width="match_parent"
+            android:focusedByDefault="false"
+            android:layout_height="wrap_content"
+            android:hint="Search Branch Name"
+            android:inputType="textCapWords" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:padding="5dp"/>
 
 </LinearLayout>

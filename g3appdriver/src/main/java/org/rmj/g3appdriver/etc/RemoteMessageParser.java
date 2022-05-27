@@ -15,7 +15,7 @@ public class RemoteMessageParser {
 
     /**Parse the RemoteMessage receive from Firebase.
      * getValueof = this parses the remote message getting the JSONObject inside the remote message.
-     * getDataValueOf = this parses the remote message getting the data inside the remote message itself.*/
+     * getDataValueOf = this parses the remote message getting the    ata inside the remote message itself.*/
     public String getValueOf(String JSONDataKeyValue){
         String msg_data = dataMessage.getData().get("msg_data");
         String value = "";

@@ -67,7 +67,7 @@
         android:id="@+id/nav_redeemables"
         android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcardBaseContainer"
         android:label="@string/menu_redeemables"
-        tools:layout="@layout/fragment_my_gcard_base_container">>
+        tools:layout="@layout/fragment_my_gcard_base_container">
         <argument android:name="gcardInstance"
             app:argType="integer"
             android:defaultValue="2"/>

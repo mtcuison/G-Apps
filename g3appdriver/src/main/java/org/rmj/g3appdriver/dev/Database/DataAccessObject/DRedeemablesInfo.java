@@ -34,7 +34,6 @@ public interface DRedeemablesInfo {
     @Query("SELECT COUNT(sPromoIDx) FROM Redeem_Item WHERE sGcardNox =:GCardNox AND cTranStat != 0 GROUP BY sReferNox")
     LiveData<Integer> getOrdersCount(String GCardNox);
 
-
     @Query("SELECT * FROM Redeem_Item WHERE sGcardNox =:GCardNox AND cTranStat != 0 GROUP BY sReferNox")
     LiveData<List<ERedeemItemInfo>> getOrdersList(String GCardNox);
 

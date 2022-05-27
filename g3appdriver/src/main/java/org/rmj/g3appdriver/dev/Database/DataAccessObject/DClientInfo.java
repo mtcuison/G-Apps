@@ -51,4 +51,10 @@ public interface DClientInfo {
 
     @Query("DELETE FROM MC_Serial_Registration")
     void LogoutMCSerial();
+
+    @Query("DELETE FROM MarketPlace_Order_Master")
+    void LogoutMasterPurchase();
+
+    @Query("DELETE FROM MarketPlace_Order_Detail")
+    void LogoutDetailPurchase();
 }

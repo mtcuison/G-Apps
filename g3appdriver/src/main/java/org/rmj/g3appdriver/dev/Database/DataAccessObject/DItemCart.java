@@ -19,10 +19,26 @@ public interface DItemCart {
     @Query("SELECT COUNT(*) FROM MarketPlace_Cart WHERE sUserIDxx = (SELECT sUserIDxx FROM Client_Info_Master)")
     LiveData<Integer> GetCartItemCount();
 
+    @Query("SELECT COUNT(*) FROM MarketPlace_Cart")
+    int CheckIfCartHasRecord();
+
+    @Query("SELECT dTimeStmp FROM MarketPlace_Cart ORDER BY dTimeStmp DESC LIMIT 1")
+    String GetLatestCartTimeStamp();
+
+    @Query("SELECT * FROM MarketPlace_Cart WHERE cBuyNowxx = '1' AND cCheckOut = '1'")
+    LiveData<List<oMarketplaceCartItem>> CheckCartIfHasForPlaceOrder();
+
+    @Query("SELECT COUNT(*) FROM MarketPlace_Cart " +
+            "WHERE sListIDxx =:fsListID " +
+            "AND sUserIDxx = (SELECT sUserIDxx FROM Client_Info_Master) " +
+            "AND cBuyNowxx = '1' " +
+            "AND cCheckOut = '1'")
+    int CheckIfItemForBuyNowExist(String fsListID);
+
     @Query("SELECT * FROM MarketPlace_Cart WHERE sListIDxx=:fsListID")
     EItemCart CheckIFItemExist(String fsListID);
 
-    @Query("UPDATE MarketPlace_Cart SET nQuantity = nQuantity +:fnQty WHERE sListIDxx =:fsListID")
+    @Query("UPDATE MarketPlace_Cart SET nQuantity = :fnQty WHERE sListIDxx =:fsListID")
     void UpdateItem(String fsListID, int fnQty);
 
     @Query("DELETE FROM MarketPlace_Cart WHERE sListIDxx=:fsListID")
@@ -40,6 +56,15 @@ public interface DItemCart {
     @Query("SELECT COUNT(*) FROM MarketPlace_Cart WHERE cCheckOut ='1'")
     int CheckCartItemsForOrder();
 
+    @Query("SELECT SUM(b.nUnitPrce * a.nQuantity) " +
+            "AS CART_TOTAL " +
+            "FROM MarketPlace_Cart a " +
+            "LEFT JOIN Product_Inventory b " +
+            "ON a.sListIDxx = b.sListngID " +
+            "WHERE a.sUserIDxx = (" +
+            "SELECT sUserIDxx FROM Client_Info_Master)")
+    LiveData<Double> GetItemCartTotalPrice();
+
     @Query("SELECT a.sListIDxx AS sListIDxx, " +
             "a.nQuantity AS nQuantity, " +
             "a.cCheckOut AS cCheckOut, " +
@@ -49,7 +74,9 @@ public interface DItemCart {
             "FROM MarketPlace_Cart a " +
             "LEFT JOIN Product_Inventory b " +
             "ON a.sListIDxx = b.sListngID " +
-            "WHERE a.cBuyNowxx = '0'")
+            "WHERE a.cBuyNowxx = '0' " +
+            "AND a.sUserIDxx = (" +
+            "SELECT sUserIDxx FROM Client_Info_Master)")
     LiveData<List<oMarketplaceCartItem>> GetCartItemsList();
 
     @Query("SELECT a.sListIDxx AS sListIDxx, " +
@@ -60,7 +87,9 @@ public interface DItemCart {
             "FROM MarketPlace_Cart a " +
             "LEFT JOIN Product_Inventory b " +
             "ON a.sListIDxx = b.sListngID " +
-            "WHERE a.cBuyNowxx = '1' AND cCheckOut = '1'")
+            "WHERE a.cBuyNowxx = '1' AND cCheckOut = '1' " +
+            "AND a.sUserIDxx = (" +
+            "SELECT sUserIDxx FROM Client_Info_Master)")
     LiveData<List<oMarketplaceCartItem>> GetBuyNowItem();
 
     @Query("SELECT a.sListIDxx AS sListIDxx, " +
@@ -72,7 +101,9 @@ public interface DItemCart {
             "FROM MarketPlace_Cart a " +
             "LEFT JOIN Product_Inventory b " +
             "ON a.sListIDxx = b.sListngID " +
-            "WHERE a.cBuyNowxx = '0' AND cCheckOut = '1'")
+            "WHERE a.cBuyNowxx = '0' AND cCheckOut = '1' " +
+            "AND a.sUserIDxx = (" +
+            "SELECT sUserIDxx FROM Client_Info_Master)")
     LiveData<List<oMarketplaceCartItem>> GetItemsForCheckOut();
 
     public class oMarketplaceCartItem{

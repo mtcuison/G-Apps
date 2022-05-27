@@ -1,24 +1,26 @@
 package org.rmj.guanzongroup.guanzonapp.Fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.guanzongroup.digitalgcard.Activity.Activity_ManageGcard;
 import org.rmj.guanzongroup.guanzonapp.Adapter.Adapter_BranchList;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMBranchDetails;
@@ -32,6 +34,7 @@ public class Fragment_FindUs extends Fragment {
     private TabLayout tabLayout;
     private ImageView imgHeader;
     private RecyclerView recyclerView;
+    private TextInputEditText txtSearch;
 
     private Adapter_BranchList.OnBranchClickListener mListener;
     private List<EBranchInfo> poMcBranch;
@@ -43,27 +46,46 @@ public class Fragment_FindUs extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_find_us, container, false);
-        initViews(view);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMBranchDetails.class);
+        initViews(view);
         mViewModel.DownloadBranches();
         mViewModel.getMotorBranches().observe(getViewLifecycleOwner(), motorBranches -> {
-            poMcBranch = motorBranches;
-            poAdapter = new Adapter_BranchList(motorBranches, mListener);
-            recyclerView.setAdapter(poAdapter);
-            poAdapter.notifyDataSetChanged();
+            try {
+                poMcBranch = motorBranches;
+                poAdapter = new Adapter_BranchList(motorBranches, mListener);
+                recyclerView.setAdapter(poAdapter);
+                poAdapter.notifyDataSetChanged();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
+
         mViewModel.getMobileBranches().observe(getViewLifecycleOwner(), mobileBranches -> poMpBranch = mobileBranches);
+
+        txtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                poAdapter.Filter().filter(s.toString());
+                poAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         setTabLayout();
+        return view;
     }
 
     private void initViews(View v) {
         tabLayout = v.findViewById(R.id.tab_layout);
+        txtSearch = v.findViewById(R.id.tie_searchBranch);
         tabLayout.addTab(tabLayout.newTab().setText("Motorcycle"));
         tabLayout.addTab(tabLayout.newTab().setText("Mobile Phones"));
         recyclerView = v.findViewById(R.id.recyclerView);
@@ -72,11 +94,29 @@ public class Fragment_FindUs extends Fragment {
         recyclerView.setLayoutManager(loManager);
         recyclerView.setHasFixedSize(true);
         imgHeader = v.findViewById(R.id.img_header);
-        mListener = new Adapter_BranchList.OnBranchClickListener() {
-            @Override
-            public void OnClick(String args) {
-                Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
-            }
+        mListener = args -> {
+            try{
+                Uri gmmIntentUri;
+                Intent mapIntent;
+                if(args.getLatitude() == 0.0 && args.getLongtude() == 0.0){
+                    gmmIntentUri = Uri.parse("geo:0,0?q=guanzon " + args.getAddressx());
+                } else {
+                    gmmIntentUri = Uri.parse("geo:" + args.getLatitude() + ", " + args.getLongtude() + "?q=guanzon");
+//                        callback.OnInitLocation(mapIntent);
+                }
+                mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            } catch (Exception e){
+                e.printStackTrace();
+//                DialogBranchInfo loBranch = new DialogBranchInfo(requireActivity())
+            };
+//                loBranch.InitDialog(args, new DialogBranchInfo.BranchDialogActionCallback() {
+//                    @Override
+//                    public void OnInitLocation(Intent args) {
+//                        startActivity(args);
+//                    }
+//                });
         };
     }
 
