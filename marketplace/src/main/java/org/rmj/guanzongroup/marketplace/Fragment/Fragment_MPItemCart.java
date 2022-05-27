@@ -65,7 +65,6 @@ public class Fragment_MPItemCart extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMMPItemCart.class);
         try {
-
             LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
@@ -109,11 +108,6 @@ public class Fragment_MPItemCart extends Fragment {
                         Log.e("itemCart = ", String.valueOf(itemCart.size()));
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
-                        double subtotal = 0;
-                        for (int x = 0; x < itemCart.size(); x++){
-                            subtotal += Double.parseDouble(itemCart.get(x).getItemPrice().replaceAll(",",""));
-                        }
-                        lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
                     }else {
                         noItem.setVisibility(View.VISIBLE);
                         lnMPFooter.setVisibility(View.GONE);
@@ -123,6 +117,13 @@ public class Fragment_MPItemCart extends Fragment {
                 }
             });
 
+            mViewModel.GetGrandTotal().observe(getViewLifecycleOwner(), subtotal -> {
+                try{
+                    lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            });
         }catch (NullPointerException e){
             Log.e("",e.getMessage());
         }

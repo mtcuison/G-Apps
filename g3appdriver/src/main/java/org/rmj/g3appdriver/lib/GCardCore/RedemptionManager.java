@@ -106,21 +106,26 @@ public class RedemptionManager implements iGCardSystem{
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void DownloadRedeemables(GCardSystem.GCardSystemCallback callback) throws Exception {
-        JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(poAPI.getImportRedeemItemsAPI(), params.toString(), poHeaders.getHeaders());
-        if(lsResponse == null){
-            callback.OnFailed("Server no response.");
-        } else {
-            JSONObject loResponse = new JSONObject(lsResponse);
-            String lsResult = loResponse.getString("result");
-            if(lsResult.equalsIgnoreCase("success")){
-                callback.OnSuccess(loResponse.toString());
-                SaveRedeemables(loResponse);
+        int lnRedeem = poRedeemables.GetRedeemablesCount();
+        if(lnRedeem == 0) {
+            JSONObject params = new JSONObject();
+            String lsResponse = WebClient.httpsPostJSon(poAPI.getImportRedeemItemsAPI(), params.toString(), poHeaders.getHeaders());
+            if (lsResponse == null) {
+                callback.OnFailed("Server no response.");
             } else {
-                JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
-                callback.OnFailed(lsMessage);
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if (lsResult.equalsIgnoreCase("success")) {
+                    callback.OnSuccess(loResponse.toString());
+                    SaveRedeemables(loResponse);
+                } else {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    String lsMessage = loError.getString("message");
+                    callback.OnFailed(lsMessage);
+                }
             }
+        } else {
+            callback.OnFailed("Redeemables already exist");
         }
     }
 

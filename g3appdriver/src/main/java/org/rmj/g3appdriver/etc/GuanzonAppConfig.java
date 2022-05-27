@@ -36,7 +36,8 @@ public class GuanzonAppConfig {
     }
 
     public boolean getTestCase(){
-        return pref.getBoolean(TEST_CASE, false);
+        boolean isTest = pref.getBoolean(TEST_CASE, false);
+        return isTest;
     }
 
     public void setIfPermissionsGranted(boolean val){

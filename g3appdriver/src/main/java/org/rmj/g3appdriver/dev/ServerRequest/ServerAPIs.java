@@ -58,7 +58,7 @@ public class ServerAPIs {
     private static final String IMPORT_CART_ITEMS = "integsys/marketplace/download_cart.php";
     private static final String MKTPL_PLACE_ORDER = "integsys/marketplace/place_order.php";
     private static final String MKTPL_ORDER_PAYMENT = "integsys/marketplace/place_order_payment.php";
-    private static final String IMPORT_PLACED_ORDERS = "";
+    private static final String IMPORT_PURCHASES = "integsys/marketplace/download_purchases.php";
     private static final String IMPORT_RETRIEVE_SHIPPING_ADDRESS = "";
     private static final String UPDATE_SHIPPING_ADDRESS = "";
     private static final String IMPORT_DEFAULT_PAYMENT_METHOD = "";
@@ -333,11 +333,11 @@ public class ServerAPIs {
         return LIVE + IMPORT_CART_ITEMS;
     }
 
-    public String getImportPlacedOrders() {
+    public String getImportPurchasesAPI() {
         if(isTestUnit){
-            return LOCAL + IMPORT_PLACED_ORDERS;
+            return LOCAL + IMPORT_PURCHASES;
         }
-        return LIVE + IMPORT_PLACED_ORDERS;
+        return LIVE + IMPORT_PURCHASES;
     }
 
     public String getImportRetrieveShippingAddress() {

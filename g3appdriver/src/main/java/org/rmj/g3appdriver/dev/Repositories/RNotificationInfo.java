@@ -30,7 +30,10 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.RemoteMessageParser;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class RNotificationInfo {
     private static final String TAG = RNotificationInfo.class.getSimpleName();
@@ -63,7 +66,7 @@ public class RNotificationInfo {
                 poDao.updateNotificationStatusFromOtherDevice(psMesgIDx, lsStatus);
             } else {
                 ENotificationMaster loMaster = new ENotificationMaster();
-                loMaster.setTransNox(getClientNextCode("Notification_Info_Master"));
+                loMaster.setTransNox(CreateUniqueID());
                 loMaster.setMesgIDxx(loParser.getValueOf("transno"));
                 loMaster.setParentxx(loParser.getValueOf("parent"));
                 loMaster.setCreatedx(loParser.getValueOf("stamp"));
@@ -125,9 +128,9 @@ public class RNotificationInfo {
                     message = loError.getString("message");
                     return false;
                 } else {
-
+                    poDao.updateRecipientReceivedStatus(lsMessageID ,new AppConstants().GCARD_DATE_TIME);
+                    return true;
                 }
-                return true;
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -136,8 +139,18 @@ public class RNotificationInfo {
         }
     }
 
-    private String getClientNextCode(String fsTable){
-        return "";
+    public boolean ParseMessageInfo(RemoteMessage foVal){
+        try{
+            RemoteMessageParser loParser = new RemoteMessageParser(foVal);
+            psMesgIDx = loParser.getValueOf("transno");
+            String lsValue = loParser.getValueOf("infox");
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
     }
 
     public LiveData<Integer> GetUnreadMessagesCount(){
@@ -146,5 +159,27 @@ public class RNotificationInfo {
 
     public LiveData<List<DNotifications.ClientNotificationInfo>> GetClientNotificationList(){
         return poDao.getClientNotificationList();
+    }
+
+    public LiveData<DNotifications.ClientNotificationInfo> GetNotificationInfo(String fsMesgID){
+        return poDao.GetNotificationInfo(fsMesgID);
+    }
+
+    private String CreateUniqueID(){
+        String lsUniqIDx = "";
+        try{
+            String lsBranchCd = "MX01";
+            String lsCrrYear = new SimpleDateFormat("yy", Locale.getDefault()).format(new Date());
+            StringBuilder loBuilder = new StringBuilder(lsBranchCd);
+            loBuilder.append(lsCrrYear);
+
+            int lnLocalID = poDao.GetNotificationCount() + 1;
+            String lsPadNumx = String.format("%05d", lnLocalID);
+            loBuilder.append(lsPadNumx);
+            lsUniqIDx = loBuilder.toString();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return lsUniqIDx;
     }
 }

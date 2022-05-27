@@ -59,6 +59,7 @@ public class AccountAuthentication {
                     loClient.setDateMmbr(loResponse.getString("dCreatedx"));
                     loClient.setLoginxxx(new AppConstants().GCARD_DATE_TIME);
                     loClient.setEmailAdd(loResponse.getString("sEmailAdd"));
+                    loClient.setUserName(loResponse.getString("sUserName"));
                     loClient.setMobileNo(loResponse.getString("sMobileNo"));
                     loClient.setUserIDxx(loResponse.getString("sUserIDxx"));
                     poClient.insert(loClient);

@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,7 @@ public class Fragment_ItemCart extends Fragment {
                     adapter.addFragment(new Fragment_MPItemCart());
                     adapter.addTitle("MarketPlace");
                     if (eGcardApp != null) {
-                        adapter.addFragment(new Fragment_GCardItemCart());
+//                        adapter.addFragment(new Fragment_GCardItemCart());
                         adapter.addTitle("GCard");
                     }
                     viewPager.setAdapter(adapter);

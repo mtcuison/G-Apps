@@ -5,7 +5,6 @@ import static org.rmj.g3appdriver.utils.CallbackJson.CallbackStatus.SUCCESS;
 import static org.rmj.g3appdriver.utils.CallbackJson.parse;
 
 import android.app.Application;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -18,8 +17,6 @@ import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
-import org.rmj.g3appdriver.utils.CallbackJson;
-import org.rmj.guanzongroup.useraccount.Model.SignUpInfoModel;
 
 public class VMAccountAuthentication extends AndroidViewModel {
     private static final String TAG = VMAccountAuthentication.class.getSimpleName();
@@ -91,12 +88,6 @@ public class VMAccountAuthentication extends AndroidViewModel {
                         @Override
                         public void OnSuccessLogin(String message) {
                             try {
-                                Thread.sleep(1000);
-                                if (loClientx.ImportAccountInfo()) {
-                                    Log.d(TAG, parse(SUCCESS, message));
-                                } else {
-                                    Log.e(TAG, parse(FAILED, loClientx.getMessage()));
-                                }
                                 lsResultx[0] = parse(SUCCESS, message);
                             } catch (Exception e){
                                 e.printStackTrace();
