@@ -17,6 +17,7 @@ import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_AccountDetails;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_ShippingAddress;
 import org.rmj.guanzongroup.useraccount.Adapter.Adapter_AccountSettings;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountSettings;
 import org.rmj.guanzongroup.useraccount.R;
@@ -73,6 +74,10 @@ public class Fragment_AccountSettings extends Fragment {
                             startActivity(loIntent);
                         }
                     }
+                    break;
+                case 2:
+                    Intent loIntent = new Intent(requireActivity(), Activity_ShippingAddress.class);
+                    startActivity(loIntent);
                     break;
                 case 3:
                     Bundle loBundle = new Bundle();

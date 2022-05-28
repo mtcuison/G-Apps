@@ -87,6 +87,7 @@
     <string name="lblPlaceOrder">Place Order</string>
     <string name="lblPayOrder">Pay Order</string>
     <string name="lblRateProduct">Rate this Product</string>
+    <string name="lblAddShipping">Add Shipping Address</string>
     <string name="lblSave">Save</string>
     <string name="lblUpdate">Update</string>
     <string name="lblLogin">Log In</string>

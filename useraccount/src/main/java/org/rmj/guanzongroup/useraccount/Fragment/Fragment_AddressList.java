@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.rmj.guanzongroup.useraccount.Activity.Activity_ShippingAddress;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMShippingAddress;
 import org.rmj.guanzongroup.useraccount.databinding.FragmentAddressListBinding;
 
@@ -31,6 +32,7 @@ public class Fragment_AddressList extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMShippingAddress.class);
+        mBinding.btnAddShp.setOnClickListener(v -> Activity_ShippingAddress.getInstance().setFragment(1));
     }
 
     @Override
