@@ -12,7 +12,7 @@
             android:name=".Activity.Activity_PayOrder"
             android:exported="false" />
         <activity
-            android:name=".Activity.Activity_RatingsReviews"
+            android:name=".Activity.Activity_ProductReview"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_ProductOverview"
