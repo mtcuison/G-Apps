@@ -553,4 +553,24 @@ public class ROrder {
     public LiveData<List<DOrderDetail.OrderedItemsInfo>> GetOrderedItems(String fsVal){
         return poDetail.GetOrderedItems(fsVal);
     }
+
+    public LiveData<Integer> GetToPayOrdersCount(){
+        return poMaster.GetToPayOrdersCount();
+    }
+    public LiveData<Integer> GetProcessingOrdersCount(){
+        return poMaster.GetProcessingOrdersCount();
+    }
+    public LiveData<Integer> GetToShipOrdersCount(){
+        return poMaster.GetToShipOrdersCount();
+    }
+    public LiveData<Integer> GetDeliveredOrdersCount(){
+        return poMaster.GetDeliveredOrdersCount();
+    }
+    public LiveData<Integer> GetCancelledOrdersCount(){
+        return poMaster.GetCancelledOrdersCount();
+    }
+
+    public LiveData<DOrderMaster.DetailedOrderHistory> GetDetailOrderHistory(String fsVal){
+        return poMaster.GetDetailOrderHistory(fsVal);
+    }
 }

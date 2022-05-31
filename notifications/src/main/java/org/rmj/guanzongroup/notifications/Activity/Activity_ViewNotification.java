@@ -39,30 +39,27 @@ public class Activity_ViewNotification extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         if(getIntent().hasExtra("sMsgIDxxx")){
-            mViewModel.GetNotificationInfo(getIntent().getStringExtra("sMsgIDxxx")).observe(Activity_ViewNotification.this, new Observer<DNotifications.ClientNotificationInfo>() {
-                @Override
-                public void onChanged(DNotifications.ClientNotificationInfo clientNotificationInfo) {
-                    try{
-                        if ("00000".equals(clientNotificationInfo.MsgTypex)) {
-                            if (!clientNotificationInfo.DataInfo.isEmpty()) {
-                                JSONObject loJson = new JSONObject(clientNotificationInfo.DataInfo);
-                                Bundle loBundle = new Bundle();
-                                if(loJson.has("data")) {
-                                    loBundle.putString("sOrderInfo", loJson.getJSONObject("data").toString());
-                                }
-                                Fragment_OrderStatus loFragment = new Fragment_OrderStatus();
-                                loFragment.setArguments(loBundle);
-                                getSupportFragmentManager().beginTransaction().replace(R.id.viewpager_notification, loFragment, "SAMPLE");
-                                viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), new Fragment[]{loFragment}));
-                            } else {
-                                viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), new Fragment[]{new Fragment_ViewMessage()}));
+            mViewModel.GetNotificationInfo(getIntent().getStringExtra("sMsgIDxxx")).observe(Activity_ViewNotification.this, clientNotificationInfo -> {
+                try{
+                    if ("00000".equals(clientNotificationInfo.MsgTypex)) {
+                        if (!clientNotificationInfo.DataInfo.isEmpty()) {
+                            JSONObject loJson = new JSONObject(clientNotificationInfo.DataInfo);
+                            Bundle loBundle = new Bundle();
+                            if(loJson.has("data")) {
+                                loBundle.putString("sOrderInfo", loJson.getJSONObject("data").toString());
                             }
+                            Fragment_OrderStatus loFragment = new Fragment_OrderStatus();
+                            loFragment.setArguments(loBundle);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.viewpager_notification, loFragment, "SAMPLE");
+                            viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), new Fragment[]{loFragment}));
                         } else {
-                            viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), new Fragment[]{new Fragment_ActionNotification()}));
+                            viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), new Fragment[]{new Fragment_ViewMessage()}));
                         }
-                    } catch (Exception e){
-                        e.printStackTrace();
+                    } else {
+                        viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), new Fragment[]{new Fragment_ActionNotification()}));
                     }
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             });
         }

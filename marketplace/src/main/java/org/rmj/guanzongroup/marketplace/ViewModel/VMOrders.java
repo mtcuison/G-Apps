@@ -82,4 +82,24 @@ public class VMOrders extends AndroidViewModel {
     public LiveData<List<DOrderDetail.OrderedItemsInfo>> GetOrderedItemsList(String fsVal){
         return poORder.GetOrderedItems(fsVal);
     }
+
+    public LiveData<Integer> GetToPayOrdersCount(){
+        return poORder.GetToPayOrdersCount();
+    }
+    public LiveData<Integer> GetProcessingOrdersCount(){
+        return poORder.GetProcessingOrdersCount();
+    }
+    public LiveData<Integer> GetToShipOrdersCount(){
+        return poORder.GetToShipOrdersCount();
+    }
+    public LiveData<Integer> GetDeliveredOrdersCount(){
+        return poORder.GetDeliveredOrdersCount();
+    }
+    public LiveData<Integer> GetCancelledOrdersCount(){
+        return poORder.GetCancelledOrdersCount();
+    }
+
+    public LiveData<DOrderMaster.DetailedOrderHistory> GetDetailOrderHistory(String fsVal){
+        return poORder.GetDetailOrderHistory(fsVal);
+    }
 }

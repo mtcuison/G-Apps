@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.marketplace.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -17,11 +18,12 @@ import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 
-import org.rmj.guanzongroup.marketplace.Activity.Activity_PayOrder;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_Purchases;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_OrderHistory;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMOrders;
+
+import java.util.Objects;
 
 public class Fragment_Orders extends Fragment {
 
@@ -33,15 +35,9 @@ public class Fragment_Orders extends Fragment {
     private Adapter_OrderHistory loAdapter;
 
 
-    private Adapter_OrderHistory.OnOrderHistoryClickListener loListener = (args, args1) -> {
-        Intent loIntent;
-        if(args1.equalsIgnoreCase("0")){
-            loIntent = new Intent(requireActivity(), Activity_PayOrder.class);
-            loIntent.putExtra("sTransNox", args);
-        } else {
-            loIntent = new Intent(requireActivity(), Activity_Purchases.class);
-            loIntent.putExtra("sOrderIDx", args);
-        }
+    private final Adapter_OrderHistory.OnOrderHistoryClickListener loListener = (args, args1) -> {
+        Intent loIntent = new Intent(requireActivity(), Activity_Purchases.class);
+        loIntent.putExtra("sOrderIDx", args);
         startActivity(loIntent);
     };
 
@@ -98,6 +94,66 @@ public class Fragment_Orders extends Fragment {
                         loAdapter = new Adapter_OrderHistory(eOrderMasters, loListener);
                         recyclerView.setAdapter(loAdapter);
                     });
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.GetToPayOrdersCount().observe(getViewLifecycleOwner(), integer -> {
+            try{
+                if (integer > 0) {
+                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge()).setNumber(integer);
+                } else {
+                    Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.GetProcessingOrdersCount().observe(getViewLifecycleOwner(), integer -> {
+            try{
+                if (integer > 0) {
+                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(2)).getOrCreateBadge()).setNumber(integer);
+                } else {
+                    Objects.requireNonNull(tabLayout.getTabAt(2)).removeBadge();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.GetToShipOrdersCount().observe(getViewLifecycleOwner(), integer -> {
+            try{
+                if (integer > 0) {
+                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(3)).getOrCreateBadge()).setNumber(integer);
+                } else {
+                    Objects.requireNonNull(tabLayout.getTabAt(3)).removeBadge();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.GetDeliveredOrdersCount().observe(getViewLifecycleOwner(), integer -> {
+            try{
+                if (integer > 0) {
+                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(4)).getOrCreateBadge()).setNumber(integer);
+                } else {
+                    Objects.requireNonNull(tabLayout.getTabAt(4)).removeBadge();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.GetCancelledOrdersCount().observe(getViewLifecycleOwner(), integer -> {
+            try{
+                if (integer > 0) {
+                    Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(5)).getOrCreateBadge()).setNumber(integer);
+                } else {
+                    Objects.requireNonNull(tabLayout.getTabAt(5)).removeBadge();
                 }
             } catch (Exception e){
                 e.printStackTrace();

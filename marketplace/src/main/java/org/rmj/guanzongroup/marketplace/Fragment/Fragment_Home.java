@@ -82,30 +82,22 @@ public class Fragment_Home extends Fragment {
                     txtCardNo.setText(Objects.requireNonNull(eGcardApp.getCardNmbr()));
                     txtGcrdPt.setText(Objects.requireNonNull(eGcardApp.getAvlPoint()));
 
-                    gcardPane.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mViewModel.ViewGCardQrCode(new VMHome.OnViewGCardQrCode() {
+                    gcardPane.setOnClickListener(view -> mViewModel.ViewGCardQrCode(foVal -> {
+                        //TODO : Create Dialog that will iew QrCode
+                        if(foVal == null){
+                            Toast.makeText(requireActivity(), "Failed generating Qr-Code", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            Dialog_QRCode dialog_qrCode = new Dialog_QRCode(requireActivity());
+                            dialog_qrCode.initDialog("GCard QR Code", foVal, new Dialog_QRCode.QrCodeCallback() {
                                 @Override
-                                public void OnView(Bitmap foVal) {
-                                    //TODO : Create Dialog that will iew QrCode
-                                    if(foVal == null){
-                                        Toast.makeText(requireActivity(), "Failed generating Qr-Code", Toast.LENGTH_SHORT).show();
-                                    } else {
+                                public void onRefresh(AlertDialog foDialogx) {
 
-                                        Dialog_QRCode dialog_qrCode = new Dialog_QRCode(requireActivity());
-                                        dialog_qrCode.initDialog("GCard QR Code", foVal, new Dialog_QRCode.QrCodeCallback() {
-                                            @Override
-                                            public void onRefresh(AlertDialog foDialogx) {
-
-                                            }
-                                        });
-                                        dialog_qrCode.show();
-                                    }
                                 }
                             });
+                            dialog_qrCode.show();
                         }
-                    });
+                    }));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
