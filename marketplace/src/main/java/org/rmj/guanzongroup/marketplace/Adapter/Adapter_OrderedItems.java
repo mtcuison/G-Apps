@@ -17,8 +17,14 @@ import java.util.List;
 public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedItems.OrderItemsViewHolder>{
 
     private final List<DOrderDetail.OrderedItemsInfo> poList;
+    private final OnOrderedItemClickListener mListener;
 
-    public Adapter_OrderedItems(List<DOrderDetail.OrderedItemsInfo> poList) {
+    public interface OnOrderedItemClickListener{
+        void OnClick(String args);
+    }
+
+    public Adapter_OrderedItems(List<DOrderDetail.OrderedItemsInfo> poList, OnOrderedItemClickListener listener) {
+        this.mListener = listener;
         this.poList = poList;
     }
 
@@ -35,6 +41,8 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
         holder.lblBrandNm.setText(loMaster.xModelNme);
         holder.lblItmPrce.setText(CashFormatter.parse(loMaster.nUnitPrce));
         holder.lblItmQtyx.setText(loMaster.nQuantity);
+
+        holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sListIDxx));
     }
 
     @Override

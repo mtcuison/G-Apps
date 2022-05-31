@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.marketplace.Adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.etc.CashFormatter;
@@ -44,6 +43,7 @@ public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductLis
             holder.txtProdNm.setText(loProduct.getModelNme());
             holder.txtPricex.setText(CashFormatter.parse(loProduct.getUnitPrce()));
             holder.txtSoldxx.setText(loProduct.getSoldQtyx() + " Sold");
+//            holder.setImage(loProduct.get);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,10 +75,24 @@ public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductLis
             });
         }
 
+        public void setImage(String image){
+            Picasso.get().load(image).placeholder(R.drawable.ic_no_image_available)
+                    .error(R.drawable.ic_no_image_available).into(imgProdct);
+        }
+
     }
 
     public interface OnItemClick {
         void onClick(String fsListIdx);
     }
 
+    private String ParseImageUrlFromJSOn(String fsVal){
+        try{
+            JSONObject loJson = new JSONObject(fsVal);
+            return loJson.getString("sImageURL");
+        } catch (Exception e){
+            e.printStackTrace();
+            return "";
+        }
+    }
 }
