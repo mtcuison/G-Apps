@@ -149,7 +149,7 @@ public class VMAccountDetails extends AndroidViewModel {
                         lsResultx = "";
                         isSuccess = true;
                     } else {
-                        lsResultx = "";
+                        lsResultx = loClientx.getMessage();
                     }
                 } else {
                     lsResultx = AppConstants.SERVER_NO_RESPONSE();
