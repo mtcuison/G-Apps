@@ -14,6 +14,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
@@ -59,7 +60,7 @@ public class VMSplashScreen extends AndroidViewModel {
 
     public void setupApp(){
         GuanzonAppConfig loConfig = new GuanzonAppConfig(mContext);
-        loConfig.setTestCase(true);
+        loConfig.setTestCase(false);
         loConfig.setIfPermissionsGranted(hasPermissions(mContext, laPermissions));
         poLoadStat.setValue(new oLoadStat(
                 loConfig.IsPermissionsGranted(),
@@ -132,14 +133,24 @@ public class VMSplashScreen extends AndroidViewModel {
         @Override
         protected String doInBackground(String... strings) {
             try {
-//                importAddresses();
+                GuanzonAppConfig loConfig = new GuanzonAppConfig(mContext);
+                if(loConfig.isAppFirstLaunch()){
+                    RAddressMobile loAddress = new RAddressMobile(mContext);
+                    loAddress.ImportBarangayList();
+                    pause();
+                    loAddress.ImportTownList();
+                    pause();
+                    loAddress.ImportProvinceList();
+                    pause();
+                    loAddress.ImportCountryList();
+                }
+                pause();
                 //TODO : Revise importing data to improve speed on splash screen...
                 //Import Dashboard products only if possible,
                 // import other important must be imported before the operation of usage...
                 if (new RProduct(mContext).ImportProductList()) {
                     Log.d(TAG, "Product Sales imported successfully...");
                 }
-
                 pause();
                 iGCardSystem loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
                 loGcard.DownloadBranchesList(poCallback);

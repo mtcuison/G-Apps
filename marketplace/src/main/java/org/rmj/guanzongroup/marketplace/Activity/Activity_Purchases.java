@@ -3,16 +3,21 @@ package org.rmj.guanzongroup.marketplace.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.kofigyan.stateprogressbar.StateProgressBar;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderDetail;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderMaster;
+import org.rmj.g3appdriver.etc.DateTimeFormatter;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_OrderedItems;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
 import org.rmj.guanzongroup.marketplace.R;
@@ -26,6 +31,15 @@ public class Activity_Purchases extends AppCompatActivity {
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
+    private TextView lblOrderID,
+            lblTrackNox,
+            lblAddressx,
+            lblClientNm,
+            lblMobileNo,
+            lblPaymntxx,
+            lblDatePlcd,
+            lblDlvyDate;
+
     private VMOrders mViewModel;
 
     String[] descriptionData = {"Processing", "Verified", "Shipping", "Delivered"};
@@ -44,12 +58,28 @@ public class Activity_Purchases extends AppCompatActivity {
         progressBar.setStateDescriptionData(descriptionData);
         String lsOrderIDx = getIntent().getStringExtra("sOrderIDx");
         recyclerView = findViewById(R.id.recyclerview_Orders);
+        lblOrderID = findViewById(R.id.lbl_orderID);
+        lblTrackNox = findViewById(R.id.lbl_trackNo);
+        lblAddressx = findViewById(R.id.lbl_shipAddress);
+        lblClientNm = findViewById(R.id.lbl_clientNm);
+        lblMobileNo = findViewById(R.id.lbl_mobileNo);
+        lblPaymntxx = findViewById(R.id.lbl_paymnt);
+        lblDatePlcd = findViewById(R.id.lbl_datePlace);
+        lblDlvyDate = findViewById(R.id.lbl_deliveryDate);
         LinearLayoutManager loManager = new LinearLayoutManager(Activity_Purchases.this);
         loManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(loManager);
-        mViewModel.GetOrderMaster(lsOrderIDx).observe(Activity_Purchases.this, eOrderMaster -> {
+        mViewModel.GetDetailOrderHistory(lsOrderIDx).observe(Activity_Purchases.this, foOrder -> {
             try{
-                progressBar.setCurrentStateNumber(GetStateNumber(eOrderMaster.getTranStat()));
+                lblOrderID.setText(foOrder.sTransNox);
+                lblTrackNox.setText("");
+                lblAddressx.setText(foOrder.sAddressx);
+                lblClientNm.setText(foOrder.sUserName);
+                lblMobileNo.setText(foOrder.sMobileNo);
+                lblPaymntxx.setText(foOrder.sTermCode);
+                lblDatePlcd.setText("Place on : " + DateTimeFormatter.ParseDateFullyDetailed(foOrder.dTransact));
+                lblDlvyDate.setText("Get By : " + DateTimeFormatter.ParseDateForList(foOrder.dExpected));
+                progressBar.setCurrentStateNumber(GetStateNumber(foOrder.cTranStat));
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -57,7 +87,11 @@ public class Activity_Purchases extends AppCompatActivity {
 
         mViewModel.GetOrderedItemsList(lsOrderIDx).observe(Activity_Purchases.this, orderedItemsInfos -> {
             try {
-                Adapter_OrderedItems loAdapter = new Adapter_OrderedItems(orderedItemsInfos);
+                Adapter_OrderedItems loAdapter = new Adapter_OrderedItems(orderedItemsInfos, args -> {
+                    Intent loIntent = new Intent(Activity_Purchases.this, Activity_ProductOverview.class);
+                    loIntent.putExtra("sListingId", args);
+                    startActivity(loIntent);
+                });
                 recyclerView.setAdapter(loAdapter);
             } catch (Exception e){
                 e.printStackTrace();

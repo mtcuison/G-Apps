@@ -14,7 +14,7 @@ import org.rmj.guanzongroup.notifications.R;
 
 import java.util.List;
 
-public class Adapter_Notifications extends RecyclerView.Adapter<Adapter_Notifications.NotifocationHolder> {
+public class Adapter_Notifications extends RecyclerView.Adapter<Adapter_Notifications.NotificationHolder> {
 
     private final List<DNotifications.ClientNotificationInfo> poNotif;
     private final OnNotificationsListener poCallBck;
@@ -26,14 +26,14 @@ public class Adapter_Notifications extends RecyclerView.Adapter<Adapter_Notifica
 
     @NonNull
     @Override
-    public NotifocationHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NotificationHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_notifications, parent, false);
-        return new NotifocationHolder(view, poCallBck);
+        return new NotificationHolder(view, poCallBck);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NotifocationHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NotificationHolder holder, int position) {
         DNotifications.ClientNotificationInfo notif = poNotif.get(position);
         holder.lsMessageID = notif.MesgIDxx;
         holder.lsMesgType = notif.MsgTypex;
@@ -47,13 +47,13 @@ public class Adapter_Notifications extends RecyclerView.Adapter<Adapter_Notifica
         return poNotif.size();
     }
 
-    public static class NotifocationHolder extends RecyclerView.ViewHolder{
+    public static class NotificationHolder extends RecyclerView.ViewHolder{
 
         private String lsMessageID, lsMesgType;
         private final TextView lbl_ntfTitle;
         private final TextView lbl_ntfDateTime;
         private final TextView lbl_ntfMessage;
-        public NotifocationHolder(@NonNull View itemView, OnNotificationsListener foCallBck) {
+        public NotificationHolder(@NonNull View itemView, OnNotificationsListener foCallBck) {
             super(itemView);
             lbl_ntfTitle = itemView.findViewById(R.id.lbl_ntfTitle);
             lbl_ntfDateTime = itemView.findViewById(R.id.lbl_ntfDateTime);

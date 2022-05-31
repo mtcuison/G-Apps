@@ -13,6 +13,7 @@ public class GuanzonAppConfig {
 
     private static final String TEST_CASE = "cTestStat";
 
+    private static final String FIRST_LAUNCH = "sFrstlnch";
     private static final String MESSAGING_TOKEN = "sMsgToken";
     private static final String PERMISSIONS_GRANT = "cPrmnGrnt";
 
@@ -56,5 +57,14 @@ public class GuanzonAppConfig {
 
     public String getAppToken(){
         return pref.getString(MESSAGING_TOKEN, "");
+    }
+
+    public void setFirstLaunch(boolean fbVal){
+        editor.putBoolean(FIRST_LAUNCH, fbVal);
+        editor.commit();
+    }
+
+    public boolean isAppFirstLaunch(){
+        return pref.getBoolean(FIRST_LAUNCH, true);
     }
 }

@@ -94,9 +94,14 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
     }
 
     private String GetDiscount(String fsVal){
-        if(fsVal.equalsIgnoreCase("0.00"))
-            return "";
-        else
+        try {
+            if (fsVal.equalsIgnoreCase("0.00"))
+                return "";
+            else
+                return fsVal;
+        } catch (Exception e){
+            e.printStackTrace();
             return fsVal;
+        }
     }
 }
