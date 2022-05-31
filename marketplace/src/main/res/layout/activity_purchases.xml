@@ -22,36 +22,37 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        style="@style/FragmentTheme">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp"
             android:gravity="center">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Order No."
-                    android:fontFamily="@font/roboto_medium"
-                    android:textSize="18sp"
-                    android:layout_weight="1.5"/>
+                    android:fontFamily="@font/roboto"
+                    android:textSize="16sp"
+                    android:textColor="@color/font_regular"
+                    android:layout_weight="2"/>
 
                 <TextView
                     android:id="@+id/lbl_orderID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/roboto"
                     android:text="MX012345213"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
+                    android:textColor="@color/font_regular"
                     android:layout_weight=".5"/>
 
             </LinearLayout>
@@ -62,22 +63,21 @@
                 android:layout_height="wrap_content"
                 app:spb_maxStateNumber="four"
                 app:spb_stateBackgroundColor="#BDBDBD"
-                app:spb_stateForegroundColor="#009688"
+                app:spb_stateForegroundColor="@color/guanzon_digital_light_orange"
                 app:spb_stateNumberBackgroundColor="#808080"
                 app:spb_stateNumberForegroundColor="#eeeeee"
-                app:spb_currentStateDescriptionColor="#009688"
+                app:spb_currentStateDescriptionColor="@color/guanzon_digital_light_orange"
                 app:spb_stateDescriptionColor="#808080"
                 app:spb_animateToCurrentProgressState="true"
-                android:layout_marginVertical="15dp"
-                app:spb_checkStateCompleted="true"/>
+                app:spb_checkStateCompleted="true"
+                android:layout_marginVertical="30dp"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
-                app:cardUseCompatPadding="true"
-                app:cardElevation="3dp"
-                app:cardPreventCornerOverlap="true">
+                app:cardPreventCornerOverlap="true"
+                android:layout_marginVertical="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingVertical="10dp"
+                        android:paddingVertical="12dp"
                         android:paddingHorizontal="15dp"
                         android:orientation="horizontal">
 
@@ -95,13 +95,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Tracking No."
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/roboto"
+                            android:textColor="@color/guanzon_digital_light_orange"
                             android:layout_weight="1"/>
 
                         <TextView
                             android:id="@+id/lbl_trackNo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textColor="@color/guanzon_digital_light_orange"
                             android:gravity="end"
                             android:layout_weight="1"/>
 
@@ -126,6 +129,8 @@
                             android:textSize="16dp"
                             android:drawablePadding="5dp"
                             android:fontFamily="@font/roboto_medium"
+                            android:textColor="@color/font_regular"
+                            android:layout_marginTop="5dp"
                             android:layout_marginBottom="10dp"
                             app:drawableLeftCompat="@drawable/ic_baseline_map_24" />
 
@@ -133,17 +138,26 @@
                             android:id="@+id/lbl_clientNm"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_medium" />
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"
+                            android:textColor="@color/font_light"
+                            android:layout_marginTop="8dp"/>
 
                         <TextView
                             android:id="@+id/lbl_shipAddress"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"
+                            android:textColor="@color/font_light"/>
 
                         <TextView
                             android:id="@+id/lbl_mobileNo"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"
+                            android:textColor="@color/font_light"/>
                     </LinearLayout>
 
                     <View
@@ -163,23 +177,35 @@
                             android:layout_height="wrap_content"
                             android:text="Payment Method"
                             android:textSize="16dp"
+                            android:textColor="@color/font_regular"
                             android:fontFamily="@font/roboto_medium"
-                            android:layout_marginBottom="5dp"/>
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"/>
 
                         <TextView
                             android:id="@+id/lbl_paymnt"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"
+                            android:textColor="@color/font_light"
+                            android:layout_marginTop="8dp"/>
 
                         <TextView
                             android:id="@+id/lbl_datePlace"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"
+                            android:textColor="@color/font_light"/>
 
                         <TextView
                             android:id="@+id/lbl_deliveryDate"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"
+                            android:textColor="@color/font_light"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -189,15 +215,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Items"
-                android:textSize="18sp"
-                android:fontFamily="@font/roboto_medium"
-                android:padding="15dp"
-                android:layout_weight="1"/>
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="10dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_Orders"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"/>
 
         </LinearLayout>
 
