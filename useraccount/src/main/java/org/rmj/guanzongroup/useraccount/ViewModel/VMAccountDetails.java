@@ -90,6 +90,10 @@ public class VMAccountDetails extends AndroidViewModel {
         new CompleteClientInfoTask(poConnect, poClientx, foCallBck).execute(foClientx);
     }
 
+    public void updateAccountInfo(EClientInfo foClientx, OnTransactionCallBack foCallBck) {
+        new UpdateAccountInfoTask(poConnect, poClientx, foCallBck).execute(foClientx);
+    }
+
     public void setAccountDetailsList(EClientInfo foClientx) {
         List<AccountDetailsInfo> loAcctInf = new ArrayList<>();
         String lsFullNme = foClientx.getFrstName() + " " + foClientx.getMiddName() + " " + foClientx.getLastName() + " " + foClientx.getSuffixNm();
@@ -227,6 +231,68 @@ public class VMAccountDetails extends AndroidViewModel {
                 loCallBck.onFailed(s);
             }
         }
+    }
+
+    private static class UpdateAccountInfoTask extends AsyncTask<EClientInfo, Void, Boolean> {
+
+        private final ConnectionUtil loConnect;
+        private final RClientInfo loClientx;
+        private final OnTransactionCallBack loCallBck;
+
+        private String lsMessage = "";
+
+        private UpdateAccountInfoTask(ConnectionUtil foConnect, RClientInfo foClientx,
+                                      OnTransactionCallBack foCallBck) {
+            this.loCallBck = foCallBck;
+            this.loConnect = foConnect;
+            this.loClientx = foClientx;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loCallBck.onLoading();
+        }
+
+        @Override
+        protected Boolean doInBackground(EClientInfo... eClientInfos) {
+            try {
+                EClientInfo oClientx = eClientInfos[0];
+                if(loConnect.isDeviceConnected()) {
+                    if(loClientx.UpdateAccountInfo(oClientx)) {
+                        Thread.sleep(1000);
+                        if(loClientx.ImportAccountInfo()) {
+                            lsMessage = "Personal account details updated successfully.";
+                            return true;
+                        } else {
+                            lsMessage = loClientx.getMessage();
+                            return false;
+                        }
+                    } else {
+                        lsMessage = loClientx.getMessage();
+                        return false;
+                    }
+                } else {
+                    lsMessage = AppConstants.SERVER_NO_RESPONSE();
+                    return false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsMessage = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean) {
+                loCallBck.onSuccess(lsMessage);
+            } else {
+                loCallBck.onFailed(lsMessage);
+            }
+        }
+
     }
 
     public interface OnTransactionCallBack {
