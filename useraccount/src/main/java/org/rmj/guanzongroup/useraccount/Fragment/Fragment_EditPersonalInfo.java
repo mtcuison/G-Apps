@@ -106,9 +106,11 @@ public class Fragment_EditPersonalInfo extends Fragment {
     private void setDefaultValues() {
         mViewModel.getClientInfo().observe(getViewLifecycleOwner(), eClientInfo -> {
             try {
-                mBinding.txtGender.setText(mViewModel.getGenderList()
+                mBinding.txtGender.setListSelection(Integer.parseInt(eClientInfo.getGenderCd()));
+                mBinding.txtGender.setHint(mViewModel.getGenderList()
                         .get(Integer.parseInt(eClientInfo.getGenderCd())));
-                mBinding.txtCivilS.setText(mViewModel.getCivilStatusList()
+                mBinding.txtCivilS.setListSelection(Integer.parseInt(eClientInfo.getCvilStat()));
+                mBinding.txtCivilS.setHint(mViewModel.getCivilStatusList()
                         .get(Integer.parseInt(eClientInfo.getCvilStat())));
                 mViewModel.getCountryList().observe(getViewLifecycleOwner(), eCountryInfos -> {
                     try {
