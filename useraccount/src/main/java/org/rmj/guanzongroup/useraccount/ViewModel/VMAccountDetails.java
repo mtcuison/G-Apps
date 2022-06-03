@@ -78,6 +78,14 @@ public class VMAccountDetails extends AndroidViewModel {
         return poAddress.getCountryForInput(foList);
     }
 
+    public LiveData<String> getFullAddress(String fsBrgyIdx) {
+        return poAddress.GetFullAddressName(fsBrgyIdx);
+    }
+
+    public LiveData<String> getBirthplace(String fsTownIdx) {
+        return poAddress.ParseTownID(fsTownIdx);
+    }
+
     public LiveData<List<AccountDetailsInfo>> getAccountDetailsList() {
         return poAcctInf;
     }
@@ -94,23 +102,22 @@ public class VMAccountDetails extends AndroidViewModel {
         new UpdateAccountInfoTask(poConnect, poClientx, foCallBck).execute(foClientx);
     }
 
-    public void setAccountDetailsList(EClientInfo foClientx) {
+    public void setAccountDetailsList(EClientInfo foClientx, String fsAddress, String fsBplacex) {
         List<AccountDetailsInfo> loAcctInf = new ArrayList<>();
         String lsFullNme = foClientx.getFrstName() + " " + foClientx.getMiddName() + " " + foClientx.getLastName() + " " + foClientx.getSuffixNm();
         String lsGenderx = getGenderList().get(Integer.parseInt(foClientx.getGenderCd()));
         String lsCivilSt = getCivilStatusList().get(Integer.parseInt(foClientx.getCvilStat()));
-        String lsAddress = poAddress.GetFullAddressName(foClientx.getBrgyIDxx()).getValue();
         loAcctInf.add(new AccountDetailsInfo(true, psLstHead[0], "",""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Full Name", lsFullNme));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Gender", lsGenderx));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Birth Date", foClientx.getBirthDte()));
-        loAcctInf.add(new AccountDetailsInfo(false, "", "Birth Place", ""));
+        loAcctInf.add(new AccountDetailsInfo(false, "", "Birth Place", fsBplacex));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Citizen", ""));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Civil Status", lsCivilSt));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Tax ID", foClientx.getTaxIDNox()));
 
         loAcctInf.add(new AccountDetailsInfo(true, psLstHead[1], "",""));
-        loAcctInf.add(new AccountDetailsInfo(false,"","Address", lsAddress));
+        loAcctInf.add(new AccountDetailsInfo(false,"","Address", fsAddress));
 
         loAcctInf.add(new AccountDetailsInfo(true, psLstHead[2], "",""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Email Address", foClientx.getEmailAdd()));

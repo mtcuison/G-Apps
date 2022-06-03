@@ -49,7 +49,7 @@ public interface DAddress {
             "LEFT JOIN Town_Info b " +
             "ON a.sTownIDxx = b.sTownIDxx " +
             "LEFT JOIN Province_Info c " +
-            "ON b.sTownIDxx = c.sProvIDxx " +
+            "ON b.sProvIDxx = c.sProvIDxx " +
             "WHERE a.sBrgyIDxx=:fsBrgyID")
     LiveData<String> GetFullAddressName(String fsBrgyID);
 

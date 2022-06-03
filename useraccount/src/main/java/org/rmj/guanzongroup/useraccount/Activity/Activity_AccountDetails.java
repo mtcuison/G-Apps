@@ -72,7 +72,27 @@ public class Activity_AccountDetails extends AppCompatActivity {
 
     private void setAdapter() {
         try {
-            mViewModel.getClientInfo().observe(this, eClientInfo -> mViewModel.setAccountDetailsList(eClientInfo));
+            mViewModel.getClientInfo().observe(this, eClientInfo -> {
+                try {
+                    mViewModel.getBirthplace(eClientInfo.getBirthPlc()).observe(this, bPlace -> {
+                        try {
+                            mViewModel.getFullAddress(eClientInfo.getBrgyIDxx()).observe(this, address -> {
+                                try {
+                                    String lsFulAdrs = eClientInfo.getHouseNox() + ", "
+                                            + eClientInfo.getAddressx() + ", " + address;
+                                    mViewModel.setAccountDetailsList(eClientInfo, lsFulAdrs, bPlace);
+                                } catch (NullPointerException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            });
             mViewModel.getAccountDetailsList().observe(Activity_AccountDetails.this, details -> {
                 poAdapter = new Adapter_AccountDetails(details, (label) -> {
                     Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_EditAccountDetails.class);
