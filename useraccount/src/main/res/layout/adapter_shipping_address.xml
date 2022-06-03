@@ -1,66 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardUseCompatPadding="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/lbl_address"
-        android:fontFamily="@font/roboto_medium"
-        android:text="@string/lblShippingAddress"
-        android:textColor="@color/font_regular"
-        android:textSize="16sp"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_margin="15dp">
 
-    <TextView
-        android:id="@+id/lblChange"
-        android:fontFamily="@font/roboto"
-        android:text="@string/lblChange"
-        android:textColor="@color/link_text_color"
-        android:textSize="16sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        <TextView
+            android:id="@+id/lblChange"
+            android:fontFamily="@font/roboto"
+            android:text="@string/lblChange"
+            android:textColor="@color/link_text_color"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
 
-    <TextView
-        android:id="@+id/txtClient"
-        android:fontFamily="@font/roboto_medium"
-        android:textColor="@color/font_regular"
-        android:textSize="14sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/lblChange"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="20dp"/>
+        <TextView
+            android:id="@+id/txtClient"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/font_regular"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
-    <TextView
-        android:id="@+id/txtMobile"
-        android:fontFamily="@font/roboto"
-        android:textColor="@color/font_light"
-        android:textSize="14sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        app:layout_constraintTop_toBottomOf="@id/txtClient"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        <TextView
+            android:id="@+id/txtMobile"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/font_light"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/txtClient"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
-    <TextView
-        android:id="@+id/txtAddrss"
-        android:fontFamily="@font/roboto"
-        android:textColor="@color/font_light"
-        android:textSize="14sp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:lines="2"
-        android:layout_marginTop="5dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtMobile"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        <TextView
+            android:id="@+id/txtAddrss"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/font_light"
+            android:textSize="14sp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:lines="2"
+            android:layout_marginTop="5dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtMobile"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
