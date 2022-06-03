@@ -99,7 +99,7 @@ public class VMAccountDetails extends AndroidViewModel {
         String lsFullNme = foClientx.getFrstName() + " " + foClientx.getMiddName() + " " + foClientx.getLastName() + " " + foClientx.getSuffixNm();
         String lsGenderx = getGenderList().get(Integer.parseInt(foClientx.getGenderCd()));
         String lsCivilSt = getCivilStatusList().get(Integer.parseInt(foClientx.getCvilStat()));
-        String lsAddress = foClientx.getHouseNox() + " " + foClientx.getAddressx();
+        String lsAddress = poAddress.GetFullAddressName(foClientx.getBrgyIDxx()).getValue();
         loAcctInf.add(new AccountDetailsInfo(true, psLstHead[0], "",""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Full Name", lsFullNme));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Gender", lsGenderx));
