@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.marketplace.Fragment;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -29,10 +29,18 @@ public class Fragment_Orders extends Fragment {
 
     private TabLayout tabLayout;
     private RecyclerView recyclerView;
-
+    private TextView txtNoList;
     private VMOrders mViewModel;
 
     private Adapter_OrderHistory loAdapter;
+    private String[] psTabCont = new String[] {
+            "All",
+            "To Pay",
+            "Processing",
+            "To Ship",
+            "Delivered",
+            "Canceled",
+    };
 
 
     private final Adapter_OrderHistory.OnOrderHistoryClickListener loListener = (args, args1) -> {
@@ -48,17 +56,18 @@ public class Fragment_Orders extends Fragment {
         View view = inflater.inflate(R.layout.fragment_orders, container, false);
         mViewModel.ImportOrdersTask();
         tabLayout = view.findViewById(R.id.tab_layout_orders);
+        txtNoList = view.findViewById(R.id.txtNoList);
         recyclerView = view.findViewById(R.id.recyclerview_Orders);
         LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
         loManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(loManager);
 
-        tabLayout.addTab(tabLayout.newTab().setText("All"));
-        tabLayout.addTab(tabLayout.newTab().setText("To Pay"));
-        tabLayout.addTab(tabLayout.newTab().setText("Processing"));
-        tabLayout.addTab(tabLayout.newTab().setText("To Ship"));
-        tabLayout.addTab(tabLayout.newTab().setText("Delivered"));
-        tabLayout.addTab(tabLayout.newTab().setText("Canceled"));
+        tabLayout.addTab(tabLayout.newTab().setText(psTabCont[0]));
+        tabLayout.addTab(tabLayout.newTab().setText(psTabCont[1]));
+        tabLayout.addTab(tabLayout.newTab().setText(psTabCont[2]));
+        tabLayout.addTab(tabLayout.newTab().setText(psTabCont[3]));
+        tabLayout.addTab(tabLayout.newTab().setText(psTabCont[4]));
+        tabLayout.addTab(tabLayout.newTab().setText(psTabCont[5]));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -91,8 +100,22 @@ public class Fragment_Orders extends Fragment {
                     });
                 } else {
                     mViewModel.GetOrderHistoryList(s).observe(getViewLifecycleOwner(), eOrderMasters -> {
-                        loAdapter = new Adapter_OrderHistory(eOrderMasters, loListener);
-                        recyclerView.setAdapter(loAdapter);
+                        try {
+                            if(eOrderMasters.size() > 0) {
+                                txtNoList.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                                loAdapter = new Adapter_OrderHistory(eOrderMasters, loListener);
+                            } else {
+                                txtNoList.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                                String lsOrderTp = psTabCont[Integer.parseInt(s)+1].equalsIgnoreCase(psTabCont[0])
+                                        ? "" : psTabCont[Integer.parseInt(s)+1];
+                                txtNoList.setText("No available " + lsOrderTp + " orders.");
+                            }
+                            recyclerView.setAdapter(loAdapter);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
                     });
                 }
             } catch (Exception e){

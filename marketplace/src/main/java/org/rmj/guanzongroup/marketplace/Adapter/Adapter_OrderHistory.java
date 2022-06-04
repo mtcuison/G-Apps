@@ -42,7 +42,6 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
         holder.lblOrderSt.setText(GetOrderStatus(loMaster.cTranStat));
         holder.lblOrderTl.setText(CashFormatter.parse(loMaster.nTranTotl));
         holder.lblBrandNm.setText(loMaster.xBrandNme);
-        holder.lblItemDsc.setText(loMaster.sBriefDsc);
         holder.lblItmDisc.setText(GetDiscount(loMaster.nDiscount));
         holder.lblItmPrce.setText(CashFormatter.parse(loMaster.nUnitPrce));
         holder.lblItmQtyx.setText(loMaster.nQuantity);
@@ -60,7 +59,6 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
                 lblOrderSt,
                 lblOrderTl,
                 lblBrandNm,
-                lblItemDsc,
                 lblItmDisc,
                 lblItmPrce,
                 lblItmQtyx;
@@ -71,7 +69,6 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
             lblOrderSt = itemView.findViewById(R.id.lbl_orderStatus);
             lblOrderTl = itemView.findViewById(R.id.lbl_orderTotal);
             lblBrandNm = itemView.findViewById(R.id.lbl_brandName);
-            lblItemDsc = itemView.findViewById(R.id.lbl_itemDescription);
             lblItmDisc = itemView.findViewById(R.id.lbl_itemDiscount);
             lblItmPrce = itemView.findViewById(R.id.lbl_itemPrice);
             lblItmQtyx = itemView.findViewById(R.id.lbl_itemQuantity);
@@ -99,7 +96,7 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
                 return "";
             else
                 return fsVal;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return fsVal;
         }
