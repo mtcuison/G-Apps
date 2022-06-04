@@ -449,6 +449,49 @@
                 android:text="@string/OM_Paragraph17"/>
 
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guanzon Group of Companies"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All Rights Reserved"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:id="@+id/lnkTermsC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:text="Terms and Conditions"
+                    android:textColor="@color/link_log_color"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto"/>
+
+                <TextView
+                    android:id="@+id/lnkPrivcy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="Privacy Policy"
+                    android:textColor="@color/link_log_color"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto"/>
+
+
 
         </LinearLayout>
 
