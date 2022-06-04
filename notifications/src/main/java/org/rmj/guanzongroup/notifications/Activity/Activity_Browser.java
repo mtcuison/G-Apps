@@ -1,15 +1,12 @@
-package org.rmj.guanzongroup.guanzonapp.Activity;
+package org.rmj.guanzongroup.notifications.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,10 +18,7 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import org.rmj.guanzongroup.guanzonapp.R;
-
-import java.io.File;
-import java.io.IOException;
+import org.rmj.guanzongroup.notifications.R;
 
 public class Activity_Browser extends AppCompatActivity {
     private static final String TAG = Activity_Browser.class.getSimpleName();

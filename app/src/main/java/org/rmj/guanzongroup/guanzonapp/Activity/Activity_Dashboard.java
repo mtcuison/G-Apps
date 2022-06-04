@@ -1,6 +1,8 @@
 package org.rmj.guanzongroup.guanzonapp.Activity;
 
 import android.app.AlertDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -145,16 +148,13 @@ public class Activity_Dashboard extends AppCompatActivity {
             }
         });
 
-        mViewModel.GetToPayOrders().observe(Activity_Dashboard.this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer count) {
-                try{
-                    lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-                    navigationView.getMenu().findItem(R.id.nav_purchases).setActionView(lblBadge);
-                    lblBadge.setText(GetBadgeValue(count));
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+        mViewModel.GetToPayOrders().observe(Activity_Dashboard.this, count -> {
+            try{
+                lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+                navigationView.getMenu().findItem(R.id.nav_purchases).setActionView(lblBadge);
+                lblBadge.setText(GetBadgeValue(count));
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
 
@@ -197,6 +197,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_mrktplc, menu);
+        // Get the SearchView and set the searchable configuration
         mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
             try {
                 if(eClientinfo != null){

@@ -44,6 +44,8 @@ public class EProducts {
     private String ListEndx;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
+    @ColumnInfo(name = "dTimeStmp")
+    private String TimeStmp;
 
     public EProducts() {
 
@@ -184,5 +186,13 @@ public class EProducts {
 
     public void setTranStat(String tranStat) {
         TranStat = tranStat;
+    }
+
+    public String getTimeStmp() {
+        return TimeStmp;
+    }
+
+    public void setTimeStmp(String timeStmp) {
+        TimeStmp = timeStmp;
     }
 }

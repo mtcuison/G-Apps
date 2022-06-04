@@ -30,7 +30,7 @@
         android:theme="@style/GuanzonMarketplace.Theme"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".Activity.Activity_Browser"
+            android:name="org.rmj.guanzongroup.notifications.Activity.Activity_Browser"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_TermsAndConditions"

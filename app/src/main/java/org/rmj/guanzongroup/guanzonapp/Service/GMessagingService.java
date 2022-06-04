@@ -1,8 +1,6 @@
 package org.rmj.guanzongroup.guanzonapp.Service;
 
-import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -32,7 +30,7 @@ public class GMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(message);
         poNotif = new RNotificationInfo(GMessagingService.this);
         poNotif.SaveNotification(message);
-        poNotif.SendResponse(poNotif.getMessageID());
+        poNotif.SendReceiveResponse(poNotif.getMessageID());
         GNotifBuilder.createFirebaseNotification(GMessagingService.this, message, 1).show();
         Log.e(TAG, "Message received!");
     }

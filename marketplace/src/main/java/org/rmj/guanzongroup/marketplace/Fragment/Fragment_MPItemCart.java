@@ -108,7 +108,7 @@ public class Fragment_MPItemCart extends Fragment {
                         Log.e("itemCart = ", String.valueOf(itemCart.size()));
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
-                    }else {
+                    } else {
                         noItem.setVisibility(View.VISIBLE);
                         lnMPFooter.setVisibility(View.GONE);
                     }

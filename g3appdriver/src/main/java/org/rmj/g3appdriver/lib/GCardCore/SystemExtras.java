@@ -372,7 +372,7 @@ public class SystemExtras implements iGCardSystem{
             info.setEventURL(loJson.getString("sEventURL"));
             info.setImageURL(loJson.getString("sImageURL"));
             info.setNotified("0");
-            info.setModified(AppConstants.DATE_MODIFIED);
+            info.setModified(new AppConstants().DATE_MODIFIED);
             info.setDirectoryFolder("Events");
             poEvents.insert(info);
         }

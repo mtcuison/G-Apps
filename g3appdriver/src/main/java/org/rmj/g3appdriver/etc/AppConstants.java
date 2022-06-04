@@ -141,13 +141,11 @@ public class AppConstants {
             new String[] {"3","My GCard", "Manage GCard account for Motorcyle Services and Points for Redeemables."}
     };
 
-    public static String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+    public String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
     public static String CURRENT_DATE = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
     public static String CURRENT_DATE_WORD = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).format(new Date());
     public String GCARD_DATE_TIME = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date());
 
     public static String CURRENT_TIME = String.valueOf(new Timestamp(new Date().getTime()));
-
-
 }

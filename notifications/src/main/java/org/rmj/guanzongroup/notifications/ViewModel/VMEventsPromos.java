@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.ViewModel;
+package org.rmj.guanzongroup.notifications.ViewModel;
 
 import android.app.Application;
 import android.os.AsyncTask;

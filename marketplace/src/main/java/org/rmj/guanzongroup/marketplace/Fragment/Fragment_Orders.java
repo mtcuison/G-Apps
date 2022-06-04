@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.marketplace.Fragment;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -38,7 +37,7 @@ public class Fragment_Orders extends Fragment {
     private final Adapter_OrderHistory.OnOrderHistoryClickListener loListener = (args, args1) -> {
         Intent loIntent = new Intent(requireActivity(), Activity_Purchases.class);
         loIntent.putExtra("sOrderIDx", args);
-        startActivity(loIntent);
+        requireActivity().startActivity(loIntent);
     };
 
     @Override

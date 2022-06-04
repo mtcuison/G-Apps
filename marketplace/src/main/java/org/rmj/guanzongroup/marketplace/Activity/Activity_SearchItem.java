@@ -7,10 +7,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.app.SearchManager;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMSearchItem;
 import org.rmj.guanzongroup.marketplace.databinding.ActivitySearchItemBinding;
@@ -18,7 +23,7 @@ import org.rmj.guanzongroup.marketplace.databinding.ActivitySearchItemBinding;
 import java.util.Objects;
 
 public class Activity_SearchItem extends AppCompatActivity {
-
+    private static final String TAG = Activity_SearchItem.class.getSimpleName();
     private VMSearchItem mViewModel;
     private ActivitySearchItemBinding mBinding;
 
@@ -28,17 +33,26 @@ public class Activity_SearchItem extends AppCompatActivity {
         mViewModel = new ViewModelProvider(Activity_SearchItem.this).get(VMSearchItem.class);
         mBinding = ActivitySearchItemBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-
+// Get the intent, verify the action and get the query
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Log.e(TAG, query);
+//            doMySearch(query);
+        }
         setUpToolbar();
 
     }
 
+    @SuppressLint("NewApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
         MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) item.getActionView();
         searchView.setQueryHint("Search Products");
+//        searchView.setFocusedByDefault(true);
+        searchView.setDefaultFocusHighlightEnabled(true);
         searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -76,12 +90,12 @@ public class Activity_SearchItem extends AppCompatActivity {
     }
 
     private void displayResult(String fsQueryxx) {
-//        Adapter_ProductList loAdapter = new Adapter_ProductList()
+//        Adapter_ProductList loAdapter = new Adapter_ProductList();
 //        mBinding.recyclrVw.setLayoutManager(new GridLayoutManager(Activity_SearchItem.this,
 //                2, RecyclerView.VERTICAL, false));
 //        mBinding.recyclrVw.setHasFixedSize(true);
-//        mBinding.recyclrVw.setAdapter(poAdapter);
-//        poAdapter.notifyDataSetChanged();
+//        mBinding.recyclrVw.setAdapter(loAdapter);
+//        loAdapter.notifyDataSetChanged();
     }
 
 }

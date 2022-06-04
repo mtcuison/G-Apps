@@ -18,6 +18,7 @@ import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
+import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 
@@ -47,6 +48,7 @@ public class VMHome extends AndroidViewModel {
         this.poOrder = new ROrder(application);
         this.poNotif = new RNotificationInfo(application);
         this.poSystem = new GCardSystem(application).getInstance(GCardSystem.CoreFunctions.GCARD);
+        new GuanzonAppConfig(application).setFirstLaunch(false);
     }
 
     public LiveData<EClientInfo> getClientInfo() {

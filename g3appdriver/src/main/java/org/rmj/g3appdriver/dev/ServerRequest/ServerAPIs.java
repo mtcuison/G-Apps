@@ -68,6 +68,7 @@ public class ServerAPIs {
     private static final String IMPORT_REVIEWS = "";
     private static final String IMPORT_QUESTIONS_AND_ANSWERS = "";
 
+    private static final String IMPORT_NOTIFICATIONS = "integsys/notification/request_previous_notifications.php";
     private static final String SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/notification/send_response.php";
     private static final String SEND_REQUEST = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
     private static final String CHECK_UPDATE_URL = "https://restgk.guanzongroup.com.ph/gcard/ms/version_checker.php";
@@ -471,5 +472,12 @@ public class ServerAPIs {
             return LOCAL + MKTPL_ORDER_PAYMENT;
         }
         return LIVE + MKTPL_ORDER_PAYMENT;
+    }
+
+    public String getImportNotificationsAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_NOTIFICATIONS;
+        }
+        return LIVE + IMPORT_NOTIFICATIONS;
     }
 }
