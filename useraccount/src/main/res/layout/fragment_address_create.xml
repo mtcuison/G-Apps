@@ -9,6 +9,58 @@
     style="@style/FragmentTheme">
 
     <TextView
+        android:id="@+id/lblEditAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/lblMobileNumber"
+        android:textColor="@color/font_regular"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="0dp"
+        android:layout_height="0.4dp"
+        android:background="@color/font_light"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblEditAccount"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"/>
+    <TextView
+        android:id="@+id/lblModileNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lblMobileNumber"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        style="@style/TextInputLabel" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_mobile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblModileNo"
+        app:layout_constraintRight_toRightOf="parent"
+        style="@style/TextInputStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number|none"
+            android:maxLength="11"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@id/tie_password"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
         android:id="@+id/lblAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,8 +68,9 @@
         android:text="@string/lblAddress"
         android:textColor="@color/font_regular"
         android:textSize="16sp"
+        android:layout_marginTop="17dp"
         app:layout_constraintStart_toStartOf="@id/lblHouseNo"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/til_mobile" />
 
     <View
         android:id="@+id/divider"

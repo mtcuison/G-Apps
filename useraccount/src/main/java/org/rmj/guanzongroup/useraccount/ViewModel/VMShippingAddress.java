@@ -8,8 +8,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
+import org.rmj.g3appdriver.dev.Database.Entities.EAddressInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EMobileInfo;
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -18,6 +20,7 @@ import org.rmj.guanzongroup.useraccount.Model.ShippingInfoModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class VMShippingAddress extends AndroidViewModel {
 
@@ -56,7 +59,6 @@ public class VMShippingAddress extends AndroidViewModel {
     }
 
     private static class AddShippingAddressTask extends AsyncTask<ShippingInfoModel, Void, Boolean> {
-
         private final RAddressMobile loAddress;
         private final ConnectionUtil loConnect;
         private final OnTransactionCallBack loCallBck;
@@ -80,8 +82,18 @@ public class VMShippingAddress extends AndroidViewModel {
             try {
                 ShippingInfoModel infoModel = infoModels[0];
                 if(loConnect.isDeviceConnected()) {
-                    // TODO: Add shipping address
-                    return true;
+                    if(loAddress.AddContactInfo(getMobileInfo(infoModel))) {
+                        if(loAddress.AddShipAddress(getAddressInfo(infoModel))) {
+                            lsMessage = "Shipping address added.";
+                            return true;
+                        } else {
+                            lsMessage = loAddress.getMessage();
+                            return false;
+                        }
+                    } else {
+                        lsMessage = loAddress.getMessage();
+                        return false;
+                    }
                 } else {
                     lsMessage = AppConstants.SERVER_NO_RESPONSE();
                     return false;
@@ -101,6 +113,32 @@ public class VMShippingAddress extends AndroidViewModel {
             } else {
                 loCallBck.onFailed(lsMessage);
             }
+        }
+
+        private EMobileInfo getMobileInfo(ShippingInfoModel infoModel) {
+            EMobileInfo loMobilex = new EMobileInfo();
+            loMobilex.setTransNox(String.valueOf(ThreadLocalRandom.current().nextInt()));
+            loMobilex.setClientID(infoModel.getClientId());
+            loMobilex.setMobileNo(infoModel.getMobileN());
+
+            loMobilex.setReqstCDe("");
+            loMobilex.setPrimaryx("");
+            loMobilex.setRemarksx("");
+            loMobilex.setSourceCD("");
+            loMobilex.setSourceNo("");
+
+            return loMobilex;
+        }
+
+        private EAddressInfo getAddressInfo(ShippingInfoModel infoModel) {
+            EAddressInfo loAddress = new EAddressInfo();
+            loAddress.setTransNox(String.valueOf(ThreadLocalRandom.current().nextInt()));
+            loAddress.setClientID(infoModel.getClientId());
+            loAddress.setHouseNox(infoModel.getHouseNo());
+            loAddress.setAddressx(infoModel.getAddress());
+            loAddress.setTownIDxx(infoModel.getTownCty());
+            loAddress.setBrgyIDxx(infoModel.getBarngay());
+            return loAddress;
         }
 
     }

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import org.rmj.g3appdriver.etc.InputFieldController;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_ShippingAddress;
@@ -27,7 +28,7 @@ public class Fragment_AddressCreate extends Fragment {
     private FragmentAddressCreateBinding mBinding;
     private Dialog_SingleButton poDialogx;
     private Dialog_Loading poLoading;
-    private final ShippingInfoModel infoModel = new ShippingInfoModel();
+    private ShippingInfoModel infoModel;
 
     public Fragment_AddressCreate() { }
 
@@ -44,6 +45,7 @@ public class Fragment_AddressCreate extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMShippingAddress.class);
         poDialogx = new Dialog_SingleButton(requireActivity());
         poLoading = new Dialog_Loading(requireActivity());
+        infoModel = new ShippingInfoModel(new AccountInfo(requireActivity()).getClientID());
         initInputSelectors();
         mBinding.btnAddShp.setOnClickListener(v -> addShipping());
     }
@@ -111,6 +113,7 @@ public class Fragment_AddressCreate extends Fragment {
     }
 
     private void addShipping() {
+        infoModel.setMobileN(mBinding.txtMobile.getText().toString().trim());
         infoModel.setHouseNo(mBinding.txtHouseN.getText().toString().trim());
         infoModel.setAddress(mBinding.txtStreet.getText().toString().trim());
         if(infoModel.isAddressComplete()) {

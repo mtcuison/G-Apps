@@ -61,6 +61,8 @@ public class ServerAPIs {
     private static final String IMPORT_PURCHASES = "integsys/marketplace/download_purchases.php";
     private static final String IMPORT_RETRIEVE_SHIPPING_ADDRESS = "";
     private static final String UPDATE_SHIPPING_ADDRESS = "";
+    private static final String REQUEST_ADDRESS_UPDATE = "integsys/marketplace/request_address_update.php";
+    private static final String REQUEST_MOBILE_UPDATE = "integsys/marketplace/request_mobile_update.php";
     private static final String IMPORT_DEFAULT_PAYMENT_METHOD = "";
     private static final String UPDATE_DEFAULT_PAYMENT_METHOD = "";
     private static final String IMPORT_SHIPPING_STATUS = "";
@@ -68,6 +70,7 @@ public class ServerAPIs {
     private static final String IMPORT_REVIEWS = "";
     private static final String IMPORT_QUESTIONS_AND_ANSWERS = "";
 
+    private static final String IMPORT_NOTIFICATIONS = "integsys/notification/request_previous_notifications.php";
     private static final String SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/notification/send_response.php";
     private static final String SEND_REQUEST = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
     private static final String CHECK_UPDATE_URL = "https://restgk.guanzongroup.com.ph/gcard/ms/version_checker.php";
@@ -471,5 +474,26 @@ public class ServerAPIs {
             return LOCAL + MKTPL_ORDER_PAYMENT;
         }
         return LIVE + MKTPL_ORDER_PAYMENT;
+    }
+
+    public String getImportNotificationsAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_NOTIFICATIONS;
+        }
+        return LIVE + IMPORT_NOTIFICATIONS;
+    }
+
+    public String getAddressUpdateRequestAPI(){
+        if(isTestUnit){
+            return LOCAL + REQUEST_ADDRESS_UPDATE;
+        }
+        return LIVE + REQUEST_ADDRESS_UPDATE;
+    }
+
+    public String getMobileUpdateRequestAPI(){
+        if(isTestUnit){
+            return LOCAL + REQUEST_MOBILE_UPDATE;
+        }
+        return LIVE + REQUEST_MOBILE_UPDATE;
     }
 }

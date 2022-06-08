@@ -27,6 +27,7 @@ import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RAddressMobile {
     private static final String TAG = RAddressMobile.class.getSimpleName();
@@ -312,7 +313,7 @@ public class RAddressMobile {
     public boolean AddShipAddress(EAddressInfo foValue){
         try{
             EClientInfo loClient = GGC_GuanzonAppDB.getInstance(mContext).EClientDao().GetUserInfo();
-            String fsTransNo = GenerateNewAddressID();
+            String fsTransNo = String.valueOf(ThreadLocalRandom.current().nextInt());
             if(!fsTransNo.isEmpty()) {
                 foValue.setTransNox(fsTransNo);
             } else {
@@ -344,7 +345,7 @@ public class RAddressMobile {
             param.put("sSourceNo", foValue.getSourceNo());
 
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
-            String lsAddress = loApis.getImportCountriesAPI();
+            String lsAddress = loApis.getAddressUpdateRequestAPI();
             String lsResponse = WebClient.httpsPostJSon(lsAddress, param.toString(), new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
                 message = "Server no response";
@@ -375,7 +376,7 @@ public class RAddressMobile {
     public boolean AddContactInfo(EMobileInfo foValue){
         try{
             EClientInfo loClient = GGC_GuanzonAppDB.getInstance(mContext).EClientDao().GetUserInfo();
-            String fsTransNo = GenerateNewContactID();
+            String fsTransNo = String.valueOf(ThreadLocalRandom.current().nextInt());
             if(!fsTransNo.isEmpty()) {
                 foValue.setTransNox(fsTransNo);
             } else {
@@ -401,7 +402,7 @@ public class RAddressMobile {
             param.put("sSourceNo", foValue.getSourceNo());
 
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
-            String lsAddress = loApis.getImportCountriesAPI();
+            String lsAddress = loApis.getMobileUpdateRequestAPI();
             String lsResponse = WebClient.httpsPostJSon(lsAddress, param.toString(), new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
                 message = "Server no response";
