@@ -10,11 +10,13 @@
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/adapter_branch_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/adapter_branch_list_content.xml" value="0.33" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/adapter_branch_list_head.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/adapter_home_image_slider.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/fragment_about.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/fragment_account_settings.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/fragment_company_profile.xml" value="0.25" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/fragment_find_us.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/fragment_find_us1.xml" value="0.1" />
+        <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/fragment_home.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/fragment_mc_branches.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/fragment_mp_branches.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/app/src/main/res/layout/menu_header_layout.xml" value="0.16" />
@@ -58,6 +60,7 @@
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/activity_search_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/activity_write_product_review.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_categories.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_home_image_slider.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_order_list.xml" value="0.25" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_payment_method.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_description.xml" value="0.17732558139534885" />
@@ -246,4 +249,11 @@
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.33" />
+      </ProjectState>
+    </option>
+  </component>
 </project>

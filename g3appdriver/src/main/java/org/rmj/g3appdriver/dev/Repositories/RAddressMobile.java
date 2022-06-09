@@ -323,7 +323,7 @@ public class RAddressMobile {
 
             //Save new Address Update.
             DMobileAddressInfo loDao = GGC_GuanzonAppDB.getInstance(mContext).mobAddDao();
-            foValue.setSourceCD("MCpl");
+            foValue.setSourceCD("MPlc");
             foValue.setSourceNo(loClient.getClientID());
             loDao.SaveAddress(foValue);
             Log.d(TAG, "New address info has been save successfully.");
@@ -331,13 +331,13 @@ public class RAddressMobile {
             JSONObject param = new JSONObject();
             param.put("sTransNox", foValue.getTransNox());
             param.put("sClientID", foValue.getClientID());
-            param.put("cReqstCDe", foValue.getReqstCDe());
-            param.put("cAddrssTp", foValue.getAddrssTp());
+            param.put("cReqstCDe", foValue.getReqstCDe()); // 0-> Change, 1->Update, 2-> New
+            param.put("cAddrssTp", foValue.getAddrssTp()); // 0-> Present, 1-> Permanent
             param.put("sHouseNox", foValue.getHouseNox());
             param.put("sAddressx", foValue.getAddressx());
             param.put("sTownIDxx", foValue.getTownIDxx());
             param.put("sBrgyIDxx", foValue.getBrgyIDxx());
-            param.put("cPrimaryx", foValue.getPrimaryx());
+            param.put("cPrimaryx", foValue.getPrimaryx()); //0-> false, 1-> true
             param.put("nLatitude", "");
             param.put("nLongitud", "");
             param.put("sRemarksx", foValue.getRemarksx());
@@ -386,7 +386,7 @@ public class RAddressMobile {
 
             //Save new Address Update.
             DMobileAddressInfo loDao = GGC_GuanzonAppDB.getInstance(mContext).mobAddDao();
-            foValue.setSourceCD("MCpl");
+            foValue.setSourceCD("MPlc");
             foValue.setSourceNo(loClient.getClientID());
             loDao.SaveMobile(foValue);
             Log.d(TAG, "New contact info has been save successfully.");
