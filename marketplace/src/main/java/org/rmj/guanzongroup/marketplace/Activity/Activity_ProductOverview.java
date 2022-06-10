@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.rmj.g3appdriver.etc.CashFormatter;
@@ -23,13 +28,17 @@ import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.utils.Dialogs.BottomDialog_AddToCart;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ImageSlider;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductDescription;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
+import org.rmj.guanzongroup.marketplace.Model.HomeImageSliderModel;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMProductOverview;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_ProductOverview extends AppCompatActivity {
@@ -39,6 +48,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
     private LinearLayout poItmSpec;
+    private SliderView poSliderx;
     private RecyclerView rvItmSpec;
     private TextView txtProdNm, txtUntPrc, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
             txtBriefx;
@@ -101,6 +111,17 @@ public class Activity_ProductOverview extends AppCompatActivity {
         poDialogx = new Dialog_SingleButton(Activity_ProductOverview.this);
         toolbar = findViewById(R.id.toolbar);
         poItmSpec = findViewById(R.id.layout_specifications);
+
+        // Image Slider Setup
+        poSliderx = findViewById(R.id.imgSlider);
+        poSliderx.setIndicatorAnimation(IndicatorAnimationType.WORM);
+        poSliderx.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        poSliderx.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+        poSliderx.setIndicatorSelectedColor(Color.WHITE);
+        poSliderx.setIndicatorUnselectedColor(Color.GRAY);
+        poSliderx.setScrollTimeInSec(5);
+        poSliderx.startAutoCycle();
+
         rvItmSpec = findViewById(R.id.rv_specifications);
         rvItmSpec.setLayoutManager(new LinearLayoutManager(Activity_ProductOverview.this));
         rvItmSpec.setHasFixedSize(true);
@@ -127,6 +148,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private void displayData() {
         mViewModel.getProductInfo(psItemIdx).observe(Activity_ProductOverview.this, product -> {
             try {
+                setImageSlider();
                 psProduct = Objects.requireNonNull(product.getModelNme());
                 psPricexx = CashFormatter.parse(Objects.requireNonNull(product.getUnitPrce()));
 
@@ -160,6 +182,12 @@ public class Activity_ProductOverview extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setImageSlider() {
+        Adapter_ImageSlider adapter = new Adapter_ImageSlider(Activity_ProductOverview.this,
+                getSliderImages());
+        poSliderx.setSliderAdapter(adapter);
     }
 
     private void addToCart() {
@@ -254,6 +282,14 @@ public class Activity_ProductOverview extends AppCompatActivity {
         } else {
             return true;
         }
+    }
+
+    private List<HomeImageSliderModel> getSliderImages() {
+        List<HomeImageSliderModel> loSliders = new ArrayList<>();
+        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/5043968.jpg"));
+        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/327367.jpg"));
+        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/4260890.png"));
+        return loSliders;
     }
 
 }

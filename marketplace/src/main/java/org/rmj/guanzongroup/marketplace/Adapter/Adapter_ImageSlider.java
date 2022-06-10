@@ -16,19 +16,19 @@ import org.rmj.guanzongroup.marketplace.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Adapter_HomeImageSlider extends SliderViewAdapter<Adapter_HomeImageSlider.SliderAdapterVH> {
+public class Adapter_ImageSlider extends SliderViewAdapter<Adapter_ImageSlider.SliderAdapterVH> {
 
     private Context context;
     private List<HomeImageSliderModel> oSlideLst = new ArrayList<>();
 
-    public Adapter_HomeImageSlider(Context context, List<HomeImageSliderModel> oSlideLst) {
+    public Adapter_ImageSlider(Context context, List<HomeImageSliderModel> oSlideLst) {
         this.context = context;
         this.oSlideLst = oSlideLst;
     }
 
     @Override
     public SliderAdapterVH onCreateViewHolder(ViewGroup parent) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_home_image_slider, null);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_image_slider, null);
         return new SliderAdapterVH(inflate);
     }
 

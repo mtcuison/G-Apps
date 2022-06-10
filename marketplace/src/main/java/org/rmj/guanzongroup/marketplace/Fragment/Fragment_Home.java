@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.marketplace.Fragment;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,7 +25,7 @@ import com.smarteist.autoimageslider.SliderView;
 
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_QRCode;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
-import org.rmj.guanzongroup.marketplace.Adapter.Adapter_HomeImageSlider;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ImageSlider;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
 import org.rmj.guanzongroup.marketplace.Model.HomeImageSliderModel;
 import org.rmj.guanzongroup.marketplace.R;
@@ -94,7 +93,7 @@ public class Fragment_Home extends Fragment {
     }
 
     private void setImageSlider() {
-        Adapter_HomeImageSlider adapter = new Adapter_HomeImageSlider(requireActivity(),getSliderImages());
+        Adapter_ImageSlider adapter = new Adapter_ImageSlider(requireActivity(),getSliderImages());
         poSliderx.setSliderAdapter(adapter);
     }
 

@@ -22,421 +22,433 @@
             android:orientation="vertical"
             android:paddingBottom="80dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:theme="@style/ClearAppTheme.ActionBar.Transparent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                android:layout_height="wrap_content">
 
-            <!-- Make height wrap content when start for development -->
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:src="@drawable/image_placeholder"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/toolbar"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:theme="@style/ClearAppTheme.ActionBar.Transparent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.smarteist.autoimageslider.SliderView
+                    android:id="@+id/imgSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:sliderAnimationDuration="600"
+                    app:sliderAutoCycleDirection="back_and_forth"
+                    app:sliderAutoCycleEnabled="true"
+                    app:sliderIndicatorAnimationDuration="600"
+                    app:sliderIndicatorGravity="center_horizontal|bottom"
+                    app:sliderIndicatorMargin="15dp"
+                    app:sliderIndicatorOrientation="horizontal"
+                    app:sliderIndicatorPadding="3dp"
+                    app:sliderIndicatorRadius="2dp"
+                    app:sliderIndicatorSelectedColor="#5A5A5A"
+                    app:sliderIndicatorUnselectedColor="#FFF"
+                    app:sliderScrollTimeInSec="1"
+                    app:sliderStartAutoCycle="true"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+                    app:layout_constraintRight_toRightOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_main_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/FragmentTheme">
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/txt_product_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Model Name"
-                android:textColor="@color/font_regular"
-                android:textSize="18sp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:lines="2"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
-
-            <TextView
-                android:id="@+id/txt_product_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="P0.00"
-                android:textColor="@color/guanzon_digital_light_orange"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_product_name" />
-
-            <TextView
-                android:id="@+id/txt_product_discount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="P0.00 - 0%"
-                android:textColor="@color/font_light"
-                android:textSize="16sp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/txt_product_price"
-                app:layout_constraintBottom_toBottomOf="@id/txt_product_price"/>
-
-
-            <TextView
-                android:id="@+id/txt_ratings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="0 Ratings"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_product_price"
-                app:layout_constraintRight_toLeftOf="@id/dSold"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="10dp"/>
-
-            <View
-                android:id="@+id/dSold"
-                android:layout_width="1.5dp"
-                android:layout_height="15dp"
-                android:background="@color/font_light"
-                app:layout_constraintLeft_toRightOf="@id/txt_ratings"
-                app:layout_constraintTop_toTopOf="@id/ic_wishlist"
-                app:layout_constraintRight_toLeftOf="@id/txt_product_sold_count"
-                app:layout_constraintBottom_toBottomOf="@id/ic_wishlist"/>
-
-            <TextView
-                android:id="@+id/txt_product_sold_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="0 Sold"
-                android:textSize="16sp"
-                android:layout_marginLeft="8dp"
-                app:layout_constraintLeft_toRightOf="@id/dSold"
-                app:layout_constraintTop_toTopOf="@id/txt_ratings"/>
-
-            
-            <ImageView
-                android:id="@+id/ic_wishlist"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/ic_baseline_favorite_border_24"
-                app:layout_constraintTop_toBottomOf="@id/txt_product_price"
-                app:layout_constraintRight_toLeftOf="@id/ic_share"
-                android:layout_marginRight="8dp"/>
-
-            <ImageView
-                android:id="@+id/ic_share"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_baseline_share_24"
-                app:layout_constraintTop_toTopOf="@id/ic_wishlist"
-                app:layout_constraintRight_toRightOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:id="@+id/divider1"
-            android:layout_width="match_parent"
-            android:layout_height="0.4dp"
-            android:background="@color/font_light"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_main_details"
-            app:layout_constraintRight_toRightOf="parent"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/FragmentTheme">
-
-            <TextView
-                android:id="@+id/lblProductDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/lblProductDescription"
-                android:textColor="@color/font_regular"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:id="@+id/layout_brandName"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_main_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblProductDesc"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto"
-                    android:text="Brand: "
-                    android:textColor="@color/font_light"
-                    android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/txt_brand_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="BRAND NAME"
-                    android:textColor="@color/font_light"
-                    android:textSize="16sp"
-                    android:layout_gravity="right"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_category"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_brandName"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto"
-                    android:text="Category: "
-                    android:textColor="@color/font_light"
-                    android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/txt_category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="CATEGORY"
-                    android:textColor="@color/font_light"
-                    android:textSize="16sp"
-                    android:layout_gravity="right"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_variant"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_category"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto"
-                    android:text="Variant: "
-                    android:textColor="@color/font_light"
-                    android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/txt_variant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="COLOR"
-                    android:textColor="@color/font_light"
-                    android:textSize="16sp"
-                    android:layout_gravity="right"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_total_quantity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_variant"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto"
-                    android:text="Stocks: "
-                    android:textColor="@color/font_light"
-                    android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/txt_stocks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="STOCKS"
-                    android:textColor="@color/font_light"
-                    android:textSize="16sp"
-                    android:layout_gravity="right"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_brief_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_total_quantity"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto"
-                    android:text="Brief Description: "
-                    android:textColor="@color/font_light"
-                    android:textSize="16sp"/>
-                <TextView
-                    android:id="@+id/txt_brief_desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="BRIEF DESCRIPTION"
-                    android:textColor="@color/font_light"
-                    android:textSize="16sp"
-                    android:layout_gravity="right"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_specifications"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="0dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_brief_description"
-                app:layout_constraintRight_toRightOf="parent"
-                android:orientation="vertical">
+                style="@style/FragmentTheme">
 
                 <TextView
+                    android:id="@+id/txt_product_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Model Name"
+                    android:textColor="@color/font_regular"
+                    android:textSize="18sp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:lines="2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <TextView
+                    android:id="@+id/txt_product_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/lblProductSpecs"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginBottom="10dp"
-                    android:textColor="@color/font_regular"
-                    android:textSize="16sp"/>
+                    android:text="P0.00"
+                    android:textColor="@color/guanzon_digital_light_orange"
+                    android:textSize="20sp"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txt_product_name" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_specifications"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/txt_product_discount"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:overScrollMode="never"/>
+                    android:fontFamily="@font/roboto"
+                    android:text="P0.00 - 0%"
+                    android:textColor="@color/font_light"
+                    android:textSize="16sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/txt_product_price"
+                    app:layout_constraintBottom_toBottomOf="@id/txt_product_price"/>
 
-            </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/txt_ratings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="0 Ratings"
+                    android:textSize="16sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txt_product_price"
+                    app:layout_constraintRight_toLeftOf="@id/dSold"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="10dp"/>
 
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="0.4dp"
-            android:background="@color/font_light"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_description"
-            app:layout_constraintRight_toRightOf="parent"/>
+                <View
+                    android:id="@+id/dSold"
+                    android:layout_width="1.5dp"
+                    android:layout_height="15dp"
+                    android:background="@color/font_light"
+                    app:layout_constraintLeft_toRightOf="@id/txt_ratings"
+                    app:layout_constraintTop_toTopOf="@id/ic_wishlist"
+                    app:layout_constraintRight_toLeftOf="@id/txt_product_sold_count"
+                    app:layout_constraintBottom_toBottomOf="@id/ic_wishlist"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_ratings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/FragmentTheme">
+                <TextView
+                    android:id="@+id/txt_product_sold_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="0 Sold"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="8dp"
+                    app:layout_constraintLeft_toRightOf="@id/dSold"
+                    app:layout_constraintTop_toTopOf="@id/txt_ratings"/>
 
-            <TextView
-                android:id="@+id/lblProductRatings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/lblReviewsAndRatings"
-                android:textColor="@color/font_regular"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/lblSeeAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="@string/lblSeeAll"
-                android:textColor="@color/link_text_color"
-                android:textSize="16sp"
-                app:layout_constraintTop_toTopOf="@id/lblProductRatings"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/lblProductRatings"/>
+                <ImageView
+                    android:id="@+id/ic_wishlist"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_baseline_favorite_border_24"
+                    app:layout_constraintTop_toBottomOf="@id/txt_product_price"
+                    app:layout_constraintRight_toLeftOf="@id/ic_share"
+                    android:layout_marginRight="8dp"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_ratings"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                app:layout_constraintHorizontal_bias="0.0"
+                <ImageView
+                    android:id="@+id/ic_share"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_baseline_share_24"
+                    app:layout_constraintTop_toTopOf="@id/ic_wishlist"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="0.4dp"
+                android:background="@color/font_light"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblProductRatings" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:id="@+id/divider3"
-            android:layout_width="match_parent"
-            android:layout_height="0.4dp"
-            android:background="@color/font_light"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_ratings"
-            app:layout_constraintRight_toRightOf="parent"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_faqs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/FragmentTheme">
-
-            <TextView
-                android:id="@+id/lblProductFaqs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/lblAskedQuestions"
-                android:textColor="@color/font_regular"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/lblSeeAll2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="@string/lblSeeAll"
-                android:textColor="@color/link_text_color"
-                android:textSize="16sp"
-                app:layout_constraintTop_toTopOf="@id/lblProductFaqs"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/lblProductFaqs"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_faqs"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblProductFaqs"
+                app:layout_constraintTop_toBottomOf="@id/layout_main_details"
                 app:layout_constraintRight_toRightOf="parent"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/FragmentTheme">
+
+                <TextView
+                    android:id="@+id/lblProductDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/lblProductDescription"
+                    android:textColor="@color/font_regular"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/layout_brandName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lblProductDesc"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto"
+                        android:text="Brand: "
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"/>
+                    <TextView
+                        android:id="@+id/txt_brand_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="BRAND NAME"
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"
+                        android:layout_gravity="right"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_brandName"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto"
+                        android:text="Category: "
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"/>
+                    <TextView
+                        android:id="@+id/txt_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="CATEGORY"
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"
+                        android:layout_gravity="right"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_variant"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_category"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto"
+                        android:text="Variant: "
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"/>
+                    <TextView
+                        android:id="@+id/txt_variant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="COLOR"
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"
+                        android:layout_gravity="right"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_total_quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_variant"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto"
+                        android:text="Stocks: "
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"/>
+                    <TextView
+                        android:id="@+id/txt_stocks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="STOCKS"
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"
+                        android:layout_gravity="right"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_brief_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_total_quantity"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto"
+                        android:text="Brief Description: "
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"/>
+                    <TextView
+                        android:id="@+id/txt_brief_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="BRIEF DESCRIPTION"
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"
+                        android:layout_gravity="right"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_specifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="0dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_brief_description"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/lblProductSpecs"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="@color/font_regular"
+                        android:textSize="16sp"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_specifications"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never"/>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="0.4dp"
+                android:background="@color/font_light"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_description"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_ratings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/FragmentTheme">
+
+                <TextView
+                    android:id="@+id/lblProductRatings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/lblReviewsAndRatings"
+                    android:textColor="@color/font_regular"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/lblSeeAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/lblSeeAll"
+                    android:textColor="@color/link_text_color"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toTopOf="@id/lblProductRatings"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/lblProductRatings"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_ratings"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lblProductRatings" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="0.4dp"
+                android:background="@color/font_light"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_ratings"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_faqs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/FragmentTheme">
+
+                <TextView
+                    android:id="@+id/lblProductFaqs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/lblAskedQuestions"
+                    android:textColor="@color/font_regular"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/lblSeeAll2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/lblSeeAll"
+                    android:textColor="@color/link_text_color"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toTopOf="@id/lblProductFaqs"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/lblProductFaqs"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_faqs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lblProductFaqs"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
@@ -482,7 +494,7 @@
             android:textSize="20sp"
             android:background="@color/guanzon_digital_orange"
             android:gravity="center"/>
-        
+
     </LinearLayout>
-    
+
 </androidx.constraintlayout.widget.ConstraintLayout>
