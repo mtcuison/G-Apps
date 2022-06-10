@@ -26,15 +26,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:theme="@style/ClearAppTheme.ActionBar.Transparent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"/>
-
                 <com.smarteist.autoimageslider.SliderView
                     android:id="@+id/imgSlider"
                     android:layout_width="match_parent"
@@ -54,8 +45,17 @@
                     app:sliderStartAutoCycle="true"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:theme="@style/ClearAppTheme.ActionBar.Transparent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
