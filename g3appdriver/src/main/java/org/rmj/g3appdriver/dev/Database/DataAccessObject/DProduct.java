@@ -62,6 +62,7 @@ public interface DProduct {
     @Query("SELECT sListngID AS sProdctID, " +
             "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
             "nUnitPrce AS sPricexxx, " +
+            "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
             "LIMIT 10 OFFSET:fnIndex")
@@ -70,6 +71,7 @@ public interface DProduct {
     @Query("SELECT sListngID AS sProdctID, " +
             "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
             "nUnitPrce AS sPricexxx, " +
+            "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
             "ORDER BY nUnitPrce ASC " +
@@ -79,6 +81,7 @@ public interface DProduct {
     @Query("SELECT sListngID AS sProdctID, " +
             "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
             "nUnitPrce AS sPricexxx, " +
+            "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
             "ORDER BY nUnitPrce DESC " +
@@ -88,6 +91,7 @@ public interface DProduct {
     @Query("SELECT sListngID AS sProdctID, " +
             "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
             "nUnitPrce AS sPricexxx," +
+            "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
             "WHERE xCategrNm =:fsCategory " +
@@ -97,6 +101,7 @@ public interface DProduct {
     @Query("SELECT sListngID AS sProdctID, " +
             "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
             "nUnitPrce AS sPricexxx," +
+            "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
             "WHERE xBrandNme LIKE:fsName " +
@@ -106,6 +111,7 @@ public interface DProduct {
     @Query("SELECT sListngID AS sProdctID, " +
             "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
             "nUnitPrce AS sPricexxx," +
+            "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
             "WHERE nUnitPrce BETWEEN :fnFrom AND :fnToxx " +
@@ -113,10 +119,21 @@ public interface DProduct {
             "LIMIT 10 OFFSET:nIndex")
     LiveData<List<oProduct>> GetProductsListFilterPriceRange(int nIndex, String fnFrom, String fnToxx);
 
+    @Query("SELECT sListngID AS sProdctID, " +
+            "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
+            "nUnitPrce AS sPricexxx," +
+            "sImagesxx, " +
+            "nSoldQtyx AS sUntsSold " +
+            "FROM Product_Inventory " +
+            "WHERE sProdctNm LIKE '%' || :fsVal || '%'" +
+            "ORDER BY nUnitPrce ASC")
+    LiveData<List<oProduct>> SearchProducts(String fsVal);
+
     class oProduct{
         public String sProdctID;
         public String sProdctNm;
         public String sPricexxx;
         public String sUntsSold;
+        public String sImagesxx;
     }
 }

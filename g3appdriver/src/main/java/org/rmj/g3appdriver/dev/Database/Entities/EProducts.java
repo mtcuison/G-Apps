@@ -24,6 +24,8 @@ public class EProducts {
     private String BrandNme;
     @ColumnInfo(name = "xModelNme")
     private String ModelNme;
+    @ColumnInfo(name = "sImagesxx")
+    private String Imagesxx;
     @ColumnInfo(name = "xColorNme")
     private String ColorNme;
     @ColumnInfo(name = "xCategrNm")
@@ -194,5 +196,13 @@ public class EProducts {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public String getImagesxx() {
+        return Imagesxx;
+    }
+
+    public void setImagesxx(String imagesxx) {
+        Imagesxx = imagesxx;
     }
 }

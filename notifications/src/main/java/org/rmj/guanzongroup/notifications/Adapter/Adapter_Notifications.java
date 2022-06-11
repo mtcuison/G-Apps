@@ -1,8 +1,10 @@
 package org.rmj.guanzongroup.notifications.Adapter;
 
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,6 +42,12 @@ public class Adapter_Notifications extends RecyclerView.Adapter<Adapter_Notifica
         holder.lbl_ntfTitle.setText(notif.MsgTitle);
         holder.lbl_ntfDateTime.setText(DateTimeFormatter.ParseDateForList(notif.Received));
         holder.lbl_ntfMessage.setText(notif.Messagex);
+
+        if(notif.MesgStat.equalsIgnoreCase("2")){
+            holder.imgNotif.setVisibility(View.VISIBLE);
+        } else {
+            holder.imgNotif.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -53,11 +61,13 @@ public class Adapter_Notifications extends RecyclerView.Adapter<Adapter_Notifica
         private final TextView lbl_ntfTitle;
         private final TextView lbl_ntfDateTime;
         private final TextView lbl_ntfMessage;
+        private final ImageView imgNotif;
         public NotificationHolder(@NonNull View itemView, OnNotificationsListener foCallBck) {
             super(itemView);
             lbl_ntfTitle = itemView.findViewById(R.id.lbl_ntfTitle);
             lbl_ntfDateTime = itemView.findViewById(R.id.lbl_ntfDateTime);
             lbl_ntfMessage = itemView.findViewById(R.id.lbl_ntfMessage);
+            imgNotif = itemView.findViewById(R.id.img_notif);
 
             itemView.setOnClickListener(v -> foCallBck.OnClick(lsMessageID, lsMesgType));
         }

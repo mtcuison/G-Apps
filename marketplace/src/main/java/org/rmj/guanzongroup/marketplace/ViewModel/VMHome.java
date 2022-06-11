@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
@@ -18,6 +19,7 @@ import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
+import org.rmj.g3appdriver.etc.FilterType;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
@@ -63,8 +65,8 @@ public class VMHome extends AndroidViewModel {
         return poGCard.getGCardInfo();
     }
 
-    public LiveData<List<EProducts>> getProductList(int fnIndex) {
-        return poProduct.GetProductList(fnIndex);
+    public LiveData<List<DProduct.oProduct>> getProductList(int fnIndex) {
+        return poProduct.GetProductsList(fnIndex, FilterType.DEFAULT, null, null);
     }
 
     public LiveData<Integer> GetUnreadMessagesCount(){

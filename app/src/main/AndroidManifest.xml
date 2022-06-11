@@ -36,7 +36,7 @@
             android:name=".Activity.Activity_TermsAndConditions"
             android:exported="false" />
 
-        <activity android:name=".Activity.Activity_ItemCart"
+        <activity android:name="org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart"
             android:exported="false"/>
         <activity
             android:name="org.rmj.guanzongroup.useraccount.Activity.Activity_AccountDetails"
@@ -56,7 +56,11 @@
             android:name=".Activity.Activity_Dashboard"
             android:exported="true"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/GuanzonMarketplace.Theme" />
+            android:theme="@style/GuanzonMarketplace.Theme">
+
+            <meta-data android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
+        </activity>
 
         <provider
             android:name="com.facebook.FacebookContentProvider"

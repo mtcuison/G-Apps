@@ -20,15 +20,21 @@ public class VMProductOverview extends AndroidViewModel {
 
     private final Application application;
     private final RProduct poProdcts;
+    private final ROrder poOrder;
 
     public VMProductOverview(@NonNull Application application) {
         super(application);
+        this.poOrder = new ROrder(application);
         this.application = application;
         this.poProdcts = new RProduct(application);
     }
 
     public LiveData<EProducts> getProductInfo(String fsListID){
         return poProdcts.GetProductInfo(fsListID);
+    }
+
+    public LiveData<Integer> GetCartItemCount(){
+        return poOrder.GetCartItemCount();
     }
 
     public void addUpdateCart(String fsListId, int fnItemQty, OnTransactionsCallback foCallBck) {

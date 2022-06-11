@@ -125,14 +125,7 @@ public class AppConstants {
     public static String OFFLINE_PIN_REQUEST = "DEVICES_OFFLINE_PIN";
     public static String GET_DEVICE_LOG_REQUEST = "DEVICES_GETDEVICELOG";
 
-    public static String[] LEAVE_TYPE = {
-            "Vacation",
-            "Sick",
-            "Others",
-            "Birthday",
-            "Paternity",
-            "Solo Parent",
-            "Saturday"};
+    public static String SOURCE_CODE = "MPlc";
 
     public static String[][] ACCOUNT_SETTINGS_MENU = new String[][]{
             new String[] {"0","Account Details","Manage Email, Mobile Number, Password and Personal Information."},

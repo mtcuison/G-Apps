@@ -79,6 +79,7 @@ public class RProduct {
                             loProdct.setDescrptx(joDetail.getString("xDescript"));
                             loProdct.setBrandNme(joDetail.getString("xBrandNme"));
                             loProdct.setModelNme(joDetail.getString("xModelNme"));
+                            loProdct.setImagesxx(joDetail.getString("sImagesxx"));
                             loProdct.setColorNme(joDetail.getString("xColorNme"));
                             loProdct.setCategrNm(joDetail.getString("xCategrNm"));
                             loProdct.setTotalQty(joDetail.getString("nTotalQty"));
@@ -235,10 +236,80 @@ public class RProduct {
         }
     }
 
+    public LiveData<List<DProduct.oProduct>> SearchProducts(String fsVal){
+        return poDao.SearchProducts(fsVal);
+    }
+
     public boolean SearchProduct(String fsVal){
-        try{
-            return true;
-        } catch (Exception e){
+        try {
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            JSONObject params = new JSONObject();
+            params.put("bsearch", true);
+            params.put("descript", fsVal);
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getImportProducts(),
+                    params.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if (lsResponse == null) {
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if (!lsResult.equalsIgnoreCase("success")) {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    JSONArray laDetail = loResponse.getJSONArray("detail");
+                    for (int x = 0; x < laDetail.length(); x++) {
+                        JSONObject joDetail = laDetail.getJSONObject(x);
+                        if (poDao.GetProductIfExist(joDetail.getString("sListngID")) == null) {
+                            EProducts loProdct = new EProducts();
+                            loProdct.setListngID(joDetail.getString("sListngID"));
+                            loProdct.setBriefDsc(joDetail.getString("sBriefDsc"));
+                            loProdct.setDescript(joDetail.getString("sDescript"));
+                            loProdct.setBarCodex(joDetail.getString("xBarCodex"));
+                            loProdct.setDescrptx(joDetail.getString("xDescript"));
+                            loProdct.setBrandNme(joDetail.getString("xBrandNme"));
+                            loProdct.setModelNme(joDetail.getString("xModelNme"));
+                            loProdct.setImagesxx(joDetail.getString("sImagesxx"));
+                            loProdct.setColorNme(joDetail.getString("xColorNme"));
+                            loProdct.setCategrNm(joDetail.getString("xCategrNm"));
+                            loProdct.setTotalQty(joDetail.getString("nTotalQty"));
+                            loProdct.setQtyOnHnd(joDetail.getString("nQtyOnHnd"));
+                            loProdct.setResvOrdr(joDetail.getString("nResvOrdr"));
+                            loProdct.setSoldQtyx(joDetail.getString("nSoldQtyx"));
+                            loProdct.setUnitPrce(joDetail.getString("nUnitPrce"));
+                            loProdct.setListStrt(joDetail.getString("dListStrt"));
+                            loProdct.setListEndx(joDetail.getString("dListEndx"));
+                            loProdct.setTranStat(joDetail.getString("cTranStat"));
+                            loProdct.setTimeStmp(joDetail.getString("dTimeStmp"));
+                            poDao.SaveProductInfo(loProdct);
+                            Log.d(TAG, "New product listing save!");
+                        } else {
+                            EProducts loProdct = poDao.GetProductIfExist(joDetail.getString("sListngID"));
+                            Date ldDate1 = SQLUtil.toDate(loProdct.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                            Date ldDate2 = SQLUtil.toDate((String) joDetail.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                            if (!ldDate1.equals(ldDate2)) {
+                                poDao.UpdateProductListing(joDetail.getString("sListngID"),
+                                        joDetail.getString("nTotalQty"),
+                                        joDetail.getString("nQtyOnHnd"),
+                                        joDetail.getString("nResvOrdr"),
+                                        joDetail.getString("nSoldQtyx"),
+                                        joDetail.getString("nUnitPrce"),
+                                        joDetail.getString("dListStrt"),
+                                        joDetail.getString("dListEndx"),
+                                        joDetail.getString("cTranStat"),
+                                        joDetail.getString("dTimeStmp"));
+                                Log.d(TAG, "New product listing updated!");
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }
+        } catch(Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return false;

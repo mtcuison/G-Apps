@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Fragment;
+package org.rmj.guanzongroup.marketplace.Fragment;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -26,7 +26,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
-import org.rmj.guanzongroup.guanzonapp.Activity.Activity_ItemCart;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ItemCart;
 import org.rmj.guanzongroup.marketplace.Dialog.Dialog_BranchSelection;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
