@@ -16,12 +16,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
+import com.squareup.picasso.Picasso;
 
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.badge.BadgeUtils;
@@ -55,6 +57,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private LinearLayout poItmSpec;
     private SliderView poSliderx;
     private RecyclerView rvItmSpec;
+    private ImageView imgPromox;
     private BadgeDrawable loBadge;
     private TextView txtProdNm, txtUntPrc, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
             txtBriefx;
@@ -136,6 +139,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
         rvItmSpec.setLayoutManager(new LinearLayoutManager(Activity_ProductOverview.this));
         rvItmSpec.setHasFixedSize(true);
 
+        imgPromox = findViewById(R.id.imgPromox);
         txtProdNm = findViewById(R.id.txt_product_name);
         txtUntPrc = findViewById(R.id.txt_product_price);
         txtSoldQt = findViewById(R.id.txt_product_sold_count);
@@ -170,6 +174,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
         mViewModel.getProductInfo(psItemIdx).observe(Activity_ProductOverview.this, product -> {
             try {
+                showPromoBanner();
                 setImageSlider();
                 psProduct = Objects.requireNonNull(product.getModelNme());
                 psPricexx = CashFormatter.parse(Objects.requireNonNull(product.getUnitPrce()));
@@ -233,6 +238,15 @@ public class Activity_ProductOverview extends AppCompatActivity {
         Adapter_ImageSlider adapter = new Adapter_ImageSlider(Activity_ProductOverview.this,
                 getSliderImages());
         poSliderx.setSliderAdapter(adapter);
+    }
+
+    private void showPromoBanner() {
+        boolean isThereAPromoForItem = true;
+        if(isThereAPromoForItem) {
+            String sampleUrl = "https://www.toysrus.com.bn/dw/image/v2/BDGJ_PRD/on/demandware.static/-/Sites-storefront-catalog-toysrus-bn/default/dw660375c3/categories/brands/W-Z/zuru-2560x320-2.jpg?q=75";
+            imgPromox.setVisibility(View.VISIBLE);
+            Picasso.get().load(sampleUrl).into(imgPromox);
+        }
     }
 
     private void addToCart() {
