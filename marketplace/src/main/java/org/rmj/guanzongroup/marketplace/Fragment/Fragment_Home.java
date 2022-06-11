@@ -23,6 +23,7 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_QRCode;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ImageSlider;
@@ -86,10 +87,25 @@ public class Fragment_Home extends Fragment {
     }
 
     private void displayData() {
+        showPromoDialog();
         setImageSlider();
         initGcardPanel();
         setCategoryAdapter();
         setProductAdapter();
+    }
+
+    private void showPromoDialog() {
+        boolean isThereAnActivePromo = true;
+        if(isThereAnActivePromo) {
+            String sampleUrl = "https://scontent.fmnl9-3.fna.fbcdn.net/v/t39.30808-6/282387720_5403740322981545_1108881974112682037_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=730e14&_nc_eui2=AeEvu2TqVptylKnLQCLZJsRtSxQVxHxfyshLFBXEfF_KyEAKctHKcbuaNcazD-nb2MAP_y_8m_GYvWx_bhlvEfaj&_nc_ohc=Qq0Ju_q0W9AAX-lGGig&_nc_ht=scontent.fmnl9-3.fna&oh=00_AT8ef2TtqoNkTcSEWKKEQqwEwtelUX0xorokm2XyAP7snA&oe=62A98FB0";
+            Dialog_Promo loDialog = new Dialog_Promo(requireActivity());
+            loDialog.initDialog(sampleUrl, (dialog) -> {
+                // TODO: Intent to specific activity to show product/promo.
+                Toast.makeText(requireActivity(), "Promo Image Clicked.", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            });
+            loDialog.show();
+        }
     }
 
     private void setImageSlider() {

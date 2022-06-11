@@ -35,7 +35,7 @@ public class Dialog_Promo {
         ImageView imgPromox = view.findViewById(R.id.imgPromox);
 
         lnkClosex.setOnClickListener(v -> poDialogx.dismiss());
-        imgPromox.setOnClickListener(v -> mCallBack.onClick());
+        imgPromox.setOnClickListener(v -> mCallBack.onClick(poDialogx));
         Picasso.get().load(fsImgUrlx).into(imgPromox);
     }
 
@@ -48,8 +48,15 @@ public class Dialog_Promo {
         }
     }
 
+    public void dismiss(){
+        if(poDialogx != null && poDialogx.isShowing()){
+            poDialogx.dismiss();
+            isShown = false;
+        }
+    }
+
     public interface OnPromoClick {
-        void onClick();
+        void onClick(AlertDialog dialog);
     }
 
 }
