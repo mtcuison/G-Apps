@@ -43,7 +43,7 @@ public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductLis
             holder.txtProdNm.setText(loProduct.getModelNme());
             holder.txtPricex.setText(CashFormatter.parse(loProduct.getUnitPrce()));
             holder.txtSoldxx.setText(loProduct.getSoldQtyx() + " Sold");
-//            holder.setImage(loProduct.get);
+            // TODO: Set product image url ~> Picasso.get().load(stringUrl).into(holder.imgProdct);
         } catch (Exception e) {
             e.printStackTrace();
         }
