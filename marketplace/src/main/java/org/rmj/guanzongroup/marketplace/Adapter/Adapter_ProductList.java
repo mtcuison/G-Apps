@@ -44,6 +44,12 @@ public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductLis
             holder.txtPricex.setText(CashFormatter.parse(loProduct.getUnitPrce()));
             holder.txtSoldxx.setText(loProduct.getSoldQtyx() + " Sold");
             // TODO: Set product image url ~> Picasso.get().load(stringUrl).into(holder.imgProdct);
+            // TODO: Display promo banner if there is any (8:1 aspect ratio)
+//            boolean isThereAPromoForThisItem = true;
+//            if(isThereAPromoForThisItem) {
+//                holder.imgPromox.setVisibility(View.VISIBLE);
+//                Picasso.get().load(stringUrl).into(holder.imgPromox);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,12 +63,13 @@ public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductLis
     public static class ViewHolderItem extends RecyclerView.ViewHolder{
 
         public String sListIdxx = "";
-        public ImageView imgProdct;
+        public ImageView imgProdct, imgPromox;
         public TextView txtProdNm, txtPricex, txtSoldxx;
 
         public ViewHolderItem(@NonNull View itemView, OnItemClick foCallBck) {
             super(itemView);
             imgProdct = itemView.findViewById(R.id.img_product);
+            imgPromox = itemView.findViewById(R.id.imgPromox);
             txtProdNm = itemView.findViewById(R.id.txt_product_name);
             txtPricex = itemView.findViewById(R.id.txt_product_price);
             txtSoldxx = itemView.findViewById(R.id.txt_product_sold_count);
