@@ -67,8 +67,10 @@ public class ServerAPIs {
     private static final String UPDATE_DEFAULT_PAYMENT_METHOD = "";
     private static final String IMPORT_SHIPPING_STATUS = "";
     private static final String IMPORT_ORDER_SUMMARY = "";
-    private static final String IMPORT_REVIEWS = "";
-    private static final String IMPORT_QUESTIONS_AND_ANSWERS = "";
+    private static final String IMPORT_REVIEWS = "integsys/marketplace/import_product_reviews.php";
+    private static final String IMPORT_INQUIRIES = "integsys/marketplace/import_product_inquiries.php";
+    private static final String SUBMIT_REVIEW = "integsys/marketplace/submit_product_review.php";
+    private static final String SUBMIT_INQUIRY = "integsys/marketplace/submit_product_inquiry.php";
 
     private static final String IMPORT_NOTIFICATIONS = "integsys/notification/request_previous_notifications.php";
     private static final String SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/notification/send_response.php";
@@ -394,9 +396,9 @@ public class ServerAPIs {
 
     public String getQuestionsAndAnswersAPI() {
         if(isTestUnit){
-            return LOCAL + IMPORT_QUESTIONS_AND_ANSWERS;
+            return LOCAL + IMPORT_INQUIRIES;
         }
-        return LIVE + IMPORT_QUESTIONS_AND_ANSWERS;
+        return LIVE + IMPORT_INQUIRIES;
     }
 
     public String getUpdateMobileNo() {
@@ -497,10 +499,17 @@ public class ServerAPIs {
         return LIVE + REQUEST_MOBILE_UPDATE;
     }
 
-    public String getImportNotificationsAPI(){
+    public String getSubmitInquiryAPI(){
         if(isTestUnit){
-            return LOCAL + IMPORT_NOTIFICATIONS;
+            return LOCAL + SUBMIT_INQUIRY;
         }
-        return LIVE + IMPORT_NOTIFICATIONS;
+        return LIVE + SUBMIT_INQUIRY;
+    }
+
+    public String getSubmitReviewAPI(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_REVIEW;
+        }
+        return LIVE + SUBMIT_REVIEW;
     }
 }

@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -182,6 +183,29 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 txtStocks.setText(Objects.requireNonNull(product.getQtyOnHnd()));
                 txtBriefx.setText(Objects.requireNonNull(product.getBriefDsc()));
                 setFullDescription(Objects.requireNonNull(product.getDescript()));
+
+                mViewModel.ImportInquiries(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
+                    @Override
+                    public void OnImport(String args) {
+
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+
+                    }
+                });
+                mViewModel.ImportReviews(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
+                    @Override
+                    public void OnImport(String args) {
+
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+
+                    }
+                });
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 finish();

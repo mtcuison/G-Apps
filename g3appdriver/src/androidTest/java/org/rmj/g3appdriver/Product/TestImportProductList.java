@@ -50,12 +50,23 @@ public class TestImportProductList {
 
     @Test
     public void test02GetProductList() throws Exception{
-        poProdct.GetProductList(10).observeForever(new Observer<List<EProducts>>() {
-            @Override
-            public void onChanged(List<EProducts> eProducts) {
-                loList = eProducts;
-            }
-        });
+        poProdct.GetProductList(10).observeForever(eProducts -> loList = eProducts);
         assertNotNull(loList);
+    }
+
+
+    @Test
+    public void test03GetProductReview() throws Exception{
+        isSuccess = poProdct.GetProductRatings("C00122000002");
+        assertNotNull(poProdct.getData());
+        assertTrue(isSuccess);
+    }
+
+
+    @Test
+    public void test04GetProductInquiry() throws Exception{
+        isSuccess = poProdct.GetQuestionsAndAnswers("C00122000001");
+        assertNotNull(poProdct.getData());
+        assertTrue(isSuccess);
     }
 }

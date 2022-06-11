@@ -13,9 +13,6 @@
         <activity
             android:name=".Activity.Activity_Purchases"
             android:exported="false" />
-    <application>
-
-        <activity android:name=".Activity.Activity_Purchases"/>
         <activity
             android:name=".Activity.Activity_WriteProductReview"
             android:exported="false" />

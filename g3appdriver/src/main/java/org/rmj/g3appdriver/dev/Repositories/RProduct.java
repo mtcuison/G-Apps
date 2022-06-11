@@ -14,9 +14,11 @@ import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.FilterType;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -130,12 +132,14 @@ public class RProduct {
         return poDao.GetProductInfo(fsListID);
     }
 
-    public boolean GetProductRatings(){
+    public boolean GetProductRatings(String fsVal){
         try{
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            JSONObject params = new JSONObject();
+            params.put("sListIDxx", fsVal);
             String lsResponse = WebClient.httpsPostJSon(
                     loApis.getImportReviewsAPI(),
-                    new JSONObject().toString(),
+                    params.toString(),
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
                 message = "Unable to retrieve server response.";
@@ -159,12 +163,14 @@ public class RProduct {
         }
     }
 
-    public boolean GetQuestionsAndAnswers(){
+    public boolean GetQuestionsAndAnswers(String fsVal){
         try{
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            JSONObject params = new JSONObject();
+            params.put("sListIDxx", fsVal);
             String lsResponse = WebClient.httpsPostJSon(
                     loApis.getQuestionsAndAnswersAPI(),
-                    new JSONObject().toString(),
+                    params.toString(),
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
                 message = "Unable to retrieve server response.";
@@ -310,6 +316,75 @@ public class RProduct {
                 }
             }
         } catch(Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean SendProductInquiry(String ListID, String Question){
+        try{
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            JSONObject params = new JSONObject();
+            AccountInfo loUser = new AccountInfo(mContext);
+            params.put("sListngID", ListID);
+            params.put("sQuestion", Question);
+            params.put("sCreatedx", loUser.getUserID());
+            params.put("dCreatedx", new AppConstants().DATE_MODIFIED);
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getSubmitInquiryAPI(),
+                    params.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean SendProductReview(String ListID, int Rate, String Remarks){
+        try{
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            JSONObject params = new JSONObject();
+            AccountInfo loUser = new AccountInfo(mContext);
+            params.put("sListngID", ListID);
+            params.put("nRatingxx", Rate);
+            params.put("sRemarksx", Remarks);
+            params.put("sCreatedx", loUser.getUserID());
+            params.put("dCreatedx", new AppConstants().DATE_MODIFIED);
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getSubmitReviewAPI(),
+                    params.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return false;
