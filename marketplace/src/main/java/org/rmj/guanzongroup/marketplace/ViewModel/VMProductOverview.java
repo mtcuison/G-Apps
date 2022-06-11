@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
@@ -20,15 +21,21 @@ public class VMProductOverview extends AndroidViewModel {
 
     private final Application application;
     private final RProduct poProdcts;
+    private final ROrder poOrder;
 
     public VMProductOverview(@NonNull Application application) {
         super(application);
+        this.poOrder = new ROrder(application);
         this.application = application;
         this.poProdcts = new RProduct(application);
     }
 
     public LiveData<EProducts> getProductInfo(String fsListID){
         return poProdcts.GetProductInfo(fsListID);
+    }
+
+    public LiveData<Integer> GetCartItemCount(){
+        return poOrder.GetCartItemCount();
     }
 
     public void addUpdateCart(String fsListId, int fnItemQty, OnTransactionsCallback foCallBck) {
@@ -87,7 +94,94 @@ public class VMProductOverview extends AndroidViewModel {
                 loCallBck.onFailed(lsMessage);
             }
         }
-
     }
 
+    public interface OnInquiryReviewsImportCallback{
+        void OnImport(String args);
+        void OnFailed(String message);
+    }
+
+    public void ImportInquiries(String fsVal, OnInquiryReviewsImportCallback callback){
+        new ImportInquiriesTask(callback).execute(fsVal);
+    }
+
+    public void ImportReviews(String fsVal, OnInquiryReviewsImportCallback callback){
+        new ImportReviewsTask(callback).execute(fsVal);
+    }
+
+    private class ImportInquiriesTask extends AsyncTask<String, Void, String>{
+
+        private OnInquiryReviewsImportCallback callback;
+        private final ConnectionUtil loConnect;
+        private boolean isSuccess = false;
+        private String message;
+        private JSONObject poData;
+
+        public ImportInquiriesTask(OnInquiryReviewsImportCallback callback) {
+            this.callback = callback;
+            this.loConnect = new ConnectionUtil(application);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            if(loConnect.isDeviceConnected()) {
+                if (poProdcts.GetQuestionsAndAnswers(strings[0])) {
+                    poData = poProdcts.getData();
+                } else {
+                    message = poProdcts.getMessage();
+                }
+            } else {
+                message = "No internet";
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess){
+                callback.OnImport(poData.toString());
+            } else {
+                callback.OnFailed(message);
+            }
+        }
+    }
+
+    private class ImportReviewsTask extends AsyncTask<String, Void, String>{
+
+        private OnInquiryReviewsImportCallback callback;
+        private final ConnectionUtil loConnect;
+        private boolean isSuccess = false;
+        private String message;
+        private JSONObject poData;
+
+        public ImportReviewsTask(OnInquiryReviewsImportCallback callback) {
+            this.callback = callback;
+            this.loConnect = new ConnectionUtil(application);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            if(loConnect.isDeviceConnected()) {
+                if (poProdcts.GetProductRatings(strings[0])) {
+                    poData = poProdcts.getData();
+                } else {
+                    message = poProdcts.getMessage();
+                }
+            } else {
+                message = "No internet";
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess){
+                callback.OnImport(poData.toString());
+            } else {
+                callback.OnFailed(message);
+            }
+        }
+    }
 }

@@ -12,6 +12,7 @@
 package org.rmj.guanzongroup.notifications.Etc;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,11 +20,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import androidx.core.app.NotificationCompat;
-
 import com.google.firebase.messaging.RemoteMessage;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.etc.RemoteMessageParser;
 import org.rmj.guanzongroup.notifications.Activity.Activity_ViewNotification;
 import org.rmj.guanzongroup.notifications.R;
@@ -85,7 +83,7 @@ public class GNotifBuilder {
         }
     }
 
-    private NotificationCompat.Builder initNotification(){
+    private Notification.Builder initNotification(){
         Intent notifyIntent = new Intent(context, Activity_ViewNotification.class);
         // Set the Activity to start in a new, empty task
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -104,11 +102,10 @@ public class GNotifBuilder {
             notifyPendingIntent = PendingIntent.getActivity(
                     context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
-        return new NotificationCompat.Builder(context)
+        return new Notification.Builder(context)
                 .setContentIntent(notifyPendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(Notification.PRIORITY_HIGH)
                 .setAutoCancel(true)
-                .setChannelId(NotificationID)
                 .setSmallIcon(R.drawable.ic_guanzon_logo)
                 .setContentTitle(Title)
                 .setContentText(Message);

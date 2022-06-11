@@ -276,8 +276,8 @@ public class ROrder {
             loItem.setQuantity(String.valueOf(fnQuantity));
             loItem.setTranStat("0");
             loItem.setAvlQtyxx("");
-            loItem.setCreatedx(new AppConstants().GCARD_DATE_TIME);
-            loItem.setTimeStmp(new AppConstants().GCARD_DATE_TIME);
+            loItem.setCreatedx(new AppConstants().DATE_MODIFIED);
+            loItem.setTimeStmp(new AppConstants().DATE_MODIFIED);
             if(poCartDao.CheckIFItemExist(fsLstngID) == null){
                 poCartDao.SaveItemInfo(loItem);
             } else {
@@ -349,8 +349,8 @@ public class ROrder {
             loItem.setBuyNowxx("1");
             loItem.setCheckOut("1");
             loItem.setAvlQtyxx("");
-            loItem.setCreatedx(new AppConstants().GCARD_DATE_TIME);
-            loItem.setTimeStmp(new AppConstants().GCARD_DATE_TIME);
+            loItem.setCreatedx(new AppConstants().DATE_MODIFIED);
+            loItem.setTimeStmp(new AppConstants().DATE_MODIFIED);
             poCartDao.CancelBuyNowItem();
             poCartDao.SaveItemInfo(loItem);
             return true;

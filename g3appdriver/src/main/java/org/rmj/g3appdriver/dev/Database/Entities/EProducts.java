@@ -24,6 +24,8 @@ public class EProducts {
     private String BrandNme;
     @ColumnInfo(name = "xModelNme")
     private String ModelNme;
+    @ColumnInfo(name = "sImagesxx")
+    private String Imagesxx;
     @ColumnInfo(name = "xColorNme")
     private String ColorNme;
     @ColumnInfo(name = "xCategrNm")
@@ -44,6 +46,8 @@ public class EProducts {
     private String ListEndx;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
+    @ColumnInfo(name = "dTimeStmp")
+    private String TimeStmp;
 
     public EProducts() {
 
@@ -184,5 +188,21 @@ public class EProducts {
 
     public void setTranStat(String tranStat) {
         TranStat = tranStat;
+    }
+
+    public String getTimeStmp() {
+        return TimeStmp;
+    }
+
+    public void setTimeStmp(String timeStmp) {
+        TimeStmp = timeStmp;
+    }
+
+    public String getImagesxx() {
+        return Imagesxx;
+    }
+
+    public void setImagesxx(String imagesxx) {
+        Imagesxx = imagesxx;
     }
 }

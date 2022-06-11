@@ -16,6 +16,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
+import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
@@ -60,7 +61,7 @@ public class VMSplashScreen extends AndroidViewModel {
 
     public void setupApp(){
         GuanzonAppConfig loConfig = new GuanzonAppConfig(mContext);
-        loConfig.setTestCase(true);
+        loConfig.setTestCase(false);
         loConfig.setIfPermissionsGranted(hasPermissions(mContext, laPermissions));
         poLoadStat.setValue(new oLoadStat(
                 loConfig.IsPermissionsGranted(),
@@ -164,6 +165,9 @@ public class VMSplashScreen extends AndroidViewModel {
 //                pause();
 
                 if (new AccountInfo(mContext).getLoginStatus()) {
+                    RNotificationInfo loNotif = new RNotificationInfo(mContext);
+                    loNotif.ImportClientNotifications(0);
+                    pause();
                     loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
                     loGcard.DownloadGcardNumbers(poCallback);
                     if(new RGcardApp(mContext).hasActiveGcard().size() > 0){

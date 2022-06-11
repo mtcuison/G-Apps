@@ -46,7 +46,7 @@ public class Fragment_Orders extends Fragment {
     private final Adapter_OrderHistory.OnOrderHistoryClickListener loListener = (args, args1) -> {
         Intent loIntent = new Intent(requireActivity(), Activity_Purchases.class);
         loIntent.putExtra("sOrderIDx", args);
-        startActivity(loIntent);
+        requireActivity().startActivity(loIntent);
     };
 
     @Override

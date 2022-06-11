@@ -3,24 +3,29 @@ package org.rmj.guanzongroup.marketplace.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 
-import org.rmj.guanzongroup.marketplace.R;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMSearchItem;
 import org.rmj.guanzongroup.marketplace.databinding.ActivitySearchItemBinding;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_SearchItem extends AppCompatActivity {
-
+    private static final String TAG = Activity_SearchItem.class.getSimpleName();
     private VMSearchItem mViewModel;
     private ActivitySearchItemBinding mBinding;
+
+    private Adapter_ProductList loAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,19 +33,10 @@ public class Activity_SearchItem extends AppCompatActivity {
         mViewModel = new ViewModelProvider(Activity_SearchItem.this).get(VMSearchItem.class);
         mBinding = ActivitySearchItemBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-
+// Get the intent, verify the action and get the query
         setUpToolbar();
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) item.getActionView();
-        searchView.setQueryHint("Search Products");
-        searchView.setIconifiedByDefault(false);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        mBinding.searchview.requestFocus();
+        mBinding.searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 displayResult(query);
@@ -52,8 +48,9 @@ public class Activity_SearchItem extends AppCompatActivity {
                 return false;
             }
         });
-
-        return super.onCreateOptionsMenu(menu);
+        mBinding.recyclrVw.setLayoutManager(new GridLayoutManager(Activity_SearchItem.this,
+                2, RecyclerView.VERTICAL, false));
+        mBinding.recyclrVw.setHasFixedSize(true);
     }
 
     @Override
@@ -76,12 +73,24 @@ public class Activity_SearchItem extends AppCompatActivity {
     }
 
     private void displayResult(String fsQueryxx) {
-//        Adapter_ProductList loAdapter = new Adapter_ProductList()
-//        mBinding.recyclrVw.setLayoutManager(new GridLayoutManager(Activity_SearchItem.this,
-//                2, RecyclerView.VERTICAL, false));
-//        mBinding.recyclrVw.setHasFixedSize(true);
-//        mBinding.recyclrVw.setAdapter(poAdapter);
-//        poAdapter.notifyDataSetChanged();
-    }
+        mViewModel.RequestProductSearch(fsQueryxx, () -> {
+            mViewModel.GetSearchProductList(fsQueryxx).observe(Activity_SearchItem.this, oProducts -> {
+                try{
+                    if(oProducts.size() > 0) {
+                        loAdapter = new Adapter_ProductList(oProducts, fsListIdx -> {
+                            Intent loIntent = new Intent(Activity_SearchItem.this, Activity_ProductOverview.class);
+                            loIntent.putExtra("sListingId", fsListIdx);
+                            startActivity(loIntent);
+                        });
+                        mBinding.recyclrVw.setAdapter(loAdapter);
+                        loAdapter.notifyDataSetChanged();
+                    } else {
 
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            });
+        });
+    }
 }

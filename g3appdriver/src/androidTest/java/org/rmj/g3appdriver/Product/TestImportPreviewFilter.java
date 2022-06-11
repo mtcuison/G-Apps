@@ -148,4 +148,11 @@ public class TestImportPreviewFilter {
         assertNotNull(loList);
         assertTrue(loList.size()>0);
     }
+
+    @Test
+    public void test07SearchProduct() throws Exception{
+        poProdct.SearchProducts("Samsung").observeForever(oProducts -> loList = oProducts);
+        assertNotNull(loList);
+        assertTrue(loList.size()>0);
+    }
 }

@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Fragment;
+package org.rmj.guanzongroup.notifications.Fragment;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -14,13 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import org.rmj.guanzongroup.guanzonapp.Activity.Activity_Browser;
-import org.rmj.guanzongroup.guanzonapp.Adapter.Adapter_BranchList;
-import org.rmj.guanzongroup.guanzonapp.Adapter.Adapter_EventsPromos;
-import org.rmj.guanzongroup.guanzonapp.R;
-import org.rmj.guanzongroup.guanzonapp.ViewModel.VMEventsPromos;
+import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
+import org.rmj.guanzongroup.notifications.Adapter.Adapter_EventsPromos;
+import org.rmj.guanzongroup.notifications.R;
+import org.rmj.guanzongroup.notifications.ViewModel.VMEventsPromos;
 
 public class Fragment_EventsPromos extends Fragment {
 
