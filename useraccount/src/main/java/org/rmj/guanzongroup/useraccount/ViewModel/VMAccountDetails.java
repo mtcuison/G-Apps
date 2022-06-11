@@ -78,6 +78,14 @@ public class VMAccountDetails extends AndroidViewModel {
         return poAddress.getCountryForInput(foList);
     }
 
+    public LiveData<String> getFullAddress(String fsBrgyIdx) {
+        return poAddress.GetFullAddressName(fsBrgyIdx);
+    }
+
+    public LiveData<String> getBirthplace(String fsTownIdx) {
+        return poAddress.ParseTownID(fsTownIdx);
+    }
+
     public LiveData<List<AccountDetailsInfo>> getAccountDetailsList() {
         return poAcctInf;
     }
@@ -90,23 +98,26 @@ public class VMAccountDetails extends AndroidViewModel {
         new CompleteClientInfoTask(poConnect, poClientx, foCallBck).execute(foClientx);
     }
 
-    public void setAccountDetailsList(EClientInfo foClientx) {
+    public void updateAccountInfo(EClientInfo foClientx, OnTransactionCallBack foCallBck) {
+        new UpdateAccountInfoTask(poConnect, poClientx, foCallBck).execute(foClientx);
+    }
+
+    public void setAccountDetailsList(EClientInfo foClientx, String fsAddress, String fsBplacex) {
         List<AccountDetailsInfo> loAcctInf = new ArrayList<>();
         String lsFullNme = foClientx.getFrstName() + " " + foClientx.getMiddName() + " " + foClientx.getLastName() + " " + foClientx.getSuffixNm();
         String lsGenderx = getGenderList().get(Integer.parseInt(foClientx.getGenderCd()));
         String lsCivilSt = getCivilStatusList().get(Integer.parseInt(foClientx.getCvilStat()));
-        String lsAddress = foClientx.getHouseNox() + " " + foClientx.getAddressx();
         loAcctInf.add(new AccountDetailsInfo(true, psLstHead[0], "",""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Full Name", lsFullNme));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Gender", lsGenderx));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Birth Date", foClientx.getBirthDte()));
-        loAcctInf.add(new AccountDetailsInfo(false, "", "Birth Place", ""));
+        loAcctInf.add(new AccountDetailsInfo(false, "", "Birth Place", fsBplacex));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Citizen", ""));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Civil Status", lsCivilSt));
         loAcctInf.add(new AccountDetailsInfo(false, "", "Tax ID", foClientx.getTaxIDNox()));
 
         loAcctInf.add(new AccountDetailsInfo(true, psLstHead[1], "",""));
-        loAcctInf.add(new AccountDetailsInfo(false,"","Address", lsAddress));
+        loAcctInf.add(new AccountDetailsInfo(false,"","Address", fsAddress));
 
         loAcctInf.add(new AccountDetailsInfo(true, psLstHead[2], "",""));
         loAcctInf.add(new AccountDetailsInfo(false,"","Email Address", foClientx.getEmailAdd()));
@@ -149,7 +160,7 @@ public class VMAccountDetails extends AndroidViewModel {
                         lsResultx = "";
                         isSuccess = true;
                     } else {
-                        lsResultx = "";
+                        lsResultx = loClientx.getMessage();
                     }
                 } else {
                     lsResultx = AppConstants.SERVER_NO_RESPONSE();
@@ -227,6 +238,68 @@ public class VMAccountDetails extends AndroidViewModel {
                 loCallBck.onFailed(s);
             }
         }
+    }
+
+    private static class UpdateAccountInfoTask extends AsyncTask<EClientInfo, Void, Boolean> {
+
+        private final ConnectionUtil loConnect;
+        private final RClientInfo loClientx;
+        private final OnTransactionCallBack loCallBck;
+
+        private String lsMessage = "";
+
+        private UpdateAccountInfoTask(ConnectionUtil foConnect, RClientInfo foClientx,
+                                      OnTransactionCallBack foCallBck) {
+            this.loCallBck = foCallBck;
+            this.loConnect = foConnect;
+            this.loClientx = foClientx;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loCallBck.onLoading();
+        }
+
+        @Override
+        protected Boolean doInBackground(EClientInfo... eClientInfos) {
+            try {
+                EClientInfo oClientx = eClientInfos[0];
+                if(loConnect.isDeviceConnected()) {
+                    if(loClientx.UpdateAccountInfo(oClientx)) {
+                        Thread.sleep(1000);
+                        if(loClientx.ImportAccountInfo()) {
+                            lsMessage = "Personal account details updated successfully.";
+                            return true;
+                        } else {
+                            lsMessage = loClientx.getMessage();
+                            return false;
+                        }
+                    } else {
+                        lsMessage = loClientx.getMessage();
+                        return false;
+                    }
+                } else {
+                    lsMessage = AppConstants.SERVER_NO_RESPONSE();
+                    return false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsMessage = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean) {
+                loCallBck.onSuccess(lsMessage);
+            } else {
+                loCallBck.onFailed(lsMessage);
+            }
+        }
+
     }
 
     public interface OnTransactionCallBack {

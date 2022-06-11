@@ -1,14 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.Fragment_AddressCreate">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.Fragment_AddressCreate"
+    android:orientation="vertical"
+    style="@style/FragmentTheme">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/lblEditAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/lblMobileNumber"
+        android:textColor="@color/font_regular"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-</FrameLayout>
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="0dp"
+        android:layout_height="0.4dp"
+        android:background="@color/font_light"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblEditAccount"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"/>
+    <TextView
+        android:id="@+id/lblModileNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lblMobileNumber"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        style="@style/TextInputLabel" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_mobile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblModileNo"
+        app:layout_constraintRight_toRightOf="parent"
+        style="@style/TextInputStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number|none"
+            android:maxLength="11"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@id/tie_password"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/lblAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/lblAddress"
+        android:textColor="@color/font_regular"
+        android:textSize="16sp"
+        android:layout_marginTop="17dp"
+        app:layout_constraintStart_toStartOf="@id/lblHouseNo"
+        app:layout_constraintTop_toBottomOf="@id/til_mobile" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="0.4dp"
+        android:background="@color/font_light"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblAddress"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"/>
+
+    <TextView
+        android:id="@+id/lblHouseNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lblHouseNo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        style="@style/TextInputLabel" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_houseNo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingRight="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblHouseNo"
+        app:layout_constraintRight_toLeftOf="@id/til_street"
+        app:layout_constraintWidth_percent="0.3"
+        style="@style/TextInputStyle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtHouseN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="number|none"
+            android:maxLength="5"
+            android:nextFocusForward="@id/tie_street" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/lblStreet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lblStreet"
+        app:layout_constraintLeft_toLeftOf="@id/til_street"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        style="@style/TextInputLabel" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_street"
+        style="@style/TextInputStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/til_houseNo"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblHouseNo">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtStreet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="20"
+            android:inputType="textCapWords"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@id/tie_towncity" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/lblTownCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lblTownCity"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_street"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        style="@style/TextInputLabel" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_towncity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblTownCity"
+        app:layout_constraintRight_toRightOf="parent"
+        style="@style/TextInputStyle">
+
+        <AutoCompleteTextView
+            android:id="@+id/txtTownCt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="100"
+            android:inputType="textAutoComplete|textCapWords"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@id/tie_barangay"
+            style="@style/AutoCompleteStyleTheme"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/lblBarangay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lblBarangay"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_towncity"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        style="@style/TextInputLabel" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_barangay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblBarangay"
+        app:layout_constraintRight_toRightOf="parent"
+        style="@style/TextInputStyle">
+
+        <AutoCompleteTextView
+            android:id="@+id/txtBrgyxx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="30"
+            android:inputType="textAutoComplete|textCapWords"
+            android:imeOptions="actionDone"
+            style="@style/AutoCompleteStyleTheme"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAddShp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/lblAddShipping"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/ButtonStyle.Orange.Small"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

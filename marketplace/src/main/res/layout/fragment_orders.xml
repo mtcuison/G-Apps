@@ -12,7 +12,20 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="center_horizontal"
+        app:tabTextColor="@color/font_light"
+        app:tabSelectedTextColor="@color/guanzon_digital_light_orange"
+        app:tabIndicatorColor="@color/guanzon_digital_light_orange"
+        app:tabIndicatorHeight="3dp"
         app:tabMode="scrollable"/>
+
+    <TextView
+        android:id="@+id/txtNoList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/font_light"
+        android:textSize="14sp"
+        android:gravity="center"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_Orders"

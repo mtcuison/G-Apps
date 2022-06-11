@@ -3,10 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     app:cardCornerRadius="10dp"
+    android:clickable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:foreground="?android:attr/selectableItemBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lnCategory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="0dp">
@@ -31,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintHorizontal_bias="0.95"
             app:layout_constraintVertical_bias="0.8"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

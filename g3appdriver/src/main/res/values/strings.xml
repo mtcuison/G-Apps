@@ -87,6 +87,7 @@
     <string name="lblPlaceOrder">Place Order</string>
     <string name="lblPayOrder">Pay Order</string>
     <string name="lblRateProduct">Rate this Product</string>
+    <string name="lblAddShipping">Add Shipping Address</string>
     <string name="lblSave">Save</string>
     <string name="lblUpdate">Update</string>
     <string name="lblLogin">Log In</string>
@@ -127,11 +128,11 @@
     <string name="CP_Paragraph_2">Our roots can be traced from selling kalesa (horse cart) parts onto becoming a progressive and stable partner in the motorcycle and mobile phone retail sales. Now with 170 Motorcycle branches and 80 mobile phone shops, we continue to grow and expand with the commitment to loyalty, honesty and trust.</string>
 
     <string name="CP_Paragraph_3">The Guanzon Group of Companies, on its 75th year, banners the continued success of its registered companies:</string>
-    <string name="CP_Paragraph_4">Guanzon Merchandising Corporation (1983)</string>
-    <string name="CP_Paragraph_5">LGK Guanzon Incorporated (1990)</string>
-    <string name="CP_Paragraph_6">United Excelsior Marketing Incorporated (1998)</string>
-    <string name="CP_Paragraph_7">Motorcentrum Corporation (2003)</string>
-    <string name="CP_Paragraph_8">Guanzon Telecom (1998)</string>
+    <string name="CP_Paragraph_4">• Guanzon Merchandising Corporation (1983)</string>
+    <string name="CP_Paragraph_5">• LGK Guanzon Incorporated (1990)</string>
+    <string name="CP_Paragraph_6">• United Excelsior Marketing Incorporated (1998)</string>
+    <string name="CP_Paragraph_7">• Motorcentrum Corporation (2003)</string>
+    <string name="CP_Paragraph_8">• Guanzon Telecom (1998)</string>
 
     <string name="Corporate_Mission">Corporate Mission</string>
     <string name="CM_Paragraph">Guanzon Group of Companies will always strive in helping every Filipino make their life comfortable by providing the best and quality products and services.</string>

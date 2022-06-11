@@ -61,6 +61,8 @@ public class ServerAPIs {
     private static final String IMPORT_PURCHASES = "integsys/marketplace/download_purchases.php";
     private static final String IMPORT_RETRIEVE_SHIPPING_ADDRESS = "";
     private static final String UPDATE_SHIPPING_ADDRESS = "";
+    private static final String REQUEST_ADDRESS_UPDATE = "integsys/marketplace/request_address_update.php";
+    private static final String REQUEST_MOBILE_UPDATE = "integsys/marketplace/request_mobile_update.php";
     private static final String IMPORT_DEFAULT_PAYMENT_METHOD = "";
     private static final String UPDATE_DEFAULT_PAYMENT_METHOD = "";
     private static final String IMPORT_SHIPPING_STATUS = "";
@@ -472,6 +474,27 @@ public class ServerAPIs {
             return LOCAL + MKTPL_ORDER_PAYMENT;
         }
         return LIVE + MKTPL_ORDER_PAYMENT;
+    }
+
+    public String getImportNotificationsAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_NOTIFICATIONS;
+        }
+        return LIVE + IMPORT_NOTIFICATIONS;
+    }
+
+    public String getAddressUpdateRequestAPI(){
+        if(isTestUnit){
+            return LOCAL + REQUEST_ADDRESS_UPDATE;
+        }
+        return LIVE + REQUEST_ADDRESS_UPDATE;
+    }
+
+    public String getMobileUpdateRequestAPI(){
+        if(isTestUnit){
+            return LOCAL + REQUEST_MOBILE_UPDATE;
+        }
+        return LIVE + REQUEST_MOBILE_UPDATE;
     }
 
     public String getImportNotificationsAPI(){
