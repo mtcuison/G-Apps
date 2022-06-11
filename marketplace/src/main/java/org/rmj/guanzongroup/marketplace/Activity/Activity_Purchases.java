@@ -54,7 +54,7 @@ public class Activity_Purchases extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        StateProgressBar progressBar = (StateProgressBar) findViewById(R.id.your_state_progress_bar_id);
+        StateProgressBar progressBar = findViewById(R.id.your_state_progress_bar_id);
         progressBar.setStateDescriptionData(descriptionData);
         String lsOrderIDx = getIntent().getStringExtra("sOrderIDx");
         recyclerView = findViewById(R.id.recyclerview_Orders);

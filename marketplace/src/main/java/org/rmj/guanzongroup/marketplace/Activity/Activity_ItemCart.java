@@ -1,4 +1,9 @@
-package org.rmj.guanzongroup.guanzonapp.Activity;
+package org.rmj.guanzongroup.marketplace.Activity;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,18 +12,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-
 import com.google.android.material.tabs.TabLayout;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
+import org.rmj.guanzongroup.marketplace.Fragment.Fragment_GCardItemCart;
 import org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_Redeemables;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 import org.rmj.guanzongroup.marketplace.Adapter.ActivityFragmentAdapter;
-import org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_GCardItemCart;
 import org.rmj.guanzongroup.marketplace.Fragment.Fragment_MPItemCart;
 import org.rmj.guanzongroup.marketplace.R;
 
@@ -38,26 +38,23 @@ public class Activity_ItemCart extends AppCompatActivity {
         mViewModel = new ViewModelProvider(Activity_ItemCart.this).get(VMGCardSystem.class);
         if(getIntent().getStringExtra("args").equalsIgnoreCase("1")){
             getSupportActionBar().setTitle("Item Cart");
-            mViewModel.getActiveGcard().observe(this, new Observer<EGcardApp>() {
-                @Override
-                public void onChanged(EGcardApp eGcardApp) {
-                    try {
-                        adapter.clear();
-                        adapter.addFragment(new Fragment_MPItemCart());
-                        adapter.addTitle("MarketPlace");
-                        if (eGcardApp != null) {
-                            adapter.addFragment(new Fragment_GCardItemCart());
-                            adapter.addTitle("GCard");
-                            tabLayout.setVisibility(View.VISIBLE);
-                        } else {
-                            tabLayout.setVisibility(View.GONE);
-                        }
-                        viewPager.setAdapter(adapter);
-                        tabLayout.setupWithViewPager(viewPager);
-                        adapter.notifyDataSetChanged();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            mViewModel.getActiveGcard().observe(this, eGcardApp -> {
+                try {
+                    adapter.clear();
+                    adapter.addFragment(new Fragment_MPItemCart());
+                    adapter.addTitle("MarketPlace");
+                    if (eGcardApp != null) {
+                        adapter.addFragment(new Fragment_GCardItemCart());
+                        adapter.addTitle("GCard");
+                        tabLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        tabLayout.setVisibility(View.GONE);
                     }
+                    viewPager.setAdapter(adapter);
+                    tabLayout.setupWithViewPager(viewPager);
+                    adapter.notifyDataSetChanged();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             });
         }else {

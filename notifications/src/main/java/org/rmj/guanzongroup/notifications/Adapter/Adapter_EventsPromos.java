@@ -1,11 +1,9 @@
-package org.rmj.guanzongroup.guanzonapp.Adapter;
+package org.rmj.guanzongroup.notifications.Adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,13 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
-import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.notifications.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

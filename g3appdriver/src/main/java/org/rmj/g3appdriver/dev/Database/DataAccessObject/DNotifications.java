@@ -33,8 +33,17 @@ public interface DNotifications {
     @Insert
     void insert(ENotificationRecipient notificationRecipient);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insert(ENotificationUser notificationUser);
+
+    @Query("SELECT * FROM Notification_Info_Master WHERE sMesgIDxx=:fsVal")
+    ENotificationMaster CheckIfMasterExist(String fsVal);
+
+    @Query("SELECT * FROM Notification_Info_Recepient WHERE sTransNox=:fsVal")
+    ENotificationRecipient CheckIfRecipientExist(String fsVal);
+
+    @Query("SELECT * FROM Notification_User WHERE sUserIDxx=:fsVal")
+    ENotificationUser CheckIfUserExist(String fsVal);
 
     @Update
     void update(ENotificationMaster notificationMaster);
@@ -52,11 +61,20 @@ public interface DNotifications {
     int CheckNotificationIfExist(String TransNox);
 
     @Query("UPDATE Notification_Info_Recepient SET " +
-            "dLastUpdt =:DateTime, " +
+            "dLastUpdt =:fsArgs, " +
+            "dReceived =:fsArgs, " +
             "cMesgStat = '2', " +
             "cStatSent = '1' " +
             "WHERE sTransNox =:MessageID")
-    void updateRecipientReceivedStatus(String MessageID, String DateTime);
+    void updateRecipientReceivedStatus(String MessageID, String fsArgs);
+
+    @Query("UPDATE Notification_Info_Recepient SET " +
+            "dLastUpdt =:fsArgs, " +
+            "dReadxxxx =:fsArgs, " +
+            "cMesgStat = '3', " +
+            "cStatSent = '1' " +
+            "WHERE sTransNox =:MessageID")
+    void updateReadReceivedStatus(String MessageID, String fsArgs);
 
     @Query("SELECT a.sMesgIDxx AS MesgIDxx," +
             "a.sAppSrcex AS AppSrcex," +
@@ -71,7 +89,6 @@ public interface DNotifications {
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.cMesgStat <> '5' " +
-            "AND a.sMsgTypex == '00000' " +
             "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master) " +
             "ORDER BY b.dReceived DESC")
     LiveData<List<ClientNotificationInfo>> getClientNotificationList();
@@ -141,8 +158,7 @@ public interface DNotifications {
             "LEFT JOIN Notification_Info_Master b " +
             "ON a.sTransNox = b.sMesgIDxx " +
             "WHERE a.cMesgStat = '2' AND a.sRecpntID = (" +
-            "SELECT sUserIDxx FROM Client_Info_Master) " +
-            "AND b.sMsgTypex == '00000'")
+            "SELECT sUserIDxx FROM Client_Info_Master)")
     LiveData<Integer> getUnreadMessagesCount();
 
     @Query("SELECT COUNT(*) FROM Notification_Info_Recepient a " +
@@ -194,8 +210,12 @@ public interface DNotifications {
     @Query("SELECT COUNT(*) FROM Notification_Info_Master a " +
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
-            "WHERE b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master)")
+            "WHERE b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master) " +
+            "AND cMesgStat = '2'")
     int GetNotificationCount();
+
+    @Query("SELECT COUNT(*) FROM Notification_Info_Master")
+    int GetNotificationCountForID();
 
     class ClientNotificationInfo{
         public String MesgIDxx;

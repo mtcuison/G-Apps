@@ -16,6 +16,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.rmj.g3appdriver.etc.AppConstants;
+
 @Entity(tableName = "Notification_Info_Recepient")
 public
 class ENotificationRecipient {
@@ -23,33 +25,33 @@ class ENotificationRecipient {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "sTransNox")
-    private String TransNox;
+    private String TransNox = "";
     @ColumnInfo(name = "sAppRcptx")
-    private String AppRcptx;
+    private String AppRcptx = "";
     @ColumnInfo(name = "sRecpntID")
-    private String RecpntID;
+    private String RecpntID = "";
     @ColumnInfo(name = "sRecpntNm")
-    private String RecpntNm;
+    private String RecpntNm = "";
     @ColumnInfo(name = "sGroupIDx")
-    private String GroupIDx;
+    private String GroupIDx = "";
     @ColumnInfo(name = "sGroupNmx")
-    private String GroupNmx;
+    private String GroupNmx = "";
     @ColumnInfo(name = "cMonitorx")
-    private String Monitorx;
+    private String Monitorx = "";
     @ColumnInfo(name = "cMesgStat")
-    private String MesgStat;
+    private String MesgStat = "";
     @ColumnInfo(name = "cStatSent")
-    private String StatSent;
+    private String StatSent = "";
     @ColumnInfo(name = "dSentxxxx")
-    private String Sentxxxx;
+    private String Sentxxxx = "";
     @ColumnInfo(name = "dReceived")
-    private String Received;
+    private String Received = "";
     @ColumnInfo(name = "dReadxxxx")
-    private String Readxxxx;
+    private String Readxxxx = "";
     @ColumnInfo(name = "dLastUpdt")
-    private String LastUpdt;
+    private String LastUpdt = "";
     @ColumnInfo(name = "dTimeStmp")
-    private String TimeStmp;
+    private String TimeStmp = new AppConstants().DATE_MODIFIED;
 
     public ENotificationRecipient() {
     }

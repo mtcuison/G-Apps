@@ -7,9 +7,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,6 +24,9 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
+
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.badge.BadgeUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +58,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private SliderView poSliderx;
     private RecyclerView rvItmSpec;
     private ImageView imgPromox;
+    private BadgeDrawable loBadge;
     private TextView txtProdNm, txtUntPrc, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
             txtBriefx;
     private TextView btnAddCrt, btnBuyNow;
@@ -88,6 +94,10 @@ public class Activity_ProductOverview extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
             finish();
+        } else {
+            Intent intent = new Intent(Activity_ProductOverview.this, Activity_ItemCart.class);
+            intent.putExtra("args", "1");
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -141,6 +151,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
         btnAddCrt = findViewById(R.id.btnText_addToCart);
         btnBuyNow = findViewById(R.id.btnText_buyNow);
+
+        loBadge = BadgeDrawable.create(Activity_ProductOverview.this);
     }
 
     private void setUpToolbar() {
@@ -149,7 +161,17 @@ public class Activity_ProductOverview extends AppCompatActivity {
         getSupportActionBar().setTitle("");
     }
 
+    @SuppressLint("UnsafeOptInUsageError")
     private void displayData() {
+        mViewModel.GetCartItemCount().observe(Activity_ProductOverview.this, count -> {
+            try {
+                loBadge.setNumber(count);
+                BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
         mViewModel.getProductInfo(psItemIdx).observe(Activity_ProductOverview.this, product -> {
             try {
                 setImageSlider();
@@ -166,6 +188,29 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 txtStocks.setText(Objects.requireNonNull(product.getQtyOnHnd()));
                 txtBriefx.setText(Objects.requireNonNull(product.getBriefDsc()));
                 setFullDescription(Objects.requireNonNull(product.getDescript()));
+
+                mViewModel.ImportInquiries(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
+                    @Override
+                    public void OnImport(String args) {
+
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+
+                    }
+                });
+                mViewModel.ImportReviews(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
+                    @Override
+                    public void OnImport(String args) {
+
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+
+                    }
+                });
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 finish();

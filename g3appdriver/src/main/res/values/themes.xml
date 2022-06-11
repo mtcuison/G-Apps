@@ -9,6 +9,7 @@
         <item name="colorPrimaryDark">@color/status_bar</item>
         <item name="colorAccent">@color/guanzon_digital_orange</item>
         <!-- Secondary brand color. -->
+        <item name="searchViewStyle">@style/MySearchView</item>
         <item name="colorSecondary">@color/guanzon_digital_orange</item>
         <item name="colorSecondaryVariant">@color/guanzon_digital_orange</item>
         <item name="colorOnSecondary">@color/white</item>
@@ -224,5 +225,9 @@
         <item name="tabPaddingStart">8dp</item>
         <item name="tabPaddingEnd">8dp</item>
         <item name="android:titleTextColor" tools:ignore="NewApi">@color/guanzon_digital_orange</item>
+    </style>
+
+    <style name="MySearchView" parent="Widget.AppCompat.Light.SearchView">
+        <item name="searchHintIcon">@null</item>
     </style>
 </resources>

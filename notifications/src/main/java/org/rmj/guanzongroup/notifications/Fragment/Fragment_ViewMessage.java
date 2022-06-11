@@ -18,14 +18,13 @@ import android.widget.TextView;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
+import org.rmj.g3appdriver.etc.DateTimeFormatter;
 import org.rmj.guanzongroup.notifications.R;
 import org.rmj.guanzongroup.notifications.ViewModel.VMViewNotification;
 
 public class Fragment_ViewMessage extends Fragment {
 
-    private TextView lblTitle, lblMesgx;
-
-    String[] descriptionData = {"Processing", "Packed", "Shipped", "Delivered"};
+    private TextView lblTitle, lblDate, lblMesgx;
 
     private VMViewNotification mViewModel;
 
@@ -39,6 +38,7 @@ public class Fragment_ViewMessage extends Fragment {
         View loView = inflater.inflate(R.layout.fragment_view_message, container, false);
         mViewModel = new ViewModelProvider(this).get(VMViewNotification.class);
         lblTitle = loView.findViewById(R.id.lbl_messageTitle);
+        lblDate = loView.findViewById(R.id.lbl_messageDate);
         lblMesgx = loView.findViewById(R.id.lbl_messageBody);
 
 
@@ -47,6 +47,7 @@ public class Fragment_ViewMessage extends Fragment {
             mViewModel.GetNotificationInfo(lsMesgID).observe(requireActivity(), loNotif -> {
                 try{
                     lblTitle.setText(loNotif.MsgTitle);
+                    lblDate.setText(DateTimeFormatter.ParseDateFullyDetailed(loNotif.Received));
                     lblMesgx.setText(loNotif.Messagex);
                 } catch (Exception e){
                     e.printStackTrace();

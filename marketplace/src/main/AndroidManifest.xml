@@ -27,7 +27,14 @@
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_SearchItem"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTop">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.SEARCH" />-->
+<!--            </intent-filter>-->
+<!--            <meta-data android:name="android.app.searchable"-->
+<!--                android:resource="@xml/searchable"/>-->
+        </activity>
         <activity
             android:name=".Activity.Activity_PlaceOrder"
             android:exported="true" />

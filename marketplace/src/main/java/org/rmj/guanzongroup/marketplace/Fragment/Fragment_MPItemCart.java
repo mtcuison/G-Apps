@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.marketplace.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -57,12 +58,6 @@ public class Fragment_MPItemCart extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_mp_item_cart, container, false);
         initWidgets(v);
-        return v;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMMPItemCart.class);
         try {
             LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
@@ -101,14 +96,14 @@ public class Fragment_MPItemCart extends Fragment {
                             public void onFailed(String fsMessage) {
                                 poLoading.dismiss();
                                 poDialogx.setButtonText("Okay");
-                                poDialogx.initDialog("Item Cart", fsMessage, dialog -> dialog.dismiss());
+                                poDialogx.initDialog("Item Cart", fsMessage, Dialog::dismiss);
                                 poDialogx.show();
                             }
                         }));
                         Log.e("itemCart = ", String.valueOf(itemCart.size()));
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
-                    }else {
+                    } else {
                         noItem.setVisibility(View.VISIBLE);
                         lnMPFooter.setVisibility(View.GONE);
                     }
@@ -148,13 +143,13 @@ public class Fragment_MPItemCart extends Fragment {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Item Cart", fsMessage, dialog -> dialog.dismiss());
+                    poDialogx.initDialog("Item Cart", fsMessage, Dialog::dismiss);
                     poDialogx.show();
                 }
             });
         });
+        return v;
     }
-
     private void initWidgets(View view){
         poLoading = new Dialog_Loading(requireActivity());
         poDialogx = new Dialog_SingleButton(requireActivity());

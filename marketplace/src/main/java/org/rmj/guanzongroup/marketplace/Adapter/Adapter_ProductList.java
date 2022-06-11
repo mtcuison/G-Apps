@@ -20,10 +20,10 @@ import java.util.List;
 
 public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductList.ViewHolderItem> {
 
-    private final List<EProducts> poProdcts;
+    private final List<DProduct.oProduct> poProdcts;
     private final OnItemClick poCallBck;
 
-    public Adapter_ProductList(List<EProducts> foProdcts, OnItemClick foCallBck){
+    public Adapter_ProductList(List<DProduct.oProduct> foProdcts, OnItemClick foCallBck){
         this.poProdcts = foProdcts;
         this.poCallBck = foCallBck;
     }
@@ -50,6 +50,12 @@ public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductLis
 //                holder.imgPromox.setVisibility(View.VISIBLE);
 //                Picasso.get().load(stringUrl).into(holder.imgPromox);
 //            }
+            DProduct.oProduct loProduct = poProdcts.get(position);
+            holder.sListIdxx = loProduct.sProdctID;
+            holder.txtProdNm.setText(loProduct.sProdctNm);
+            holder.txtPricex.setText(CashFormatter.parse(loProduct.sPricexxx));
+            holder.txtSoldxx.setText(loProduct.sUntsSold + " Sold");
+            holder.setImage(loProduct.sImagesxx);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,8 +89,14 @@ public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductLis
         }
 
         public void setImage(String image){
-            Picasso.get().load(image).placeholder(R.drawable.ic_no_image_available)
-                    .error(R.drawable.ic_no_image_available).into(imgProdct);
+            try {
+                JSONArray laJson = new JSONArray(image);
+                String lsImgVal = laJson.getJSONObject(0).getString("sImageURL");
+                Picasso.get().load(lsImgVal).placeholder(R.drawable.ic_no_image_available)
+                        .error(R.drawable.ic_no_image_available).into(imgProdct);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
     }

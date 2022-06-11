@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.guanzonapp.Activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -14,10 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -36,7 +40,7 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.Service.OnLoginReceiver;
-import org.rmj.guanzongroup.marketplace.Activity.Activity_Purchases;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
@@ -58,6 +62,7 @@ public class Activity_Dashboard extends AppCompatActivity {
 
     private final OnLoginReceiver poLogRcv = new OnLoginReceiver();
 
+    @SuppressLint("UnsafeOptInUsageError")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,21 +145,23 @@ public class Activity_Dashboard extends AppCompatActivity {
                 lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
                 navigationView.getMenu().findItem(R.id.nav_item_cart).setActionView(lblBadge);
                 lblBadge.setText(GetBadgeValue(count));
+
+                BadgeDrawable loBadge = BadgeDrawable.create(Activity_Dashboard.this);
+                Toolbar toolbar = findViewById(R.id.toolbar);
+                loBadge.setNumber(count);
+                BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
 
-        mViewModel.GetToPayOrders().observe(Activity_Dashboard.this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer count) {
-                try{
-                    lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-                    navigationView.getMenu().findItem(R.id.nav_purchases).setActionView(lblBadge);
-                    lblBadge.setText(GetBadgeValue(count));
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+        mViewModel.GetToPayOrders().observe(Activity_Dashboard.this, count -> {
+            try{
+                lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+                navigationView.getMenu().findItem(R.id.nav_purchases).setActionView(lblBadge);
+                lblBadge.setText(GetBadgeValue(count));
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
 
@@ -197,6 +204,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_mrktplc, menu);
+        // Get the SearchView and set the searchable configuration
         mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
             try {
                 if(eClientinfo != null){
@@ -254,7 +262,9 @@ public class Activity_Dashboard extends AppCompatActivity {
             loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
             startActivity(loIntent);
         } else if (item.getItemId() == R.id.item_cart) {
-//            Navigation.findNavController(findViewById(android.R.id.content).getRootView()).navigate(R.id.nav_item_cart);
+            Intent intent = new Intent(Activity_Dashboard.this, Activity_ItemCart.class);
+            intent.putExtra("args", "1");
+            startActivity(intent);
         } else {
             loIntent = new Intent(Activity_Dashboard.this, Activity_QrCodeScanner.class);
             startActivityForResult(loIntent, SCAN_GCARD);
