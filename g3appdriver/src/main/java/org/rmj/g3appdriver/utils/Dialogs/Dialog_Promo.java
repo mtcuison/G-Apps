@@ -23,7 +23,7 @@ public class Dialog_Promo {
         this.poContext = foContext;
     }
 
-    public void initDialog(String fsImgUrlx){
+    public void initDialog(String fsImgUrlx, OnPromoClick mCallBack){
         View view = LayoutInflater.from(poContext).inflate(R.layout.dialog_promo ,
                 null, false);
         AlertDialog.Builder loBuilder = new AlertDialog.Builder(poContext);
@@ -35,6 +35,7 @@ public class Dialog_Promo {
         ImageView imgPromox = view.findViewById(R.id.imgPromox);
 
         lnkClosex.setOnClickListener(v -> poDialogx.dismiss());
+        imgPromox.setOnClickListener(v -> mCallBack.onClick());
         Picasso.get().load(fsImgUrlx).into(imgPromox);
     }
 
@@ -45,6 +46,10 @@ public class Dialog_Promo {
             poDialogx.show();
             isShown = true;
         }
+    }
+
+    public interface OnPromoClick {
+        void onClick();
     }
 
 }
