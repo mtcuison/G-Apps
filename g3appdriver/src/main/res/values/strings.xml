@@ -106,6 +106,8 @@
     <string name="lblInfoPassword">Please provide a password for your account.</string>
     <string name="lblCompleteInfo">Please provide the complete details.</string>
     <string name="lblTermsConditions"> in Terms and Conditions</string>
+    <string name="lblNoAskedQuestions">No current questions asked for this product.</string>
+    <string name="lblNoReviewsAndRatings">No current reviews and ratings for this product.</string>
     <string name="lblNoGcardAvailable">No GCard Available.</string>
     <string name="lblNoGcardTransactions">No GCard Transactions Available.</string>
     <string name="lblNoNotifications">No Notifications Available.</string>

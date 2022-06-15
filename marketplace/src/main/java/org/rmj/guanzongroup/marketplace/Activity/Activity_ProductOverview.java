@@ -52,6 +52,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Activity_ProductOverview extends AppCompatActivity {
+    private static final String TAG = Activity_ProductOverview.class.getSimpleName();
     private AccountInfo poAccount;
     private VMProductOverview mViewModel;
     private Toolbar toolbar;
@@ -63,7 +64,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private ImageView imgPromox;
     private BadgeDrawable loBadge;
     private TextView txtProdNm, txtUntPrc, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
-            txtBriefx;
+            txtBriefx, lblNoRevs, lblNoFaqs;
     private TextView btnAddCrt, btnBuyNow;
 
     private String psItemIdx = "";
@@ -159,6 +160,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
         txtColorx = findViewById(R.id.txt_variant);
         txtStocks = findViewById(R.id.txt_stocks);
         txtBriefx = findViewById(R.id.txt_brief_desc);
+        lblNoRevs = findViewById(R.id.lblNoRatings);
+        lblNoFaqs = findViewById(R.id.lblNoFaqs);
 
         btnAddCrt = findViewById(R.id.btnText_addToCart);
         btnBuyNow = findViewById(R.id.btnText_buyNow);
@@ -203,17 +206,27 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 mViewModel.ImportReviews(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
                     @Override
                     public void OnImport(String args) {
-                        // TODO:  Set adapter here
-                        Adapter_ProductReview loAdapter = new Adapter_ProductReview(args);
-                        loAdapter.notifyDataSetChanged();
-                        rvRatings.setAdapter(loAdapter);
+                        try {
+                            rvRatings.setVisibility(View.VISIBLE);
+                            lblNoRevs.setVisibility(View.GONE);
+                            JSONObject loJson = new JSONObject(args);
+                            Adapter_ProductReview loAdapter = new
+                                    Adapter_ProductReview(loJson.getJSONArray("detail"),
+                                    true);
+                            loAdapter.notifyDataSetChanged();
+                            rvRatings.setAdapter(loAdapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            rvRatings.setVisibility(View.GONE);
+                            lblNoRevs.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
                     public void OnFailed(String message) {
-                        poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Marketplace", message, dialog -> dialog.dismiss());
-                        poDialogx.show();
+                        Log.e(TAG, message);
+                        rvRatings.setVisibility(View.GONE);
+                        lblNoRevs.setVisibility(View.VISIBLE);
                     }
                 });
 
@@ -221,6 +234,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
                     @Override
                     public void OnImport(String args) {
                         try {
+                            rvQueries.setVisibility(View.VISIBLE);
+                            lblNoFaqs.setVisibility(View.GONE);
                             JSONObject loJson = new JSONObject(args);
                             Adapter_ProductQueries loAdapter = new
                                     Adapter_ProductQueries(loJson.getJSONArray("detail"),
@@ -229,14 +244,16 @@ public class Activity_ProductOverview extends AppCompatActivity {
                             rvQueries.setAdapter(loAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            rvQueries.setVisibility(View.GONE);
+                            lblNoFaqs.setVisibility(View.VISIBLE);
                         }
                     }
 
                     @Override
                     public void OnFailed(String message) {
-                        poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Marketplace", message, dialog -> dialog.dismiss());
-                        poDialogx.show();
+                        Log.e(TAG, message);
+                        rvQueries.setVisibility(View.GONE);
+                        lblNoFaqs.setVisibility(View.VISIBLE);
                     }
                 });
 

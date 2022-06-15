@@ -1,22 +1,28 @@
 package org.rmj.guanzongroup.marketplace.Adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.rmj.guanzongroup.marketplace.R;
 
 
 public class Adapter_ProductReview extends RecyclerView.Adapter<Adapter_ProductReview.ViewHolderItem> {
 
-    private final String pnLimitxx;
+    private final JSONArray loArray;
+    private final boolean isOverview;
 
-    public Adapter_ProductReview(String limit){
-        this.pnLimitxx = limit;
+    public Adapter_ProductReview(JSONArray loArray, boolean isOverview){
+        this.loArray = loArray;
+        this.isOverview = isOverview;
     }
 
     @NonNull
@@ -29,12 +35,13 @@ public class Adapter_ProductReview extends RecyclerView.Adapter<Adapter_ProductR
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
         try {
-//            if(position < pnLimitxx) {
-//                holder.txtClient.setText("");
-//                holder.txtDatexx.setText("");
-//                holder.txtReview.setText("");
-//                holder.txtVriant.setText("");
-//            }
+            JSONObject loJson = loArray.getJSONObject(position);
+            holder.psEntryNo = loJson.getString("nEntryNox");
+            holder.poRatings.setRating(Integer.parseInt(loJson.getString("nRatingxx")));
+            holder.txtClient.setText(loJson.getString("sUserName"));
+            holder.txtDatexx.setText(loJson.getString("dCreatedx"));
+            holder.txtReview.setText(loJson.getString("sRemarksx"));
+            holder.txtReplyx.setText(loJson.getString("sReplyxxx"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,20 +49,22 @@ public class Adapter_ProductReview extends RecyclerView.Adapter<Adapter_ProductR
 
     @Override
     public int getItemCount() {
-        return 0;
+        return (isOverview) ? 4 : loArray.length();
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{
 
-        public TextView txtClient, txtDatexx, txtReview, txtVriant;
+        public String psEntryNo= "";
+        public RatingBar poRatings;
+        public TextView txtClient, txtDatexx, txtReview, txtReplyx;
 
         public ViewHolderItem(@NonNull View itemView) {
             super(itemView);
-
+            poRatings = itemView.findViewById(R.id.ratings);
             txtClient = itemView.findViewById(R.id.txt_client_name);
             txtDatexx = itemView.findViewById(R.id.txt_date_review);
             txtReview = itemView.findViewById(R.id.txt_review);
-            txtVriant = itemView.findViewById(R.id.txt_variant);
+            txtReplyx = itemView.findViewById(R.id.txt_response);
         }
 
     }
