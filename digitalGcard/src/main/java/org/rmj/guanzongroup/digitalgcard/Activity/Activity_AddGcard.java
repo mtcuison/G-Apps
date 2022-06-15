@@ -271,5 +271,4 @@ public class Activity_AddGcard extends AppCompatActivity {
         }
         return true;
     }
-
 }

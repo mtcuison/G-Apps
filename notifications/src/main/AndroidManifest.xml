@@ -3,9 +3,12 @@
 
     <application>
         <activity
-            android:name=".Activity.Activity_ViewNotification"
-            android:label="Notifications"
+            android:name=".Activity.Activity_NotificationList"
             android:exported="false" />
+        <activity
+            android:name=".Activity.Activity_ViewNotification"
+            android:exported="false"
+            android:label="Notifications" />
     </application>
 
 </manifest>

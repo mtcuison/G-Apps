@@ -19,10 +19,11 @@ import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -31,7 +32,6 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
@@ -44,6 +44,7 @@ import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
+import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 
@@ -57,10 +58,26 @@ public class Activity_Dashboard extends AppCompatActivity {
     private VMHome mViewModel;
     private LayoutInflater loInflate;
 
+    private Toolbar toolbar;
+    private BadgeDrawable loBadge;
     private TextView lblBadge;
     private static final int SCAN_GCARD = 1;
 
     private final OnLoginReceiver poLogRcv = new OnLoginReceiver();
+
+    private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if(result.getResultCode() == SCAN_GCARD) {
+                    Intent loIntent = result.getData();
+                    if (loIntent != null) {
+                        Toast.makeText(Activity_Dashboard.this, loIntent.getStringExtra("result"), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(Activity_Dashboard.this, "No data result receive.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+    );
 
     @SuppressLint("UnsafeOptInUsageError")
     @Override
@@ -68,6 +85,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         mViewModel = new ViewModelProvider(Activity_Dashboard.this).get(VMHome.class);
+        toolbar = findViewById(R.id.toolbar);
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarActivityDashboard.toolbar);
 
@@ -80,11 +98,11 @@ public class Activity_Dashboard extends AppCompatActivity {
                 R.id.nav_home,
                 R.id.nav_promos,
                 R.id.nav_events,
-                R.id.nav_notifications,
                 R.id.nav_purchases,
                 R.id.nav_wishlist,
                 R.id.nav_item_cart,
                 R.id.nav_my_gcard,
+                R.id.nav_scan_qrcode,
                 R.id.nav_redeemables,
                 R.id.nav_gcard_orders,
                 R.id.nav_gcard_transactions,
@@ -96,31 +114,28 @@ public class Activity_Dashboard extends AppCompatActivity {
                 .setOpenableLayout(drawer)
                 .build();
 
-        mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, new Observer<EGcardApp>() {
-            @Override
-            public void onChanged(EGcardApp eGcardApp) {
-                try {
-                    navigationView = (NavigationView) findViewById(R.id.nav_view);
-                    Menu nav_Menu = navigationView.getMenu();
+        mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, eGcardApp -> {
+            try {
+                navigationView = (NavigationView) findViewById(R.id.nav_view);
+                Menu nav_Menu = navigationView.getMenu();
 
-                    //Disable Pre-Termination page untill project is develop...
-                    nav_Menu.findItem(R.id.nav_wishlist).setVisible(false);
+                //Disable Pre-Termination page untill project is develop...
+                nav_Menu.findItem(R.id.nav_wishlist).setVisible(false);
+                nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
+                nav_Menu.findItem(R.id.nav_customer_service).setVisible(false);
+                if (eGcardApp == null) {
+                    nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(false);
                     nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_customer_service).setVisible(false);
-                    if (eGcardApp == null) {
-                        nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
-                        nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);
-                        nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(false);
-                        nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
-                    } else {
-                        nav_Menu.findItem(R.id.nav_redeemables).setVisible(true);
-                        nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(true);
-                        nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(true);
-                        nav_Menu.findItem(R.id.nav_pre_termination).setVisible(true);
-                    }
-                } catch (Exception e){
-                    e.printStackTrace();
+                } else {
+                    nav_Menu.findItem(R.id.nav_redeemables).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_pre_termination).setVisible(true);
                 }
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
 
@@ -132,9 +147,13 @@ public class Activity_Dashboard extends AppCompatActivity {
 
         mViewModel.GetUnreadMessagesCount().observe(Activity_Dashboard.this, count -> {
             try{
-                lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-                navigationView.getMenu().findItem(R.id.nav_notifications).setActionView(lblBadge);
-                lblBadge.setText(GetBadgeValue(count));
+                loBadge = BadgeDrawable.create(Activity_Dashboard.this);
+                if(count > 0) {
+                    loBadge.setNumber(count);
+                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
+                } else {
+                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
+                }
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -142,14 +161,13 @@ public class Activity_Dashboard extends AppCompatActivity {
 
         mViewModel.GetCartItemCount().observe(Activity_Dashboard.this, count -> {
             try {
-                lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-                navigationView.getMenu().findItem(R.id.nav_item_cart).setActionView(lblBadge);
-                lblBadge.setText(GetBadgeValue(count));
-
-                BadgeDrawable loBadge = BadgeDrawable.create(Activity_Dashboard.this);
-                Toolbar toolbar = findViewById(R.id.toolbar);
-                loBadge.setNumber(count);
-                BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+                loBadge = BadgeDrawable.create(Activity_Dashboard.this);
+                if(count > 0) {
+                    loBadge.setNumber(count);
+                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+                } else {
+                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+                }
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -184,6 +202,12 @@ public class Activity_Dashboard extends AppCompatActivity {
             return false;
         });
 
+        navigationView.getMenu().findItem(R.id.nav_scan_qrcode).setOnMenuItemClickListener(menuItem -> {
+            Intent loIntent = new Intent(Activity_Dashboard.this, Activity_QrCodeScanner.class);
+            poArl.launch(loIntent);
+            return false;
+        });
+
         navigationView.getMenu().findItem(R.id.nav_item_cart).setOnMenuItemClickListener(menuItem -> {
             Intent intent = new Intent(Activity_Dashboard.this, Activity_ItemCart.class);
             intent.putExtra("args", "1");
@@ -208,10 +232,10 @@ public class Activity_Dashboard extends AppCompatActivity {
         mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
             try {
                 if(eClientinfo != null){
-                    menu.findItem(R.id.item_gcardScan).setVisible(true);
+                    menu.findItem(R.id.item_notifications).setVisible(true);
                     menu.findItem(R.id.item_cart).setVisible(true);
                 } else {
-                    menu.findItem(R.id.item_gcardScan).setVisible(false);
+                    menu.findItem(R.id.item_notifications).setVisible(false);
                     menu.findItem(R.id.item_cart).setVisible(false);
                 }
             } catch(Exception e) {
@@ -257,7 +281,7 @@ public class Activity_Dashboard extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent loIntent;
         if(item.getItemId() == android.R.id.home){
-//            finish();
+
         } else if (item.getItemId() == R.id.item_search) {
             loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
             startActivity(loIntent);
@@ -266,8 +290,7 @@ public class Activity_Dashboard extends AppCompatActivity {
             intent.putExtra("args", "1");
             startActivity(intent);
         } else {
-            loIntent = new Intent(Activity_Dashboard.this, Activity_QrCodeScanner.class);
-            startActivityForResult(loIntent, SCAN_GCARD);
+            startActivity(new Intent(Activity_Dashboard.this, Activity_NotificationList.class));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -299,7 +322,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
                     txtFullNm.setText(Objects.requireNonNull(lsFullNme));
-                    nav_Menu.findItem(R.id.nav_notifications).setVisible(true);
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
                     nav_Menu.findItem(R.id.nav_wishlist).setVisible(true);
                     nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
@@ -316,7 +338,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                         Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
                         startActivity(loIntent);
                     });
-                    nav_Menu.findItem(R.id.nav_notifications).setVisible(false);
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
                     nav_Menu.findItem(R.id.nav_wishlist).setVisible(false);
                     nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
@@ -348,7 +369,6 @@ public class Activity_Dashboard extends AppCompatActivity {
 
                     @Override
                     public void TransactionResult(String args) {
-
                         Log.e("TransactionResult :",args);
 //                        Toast.makeText(Activity_Dashboard.this, "TransactionResult" + args, Toast.LENGTH_LONG).show();
                         //TODO: Create dialog that will display the PIN. After closing the dialog, call GCardSystem>DownloadTransactions()
@@ -375,12 +395,7 @@ public class Activity_Dashboard extends AppCompatActivity {
 
         Dialog_SingleButton msgDialog = new Dialog_SingleButton(Activity_Dashboard.this);
         msgDialog.setButtonText("Okay");
-        msgDialog.initDialog(title, args, new Dialog_SingleButton.OnButtonClick() {
-            @Override
-            public void onClick(AlertDialog dialog) {
-                dialog.dismiss();
-            }
-        });
+        msgDialog.initDialog(title, args, dialog -> dialog.dismiss());
         msgDialog.show();
     }
 
@@ -408,12 +423,7 @@ public class Activity_Dashboard extends AppCompatActivity {
             public void OnSuccess(String args) {
                 loLoad.dismiss();
                 loMessage.setButtonText("Okay");
-                loMessage.initDialog("Digital GCard", args, new Dialog_SingleButton.OnButtonClick() {
-                    @Override
-                    public void onClick(AlertDialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
+                loMessage.initDialog("Digital GCard", args, dialog -> dialog.dismiss());
                 loMessage.show();
             }
 
@@ -421,12 +431,7 @@ public class Activity_Dashboard extends AppCompatActivity {
             public void OnFailed(String args) {
                 loLoad.dismiss();
                 loMessage.setButtonText("Okay");
-                loMessage.initDialog("Digital GCard", args, new Dialog_SingleButton.OnButtonClick() {
-                    @Override
-                    public void onClick(AlertDialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
+                loMessage.initDialog("Digital GCard", args, dialog -> dialog.dismiss());
                 loMessage.show();
             }
         });

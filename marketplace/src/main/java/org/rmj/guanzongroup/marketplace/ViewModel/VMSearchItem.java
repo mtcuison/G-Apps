@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.marketplace.ViewModel;
 import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -49,7 +50,11 @@ public class VMSearchItem extends AndroidViewModel {
 
         @Override
         protected String doInBackground(String... strings) {
-            poProdct.SearchProduct(strings[0]);
+            if(poProdct.SearchProduct(strings[0])){
+                Log.d(TAG, "");
+            } else {
+                Log.e(TAG, poProdct.getMessage());
+            }
             return null;
         }
 

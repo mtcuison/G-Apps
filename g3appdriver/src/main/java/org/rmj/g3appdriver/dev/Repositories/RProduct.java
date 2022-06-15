@@ -77,6 +77,7 @@ public class RProduct {
                             loProdct.setListngID(joDetail.getString("sListngID"));
                             loProdct.setBriefDsc(joDetail.getString("sBriefDsc"));
                             loProdct.setDescript(joDetail.getString("sDescript"));
+                            loProdct.setRatingxx(joDetail.getString("nRatingxx"));
                             loProdct.setBarCodex(joDetail.getString("xBarCodex"));
                             loProdct.setDescrptx(joDetail.getString("xDescript"));
                             loProdct.setBrandNme(joDetail.getString("xBrandNme"));
@@ -277,6 +278,7 @@ public class RProduct {
                             loProdct.setDescript(joDetail.getString("sDescript"));
                             loProdct.setBarCodex(joDetail.getString("xBarCodex"));
                             loProdct.setDescrptx(joDetail.getString("xDescript"));
+                            loProdct.setRatingxx(joDetail.getString("nRatingxx"));
                             loProdct.setBrandNme(joDetail.getString("xBrandNme"));
                             loProdct.setModelNme(joDetail.getString("xModelNme"));
                             loProdct.setImagesxx(joDetail.getString("sImagesxx"));
