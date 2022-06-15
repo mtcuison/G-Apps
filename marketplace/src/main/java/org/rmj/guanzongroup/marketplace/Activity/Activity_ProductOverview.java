@@ -243,12 +243,12 @@ public class Activity_ProductOverview extends AppCompatActivity {
                     @Override
                     public void OnImport(String args) {
                         try {
+                            JSONObject loJson = new JSONObject(args);
                             rvQueries.setVisibility(View.VISIBLE);
                             lblNoFaqs.setVisibility(View.GONE);
-                            JSONObject loJson = new JSONObject(args);
-                            Adapter_ProductQueries loAdapter = new
-                                    Adapter_ProductQueries(loJson.getJSONArray("detail"),
-                                    true);
+                            Adapter_ProductQueries loAdapter = new Adapter_ProductQueries(
+                                            getFilteredFaqs(loJson.getJSONArray("detail")),
+                                            true);
                             loAdapter.notifyDataSetChanged();
                             rvQueries.setAdapter(loAdapter);
                         } catch (JSONException e) {
@@ -431,6 +431,21 @@ public class Activity_ProductOverview extends AppCompatActivity {
         loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/327367.jpg"));
         loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/4260890.png"));
         return loSliders;
+    }
+
+    private JSONArray getFilteredFaqs(JSONArray foArray) {
+        JSONArray loArray = new JSONArray();
+        for(int x = 0; x < foArray.length(); x++) {
+            try {
+                if (!foArray.getJSONObject(x).getString("sReplyxxx")
+                        .equalsIgnoreCase("null")) {
+                    loArray.put(foArray.getJSONObject(x));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return loArray;
     }
 
 }

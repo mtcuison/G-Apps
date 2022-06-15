@@ -46,7 +46,11 @@ public class Adapter_ProductQueries extends RecyclerView.Adapter<Adapter_Product
 
     @Override
     public int getItemCount() {
-        return (isOverview) ? 1 : loJsonArr.length();
+        if(isOverview) {
+            return (loJsonArr.length() < 1) ? loJsonArr.length() : 1;
+        } else{
+            return loJsonArr.length();
+        }
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{

@@ -49,7 +49,11 @@ public class Adapter_ProductReview extends RecyclerView.Adapter<Adapter_ProductR
 
     @Override
     public int getItemCount() {
-        return (isOverview) ? 4 : loArray.length();
+        if(isOverview) {
+            return (loArray.length() < 4) ? loArray.length() : 4;
+        } else{
+            return loArray.length();
+        }
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{
