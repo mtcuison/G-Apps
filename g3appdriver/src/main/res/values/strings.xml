@@ -38,6 +38,7 @@
     <string name="lblProductSpecs">Specifications</string>
     <string name="lblReviewsAndRatings">Reviews and Ratings</string>
     <string name="lblAskedQuestions">Asked Questions</string>
+    <string name="lblOtherLikes">Other Products you May Like:</string>
     <string name="lblEditPersonalInfo">Edit Personal Information</string>
     <string name="lblEditAccountInfo">Edit Account Information</string>
     <string name="lblEditPresentAddress">Edit Present Address</string>
@@ -94,6 +95,7 @@
     <string name="lblLogin">Log In</string>
     <string name="lblSignup">Sign Up</string>
     <string name="lblResendPassword">Re-send Password</string>
+    <string name="lblPrivacyPolicy">Privacy Policy</string>
     <string name="lblNext">Next</string>
     <string name="lblPrevious">Previous</string>
     <string name="lblBack">Back</string>
@@ -105,7 +107,9 @@
 
     <string name="lblInfoPassword">Please provide a password for your account.</string>
     <string name="lblCompleteInfo">Please provide the complete details.</string>
-    <string name="lblTermsConditions"> with the Terms and Conditions.</string>
+    <string name="lblTermsConditions"> in Terms and Conditions</string>
+    <string name="lblNoAskedQuestions">No current questions asked for this product.</string>
+    <string name="lblNoReviewsAndRatings">No current reviews and ratings for this product.</string>
     <string name="lblNoGcardAvailable">No GCard Available.</string>
     <string name="lblNoGcardTransactions">No GCard Transactions Available.</string>
     <string name="lblNoNotifications">No Notifications Available.</string>
@@ -113,6 +117,7 @@
     <string name="lblNoOrdersAvailable">No Orders Available.</string>
     <string name="lblNoRedeemablesList">No Redeemable Items Available.</string>
     <string name="lblNoCartItem">No Items on Cart.</string>
+    <string name="lblNoProductListings">No Product Listings Available.</string>
     <string name="lblSelectPaymentMethod">Please select a payment method for your order.</string>
 
     <string name="descServiceDate">Your next service date:</string>
@@ -170,4 +175,337 @@
     <string name="OM_Paragraph15">2016. Los Pedritos Premium Cafe was opened at Metroplaza, Dagupan City; MCC Tagbilaran opened its doors for customers in the province of Bohol.</string>
     <string name="OM_Paragraph16">2018. Guanzon Car Trade begun its operations in Calasiao, Pangasinan.</string>
     <string name="OM_Paragraph17">2019. The Monarch Hotel was opened to the public.</string>
+
+    <string name="Privacy_Policy">
+        <![CDATA[<body>
+            <h1>Privacy Policy</h1>
+            <p>This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.</p>
+            <p>We use Your Personal data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy.</p>
+            <h1>Interpretation and Definitions</h1>
+            <h2>Interpretation</h2>
+            <p>The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.</p>
+            <h2>Definitions</h2>
+            <p>For the purposes of this Privacy Policy:</p>
+            <ul>
+                <li>
+                    <p><strong>Account</strong> means a unique account created for You to access our Service or parts of our Service.</p>
+                </li>
+                <li>
+                    <p><strong>Affiliate</strong> means an entity that controls, is controlled by or is under common control with a party, where &quot;control&quot; means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.</p>
+                </li>
+                <li>
+                    <p><strong>Application</strong> means the software program provided by the Company downloaded by You on any electronic device, named GhostRider</p>
+                </li>
+                <li>
+                    <p><strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to Guanzon Group Of Companies, Tapuac District, Dagupan City, Pangasinan.</p>
+                </li>
+                <li>
+                    <p><strong>Country</strong> refers to:  Philippines</p>
+                </li>
+                <li>
+                    <p><strong>Device</strong> means any device that can access the Service such as a computer, a cellphone or a digital tablet.</p>
+                </li>
+                <li>
+                    <p><strong>Personal Data</strong> is any information that relates to an identified or identifiable individual.</p>
+                </li>
+                <li>
+                    <p><strong>Service</strong> refers to the Application.</p>
+                </li>
+                <li>
+                    <p><strong>Service Provider</strong> means any natural or legal person who processes the data on behalf of the Company. It refers to third-party companies or individuals employed by the Company to facilitate the Service, to provide the Service on behalf of the Company, to perform services related to the Service or to assist the Company in analyzing how the Service is used.</p>
+                </li>
+                <li>
+                    <p><strong>Third-party Social Media Service</strong> refers to any website or any social network website through which a User can log in or create an account to use the Service.</p>
+                </li>
+                <li>
+                    <p><strong>Usage Data</strong> refers to data collected automatically, either generated by the use of the Service or from the Service infrastructure itself (for example, the duration of a page visit).</p>
+                </li>
+                <li>
+                    <p><strong>You</strong> means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.</p>
+                </li>
+            </ul>
+            <h1>Collecting and Using Your Personal Data</h1>
+            <h2>Types of Data Collected</h2>
+            <h3>Personal Data</h3>
+            <p>While using Our Service, We may ask You to provide Us with certain personally identifiable information that can be used to contact or identify You. Personally identifiable information may include, but is not limited to:</p>
+            <ul>
+                <li>
+                    <p>Email address</p>
+                </li>
+                <li>
+                    <p>First name and last name</p>
+                </li>
+                <li>
+                    <p>Phone number</p>
+                </li>
+                <li>
+                    <p>Usage Data</p>
+                </li>
+            </ul>
+            <h3>Usage Data</h3>
+            <p>Usage Data is collected automatically when using the Service.</p>
+            <p>Usage Data may include information such as Your Device\'s Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages, unique device identifiers and other diagnostic data.</p>
+            <p>When You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to, the type of mobile device You use, Your mobile device unique ID, the IP address of Your mobile device, Your mobile operating system, the type of mobile Internet browser You use, unique device identifiers and other diagnostic data.</p>
+            <p>We may also collect information that Your browser sends whenever You visit our Service or when You access the Service by or through a mobile device.</p>
+            <h3>Information from Third-Party Social Media Services</h3>
+            <p>The Company allows You to create an account and log in to use the Service through the following Third-party Social Media Services:</p>
+            <ul>
+                <li>Google</li>
+                <li>Facebook</li>
+                <li>Twitter</li>
+            </ul>
+            <p>If You decide to register through or otherwise grant us access to a Third-Party Social Media Service, We may collect Personal data that is already associated with Your Third-Party Social Media Service\'s account, such as Your name, Your email address, Your activities or Your contact list associated with that account.</p>
+            <p>You may also have the option of sharing additional information with the Company through Your Third-Party Social Media Service\'s account. If You choose to provide such information and Personal Data, during registration or otherwise, You are giving the Company permission to use, share, and store it in a manner consistent with this Privacy Policy.</p>
+            <h3>Information Collected while Using the Application</h3>
+            <p>While using Our Application, in order to provide features of Our Application, We may collect, with Your prior permission:</p>
+            <ul>
+                <li>
+                    <p>Information regarding your location</p>
+                </li>
+                <li>
+                    <p>Pictures and other information from your Device\'s camera and photo library</p>
+                </li>
+            </ul>
+            <p>We use this information to provide features of Our Service, to improve and customize Our Service. The information may be uploaded to the Company\'s servers and/or a Service Provider\'s server or it may be simply stored on Your device.</p>
+            <p>You can enable or disable access to this information at any time, through Your Device settings.</p>
+            <h2>Use of Your Personal Data</h2>
+            <p>The Company may use Personal Data for the following purposes:</p>
+            <ul>
+                <li>
+                    <p><strong>To provide and maintain our Service</strong>, including to monitor the usage of our Service.</p>
+                </li>
+                <li>
+                    <p><strong>To manage Your Account:</strong> to manage Your registration as a user of the Service. The Personal Data You provide can give You access to different functionalities of the Service that are available to You as a registered user.</p>
+                </li>
+                <li>
+                    <p><strong>For the performance of a contract:</strong> the development, compliance and undertaking of the purchase contract for the products, items or services You have purchased or of any other contract with Us through the Service.</p>
+                </li>
+                <li>
+                    <p><strong>To contact You:</strong> To contact You by email, telephone calls, SMS, or other equivalent forms of electronic communication, such as a mobile application\s push notifications regarding updates or informative communications related to the functionalities, products or contracted services, including the security updates, when necessary or reasonable for their implementation.</p>
+                </li>
+                <li>
+                    <p><strong>To provide You</strong> with news, special offers and general information about other goods, services and events which we offer that are similar to those that you have already purchased or enquired about unless You have opted not to receive such information.</p>
+                </li>
+                <li>
+                    <p><strong>To manage Your requests:</strong> To attend and manage Your requests to Us.</p>
+                </li>
+                <li>
+                    <p><strong>For business transfers:</strong> We may use Your information to evaluate or conduct a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Our assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in which Personal Data held by Us about our Service users is among the assets transferred.</p>
+                </li>
+                <li>
+                    <p><strong>For other purposes</strong>: We may use Your information for other purposes, such as data analysis, identifying usage trends, determining the effectiveness of our promotional campaigns and to evaluate and improve our Service, products, services, marketing and your experience.</p>
+                </li>
+            </ul>
+            <p>We may share Your personal information in the following situations:</p>
+            <ul>
+            <li><strong>With Service Providers:</strong> We may share Your personal information with Service Providers to monitor and analyze the use of our Service,  to contact You.</li>
+            <li><strong>For business transfers:</strong> We may share or transfer Your personal information in connection with, or during negotiations of, any merger, sale of Company assets, financing, or acquisition of all or a portion of Our business to another company.</li>
+            <li><strong>With Affiliates:</strong> We may share Your information with Our affiliates, in which case we will require those affiliates to honor this Privacy Policy. Affiliates include Our parent company and any other subsidiaries, joint venture partners or other companies that We control or that are under common control with Us.</li>
+            <li><strong>With business partners:</strong> We may share Your information with Our business partners to offer You certain products, services or promotions.</li>
+            <li><strong>With other users:</strong> when You share personal information or otherwise interact in the public areas with other users, such information may be viewed by all users and may be publicly distributed outside. If You interact with other users or register through a Third-Party Social Media Service, Your contacts on the Third-Party Social Media Service may see Your name, profile, pictures and description of Your activity. Similarly, other users will be able to view descriptions of Your activity, communicate with You and view Your profile.</li>
+            <li><strong>With Your consent</strong>: We may disclose Your personal information for any other purpose with Your consent.</li>
+            </ul>
+            <h2>Retention of Your Personal Data</h2>
+            <p>The Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with our legal obligations (for example, if we are required to retain your data to comply with applicable laws), resolve disputes, and enforce our legal agreements and policies.</p>
+            <p>The Company will also retain Usage Data for internal analysis purposes. Usage Data is generally retained for a shorter period of time, except when this data is used to strengthen the security or to improve the functionality of Our Service, or We are legally obligated to retain this data for longer time periods.</p>
+            <h2>Transfer of Your Personal Data</h2>
+            <p>Your information, including Personal Data, is processed at the Company\'s operating offices and in any other places where the parties involved in the processing are located. It means that this information may be transferred to — and maintained on — computers located outside of Your state, province, country or other governmental jurisdiction where the data protection laws may differ than those from Your jurisdiction.</p>
+            <p>Your consent to this Privacy Policy followed by Your submission of such information represents Your agreement to that transfer.</p>
+            <p>The Company will take all steps reasonably necessary to ensure that Your data is treated securely and in accordance with this Privacy Policy and no transfer of Your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of Your data and other personal information.</p>
+            <h2>Disclosure of Your Personal Data</h2>
+            <h3>Business Transactions</h3>
+            <p>If the Company is involved in a merger, acquisition or asset sale, Your Personal Data may be transferred. We will provide notice before Your Personal Data is transferred and becomes subject to a different Privacy Policy.</p>
+            <h3>Law enforcement</h3>
+            <p>Under certain circumstances, the Company may be required to disclose Your Personal Data if required to do so by law or in response to valid requests by public authorities (e.g. a court or a government agency).</p>
+            <h3>Other legal requirements</h3>
+            <p>The Company may disclose Your Personal Data in the good faith belief that such action is necessary to:</p>
+            <ul>
+            <li>Comply with a legal obligation</li>
+            <li>Protect and defend the rights or property of the Company</li>
+            <li>Prevent or investigate possible wrongdoing in connection with the Service</li>
+            <li>Protect the personal safety of Users of the Service or the public</li>
+            <li>Protect against legal liability</li>
+            </ul>
+            <h2>Security of Your Personal Data</h2>
+            <p>The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data, We cannot guarantee its absolute security.</p>
+            <h1>Children\'s Privacy</h1>
+            <p>Our Service does not address anyone under the age of 13. We do not knowingly collect personally identifiable information from anyone under the age of 13. If You are a parent or guardian and You are aware that Your child has provided Us with Personal Data, please contact Us. If We become aware that We have collected Personal Data from anyone under the age of 13 without verification of parental consent, We take steps to remove that information from Our servers.</p>
+            <p>If We need to rely on consent as a legal basis for processing Your information and Your country requires consent from a parent, We may require Your parent\'s consent before We collect and use that information.</p>
+            <h1>Links to Other Websites</h1>
+            <p>Our Service may contain links to other websites that are not operated by Us. If You click on a third party link, You will be directed to that third party\'s site. We strongly advise You to review the Privacy Policy of every site You visit.</p>
+            <p>We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.</p>
+            <h1>Changes to this Privacy Policy</h1>
+            <p>We may update Our Privacy Policy from time to time. We will notify You of any changes by posting the new Privacy Policy on this page.</p>
+            <p>We will let You know via email and/or a prominent notice on Our Service, prior to the change becoming effective and update the &quot;Last updated&quot; date at the top of this Privacy Policy.</p>
+            <p>You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.</p>
+            <h1>Contact Us</h1>
+            <p>If you have any questions about this Privacy Policy, You can contact us:</p>
+            <ul>
+                <li>By visiting this page on our website: <a href="https://www.guanzongroup.com.ph/" rel="external nofollow noopener" target="_blank">https://www.guanzongroup.com.ph/</a></li>
+            </ul>
+            <p>Last updated: June 02, 2021</p>
+         </body>]]>
+    </string>
+
+    <string name="Terms_and_Conditions">
+        <![CDATA[<body>
+            <p><span style="font-family: Arial, Helvetica, sans-serif; font-size: 18px;"><strong>END USER LICENSE AGREEMENT</strong></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif; color: rgb(40, 50, 78);">GuanzonApp is licensed to You (End-User) by Guanzon Group Of Companies, located at Tapuac District, Dagupan City, Pangasinan 2400, Philippines (hereinafter: Licensor), for use only under the terms of this License Agreement.</span></span></p>
+            <p><span style="color: rgb(40, 50, 78);"><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></span></p>
+            <p><span style="color: rgb(40, 50, 78);"><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">By downloading the Application from the Google Playstore, and any update thereto (as permitted by this License Agreement), You indicate that You agree to be bound by all of the terms and conditions of this License Agreement, and that You accept this License Agreement.</span></span></span></p>
+            <p><span style="color: rgb(40, 50, 78);"><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></span></p>
+            <p><span style="color: rgb(40, 50, 78);"><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">The parties of this License Agreement acknowledge that <span style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;">Google Play</span> to this License Agreement and is not bound by any provisions or obligations with regard to the Application, such as warranty, liability, maintenance and support thereof. Guanzon Group Of Companies, not Apple, is solely responsible for the licensed Application and the content thereof.</span></span></span></p>
+            <p><span style="color: rgb(40, 50, 78);"><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></span></p>
+            <p><span style="color: rgb(40, 50, 78);"><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">This License Agreement may not provide for usage rules for the Application that are in conflict with the latest App Store Terms of Service. Guanzon Group Of Companies acknowledges that it had the opportunity to review said terms and this License Agreement is not conflicting with them.</span></span></span></p>
+            <p><span style="color: rgb(40, 50, 78);"><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></span></p>
+            <p><span style="color: rgb(40, 50, 78);"><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">All rights not expressly granted to You are reserved.</span></span></span></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>1. THE APPLICATION</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">GuanzonApp (hereinafter: Application) is a piece of software created to Monitoring Gcard points for item redemption or free service. Promo, event notifications for customers - and customized for Apple mobile devices. It is used to Allows Guanzon Group clients to monitor and review their loan payments, recieve gcard points which will be use for item redemptions and free services. .</span></span></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>2. SCOPE OF LICENSE</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">2.1 &nbsp;This license will also govern any updates of the Application provided by Licensor that replace, repair, and/or supplement the first Application, unless a separate license is provided for such update in which case the terms of that new license will govern.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">2.2 &nbsp;You may not copy (excluding when expressly authorized by this license and the Usage Rules) or alter the Application or portions thereof. You may create and store copies only on devices that You own or control for backup keeping under the terms of this license, the App Store Terms of Service, and any other terms and conditions that apply to the device or software used. You may not remove any intellectual property notices. You acknowledge that no unauthorized third parties may gain access to these copies at any time.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">2.3 &nbsp;Licensor reserves the right to modify the terms and conditions of licensing.</span></span></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>3. TECHNICAL REQUIREMENTS</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">3.1 &nbsp;Licensor attempts to keep the Application updated so that it complies with modified/new versions of the firmware and new hardware. You are not granted rights to claim such an update.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">3.2 &nbsp;You acknowledge that it is Your responsibility to confirm and determine that the app end-user device on which You intend to use the Application satisfies the technical &nbsp;specifications mentioned above.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">3.3 &nbsp;Licensor reserves the right to modify the technical specifications as it sees appropriate at any time.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>4. MAINTENANCE AND SUPPORT</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">4.1 &nbsp;The Licensor is solely responsible for providing any maintenance and support services for this licensed Application. You can reach the Licensor at the email address listed in the App Store Overview for this licensed Application.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">4.2 &nbsp;Guanzon Group Of Companies and the End-User acknowledge that Apple has no obligation whatsoever to furnish any maintenance and support services with respect to the licensed Application.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>5. USE OF DATA</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">You acknowledge that Licensor will be able to access and adjust Your downloaded licensed Application content and Your personal information, and that Licensor&apos;s use of such material and information is subject to Your legal agreements with Licensor and Licensor&apos;s privacy policy.</span></span></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>6. USER GENERATED CONTRIBUTIONS</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">The Application may invite you to chat, contribute to, or participate in blogs, message boards, online forums, and other functionality, and may provide you with the opportunity to create, submit, post, display, transmit, perform, publish, distribute, or broadcast content and materials to us or in the Application, including but not limited to text, writings, video, audio, photographs, graphics, comments, suggestions, or personal information or other material (collectively, &quot;Contributions&quot;). Contributions may be viewable by other users of the Application and through third-party websites or applications. As such, any Contributions you transmit may be treated as non-confidential and non-proprietary. When you create or make available any Contributions, you thereby represent and warrant that:</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">1. The creation, distribution, transmission, public display, or performance, and the accessing, downloading, or copying of your Contributions do not and will not infringe the proprietary rights, including but not limited to the copyright, patent, trademark, trade secret, or moral rights of any third party.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">2. You are the creator and owner of or have the necessary licenses, rights, consents, releases, and permissions to use and to authorize us, the Application, and other users of the Application to use your Contributions in any manner contemplated by the Application and these Terms of Use.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">3. You have the written consent, release, and/or permission of each and every identifiable individual person in your Contributions to use the name or likeness or each and every such identifiable individual person to enable inclusion and use of your Contributions in any manner contemplated by the Application and these Terms of Use.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">4. Your Contributions are not false, inaccurate, or misleading.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">5. Your Contributions are not unsolicited or unauthorized advertising, promotional materials, pyramid schemes, chain letters, spam, mass mailings, or other forms of solicitation.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">6. Your Contributions are not obscene, lewd, lascivious, filthy, violent, harassing, libelous, slanderous, or otherwise objectionable (as determined by us).</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">7. Your Contributions do not ridicule, mock, disparage, intimidate, or abuse anyone.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">8. Your Contributions are not used to harass or threaten (in the legal sense of those terms) any other person and to promote violence against a specific person or class of people.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">9. Your Contributions do not violate any applicable law, regulation, or rule.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">10. Your Contributions do not violate the privacy or publicity rights of any third party.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">11. Your Contributions do not contain any material that solicits personal information from anyone under the age of 18 or exploits people under the age of 18 in a sexual or violent manner.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">12. Your Contributions do not violate any applicable law concerning child pornography, or otherwise intended to protect the health or well-being of minors.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">13. Your Contributions do not include any offensive comments that are connected to race, national origin, gender, sexual preference, or physical handicap.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">14. Your Contributions do not otherwise violate, or link to material that violates, any provision of these Terms of Use, or any applicable law or regulation.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">Any use of the Application in violation of the foregoing violates these Terms of Use and may result in, among other things, termination or suspension of your rights to use the Application.</span></span></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>7. CONTRIBUTION LICENSE</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">By posting your Contributions to any part of the Application or making Contributions accessible to the Application by linking your account from the Application to any of your social networking accounts, you automatically grant, and you represent and warrant that you have the right to grant, to us an unrestricted, unlimited, irrevocable, perpetual, non-exclusive, transferable, royalty-free, fully-paid, worldwide right, and license to host, use copy, reproduce, disclose, sell, resell, publish, broad cast, retitle, archive, store, cache, publicly display, reformat, translate, transmit, excerpt (in whole or in part), and distribute such Contributions (including, without limitation, your image and voice) for any purpose, commercial advertising, or otherwise, and to prepare derivative works of, or incorporate in other works, such as Contributions, and grant and authorize sublicenses of the foregoing. The use and distribution may occur in any media formats and through any media channels.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">This license will apply to any form, media, or technology now known or hereafter developed, and includes our use of your name, company name, and franchise name, as applicable, and any of the trademarks, service marks, trade names, logos, and personal and commercial images you provide. You waive all moral rights in your Contributions, and you warrant that moral rights have not otherwise been asserted in your Contributions.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">We do not assert any ownership over your Contributions. You retain full ownership of all of your Contributions and any intellectual property rights or other proprietary rights associated with your Contributions. We are not liable for any statements or representations in your Contributions provided by you in any area in the Application. You are solely responsible for your Contributions to the Application and you expressly agree to exonerate us from any and all responsibility and to refrain from any legal action against us regarding your Contributions.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">We have the right, in our sole and absolute discretion, (1) to edit, redact, or otherwise change any Contributions; (2) to re-categorize any Contributions to place them in more appropriate locations in the Application; and (3) to pre-screen or delete any Contributions at any time and for any reason, without notice. We have no obligation to monitor your Contributions.</span></span></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>8. LIABILITY</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">8.1 &nbsp;Licensor takes no accountability or responsibility for any damages caused due to a breach of duties according to Section 2 of this Agreement. To avoid data loss, You are required to make use of backup functions of the Application to the extent allowed by applicable third-party terms and conditions of use. You are aware that in case of alterations or manipulations of the Application, You will not have access to licensed Application.</span></span></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>9. WARRANTY</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">9.1 &nbsp;Licensor warrants that the Application is free of spyware, trojan horses, viruses, or any other malware at the time of Your download. Licensor warrants that the Application works as described in the user documentation.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">9.2 &nbsp;No warranty is provided for the Application that is not executable on the device, that has been unauthorizedly modified, handled inappropriately or culpably, combined or installed with inappropriate hardware or software, used with inappropriate accessories, regardless if by Yourself or by third parties, or if there are any other reasons outside of Guanzon Group Of Companies&apos;s sphere of influence that affect the executability of the Application.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">9.3 &nbsp;You are required to inspect the Application immediately after installing it and notify Guanzon Group Of Companies about issues discovered without delay by e-mail provided in Product Claims. The defect report will be taken into consideration and further investigated if it has been mailed within a period of three (3) days after discovery.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">9.4 &nbsp;If we confirm that the Application is defective, Guanzon Group Of Companies reserves a choice to remedy the situation either by means of solving the defect or substitute delivery.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">9.5 &nbsp;In the event of any failure of the Application to conform to any applicable warranty, You may notify the App-Store-Operator, and Your Application purchase price will be refunded to You. To the maximum extent permitted by applicable law, the App-Store-Operator will have no other warranty obligation whatsoever with respect to the App, and any other losses, claims, damages, liabilities, expenses and costs attributable to any negligence to adhere to any warranty.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">9.6 &nbsp;If the user is an entrepreneur, any claim based on faults expires after a statutory period of limitation amounting to twelve (12) months after the Application was made available to the user. The statutory periods of limitation given by law apply for users who are consumers.</span></span></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>10. PRODUCT CLAIMS</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">Guanzon Group Of Companies and the End-User acknowledge that Guanzon Group Of Companies, and not Apple, is responsible for addressing any claims of the End-User or any third party relating to the licensed Application or the End-User&rsquo;s possession and/or use of that licensed Application, including, but not limited to:</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">(i) product liability claims;</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">(ii) any claim that the licensed Application fails to conform to any applicable legal or regulatory requirement; and</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">(iii) claims arising under consumer protection, privacy, or similar legislation, including in connection with Your Licensed Application&rsquo;s use of the HealthKit and HomeKit.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>11. LEGAL COMPLIANCE</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">You represent and warrant that You are not located in a country that is subject to a U.S. Government embargo, or that has been designated by the U.S. Government as a &quot;terrorist supporting&quot; country; and that You are not listed on any U.S. Government list of prohibited or restricted parties.</span></span></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>12. CONTACT INFORMATION &nbsp; &nbsp;&nbsp;</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">For general inquiries, complaints, questions or claims concerning the licensed Application, please contact:</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">&nbsp; &nbsp; &nbsp;</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">Guanzon Group</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">Tapuac District</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">Dagupan City, Pangasinan 2400</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">Philippines</span></span></p>
+            <p><a href="https://www.guanzongroup.com.ph/"><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">https://www.guanzongroup.com.ph/</span></span></a></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>13. TERMINATION</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">The license is valid until terminated by Guanzon Group Of Companies or by You. Your rights under this license will terminate automatically and without notice from Guanzon Group Of Companies if You fail to adhere to any term(s) of this license. Upon License termination, You shall stop all use of the Application, and destroy all copies, full or partial, of the Application.</span></span></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>14. THIRD-PARTY TERMS OF AGREEMENTS AND BENEFICIARY</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">Guanzon Group Of Companies represents and warrants that Guanzon Group Of Companies will comply with applicable third-party terms of agreement when using licensed Application.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">In Accordance with Section 9 of the &quot;Instructions for Minimum Terms of Developer&apos;s End-User License Agreement,&quot; Apple and Apple&apos;s subsidiaries shall be third-party beneficiaries of this End User License Agreement and - upon Your acceptance of the terms and conditions of this license agreement, Apple will have the right (and will be deemed to have accepted the right) to enforce this End User License Agreement against You as a third-party beneficiary thereof.</span></span></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>15. INTELLECTUAL PROPERTY RIGHTS</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">Guanzon Group Of Companies and the End-User acknowledge that, in the event of any third-party claim that the licensed Application or the End-User&apos;s possession and use of that licensed Application infringes on the third party&apos;s intellectual property rights, Guanzon Group Of Companies, and not Apple, will be solely responsible for the investigation, defense, settlement and discharge or any such intellectual property infringement claims.</span></span></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>16. APPLICABLE LAW</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">This license agreement is governed by the laws of the Philippines excluding its conflicts of law rules.</span></span></p>
+            <p><br></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 18px;"><span style="font-family: Arial, Helvetica, sans-serif;"><strong>17. MISCELLANEOUS</strong></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;"><br></span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">17.1 &nbsp;If any of the terms of this agreement should be or become invalid, the validity of the remaining provisions shall not be affected. Invalid terms will be replaced by valid ones formulated in a way that will achieve the primary purpose.</span></span></p>
+            <p><span style="font-size: 14px;"><span style="font-family: Arial, Helvetica, sans-serif;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></span></p>
+            <p><span style="font-family: Arial, Helvetica, sans-serif; font-size: 14px;">17.2 &nbsp;Collateral agreements, changes and amendments are only valid if laid down in writing. The preceding clause can only be waived in writing.</span></p>
+            <p><br></p>
+            <p><span style="font-family: Arial, Helvetica, sans-serif; font-size: 14px;">Last updated June 03, 2021</span></p>
+        </body>]]>
+    </string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,12 +17,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
+import com.squareup.picasso.Picasso;
 
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.badge.BadgeUtils;
@@ -36,6 +39,9 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ImageSlider;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductDescription;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductQueries;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductReview;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.Model.HomeImageSliderModel;
 import org.rmj.guanzongroup.marketplace.R;
@@ -49,6 +55,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Activity_ProductOverview extends AppCompatActivity {
+    private static final String TAG = Activity_ProductOverview.class.getSimpleName();
     private AccountInfo poAccount;
     private VMProductOverview mViewModel;
     private Toolbar toolbar;
@@ -56,8 +63,11 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private Dialog_SingleButton poDialogx;
     private LinearLayout poItmSpec;
     private SliderView poSliderx;
-    private RecyclerView rvItmSpec;
+    private RecyclerView rvItmSpec, rvRatings, rvQueries, rvSuggest;
+    private ImageView imgPromox;
     private BadgeDrawable loBadge;
+    private TextView txtProdNm, txtUntPrc, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
+            txtBriefx, lblNoRevs, lblNoFaqs, lblNoSugg;
     private TextView txtProdNm, txtUntPrc, txtRates, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
             txtBriefx;
     private TextView btnAddCrt, btnBuyNow;
@@ -138,6 +148,20 @@ public class Activity_ProductOverview extends AppCompatActivity {
         rvItmSpec.setLayoutManager(new LinearLayoutManager(Activity_ProductOverview.this));
         rvItmSpec.setHasFixedSize(true);
 
+        rvRatings = findViewById(R.id.rv_ratings);
+        rvRatings.setLayoutManager(new LinearLayoutManager(Activity_ProductOverview.this));
+        rvRatings.setHasFixedSize(true);
+
+        rvQueries = findViewById(R.id.rv_faqs);
+        rvQueries.setLayoutManager(new LinearLayoutManager(Activity_ProductOverview.this));
+        rvQueries.setHasFixedSize(true);
+
+        rvSuggest = findViewById(R.id.rv_suggests);
+        rvSuggest.setLayoutManager(new GridLayoutManager(Activity_ProductOverview.this,
+                2, RecyclerView.VERTICAL, false));
+        rvSuggest.setHasFixedSize(true);
+
+        imgPromox = findViewById(R.id.imgPromox);
         txtProdNm = findViewById(R.id.txt_product_name);
         txtUntPrc = findViewById(R.id.txt_product_price);
         txtRates = findViewById(R.id.txt_ratings);
@@ -147,6 +171,9 @@ public class Activity_ProductOverview extends AppCompatActivity {
         txtColorx = findViewById(R.id.txt_variant);
         txtStocks = findViewById(R.id.txt_stocks);
         txtBriefx = findViewById(R.id.txt_brief_desc);
+        lblNoRevs = findViewById(R.id.lblNoRatings);
+        lblNoFaqs = findViewById(R.id.lblNoFaqs);
+        lblNoSugg = findViewById(R.id.lblNoSuggests);
 
         btnAddCrt = findViewById(R.id.btnText_addToCart);
         btnBuyNow = findViewById(R.id.btnText_buyNow);
@@ -173,6 +200,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
         mViewModel.getProductInfo(psItemIdx).observe(Activity_ProductOverview.this, product -> {
             try {
+                showPromoBanner();
+                setImageSlider();
                 psProduct = Objects.requireNonNull(product.getModelNme());
                 psPricexx = CashFormatter.parse(Objects.requireNonNull(product.getUnitPrce()));
 
@@ -188,33 +217,66 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 txtBriefx.setText(Objects.requireNonNull(product.getBriefDsc()));
                 setFullDescription(Objects.requireNonNull(product.getDescript()));
 
-                mViewModel.ImportInquiries(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
+                mViewModel.ImportReviews(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
                     @Override
                     public void OnImport(String args) {
-
+                        try {
+                            rvRatings.setVisibility(View.VISIBLE);
+                            lblNoRevs.setVisibility(View.GONE);
+                            JSONObject loJson = new JSONObject(args);
+                            Adapter_ProductReview loAdapter = new
+                                    Adapter_ProductReview(loJson.getJSONArray("detail"),
+                                    true);
+                            loAdapter.notifyDataSetChanged();
+                            rvRatings.setAdapter(loAdapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            rvRatings.setVisibility(View.GONE);
+                            lblNoRevs.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
                     public void OnFailed(String message) {
-
+                        Log.e(TAG, message);
+                        rvRatings.setVisibility(View.GONE);
+                        lblNoRevs.setVisibility(View.VISIBLE);
                     }
                 });
 
                 mViewModel.ImportReviews(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
+
+                mViewModel.ImportInquiries(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
                     @Override
                     public void OnImport(String args) {
-
+                        try {
+                            JSONObject loJson = new JSONObject(args);
+                            rvQueries.setVisibility(View.VISIBLE);
+                            lblNoFaqs.setVisibility(View.GONE);
+                            Adapter_ProductQueries loAdapter = new Adapter_ProductQueries(
+                                            getFilteredFaqs(loJson.getJSONArray("detail")),
+                                            true);
+                            loAdapter.notifyDataSetChanged();
+                            rvQueries.setAdapter(loAdapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            rvQueries.setVisibility(View.GONE);
+                            lblNoFaqs.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
                     public void OnFailed(String message) {
-
+                        Log.e(TAG, message);
+                        rvQueries.setVisibility(View.GONE);
+                        lblNoFaqs.setVisibility(View.VISIBLE);
                     }
                 });
 
                 Adapter_ImageSlider adapter = new Adapter_ImageSlider(Activity_ProductOverview.this, getSliderImages(product.getImagesxx()));
 
                 poSliderx.setSliderAdapter(adapter);
+
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 finish();
@@ -237,6 +299,48 @@ public class Activity_ProductOverview extends AppCompatActivity {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void showSuggestItems() {
+        mViewModel.getProductList(0).observe(Activity_ProductOverview.this, products -> {
+            try {
+                if(products.size() > 0) {
+                    rvSuggest.setVisibility(View.VISIBLE);
+                    lblNoSugg.setVisibility(View.GONE);
+                    Adapter_ProductList loAdapter = new Adapter_ProductList(products, listingId -> {
+                        Intent loIntent = new Intent(Activity_ProductOverview.this
+                                , Activity_ProductOverview.class);
+                        loIntent.putExtra("sListingId", listingId);
+                        startActivity(loIntent);
+                        finish();
+                    });
+                    loAdapter.notifyDataSetChanged();
+                    rvSuggest.setAdapter(loAdapter);
+                } else {
+                    rvSuggest.setVisibility(View.GONE);
+                    lblNoSugg.setVisibility(View.VISIBLE);
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                rvSuggest.setVisibility(View.GONE);
+                lblNoSugg.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void setImageSlider() {
+        Adapter_ImageSlider adapter = new Adapter_ImageSlider(Activity_ProductOverview.this,
+                getSliderImages());
+        poSliderx.setSliderAdapter(adapter);
+    }
+
+    private void showPromoBanner() {
+        boolean isThereAPromoForItem = true;
+        if(isThereAPromoForItem) {
+            String sampleUrl = "https://www.toysrus.com.bn/dw/image/v2/BDGJ_PRD/on/demandware.static/-/Sites-storefront-catalog-toysrus-bn/default/dw660375c3/categories/brands/W-Z/zuru-2560x320-2.jpg?q=75";
+            imgPromox.setVisibility(View.VISIBLE);
+            Picasso.get().load(sampleUrl).into(imgPromox);
         }
     }
 
@@ -345,6 +449,21 @@ public class Activity_ProductOverview extends AppCompatActivity {
             loSliders.add(new HomeImageSliderModel(laJson.getJSONObject(x).getString("sImageURL")));
         }
         return loSliders;
+    }
+
+    private JSONArray getFilteredFaqs(JSONArray foArray) {
+        JSONArray loArray = new JSONArray();
+        for(int x = 0; x < foArray.length(); x++) {
+            try {
+                if (!foArray.getJSONObject(x).getString("sReplyxxx")
+                        .equalsIgnoreCase("null")) {
+                    loArray.put(foArray.getJSONObject(x));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return loArray;
     }
 
 }
