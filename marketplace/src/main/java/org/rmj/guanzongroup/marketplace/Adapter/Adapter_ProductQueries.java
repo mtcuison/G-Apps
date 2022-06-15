@@ -8,14 +8,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.guanzongroup.marketplace.R;
 
 public class Adapter_ProductQueries extends RecyclerView.Adapter<Adapter_ProductQueries.ViewHolderItem> {
 
-    private final int pnLimitxx;
+    private final JSONArray loJsonArr;
+    private final boolean isOverview;
 
-    public Adapter_ProductQueries(int limit){
-        this.pnLimitxx = limit;
+    public Adapter_ProductQueries(JSONArray foJson, boolean isOverview){
+        this.loJsonArr = foJson;
+        this.isOverview = isOverview;
     }
 
     @NonNull
@@ -29,12 +34,11 @@ public class Adapter_ProductQueries extends RecyclerView.Adapter<Adapter_Product
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
         try {
-            if(position < pnLimitxx || pnLimitxx == 0) {
-                holder.txtClient.setText("");
-                holder.txtDatexx.setText("");
-                holder.txtQueryx.setText("");
-                holder.txtRespnd.setText("");
-            }
+            JSONObject loJson = loJsonArr.getJSONObject(position);
+            holder.txtClient.setText("Guanzon Group of Companies");
+            holder.txtDatexx.setText(loJson.getString("dCreatedx"));
+            holder.txtQueryx.setText(loJson.getString("sQuestion"));
+            holder.txtRespnd.setText(loJson.getString("sReplyxxx"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,7 +46,11 @@ public class Adapter_ProductQueries extends RecyclerView.Adapter<Adapter_Product
 
     @Override
     public int getItemCount() {
-        return 0;
+        if(isOverview) {
+            return 1;
+        } else {
+            return loJsonArr.length();
+        }
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{

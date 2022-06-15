@@ -13,9 +13,9 @@ import org.rmj.guanzongroup.marketplace.R;
 
 public class Adapter_ProductReview extends RecyclerView.Adapter<Adapter_ProductReview.ViewHolderItem> {
 
-    private final int pnLimitxx;
+    private final String pnLimitxx;
 
-    public Adapter_ProductReview(int limit){
+    public Adapter_ProductReview(String limit){
         this.pnLimitxx = limit;
     }
 
@@ -29,12 +29,12 @@ public class Adapter_ProductReview extends RecyclerView.Adapter<Adapter_ProductR
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
         try {
-            if(position < pnLimitxx) {
-                holder.txtClient.setText("");
-                holder.txtDatexx.setText("");
-                holder.txtReview.setText("");
-                holder.txtVriant.setText("");
-            }
+//            if(position < pnLimitxx) {
+//                holder.txtClient.setText("");
+//                holder.txtDatexx.setText("");
+//                holder.txtReview.setText("");
+//                holder.txtVriant.setText("");
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

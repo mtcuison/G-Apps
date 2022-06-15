@@ -127,11 +127,14 @@ public class VMProductOverview extends AndroidViewModel {
             if(loConnect.isDeviceConnected()) {
                 if (poProdcts.GetQuestionsAndAnswers(strings[0])) {
                     poData = poProdcts.getData();
+                    isSuccess = true;
                 } else {
                     message = poProdcts.getMessage();
+                    isSuccess = false;
                 }
             } else {
                 message = "No internet";
+                isSuccess = false;
             }
             return null;
         }
@@ -165,11 +168,14 @@ public class VMProductOverview extends AndroidViewModel {
             if(loConnect.isDeviceConnected()) {
                 if (poProdcts.GetProductRatings(strings[0])) {
                     poData = poProdcts.getData();
+                    isSuccess = true;
                 } else {
                     message = poProdcts.getMessage();
+                    isSuccess = false;
                 }
             } else {
                 message = "No internet";
+                isSuccess = false;
             }
             return null;
         }

@@ -30,6 +30,7 @@ import com.google.android.material.badge.BadgeUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.utils.Dialogs.BottomDialog_AddToCart;
@@ -37,6 +38,8 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ImageSlider;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductDescription;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductQueries;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductReview;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.Model.HomeImageSliderModel;
 import org.rmj.guanzongroup.marketplace.R;
@@ -56,7 +59,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private Dialog_SingleButton poDialogx;
     private LinearLayout poItmSpec;
     private SliderView poSliderx;
-    private RecyclerView rvItmSpec;
+    private RecyclerView rvItmSpec, rvRatings, rvQueries;
     private ImageView imgPromox;
     private BadgeDrawable loBadge;
     private TextView txtProdNm, txtUntPrc, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
@@ -139,6 +142,14 @@ public class Activity_ProductOverview extends AppCompatActivity {
         rvItmSpec.setLayoutManager(new LinearLayoutManager(Activity_ProductOverview.this));
         rvItmSpec.setHasFixedSize(true);
 
+        rvRatings = findViewById(R.id.rv_ratings);
+        rvRatings.setLayoutManager(new LinearLayoutManager(Activity_ProductOverview.this));
+        rvRatings.setHasFixedSize(true);
+
+        rvQueries = findViewById(R.id.rv_faqs);
+        rvQueries.setLayoutManager(new LinearLayoutManager(Activity_ProductOverview.this));
+        rvQueries.setHasFixedSize(true);
+
         imgPromox = findViewById(R.id.imgPromox);
         txtProdNm = findViewById(R.id.txt_product_name);
         txtUntPrc = findViewById(R.id.txt_product_price);
@@ -189,28 +200,46 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 txtBriefx.setText(Objects.requireNonNull(product.getBriefDsc()));
                 setFullDescription(Objects.requireNonNull(product.getDescript()));
 
-                mViewModel.ImportInquiries(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
-                    @Override
-                    public void OnImport(String args) {
-
-                    }
-
-                    @Override
-                    public void OnFailed(String message) {
-
-                    }
-                });
                 mViewModel.ImportReviews(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
                     @Override
                     public void OnImport(String args) {
-
+                        // TODO:  Set adapter here
+                        Adapter_ProductReview loAdapter = new Adapter_ProductReview(args);
+                        loAdapter.notifyDataSetChanged();
+                        rvRatings.setAdapter(loAdapter);
                     }
 
                     @Override
                     public void OnFailed(String message) {
-
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Marketplace", message, dialog -> dialog.dismiss());
+                        poDialogx.show();
                     }
                 });
+
+                mViewModel.ImportInquiries(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
+                    @Override
+                    public void OnImport(String args) {
+                        try {
+                            JSONObject loJson = new JSONObject(args);
+                            Adapter_ProductQueries loAdapter = new
+                                    Adapter_ProductQueries(loJson.getJSONArray("detail"),
+                                    true);
+                            loAdapter.notifyDataSetChanged();
+                            rvQueries.setAdapter(loAdapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Marketplace", message, dialog -> dialog.dismiss());
+                        poDialogx.show();
+                    }
+                });
+
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 finish();
