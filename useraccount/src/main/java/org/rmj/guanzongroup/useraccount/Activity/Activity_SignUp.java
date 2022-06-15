@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -25,7 +28,9 @@ public class Activity_SignUp extends AppCompatActivity {
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
     private Toolbar toolbar;
+    private CheckBox cbAgreexx;
     private TextInputEditText txtUserNm, txtEmailx, txtMobile, txtPasswd, txtRetype;
+    private TextView txtTermsx, txtPrivcy;
     private MaterialButton btnSignUp;
 
     @Override
@@ -55,12 +60,18 @@ public class Activity_SignUp extends AppCompatActivity {
     private void initViews() {
         poDialogx = new Dialog_SingleButton(Activity_SignUp.this);
         toolbar = findViewById(R.id.toolbar);
+        cbAgreexx = findViewById(R.id.cbAgree);
         txtUserNm = findViewById(R.id.tie_username);
         txtEmailx = findViewById(R.id.tie_email);
         txtMobile = findViewById(R.id.tie_mobile);
         txtPasswd = findViewById(R.id.tie_password);
         txtRetype = findViewById(R.id.tie_retype);
+        txtTermsx = findViewById(R.id.tvTerms);
+        txtPrivcy = findViewById(R.id.tvPrivacy);
         btnSignUp = findViewById(R.id.btnSignUp);
+
+        txtTermsx.setOnClickListener(v -> intentTerms(0));
+        txtPrivcy.setOnClickListener(v -> intentTerms(1));
     }
 
     // Initialize initViews() before this method.
@@ -70,6 +81,20 @@ public class Activity_SignUp extends AppCompatActivity {
         getSupportActionBar().setTitle("Sign Up");
     }
 
+    private void intentTerms(int index) {
+        Intent loIntent = new Intent(Activity_SignUp.this, Activity_TermsAndConditions.class);
+        switch (index) {
+            case 0:
+                loIntent.putExtra("cTermsDsp", 0);
+                startActivity(loIntent);
+                break;
+            case 1:
+                loIntent.putExtra("cTermsDsp", 1);
+                startActivity(loIntent);
+                break;
+        }
+    }
+
     private void signUp() {
         AccountAuthentication.AccountCredentials loCrednts = new AccountAuthentication.AccountCredentials();
         loCrednts.setUserName(Objects.requireNonNull(txtUserNm.getText().toString().trim()));
@@ -77,6 +102,7 @@ public class Activity_SignUp extends AppCompatActivity {
         loCrednts.setMobileNo(Objects.requireNonNull(txtMobile.getText().toString().trim()));
         loCrednts.setPassword(Objects.requireNonNull(txtPasswd.getText().toString().trim()));
         loCrednts.setPasswrd2(Objects.requireNonNull(txtRetype.getText().toString().trim()));
+        loCrednts.setcAgreeTnC((cbAgreexx.isChecked()) ? "1" : "0");
         try {
             mViewModel.RegisterAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
                 @Override

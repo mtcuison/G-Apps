@@ -62,7 +62,7 @@
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/activity_purchases.xml" value="0.22" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/activity_ratings_reviews.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/activity_search_item.xml" value="0.20416666666666666" />
-        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/activity_write_product_review.xml" value="0.20416666666666666" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/activity_write_product_review.xml" value="0.33" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_categories.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_home_image_slider.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_image_slider.xml" value="0.20416666666666666" />
@@ -71,7 +71,7 @@
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_description.xml" value="0.17732558139534885" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_grid.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_list.xml" value="0.20416666666666666" />
-        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_queries.xml" value="0.2" />
+        <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_queries.xml" value="0.25" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_product_review.xml" value="0.22" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/adapter_search_suggest.xml" value="0.203125" />
         <entry key="..\:/Projects/Android/G-Apps/marketplace/src/main/res/layout/dialog_bottom_cart.xml" value="0.20416666666666666" />
@@ -105,6 +105,7 @@
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_shipping_address.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_sign_up.xml" value="0.22" />
+        <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/activity_terms_and_conditions.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/adapter_shipping_address.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/fragment_account_details_list.xml" value="0.20416666666666666" />
         <entry key="..\:/Projects/Android/G-Apps/useraccount/src/main/res/layout/fragment_account_settings.xml" value="0.20416666666666666" />

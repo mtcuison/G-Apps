@@ -8,14 +8,17 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
+import org.rmj.g3appdriver.etc.FilterType;
 import org.rmj.guanzongroup.marketplace.Etc.AddUpdateCartTask;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
-import org.rmj.guanzongroup.marketplace.R;
+
+import java.util.List;
 
 public class VMProductOverview extends AndroidViewModel {
 
@@ -36,6 +39,10 @@ public class VMProductOverview extends AndroidViewModel {
 
     public LiveData<Integer> GetCartItemCount(){
         return poOrder.GetCartItemCount();
+    }
+
+    public LiveData<List<DProduct.oProduct>> getProductList(int fnIndex) {
+        return poProdcts.GetProductsList(fnIndex, FilterType.DEFAULT, null, null);
     }
 
     public void addUpdateCart(String fsListId, int fnItemQty, OnTransactionsCallback foCallBck) {
@@ -127,11 +134,14 @@ public class VMProductOverview extends AndroidViewModel {
             if(loConnect.isDeviceConnected()) {
                 if (poProdcts.GetQuestionsAndAnswers(strings[0])) {
                     poData = poProdcts.getData();
+                    isSuccess = true;
                 } else {
                     message = poProdcts.getMessage();
+                    isSuccess = false;
                 }
             } else {
                 message = "No internet";
+                isSuccess = false;
             }
             return null;
         }
@@ -165,11 +175,14 @@ public class VMProductOverview extends AndroidViewModel {
             if(loConnect.isDeviceConnected()) {
                 if (poProdcts.GetProductRatings(strings[0])) {
                     poData = poProdcts.getData();
+                    isSuccess = true;
                 } else {
                     message = poProdcts.getMessage();
+                    isSuccess = false;
                 }
             } else {
                 message = "No internet";
+                isSuccess = false;
             }
             return null;
         }
