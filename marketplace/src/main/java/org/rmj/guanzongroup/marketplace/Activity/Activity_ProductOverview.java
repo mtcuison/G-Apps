@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,7 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ImageSlider;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductDescription;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductQueries;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductReview;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
@@ -60,11 +62,11 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private Dialog_SingleButton poDialogx;
     private LinearLayout poItmSpec;
     private SliderView poSliderx;
-    private RecyclerView rvItmSpec, rvRatings, rvQueries;
+    private RecyclerView rvItmSpec, rvRatings, rvQueries, rvSuggest;
     private ImageView imgPromox;
     private BadgeDrawable loBadge;
     private TextView txtProdNm, txtUntPrc, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
-            txtBriefx, lblNoRevs, lblNoFaqs;
+            txtBriefx, lblNoRevs, lblNoFaqs, lblNoSugg;
     private TextView btnAddCrt, btnBuyNow;
 
     private String psItemIdx = "";
@@ -82,6 +84,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
         getExtras();
         setUpToolbar();
         displayData();
+        showSuggestItems();
 
         btnAddCrt.setOnClickListener(v -> addToCart());
         btnBuyNow.setOnClickListener(v -> buyNow());
@@ -151,6 +154,11 @@ public class Activity_ProductOverview extends AppCompatActivity {
         rvQueries.setLayoutManager(new LinearLayoutManager(Activity_ProductOverview.this));
         rvQueries.setHasFixedSize(true);
 
+        rvSuggest = findViewById(R.id.rv_suggests);
+        rvSuggest.setLayoutManager(new GridLayoutManager(Activity_ProductOverview.this,
+                2, RecyclerView.VERTICAL, false));
+        rvSuggest.setHasFixedSize(true);
+
         imgPromox = findViewById(R.id.imgPromox);
         txtProdNm = findViewById(R.id.txt_product_name);
         txtUntPrc = findViewById(R.id.txt_product_price);
@@ -162,6 +170,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
         txtBriefx = findViewById(R.id.txt_brief_desc);
         lblNoRevs = findViewById(R.id.lblNoRatings);
         lblNoFaqs = findViewById(R.id.lblNoFaqs);
+        lblNoSugg = findViewById(R.id.lblNoSuggests);
 
         btnAddCrt = findViewById(R.id.btnText_addToCart);
         btnBuyNow = findViewById(R.id.btnText_buyNow);
@@ -278,6 +287,33 @@ public class Activity_ProductOverview extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void showSuggestItems() {
+        mViewModel.getProductList(0).observe(Activity_ProductOverview.this, products -> {
+            try {
+                if(products.size() > 0) {
+                    rvSuggest.setVisibility(View.VISIBLE);
+                    lblNoSugg.setVisibility(View.GONE);
+                    Adapter_ProductList loAdapter = new Adapter_ProductList(products, listingId -> {
+                        Intent loIntent = new Intent(Activity_ProductOverview.this
+                                , Activity_ProductOverview.class);
+                        loIntent.putExtra("sListingId", listingId);
+                        startActivity(loIntent);
+                        finish();
+                    });
+                    loAdapter.notifyDataSetChanged();
+                    rvSuggest.setAdapter(loAdapter);
+                } else {
+                    rvSuggest.setVisibility(View.GONE);
+                    lblNoSugg.setVisibility(View.VISIBLE);
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                rvSuggest.setVisibility(View.GONE);
+                lblNoSugg.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void setImageSlider() {

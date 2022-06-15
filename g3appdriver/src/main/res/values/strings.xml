@@ -37,6 +37,7 @@
     <string name="lblProductSpecs">Specifications</string>
     <string name="lblReviewsAndRatings">Reviews and Ratings</string>
     <string name="lblAskedQuestions">Asked Questions</string>
+    <string name="lblOtherLikes">Other Products you May Like:</string>
     <string name="lblEditPersonalInfo">Edit Personal Information</string>
     <string name="lblEditAccountInfo">Edit Account Information</string>
     <string name="lblEditPresentAddress">Edit Present Address</string>
@@ -115,6 +116,7 @@
     <string name="lblNoOrdersAvailable">No Orders Available.</string>
     <string name="lblNoRedeemablesList">No Redeemable Items Available.</string>
     <string name="lblNoCartItem">No Items on Cart.</string>
+    <string name="lblNoProductListings">No Product Listings Available.</string>
     <string name="lblSelectPaymentMethod">Please select a payment method for your order.</string>
 
     <string name="descServiceDate">Your next service date:</string>
