@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,8 +17,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.etc.CashFormatter;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_MultiLineInput;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductQueries;
+import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMProductQueries;
 import org.rmj.guanzongroup.marketplace.databinding.ActivityProductQueriesBinding;
 
@@ -28,6 +32,7 @@ public class Activity_ProductQueries extends AppCompatActivity {
     private VMProductQueries mViewModel;
     private ActivityProductQueriesBinding mBinding;
     private Dialog_SingleButton poDialogx;
+    private Dialog_Loading poLoading;
     private String psItemIdx = "";
 
     @Override
@@ -43,8 +48,10 @@ public class Activity_ProductQueries extends AppCompatActivity {
         getSupportActionBar().setTitle("Asked Questions");
 
         poDialogx = new Dialog_SingleButton(Activity_ProductQueries.this);
+        poLoading = new Dialog_Loading(Activity_ProductQueries.this);
 
         displayData();
+        mBinding.btnAskQst.setOnClickListener(v -> openDialog());
     }
 
     @Override
@@ -123,6 +130,52 @@ public class Activity_ProductQueries extends AppCompatActivity {
                 mBinding.lblNoFaqs.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    private void openDialog() {
+        final Dialog_MultiLineInput loDialog = new Dialog_MultiLineInput(Activity_ProductQueries.this);
+        loDialog.initDialog("Ask Question", new Dialog_MultiLineInput.OnDialogConfirmation() {
+            @Override
+            public void onConfirm(String fsInputx, AlertDialog dialog) {
+                if(!fsInputx.isEmpty()) {
+                    dialog.dismiss();
+                    mViewModel.sendProductInquiry(psItemIdx, fsInputx, new OnTransactionsCallback() {
+                        @Override
+                        public void onLoading() {
+                            poLoading.initDialog("Marketplace", "Sending question/inquiry. Please wait.");
+                            poLoading.show();
+                        }
+
+                        @Override
+                        public void onSuccess(String fsMessage) {
+                            poLoading.dismiss();
+                            poDialogx.setButtonText("Okay");
+                            poDialogx.initDialog("Marketplace", fsMessage, dialog1 -> dialog1.dismiss());
+                            poDialogx.show();
+                        }
+
+                        @Override
+                        public void onFailed(String fsMessage) {
+                            poLoading.dismiss();
+                            poDialogx.setButtonText("Okay");
+                            poDialogx.initDialog("Marketplace", fsMessage, dialog1 -> dialog1.dismiss());
+                            poDialogx.show();
+                        }
+                    });
+                } else {
+                    dialog.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Marketplace", "Please enter your question/inquiry.", dialog1 -> dialog1.dismiss());
+                    poDialogx.show();
+                }
+            }
+
+            @Override
+            public void onCancel(AlertDialog dialog) {
+                dialog.dismiss();
+            }
+        });
+        loDialog.show();
     }
 
     private JSONArray getFilteredFaqs(JSONArray foArray) {

@@ -95,9 +95,17 @@ public class Activity_ProductOverview extends AppCompatActivity {
         });
 
         btnAskQst.setOnClickListener(v -> {
-            Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductQueries.class);
-            loIntent.putExtra("sListingId", psItemIdx);
-            startActivity(loIntent);
+            if(isLoggedIn()) {
+                if(poAccount.getClientID().isEmpty()) {
+                    Intent loIntent = new Intent(Activity_ProductOverview.this,
+                            Activity_CompleteAccountDetails.class);
+                    startActivity(loIntent);
+                } else {
+                    Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductQueries.class);
+                    loIntent.putExtra("sListingId", psItemIdx);
+                    startActivity(loIntent);
+                }
+            }
         });
 
         btnAddCrt.setOnClickListener(v -> addToCart());
