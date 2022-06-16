@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.databinding.ActivityProductReviewBinding;
 
+import java.util.Objects;
+
 public class Activity_ProductReview extends AppCompatActivity {
 
     private ActivityProductReviewBinding mBinding;
@@ -21,6 +23,10 @@ public class Activity_ProductReview extends AppCompatActivity {
         mBinding = ActivityProductReviewBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
         getExtras();
+
+        setSupportActionBar(mBinding.toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Product Review");
 
         poDialogx = new Dialog_SingleButton(Activity_ProductReview.this);
     }

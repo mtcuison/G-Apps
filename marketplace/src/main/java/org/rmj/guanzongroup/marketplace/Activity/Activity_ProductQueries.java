@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.databinding.ActivityProductQueriesBinding;
 
+import java.util.Objects;
+
 public class Activity_ProductQueries extends AppCompatActivity {
 
     private ActivityProductQueriesBinding mBinding;
@@ -21,6 +23,10 @@ public class Activity_ProductQueries extends AppCompatActivity {
         mBinding = ActivityProductQueriesBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
         getExtras();
+
+        setSupportActionBar(mBinding.toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Asked Questions");
 
         poDialogx = new Dialog_SingleButton(Activity_ProductQueries.this);
     }

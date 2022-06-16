@@ -88,6 +88,18 @@ public class Activity_ProductOverview extends AppCompatActivity {
         displayData();
         showSuggestItems();
 
+        btnSeeRev.setOnClickListener(v -> {
+            Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductReview.class);
+            loIntent.putExtra("sListingId", psItemIdx);
+            startActivity(loIntent);
+        });
+
+        btnAskQst.setOnClickListener(v -> {
+            Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductQueries.class);
+            loIntent.putExtra("sListingId", psItemIdx);
+            startActivity(loIntent);
+        });
+
         btnAddCrt.setOnClickListener(v -> addToCart());
         btnBuyNow.setOnClickListener(v -> buyNow());
     }
