@@ -23,6 +23,9 @@
             android:name=".Activity.Activity_ProductReview"
             android:exported="false" />
         <activity
+            android:name=".Activity.Activity_ProductQueries"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_ProductOverview"
             android:exported="false" />
         <activity
