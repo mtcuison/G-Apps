@@ -70,8 +70,12 @@ public class Fragment_FindUs extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                poAdapter.Filter().filter(s.toString());
-                poAdapter.notifyDataSetChanged();
+                try {
+                    poAdapter.Filter().filter(s.toString());
+                    poAdapter.notifyDataSetChanged();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
             @Override

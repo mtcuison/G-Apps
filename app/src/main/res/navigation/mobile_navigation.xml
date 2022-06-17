@@ -36,12 +36,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_notifications"
-        android:name="org.rmj.guanzongroup.notifications.Fragment.Fragment_Notifications"
-        android:label="@string/menu_notifications"
-        tools:layout="@layout/fragment_notifications" />
-
-    <fragment
         android:id="@+id/nav_purchases"
         android:name="org.rmj.guanzongroup.marketplace.Fragment.Fragment_Orders"
         android:label="@string/menu_purchases"

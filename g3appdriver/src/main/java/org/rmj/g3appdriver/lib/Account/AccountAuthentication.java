@@ -34,9 +34,9 @@ public class AccountAuthentication {
     public interface OnLoginCallback{
         void OnSuccessLogin(String message);
         void OnFailedLogin(String message);
+        void OnAccountVerification(String args, String args1);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void LoginAccount(LoginCredentials credentials, OnLoginCallback callback) throws Exception{
          if (!credentials.isDataValid()) {
             callback.OnFailedLogin(credentials.getMessage());
@@ -67,7 +67,14 @@ public class AccountAuthentication {
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
                     String lsMessage = loError.getString("message");
-                    callback.OnFailedLogin(lsMessage);
+                    String lsCode = loError.getString("code");
+                    if(lsCode.equalsIgnoreCase("40003")){
+                        String lsOtp = loResponse.getString("otp");
+                        String lsVfy = loResponse.getString("verify");
+                        callback.OnAccountVerification(lsOtp, lsVfy);
+                    } else {
+                        callback.OnFailedLogin(lsMessage);
+                    }
                 }
             }
         }

@@ -20,11 +20,6 @@
             android:title="@string/menu_events" />
 
         <item
-            android:id="@+id/nav_notifications"
-            android:icon="@drawable/ic_baseline_notifications_24"
-            android:title="@string/menu_notifications" />
-
-        <item
             android:id="@+id/nav_item_cart"
             android:icon="@drawable/ic_baseline_shopping_cart_24"
             android:title="@string/menu_item_cart" />
@@ -45,6 +40,11 @@
                     android:id="@+id/nav_my_gcard"
                     android:icon="@drawable/ic_settings_card_24"
                     android:title="@string/menu_my_gcard" />
+
+                <item
+                    android:id="@+id/nav_scan_qrcode"
+                    android:icon="@drawable/ic_baseline_qr_code_scanner_24"
+                    android:title="@string/menu_scan_gcard" />
 
                 <item
                     android:id="@+id/nav_redeemables"

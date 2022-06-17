@@ -88,6 +88,10 @@ public class AuthenticationValidation {
             public void OnFailedLogin(String message) {
                 isSucccess = false;
             }
+            @Override
+            public void OnAccountVerification(String args, String args1) {
+
+            }
         });
 
         assertTrue(isSucccess);
@@ -107,6 +111,10 @@ public class AuthenticationValidation {
                 isSucccess = false;
                 message = fsMessage;
             }
+            @Override
+            public void OnAccountVerification(String args, String args1) {
+
+            }
         });
 
         assertFalse(isSucccess);
@@ -125,6 +133,10 @@ public class AuthenticationValidation {
             @Override
             public void OnFailedLogin(String fsMessage) {
                 isSucccess = false;
+            }
+            @Override
+            public void OnAccountVerification(String args, String args1) {
+
             }
         });
 
@@ -158,6 +170,10 @@ public class AuthenticationValidation {
             public void OnFailedLogin(String fsMessage) {
                 isSucccess = false;
                 message = fsMessage;
+            }
+            @Override
+            public void OnAccountVerification(String args, String args1) {
+
             }
         });
 

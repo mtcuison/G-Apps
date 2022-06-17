@@ -51,16 +51,11 @@ public class Fragment_Home extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMHome.class);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initViews(view);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMHome.class);
         displayData();
+        return view;
     }
 
     private void initViews(View v) {

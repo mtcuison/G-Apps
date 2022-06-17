@@ -50,6 +50,7 @@ import org.rmj.guanzongroup.marketplace.ViewModel.VMProductOverview;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -67,7 +68,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private ImageView imgPromox;
     private BadgeDrawable loBadge;
     private TextView txtProdNm, txtUntPrc, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
-            txtBriefx, lblNoRevs, lblNoFaqs, lblNoSugg;
+            txtBriefx, lblNoRevs, lblNoFaqs, lblNoSugg, txtRates;
+
     private TextView btnAddCrt, btnBuyNow;
     private MaterialButton btnSeeRev, btnAskQst;
 
@@ -86,7 +88,6 @@ public class Activity_ProductOverview extends AppCompatActivity {
         getExtras();
         setUpToolbar();
         displayData();
-        showSuggestItems();
 
         btnSeeRev.setOnClickListener(v -> {
             Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductReview.class);
@@ -184,6 +185,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
         imgPromox = findViewById(R.id.imgPromox);
         txtProdNm = findViewById(R.id.txt_product_name);
         txtUntPrc = findViewById(R.id.txt_product_price);
+        txtRates = findViewById(R.id.txt_ratings);
         txtSoldQt = findViewById(R.id.txt_product_sold_count);
         txtBrandx = findViewById(R.id.txt_brand_name);
         txtCatgry = findViewById(R.id.txt_category);
@@ -222,12 +224,13 @@ public class Activity_ProductOverview extends AppCompatActivity {
         mViewModel.getProductInfo(psItemIdx).observe(Activity_ProductOverview.this, product -> {
             try {
                 showPromoBanner();
-                setImageSlider();
                 psProduct = Objects.requireNonNull(product.getModelNme());
                 psPricexx = CashFormatter.parse(Objects.requireNonNull(product.getUnitPrce()));
 
                 txtProdNm.setText(Objects.requireNonNull(product.getModelNme()));
                 txtUntPrc.setText(CashFormatter.parse(Objects.requireNonNull(product.getUnitPrce())));
+                DecimalFormat format = new DecimalFormat("0.0");
+                txtRates.setText(format.format(Double.parseDouble(product.getRatingxx())));
                 txtSoldQt.setText(Objects.requireNonNull(product.getSoldQtyx()) + " Sold");
                 txtBrandx.setText(Objects.requireNonNull(product.getBrandNme()));
                 txtCatgry.setText(Objects.requireNonNull(product.getCategrNm()));
@@ -267,37 +270,43 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 });
 
                 mViewModel.ImportInquiries(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
-                    @Override
-                    public void OnImport(String args) {
-                        try {
-                            JSONObject loJson = new JSONObject(args);
-                            rvQueries.setVisibility(View.VISIBLE);
-                            lblNoFaqs.setVisibility(View.GONE);
-                            Adapter_ProductQueries loAdapter = new Adapter_ProductQueries(
-                                            getFilteredFaqs(loJson.getJSONArray("detail")),
-                                            true);
-                            loAdapter.notifyDataSetChanged();
-                            rvQueries.setAdapter(loAdapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        @Override
+                        public void OnImport(String args) {
+                            try {
+                                JSONObject loJson = new JSONObject(args);
+                                rvQueries.setVisibility(View.VISIBLE);
+                                lblNoFaqs.setVisibility(View.GONE);
+                                Adapter_ProductQueries loAdapter = new Adapter_ProductQueries(
+                                        getFilteredFaqs(loJson.getJSONArray("detail")),
+                                        true);
+                                loAdapter.notifyDataSetChanged();
+                                rvQueries.setAdapter(loAdapter);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                rvQueries.setVisibility(View.GONE);
+                                lblNoFaqs.setVisibility(View.VISIBLE);
+                            }
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            Log.e(TAG, message);
                             rvQueries.setVisibility(View.GONE);
                             lblNoFaqs.setVisibility(View.VISIBLE);
                         }
-                    }
+                    });
 
-                    @Override
-                    public void OnFailed(String message) {
-                        Log.e(TAG, message);
-                        rvQueries.setVisibility(View.GONE);
-                        lblNoFaqs.setVisibility(View.VISIBLE);
-                    }
-                });
+                Adapter_ImageSlider adapter = new Adapter_ImageSlider(Activity_ProductOverview.this, getSliderImages(product.getImagesxx()));
 
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                finish();
-            }
-        });
+                poSliderx.setSliderAdapter(adapter);
+
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
     }
 
     private void setFullDescription(String fsDescrip) {
@@ -341,12 +350,6 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 lblNoSugg.setVisibility(View.VISIBLE);
             }
         });
-    }
-
-    private void setImageSlider() {
-        Adapter_ImageSlider adapter = new Adapter_ImageSlider(Activity_ProductOverview.this,
-                getSliderImages());
-        poSliderx.setSliderAdapter(adapter);
     }
 
     private void showPromoBanner() {
@@ -452,11 +455,16 @@ public class Activity_ProductOverview extends AppCompatActivity {
         }
     }
 
-    private List<HomeImageSliderModel> getSliderImages() {
+    private List<HomeImageSliderModel> getSliderImages(String fsVal) throws Exception{
         List<HomeImageSliderModel> loSliders = new ArrayList<>();
-        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/5043968.jpg"));
-        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/327367.jpg"));
-        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/4260890.png"));
+
+        JSONArray laJson = new JSONArray(fsVal);
+
+        //start the value of for loop to 1 instead of 0
+        // to skip the first item which is not for product overview
+        for(int x = 1; x < laJson.length(); x++){
+            loSliders.add(new HomeImageSliderModel(laJson.getJSONObject(x).getString("sImageURL")));
+        }
         return loSliders;
     }
 
@@ -474,5 +482,4 @@ public class Activity_ProductOverview extends AppCompatActivity {
         }
         return loArray;
     }
-
 }

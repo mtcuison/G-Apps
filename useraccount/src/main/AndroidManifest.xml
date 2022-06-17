@@ -2,30 +2,43 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
-        <activity android:name=".Activity.Activity_TermsAndConditions"
+        <activity
+            android:name=".Activity.Activity_AccountVerification"
+            android:screenOrientation="userPortrait"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Activity_TermsAndConditions"
+            android:screenOrientation="userPortrait"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_ShippingAddress"
+            android:screenOrientation="userPortrait"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_CompleteAccountDetails"
+            android:screenOrientation="userPortrait"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_EditAccountDetails"
+            android:screenOrientation="userPortrait"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_AccountDetails"
+            android:screenOrientation="userPortrait"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_ForgotPassword"
+            android:screenOrientation="userPortrait"
             android:exported="false"
             android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_SignUp"
+            android:screenOrientation="userPortrait"
             android:exported="false"
             android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_Login"
+            android:screenOrientation="userPortrait"
             android:exported="false"
             android:theme="@style/GuanzonMarketplace.Theme" />
     </application>

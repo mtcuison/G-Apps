@@ -20,6 +20,8 @@ public class EProducts {
     private String BarCodex;
     @ColumnInfo(name = "xDescript")
     private String Descrptx;
+    @ColumnInfo(name = "nRatingxx")
+    private String Ratingxx;
     @ColumnInfo(name = "xBrandNme")
     private String BrandNme;
     @ColumnInfo(name = "xModelNme")
@@ -204,5 +206,13 @@ public class EProducts {
 
     public void setImagesxx(String imagesxx) {
         Imagesxx = imagesxx;
+    }
+
+    public String getRatingxx() {
+        return Ratingxx;
+    }
+
+    public void setRatingxx(String ratingxx) {
+        Ratingxx = ratingxx;
     }
 }

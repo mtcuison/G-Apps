@@ -49,6 +49,7 @@ public class TestAddToCartItem {
 
     @Test
     public void test01Login() throws Exception{
+        new GuanzonAppConfig(mContext).setTestCase(true);
         new AccountAuthentication(mContext).
                 LoginAccount(
                         new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "12345678", "09171870011"),
@@ -60,6 +61,10 @@ public class TestAddToCartItem {
 
                             @Override
                             public void OnFailedLogin(String message) {
+
+                            }
+                            @Override
+                            public void OnAccountVerification(String args, String args1) {
 
                             }
                         });

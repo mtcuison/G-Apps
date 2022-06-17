@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.Observer;
@@ -54,10 +55,10 @@ public class TestImportProductList {
         assertNotNull(loList);
     }
 
-
     @Test
     public void test03GetProductReview() throws Exception{
         isSuccess = poProdct.GetProductRatings("C00122000002");
+        Log.d("Test Data", poProdct.getData().toString());
         assertNotNull(poProdct.getData());
         assertTrue(isSuccess);
     }
@@ -66,6 +67,7 @@ public class TestImportProductList {
     @Test
     public void test04GetProductInquiry() throws Exception{
         isSuccess = poProdct.GetQuestionsAndAnswers("C00122000001");
+        Log.d("Test Data", poProdct.getData().toString());
         assertNotNull(poProdct.getData());
         assertTrue(isSuccess);
     }

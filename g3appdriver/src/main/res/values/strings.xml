@@ -16,6 +16,7 @@
     <string name="menu_wishlist">Wishlist</string>
     <string name="menu_item_cart">Item Cart</string>
     <string name="menu_my_gcard">My Gcard</string>
+    <string name="menu_scan_gcard">Scan GCard</string>
     <string name="menu_redeemables">Redeemables</string>
     <string name="menu_gcard_orders">Orders</string>
     <string name="menu_gcard_transactions">Gcard Transactions</string>

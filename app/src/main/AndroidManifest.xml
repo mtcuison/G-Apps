@@ -31,19 +31,24 @@
         tools:ignore="AllowBackup">
         <activity
             android:name="org.rmj.guanzongroup.notifications.Activity.Activity_Browser"
+            android:screenOrientation="userPortrait"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_TermsAndConditions"
+            android:screenOrientation="userPortrait"
             android:exported="false" />
 
         <activity android:name="org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart"
+            android:screenOrientation="userPortrait"
             android:exported="false"/>
         <activity
             android:name="org.rmj.guanzongroup.useraccount.Activity.Activity_AccountDetails"
+            android:screenOrientation="userPortrait"
             android:exported="false"
             android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_SplashScreen"
+            android:screenOrientation="userPortrait"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
             <intent-filter>
@@ -54,6 +59,7 @@
         </activity>
         <activity
             android:name=".Activity.Activity_Dashboard"
+            android:screenOrientation="userPortrait"
             android:exported="true"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/GuanzonMarketplace.Theme">

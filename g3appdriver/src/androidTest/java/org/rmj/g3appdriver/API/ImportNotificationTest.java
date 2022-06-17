@@ -53,6 +53,11 @@ public class ImportNotificationTest {
             public void OnFailedLogin(String message) {
                 isSuccess = false;
             }
+
+            @Override
+            public void OnAccountVerification(String args, String args1) {
+
+            }
         });
 
         assertTrue(isSuccess);

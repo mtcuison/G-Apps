@@ -60,6 +60,10 @@ public class TestCreateAccMarketPlace {
                     public void OnFailedLogin(String message) {
                         isSucccess = false;
                     }
+                    @Override
+                    public void OnAccountVerification(String args, String args1) {
+
+                    }
                 });
         assertTrue(isSucccess);
     }
