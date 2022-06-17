@@ -67,9 +67,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private ImageView imgPromox;
     private BadgeDrawable loBadge;
     private TextView txtProdNm, txtUntPrc, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
-            txtBriefx, lblNoRevs, lblNoFaqs, lblNoSugg;
-    private TextView txtProdNm, txtUntPrc, txtRates, txtSoldQt, txtBrandx, txtCatgry, txtColorx, txtStocks,
-            txtBriefx;
+            txtBriefx, lblNoRevs, lblNoFaqs, lblNoSugg, txtRates;
+
     private TextView btnAddCrt, btnBuyNow;
 
     private String psItemIdx = "";
@@ -201,7 +200,6 @@ public class Activity_ProductOverview extends AppCompatActivity {
         mViewModel.getProductInfo(psItemIdx).observe(Activity_ProductOverview.this, product -> {
             try {
                 showPromoBanner();
-                setImageSlider();
                 psProduct = Objects.requireNonNull(product.getModelNme());
                 psPricexx = CashFormatter.parse(Objects.requireNonNull(product.getUnitPrce()));
 
@@ -244,46 +242,44 @@ public class Activity_ProductOverview extends AppCompatActivity {
                     }
                 });
 
-                mViewModel.ImportReviews(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
-
                 mViewModel.ImportInquiries(product.getListngID(), new VMProductOverview.OnInquiryReviewsImportCallback() {
-                    @Override
-                    public void OnImport(String args) {
-                        try {
-                            JSONObject loJson = new JSONObject(args);
-                            rvQueries.setVisibility(View.VISIBLE);
-                            lblNoFaqs.setVisibility(View.GONE);
-                            Adapter_ProductQueries loAdapter = new Adapter_ProductQueries(
-                                            getFilteredFaqs(loJson.getJSONArray("detail")),
-                                            true);
-                            loAdapter.notifyDataSetChanged();
-                            rvQueries.setAdapter(loAdapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        @Override
+                        public void OnImport(String args) {
+                            try {
+                                JSONObject loJson = new JSONObject(args);
+                                rvQueries.setVisibility(View.VISIBLE);
+                                lblNoFaqs.setVisibility(View.GONE);
+                                Adapter_ProductQueries loAdapter = new Adapter_ProductQueries(
+                                        getFilteredFaqs(loJson.getJSONArray("detail")),
+                                        true);
+                                loAdapter.notifyDataSetChanged();
+                                rvQueries.setAdapter(loAdapter);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                rvQueries.setVisibility(View.GONE);
+                                lblNoFaqs.setVisibility(View.VISIBLE);
+                            }
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            Log.e(TAG, message);
                             rvQueries.setVisibility(View.GONE);
                             lblNoFaqs.setVisibility(View.VISIBLE);
                         }
-                    }
-
-                    @Override
-                    public void OnFailed(String message) {
-                        Log.e(TAG, message);
-                        rvQueries.setVisibility(View.GONE);
-                        lblNoFaqs.setVisibility(View.VISIBLE);
-                    }
-                });
+                    });
 
                 Adapter_ImageSlider adapter = new Adapter_ImageSlider(Activity_ProductOverview.this, getSliderImages(product.getImagesxx()));
 
                 poSliderx.setSliderAdapter(adapter);
 
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                finish();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
     }
 
     private void setFullDescription(String fsDescrip) {
@@ -327,12 +323,6 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 lblNoSugg.setVisibility(View.VISIBLE);
             }
         });
-    }
-
-    private void setImageSlider() {
-        Adapter_ImageSlider adapter = new Adapter_ImageSlider(Activity_ProductOverview.this,
-                getSliderImages());
-        poSliderx.setSliderAdapter(adapter);
     }
 
     private void showPromoBanner() {
@@ -465,5 +455,4 @@ public class Activity_ProductOverview extends AppCompatActivity {
         }
         return loArray;
     }
-
 }

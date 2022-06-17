@@ -146,31 +146,31 @@ public class Activity_Dashboard extends AppCompatActivity {
         loInflate = LayoutInflater.from(Activity_Dashboard.this);
 
         mViewModel.GetUnreadMessagesCount().observe(Activity_Dashboard.this, count -> {
-            try{
-                loBadge = BadgeDrawable.create(Activity_Dashboard.this);
-                if(count > 0) {
-                    loBadge.setNumber(count);
-                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
-                } else {
-                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+//            try{
+//                loBadge = BadgeDrawable.create(Activity_Dashboard.this);
+//                if(count > 0) {
+//                    loBadge.setNumber(count);
+//                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
+//                } else {
+//                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
         });
 
         mViewModel.GetCartItemCount().observe(Activity_Dashboard.this, count -> {
-            try {
-                loBadge = BadgeDrawable.create(Activity_Dashboard.this);
-                if(count > 0) {
-                    loBadge.setNumber(count);
-                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
-                } else {
-                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+//            try {
+//                loBadge = BadgeDrawable.create(Activity_Dashboard.this);
+//                if(count > 0) {
+//                    loBadge.setNumber(count);
+//                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+//                } else {
+//                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
         });
 
         mViewModel.GetToPayOrders().observe(Activity_Dashboard.this, count -> {

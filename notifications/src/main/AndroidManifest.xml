@@ -4,9 +4,11 @@
     <application>
         <activity
             android:name=".Activity.Activity_NotificationList"
+            android:screenOrientation="userPortrait"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_ViewNotification"
+            android:screenOrientation="userPortrait"
             android:exported="false"
             android:label="Notifications" />
     </application>

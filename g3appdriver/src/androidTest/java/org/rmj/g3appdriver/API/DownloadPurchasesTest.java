@@ -52,6 +52,11 @@ public class DownloadPurchasesTest {
             public void OnFailedLogin(String message) {
                 isSuccess = false;
             }
+
+            @Override
+            public void OnAccountVerification(String args, String args1) {
+
+            }
         });
 
         assertTrue(isSuccess);

@@ -53,6 +53,10 @@ public class GCardTransactionTest {
             public void OnFailedLogin(String fsMessage) {
                 isSuccess = false;
             }
+            @Override
+            public void OnAccountVerification(String args, String args1) {
+
+            }
         });
 
         assertTrue(isSuccess);

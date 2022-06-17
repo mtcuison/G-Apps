@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.splashscreen.SplashScreen;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.ActivityManager;
@@ -14,7 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import org.rmj.g3appdriver.etc.oLoadStat;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_AppPermissions;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.Service.GMessagingService;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMSplashScreen;

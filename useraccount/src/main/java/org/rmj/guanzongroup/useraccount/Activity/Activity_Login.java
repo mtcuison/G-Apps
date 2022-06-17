@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.useraccount.Activity;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -39,6 +41,25 @@ public class Activity_Login extends AppCompatActivity {
     private TextInputLayout tilEmail, tilMobile;
     private TextInputEditText tieEmail, tieMobile, tiePassword;
     private MaterialButton btnLogin;
+
+    private static final int VERIFY = 111;
+
+    private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if(result.getResultCode() == VERIFY) {
+                    Intent loIntent = result.getData();
+                    if (loIntent != null) {
+//                        Toast.makeText(Activity_Login.this, loIntent.getStringExtra("result"), Toast.LENGTH_LONG).show();
+                        if(loIntent.getStringExtra("result").equalsIgnoreCase("success")){
+                            acccountLogin();
+                        }
+                    } else {
+                        Toast.makeText(Activity_Login.this, "No data result receive.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,10 +135,9 @@ public class Activity_Login extends AppCompatActivity {
             AccountAuthentication.LoginCredentials loCrednts = new AccountAuthentication.LoginCredentials(
                     infoModel.getLogUser(),
                     infoModel.getPassword(),
-                    lsMobilex
-            );
+                    lsMobilex);
             try {
-                mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
+                mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthenticationCallback() {
                     @Override
                     public void onLoad() {
                         poLoading = new Dialog_Loading(Activity_Login.this);
@@ -129,7 +149,6 @@ public class Activity_Login extends AppCompatActivity {
                     public void onSuccess(String fsMessage) {
                         Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
                         sendBroadcast(intent);
-
                         poLoading.dismiss();
                         poDialogx.setButtonText("Okay");
                         poDialogx.initDialog("Log In", fsMessage, dialog -> {
@@ -145,6 +164,18 @@ public class Activity_Login extends AppCompatActivity {
                         poDialogx.setButtonText("Okay");
                         poDialogx.initDialog("Log in Failed", fsMessage, dialog -> dialog.dismiss());
                         poDialogx.show();
+                    }
+
+                    @Override
+                    public void onVerifiy(String args1, String args2) {
+                        poLoading.dismiss();
+                        Log.d("Activation OTP", args1);
+                        Intent loIntent = new Intent(Activity_Login.this, Activity_AccountVerification.class);
+                        loIntent.putExtra("otp", args1);
+                        loIntent.putExtra("verify", args2);
+                        loIntent.putExtra("email", lsEmailxx);
+                        loIntent.putExtra("passw", lsPasswrd);
+                        poArl.launch(loIntent);
                     }
                 });
             } catch (Exception e) {

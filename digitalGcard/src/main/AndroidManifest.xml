@@ -4,13 +4,16 @@
     <application>
         <activity
             android:name=".Activity.Activity_QrCodeScanner"
+            android:screenOrientation="userPortrait"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_AddGcard"
+            android:screenOrientation="userPortrait"
             android:exported="true"
             android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_ManageGcard"
+            android:screenOrientation="userPortrait"
             android:exported="true"
             android:theme="@style/GuanzonMarketplace.Theme" />
     </application>
