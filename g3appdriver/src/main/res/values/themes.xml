@@ -131,6 +131,12 @@
         <item name="backgroundTint">@color/guanzon_digital_orange</item>
     </style>
 
+    <style name="ButtonStyle.LightOrange.Small" parent="ButtonStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/guanzon_digital_light_orange</item>
+        <item name="backgroundTint">@color/background_lighten_orange</item>
+    </style>
+
     <style name="ButtonStyle.Grey.Large" parent="ButtonStyle">
         <item name="android:textSize">18sp</item>
         <item name="backgroundTint">@color/guanzon_digital_dark_grey</item>

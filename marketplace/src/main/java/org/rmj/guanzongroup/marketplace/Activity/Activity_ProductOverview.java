@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -70,6 +71,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
             txtBriefx, lblNoRevs, lblNoFaqs, lblNoSugg, txtRates;
 
     private TextView btnAddCrt, btnBuyNow;
+    private MaterialButton btnSeeRev, btnAskQst;
 
     private String psItemIdx = "";
     private String psProduct = "";
@@ -86,6 +88,26 @@ public class Activity_ProductOverview extends AppCompatActivity {
         getExtras();
         setUpToolbar();
         displayData();
+
+        btnSeeRev.setOnClickListener(v -> {
+            Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductReview.class);
+            loIntent.putExtra("sListingId", psItemIdx);
+            startActivity(loIntent);
+        });
+
+        btnAskQst.setOnClickListener(v -> {
+            if(isLoggedIn()) {
+                if(poAccount.getClientID().isEmpty()) {
+                    Intent loIntent = new Intent(Activity_ProductOverview.this,
+                            Activity_CompleteAccountDetails.class);
+                    startActivity(loIntent);
+                } else {
+                    Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductQueries.class);
+                    loIntent.putExtra("sListingId", psItemIdx);
+                    startActivity(loIntent);
+                }
+            }
+        });
 
         btnAddCrt.setOnClickListener(v -> addToCart());
         btnBuyNow.setOnClickListener(v -> buyNow());
@@ -174,6 +196,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
         lblNoFaqs = findViewById(R.id.lblNoFaqs);
         lblNoSugg = findViewById(R.id.lblNoSuggests);
 
+        btnSeeRev = findViewById(R.id.btnSeeMoreReviews);
+        btnAskQst = findViewById(R.id.btnAskQuestion);
         btnAddCrt = findViewById(R.id.btnText_addToCart);
         btnBuyNow = findViewById(R.id.btnText_buyNow);
 
@@ -221,6 +245,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
                         try {
                             rvRatings.setVisibility(View.VISIBLE);
                             lblNoRevs.setVisibility(View.GONE);
+                            btnSeeRev.setVisibility(View.VISIBLE);
                             JSONObject loJson = new JSONObject(args);
                             Adapter_ProductReview loAdapter = new
                                     Adapter_ProductReview(loJson.getJSONArray("detail"),
@@ -231,6 +256,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
                             e.printStackTrace();
                             rvRatings.setVisibility(View.GONE);
                             lblNoRevs.setVisibility(View.VISIBLE);
+                            btnSeeRev.setVisibility(View.GONE);
                         }
                     }
 
@@ -239,6 +265,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
                         Log.e(TAG, message);
                         rvRatings.setVisibility(View.GONE);
                         lblNoRevs.setVisibility(View.VISIBLE);
+                        btnSeeRev.setVisibility(View.GONE);
                     }
                 });
 

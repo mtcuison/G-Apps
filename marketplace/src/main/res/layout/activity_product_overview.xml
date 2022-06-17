@@ -393,18 +393,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/lblSeeAll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/lblSeeAll"
-                    android:textColor="@color/link_text_color"
-                    android:textSize="16sp"
-                    app:layout_constraintTop_toTopOf="@id/lblProductRatings"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/lblProductRatings"/>
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_ratings"
                     android:layout_width="0dp"
@@ -433,6 +421,18 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSeeMoreReviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="17dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/lblSeeMoreReviews"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/divider3"
+                app:layout_constraintRight_toRightOf="parent"
+                style="@style/ButtonStyle.LightOrange.Small"/>
+
             <View
                 android:id="@+id/divider3"
                 android:layout_width="match_parent"
@@ -459,18 +459,6 @@
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/lblSeeAll2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/lblSeeAll"
-                    android:textColor="@color/link_text_color"
-                    android:textSize="16sp"
-                    app:layout_constraintTop_toTopOf="@id/lblProductFaqs"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/lblProductFaqs"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_faqs"
@@ -499,6 +487,19 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAskQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="17dp"
+                android:layout_marginBottom="5dp"
+                android:drawableStart="@drawable/ic_baseline_message_24"
+                android:text="@string/lblAskQuestion"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/divider4"
+                app:layout_constraintRight_toRightOf="parent"
+                style="@style/ButtonStyle.LightOrange.Small"/>
+
             <View
                 android:id="@+id/divider4"
                 android:layout_width="match_parent"
@@ -525,18 +526,6 @@
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/lblSeeAll3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/lblSeeAll"
-                    android:textColor="@color/link_text_color"
-                    android:textSize="16sp"
-                    app:layout_constraintTop_toTopOf="@id/lblProductSuggest"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/lblProductSuggest"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_suggests"

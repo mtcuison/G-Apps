@@ -65,6 +65,8 @@
     <string name="lblRetypePass">Re-type Password</string>
     <string name="lblCreateAccount">Create Account</string>
     <string name="lblTapQRToRefresh">Tap QR Code to Refresh</string>
+    <string name="lblAskQuestion">Ask a Question</string>
+    <string name="lblSeeMoreReviews">See More Reviews</string>
     <string name="lblUsername">Username</string>
     <string name="lblFullName">Full Name</string>
     <string name="lblLastname">Last Name</string>

@@ -27,6 +27,9 @@
             android:screenOrientation="userPortrait"
             android:exported="false" />
         <activity
+            android:name=".Activity.Activity_ProductQueries"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_ProductOverview"
             android:screenOrientation="userPortrait"
             android:exported="false" />
