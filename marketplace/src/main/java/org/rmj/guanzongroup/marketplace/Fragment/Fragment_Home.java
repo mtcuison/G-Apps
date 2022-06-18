@@ -93,7 +93,7 @@ public class Fragment_Home extends Fragment {
     private void showPromoDialog() {
         boolean isThereAnActivePromo = true;
         if(isThereAnActivePromo) {
-            String sampleUrl = "https://scontent.fmnl9-3.fna.fbcdn.net/v/t39.30808-6/282387720_5403740322981545_1108881974112682037_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=730e14&_nc_eui2=AeEvu2TqVptylKnLQCLZJsRtSxQVxHxfyshLFBXEfF_KyEAKctHKcbuaNcazD-nb2MAP_y_8m_GYvWx_bhlvEfaj&_nc_ohc=Qq0Ju_q0W9AAX-lGGig&_nc_ht=scontent.fmnl9-3.fna&oh=00_AT8ef2TtqoNkTcSEWKKEQqwEwtelUX0xorokm2XyAP7snA&oe=62A98FB0";
+            String sampleUrl = "http://unbox.ph/wp-content/uploads/2021/09/9.9-Lazada-Promo.jpg";
             Dialog_Promo loDialog = new Dialog_Promo(requireActivity());
             loDialog.initDialog(sampleUrl, (dialog) -> {
                 // TODO: Intent to specific activity to show product/promo.
