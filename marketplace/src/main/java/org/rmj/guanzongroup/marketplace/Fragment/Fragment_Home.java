@@ -26,6 +26,7 @@ import com.smarteist.autoimageslider.SliderView;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_QRCode;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_Categories;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ImageSlider;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
 import org.rmj.guanzongroup.marketplace.Model.HomeImageSliderModel;
@@ -142,7 +143,19 @@ public class Fragment_Home extends Fragment {
     }
 
     private void setCategoryAdapter() {
+        List<Integer> list = new ArrayList<>();
+        list.add(R.drawable.ic_img_am);
+        list.add(R.drawable.ic_img_ap);
+        list.add(R.drawable.ic_img_mc);
+        list.add(R.drawable.ic_img_mp);
+        final Adapter_Categories loAdapter = new Adapter_Categories(requireActivity(), list, new Adapter_Categories.OnItemClick() {
+            @Override
+            public void onClick(int position) {
 
+            }
+        });
+        loAdapter.notifyDataSetChanged();
+        poRvCateg.setAdapter(loAdapter);
     }
 
     private void setProductAdapter() {
