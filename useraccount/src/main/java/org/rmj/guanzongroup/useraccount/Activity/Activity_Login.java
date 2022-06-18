@@ -150,12 +150,7 @@ public class Activity_Login extends AppCompatActivity {
                         Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
                         sendBroadcast(intent);
                         poLoading.dismiss();
-                        poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Log In", fsMessage, dialog -> {
-                            dialog.dismiss();
-                            finish();
-                        });
-                        poDialogx.show();
+                        finish();
                     }
 
                     @Override

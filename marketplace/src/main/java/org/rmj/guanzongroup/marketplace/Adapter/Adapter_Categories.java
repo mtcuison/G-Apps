@@ -16,14 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.guanzongroup.marketplace.R;
 
+import java.util.List;
+
 
 public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.ViewHolderItem> {
 
     private final Context poContext;
+    private final List<Integer> list;
     private final OnItemClick poCallBck;
 
-    public Adapter_Categories(Context foContext, OnItemClick foCallBck){
+    public Adapter_Categories(Context foContext, List<Integer> list, OnItemClick foCallBck){
         this.poContext = foContext;
+        this.list = list;
         this.poCallBck = foCallBck;
     }
 
@@ -37,9 +41,9 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
         try {
+            int item = list.get(position);
 //            Bitmap loImageBg = BitmapFactory.decodeStream(is); // Put Image URL here.
 //            BitmapDrawable background = new BitmapDrawable(poContext.getResources(), loImageBg);
-//            holder.lnCategry.setBackground(background);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,7 +51,7 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
 
     @Override
     public int getItemCount() {
-        return 0;
+        return list.size();
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder {
