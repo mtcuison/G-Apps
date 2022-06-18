@@ -172,6 +172,7 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                 Intent loIntent = new Intent(Activity_PlaceOrder.this, Activity_PayOrder.class);
                 loIntent.putExtra("sTransNox", fsMessage);
                 startActivity(loIntent);
+                finish();
             }
 
             @Override

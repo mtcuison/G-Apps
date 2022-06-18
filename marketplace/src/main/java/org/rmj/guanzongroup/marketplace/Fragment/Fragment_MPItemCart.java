@@ -68,6 +68,7 @@ public class Fragment_MPItemCart extends Fragment {
                     List<ItemCartModel> itemCart = mViewModel.ParseDataForAdapter(items);
                     if (itemCart.size() > 0){
                         noItem.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                         lnMPFooter.setVisibility(View.VISIBLE);
                         adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
                             @Override
@@ -105,6 +106,7 @@ public class Fragment_MPItemCart extends Fragment {
                         adapter.notifyDataSetChanged();
                     } else {
                         noItem.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
                         lnMPFooter.setVisibility(View.GONE);
                     }
                 } catch (Exception e){

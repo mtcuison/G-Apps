@@ -67,6 +67,7 @@ public class ROrder {
             if(fnQuantity <= 0){
                 message = "Unable to proceed with '0' quantity.";
                 return false;
+
             } else if(loAccount.getEmailAdd().isEmpty()){
                 message = "Please login your account to continue.";
                 return false;
@@ -214,8 +215,12 @@ public class ROrder {
                 if(!lsResult.equalsIgnoreCase("success")){
                     JSONObject loError = loResponse.getJSONObject("error");
                     message = loError.getString("message");
+                    Log.e(TAG, loError.getString("sql"));
                     return false;
                 } else {
+                    for(int x = 0; x < foItemLst.size(); x++){
+                        poCartDao.DeleteCartItem(foItemLst.get(x).sListIDxx);
+                    }
                     TransNox = loResponse.getString("sTransNox");
                     return true;
                 }
@@ -427,14 +432,16 @@ public class ROrder {
                 message = "Server no response.";
                 return false;
             } else {
+                Log.e(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){
-                    Log.e(TAG, lsResponse);
                     JSONObject loError = loResponse.getJSONObject("error");
                     message = loError.getString("message");
                     return false;
                 } else {
+                    Thread.sleep(1000);
+                    ImportPurchases();
                     return true;
                 }
             }

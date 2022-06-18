@@ -11,6 +11,7 @@ public class ServerAPIs {
     private boolean isTestUnit;
 
     private static final String SIGN_IN = SECURITY + "signin.php";
+    private static final String RESEND_OTP = SECURITY + "send_otp.php";
     private static final String REGISTRATION = SECURITY + "signup.php";
     private static final String RETRIEVE_PASSWORD = SECURITY + "forgotpswd.php";
 
@@ -512,4 +513,12 @@ public class ServerAPIs {
         }
         return LIVE + SUBMIT_REVIEW;
     }
+
+    public String getSendOtpAPI(){
+        if(isTestUnit){
+            return LOCAL + RESEND_OTP;
+        }
+        return LIVE + RESEND_OTP;
+    }
+
 }

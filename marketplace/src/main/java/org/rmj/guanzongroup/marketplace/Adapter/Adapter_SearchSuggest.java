@@ -7,15 +7,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.rmj.g3appdriver.dev.Database.Entities.ESearchLog;
 import org.rmj.guanzongroup.marketplace.databinding.AdapterSearchSuggestBinding;
 
+import java.util.List;
 
 public class Adapter_SearchSuggest extends RecyclerView.Adapter<Adapter_SearchSuggest.ItemViewHolder> {
 
     private AdapterSearchSuggestBinding mBinding;
 
-    public Adapter_SearchSuggest(){
+    private final List<ESearchLog> poList;
 
+    public Adapter_SearchSuggest(List<ESearchLog> foVal){
+        this.poList = foVal;
     }
 
     @NonNull
@@ -59,7 +63,4 @@ public class Adapter_SearchSuggest extends RecyclerView.Adapter<Adapter_SearchSu
     private class Sample {
         public String sample;
     }
-
-
-
 }

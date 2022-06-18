@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -38,18 +39,12 @@ public class Fragment_AccountSettings extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_account_settings, container, false);
-        setUpViews(v);
-        setSettingsAdapter(v);
-        return v;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMAccountSettings.class);
         poAccount = new AccountInfo(requireActivity());
         // TODO: Use the ViewModel
-
+        setUpViews(v);
+        setSettingsAdapter(v);
+        return v;
     }
 
     private void setUpViews(View v) {
@@ -82,7 +77,7 @@ public class Fragment_AccountSettings extends Fragment {
                 case 3:
                     Bundle loBundle = new Bundle();
                     loBundle.putInt("gcardInstance", 1);
-//                    Navigation.findNavController(view).navigate(R.id.action_nav_account_settings_to_nav_my_gcard, loBundle);
+                    Navigation.findNavController(view).navigate(R.id.action_nav_account_settings_to_nav_my_gcard, loBundle);
                     break;
             }
         });

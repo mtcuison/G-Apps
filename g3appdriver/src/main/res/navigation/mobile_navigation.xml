@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="org.rmj.guanzongroup.marketplace.Fragment.Fragment_Home"
+        android:label="@string/lblMarketplace"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_promos"
+        android:name="org.rmj.guanzongroup.notifications.Fragment.Fragment_EventsPromos"
+        android:label="@string/lblPromos"
+        tools:layout="@layout/fragment_home">
+
+        <argument android:name="gcardInstance"
+            app:argType="integer"
+            android:defaultValue="1"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_events"
+        android:name="org.rmj.guanzongroup.notifications.Fragment.Fragment_EventsPromos"
+        android:label="@string/lblEvents"
+        tools:layout="@layout/fragment_home">
+
+        <argument android:name="gcardInstance"
+            app:argType="integer"
+            android:defaultValue="2"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_purchases"
+        android:name="org.rmj.guanzongroup.marketplace.Fragment.Fragment_Orders"
+        android:label="@string/menu_purchases"
+        tools:layout="@layout/fragment_orders" />
+
+    <fragment
+        android:id="@+id/nav_wishlist"
+        android:name="org.rmj.guanzongroup.marketplace.Fragment.Fragment_Wishlist"
+        android:label="@string/menu_wishlist"
+        tools:layout="@layout/fragment_wishlist" />
+
+    <fragment
+        android:id="@+id/nav_my_gcard"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcardBaseContainer"
+        android:label="@string/menu_my_gcard"
+        tools:layout="@layout/fragment_my_gcard" >
+        <argument android:name="gcardInstance"
+            app:argType="integer"
+            android:defaultValue="1"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_redeemables"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcardBaseContainer"
+        android:label="@string/menu_redeemables"
+        tools:layout="@layout/fragment_redeemables">
+        <argument android:name="gcardInstance"
+            app:argType="integer"
+            android:defaultValue="2"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_gcard_orders"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcardBaseContainer"
+        android:label="@string/menu_gcard_orders"
+        tools:layout="@layout/fragment_gcard_orders" >
+        <argument android:name="gcardInstance"
+            app:argType="integer"
+            android:defaultValue="3"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_gcard_transactions"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcardBaseContainer"
+        android:label="@string/menu_gcard_transactions"
+        tools:layout="@layout/fragment_my_gcard_base_container" >
+        <argument android:name="gcardInstance"
+            app:argType="integer"
+            android:defaultValue="4" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_pre_termination"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_PreTermination"
+        android:label="@string/menu_pre_termination"
+        tools:layout="@layout/fragment_my_gcard_base_container" >
+        <argument android:name="gcardInstance"
+            app:argType="integer"
+            android:defaultValue="5" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_account_settings"
+        android:name="org.rmj.guanzongroup.useraccount.Fragment.Fragment_AccountSettings"
+        android:label="@string/menu_account_settings"
+        tools:layout="@layout/fragment_my_gcard_base_container" >
+        <action
+            android:id="@+id/action_nav_account_settings_to_nav_my_gcard"
+            app:destination="@id/nav_my_gcard" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_find_us"
+        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_FindUs"
+        android:label="@string/menu_find_us"
+        tools:layout="@layout/fragment_find_us" />
+
+    <fragment
+        android:id="@+id/nav_customer_service"
+        android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_CustomerService"
+        android:label="@string/menu_customer_service"
+        tools:layout="@layout/fragment_customer_service" />
+
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_About"
+        android:label="@string/menu_about"
+        tools:layout="@layout/fragment_about" >
+
+        <action
+            android:id="@+id/action_nav_about_to_nav_comp_profile"
+            app:destination="@id/nav_comp_profile">
+
+            <argument
+                android:name="args_about"
+                android:defaultValue="0"
+                app:argType="integer" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_comp_profile"
+        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_CompanyProfile"
+        android:label="@string/menu_about"
+        tools:layout="@layout/fragment_company_profile"/>
+
+</navigation>

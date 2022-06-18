@@ -3,7 +3,6 @@ package org.rmj.guanzongroup.marketplace.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,12 +11,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMSearchItem;
 import org.rmj.guanzongroup.marketplace.databinding.ActivitySearchItemBinding;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Activity_SearchItem extends AppCompatActivity {

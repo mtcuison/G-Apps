@@ -1,11 +1,14 @@
 package org.rmj.guanzongroup.useraccount.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -34,9 +37,40 @@ public class Activity_AccountVerification extends AppCompatActivity {
             lsVerify = getIntent().getStringExtra("verify");
         }
         poLoading = new Dialog_Loading(Activity_AccountVerification.this);
-        TextView lblResend = findViewById(R.id.lbl_resend);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Activate Account");
+        MaterialButton btnResend = findViewById(R.id.btn_resend);
         TextInputEditText txtOtp = findViewById(R.id.tie_otp);
         MaterialButton btnSubmit = findViewById(R.id.btn_Submit);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        btnResend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.StartTimer(new VMAccountAuthentication.TimerListener() {
+                    @Override
+                    public void OnStart() {
+                        btnResend.setEnabled(false);
+                    }
+
+                    @Override
+                    public void OnTimerCountdown(int progress) {
+                        if(progress > 0) {
+                            btnResend.setText("Please wait...(" + progress + ")");
+                        } else {
+                            btnResend.setText("Resend OTP?");
+                        }
+                    }
+
+                    @Override
+                    public void OnFinish() {
+                        btnResend.setEnabled(true);
+                    }
+                });
+            }
+        });
 
         btnSubmit.setOnClickListener(v -> {
             String lsEntry = txtOtp.getText().toString();
@@ -68,12 +102,18 @@ public class Activity_AccountVerification extends AppCompatActivity {
                     poLoading.dismiss();
                     poDialogx = new Dialog_SingleButton(Activity_AccountVerification.this);
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Retrieving Password Failed", fsMessage, dialog -> {
-                        dialog.dismiss();
-                    });
+                    poDialogx.initDialog("Activate Account", fsMessage, dialog -> dialog.dismiss());
                     poDialogx.show();
                 }
             });
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

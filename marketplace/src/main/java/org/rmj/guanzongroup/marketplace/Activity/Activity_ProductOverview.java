@@ -214,8 +214,12 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private void displayData() {
         mViewModel.GetCartItemCount().observe(Activity_ProductOverview.this, count -> {
             try {
-                loBadge.setNumber(count);
-                BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+                if(count > 0) {
+                    loBadge.setNumber(count);
+                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+                } else {
+                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+                }
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -296,6 +300,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
                         }
                     });
 
+                showSuggestItems(product.getBrandNme());
+
                 Adapter_ImageSlider adapter = new Adapter_ImageSlider(Activity_ProductOverview.this, getSliderImages(product.getImagesxx()));
 
                 poSliderx.setSliderAdapter(adapter);
@@ -325,8 +331,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
         }
     }
 
-    private void showSuggestItems() {
-        mViewModel.getProductList(0).observe(Activity_ProductOverview.this, products -> {
+    private void showSuggestItems(String fsBrandNm) {
+        mViewModel.getProductList(0, fsBrandNm).observe(Activity_ProductOverview.this, products -> {
             try {
                 if(products.size() > 0) {
                     rvSuggest.setVisibility(View.VISIBLE);

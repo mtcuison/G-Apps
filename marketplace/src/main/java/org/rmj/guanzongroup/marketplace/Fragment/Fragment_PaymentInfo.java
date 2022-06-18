@@ -25,23 +25,52 @@ public class Fragment_PaymentInfo extends Fragment {
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
 
+    private String psPayment;
+
     public Fragment_PaymentInfo() { }
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentPaymentInfoBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPayOrder.class);
+        binding = FragmentPaymentInfoBinding.inflate(inflater, container, false);
         poDialogx = new Dialog_SingleButton(requireActivity());
         displayPaymentInfo();
         binding.btnConfrm.setOnClickListener(v -> {
-            if(isMethodSelected()) { payOrder(); }
+            if(psPayment.equalsIgnoreCase("CashOnDelivery")){
+                mViewModel.payOrder(mViewModel.getTransactionNumber(),
+                        mViewModel.getPaymentMethod().getValue(),
+                        "", new OnTransactionsCallback() {
+                            @Override
+                            public void onLoading() {
+                                poLoading = new Dialog_Loading(requireActivity());
+                                poLoading.initDialog("Pay Order", "Payment Processing. Please wait.");
+                                poLoading.show();
+                            }
+
+                            @Override
+                            public void onSuccess(String fsMessage) {
+                                poLoading.dismiss();
+                                poDialogx.setButtonText("Okay");
+                                poDialogx.initDialog("Pay Order", fsMessage, dialog1 -> {
+                                    dialog1.dismiss();
+                                    requireActivity().finish();
+                                });
+                                poDialogx.show();
+                            }
+
+                            @Override
+                            public void onFailed(String fsMessage) {
+                                poLoading.dismiss();
+                                poDialogx.setButtonText("Okay");
+                                poDialogx.initDialog("Pay Order", fsMessage, dialog1 -> dialog1.dismiss());
+                                poDialogx.show();
+                            }
+                        });
+            } else if(isMethodSelected()) {
+                payOrder();
+            }
         });
+        return binding.getRoot();
     }
 
     @Override
@@ -51,7 +80,10 @@ public class Fragment_PaymentInfo extends Fragment {
     }
 
     private void displayPaymentInfo() {
-        mViewModel.getPaymentMethod().observe(getViewLifecycleOwner(), payMeth -> binding.txtPayTyp.setText(payMeth.toString()));
+        mViewModel.getPaymentMethod().observe(getViewLifecycleOwner(), payMeth -> {
+            binding.txtPayTyp.setText(payMeth.toString());
+            psPayment = payMeth.toString();
+        });
         binding.txtAccNme.setText("Guanzon Group of Companies");
         binding.txtMobile.setText("09123456789");
     }

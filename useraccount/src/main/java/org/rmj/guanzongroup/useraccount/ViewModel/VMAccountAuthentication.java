@@ -290,9 +290,9 @@ public class VMAccountAuthentication extends AndroidViewModel {
             }
         }
 
-        boolean Activate(String Addres){
+        boolean Activate(String Address){
             try{
-                String lsResponse = WebClient.httpsPostJSon(Addres, new JSONObject().toString(), null);
+                String lsResponse = WebClient.httpsPostJSon(Address, new JSONObject().toString(), null);
                 if(lsResponse == null){
                     message = "Unable to confirm your account. No server response has received.";
                     return false;
@@ -317,6 +317,77 @@ public class VMAccountAuthentication extends AndroidViewModel {
         }
     }
 
+    public void ResendOtp(AuthTransactionCallback callback){
+        new ResendOTPTask(callback).execute();
+    }
+
+    private static class ResendOTPTask extends AsyncTask<String, Void, String>{
+
+        private final AuthTransactionCallback callback;
+
+        public ResendOTPTask(AuthTransactionCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+    }
+
+    public void StartTimer(TimerListener listener){
+        new OtpTimerTask(listener).execute();
+    }
+
+    private static class OtpTimerTask extends AsyncTask<String, Integer, String>{
+
+        private final TimerListener listener;
+
+        public OtpTimerTask(TimerListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                for (int x = 60; x >= 0; x--) {
+                    publishProgress(x);
+                    Thread.sleep(1000);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            listener.OnTimerCountdown(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            listener.OnFinish();
+        }
+    }
+
     public interface AuthTransactionCallback {
         void onLoad();
         void onSuccess(String fsMessage);
@@ -330,5 +401,9 @@ public class VMAccountAuthentication extends AndroidViewModel {
         void onVerifiy(String args1, String args2);
     }
 
-
+    public interface TimerListener{
+        void OnStart();
+        void OnTimerCountdown(int progress);
+        void OnFinish();
+    }
 }

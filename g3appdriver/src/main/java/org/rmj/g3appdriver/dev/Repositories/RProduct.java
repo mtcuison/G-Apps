@@ -9,7 +9,9 @@ import androidx.lifecycle.MutableLiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DSearchLog;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
+import org.rmj.g3appdriver.dev.Database.Entities.ESearchLog;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
@@ -29,6 +31,7 @@ public class RProduct {
 
     private final Context mContext;
     private final DProduct poDao;
+    private final DSearchLog poSearch;
 
     private JSONObject data;
     private String message;
@@ -38,6 +41,7 @@ public class RProduct {
     public RProduct(Context context){
         this.mContext = context;
         this.poDao = GGC_GuanzonAppDB.getInstance(mContext).prodctDao();
+        this.poSearch = GGC_GuanzonAppDB.getInstance(mContext).searchDao();
     }
 
     public JSONObject getData() {
@@ -249,6 +253,7 @@ public class RProduct {
 
     public boolean SearchProduct(String fsVal){
         try {
+            AddNewSearch(fsVal);
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             JSONObject params = new JSONObject();
             params.put("bsearch", true);
@@ -392,4 +397,27 @@ public class RProduct {
             return false;
         }
     }
+
+    public boolean AddNewSearch(String fsArgs){
+        try{
+            if(poSearch.CheckIfExist(fsArgs) == null){
+                ESearchLog loSearch = new ESearchLog();
+                int nEntryNox = poSearch.CreateNewEntryNox();
+                loSearch.setEntryNox(nEntryNox);
+                loSearch.setSearchxx(fsArgs);
+                loSearch.setTimeStmp(new AppConstants().DATE_MODIFIED);
+                poSearch.SaveNewSearch(loSearch);
+                return true;
+            } else {
+                ESearchLog loSearch = poSearch.CheckIfExist(fsArgs);
+                poSearch.UpdateSearch(loSearch.getEntryNox(), new AppConstants().DATE_MODIFIED);
+                return true;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
 }
