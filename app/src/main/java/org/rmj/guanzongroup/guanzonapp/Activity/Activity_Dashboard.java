@@ -305,6 +305,9 @@ public class Activity_Dashboard extends AppCompatActivity {
     private void setUpHeader(NavigationView foNavigxx) {
         View headerLayout = foNavigxx.getHeaderView(0);
         LinearLayout lnAuthxxx = headerLayout.findViewById(R.id.ln_authenticate);
+        LinearLayout lnGcardxx = headerLayout.findViewById(R.id.ln_gcard_info);
+        TextView txtGcardN = headerLayout.findViewById(R.id.lblGcardNo);
+        TextView txtGcardP = headerLayout.findViewById(R.id.lblGcardPts);
         TextView txtSignUp = headerLayout.findViewById(R.id.lbl_Signup);
         TextView txtLoginx = headerLayout.findViewById(R.id.lbl_Login);
         TextView txtFullNm = headerLayout.findViewById(R.id.lbl_UserFullName);
@@ -319,6 +322,22 @@ public class Activity_Dashboard extends AppCompatActivity {
                     } else {
                         lsFullNme = eClientinfo.getUserName();
                     }
+                    mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, gcard -> {
+                        try {
+                            if(gcard != null) {
+                                lnGcardxx.setVisibility(View.VISIBLE);
+                                String lsGcardPt = "Points: " + gcard.getAvlPoint();
+                                txtGcardN.setText(gcard.getCardNmbr());
+                                txtGcardP.setText(lsGcardPt);
+                                headerLayout.setOnClickListener(v -> {});
+                            } else {
+                                lnGcardxx.setVisibility(View.GONE);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            lnGcardxx.setVisibility(View.GONE);
+                        }
+                    });
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
                     txtFullNm.setText(Objects.requireNonNull(lsFullNme));
