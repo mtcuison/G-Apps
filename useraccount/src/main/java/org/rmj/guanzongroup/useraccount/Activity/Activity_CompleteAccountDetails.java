@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +26,10 @@ import org.rmj.guanzongroup.useraccount.Model.CompleteAccountDetailsInfo;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountDetails;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -157,7 +162,18 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
 
     private void setInputOptions() {
         /** Date Auto Formatter */
-        txtBdatex.addTextChangedListener(new InputFieldController.OnDateSetListener(txtBdatex));
+        txtBdatex.setOnClickListener(v ->  {
+            final Calendar newCalendar = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+            final DatePickerDialog StartTime = new DatePickerDialog(this, (view131, year, monthOfYear, dayOfMonth) -> {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                String lsDate = dateFormatter.format(newDate.getTime());
+                txtBdatex.setText(lsDate);
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            StartTime.getDatePicker().setMaxDate(new Date().getTime());
+            StartTime.show();
+        });
 
         /** AutoCompleteTextviews */
 

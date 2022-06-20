@@ -178,11 +178,9 @@ public class Fragment_Home extends Fragment {
 
     private List<HomeImageSliderModel> getSliderImages() {
         List<HomeImageSliderModel> loSliders = new ArrayList<>();
-        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/943013.jpg"));
-        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/2752949.jpg"));
-        loSliders.add(new HomeImageSliderModel("https://wallpaperboat.com/wp-content/uploads/2021/04/26/76958/2560x1080-05.jpg"));
-        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/2752980.jpg"));
-        loSliders.add(new HomeImageSliderModel("https://cdn.wallpapersafari.com/91/95/40FEij.jpg"));
+        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/2697937.jpg"));
+        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/2697956.jpg"));
+        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/2697963.jpg"));
         return loSliders;
     }
 

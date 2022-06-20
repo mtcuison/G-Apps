@@ -27,7 +27,7 @@
             app:sliderIndicatorUnselectedColor="#FFF"
             app:sliderScrollTimeInSec="1"
             app:sliderStartAutoCycle="true"
-            app:layout_constraintDimensionRatio="21:9"
+            app:layout_constraintDimensionRatio="4:3"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent" />

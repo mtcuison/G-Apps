@@ -188,8 +188,10 @@
                     android:id="@+id/tie_bdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="20"
-                    android:inputType="number|none"
+                    android:inputType="date"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:maxLines="1"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_bplace" />
 

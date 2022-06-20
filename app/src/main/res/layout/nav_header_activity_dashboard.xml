@@ -34,10 +34,39 @@
         app:layout_constraintLeft_toRightOf="@id/imageView"
         app:layout_constraintTop_toTopOf="@id/imageView"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/imageView"
+        app:layout_constraintBottom_toTopOf="@id/ln_gcard_info"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintVertical_bias="0.8"
         android:layout_marginLeft="15dp"/>
+
+    <LinearLayout
+        android:id="@+id/ln_gcard_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/imageView"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/imageView"
+        app:layout_constraintHorizontal_bias="0"
+        android:layout_marginLeft="15dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/lblGcardNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/lblGcardPts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ln_authenticate"

@@ -47,7 +47,7 @@
         android:id="@+id/lnMPFooter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/guanzon_digital_dark_grey"
+        android:background="@color/white"
         android:orientation="horizontal"
         android:paddingVertical="10dp"
         android:visibility="gone"
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="Total Price"
-                android:textColor="@color/white"
+                android:textColor="@color/font_regular"
                 android:textSize="16sp" />
 
             <TextView
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_bold"
                 android:text="₱ 1000.00"
-                android:textColor="@color/white"
+                android:textColor="@color/guanzon_digital_light_orange"
                 android:textSize="20sp"/>
         </LinearLayout>
 
