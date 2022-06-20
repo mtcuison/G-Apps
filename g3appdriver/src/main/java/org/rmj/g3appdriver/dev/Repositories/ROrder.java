@@ -510,6 +510,7 @@ public class ROrder {
                         oDetail.setCancelld(joDetail.getString("nCancelld"));
                         oDetail.setReferNox(joDetail.getString("sReferNox"));
                         oDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
+                        oDetail.setReviewed(joDetail.getString("cReviewed"));
                         oDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
 
                         loDetail.SaveDetailOrder(oDetail);
@@ -579,5 +580,9 @@ public class ROrder {
 
     public LiveData<DOrderMaster.DetailedOrderHistory> GetDetailOrderHistory(String fsVal){
         return poMaster.GetDetailOrderHistory(fsVal);
+    }
+
+    public void UpdateReviewedItem(String OrderID, String ListID){
+        poDetail.UpdateReviewedItem(OrderID, ListID);
     }
 }

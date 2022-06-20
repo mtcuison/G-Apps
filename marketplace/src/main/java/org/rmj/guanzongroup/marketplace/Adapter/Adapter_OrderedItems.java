@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
+
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderDetail;
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.guanzongroup.marketplace.R;
@@ -18,14 +20,25 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
 
     private final List<DOrderDetail.OrderedItemsInfo> poList;
     private final OnOrderedItemClickListener mListener;
+    private final OnItemReviewListener mlistener1;
+    private boolean cFrReview = false;
 
     public interface OnOrderedItemClickListener{
         void OnClick(String args);
     }
 
-    public Adapter_OrderedItems(List<DOrderDetail.OrderedItemsInfo> poList, OnOrderedItemClickListener listener) {
+    public interface OnItemReviewListener{
+        void OnClick(String args);
+    }
+
+    public Adapter_OrderedItems(List<DOrderDetail.OrderedItemsInfo> poList, OnOrderedItemClickListener listener, OnItemReviewListener listener1) {
         this.mListener = listener;
+        this.mlistener1 = listener1;
         this.poList = poList;
+    }
+
+    public void setForReview(boolean fbVal){
+        this.cFrReview = fbVal;
     }
 
     @NonNull
@@ -43,6 +56,16 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
         holder.lblItmQtyx.setText(loMaster.nQuantity);
 
         holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sListIDxx));
+        holder.btnReview.setOnClickListener(v -> {
+           mlistener1.OnClick(loMaster.sListIDxx);
+        });
+
+        if(cFrReview){
+            holder.btnReview.setVisibility(View.VISIBLE);
+        }
+        if(loMaster.cReviewed.equalsIgnoreCase("1")){
+            holder.lblReviewd.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -55,7 +78,10 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
         public TextView lblBrandNm,
                 lblItmDisc,
                 lblItmPrce,
-                lblItmQtyx;
+                lblItmQtyx,
+                lblReviewd;
+
+        public MaterialButton btnReview;
 
         public OrderItemsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +89,9 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
             lblItmDisc = itemView.findViewById(R.id.lbl_itemDiscount);
             lblItmPrce = itemView.findViewById(R.id.lbl_itemPrice);
             lblItmQtyx = itemView.findViewById(R.id.lbl_itemQuantity);
+            lblReviewd = itemView.findViewById(R.id.lbl_reviewed);
+            btnReview = itemView.findViewById(R.id.btn_review);
+
         }
     }
 }

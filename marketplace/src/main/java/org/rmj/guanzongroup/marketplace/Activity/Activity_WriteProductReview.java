@@ -24,7 +24,7 @@ public class Activity_WriteProductReview extends AppCompatActivity {
     private Dialog_SingleButton poDialogx;
     private Dialog_Loading poLoading;
 
-    private String psItemIdx = "";
+    private String psItemIdx = "", psOrderID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class Activity_WriteProductReview extends AppCompatActivity {
 
         getExtra();
         setProductDetails();
-
+        mBinding.ratingBar.setMax(5);
         mBinding.btnSaveRv.setOnClickListener(v -> saveReview());
     }
 
@@ -60,6 +60,7 @@ public class Activity_WriteProductReview extends AppCompatActivity {
     private void getExtra() {
         if(getIntent().hasExtra("sListingId")) {
             psItemIdx = getIntent().getStringExtra("sListingId");
+            psOrderID = getIntent().getStringExtra("sTransNox");
         } else {
             poDialogx.setButtonText("Okay");
             poDialogx.initDialog("Marketplace", "Product does not exist.", d -> {
@@ -91,7 +92,7 @@ public class Activity_WriteProductReview extends AppCompatActivity {
             poDialogx.show();
         } else {
             String lsReviewx = mBinding.txtReview.getText().toString().trim();
-            mViewModel.saveReview(psItemIdx, mBinding.ratingBar.getNumStars(), lsReviewx,
+            mViewModel.saveReview(psOrderID, psItemIdx, mBinding.ratingBar.getNumStars(), lsReviewx,
                     new OnTransactionsCallback() {
                 @Override
                 public void onLoading() {

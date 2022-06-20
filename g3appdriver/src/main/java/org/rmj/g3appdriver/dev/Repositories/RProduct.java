@@ -363,11 +363,12 @@ public class RProduct {
         }
     }
 
-    public boolean SendProductReview(String ListID, int Rate, String Remarks){
+    public boolean SendProductReview(String OrderID, String ListID, int Rate, String Remarks){
         try{
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             JSONObject params = new JSONObject();
             AccountInfo loUser = new AccountInfo(mContext);
+            params.put("sTransNox", OrderID);
             params.put("sListngID", ListID);
             params.put("nRatingxx", Rate);
             params.put("sRemarksx", Remarks);

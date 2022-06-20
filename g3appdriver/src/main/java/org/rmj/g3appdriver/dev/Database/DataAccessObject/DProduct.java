@@ -125,6 +125,17 @@ public interface DProduct {
             "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
+            "WHERE xBrandNme LIKE:fsArgs " +
+            "AND sListngID !=:fsArgs1 " +
+            "LIMIT 10")
+    LiveData<List<oProduct>> GetProductListSameBrandSuggestions(String fsArgs, String fsArgs1);
+
+    @Query("SELECT sListngID AS sProdctID, " +
+            "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
+            "nUnitPrce AS sPricexxx," +
+            "sImagesxx, " +
+            "nSoldQtyx AS sUntsSold " +
+            "FROM Product_Inventory " +
             "WHERE sProdctNm LIKE '%' || :fsVal || '%'" +
             "ORDER BY nUnitPrce ASC")
     LiveData<List<oProduct>> SearchProducts(String fsVal);

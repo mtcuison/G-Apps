@@ -65,7 +65,7 @@ public class TestProductRatingsInquiry {
 
     @Test
     public void test02SendProdctInquiry() throws Exception{
-        isSuccess = poProdct.SendProductReview("C00122000006", 5, "Satisfied Customer");
+        isSuccess = poProdct.SendProductReview("C00122000006", 2, "Walang bubble wrap ung item");
         assertTrue(isSuccess);
     }
 }

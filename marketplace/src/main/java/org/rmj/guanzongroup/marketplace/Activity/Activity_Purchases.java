@@ -89,23 +89,27 @@ public class Activity_Purchases extends AppCompatActivity {
                 });
                 if(foOrder.cTranStat.equalsIgnoreCase("0")){
                      btnPay.setVisibility(View.VISIBLE);
-                } else {
-                    btnPay.setVisibility(View.GONE);
                 }
                 progressBar.setCurrentStateNumber(GetStateNumber(foOrder.cTranStat));
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
 
-        mViewModel.GetOrderedItemsList(lsOrderIDx).observe(Activity_Purchases.this, orderedItemsInfos -> {
-            try {
-                Adapter_OrderedItems loAdapter = new Adapter_OrderedItems(orderedItemsInfos, args -> {
-                    Intent loIntent = new Intent(Activity_Purchases.this, Activity_ProductOverview.class);
-                    loIntent.putExtra("sListingId", args);
-                    startActivity(loIntent);
+                mViewModel.GetOrderedItemsList(lsOrderIDx).observe(Activity_Purchases.this, orderedItemsInfos -> {
+                    try {
+                        Adapter_OrderedItems loAdapter = new Adapter_OrderedItems(orderedItemsInfos, args -> {
+                            Intent loIntent = new Intent(Activity_Purchases.this, Activity_ProductOverview.class);
+                            loIntent.putExtra("sListingId", args);
+                            startActivity(loIntent);
+                        }, args -> {
+                            Intent loIntent = new Intent(Activity_Purchases.this, Activity_WriteProductReview.class);
+                            loIntent.putExtra("sTransNox", foOrder.sTransNox);
+                            loIntent.putExtra("sListingId", args);
+                            startActivity(loIntent);
+                        });
+                        loAdapter.setForReview(foOrder.cTranStat.equalsIgnoreCase("4"));
+                        recyclerView.setAdapter(loAdapter);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
                 });
-                recyclerView.setAdapter(loAdapter);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -128,7 +132,7 @@ public class Activity_Purchases extends AppCompatActivity {
                 return StateProgressBar.StateNumber.TWO;
             case "2":
                 return StateProgressBar.StateNumber.THREE;
-            case "3":
+            case "4":
                 return StateProgressBar.StateNumber.FOUR;
             default:
                 return StateProgressBar.StateNumber.FIVE;
