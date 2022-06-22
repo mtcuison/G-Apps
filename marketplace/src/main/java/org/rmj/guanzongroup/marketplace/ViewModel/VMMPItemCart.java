@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -13,6 +14,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
+import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.guanzongroup.marketplace.Etc.AddUpdateCartTask;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
@@ -154,4 +156,54 @@ public class VMMPItemCart extends AndroidViewModel {
 
     }
 
+    public void RemoveItemOnCart(String fsVal, OnTransactionsCallback callback){
+        new RemoveItemTask(application, callback).execute(fsVal);
+    }
+
+    private static class RemoveItemTask extends AsyncTask<String, Void, Boolean>{
+
+        private final Context mContext;
+        private final OnTransactionsCallback callback;
+
+        private String message;
+
+        public RemoveItemTask(Context mContext, OnTransactionsCallback callback) {
+            this.mContext = mContext;
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.onLoading();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            ROrder loOrder = new ROrder(mContext);
+            ConnectionUtil loConn = new ConnectionUtil(mContext);
+            String lsListID = strings[0];
+            if(loConn.isDeviceConnected()) {
+                if (loOrder.RemoveCartItem(lsListID)) {
+                    return true;
+                } else {
+                    message = loOrder.getMessage();
+                    return false;
+                }
+            } else {
+                message = "Unable to connect.";
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+                callback.onSuccess("Item removed!");
+            } else {
+                callback.onFailed(message);
+            }
+        }
+    }
 }

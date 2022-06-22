@@ -39,7 +39,7 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.R;
-import org.rmj.guanzongroup.guanzonapp.Service.OnLoginReceiver;
+import org.rmj.guanzongroup.guanzonapp.Service.DashboardActionReceiver;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
@@ -63,7 +63,7 @@ public class Activity_Dashboard extends AppCompatActivity {
     private TextView lblBadge;
     private static final int SCAN_GCARD = 1;
 
-    private final OnLoginReceiver poLogRcv = new OnLoginReceiver();
+    private final DashboardActionReceiver poLogRcv = new DashboardActionReceiver();
 
     private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -115,7 +115,7 @@ public class Activity_Dashboard extends AppCompatActivity {
 
         mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, eGcardApp -> {
             try {
-                navigationView = (NavigationView) findViewById(R.id.nav_view);
+                navigationView = findViewById(R.id.nav_view);
                 Menu nav_Menu = navigationView.getMenu();
 
                 //Disable Pre-Termination page untill project is develop...
@@ -147,12 +147,13 @@ public class Activity_Dashboard extends AppCompatActivity {
         mViewModel.GetUnreadMessagesCount().observe(Activity_Dashboard.this, count -> {
             try{
                 toolbar = findViewById(R.id.toolbar);
-                loBadge = BadgeDrawable.create(Activity_Dashboard.this);
                 if(count > 0) {
+                    loBadge = BadgeDrawable.create(Activity_Dashboard.this);
                     loBadge.setNumber(count);
                     BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
                 } else {
                     BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
+                    supportInvalidateOptionsMenu();
                 }
             } catch (Exception e){
                 e.printStackTrace();
@@ -162,12 +163,13 @@ public class Activity_Dashboard extends AppCompatActivity {
         mViewModel.GetCartItemCount().observe(Activity_Dashboard.this, count -> {
             try {
                 toolbar = findViewById(R.id.toolbar);
-                loBadge = BadgeDrawable.create(Activity_Dashboard.this);
                 if(count > 0) {
+                    loBadge = BadgeDrawable.create(Activity_Dashboard.this);
                     loBadge.setNumber(count);
                     BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
                 } else {
                     BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+                    supportInvalidateOptionsMenu();
                 }
             } catch (Exception e){
                 e.printStackTrace();

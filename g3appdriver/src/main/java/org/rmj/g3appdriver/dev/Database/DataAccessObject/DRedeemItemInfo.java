@@ -15,10 +15,10 @@ import java.util.List;
 @Dao
 public interface DRedeemItemInfo {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert()
     void insert(ERedeemItemInfo redeemItemInfo);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert()
     void insertBulkData(List<ERedeemItemInfo> redeemItemInfoList);
 
     @Update
@@ -70,7 +70,7 @@ public interface DRedeemItemInfo {
             "AND sGCardNox = :fsGcardNo")
     LiveData<Double> getTotalCartPoints(String fsGcardNo);
 
-    @Query("DELETE FROM redeem_item WHERE sPromoIDx = :fsPromoId")
+    @Query("DELETE FROM redeem_item WHERE sTransNox = :fsPromoId")
     void removeItemFromCart(String fsPromoId);
 
     @Query("UPDATE Redeem_Item SET sBranchCd = :fsBranch, cTranStat = '1', cPlcOrder = '1' WHERE sGCardNox = :fsGcardNo")
@@ -79,7 +79,9 @@ public interface DRedeemItemInfo {
     @Query("SELECT * FROM Redeem_Item WHERE sTransNox =:TransNox AND sPromoIDx=:PromoIDx")
     List<ERedeemItemInfo> getRedeemableIfExist(String TransNox, String PromoIDx);
 
-    @Query("UPDATE Redeem_Item SET nItemQtyx =:ItemQty, nPointsxx=:ItemPts " +
+    @Query("UPDATE Redeem_Item SET " +
+            "nItemQtyx =:ItemQty, " +
+            "nPointsxx= nItemQtyx * nPointsxx " +
             "WHERE sTransNox=:TransNox AND sPromoIDx =:PromoIDx")
     void UpdateExistingItemOnCart(String TransNox, String PromoIDx, int ItemQty, double ItemPts);
 
@@ -96,6 +98,9 @@ public interface DRedeemItemInfo {
 
     @Query("SELECT * FROM BranchInfo WHERE sBranchCd LIKE '%M%'")
     List<EBranchInfo> GetMCBranchesForRedemption();
+
+    @Query("SELECT COUNT(*) FROM Redeem_Item WHERE sGCardNox = (SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1')")
+    LiveData<Integer> GetGcardCartItemCount();
 
     class GCardCartItem{
         public String sTransNox;

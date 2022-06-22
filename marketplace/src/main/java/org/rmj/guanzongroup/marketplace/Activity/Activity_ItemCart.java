@@ -22,6 +22,8 @@ import org.rmj.guanzongroup.marketplace.Adapter.ActivityFragmentAdapter;
 import org.rmj.guanzongroup.marketplace.Fragment.Fragment_MPItemCart;
 import org.rmj.guanzongroup.marketplace.R;
 
+import java.util.Objects;
+
 public class Activity_ItemCart extends AppCompatActivity {
     private VMGCardSystem mViewModel;
     private ViewPager viewPager;
@@ -47,6 +49,19 @@ public class Activity_ItemCart extends AppCompatActivity {
                         adapter.addFragment(new Fragment_GCardItemCart());
                         adapter.addTitle("GCard");
                         tabLayout.setVisibility(View.VISIBLE);
+
+                        mViewModel.GetGcardCartItemCount().observe(Activity_ItemCart.this, count -> {
+                            try{
+                                if(count > 0) {
+                                    Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge().setNumber(count);
+                                } else {
+                                    Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
+                                }
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        });
+
                     } else {
                         tabLayout.setVisibility(View.GONE);
                     }
@@ -65,39 +80,6 @@ public class Activity_ItemCart extends AppCompatActivity {
             adapter.notifyDataSetChanged();
             tabLayout.setVisibility(View.GONE);
         }
-
-//
-//            mViewModel.GetActiveGCard().observe(Activity_ItemCart.this, new Observer<EGcardApp>() {
-//                @Override
-//                public void onChanged(EGcardApp eGcardApp) {
-//                    try {
-//                        if(getIntent().getStringExtra("args").equalsIgnoreCase("1")) {
-//                            getSupportActionBar().setTitle("Item Cart");
-//                            adapter.clear();
-//                            adapter.addFragment(new Fragment_MPItemCart());
-//                            adapter.addTitle("MarketPlace");
-//                            if (eGcardApp != null) {
-//                                adapter.addFragment(new Fragment_GCardItemCart());
-//                                adapter.addTitle("GCard");
-//                            }
-//                            viewPager.setAdapter(adapter);
-//                            tabLayout.setupWithViewPager(viewPager);
-//                            adapter.notifyDataSetChanged();
-//                            tabLayout.setVisibility(View.VISIBLE);
-//
-//                        }else{
-//                            getSupportActionBar().setTitle("Redeemables");
-//                            adapter.clear();
-//                            adapter.addFragment(new Fragment_Redeemables());
-//                            viewPager.setAdapter(adapter);
-//                            adapter.notifyDataSetChanged();
-//                            tabLayout.setVisibility(View.GONE);
-//                            }
-//                    } catch (Exception e){
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
     }
     @SuppressLint("NewApi")
     private void initWidgets(){

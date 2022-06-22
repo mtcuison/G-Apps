@@ -22,15 +22,10 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
 
     private final List<ItemCartModel> poCart;
     private final OnCartAction poCallBck;
-    private OnCartQuantityUpdate poQtyCall;
 
     public Adapter_ItemCart(List<ItemCartModel> foCart, OnCartAction foCallBck) {
         this.poCart = foCart;
         this.poCallBck = foCallBck;
-    }
-
-    public void setQuantityCallback(OnCartQuantityUpdate foVal){
-        this.poQtyCall = foVal;
     }
 
     @NonNull
@@ -63,16 +58,17 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
 
        holder.btnPlus.setOnClickListener(v -> {
 //            holder.lblItemQty.setText(String.valueOf(Integer.parseInt(holder.lblItemQty.getText().toString()) + 1));
-                poQtyCall.onQuantityClick(loCart.getListingId(), Integer.parseInt(holder.lblItemQty.getText().toString()) + 1);
+                poCallBck.onQuantityClick(loCart.getListingId(), Integer.parseInt(holder.lblItemQty.getText().toString()) + 1);
         });
 
         holder.btnMinus.setOnClickListener(v -> {
             if(Integer.parseInt(holder.lblItemQty.getText().toString()) > 1) {
 //                holder.lblItemQty.setText(String.valueOf(Integer.parseInt(holder.lblItemQty.getText().toString()) - 1));
-                poQtyCall.onQuantityClick(loCart.getListingId(), Integer.parseInt(holder.lblItemQty.getText().toString()) - 1);
+                poCallBck.onQuantityClick(loCart.getListingId(), Integer.parseInt(holder.lblItemQty.getText().toString()) - 1);
             }
         });
 
+        holder.btnDelete.setOnClickListener(v -> poCallBck.onItemDelete(loCart.getListingId()));
     }
 
     @Override
@@ -89,6 +85,7 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
         public ImageView imgItem;
         public ImageButton btnPlus;
         public ImageButton btnMinus;
+        public ImageButton btnDelete;
 
         public OrderHolder(@NonNull View itemView, OnCartAction foCallBck) {
             super(itemView);
@@ -99,6 +96,7 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
             imgItem = itemView.findViewById(R.id.imgProduct);
             btnPlus = itemView.findViewById(R.id.btnPlus);
             btnMinus = itemView.findViewById(R.id.btnMinus);
+            btnDelete = itemView.findViewById(R.id.btnRemoveItem);
         }
 
         public void setImage(String image){
@@ -111,9 +109,7 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
     public interface OnCartAction {
         void onItemSelect(String fsListIdx);
         void onItemDeselect(String fsListIdx);
-    }
-
-    public interface OnCartQuantityUpdate{
+        void onItemDelete(String fsListIDx);
         void onQuantityClick(String fsListIdx, int fnItemQty);
     }
 }

@@ -122,7 +122,7 @@ public class VMGCardSystem extends AndroidViewModel {
     }
 
     public void UpdateCartItem(CartItem item, GcardTransactionCallback callback) {
-        new UpdateCartItemTask(mGcardSys, poConnect, callback).execute(item);
+        new UpdateCartItemTask(mGcardSys).execute(item);
     }
 
     public LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems(){
@@ -663,49 +663,37 @@ public class VMGCardSystem extends AndroidViewModel {
     private static class UpdateCartItemTask extends AsyncTask<CartItem, Void, Void> {
         private static final String UPDATE_CART_TAG = UpdateCartItemTask.class.getSimpleName();
         private final iGCardSystem mGcardSys;
-        private final ConnectionUtil loConnect;
-        private final GcardTransactionCallback loCallbck;
 
-        private UpdateCartItemTask(iGCardSystem foGcrdSys, ConnectionUtil foConnect, GcardTransactionCallback callBack) {
+        private UpdateCartItemTask(iGCardSystem foGcrdSys) {
             this.mGcardSys = foGcrdSys;
-            this.loConnect = foConnect;
-            this.loCallbck = callBack;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            loCallbck.onLoad();
         }
 
         @Override
         protected Void doInBackground(CartItem... foCartItm) {
             CartItem loCartItm = foCartItm[0];
             try {
-                if(loConnect.isDeviceConnected()) {
-                    mGcardSys.UpdateCartItem(loCartItm, new GCardSystem.GCardSystemCallback() {
-                        @Override
-                        public void OnSuccess(String args) {
-                            // TODO: Call the update of cart to local database
-                            loCallbck.onSuccess(args);
-                        }
+                mGcardSys.UpdateCartItem(loCartItm, new GCardSystem.GCardSystemCallback() {
+                    @Override
+                    public void OnSuccess(String args) {
+                        // TODO: Call the update of cart to local database
+                    }
 
-                        @Override
-                        public void OnFailed(String message) {
-                            loCallbck.onFailed(message);
-                        }
-                    });
-                } else {
-                    loCallbck.onFailed(AppConstants.SERVER_NO_RESPONSE());
-                }
+                    @Override
+                    public void OnFailed(String message) {
+
+                    }
+                });
             } catch(Exception e) {
                 e.printStackTrace();
                 Log.e(UPDATE_CART_TAG, e.getMessage());
-                loCallbck.onFailed(UPDATE_CART_TAG + e.getMessage());
             }
             return null;
         }
-
     }
 
     private static class PlaceOrderTask extends AsyncTask<GcardCartItems, Void, Void> {
@@ -1013,6 +1001,31 @@ public class VMGCardSystem extends AndroidViewModel {
             return null;
         }
 
+    }
+
+    public LiveData<Integer> GetGcardCartItemCount(){
+        iGCardSystem loSys = poGcrdSys.getInstance(GCardSystem.CoreFunctions.REDEMPTION);
+        return loSys.GetGcardCartItemCount();
+    }
+
+    public void DeleteCartItem(String fsVal){
+        iGCardSystem loSys = poGcrdSys.getInstance(GCardSystem.CoreFunctions.REDEMPTION);
+        new DeleteCartItemTask(loSys).execute(fsVal);
+    }
+
+    private static class DeleteCartItemTask extends AsyncTask<String, Void, Boolean>{
+
+        private final iGCardSystem loSys;
+
+        private DeleteCartItemTask(iGCardSystem loSys) {
+            this.loSys = loSys;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            loSys.DeleteItemCart(strings[0]);
+            return null;
+        }
     }
 
     private static class ScheduleNextServiceDateTask extends AsyncTask<String, Void, Void> {

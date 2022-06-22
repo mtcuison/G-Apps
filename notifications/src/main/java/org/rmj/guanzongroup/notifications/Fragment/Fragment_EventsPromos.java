@@ -32,27 +32,18 @@ public class Fragment_EventsPromos extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMEventsPromos.class);
         View view = inflater.inflate(R.layout.fragment_events_promos, container, false);
         initViews(view);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMEventsPromos.class);
         // TODO: Use the ViewModel
         if(getArguments().get("gcardInstance").toString().equalsIgnoreCase("1")){
             mViewModel.DownloadPromos();
             mViewModel.getPromos().observe(getViewLifecycleOwner(), promos -> {
-                poAdapter = new Adapter_EventsPromos(requireActivity(), new Adapter_EventsPromos.OnEventPromoClickListener() {
-                    @Override
-                    public void OnClick(String url, String args) {
-                        Intent intent = new Intent(getActivity(), Activity_Browser.class);
-                        intent.putExtra("url_link", url);
-                        intent.putExtra("args", args);
-                        startActivity(intent);
-                    }
+                poAdapter = new Adapter_EventsPromos(requireActivity(), (url, args) -> {
+                    Intent intent = new Intent(getActivity(), Activity_Browser.class);
+                    intent.putExtra("url_link", url);
+                    intent.putExtra("args", args);
+                    startActivity(intent);
                 },promos, "1");
                 eventsPromoView.setAdapter(poAdapter);
                 poAdapter.notifyDataSetChanged();
@@ -60,21 +51,19 @@ public class Fragment_EventsPromos extends Fragment {
         } else {
             mViewModel.DownloadEvents();
             mViewModel.getEvents().observe(getViewLifecycleOwner(), events -> {
-                poAdapter = new Adapter_EventsPromos(requireActivity(),events, new Adapter_EventsPromos.OnEventPromoClickListener() {
-                    @Override
-                    public void OnClick(String url, String args) {
-//                        Toast.makeText(requireActivity(), args, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActivity(), Activity_Browser.class);
-                        intent.putExtra("url_link", url);
-                        intent.putExtra("args", args);
-                        startActivity(intent);
-                    }
+                poAdapter = new Adapter_EventsPromos(requireActivity(),events, (url, args) -> {
+                    Intent intent = new Intent(getActivity(), Activity_Browser.class);
+                    intent.putExtra("url_link", url);
+                    intent.putExtra("args", args);
+                    startActivity(intent);
                 },"2");
                 eventsPromoView.setAdapter(poAdapter);
                 poAdapter.notifyDataSetChanged();
             });
         }
+        return view;
     }
+
     void initViews(View v){
         eventsPromoView = v.findViewById(R.id.recycler_view_EventsPromo);
         LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());

@@ -200,8 +200,6 @@ public class Activity_ProductOverview extends AppCompatActivity {
         btnAskQst = findViewById(R.id.btnAskQuestion);
         btnAddCrt = findViewById(R.id.btnText_addToCart);
         btnBuyNow = findViewById(R.id.btnText_buyNow);
-
-        loBadge = BadgeDrawable.create(Activity_ProductOverview.this);
     }
 
     private void setUpToolbar() {
@@ -215,6 +213,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
         mViewModel.GetCartItemCount().observe(Activity_ProductOverview.this, count -> {
             try {
                 if(count > 0) {
+                    loBadge = BadgeDrawable.create(Activity_ProductOverview.this);
                     loBadge.setNumber(count);
                     BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
                 } else {

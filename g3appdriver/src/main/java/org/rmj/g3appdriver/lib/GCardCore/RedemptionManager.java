@@ -10,8 +10,8 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
+import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
-import org.rmj.g3appdriver.dev.Repositories.RRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Repositories.RRedeemablesInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
@@ -39,21 +39,19 @@ public class RedemptionManager implements iGCardSystem{
     private static final String TAG = RedemptionManager.class.getSimpleName();
 
     private final Context mContext;
+    private final DRedeemItemInfo poRedeem;
     private final RGcardApp poGcard;
-    private final RRedeemItemInfo poRedeem;
     private final HttpHeaders poHeaders;
     private final RRedeemablesInfo poRedeemables;
-    private final RRedeemItemInfo poCart;
     private final GuanzonAppConfig poConfig;
     private final ServerAPIs poAPI;
 
     public RedemptionManager(Context context) {
         this.mContext = context;
         this.poGcard = new RGcardApp(mContext);
-        this.poRedeem = new RRedeemItemInfo(mContext);
+        this.poRedeem = GGC_GuanzonAppDB.getInstance(mContext).ERedeemItemDao();
         this.poHeaders = new HttpHeaders(mContext);
         this.poRedeemables = new RRedeemablesInfo(mContext);
-        this.poCart = new RRedeemItemInfo(mContext);
         this.poConfig = new GuanzonAppConfig(mContext);
         this.poAPI = new ServerAPIs(poConfig.getTestCase());
     }
@@ -189,12 +187,22 @@ public class RedemptionManager implements iGCardSystem{
 
     @Override
     public LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems() {
-        return poCart.GetGCardCartItemList();
+        return poRedeem.GetGCardCartItemList();
     }
 
     @Override
     public List<EBranchInfo> GetMCBranchesForRedemption() {
-        return poCart.GetMCBranchesForRedemption();
+        return poRedeem.GetMCBranchesForRedemption();
+    }
+
+    @Override
+    public LiveData<Integer> GetGcardCartItemCount() {
+        return poRedeem.GetGcardCartItemCount();
+    }
+
+    @Override
+    public void DeleteItemCart(String fsVal) {
+        poRedeem.removeItemFromCart(fsVal);
     }
 
     @Override

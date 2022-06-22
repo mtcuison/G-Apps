@@ -18,12 +18,16 @@ import java.util.List;
 
 public class Adapter_ImageSlider extends SliderViewAdapter<Adapter_ImageSlider.SliderAdapterVH> {
 
-    private Context context;
     private List<HomeImageSliderModel> oSlideLst = new ArrayList<>();
+    private final OnImageSliderClickListener mListener;
 
-    public Adapter_ImageSlider(Context context, List<HomeImageSliderModel> oSlideLst) {
-        this.context = context;
+    public interface OnImageSliderClickListener{
+        void OnClick(int args);
+    }
+
+    public Adapter_ImageSlider(List<HomeImageSliderModel> oSlideLst, OnImageSliderClickListener listener) {
         this.oSlideLst = oSlideLst;
+        this.mListener = listener;
     }
 
     @Override
@@ -34,18 +38,14 @@ public class Adapter_ImageSlider extends SliderViewAdapter<Adapter_ImageSlider.S
 
     @Override
     public void onBindViewHolder(SliderAdapterVH viewHolder, final int position) {
-
         HomeImageSliderModel loSlide = oSlideLst.get(position);
         Glide.with(viewHolder.itemView)
                 .load(loSlide.getImageUrl())
                 .fitCenter()
                 .into(viewHolder.imageViewBackground);
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "This is item in position " + position, Toast.LENGTH_SHORT).show();
-            }
+        viewHolder.itemView.setOnClickListener(v -> {
+            mListener.OnClick(position);
         });
     }
 
@@ -69,7 +69,7 @@ public class Adapter_ImageSlider extends SliderViewAdapter<Adapter_ImageSlider.S
         notifyDataSetChanged();
     }
 
-    class SliderAdapterVH extends SliderViewAdapter.ViewHolder {
+    static class SliderAdapterVH extends SliderViewAdapter.ViewHolder {
 
         View itemView;
         ImageView imageViewBackground;

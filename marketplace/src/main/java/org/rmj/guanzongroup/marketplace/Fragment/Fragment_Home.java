@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_QRCode;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
@@ -84,7 +86,7 @@ public class Fragment_Home extends Fragment {
 
     private void displayData() {
         showPromoDialog();
-        setImageSlider();
+        setSliderImages();
         initGcardPanel();
         setCategoryAdapter();
         setProductAdapter();
@@ -102,11 +104,6 @@ public class Fragment_Home extends Fragment {
             });
             loDialog.show();
         }
-    }
-
-    private void setImageSlider() {
-        Adapter_ImageSlider adapter = new Adapter_ImageSlider(requireActivity(),getSliderImages());
-        poSliderx.setSliderAdapter(adapter);
     }
 
     private void initGcardPanel() {
@@ -176,12 +173,25 @@ public class Fragment_Home extends Fragment {
         });
     }
 
-    private List<HomeImageSliderModel> getSliderImages() {
+    private void setSliderImages() {
         List<HomeImageSliderModel> loSliders = new ArrayList<>();
-        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/2697937.jpg"));
-        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/2697956.jpg"));
-        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/2697963.jpg"));
-        return loSliders;
-    }
+        mViewModel.GetPromoLinkList().observe(getViewLifecycleOwner(), ePromos -> {
+            try {
+                for (int x = 0; x < ePromos.size(); x++) {
+                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getPromoUrl()));
+                }
 
+                Adapter_ImageSlider adapter = new Adapter_ImageSlider(loSliders, args -> {
+                    try{
+
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+                poSliderx.setSliderAdapter(adapter);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+    }
 }

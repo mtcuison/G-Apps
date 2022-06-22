@@ -50,7 +50,6 @@ public class Activity_Login extends AppCompatActivity {
                 if(result.getResultCode() == VERIFY) {
                     Intent loIntent = result.getData();
                     if (loIntent != null) {
-//                        Toast.makeText(Activity_Login.this, loIntent.getStringExtra("result"), Toast.LENGTH_LONG).show();
                         if(loIntent.getStringExtra("result").equalsIgnoreCase("success")){
                             acccountLogin();
                         }
@@ -148,6 +147,7 @@ public class Activity_Login extends AppCompatActivity {
                     @Override
                     public void onSuccess(String fsMessage) {
                         Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                        intent.putExtra("args", "auth");
                         sendBroadcast(intent);
                         poLoading.dismiss();
                         finish();

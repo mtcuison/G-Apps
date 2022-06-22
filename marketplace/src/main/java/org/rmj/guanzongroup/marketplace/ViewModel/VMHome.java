@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
@@ -13,6 +14,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
+import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
@@ -21,6 +23,7 @@ import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.FilterType;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 
@@ -35,6 +38,7 @@ public class VMHome extends AndroidViewModel {
     private final ROrder poOrder;
     private final RNotificationInfo poNotif;
     private iGCardSystem poSystem;
+    private Context mContext;
 
     public interface OnViewGCardQrCode{
         void OnView(Bitmap foVal);
@@ -42,6 +46,7 @@ public class VMHome extends AndroidViewModel {
 
     public VMHome(@NonNull Application application) {
         super(application);
+        this.mContext = application;
         this.poClientx = new RClientInfo(application);
         this.poGcardxx = new RGcardApp(application);
         this.poProduct = new RProduct(application);
@@ -120,6 +125,7 @@ public class VMHome extends AndroidViewModel {
         @Override
         protected String doInBackground(String... strings) {
             poClientx.LogoutUserSession();
+            new AccountInfo(mContext).LogoutUser();
             return null;
         }
     }
@@ -183,5 +189,10 @@ public class VMHome extends AndroidViewModel {
                 callback.OnFailed(message);
             }
         }
+    }
+
+    public LiveData<List<EPromo>> GetPromoLinkList(){
+        poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
+        return poSystem.GetPromotions();
     }
 }

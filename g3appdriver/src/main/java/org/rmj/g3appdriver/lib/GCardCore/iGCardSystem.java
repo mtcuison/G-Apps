@@ -37,6 +37,8 @@ public interface iGCardSystem {
     void UpdateCartItem(CartItem item, GCardSystem.GCardSystemCallback callback) throws Exception;
     LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems();
     List<EBranchInfo> GetMCBranchesForRedemption();
+    LiveData<Integer> GetGcardCartItemCount();
+    void DeleteItemCart(String fsVal);
     void PlaceOrder(List<DRedeemItemInfo.GCardCartItem> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception;
     Bitmap GenerateGCardOrderQrCode(String BatchNox) throws Exception;
 
@@ -56,6 +58,7 @@ public interface iGCardSystem {
     void SaveBranchesList(JSONObject detail) throws Exception;
     LiveData<List<EBranchInfo>> GetMobileBranchList();
     LiveData<List<EBranchInfo>> GetMotorcycleBranchList();
+
 
     void DownloadPromotions(GCardSystem.GCardSystemCallback callback) throws Exception;
     void SavePromotions(JSONObject detail) throws Exception;

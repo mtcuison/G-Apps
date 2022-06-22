@@ -292,6 +292,16 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
+    public LiveData<Integer> GetGcardCartItemCount() {
+        return null;
+    }
+
+    @Override
+    public void DeleteItemCart(String fsVal) {
+        throw new NullPointerException();
+    }
+
+    @Override
     public void PlaceOrder(List<DRedeemItemInfo.GCardCartItem> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }

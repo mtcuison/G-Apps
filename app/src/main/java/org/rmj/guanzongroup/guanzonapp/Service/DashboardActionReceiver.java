@@ -11,13 +11,25 @@ import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+import org.rmj.guanzongroup.guanzonapp.Activity.Activity_Dashboard;
 
-public class OnLoginReceiver extends BroadcastReceiver {
-    private static final String TAG = OnLoginReceiver.class.getSimpleName();
+public class DashboardActionReceiver extends BroadcastReceiver {
+    private static final String TAG = DashboardActionReceiver.class.getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        new CheckDataImportTask(context).execute();
+        if(intent.hasExtra("args")){
+            String args = intent.getStringExtra("args");
+            switch (args){
+                case "auth":
+                    new CheckDataImportTask(context).execute();
+                    break;
+                case "dashboard":
+                    Intent loIntent = new Intent(context, Activity_Dashboard.class);
+                    context.startActivity(loIntent);
+                    break;
+            }
+        }
     }
 
     private static class CheckDataImportTask extends AsyncTask<String, Void, String>{

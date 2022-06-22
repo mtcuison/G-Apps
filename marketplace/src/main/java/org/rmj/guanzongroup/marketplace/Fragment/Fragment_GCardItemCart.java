@@ -23,6 +23,7 @@ import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
@@ -65,6 +66,7 @@ public class Fragment_GCardItemCart extends Fragment {
                     List<ItemCartModel> items = ParseDataForAdapter(itemCart);
                     gcardItem = new ArrayList<>();
                     gcardItem = itemCart;
+                    recyclerView.setVisibility(View.VISIBLE);
                     noItem.setVisibility(View.GONE);
                     lnGCardFooter.setVisibility(View.VISIBLE);
                     adapter = new Adapter_ItemCart(items, new Adapter_ItemCart.OnCartAction() {
@@ -76,6 +78,17 @@ public class Fragment_GCardItemCart extends Fragment {
                         @Override
                         public void onItemDeselect(String fsListIdx) {
 
+                        }
+
+                        @Override
+                        public void onItemDelete(String fsListIDx) {
+                            mViewModel.DeleteCartItem(fsListIDx);
+                        }
+
+                        @Override
+                        public void onQuantityClick(String fsListIdx, int fnItemQty) {
+                            CartItem loCart = new CartItem(fsListIdx, );
+                            mViewModel.UpdateCartItem();
                         }
                     });
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -89,6 +102,7 @@ public class Fragment_GCardItemCart extends Fragment {
                     }
                     lblGrandTotal.setText(currencyFormat(subtotal)  + " point/s");
                 }else {
+                    recyclerView.setVisibility(View.GONE);
                     noItem.setVisibility(View.VISIBLE);
                     lnGCardFooter.setVisibility(View.GONE);
                 }
@@ -105,46 +119,43 @@ public class Fragment_GCardItemCart extends Fragment {
             startActivity(intent);
         });
         btnCheckOut.setOnClickListener(view->{
-            mViewModel.GetMCBranchesForRedemption(new VMGCardSystem.GetBranchCallback() {
-                @Override
-                public void onSuccess(List<EBranchInfo> branchInfos) {
-                    Log.e(TAG, String.valueOf(branchInfos.size()));
-                    Dialog_BranchSelection branchSelection = new Dialog_BranchSelection(requireActivity());
-                    branchSelection.createDialog(branchInfos, new Dialog_BranchSelection.onConfirmBranch() {
-                        @Override
-                        public void onConfirm(EBranchInfo branchInfo, AlertDialog dialog) {
+            mViewModel.GetMCBranchesForRedemption(branchInfos -> {
+                Log.e(TAG, String.valueOf(branchInfos.size()));
+                Dialog_BranchSelection branchSelection = new Dialog_BranchSelection(requireActivity());
+                branchSelection.createDialog(branchInfos, new Dialog_BranchSelection.onConfirmBranch() {
+                    @Override
+                    public void onConfirm(EBranchInfo branchInfo, AlertDialog dialog) {
 
-                            mViewModel.PlaceOrder(gcardItem,branchInfo.getBranchCd(), new VMGCardSystem.GcardTransactionCallback() {
-                                @Override
-                                public void onLoad() {
-                                    poLoading.initDialog("Place Order", "Sending order, please wait...");
-                                    poLoading.show();
-                                }
+                        mViewModel.PlaceOrder(gcardItem,branchInfo.getBranchCd(), new VMGCardSystem.GcardTransactionCallback() {
+                            @Override
+                            public void onLoad() {
+                                poLoading.initDialog("Place Order", "Sending order, please wait...");
+                                poLoading.show();
+                            }
 
-                                @Override
-                                public void onSuccess(String fsMessage) {
-                                    poLoading.dismiss();
-                                    showMessage("Place Order",fsMessage);
-                                    dialog.dismiss();
-                                }
+                            @Override
+                            public void onSuccess(String fsMessage) {
+                                poLoading.dismiss();
+                                showMessage("Place Order",fsMessage);
+                                dialog.dismiss();
+                            }
 
-                                @Override
-                                public void onFailed(String fsMessage) {
-                                    poLoading.dismiss();
-                                    showMessage("Place Order",fsMessage);
+                            @Override
+                            public void onFailed(String fsMessage) {
+                                poLoading.dismiss();
+                                showMessage("Place Order",fsMessage);
 
-                                }
+                            }
 
-                                @Override
-                                public void onQrGenerate(Bitmap foBitmap) {
+                            @Override
+                            public void onQrGenerate(Bitmap foBitmap) {
 
-                                }
-                            });
-                        }
-                    });
-                    branchSelection.cancelable(false);
-                    branchSelection.showDialog();
-                }
+                            }
+                        });
+                    }
+                });
+                branchSelection.cancelable(false);
+                branchSelection.showDialog();
             });
         });
         return v;
@@ -154,6 +165,7 @@ public class Fragment_GCardItemCart extends Fragment {
         for(int x = 0; x < foVal.size(); x++){
             ItemCartModel loDetail = new ItemCartModel();
             loDetail.setMarket(false);
+            loDetail.setListingId(foVal.get(x).sTransNox);
             loDetail.setItemName(foVal.get(x).sPromoDsc);
             loDetail.setItemPrice(foVal.get(x).nPointsxx);
             loDetail.setItemQty(foVal.get(x).nItemQtyx);
