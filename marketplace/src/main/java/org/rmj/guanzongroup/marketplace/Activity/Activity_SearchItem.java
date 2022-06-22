@@ -6,17 +6,22 @@ import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
+import org.rmj.guanzongroup.digitalgcard.Adapter.Adapter_Advertisement;
+import org.rmj.guanzongroup.digitalgcard.Model.AdvertisementInfo;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMSearchItem;
 import org.rmj.guanzongroup.marketplace.databinding.ActivitySearchItemBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +40,7 @@ public class Activity_SearchItem extends AppCompatActivity {
         setContentView(mBinding.getRoot());
 // Get the intent, verify the action and get the query
         setUpToolbar();
+        showAds();
         mBinding.searchview.requestFocus();
         mBinding.searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -72,7 +78,55 @@ public class Activity_SearchItem extends AppCompatActivity {
         getSupportActionBar().setTitle("Search Item");
     }
 
+    private void showAds() {
+        showPromos();
+        showSuggestions();
+    }
+
+    private void showPromos() {
+        mBinding.recyclrVw.setVisibility(View.GONE);
+        mBinding.lnAdvetse.setVisibility(View.VISIBLE);
+        List<AdvertisementInfo> loList = new ArrayList<>();
+        AdvertisementInfo poData = new AdvertisementInfo();
+        poData.setPromoId("1");
+        poData.setImageUrl("https://res.cloudinary.com/dxxbciuwf/image/fetch/f_auto/https://smack.agency/wp-content/uploads/2020/12/how-to-create-a-marketing-campaign-for-your-business-1-scaled.jpg");
+        AdvertisementInfo poData2 = new AdvertisementInfo();
+        poData2.setPromoId("2");
+        poData2.setImageUrl("https://s2.best-wallpaper.net/wallpaper/2560x1920/1108/Waterfalls-and-streams_2560x1920.jpg");
+        loList.add(poData);
+        loList.add(poData2);
+        Adapter_Advertisement loAdapter = new Adapter_Advertisement(loList, loList.size(), fsId -> {
+
+        });
+        mBinding.rvAdvrtse.setAdapter(loAdapter);
+        mBinding.rvAdvrtse.setLayoutManager(new LinearLayoutManager(Activity_SearchItem.this));
+        loAdapter.notifyDataSetChanged();
+    }
+
+    private void showSuggestions() {
+        mViewModel.getProductList(0).observe(this, products -> {
+            try {
+                if(products.size() > 0) {
+                    Adapter_ProductList loAdapter = new Adapter_ProductList(products, listingId -> {
+                        Intent loIntent = new Intent(this, Activity_ProductOverview.class);
+                        loIntent.putExtra("sListingId", listingId);
+                        startActivity(loIntent);
+                    });
+                    mBinding.rvSuggest.setLayoutManager(new GridLayoutManager(this,
+                            2, RecyclerView.VERTICAL, false));
+                    mBinding.rvSuggest.setHasFixedSize(true);
+                    mBinding.rvSuggest.setAdapter(loAdapter);
+                    loAdapter.notifyDataSetChanged();
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     private void displayResult(String fsQueryxx) {
+        mBinding.lnAdvetse.setVisibility(View.GONE);
+        mBinding.recyclrVw.setVisibility(View.VISIBLE);
         mViewModel.RequestProductSearch(fsQueryxx, () -> {
             mViewModel.GetSearchProductList(fsQueryxx).observe(Activity_SearchItem.this, oProducts -> {
                 try{

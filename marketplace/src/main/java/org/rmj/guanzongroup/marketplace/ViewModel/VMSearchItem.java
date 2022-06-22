@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
+import org.rmj.g3appdriver.etc.FilterType;
 
 import java.util.List;
 
@@ -26,6 +27,10 @@ public class VMSearchItem extends AndroidViewModel {
         super(application);
         this.mContext = application;
         this.poProdct = new RProduct(mContext);
+    }
+
+    public LiveData<List<DProduct.oProduct>> getProductList(int fnIndex) {
+        return poProdct.GetProductsList(fnIndex, FilterType.DEFAULT, null, null);
     }
 
     public LiveData<List<DProduct.oProduct>> GetSearchProductList(String fsVal){
