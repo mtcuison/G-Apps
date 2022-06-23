@@ -15,43 +15,44 @@ import org.rmj.g3appdriver.R;
 
 import java.util.Objects;
 
-public class Dialog_QRCode {
+public class Dialog_UserInfo {
 
     private AlertDialog poDialogx;
     private final Context poContext;
+    private static boolean isShown = false;
 
-    public Dialog_QRCode(Context foContext) {
+    public Dialog_UserInfo(Context foContext) {
         this.poContext = foContext;
     }
 
-    public void initDialog(String foTitlexx, Bitmap foQrImage, QrCodeCallback foCallBck){
-        View view = LayoutInflater.from(poContext).inflate(R.layout.dialog_qr_code,
+    public void initDialog(){
+        View view = LayoutInflater.from(poContext).inflate(R.layout.dialog_user_info,
                 null, false);
         AlertDialog.Builder loBuilder = new AlertDialog.Builder(poContext);
         loBuilder.setView(view).setCancelable(false);
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
 
-        TextView lblTitlex = view.findViewById(R.id.lbl_title);
+        TextView lblClientN = view.findViewById(R.id.lbl_client_name);
+        TextView lblGcardNo = view.findViewById(R.id.lbl_gcard_no);
+        TextView lblGcardPt = view.findViewById(R.id.lbl_points);
         ImageView poQrImage= view.findViewById(R.id.img_qrCode);
         Button button = view.findViewById(R.id.button);
 
-        lblTitlex.setText(Objects.requireNonNull(foTitlexx));
-        poQrImage.setImageBitmap(Objects.requireNonNull(foQrImage));
-
-        poQrImage.setOnClickListener(v -> foCallBck.onRefresh(poDialogx));
-        button.setOnClickListener(v -> poDialogx.dismiss());
+        button.setOnClickListener(v -> {
+            isShown = false;
+            poDialogx.dismiss();
+        });
     }
 
 
     public void show(){
-        poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        poDialogx.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
-        poDialogx.show();
-    }
-
-    public interface QrCodeCallback {
-        void onRefresh(AlertDialog foDialogx);
+        if(!isShown) {
+            poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            poDialogx.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
+            poDialogx.show();
+            isShown = true;
+        }
     }
 
 }
