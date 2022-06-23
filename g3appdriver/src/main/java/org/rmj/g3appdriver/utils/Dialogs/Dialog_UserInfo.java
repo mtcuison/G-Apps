@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.rmj.g3appdriver.R;
+import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 
 import java.util.Objects;
 
@@ -25,7 +27,7 @@ public class Dialog_UserInfo {
         this.poContext = foContext;
     }
 
-    public void initDialog(){
+    public void initDialog(EGcardApp foGcardxx, Bitmap foQrCodex){
         View view = LayoutInflater.from(poContext).inflate(R.layout.dialog_user_info,
                 null, false);
         AlertDialog.Builder loBuilder = new AlertDialog.Builder(poContext);
@@ -38,6 +40,11 @@ public class Dialog_UserInfo {
         TextView lblGcardPt = view.findViewById(R.id.lbl_points);
         ImageView poQrImage= view.findViewById(R.id.img_qrCode);
         Button button = view.findViewById(R.id.button);
+
+        lblClientN.setText(Objects.requireNonNull(new AccountInfo(poContext).getFullName()));
+        lblGcardNo.setText(Objects.requireNonNull(foGcardxx.getCardNmbr()));
+        lblGcardPt.setText("Points: " + Objects.requireNonNull(foGcardxx.getAvlPoint()));
+        poQrImage.setImageBitmap(foQrCodex);
 
         button.setOnClickListener(v -> {
             isShown = false;
