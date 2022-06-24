@@ -1,22 +1,18 @@
 package org.rmj.guanzongroup.marketplace.Fragment;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -24,7 +20,6 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_QRCode;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_Categories;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ImageSlider;
@@ -35,7 +30,6 @@ import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class Fragment_Home extends Fragment {
@@ -44,8 +38,6 @@ public class Fragment_Home extends Fragment {
     private Adapter_ProductList poAdapter;
     private RecyclerView poRvProds, poRvCateg;
     private SliderView poSliderx;
-    private CardView gcardPane;
-    private TextView txtCardNo, txtGcrdPt;
 
     public Fragment_Home() {}
 
@@ -70,23 +62,21 @@ public class Fragment_Home extends Fragment {
         poSliderx.setScrollTimeInSec(5);
         poSliderx.startAutoCycle();
 
-        gcardPane = v.findViewById(R.id.gCard_panel);
-        txtCardNo = v.findViewById(R.id.txt_card_number);
-        txtGcrdPt = v.findViewById(R.id.txt_gcard_points);
         poRvProds = v.findViewById(R.id.rv_products);
-        poRvCateg = v.findViewById(R.id.rv_categories);
         poRvProds.setLayoutManager(new GridLayoutManager(requireActivity(),
                 2, RecyclerView.VERTICAL, false));
-        poRvCateg.setLayoutManager(new LinearLayoutManager(requireActivity()));
         poRvProds.setHasFixedSize(true);
+
+        poRvCateg = v.findViewById(R.id.rv_categories);
+        poRvCateg.setLayoutManager(new GridLayoutManager(requireActivity(),
+                2, RecyclerView.HORIZONTAL, false));
         poRvCateg.setHasFixedSize(true);
     }
 
     private void displayData() {
         showPromoDialog();
         setImageSlider();
-        initGcardPanel();
-        setCategoryAdapter();
+        setCategory();
         setProductAdapter();
     }
 
@@ -109,46 +99,22 @@ public class Fragment_Home extends Fragment {
         poSliderx.setSliderAdapter(adapter);
     }
 
-    private void initGcardPanel() {
-        mViewModel.getActiveGcard().observe(getViewLifecycleOwner(), eGcardApp -> {
-            try {
-                if(eGcardApp == null) {
-                    gcardPane.setVisibility(View.GONE);
-                } else {
-                    gcardPane.setVisibility(View.VISIBLE);
-                    txtCardNo.setText(Objects.requireNonNull(eGcardApp.getCardNmbr()));
-                    txtGcrdPt.setText(Objects.requireNonNull(eGcardApp.getAvlPoint()));
+    private void setCategory() {
+        List<String> strings = new ArrayList<>();
+        strings.add("https://static.zerochan.net/Venti.full.3365467.jpg");
+        strings.add("https://static.zerochan.net/Enomoto.Yuiko.full.1590131.jpg");
+        strings.add("https://datingroo.com/wp-content/uploads/2021/03/stop-abuse-resized.jpg");
+        strings.add("https://images-stylist.s3-eu-west-1.amazonaws.com/app/uploads/2020/12/21183331/how-to-stay-calm-in-an-argument-crop-1640111653-1920x1920.jpg");
+        strings.add("https://www.stylist.co.uk/images/app/uploads/2020/04/08154707/gettyimages-1171901303-1120x1120.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress");
+        strings.add("https://static.zerochan.net/Okumura.Rin.full.598240.jpg");
+        strings.add("https://static.zerochan.net/Venti.full.3365467.jpg");
+        strings.add("https://static.zerochan.net/Enomoto.Yuiko.full.1590131.jpg");
+        strings.add("https://datingroo.com/wp-content/uploads/2021/03/stop-abuse-resized.jpg");
+        strings.add("https://images-stylist.s3-eu-west-1.amazonaws.com/app/uploads/2020/12/21183331/how-to-stay-calm-in-an-argument-crop-1640111653-1920x1920.jpg");
+        strings.add("https://www.stylist.co.uk/images/app/uploads/2020/04/08154707/gettyimages-1171901303-1120x1120.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress");
+        strings.add("https://static.zerochan.net/Okumura.Rin.full.598240.jpg");
 
-                    gcardPane.setOnClickListener(view -> mViewModel.ViewGCardQrCode(foVal -> {
-                        //TODO : Create Dialog that will iew QrCode
-                        if(foVal == null){
-                            Toast.makeText(requireActivity(), "Failed generating Qr-Code", Toast.LENGTH_SHORT).show();
-                        } else {
-
-                            Dialog_QRCode dialog_qrCode = new Dialog_QRCode(requireActivity());
-                            dialog_qrCode.initDialog("GCard QR Code", foVal, new Dialog_QRCode.QrCodeCallback() {
-                                @Override
-                                public void onRefresh(AlertDialog foDialogx) {
-
-                                }
-                            });
-                            dialog_qrCode.show();
-                        }
-                    }));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    private void setCategoryAdapter() {
-        List<Integer> list = new ArrayList<>();
-        list.add(R.drawable.ic_img_am);
-        list.add(R.drawable.ic_img_ap);
-        list.add(R.drawable.ic_img_mc);
-        list.add(R.drawable.ic_img_mp);
-        final Adapter_Categories loAdapter = new Adapter_Categories(requireActivity(), list, new Adapter_Categories.OnItemClick() {
+        Adapter_Categories loAdapter = new Adapter_Categories(strings, new Adapter_Categories.OnItemClick() {
             @Override
             public void onClick(int position) {
 
