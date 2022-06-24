@@ -51,7 +51,6 @@ public class Fragment_Home extends Fragment {
     }
 
     private void initViews(View v) {
-        // Image Slider Setup
         poSliderx = v.findViewById(R.id.imgSlider);
         poSliderx.setIndicatorAnimation(IndicatorAnimationType.WORM);
         poSliderx.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -61,9 +60,6 @@ public class Fragment_Home extends Fragment {
         poSliderx.setScrollTimeInSec(5);
         poSliderx.startAutoCycle();
 
-//        gcardPane = v.findViewById(R.id.gCard_panel);
-//        txtCardNo = v.findViewById(R.id.txt_card_number);
-//        txtGcrdPt = v.findViewById(R.id.txt_gcard_points);
         poRvProds = v.findViewById(R.id.rv_products);
         poRvProds.setLayoutManager(new GridLayoutManager(requireActivity(),
                 2, RecyclerView.VERTICAL, false));
@@ -79,7 +75,6 @@ public class Fragment_Home extends Fragment {
         setSliderImages();
         setCategoryAdapter();
         showPromoDialog();
-        setImageSlider();
         setCategory();
         setProductAdapter();
     }
@@ -98,12 +93,11 @@ public class Fragment_Home extends Fragment {
         }
     }
 
-    private void setImageSlider() {
-        Adapter_ImageSlider adapter = new Adapter_ImageSlider(requireActivity(),getSliderImages());
-        poSliderx.setSliderAdapter(adapter);
+    private void setCategory() {
+
     }
 
-    private void setCategory() {
+    private void setCategoryAdapter() {
         List<String> strings = new ArrayList<>();
         strings.add("https://static.zerochan.net/Venti.full.3365467.jpg");
         strings.add("https://static.zerochan.net/Enomoto.Yuiko.full.1590131.jpg");
@@ -118,18 +112,8 @@ public class Fragment_Home extends Fragment {
         strings.add("https://www.stylist.co.uk/images/app/uploads/2020/04/08154707/gettyimages-1171901303-1120x1120.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress");
         strings.add("https://static.zerochan.net/Okumura.Rin.full.598240.jpg");
 
-        Adapter_Categories loAdapter = new Adapter_Categories(strings, new Adapter_Categories.OnItemClick() {
-    private void setCategoryAdapter() {
-        List<Integer> list = new ArrayList<>();
-        list.add(R.drawable.ic_img_am);
-        list.add(R.drawable.ic_img_ap);
-        list.add(R.drawable.ic_img_mc);
-        list.add(R.drawable.ic_img_mp);
-        final Adapter_Categories loAdapter = new Adapter_Categories(requireActivity(), list, new Adapter_Categories.OnItemClick() {
-            @Override
-            public void onClick(int position) {
+        final Adapter_Categories loAdapter = new Adapter_Categories(strings, position -> {
 
-            }
         });
         loAdapter.notifyDataSetChanged();
         poRvCateg.setAdapter(loAdapter);

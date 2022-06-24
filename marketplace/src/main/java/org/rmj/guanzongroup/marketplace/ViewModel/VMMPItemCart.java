@@ -79,7 +79,7 @@ public class VMMPItemCart extends AndroidViewModel {
     }
 
     public void addUpdateCart(String fsListId, int fnItemQty, boolean QtyUpdate, OnTransactionsCallback foCallBck) {
-        new AddUpdateCartTask(application, fnItemQty, QtyUpdate, foCallBck).execute(fsListId);
+        new AddUpdateCartTask(application, fnItemQty, true, foCallBck).execute(fsListId);
     }
 
     public void forCheckOut(String fsListIdx) {

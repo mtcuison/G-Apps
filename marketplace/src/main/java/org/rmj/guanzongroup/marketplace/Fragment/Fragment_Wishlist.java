@@ -105,13 +105,12 @@ public class Fragment_Wishlist extends Fragment {
         itemList.add(model1);
 
         adapter = new Adapter_Wishlist(itemList, new Adapter_Wishlist.OnCartAction() {
-
             @Override
             public void onAddToCart(String fsItemIdx, String fsItemNme, String fsItemPrc) {
                 final BottomDialog_AddToCart dialog = new BottomDialog_AddToCart(fsItemNme, fsItemPrc,
                         fnItemQty -> {
                             try {
-                                mViewModel.addUpdateCart(fsItemIdx, fnItemQty, new OnTransactionsCallback() {
+                                mViewModel.addUpdateCart(fsItemIdx, fnItemQty, false,new OnTransactionsCallback() {
                                     @Override
                                     public void onLoading() {
                                         poLoading = new Dialog_Loading(requireActivity());
