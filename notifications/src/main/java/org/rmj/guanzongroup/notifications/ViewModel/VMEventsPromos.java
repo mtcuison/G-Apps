@@ -7,36 +7,30 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
-import org.rmj.g3appdriver.dev.Repositories.RBranchInfo;
-import org.rmj.g3appdriver.dev.Repositories.REvents;
-import org.rmj.g3appdriver.dev.Repositories.RPromo;
+
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 
 import java.util.List;
 
 public class VMEventsPromos extends AndroidViewModel {
-    private final REvents poEvents;
-    private final RPromo poPromo;
+    private final iGCardSystem poSystem;
     private final Application instance;
 
     public VMEventsPromos(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poEvents = new REvents(application);
-        this.poPromo = new RPromo(application);
+        this.poSystem = new GCardSystem(application).getInstance(GCardSystem.CoreFunctions.EXTRAS);
     }
 
     public LiveData<List<EEvents>> getEvents() {
-        return poEvents.getAllEvents();
+        return poSystem.GetNewsEvents();
     }
     public LiveData<List<EPromo>> getPromos() {
-        return poPromo.getAllPromo();
+        return poSystem.GetPromotions();
     }
 
 

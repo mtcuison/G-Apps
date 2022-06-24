@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
+import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
@@ -15,7 +17,7 @@ import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 
 public class VMWriteProductReview extends AndroidViewModel {
 
-    private final Application poApplctn;
+    private final Context poApplctn;
     private final RProduct poProdcts;
 
     public VMWriteProductReview(@NonNull Application application) {
@@ -28,25 +30,32 @@ public class VMWriteProductReview extends AndroidViewModel {
         return poProdcts.GetProductInfo(fsListID);
     }
 
-    public void saveReview(String fsListID,
+    public void saveReview(String OrderID,
+                            String fsListID,
                            int fnRating,
                            String fsReview,
                            OnTransactionsCallback foCallBck) {
-        new SaveReviewTask(poApplctn, fnRating, fsReview, foCallBck).execute(fsListID);
+        new SaveReviewTask(poApplctn, OrderID, fnRating, fsReview, foCallBck).execute(fsListID);
     }
 
     private static class SaveReviewTask extends AsyncTask<String, Void, Boolean> {
 
+        private final Context mContext;
         private final ConnectionUtil loConnect;
         private final OnTransactionsCallback loCallBck;
+        private final String psOrderID;
         private final int lnRatings;
         private final String lsReviews;
+        private RProduct poProdct;
 
         private String lsMessage = "";
 
-        private SaveReviewTask(Application foAppsxx, int fnRatings, String fsReviews,
+        private SaveReviewTask(Context foAppsxx,String OrderID, int fnRatings, String fsReviews,
                                OnTransactionsCallback foCallBck) {
+            this.mContext = foAppsxx;
             this.loConnect = new ConnectionUtil(foAppsxx);
+            this.poProdct = new RProduct(foAppsxx);
+            this.psOrderID = OrderID;
             this.lnRatings = fnRatings;
             this.lsReviews = fsReviews;
             this.loCallBck = foCallBck;
@@ -63,10 +72,15 @@ public class VMWriteProductReview extends AndroidViewModel {
             try {
                 String lsListIdx = strings[0];
                 if(loConnect.isDeviceConnected()) {
-
                     // TODO: Initialize write review here.
-                    return true;
-
+                    if(poProdct.SendProductReview(psOrderID, lsListIdx, lnRatings, lsReviews)){
+                        lsMessage = "Thank you for your review.";
+                        new ROrder(mContext).UpdateReviewedItem(psOrderID, lsListIdx);
+                        return true;
+                    } else {
+                        lsMessage = poProdct.getMessage();
+                        return false;
+                    }
                 } else {
                     lsMessage = AppConstants.SERVER_NO_RESPONSE();
                     return false;

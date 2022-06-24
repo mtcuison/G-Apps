@@ -19,6 +19,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import org.rmj.g3appdriver.lib.GCardCore.CodeGenerator;
 import org.rmj.guanzongroup.digitalgcard.R;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -39,10 +40,19 @@ public class Activity_QrCodeScanner extends AppCompatActivity {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
                         scanner.setResultHandler(rawResult -> {
-                            Intent loIntent = new Intent();
-                            loIntent.putExtra("result", rawResult.toString());
-                            setResult(1, loIntent);
-                            finish();
+                            CodeGenerator loCode = new CodeGenerator();
+                            loCode.setEncryptedQrCode(rawResult.toString());
+                            if(loCode.isQrCodeApplication()){
+                                Intent loIntent = new Intent();
+                                loIntent.putExtra("args", rawResult.toString());
+                                setResult(1, loIntent);
+                                finish();
+                            } else {
+                                Intent loIntent = new Intent();
+                                loIntent.putExtra("args", rawResult.toString());
+                                setResult(2, loIntent);
+                                finish();
+                            }
                         });
                         scanner.startCamera();
                     }

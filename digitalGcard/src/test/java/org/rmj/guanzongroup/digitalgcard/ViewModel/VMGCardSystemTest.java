@@ -3,16 +3,10 @@ package org.rmj.guanzongroup.digitalgcard.ViewModel;
 import static org.rmj.guanzongroup.digitalgcard.TestConstants.APPLICATION;
 import static org.rmj.guanzongroup.digitalgcard.TestConstants.CART_ITEM;
 import static org.rmj.guanzongroup.digitalgcard.TestConstants.FAKE_DATE;
-import static org.rmj.guanzongroup.digitalgcard.TestConstants.GCARD_CART_ITEMS;
 import static org.rmj.guanzongroup.digitalgcard.TestConstants.GCARD_CREDENTIALS;
 
-import android.app.Application;
 import android.graphics.Bitmap;
 import android.os.Build;
-
-import androidx.core.widget.TextViewCompat;
-import androidx.lifecycle.Observer;
-import androidx.test.core.app.ApplicationProvider;
 
 import junit.framework.TestCase;
 
@@ -23,11 +17,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
-import org.rmj.guanzongroup.digitalgcard.TestConstants;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-
-import java.util.List;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.O_MR1}, manifest = Config.NONE)
@@ -39,7 +30,7 @@ public class VMGCardSystemTest extends TestCase {
     @Before
     public void setUp() {
         mViewModel = new VMGCardSystem(APPLICATION);
-        mViewModel.setInstance(GCardSystem.CoreFunctions.GCARD);
+        mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
     }
 
     @After
@@ -263,29 +254,7 @@ public class VMGCardSystemTest extends TestCase {
 
     @Test
     public void testUpdateCartItem() {
-        mViewModel.UpdateCartItem(CART_ITEM, new VMGCardSystem.GcardTransactionCallback() {
-            @Override
-            public void onLoad() {
-
-            }
-
-            @Override
-            public void onSuccess(String fsMessage) {
-                isSuccess = true;
-                assertTrue(isSuccess);
-            }
-
-            @Override
-            public void onFailed(String fsMessage) {
-                isSuccess = false;
-                assertTrue(isSuccess);
-            }
-
-            @Override
-            public void onQrGenerate(Bitmap foBitmap) {
-
-            }
-        });
+        mViewModel.UpdateCartItem(CART_ITEM);
     }
 
     @Test

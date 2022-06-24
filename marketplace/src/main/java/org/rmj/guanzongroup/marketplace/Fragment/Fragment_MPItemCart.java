@@ -45,7 +45,7 @@ public class Fragment_MPItemCart extends Fragment {
     private LinearLayout noItem, lnMPFooter;
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
-    private MaterialButton btnCheckOut;
+    private MaterialButton btnCheckOut, btnShopNow;
     private TextView lblGrandTotal;
     private Adapter_ItemCart adapter;
     private List<ItemCartModel> itemList;
@@ -68,6 +68,7 @@ public class Fragment_MPItemCart extends Fragment {
                     List<ItemCartModel> itemCart = mViewModel.ParseDataForAdapter(items);
                     if (itemCart.size() > 0){
                         noItem.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                         lnMPFooter.setVisibility(View.VISIBLE);
                         adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
                             @Override
@@ -79,32 +80,61 @@ public class Fragment_MPItemCart extends Fragment {
                             public void onItemDeselect(String fsListIdx) {
                                 mViewModel.removeForCheckOut(fsListIdx);
                             }
+
+                            @Override
+                            public void onItemDelete(String fsListIDx) {
+                                mViewModel.RemoveItemOnCart(fsListIDx, new OnTransactionsCallback() {
+                                    @Override
+                                    public void onLoading() {
+                                        poLoading.initDialog("Item Cart", "Processing. Please wait.");
+                                        poLoading.show();
+                                    }
+
+                                    @Override
+                                    public void onSuccess(String fsMessage) {
+                                        poLoading.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onFailed(String fsMessage) {
+                                        poLoading.dismiss();
+                                        poDialogx.setButtonText("Okay");
+                                        poDialogx.initDialog("Item Cart", fsMessage, Dialog::dismiss);
+                                        poDialogx.show();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onQuantityClick(String fsListIdx, int fnItemQty) {
+                                mViewModel.addUpdateCart(fsListIdx, fnItemQty, true,new OnTransactionsCallback() {
+                                    @Override
+                                    public void onLoading() {
+                                        poLoading.initDialog("Item Cart", "Processing. Please wait.");
+                                        poLoading.show();
+                                    }
+
+                                    @Override
+                                    public void onSuccess(String fsMessage) {
+                                        poLoading.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onFailed(String fsMessage) {
+                                        poLoading.dismiss();
+                                        poDialogx.setButtonText("Okay");
+                                        poDialogx.initDialog("Item Cart", fsMessage, Dialog::dismiss);
+                                        poDialogx.show();
+                                    }
+                                });
+                            }
                         });
-                        adapter.setQuantityCallback((fsListIdx, fnItemQty) -> mViewModel.addUpdateCart(fsListIdx, fnItemQty, new OnTransactionsCallback() {
-                            @Override
-                            public void onLoading() {
-                                poLoading.initDialog("Item Cart", "Processing. Please wait.");
-                                poLoading.show();
-                            }
-
-                            @Override
-                            public void onSuccess(String fsMessage) {
-                                poLoading.dismiss();
-                            }
-
-                            @Override
-                            public void onFailed(String fsMessage) {
-                                poLoading.dismiss();
-                                poDialogx.setButtonText("Okay");
-                                poDialogx.initDialog("Item Cart", fsMessage, Dialog::dismiss);
-                                poDialogx.show();
-                            }
-                        }));
                         Log.e("itemCart = ", String.valueOf(itemCart.size()));
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     } else {
                         noItem.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
                         lnMPFooter.setVisibility(View.GONE);
                     }
                 } catch (Exception e){
@@ -151,6 +181,14 @@ public class Fragment_MPItemCart extends Fragment {
                 }
             });
         });
+
+        btnShopNow.setOnClickListener(v1 -> {
+            Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+            intent.putExtra("args", "dashboard");
+            requireActivity().sendBroadcast(intent);
+            poLoading.dismiss();
+            requireActivity().finish();
+        });
         return v;
     }
     private void initWidgets(View view){
@@ -162,6 +200,8 @@ public class Fragment_MPItemCart extends Fragment {
         lnMPFooter = view.findViewById(R.id.lnMPFooter);
         lblGrandTotal = view.findViewById(R.id.lblMPGrandTotal);
         btnCheckOut = view.findViewById(R.id.btnMPCheckOut);
+        btnShopNow = view.findViewById(R.id.btnMPShopNow);
+
     }
 
     public static String currencyFormat(double amount) {

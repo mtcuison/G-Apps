@@ -44,7 +44,7 @@ public class Adapter_GcardList extends RecyclerView.Adapter<Adapter_GcardList.Gc
 
     @Override
     public int getItemCount() {
-        return 1;
+        return poGcard.size();
     }
 
     public static class GcardHolder extends RecyclerView.ViewHolder{

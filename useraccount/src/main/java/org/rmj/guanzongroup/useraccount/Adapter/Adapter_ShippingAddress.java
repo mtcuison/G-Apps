@@ -33,14 +33,18 @@ public class Adapter_ShippingAddress extends RecyclerView.Adapter<Adapter_Shippi
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        EClientInfo loClientx = poClientx.get(position);
-        String lsClientN = loClientx.getFrstName() + " " + loClientx.getMiddName().charAt(0) +
-                ". " + loClientx.getLastName();
-        String lsAddress = loClientx.getHouseNox() + " " + loClientx.getAddressx() +
-                ", " + loClientx.getTownIDxx();
-        holder.txtClient.setText(lsClientN);
-        holder.txtMobile.setText(loClientx.getMobileNo());
-        holder.txtAddrss.setText(lsAddress);
+        try {
+            EClientInfo loClientx = poClientx.get(position);
+            String lsClientN = loClientx.getFrstName() + " " + loClientx.getMiddName().charAt(0) +
+                    ". " + loClientx.getLastName();
+            String lsAddress = loClientx.getHouseNox() + " " + loClientx.getAddressx() +
+                    ", " + loClientx.getTownIDxx();
+            holder.txtClient.setText(lsClientN);
+            holder.txtMobile.setText(loClientx.getMobileNo());
+            holder.txtAddrss.setText(lsAddress);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -104,13 +104,9 @@ public class VMProductQueries extends AndroidViewModel {
                     String lsItemIdx = strings[0];
                     if(poProduct.SendProductInquiry(lsItemIdx, lsInquiry)) {
                         Thread.sleep(1000);
-                        if(poProduct.GetQuestionsAndAnswers(lsItemIdx)) {
-                            message = "Product Inquiry Sent.";
-                            return true;
-                        } else {
-                            message = poProduct.getMessage();
-                            return false;
-                        }
+                        poProduct.GetQuestionsAndAnswers(lsItemIdx);
+                        message = "Product Inquiry Sent.";
+                        return true;
                     } else {
                         message = poProduct.getMessage();
                         return false;

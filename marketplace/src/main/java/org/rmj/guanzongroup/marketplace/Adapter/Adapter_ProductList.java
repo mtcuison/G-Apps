@@ -44,6 +44,7 @@ public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductLis
             holder.txtProdNm.setText(loProduct.sProdctNm);
             holder.txtPricex.setText(CashFormatter.parse(loProduct.sPricexxx));
             holder.txtSoldxx.setText(loProduct.sUntsSold + " Sold");
+            holder.setImage(loProduct.sImagesxx);
             // TODO: Set product image url ~> Picasso.get().load(stringUrl).into(holder.imgProdct);
             // TODO: Display promo banner if there is any (8:1 aspect ratio)
 //            boolean isThereAPromoForThisItem = true;

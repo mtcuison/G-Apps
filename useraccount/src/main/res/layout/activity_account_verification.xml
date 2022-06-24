@@ -35,10 +35,10 @@
         android:id="@+id/lbl_message"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="@font/roboto_regular"
         android:gravity="center"
         android:padding="10dp"
-        android:text="We sent a 6 digit verification \n code to your mobile no."
+        android:text="We sent a 6 digit activation \n code to your mobile no."
         android:textSize="16sp"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,14 +75,27 @@
         android:fontFamily="@font/roboto_medium"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Enter Verification Code"
+        android:text="Enter Activation Code"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_otp" />
 
     <TextView
-        android:id="@+id/lbl_resend"
+        android:id="@+id/lbl_message2"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="You can also activate your account through email. \n Open Your account and check inbox or spam folder for account activation."
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_resend"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_resend"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:fontFamily="@font/roboto_medium"
@@ -90,6 +103,7 @@
         android:padding="10dp"
         android:text="Resend OTP?"
         android:textSize="16sp"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         app:layout_constraintBottom_toTopOf="@+id/btn_Submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

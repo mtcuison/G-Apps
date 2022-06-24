@@ -22,6 +22,21 @@ public interface iGCardSystem {
 
     void AddGCard(GcardCredentials gcardInfo, GCardSystem.GCardSystemCallback callback) throws Exception;
     LiveData<List<EGcardApp>> GetGCardList();
+    void updateGCardActiveStatus(String GCardNmbr);
+    List<EGcardApp> hasGcard();
+    LiveData<EGcardApp> hasNoGcard();
+    LiveData<List<EGcardApp>> hasUnCheckGCard();
+    List<EGcardApp> hasActiveGcard();
+    List<EGcardApp> hasMultipleGCard();
+    LiveData<EGcardApp> getGCardInfo();
+    List<EGcardApp> getAllGCard();
+    void updateAvailablePoints(String fsGcardNo, String fsNewPts);
+    LiveData<String> getActiveGcardNo();
+    LiveData<String> getActiveGcardAvlPoints();
+    double getRemainingActiveCardPoints();
+    double getAvailableGcardPoints();
+    double getRedeemItemPoints();
+    void updateGCardDeactiveStatus();
     void AddGCardQrCode(String GcardNo, GCardSystem.GCardSystemCallback callback) throws Exception;
     void ConfirmAddGCard(GcardCredentials gcardInfo, GCardSystem.GCardSystemCallback callback) throws Exception;
     void DownloadGcardNumbers(GCardSystem.GCardSystemCallback callback) throws Exception;
@@ -37,6 +52,9 @@ public interface iGCardSystem {
     void UpdateCartItem(CartItem item, GCardSystem.GCardSystemCallback callback) throws Exception;
     LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems();
     List<EBranchInfo> GetMCBranchesForRedemption();
+    LiveData<Integer> GetGcardCartItemCount();
+    LiveData<Double> GetGCardCartItemTotalPoints();
+    void DeleteItemCart(String fsVal);
     void PlaceOrder(List<DRedeemItemInfo.GCardCartItem> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception;
     Bitmap GenerateGCardOrderQrCode(String BatchNox) throws Exception;
 
@@ -60,10 +78,12 @@ public interface iGCardSystem {
     void DownloadPromotions(GCardSystem.GCardSystemCallback callback) throws Exception;
     void SavePromotions(JSONObject detail) throws Exception;
     LiveData<List<EPromo>> GetPromotions();
+    EPromo CheckPromo();
 
     void DownloadNewsEvents(GCardSystem.GCardSystemCallback callback) throws Exception;
     void SaveNewsEvents(JSONObject detail) throws Exception;
     LiveData<List<EEvents>> GetNewsEvents();
+    EEvents CheckEvents();
 }
 
 

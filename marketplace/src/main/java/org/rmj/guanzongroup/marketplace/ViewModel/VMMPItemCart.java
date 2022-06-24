@@ -1,8 +1,8 @@
 package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -12,8 +12,10 @@ import androidx.lifecycle.MutableLiveData;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
-import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
+import org.rmj.g3appdriver.etc.ConnectionUtil;
+import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
+import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.FilterType;
 import org.rmj.guanzongroup.marketplace.Etc.AddUpdateCartTask;
@@ -29,7 +31,7 @@ public class VMMPItemCart extends AndroidViewModel {
     private final MutableLiveData<List<ItemCartModel>> poItemCart = new MutableLiveData<>();
     private final Application application;
     private final RClientInfo poClientx;
-    private final RGcardApp poGCard;
+    private final iGCardSystem poGCard;
     private final ROrder poOrder;
     private final RProduct poProdct;
 
@@ -37,7 +39,7 @@ public class VMMPItemCart extends AndroidViewModel {
         super(application);
         this.application = application;
         this.poClientx = new RClientInfo(application);
-        this.poGCard = new RGcardApp(application);
+        this.poGCard = new GCardSystem(application).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
         this.poOrder = new ROrder(application);
         this.poProdct = new RProduct(application);
 //        generateData();
@@ -76,8 +78,8 @@ public class VMMPItemCart extends AndroidViewModel {
         return list;
     }
 
-    public void addUpdateCart(String fsListId, int fnItemQty, OnTransactionsCallback foCallBck) {
-        new AddUpdateCartTask(application, fnItemQty, foCallBck).execute(fsListId);
+    public void addUpdateCart(String fsListId, int fnItemQty, boolean QtyUpdate, OnTransactionsCallback foCallBck) {
+        new AddUpdateCartTask(application, fnItemQty, true, foCallBck).execute(fsListId);
     }
 
     public void forCheckOut(String fsListIdx) {
@@ -163,4 +165,99 @@ public class VMMPItemCart extends AndroidViewModel {
 
     }
 
+    public void RemoveItemOnCart(String fsVal, OnTransactionsCallback callback){
+        new RemoveItemTask(application, callback).execute(fsVal);
+    }
+
+    private static class RemoveItemTask extends AsyncTask<String, Void, Boolean>{
+
+        private final Context mContext;
+        private final OnTransactionsCallback callback;
+
+        private String message;
+
+        public RemoveItemTask(Context mContext, OnTransactionsCallback callback) {
+            this.mContext = mContext;
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.onLoading();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            ROrder loOrder = new ROrder(mContext);
+            ConnectionUtil loConn = new ConnectionUtil(mContext);
+            String lsListID = strings[0];
+            if(loConn.isDeviceConnected()) {
+                if (loOrder.RemoveCartItem(lsListID)) {
+                    return true;
+                } else {
+                    message = loOrder.getMessage();
+                    return false;
+                }
+            } else {
+                message = "Unable to connect.";
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+                callback.onSuccess("Item removed!");
+            } else {
+                callback.onFailed(message);
+            }
+        }
+    }
+
+    private static class UpdateItemAddQuantityTask extends AsyncTask<String, Void, Boolean>{
+        private final OnTransactionsCallback callback;
+
+        public UpdateItemAddQuantityTask(OnTransactionsCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+        }
+    }
+    private static class UpdateItemDeductQuantityTask extends AsyncTask<String, Void, Boolean>{
+        private final OnTransactionsCallback callback;
+
+        public UpdateItemDeductQuantityTask(OnTransactionsCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+        }
+    }
 }

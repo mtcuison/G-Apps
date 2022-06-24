@@ -41,12 +41,12 @@ public class VMProductOverview extends AndroidViewModel {
         return poOrder.GetCartItemCount();
     }
 
-    public LiveData<List<DProduct.oProduct>> getProductList(int fnIndex) {
-        return poProdcts.GetProductsList(fnIndex, FilterType.DEFAULT, null, null);
+    public LiveData<List<DProduct.oProduct>> getProductList(int fnIndex, String fsArgs) {
+        return poProdcts.GetProductsList(fnIndex, FilterType.BRAND_NAME, fsArgs, null);
     }
 
     public void addUpdateCart(String fsListId, int fnItemQty, OnTransactionsCallback foCallBck) {
-        new AddUpdateCartTask(application, fnItemQty, foCallBck).execute(fsListId);
+        new AddUpdateCartTask(application, fnItemQty, false,foCallBck).execute(fsListId);
     }
 
     public void buyNow(String fsLstngID, int fnItemQty, OnTransactionsCallback foCallBck) {

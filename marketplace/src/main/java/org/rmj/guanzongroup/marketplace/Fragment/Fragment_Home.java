@@ -31,7 +31,6 @@ import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Fragment_Home extends Fragment {
 
     private VMHome mViewModel;
@@ -52,7 +51,6 @@ public class Fragment_Home extends Fragment {
     }
 
     private void initViews(View v) {
-        // Image Slider Setup
         poSliderx = v.findViewById(R.id.imgSlider);
         poSliderx.setIndicatorAnimation(IndicatorAnimationType.WORM);
         poSliderx.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -74,8 +72,9 @@ public class Fragment_Home extends Fragment {
     }
 
     private void displayData() {
+        setSliderImages();
+        setCategoryAdapter();
         showPromoDialog();
-        setImageSlider();
         setCategory();
         setProductAdapter();
     }
@@ -94,12 +93,11 @@ public class Fragment_Home extends Fragment {
         }
     }
 
-    private void setImageSlider() {
-        Adapter_ImageSlider adapter = new Adapter_ImageSlider(requireActivity(),getSliderImages());
-        poSliderx.setSliderAdapter(adapter);
+    private void setCategory() {
+
     }
 
-    private void setCategory() {
+    private void setCategoryAdapter() {
         List<String> strings = new ArrayList<>();
         strings.add("https://static.zerochan.net/Venti.full.3365467.jpg");
         strings.add("https://static.zerochan.net/Enomoto.Yuiko.full.1590131.jpg");
@@ -114,11 +112,8 @@ public class Fragment_Home extends Fragment {
         strings.add("https://www.stylist.co.uk/images/app/uploads/2020/04/08154707/gettyimages-1171901303-1120x1120.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress");
         strings.add("https://static.zerochan.net/Okumura.Rin.full.598240.jpg");
 
-        Adapter_Categories loAdapter = new Adapter_Categories(strings, new Adapter_Categories.OnItemClick() {
-            @Override
-            public void onClick(int position) {
+        final Adapter_Categories loAdapter = new Adapter_Categories(strings, position -> {
 
-            }
         });
         loAdapter.notifyDataSetChanged();
         poRvCateg.setAdapter(loAdapter);
@@ -142,12 +137,25 @@ public class Fragment_Home extends Fragment {
         });
     }
 
-    private List<HomeImageSliderModel> getSliderImages() {
+    private void setSliderImages() {
         List<HomeImageSliderModel> loSliders = new ArrayList<>();
-        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/2697937.jpg"));
-        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/2697956.jpg"));
-        loSliders.add(new HomeImageSliderModel("https://wallpaperaccess.com/full/2697963.jpg"));
-        return loSliders;
-    }
+        mViewModel.GetPromoLinkList().observe(getViewLifecycleOwner(), ePromos -> {
+            try {
+                for (int x = 0; x < ePromos.size(); x++) {
+                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getPromoUrl()));
+                }
 
+                Adapter_ImageSlider adapter = new Adapter_ImageSlider(loSliders, args -> {
+                    try{
+
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+                poSliderx.setSliderAdapter(adapter);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+    }
 }

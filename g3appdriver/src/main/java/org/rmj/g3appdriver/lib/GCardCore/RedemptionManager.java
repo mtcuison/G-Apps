@@ -9,9 +9,9 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGcardApp;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
-import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
-import org.rmj.g3appdriver.dev.Repositories.RRedeemItemInfo;
+import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.Repositories.RRedeemablesInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
@@ -39,21 +39,19 @@ public class RedemptionManager implements iGCardSystem{
     private static final String TAG = RedemptionManager.class.getSimpleName();
 
     private final Context mContext;
-    private final RGcardApp poGcard;
-    private final RRedeemItemInfo poRedeem;
+    private final DRedeemItemInfo poRedeem;
+    private final DGcardApp poGcard;
     private final HttpHeaders poHeaders;
     private final RRedeemablesInfo poRedeemables;
-    private final RRedeemItemInfo poCart;
     private final GuanzonAppConfig poConfig;
     private final ServerAPIs poAPI;
 
     public RedemptionManager(Context context) {
         this.mContext = context;
-        this.poGcard = new RGcardApp(mContext);
-        this.poRedeem = new RRedeemItemInfo(mContext);
+        this.poGcard = GGC_GuanzonAppDB.getInstance(mContext).EGcardAppDao();
+        this.poRedeem = GGC_GuanzonAppDB.getInstance(mContext).ERedeemItemDao();
         this.poHeaders = new HttpHeaders(mContext);
         this.poRedeemables = new RRedeemablesInfo(mContext);
-        this.poCart = new RRedeemItemInfo(mContext);
         this.poConfig = new GuanzonAppConfig(mContext);
         this.poAPI = new ServerAPIs(poConfig.getTestCase());
     }
@@ -66,6 +64,81 @@ public class RedemptionManager implements iGCardSystem{
     @Override
     public LiveData<List<EGcardApp>> GetGCardList() {
         return null;
+    }
+
+    @Override
+    public void updateGCardActiveStatus(String GCardNmbr) {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public List<EGcardApp> hasGcard() {
+        return null;
+    }
+
+    @Override
+    public LiveData<EGcardApp> hasNoGcard() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EGcardApp>> hasUnCheckGCard() {
+        return null;
+    }
+
+    @Override
+    public List<EGcardApp> hasActiveGcard() {
+        return null;
+    }
+
+    @Override
+    public List<EGcardApp> hasMultipleGCard() {
+        return null;
+    }
+
+    @Override
+    public LiveData<EGcardApp> getGCardInfo() {
+        return null;
+    }
+
+    @Override
+    public List<EGcardApp> getAllGCard() {
+        return null;
+    }
+
+    @Override
+    public void updateAvailablePoints(String fsGcardNo, String fsNewPts) {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public LiveData<String> getActiveGcardNo() {
+        return null;
+    }
+
+    @Override
+    public LiveData<String> getActiveGcardAvlPoints() {
+        return null;
+    }
+
+    @Override
+    public double getRemainingActiveCardPoints() {
+        return 0;
+    }
+
+    @Override
+    public double getAvailableGcardPoints() {
+        return 0;
+    }
+
+    @Override
+    public double getRedeemItemPoints() {
+        return 0;
+    }
+
+    @Override
+    public void updateGCardDeactiveStatus() {
+        throw new NullPointerException();
     }
 
     @Override
@@ -162,7 +235,7 @@ public class RedemptionManager implements iGCardSystem{
             loItem.setGCardNox(poGcard.getCardNox());
             loItem.setPromoIDx(item.getPromoIDx());
             loItem.setItemQtyx(item.getItemQtyx());
-            loItem.setPointsxx(item.getTotalItemPoints());
+            loItem.setPointsxx(item.getPoints());
             loItem.setOrderedx(new AppConstants().GCARD_DATE_TIME);
             loItem.setTranStat("0");
             loItem.setPlacOrdr("0");
@@ -170,7 +243,7 @@ public class RedemptionManager implements iGCardSystem{
             String lsTransNox = item.getTransNox();
             String lsPromoIDx = item.getPromoIDx();
             if(poRedeem.getRedeemableIfExist(lsTransNox, lsPromoIDx).size() > 0) {
-                poRedeem.UpdateExistingItemOnCart(lsTransNox, lsPromoIDx, item.getItemQtyx(), item.getTotalItemPoints());
+                poRedeem.UpdateExistingItemOnCart(lsTransNox, lsPromoIDx, item.getItemQtyx());
             } else {
                 poRedeem.insert(loItem);
             }
@@ -184,17 +257,32 @@ public class RedemptionManager implements iGCardSystem{
     public void UpdateCartItem(CartItem item, GCardSystem.GCardSystemCallback callback) throws Exception {
         String lsTransNox = item.getTransNox();
         String lsPromoIDx = item.getPromoIDx();
-        poRedeem.UpdateExistingItemOnCart(lsTransNox, lsPromoIDx, item.getItemQtyx(), item.getTotalItemPoints());
+        poRedeem.UpdateExistingItemOnCart(lsTransNox, lsPromoIDx, item.getItemQtyx());
     }
 
     @Override
     public LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems() {
-        return poCart.GetGCardCartItemList();
+        return poRedeem.GetGCardCartItemList();
     }
 
     @Override
     public List<EBranchInfo> GetMCBranchesForRedemption() {
-        return poCart.GetMCBranchesForRedemption();
+        return poRedeem.GetMCBranchesForRedemption();
+    }
+
+    @Override
+    public LiveData<Integer> GetGcardCartItemCount() {
+        return poRedeem.GetGcardCartItemCount();
+    }
+
+    @Override
+    public LiveData<Double> GetGCardCartItemTotalPoints() {
+        return poRedeem.GetGCardCartItenTotalPoints();
+    }
+
+    @Override
+    public void DeleteItemCart(String fsVal) {
+        poRedeem.removeItemFromCart(fsVal);
     }
 
     @Override
@@ -345,6 +433,11 @@ public class RedemptionManager implements iGCardSystem{
     }
 
     @Override
+    public EPromo CheckPromo() {
+        return null;
+    }
+
+    @Override
     public void DownloadNewsEvents(GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }
@@ -356,6 +449,11 @@ public class RedemptionManager implements iGCardSystem{
 
     @Override
     public LiveData<List<EEvents>> GetNewsEvents() {
+        return null;
+    }
+
+    @Override
+    public EEvents CheckEvents() {
         return null;
     }
 

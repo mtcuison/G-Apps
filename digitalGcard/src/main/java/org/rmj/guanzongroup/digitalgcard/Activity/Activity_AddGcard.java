@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.digitalgcard.Activity;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +14,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -46,18 +47,39 @@ public class Activity_AddGcard extends AppCompatActivity {
 
     private static final int SCAN_GCARD = 1;
 
+    private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if(result.getResultCode() == SCAN_GCARD) {
+                    Intent loIntent = result.getData();
+                    if (loIntent != null) {
+//                        Toast.makeText(Activity_AddGcard.this, loIntent.getStringExtra("result"), Toast.LENGTH_LONG).show();
+                        String lsArgs = loIntent.getStringExtra("result");
+                        addScannedGcard(lsArgs);
+                    } else {
+                        Toast.makeText(Activity_AddGcard.this, "No data result receive.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+    );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_gcard);
         mViewModel = new ViewModelProvider(Activity_AddGcard.this).get(VMGCardSystem.class);
-        mViewModel.setInstance(GCardSystem.CoreFunctions.GCARD);
+        mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
         initViews();
         setUpToolbar();
 
         txtBdatex.setOnClickListener(v -> datePicker());
         btnAddCrd.setOnClickListener(v -> addGcard());
         btnScanGc.setOnClickListener(v -> scanGcard());
+
+        if(getIntent().hasExtra("args")){
+            String lsArgs = getIntent().getStringExtra("args");
+            addScannedGcard(lsArgs);
+        }
     }
 
     @Override
@@ -199,6 +221,59 @@ public class Activity_AddGcard extends AppCompatActivity {
         }
     }
 
+    private void addScannedGcard(String args){
+        mViewModel.addScannedGcard(args, new VMGCardSystem.GcardTransactionCallback() {
+            @Override
+            public void onLoad() {
+                poLoading = new Dialog_Loading(Activity_AddGcard.this);
+                poLoading.initDialog("Adding GCard", "Please wait for a while.");
+                poLoading.show();
+            }
+
+            @Override
+            public void onSuccess(String fsMessage) {
+                poLoading.dismiss();
+                poDialog.setButtonText("Okay");
+                poDialog.initDialog("Add GCard", "GCard Successfully Added.", dialog -> {
+                    dialog.dismiss();
+                    finish();
+                });
+                poDialog.show();
+            }
+
+            @Override
+            public void onFailed(String fsMessage) {
+                poLoading.dismiss();
+                if(isJSONValid(fsMessage)) {
+                    String lsErrCode = "";
+                    try {
+                        JSONObject loJson = new JSONObject(fsMessage);
+                        lsErrCode = loJson.getString("code");
+                        if("CNF".equalsIgnoreCase(lsErrCode)) {
+                            poDialog.setButtonText("Okay");
+                            poDialog.initDialog("Add GCard", "GCard is already registered to other account. Please add GCard number manually and confirm to register the GCard on your account.", dialog -> {
+                                dialog.dismiss();
+                                finish();
+                            });
+                            poDialog.show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    poDialog.setButtonText("Okay");
+                    poDialog.initDialog("Add GCard Failed", fsMessage, dialog -> dialog.dismiss());
+                    poDialog.show();
+                }
+            }
+
+            @Override
+            public void onQrGenerate(Bitmap foBitmap) {
+
+            }
+        });
+    }
+
     private void confirmAddGcard(GcardCredentials foGcard) {
         try {
             mViewModel.confirmAddGCard(foGcard, new VMGCardSystem.GcardTransactionCallback() {
@@ -240,7 +315,7 @@ public class Activity_AddGcard extends AppCompatActivity {
 
     private void scanGcard() {
         Intent loIntent = new Intent(Activity_AddGcard.this, Activity_QrCodeScanner.class);
-        startActivityForResult(loIntent, SCAN_GCARD);
+        poArl.launch(loIntent);
     }
 
     private void datePicker() {

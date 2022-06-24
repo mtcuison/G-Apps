@@ -235,6 +235,7 @@ public class RClientInfo {
             poDao.LogoutServiceInfo();
             poDao.LogoutMCSerial();
             new AccountInfo(mContext).setLoginStatus(false);
+
             return true;
         } catch (Exception e){
             e.printStackTrace();

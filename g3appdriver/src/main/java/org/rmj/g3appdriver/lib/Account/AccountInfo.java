@@ -227,4 +227,49 @@ public class AccountInfo {
         return  pref.getBoolean(SESSION_ACTIVE,false);
     }
 
+    public void LogoutUser(){
+        editor.putString(USERID, "");
+        editor.commit();
+        editor.putString(CLIENTID, "");
+        editor.commit();
+        editor.putString(FULLNAME, "");
+        editor.commit();
+        editor.putString(LASTNAME, "");
+        editor.commit();
+        editor.putString(FIRSTNAME, "");
+        editor.commit();
+        editor.putString(MIDDLENAME, "");
+        editor.commit();
+        editor.putString(SUFFIX, "");
+        editor.commit();
+        editor.putString(GENDER, "");
+        editor.commit();
+        editor.putString(CIVILSTATUS, "");
+        editor.commit();
+        editor.putString(CITIZENSHIP, "");
+        editor.commit();
+        editor.putString(BIRTHDATE, "");
+        editor.commit();
+        editor.putString(BIRTHPLACE, "");
+        editor.commit();
+        editor.putString(EMAILADD, "");
+        editor.commit();
+        editor.putString(MOBILENO, "");
+        editor.commit();
+        editor.putString(TAXID, "");
+        editor.commit();
+        editor.putString(HOUSENO, "");
+        editor.commit();
+        editor.putString(ADDRESS, "");
+        editor.commit();
+        editor.putString(BARANGAY, "");
+        editor.commit();
+        editor.putString(TOWN, "");
+        editor.commit();
+        editor.putString(PROVINCE, "");
+        editor.commit();
+        editor.putBoolean(SESSION_ACTIVE, false);
+        editor.commit();
+    }
+
 }

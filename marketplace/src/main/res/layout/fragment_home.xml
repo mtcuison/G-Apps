@@ -56,6 +56,23 @@
                 android:layout_height="wrap_content"
                 android:overScrollMode="never"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:layout_marginLeft="8dp"
+                android:text="@string/lblCategories"
+                android:fontFamily="@font/roboto_light"
+                android:textSize="18sp"
+                android:textColor="@color/font_regular"/>
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/rv_categories"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:overScrollMode="never"-->
+<!--                android:visibility="gone"/>-->
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

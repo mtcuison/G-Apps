@@ -14,7 +14,6 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EOrderDetail;
 import org.rmj.g3appdriver.dev.Database.Entities.EOrderMaster;
-import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
@@ -24,7 +23,6 @@ import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ROrder {
@@ -67,6 +65,7 @@ public class ROrder {
             if(fnQuantity <= 0){
                 message = "Unable to proceed with '0' quantity.";
                 return false;
+
             } else if(loAccount.getEmailAdd().isEmpty()){
                 message = "Please login your account to continue.";
                 return false;
@@ -98,6 +97,56 @@ public class ROrder {
                     } else {
                         data = loResponse;
                         return AddUpdateCartLocal(fsLstngID, fnQuantity);
+                    }
+                }
+            } else {
+                return false;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean UpdateCartQuantity(String fsLstngID, int fnQuantity){
+        try {
+            AccountInfo loAccount = new AccountInfo(mContext);
+            if(fnQuantity <= 0){
+                message = "Unable to proceed with '0' quantity.";
+                return false;
+
+            } else if(loAccount.getEmailAdd().isEmpty()){
+                message = "Please login your account to continue.";
+                return false;
+            } else if(loAccount.getClientID().isEmpty()){
+                message = "Please complete your account setup to continue.";
+                return true;
+            } else if(ValidateItemQuantity(fsLstngID, fnQuantity)) {
+                Thread.sleep(1000);
+
+                ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+                JSONObject params = new JSONObject();
+                params.put("sListngID", fsLstngID);
+                params.put("nQuantity", fnQuantity);
+
+                String lsResponse = WebClient.httpsPostJSon(
+                        loApis.getAddToCartAPI(),
+                        params.toString(),
+                        new HttpHeaders(mContext).getHeaders());
+                if (lsResponse == null) {
+                    message = "Unable to retrieve server response.";
+                    return false;
+                } else {
+                    JSONObject loResponse = new JSONObject(lsResponse);
+                    String lsResult = loResponse.getString("result");
+                    if (!lsResult.equalsIgnoreCase("success")) {
+                        JSONObject loError = loResponse.getJSONObject("error");
+                        message = loError.getString("message");
+                        return false;
+                    } else {
+                        data = loResponse;
+                        return UpdateCartQuantityLocal(fsLstngID, fnQuantity);
                     }
                 }
             } else {
@@ -214,8 +263,12 @@ public class ROrder {
                 if(!lsResult.equalsIgnoreCase("success")){
                     JSONObject loError = loResponse.getJSONObject("error");
                     message = loError.getString("message");
+                    Log.e(TAG, loError.getString("sql"));
                     return false;
                 } else {
+                    for(int x = 0; x < foItemLst.size(); x++){
+                        poCartDao.DeleteCartItem(foItemLst.get(x).sListIDxx);
+                    }
                     TransNox = loResponse.getString("sTransNox");
                     return true;
                 }
@@ -269,6 +322,31 @@ public class ROrder {
     }
 
     private boolean AddUpdateCartLocal(String fsLstngID, int fnQuantity){
+        try{
+            EItemCart loItem = new EItemCart();
+            loItem.setUserIDxx(new AccountInfo(mContext).getUserID());
+            loItem.setListIDxx(fsLstngID);
+            loItem.setQuantity(String.valueOf(fnQuantity));
+            loItem.setTranStat("0");
+            loItem.setAvlQtyxx("");
+            loItem.setCreatedx(new AppConstants().DATE_MODIFIED);
+            loItem.setTimeStmp(new AppConstants().DATE_MODIFIED);
+            if(poCartDao.CheckIFItemExist(fsLstngID) == null){
+                poCartDao.SaveItemInfo(loItem);
+            } else {
+                int lnQty = Integer.parseInt(poCartDao.CheckIFItemExist(fsLstngID).getQuantity());
+                lnQty = lnQty + fnQuantity;
+                poCartDao.UpdateItem(fsLstngID, lnQty);
+            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    private boolean UpdateCartQuantityLocal(String fsLstngID, int fnQuantity){
         try{
             EItemCart loItem = new EItemCart();
             loItem.setUserIDxx(new AccountInfo(mContext).getUserID());
@@ -338,6 +416,10 @@ public class ROrder {
 
     public LiveData<Integer> GetCartItemCount(){
         return poCartDao.GetCartItemCount();
+    }
+
+    public LiveData<Integer> GetMartketplaceCartItemCount(){
+        return poCartDao.GetMartketplaceCartItemCount();
     }
 
     public boolean BuyNow(String fsLstngID, int fnQuantity){
@@ -427,14 +509,16 @@ public class ROrder {
                 message = "Server no response.";
                 return false;
             } else {
+                Log.e(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){
-                    Log.e(TAG, lsResponse);
                     JSONObject loError = loResponse.getJSONObject("error");
                     message = loError.getString("message");
                     return false;
                 } else {
+                    Thread.sleep(1000);
+                    ImportPurchases();
                     return true;
                 }
             }
@@ -503,6 +587,7 @@ public class ROrder {
                         oDetail.setCancelld(joDetail.getString("nCancelld"));
                         oDetail.setReferNox(joDetail.getString("sReferNox"));
                         oDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
+                        oDetail.setReviewed(joDetail.getString("cReviewed"));
                         oDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
 
                         loDetail.SaveDetailOrder(oDetail);
@@ -572,5 +657,9 @@ public class ROrder {
 
     public LiveData<DOrderMaster.DetailedOrderHistory> GetDetailOrderHistory(String fsVal){
         return poMaster.GetDetailOrderHistory(fsVal);
+    }
+
+    public void UpdateReviewedItem(String OrderID, String ListID){
+        poDetail.UpdateReviewedItem(OrderID, ListID);
     }
 }

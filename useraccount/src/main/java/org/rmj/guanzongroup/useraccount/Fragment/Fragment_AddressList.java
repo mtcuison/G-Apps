@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.useraccount.Fragment;
 
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,17 +29,12 @@ public class Fragment_AddressList extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMShippingAddress.class);
         mBinding = FragmentAddressListBinding.inflate(inflater, container, false);
         View view = mBinding.getRoot();
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMShippingAddress.class);
         mBinding.btnAddShp.setOnClickListener(v -> Activity_ShippingAddress.getInstance().setFragment(1));
         setAddressAdapter();
+        return view;
     }
 
     @Override
@@ -64,5 +58,4 @@ public class Fragment_AddressList extends Fragment {
             }
         });
     }
-
 }

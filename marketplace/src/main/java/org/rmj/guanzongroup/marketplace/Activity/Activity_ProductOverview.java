@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.marketplace.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -200,8 +202,6 @@ public class Activity_ProductOverview extends AppCompatActivity {
         btnAskQst = findViewById(R.id.btnAskQuestion);
         btnAddCrt = findViewById(R.id.btnText_addToCart);
         btnBuyNow = findViewById(R.id.btnText_buyNow);
-
-        loBadge = BadgeDrawable.create(Activity_ProductOverview.this);
     }
 
     private void setUpToolbar() {
@@ -214,8 +214,14 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private void displayData() {
         mViewModel.GetCartItemCount().observe(Activity_ProductOverview.this, count -> {
             try {
-                loBadge.setNumber(count);
-                BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+                toolbar = findViewById(R.id.toolbar);
+                if(count > 0) {
+                    loBadge = BadgeDrawable.create(Activity_ProductOverview.this);
+                    loBadge.setNumber(count);
+                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+                } else {
+                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+                }
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -296,7 +302,18 @@ public class Activity_ProductOverview extends AppCompatActivity {
                         }
                     });
 
-                Adapter_ImageSlider adapter = new Adapter_ImageSlider(Activity_ProductOverview.this, getSliderImages(product.getImagesxx()));
+                showSuggestItems(product.getBrandNme());
+
+                Adapter_ImageSlider adapter = new Adapter_ImageSlider(getSliderImages(product.getImagesxx()), args -> {
+                    try {
+                        List<HomeImageSliderModel> loList = getSliderImages(product.getImagesxx());
+
+//                        Picasso.get().load(loList.get(args).getImageUrl()).placeholder(R.drawable.ic_no_image_available)
+//                                .error(R.drawable.ic_no_image_available).into(imgPrview);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
 
                 poSliderx.setSliderAdapter(adapter);
 
@@ -325,8 +342,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
         }
     }
 
-    private void showSuggestItems() {
-        mViewModel.getProductList(0).observe(Activity_ProductOverview.this, products -> {
+    private void showSuggestItems(String fsBrandNm) {
+        mViewModel.getProductList(0, fsBrandNm).observe(Activity_ProductOverview.this, products -> {
             try {
                 if(products.size() > 0) {
                     rvSuggest.setVisibility(View.VISIBLE);

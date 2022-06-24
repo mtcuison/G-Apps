@@ -86,7 +86,6 @@ public class Adapter_EventsPromos extends RecyclerView.Adapter<RecyclerView.View
     }
     @Override
     public int getItemCount() {
-//        return poBranchs.size();
         if(args.equalsIgnoreCase("1")){
             return poPromos.size();
         }else{

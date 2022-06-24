@@ -36,6 +36,8 @@ public class EOrderDetail {
     private String ReferNox;
     @ColumnInfo(name = "sNotesxxx")
     private String Notesxxx;
+    @ColumnInfo(name = "cReviewed")
+    private String Reviewed;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
 
@@ -137,6 +139,14 @@ public class EOrderDetail {
 
     public void setNotesxxx(String notesxxx) {
         Notesxxx = notesxxx;
+    }
+
+    public String getReviewed() {
+        return Reviewed;
+    }
+
+    public void setReviewed(String reviewed) {
+        Reviewed = reviewed;
     }
 
     public String getTimeStmp() {

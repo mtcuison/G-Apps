@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -28,14 +29,8 @@ public class Fragment_PaymentSelection extends Fragment {
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentPaymentSelectBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPayOrder.class);
+        binding = FragmentPaymentSelectBinding.inflate(inflater, container, false);
         poDialogx = new Dialog_SingleButton(requireActivity());
         selectPayment();
         binding.btnSelect.setOnClickListener(v -> {
@@ -44,6 +39,40 @@ public class Fragment_PaymentSelection extends Fragment {
                 Activity_PayOrder.getInstance().moveToPageNumber(1);
             }
         });
+        binding.crdGcashx.setOnClickListener(v -> {
+            binding.rdGcashxx.setChecked(true);
+        });
+        binding.crdPayMya.setOnClickListener(v -> {
+            binding.rdPayMaya.setChecked(true);
+        });
+        binding.crdCashOD.setOnClickListener(v -> {
+            binding.rdCashOnD.setChecked(true);
+        });
+        binding.rdGcashxx.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                binding.rdGcashxx.setChecked(true);
+                binding.rdPayMaya.setChecked(false);
+                binding.rdCashOnD.setChecked(false);
+                poPayMeth = PaymentMethod.GCash;
+            }
+        });
+        binding.rdPayMaya.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                binding.rdGcashxx.setChecked(false);
+                binding.rdPayMaya.setChecked(true);
+                binding.rdCashOnD.setChecked(false);
+                poPayMeth = PaymentMethod.PayMaya;
+            }
+        });
+        binding.rdCashOnD.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                binding.rdGcashxx.setChecked(false);
+                binding.rdPayMaya.setChecked(false);
+                binding.rdCashOnD.setChecked(true);
+                poPayMeth = PaymentMethod.CashOnDelivery;
+            }
+        });
+        return binding.getRoot();
     }
 
     @Override
@@ -53,24 +82,7 @@ public class Fragment_PaymentSelection extends Fragment {
     }
 
     private void selectPayment() {
-        binding.crdGcashx.setOnClickListener(v -> {
-            binding.rdGcashxx.setChecked(true);
-            binding.rdPayMaya.setChecked(false);
-            binding.rdCashOnD.setChecked(false);
-            poPayMeth = PaymentMethod.GCash;
-        });
-        binding.crdPayMya.setOnClickListener(v -> {
-            binding.rdGcashxx.setChecked(false);
-            binding.rdPayMaya.setChecked(true);
-            binding.rdCashOnD.setChecked(false);
-            poPayMeth = PaymentMethod.PayMaya;
-        });
-        binding.crdCashOD.setOnClickListener(v -> {
-            binding.rdGcashxx.setChecked(false);
-            binding.rdPayMaya.setChecked(false);
-            binding.rdCashOnD.setChecked(true);
-            poPayMeth = PaymentMethod.CashOnDelivery;
-        });
+
     }
 
     private boolean isMethodSelected() {

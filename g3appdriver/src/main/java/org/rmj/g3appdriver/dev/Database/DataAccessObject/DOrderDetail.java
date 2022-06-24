@@ -28,6 +28,9 @@ public interface DOrderDetail {
     @Query("SELECT * FROM MarketPlace_Order_Detail WHERE sTransNox =:fsTransNo")
     LiveData<List<EOrderDetail>> GetDetailInfo(String fsTransNo);
 
+    @Query("UPDATE MarketPlace_Order_Detail SET cReviewed = '1' WHERE sTransNox =:OrderID AND sReferNox =:ListID")
+    void UpdateReviewedItem(String OrderID, String ListID);
+
     @Query("SELECT a.nEntryNox, " +
             "a.nQuantity, " +
             "a.nUnitPrce, " +
@@ -54,7 +57,10 @@ public interface DOrderDetail {
     @Query("SELECT a.sListngID AS sListIDxx, " +
             "a.xModelNme, " +
             "a.nUnitPrce, " +
-            "b.nQuantity FROM Product_Inventory a LEFT JOIN MarketPlace_Order_Detail b " +
+            "b.nQuantity, " +
+            "b.cReviewed " +
+            "FROM Product_Inventory a " +
+            "LEFT JOIN MarketPlace_Order_Detail b " +
             "ON a.sListngID = b.sReferNox WHERE b.sTransNox =:fsVal")
     LiveData<List<OrderedItemsInfo>> GetOrderedItems(String fsVal);
 
@@ -77,5 +83,6 @@ public interface DOrderDetail {
         public String xModelNme;
         public String nUnitPrce;
         public String nQuantity;
+        public String cReviewed;
     }
 }

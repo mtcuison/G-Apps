@@ -38,8 +38,8 @@ public class Fragment_Orders extends Fragment {
             "To Pay",
             "Processing",
             "To Ship",
-            "Delivered",
             "Canceled",
+            "Delivered"
     };
 
 

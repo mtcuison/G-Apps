@@ -28,6 +28,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPromo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRawDao;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemablesInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DSearchLog;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DServiceInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DUserInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EAddressInfo;
@@ -52,6 +53,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ESearchLog;
 import org.rmj.g3appdriver.dev.Database.Entities.EServiceInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ETokenInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ETownInfo;
@@ -83,7 +85,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUserInfo;
         EProducts.class,
         EItemCart.class,
         EOrderDetail.class,
-        EOrderMaster.class}, version = 2, exportSchema = false)
+        EOrderMaster.class,
+        ESearchLog.class}, version = 2, exportSchema = false)
 public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     private static final String TAG = "GuanzonApp_DB_Manager";
     private static GGC_GuanzonAppDB instance;
@@ -110,6 +113,7 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     public abstract DItemCart itemCartDao();
     public abstract DOrderMaster orderMasterDao();
     public abstract DOrderDetail orderDetailDao();
+    public abstract DSearchLog searchDao();
 
     public static synchronized GGC_GuanzonAppDB getInstance(Context context){
         if(instance == null){

@@ -57,6 +57,32 @@
                     android:text="Qty: 1"/>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end">
+
+                <TextView
+                    android:id="@+id/lbl_reviewed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reviewed"
+                    android:textSize="16sp"
+                    android:padding="10dp"
+                    android:visibility="gone"
+                    android:textColor="@color/guanzon_digital_orange"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_review"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/ButtonStyle.Orange.Medium"
+                    android:visibility="gone"
+                    android:text="Review"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

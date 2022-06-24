@@ -10,18 +10,17 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEvents;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPromo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
-import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
-import org.rmj.g3appdriver.dev.Repositories.RBranchInfo;
-import org.rmj.g3appdriver.dev.Repositories.REvents;
-import org.rmj.g3appdriver.dev.Repositories.RPromo;
+import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
@@ -30,7 +29,6 @@ import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
 
-import java.util.Date;
 import java.util.List;
 
 public class SystemExtras implements iGCardSystem{
@@ -38,18 +36,18 @@ public class SystemExtras implements iGCardSystem{
 
     private final Context mContext;
 
-    private final RBranchInfo poBranch;
-    private final RPromo poPromo;
-    private final REvents poEvents;
+    private final DBranchInfo poBranch;
+    private final DPromo poPromo;
+    private final DEvents poEvents;
     private final HttpHeaders poHeaders;
     private final GuanzonAppConfig poConfig;
     private final ServerAPIs poAPI;
 
     public SystemExtras(Context context) {
         this.mContext = context;
-        this.poBranch = new RBranchInfo(mContext);
-        this.poPromo = new RPromo(mContext);
-        this.poEvents = new REvents(mContext);
+        this.poBranch = GGC_GuanzonAppDB.getInstance(mContext).EBranchDao();
+        this.poPromo = GGC_GuanzonAppDB.getInstance(mContext).EPromoDao();
+        this.poEvents = GGC_GuanzonAppDB.getInstance(mContext).EventDao();
         this.poHeaders = new HttpHeaders(mContext);
         this.poConfig = new GuanzonAppConfig(mContext);
         this.poAPI = new ServerAPIs(poConfig.getTestCase());
@@ -63,6 +61,81 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public LiveData<List<EGcardApp>> GetGCardList() {
         return null;
+    }
+
+    @Override
+    public void updateGCardActiveStatus(String GCardNmbr) {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public List<EGcardApp> hasGcard() {
+        return null;
+    }
+
+    @Override
+    public LiveData<EGcardApp> hasNoGcard() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EGcardApp>> hasUnCheckGCard() {
+        return null;
+    }
+
+    @Override
+    public List<EGcardApp> hasActiveGcard() {
+        return null;
+    }
+
+    @Override
+    public List<EGcardApp> hasMultipleGCard() {
+        return null;
+    }
+
+    @Override
+    public LiveData<EGcardApp> getGCardInfo() {
+        return null;
+    }
+
+    @Override
+    public List<EGcardApp> getAllGCard() {
+        return null;
+    }
+
+    @Override
+    public void updateAvailablePoints(String fsGcardNo, String fsNewPts) {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public LiveData<String> getActiveGcardNo() {
+        return null;
+    }
+
+    @Override
+    public LiveData<String> getActiveGcardAvlPoints() {
+        return null;
+    }
+
+    @Override
+    public double getRemainingActiveCardPoints() {
+        return 0;
+    }
+
+    @Override
+    public double getAvailableGcardPoints() {
+        return 0;
+    }
+
+    @Override
+    public double getRedeemItemPoints() {
+        return 0;
+    }
+
+    @Override
+    public void updateGCardDeactiveStatus() {
+        throw new NullPointerException();
     }
 
     @Override
@@ -136,6 +209,21 @@ public class SystemExtras implements iGCardSystem{
     }
 
     @Override
+    public LiveData<Integer> GetGcardCartItemCount() {
+        return null;
+    }
+
+    @Override
+    public LiveData<Double> GetGCardCartItemTotalPoints() {
+        return null;
+    }
+
+    @Override
+    public void DeleteItemCart(String fsVal) {
+        throw new NullPointerException();
+    }
+
+    @Override
     public void PlaceOrder(List<DRedeemItemInfo.GCardCartItem> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }
@@ -195,7 +283,6 @@ public class SystemExtras implements iGCardSystem{
         throw new NullPointerException();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void DownloadBranchesList(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
@@ -280,7 +367,6 @@ public class SystemExtras implements iGCardSystem{
         return poBranch.getMotorBranches();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void DownloadPromotions(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
@@ -335,6 +421,11 @@ public class SystemExtras implements iGCardSystem{
         return poPromo.getAllPromo();
     }
 
+    @Override
+    public EPromo CheckPromo() {
+        return poPromo.CheckPromo();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void DownloadNewsEvents(GCardSystem.GCardSystemCallback callback) throws Exception {
@@ -381,5 +472,10 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public LiveData<List<EEvents>> GetNewsEvents() {
         return null;
+    }
+
+    @Override
+    public EEvents CheckEvents() {
+        return poEvents.CheckEvent();
     }
 }

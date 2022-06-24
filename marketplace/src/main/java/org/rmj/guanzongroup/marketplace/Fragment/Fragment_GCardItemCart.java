@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
@@ -59,12 +61,13 @@ public class Fragment_GCardItemCart extends Fragment {
         View v = inflater.inflate(R.layout.fragment_gcard_item_cart, container, false);
         mViewModel = new ViewModelProvider(this).get(VMGCardSystem.class);
         initWidgets(v);
-        mViewModel.GetCartItems().observe(requireActivity(), itemCart ->{
+        mViewModel.GetCartItems().observe(getViewLifecycleOwner(), itemCart ->{
             try {
                 if (itemCart.size() > 0){
                     List<ItemCartModel> items = ParseDataForAdapter(itemCart);
                     gcardItem = new ArrayList<>();
                     gcardItem = itemCart;
+                    recyclerView.setVisibility(View.VISIBLE);
                     noItem.setVisibility(View.GONE);
                     lnGCardFooter.setVisibility(View.VISIBLE);
                     adapter = new Adapter_ItemCart(items, new Adapter_ItemCart.OnCartAction() {
@@ -77,18 +80,24 @@ public class Fragment_GCardItemCart extends Fragment {
                         public void onItemDeselect(String fsListIdx) {
 
                         }
+
+                        @Override
+                        public void onItemDelete(String fsListIDx) {
+                            mViewModel.DeleteCartItem(fsListIDx);
+                        }
+
+                        @Override
+                        public void onQuantityClick(String fsListIdx, int fnItemQty) {
+                            CartItem loCart = new CartItem(fsListIdx, fsListIdx, fnItemQty, 0);
+                            mViewModel.UpdateCartItem(loCart);
+                        }
                     });
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
                     adapter.notifyDataSetChanged();
-                    double subtotal = 0;
-                    for (int x = 0; x < itemCart.size(); x++){
-                        subtotal += Double.parseDouble(itemCart.get(x).nPointsxx.replaceAll(",","")) * Double.parseDouble(itemCart.get(x).nItemQtyx);
-                    }
-                    lblGrandTotal.setText(currencyFormat(subtotal)  + " point/s");
                 }else {
+                    recyclerView.setVisibility(View.GONE);
                     noItem.setVisibility(View.VISIBLE);
                     lnGCardFooter.setVisibility(View.GONE);
                 }
@@ -99,52 +108,51 @@ public class Fragment_GCardItemCart extends Fragment {
             }
         });
 
+        mViewModel.GetGCardCartItemTotalPoints().observe(getViewLifecycleOwner(), aDouble -> {
+            try{
+                lblGrandTotal.setText(currencyFormat(aDouble)  + " point/s");
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
         btnShopNow.setOnClickListener(view ->{
             Intent intent = new Intent(requireActivity(), Activity_ItemCart.class);
             intent.putExtra("args","2");
             startActivity(intent);
         });
         btnCheckOut.setOnClickListener(view->{
-            mViewModel.GetMCBranchesForRedemption(new VMGCardSystem.GetBranchCallback() {
-                @Override
-                public void onSuccess(List<EBranchInfo> branchInfos) {
-                    Log.e(TAG, String.valueOf(branchInfos.size()));
-                    Dialog_BranchSelection branchSelection = new Dialog_BranchSelection(requireActivity());
-                    branchSelection.createDialog(branchInfos, new Dialog_BranchSelection.onConfirmBranch() {
-                        @Override
-                        public void onConfirm(EBranchInfo branchInfo, AlertDialog dialog) {
+            mViewModel.GetMCBranchesForRedemption(branchInfos -> {
+                Log.e(TAG, String.valueOf(branchInfos.size()));
+                Dialog_BranchSelection branchSelection = new Dialog_BranchSelection(requireActivity());
+                branchSelection.createDialog(branchInfos, (branchInfo, dialog) -> mViewModel.PlaceOrder(gcardItem,branchInfo.getBranchCd(), new VMGCardSystem.GcardTransactionCallback() {
+                    @Override
+                    public void onLoad() {
+                        poLoading.initDialog("Place Order", "Sending order, please wait...");
+                        poLoading.show();
+                    }
 
-                            mViewModel.PlaceOrder(gcardItem,branchInfo.getBranchCd(), new VMGCardSystem.GcardTransactionCallback() {
-                                @Override
-                                public void onLoad() {
-                                    poLoading.initDialog("Place Order", "Sending order, please wait...");
-                                    poLoading.show();
-                                }
+                    @Override
+                    public void onSuccess(String fsMessage) {
+                        poLoading.dismiss();
+                        showMessage("Place Order",fsMessage);
+                        dialog.dismiss();
+                    }
 
-                                @Override
-                                public void onSuccess(String fsMessage) {
-                                    poLoading.dismiss();
-                                    showMessage("Place Order",fsMessage);
-                                    dialog.dismiss();
-                                }
+                    @Override
+                    public void onFailed(String fsMessage) {
+                        poLoading.dismiss();
+                        showMessage("Place Order",fsMessage);
 
-                                @Override
-                                public void onFailed(String fsMessage) {
-                                    poLoading.dismiss();
-                                    showMessage("Place Order",fsMessage);
+                    }
 
-                                }
+                    @Override
+                    public void onQrGenerate(Bitmap foBitmap) {
 
-                                @Override
-                                public void onQrGenerate(Bitmap foBitmap) {
-
-                                }
-                            });
-                        }
-                    });
-                    branchSelection.cancelable(false);
-                    branchSelection.showDialog();
-                }
+                    }
+                }));
+                branchSelection.cancelable(false);
+                branchSelection.showDialog();
             });
         });
         return v;
@@ -154,6 +162,7 @@ public class Fragment_GCardItemCart extends Fragment {
         for(int x = 0; x < foVal.size(); x++){
             ItemCartModel loDetail = new ItemCartModel();
             loDetail.setMarket(false);
+            loDetail.setListingId(foVal.get(x).sTransNox);
             loDetail.setItemName(foVal.get(x).sPromoDsc);
             loDetail.setItemPrice(foVal.get(x).nPointsxx);
             loDetail.setItemQty(foVal.get(x).nItemQtyx);
@@ -174,12 +183,7 @@ public class Fragment_GCardItemCart extends Fragment {
     }
     void showMessage(String title, String msg){
         poMessage.setButtonText("Okay");
-        poMessage.initDialog(title, msg, new Dialog_SingleButton.OnButtonClick() {
-            @Override
-            public void onClick(AlertDialog dialog) {
-                dialog.dismiss();
-            }
-        });
+        poMessage.initDialog(title, msg, dialog -> dialog.dismiss());
         poMessage.show();
     }
     public static String currencyFormat(double amount) {

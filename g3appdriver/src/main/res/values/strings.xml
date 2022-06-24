@@ -22,6 +22,8 @@
     <string name="menu_gcard_transactions">Gcard Transactions</string>
     <string name="menu_pre_termination">Pre Termination</string>
     <string name="menu_account_settings">Account Settings</string>
+    <string name="menu_account_loan">Apply Loan</string>
+    <string name="menu_account_careers">Careers</string>
     <string name="menu_find_us">Find Us</string>
     <string name="menu_customer_service">Customer Service</string>
     <string name="menu_about">About</string>
