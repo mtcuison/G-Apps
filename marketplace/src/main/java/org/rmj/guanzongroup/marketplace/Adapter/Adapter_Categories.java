@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import org.rmj.guanzongroup.marketplace.R;
 
 import java.util.List;
@@ -21,12 +23,10 @@ import java.util.List;
 
 public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.ViewHolderItem> {
 
-    private final Context poContext;
-    private final List<Integer> list;
+    private final List<String> list;
     private final OnItemClick poCallBck;
 
-    public Adapter_Categories(Context foContext, List<Integer> list, OnItemClick foCallBck){
-        this.poContext = foContext;
+    public Adapter_Categories(List<String> list, OnItemClick foCallBck){
         this.list = list;
         this.poCallBck = foCallBck;
     }
@@ -41,9 +41,9 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
         try {
-            int item = list.get(position);
-//            Bitmap loImageBg = BitmapFactory.decodeStream(is); // Put Image URL here.
-//            BitmapDrawable background = new BitmapDrawable(poContext.getResources(), loImageBg);
+            String item = list.get(position);
+            Picasso.get().load(item)
+                    .error(org.rmj.guanzongroup.digitalgcard.R.drawable.ic_no_image_available).into(holder.imgCategx);
         } catch (Exception e) {
             e.printStackTrace();
         }

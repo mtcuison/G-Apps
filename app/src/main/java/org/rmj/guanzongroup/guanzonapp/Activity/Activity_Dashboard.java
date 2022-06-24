@@ -34,6 +34,7 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_UserInfo;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.Service.DashboardActionReceiver;
@@ -374,7 +375,17 @@ public class Activity_Dashboard extends AppCompatActivity {
                                 String lsGcardPt = "Points: " + gcard.getAvlPoint();
                                 txtGcardN.setText(gcard.getCardNmbr());
                                 txtGcardP.setText(lsGcardPt);
-                                headerLayout.setOnClickListener(v -> {});
+                                headerLayout.setOnClickListener(v -> {
+                                    mViewModel.ViewGCardQrCode(bitmap -> {
+                                        try{
+                                            final Dialog_UserInfo loDialog = new Dialog_UserInfo(this);
+                                            loDialog.initDialog(gcard, bitmap);
+                                            loDialog.show();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    });
+                                });
                             } else {
                                 lnGcardxx.setVisibility(View.GONE);
                             }

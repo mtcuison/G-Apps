@@ -69,6 +69,7 @@
     <string name="lblTapQRToRefresh">Tap QR Code to Refresh</string>
     <string name="lblAskQuestion">Ask a Question</string>
     <string name="lblSeeMoreReviews">See More Reviews</string>
+    <string name="lblProductsYouMayLike">Products You May Like</string>
     <string name="lblUsername">Username</string>
     <string name="lblFullName">Full Name</string>
     <string name="lblLastname">Last Name</string>

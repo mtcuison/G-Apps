@@ -10,11 +10,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+import org.rmj.g3appdriver.dev.Repositories.RProduct;
+import org.rmj.g3appdriver.etc.FilterType;
 import org.rmj.guanzongroup.marketplace.Etc.AddUpdateCartTask;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
@@ -30,6 +33,7 @@ public class VMMPItemCart extends AndroidViewModel {
     private final RClientInfo poClientx;
     private final iGCardSystem poGCard;
     private final ROrder poOrder;
+    private final RProduct poProdct;
 
     public VMMPItemCart(@NonNull Application application) {
         super(application);
@@ -37,9 +41,14 @@ public class VMMPItemCart extends AndroidViewModel {
         this.poClientx = new RClientInfo(application);
         this.poGCard = new GCardSystem(application).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
         this.poOrder = new ROrder(application);
+        this.poProdct = new RProduct(application);
 //        generateData();
     }
 
+
+    public LiveData<List<DProduct.oProduct>> getProductList(int fnIndex) {
+        return poProdct.GetProductsList(fnIndex, FilterType.DEFAULT, null, null);
+    }
 
 
     public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCartItemsList(){
