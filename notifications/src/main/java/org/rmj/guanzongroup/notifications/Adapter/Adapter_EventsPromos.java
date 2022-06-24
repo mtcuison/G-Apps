@@ -69,11 +69,11 @@ public class Adapter_EventsPromos extends RecyclerView.Adapter<RecyclerView.View
 
         ((Adapter_EventsPromos.ViewHolderItem) holder).lblCaption.setText(foPromo.getCaptionx());
         ((Adapter_EventsPromos.ViewHolderItem) holder).lblDuration.setText("Promo runs until " + getDate(foPromo.getDateThru()));
-        ((Adapter_EventsPromos.ViewHolderItem) holder).setImage(foPromo.getPromoUrl());
+        ((Adapter_EventsPromos.ViewHolderItem) holder).setImage(foPromo.getImageUrl());
 
 //        Log.e("Promo Image Url : ", foPromo.getImageUrl());
 //        Log.e("Promo Url : ", foPromo.getPromoUrl());
-        ((Adapter_EventsPromos.ViewHolderItem) holder).url_link = foPromo.getImageUrl();
+        ((Adapter_EventsPromos.ViewHolderItem) holder).url_link = foPromo.getPromoUrl();
 //        ((Adapter_EventsPromos.ViewHolderItem) holder).lblCaption.setText(foPromo.getCaptionx());
 //
 //        ((Adapter_EventsPromos.ViewHolderItem) holder).setImage(foPromo.getPromoUrl());

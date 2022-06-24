@@ -74,27 +74,7 @@ public class Fragment_Home extends Fragment {
     private void displayData() {
         setSliderImages();
         setCategoryAdapter();
-        showPromoDialog();
-        setCategory();
         setProductAdapter();
-    }
-
-    private void showPromoDialog() {
-        boolean isThereAnActivePromo = true;
-        if(isThereAnActivePromo) {
-            String sampleUrl = "http://unbox.ph/wp-content/uploads/2021/09/9.9-Lazada-Promo.jpg";
-            Dialog_Promo loDialog = new Dialog_Promo(requireActivity());
-            loDialog.initDialog(sampleUrl, (dialog) -> {
-                // TODO: Intent to specific activity to show product/promo.
-                Toast.makeText(requireActivity(), "Promo Image Clicked.", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            });
-            loDialog.show();
-        }
-    }
-
-    private void setCategory() {
-
     }
 
     private void setCategoryAdapter() {
@@ -142,12 +122,15 @@ public class Fragment_Home extends Fragment {
         mViewModel.GetPromoLinkList().observe(getViewLifecycleOwner(), ePromos -> {
             try {
                 for (int x = 0; x < ePromos.size(); x++) {
-                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getPromoUrl()));
+                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getImageUrl()));
                 }
 
                 Adapter_ImageSlider adapter = new Adapter_ImageSlider(loSliders, args -> {
                     try{
-
+                        Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                        intent.putExtra("url_link", ePromos.get(args).getPromoUrl());
+                        intent.putExtra("args", "1");
+                        requireActivity().sendBroadcast(intent);
                     } catch (Exception e){
                         e.printStackTrace();
                     }

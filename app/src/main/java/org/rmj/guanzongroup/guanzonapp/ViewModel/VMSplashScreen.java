@@ -156,12 +156,12 @@ public class VMSplashScreen extends AndroidViewModel {
                 loGcard.DownloadBranchesList(poCallback);
                 Log.d(TAG, "Branches imported successfully...");
                 pause();
-//                loGcard.DownloadPromotions(poCallback);
-//                Log.d(TAG, "Promotions imported successfully...");
-//                pause();
-//                loGcard.DownloadNewsEvents(poCallback);
-//                Log.d(TAG, "News events imported successfully...");
-//                pause();
+                loGcard.DownloadPromotions(poCallback);
+                Log.d(TAG, "Promotions imported successfully...");
+                pause();
+                loGcard.DownloadNewsEvents(poCallback);
+                Log.d(TAG, "News events imported successfully...");
+                pause();
 
                 if (new AccountInfo(mContext).getLoginStatus()) {
                     RNotificationInfo loNotif = new RNotificationInfo(mContext);

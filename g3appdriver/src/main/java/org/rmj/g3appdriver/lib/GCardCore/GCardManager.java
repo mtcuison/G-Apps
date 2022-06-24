@@ -306,7 +306,9 @@ public class GCardManager implements iGCardSystem{
         if(poConfig.getTestCase()){
             lsMobileNo = "09171870011";
         }
-        if(!poCode.isCodeValid()){
+        if(poGCard.getCardNox() == null){
+            callback.OnFailed("No Gcard number detected");
+        } else if(!poCode.isCodeValid()){
             callback.OnFailed("Invalid Qr Code");
         } else if (poCode.isQrCodeTransaction()){
             if(lsUserIDxx.isEmpty()){

@@ -403,6 +403,7 @@ public class SystemExtras implements iGCardSystem{
 //                }
                 EPromo info = new EPromo();
                 info.setTransNox(loJson.getString("sTransNox"));
+                info.setDivision(loJson.getInt("cDivision"));
                 info.setTransact(loJson.getString("dTransact"));
                 info.setImageUrl(loJson.getString("sImageURL"));
                 info.setPromoUrl(loJson.getString("sPromoURL"));
@@ -471,7 +472,7 @@ public class SystemExtras implements iGCardSystem{
 
     @Override
     public LiveData<List<EEvents>> GetNewsEvents() {
-        return null;
+        return poEvents.getAllEvents();
     }
 
     @Override

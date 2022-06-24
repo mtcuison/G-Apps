@@ -17,7 +17,6 @@ public class Dialog_Promo {
 
     private AlertDialog poDialogx;
     private final Context poContext;
-    private static boolean isShown;
 
     public Dialog_Promo(Context foContext) {
         this.poContext = foContext;
@@ -31,27 +30,22 @@ public class Dialog_Promo {
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
 
-        TextView lnkClosex = view.findViewById(R.id.lnkClosex);
         ImageView imgPromox = view.findViewById(R.id.imgPromox);
 
-        lnkClosex.setOnClickListener(v -> poDialogx.dismiss());
+        view.findViewById(R.id.btn_close).setOnClickListener(v -> poDialogx.dismiss());
         imgPromox.setOnClickListener(v -> mCallBack.onClick(poDialogx));
         Picasso.get().load(fsImgUrlx).into(imgPromox);
     }
 
     public void show() {
-        if(!isShown) {
-            poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
-            poDialogx.show();
-            isShown = true;
-        }
+        poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
+        poDialogx.show();
     }
 
     public void dismiss(){
         if(poDialogx != null && poDialogx.isShowing()){
             poDialogx.dismiss();
-            isShown = false;
         }
     }
 
