@@ -45,6 +45,19 @@ public class Activity_ItemCart extends AppCompatActivity {
                     adapter.clear();
                     adapter.addFragment(new Fragment_MPItemCart());
                     adapter.addTitle("MarketPlace");
+
+                    mViewModel.GetMarketplaceItemCartCount().observe(Activity_ItemCart.this, count -> {
+                        try{
+                            if(count > 0) {
+                                Objects.requireNonNull(tabLayout.getTabAt(0)).getOrCreateBadge().setNumber(count);
+                            } else {
+                                Objects.requireNonNull(tabLayout.getTabAt(0)).removeBadge();
+                            }
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
+
                     if (eGcardApp != null) {
                         adapter.addFragment(new Fragment_GCardItemCart());
                         adapter.addTitle("GCard");

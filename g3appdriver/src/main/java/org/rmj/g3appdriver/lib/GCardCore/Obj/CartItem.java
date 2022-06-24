@@ -25,7 +25,7 @@ public class CartItem {
         return nItemQtyx;
     }
 
-    public double getnPointsxx() {
+    public double getPoints() {
         return nPointsxx;
     }
 

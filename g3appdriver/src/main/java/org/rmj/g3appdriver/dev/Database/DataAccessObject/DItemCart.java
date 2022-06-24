@@ -17,6 +17,10 @@ public interface DItemCart {
     void SaveItemInfo(EItemCart foVal);
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Cart WHERE sUserIDxx = (SELECT sUserIDxx FROM Client_Info_Master)")
+    LiveData<Integer> GetMartketplaceCartItemCount();
+
+
+    @Query("SELECT ((SELECT COUNT(*) FROM MarketPlace_Cart) + (SELECT COUNT(*) FROM Redeem_Item WHERE sBatchNox IS NULL)) AS CartItemCount")
     LiveData<Integer> GetCartItemCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Cart")

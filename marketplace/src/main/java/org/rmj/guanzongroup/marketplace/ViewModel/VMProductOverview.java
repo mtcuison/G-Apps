@@ -46,7 +46,7 @@ public class VMProductOverview extends AndroidViewModel {
     }
 
     public void addUpdateCart(String fsListId, int fnItemQty, OnTransactionsCallback foCallBck) {
-        new AddUpdateCartTask(application, fnItemQty, foCallBck).execute(fsListId);
+        new AddUpdateCartTask(application, fnItemQty, false,foCallBck).execute(fsListId);
     }
 
     public void buyNow(String fsLstngID, int fnItemQty, OnTransactionsCallback foCallBck) {

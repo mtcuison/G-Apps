@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -21,12 +20,9 @@ import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.Adapter.Adapter_GcardList;
-import org.rmj.guanzongroup.digitalgcard.Model.GcardInfo;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Activity_ManageGcard extends AppCompatActivity {
@@ -44,7 +40,7 @@ public class Activity_ManageGcard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_gcard);
         mViewModel = new ViewModelProvider(Activity_ManageGcard.this).get(VMGCardSystem.class);
-        mViewModel.setInstance(GCardSystem.CoreFunctions.GCARD);
+        mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
 
         initViews();
         setUpToolbar();

@@ -69,8 +69,7 @@ public class AppConstants {
         loError.put("code", "404");
         loError.put("message", "No response receive from server.\n Please check your internet connection \n and try again later.");
         loJson.put("error", loError);
-//        return loJson.toString();
-        return loJson.getString("message");
+        return loJson.getJSONObject("error").getString("message");
     }
 
     public static String APPROVAL_CODE_EMPTY(String fsMessage) throws Exception{
@@ -127,11 +126,16 @@ public class AppConstants {
 
     public static String SOURCE_CODE = "MPlc";
 
+//    public static String[][] ACCOUNT_SETTINGS_MENU = new String[][]{
+//            new String[] {"0","Account Details","Manage Email, Mobile Number, Password and Personal Information."},
+//            new String[] {"1","Payment Options","Manage payment options for transactions made in the app."},
+//            new String[] {"2","Shipping Address","Manage shipping address for delivery of ordered products."},
+//            new String[] {"3","My GCard", "Manage GCard account for Motorcyle Services and Points for Redeemables."}
+//    };
+
     public static String[][] ACCOUNT_SETTINGS_MENU = new String[][]{
             new String[] {"0","Account Details","Manage Email, Mobile Number, Password and Personal Information."},
-            new String[] {"1","Payment Options","Manage payment options for transactions made in the app."},
-            new String[] {"2","Shipping Address","Manage shipping address for delivery of ordered products."},
-            new String[] {"3","My GCard", "Manage GCard account for Motorcyle Services and Points for Redeemables."}
+            new String[] {"2","Shipping Address","Manage shipping address for delivery of ordered products."}
     };
 
     public String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());

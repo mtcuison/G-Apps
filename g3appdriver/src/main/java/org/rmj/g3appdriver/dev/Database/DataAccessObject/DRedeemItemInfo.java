@@ -80,10 +80,9 @@ public interface DRedeemItemInfo {
     List<ERedeemItemInfo> getRedeemableIfExist(String TransNox, String PromoIDx);
 
     @Query("UPDATE Redeem_Item SET " +
-            "nItemQtyx =:ItemQty, " +
-            "nPointsxx= nItemQtyx * nPointsxx " +
-            "WHERE sTransNox=:TransNox AND sPromoIDx =:PromoIDx")
-    void UpdateExistingItemOnCart(String TransNox, String PromoIDx, int ItemQty, double ItemPts);
+            "nItemQtyx =:ItemQty " +
+            "WHERE sTransNox=:TransNox AND sTransNox =:PromoIDx")
+    void UpdateExistingItemOnCart(String TransNox, String PromoIDx, int ItemQty);
 
     @Query("SELECT a.sTransNox, " +
             "b.sPromoDsc, " +
@@ -101,6 +100,9 @@ public interface DRedeemItemInfo {
 
     @Query("SELECT COUNT(*) FROM Redeem_Item WHERE sGCardNox = (SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1')")
     LiveData<Integer> GetGcardCartItemCount();
+
+    @Query("SELECT SUM(nPointsxx * nItemQtyx) FROM Redeem_Item WHERE sGCardNox = (SELECT sGCardNox FROM GCard_App_Master WHERE cActvStat = '1')")
+    LiveData<Double> GetGCardCartItenTotalPoints();
 
     class GCardCartItem{
         public String sTransNox;

@@ -107,7 +107,7 @@ public class Fragment_MPItemCart extends Fragment {
 
                             @Override
                             public void onQuantityClick(String fsListIdx, int fnItemQty) {
-                                mViewModel.addUpdateCart(fsListIdx, fnItemQty, new OnTransactionsCallback() {
+                                mViewModel.addUpdateCart(fsListIdx, fnItemQty, true,new OnTransactionsCallback() {
                                     @Override
                                     public void onLoading() {
                                         poLoading.initDialog("Item Cart", "Processing. Please wait.");

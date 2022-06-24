@@ -47,7 +47,7 @@ public class Fragment_MyGcard extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
-        mViewModel.setInstance(GCardSystem.CoreFunctions.GCARD);
+        mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
         if(!new AccountInfo(requireActivity()).getLoginStatus()) {
             Intent loIntent = new Intent(requireActivity(), Activity_Login.class);
             startActivity(loIntent);

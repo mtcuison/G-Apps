@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.marketplace.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -212,6 +214,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private void displayData() {
         mViewModel.GetCartItemCount().observe(Activity_ProductOverview.this, count -> {
             try {
+                toolbar = findViewById(R.id.toolbar);
                 if(count > 0) {
                     loBadge = BadgeDrawable.create(Activity_ProductOverview.this);
                     loBadge.setNumber(count);
@@ -301,7 +304,16 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
                 showSuggestItems(product.getBrandNme());
 
-                Adapter_ImageSlider adapter = new Adapter_ImageSlider(Activity_ProductOverview.this, getSliderImages(product.getImagesxx()));
+                Adapter_ImageSlider adapter = new Adapter_ImageSlider(getSliderImages(product.getImagesxx()), args -> {
+                    try {
+                        List<HomeImageSliderModel> loList = getSliderImages(product.getImagesxx());
+
+//                        Picasso.get().load(loList.get(args).getImageUrl()).placeholder(R.drawable.ic_no_image_available)
+//                                .error(R.drawable.ic_no_image_available).into(imgPrview);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
 
                 poSliderx.setSliderAdapter(adapter);
 

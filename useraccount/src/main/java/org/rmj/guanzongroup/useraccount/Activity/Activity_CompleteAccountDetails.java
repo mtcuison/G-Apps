@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProvider;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -124,6 +126,9 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                     poDialogx.setButtonText("Okay");
                     poDialogx.initDialog("Account Details", fsMessage, dialog -> {
                         dialog.dismiss();
+                        Intent loIntent = new Intent();
+                        loIntent.putExtra("result", "cancelled");
+                        loIntent.putExtra("args", getIntent().getStringExtra("args"));
                         finish();
                     });
                     poDialogx.show();
@@ -133,31 +138,27 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Account Details", fsMessage, dialog -> {
-                        dialog.dismiss();
-                    });
+                    poDialogx.initDialog("Account Details", fsMessage, Dialog::dismiss);
                     poDialogx.show();
                 }
             });
         } else {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Account Details", poDataMdl.getMessage(), dialog -> {
-                dialog.dismiss();
-            });
+            poDialogx.initDialog("Account Details", poDataMdl.getMessage(), Dialog::dismiss);
             poDialogx.show();
         }
 
     }
 
     private void setInfoModelValues() {
-        poDataMdl.setLastName(Objects.requireNonNull(txtLastNm.getText().toString().trim()));
-        poDataMdl.setFirstName(Objects.requireNonNull(txtFirstN.getText().toString().trim()));
-        poDataMdl.setMiddName(Objects.requireNonNull(txtMidNme.getText().toString().trim()));
-        poDataMdl.setSuffixName(Objects.requireNonNull(txtSuffix.getText().toString().trim()));
-        poDataMdl.setBirthDate(Objects.requireNonNull(txtBdatex.getText().toString().trim()));
-        poDataMdl.setTaxIdNumber(Objects.requireNonNull(txtTaxNox.getText().toString().trim()));
-        poDataMdl.setHouseNumber(Objects.requireNonNull(txtHouseN.getText().toString().trim()));
-        poDataMdl.setAddress(Objects.requireNonNull(txtStreet.getText().toString().trim()));
+        poDataMdl.setLastName(Objects.requireNonNull(Objects.requireNonNull(txtLastNm.getText()).toString().trim()));
+        poDataMdl.setFirstName(Objects.requireNonNull(Objects.requireNonNull(txtFirstN.getText()).toString().trim()));
+        poDataMdl.setMiddName(Objects.requireNonNull(Objects.requireNonNull(txtMidNme.getText()).toString().trim()));
+        poDataMdl.setSuffixName(Objects.requireNonNull(Objects.requireNonNull(txtSuffix.getText()).toString().trim()));
+        poDataMdl.setBirthDate(Objects.requireNonNull(Objects.requireNonNull(txtBdatex.getText()).toString().trim()));
+        poDataMdl.setTaxIdNumber(Objects.requireNonNull(Objects.requireNonNull(txtTaxNox.getText()).toString().trim()));
+        poDataMdl.setHouseNumber(Objects.requireNonNull(Objects.requireNonNull(txtHouseN.getText()).toString().trim()));
+        poDataMdl.setAddress(Objects.requireNonNull(Objects.requireNonNull(txtStreet.getText()).toString().trim()));
     }
 
     private void setInputOptions() {
@@ -261,14 +262,11 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                                         )
                                 );
 
-                                txtBarngy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                        for(int x = 0; x < brgys.size(); x++){
-                                            if(brgys.get(x).getBrgyName().equalsIgnoreCase(txtBarngy.getText().toString().trim())){
-                                                poDataMdl.setBarangay(brgys.get(x).getBrgyIDxx());
-                                                break;
-                                            }
+                                txtBarngy.setOnItemClickListener((adapterView1, view1, i1, l1) -> {
+                                    for(int x1 = 0; x1 < brgys.size(); x1++){
+                                        if(brgys.get(x1).getBrgyName().equalsIgnoreCase(txtBarngy.getText().toString().trim())){
+                                            poDataMdl.setBarangay(brgys.get(x1).getBrgyIDxx());
+                                            break;
                                         }
                                     }
                                 });
@@ -307,6 +305,8 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
             @Override
             public void onConfirm(AlertDialog dialog) {
                 dialog.dismiss();
+                Intent loIntent = new Intent();
+                loIntent.putExtra("result", "cancelled");
                 finish();
             }
 

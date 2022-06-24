@@ -13,13 +13,15 @@ public class AddUpdateCartTask extends AsyncTask<String, Void, Boolean> {
     private final ROrder poOrdersx;
     private final OnTransactionsCallback poCallBck;
     private final int pnItemQty;
+    private final boolean QtyUpdate;
     private String psMessage = "";
 
-    public AddUpdateCartTask(Context foContext, int fnItemQty, OnTransactionsCallback foCallBck) {
+    public AddUpdateCartTask(Context foContext, int fnItemQty, boolean QtyUpdate, OnTransactionsCallback foCallBck) {
         this.poConnect = new ConnectionUtil(foContext);
         this.poOrdersx = new ROrder(foContext);
         this.poCallBck = foCallBck;
         this.pnItemQty = fnItemQty;
+        this.QtyUpdate = QtyUpdate;
     }
 
     @Override
@@ -33,15 +35,25 @@ public class AddUpdateCartTask extends AsyncTask<String, Void, Boolean> {
         try {
             String lsListIdx = strings[0];
             if(poConnect.isDeviceConnected()) {
-                if(poOrdersx.AddUpdateCart(lsListIdx, pnItemQty)) {
-                    psMessage = poOrdersx.getMessage();
-                    return true;
+                if(QtyUpdate){
+                    if(poOrdersx.UpdateCartQuantity(lsListIdx, pnItemQty)) {
+                        psMessage = "Item added successfully";
+                        return true;
+                    } else {
+                        psMessage = poOrdersx.getMessage();
+                        return false;
+                    }
                 } else {
-                    psMessage = poOrdersx.getMessage();
-                    return false;
+                    if(poOrdersx.AddUpdateCart(lsListIdx, pnItemQty)) {
+                        psMessage = "Item added successfully";
+                        return true;
+                    } else {
+                        psMessage = poOrdersx.getMessage();
+                        return false;
+                    }
                 }
             } else {
-                psMessage = AppConstants.SERVER_NO_RESPONSE();
+                psMessage = "Unable to connect.";
                 return false;
             }
         } catch (Exception e) {

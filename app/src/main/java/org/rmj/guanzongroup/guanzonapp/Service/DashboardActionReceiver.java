@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
-import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
@@ -23,10 +22,6 @@ public class DashboardActionReceiver extends BroadcastReceiver {
             switch (args){
                 case "auth":
                     new CheckDataImportTask(context).execute();
-                    break;
-                case "dashboard":
-                    Intent loIntent = new Intent(context, Activity_Dashboard.class);
-                    context.startActivity(loIntent);
                     break;
             }
         }
@@ -60,7 +55,7 @@ public class DashboardActionReceiver extends BroadcastReceiver {
 
                 loGcard.DownloadGcardNumbers(callback);
                 pause();
-                if(new RGcardApp(mContext).hasActiveGcard().size() > 0){
+                if(loGcard.hasActiveGcard().size() > 0){
                     loGcard.DownloadMCServiceInfo(callback);
                     pause();
                     loGcard.DownloadTransactions(callback);

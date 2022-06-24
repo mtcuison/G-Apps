@@ -24,7 +24,6 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
-import org.rmj.guanzongroup.digitalgcard.ViewModel.VMRedeemables;
 
 public class BottomCartDialog extends BottomSheetDialogFragment {
 
@@ -71,7 +70,7 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
         super.onActivityCreated(savedInstanceState);
         try{
             mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
-            mViewModel.setInstance(GCardSystem.CoreFunctions.REDEMPTION);
+            mViewModel.setmContext(GCardSystem.CoreFunctions.REDEMPTION);
             mViewModel.getActiveGcard().observe(requireActivity(), gcard ->{
                 lblGcardPoints.setText(String.valueOf(gcard.getAvlPoint()));
             });

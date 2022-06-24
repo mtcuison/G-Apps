@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,6 +18,8 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
+
+import java.util.Objects;
 
 public class Activity_AccountVerification extends AppCompatActivity {
     private static final String TAG = Activity_AccountVerification.class.getSimpleName();
@@ -44,36 +47,31 @@ public class Activity_AccountVerification extends AppCompatActivity {
         MaterialButton btnSubmit = findViewById(R.id.btn_Submit);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        btnResend.setOnClickListener(new View.OnClickListener() {
+        btnResend.setOnClickListener(v -> mViewModel.StartTimer(new VMAccountAuthentication.TimerListener() {
             @Override
-            public void onClick(View v) {
-                mViewModel.StartTimer(new VMAccountAuthentication.TimerListener() {
-                    @Override
-                    public void OnStart() {
-                        btnResend.setEnabled(false);
-                    }
-
-                    @Override
-                    public void OnTimerCountdown(int progress) {
-                        if(progress > 0) {
-                            btnResend.setText("Please wait...(" + progress + ")");
-                        } else {
-                            btnResend.setText("Resend OTP?");
-                        }
-                    }
-
-                    @Override
-                    public void OnFinish() {
-                        btnResend.setEnabled(true);
-                    }
-                });
+            public void OnStart() {
+                btnResend.setEnabled(false);
             }
-        });
+
+            @Override
+            public void OnTimerCountdown(int progress) {
+                if(progress > 0) {
+                    btnResend.setText("Please wait...(" + progress + ")");
+                } else {
+                    btnResend.setText("Resend OTP?");
+                }
+            }
+
+            @Override
+            public void OnFinish() {
+                btnResend.setEnabled(true);
+            }
+        }));
 
         btnSubmit.setOnClickListener(v -> {
-            String lsEntry = txtOtp.getText().toString();
+            String lsEntry = Objects.requireNonNull(txtOtp.getText()).toString();
             mViewModel.ActivateAccount(lsEntry,lsOtpxxx, lsVerify, new VMAccountAuthentication.AuthTransactionCallback() {
                 @Override
                 public void onLoad() {
@@ -102,7 +100,7 @@ public class Activity_AccountVerification extends AppCompatActivity {
                     poLoading.dismiss();
                     poDialogx = new Dialog_SingleButton(Activity_AccountVerification.this);
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Activate Account", fsMessage, dialog -> dialog.dismiss());
+                    poDialogx.initDialog("Activate Account", fsMessage, Dialog::dismiss);
                     poDialogx.show();
                 }
             });

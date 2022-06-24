@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,7 +23,6 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_QRCode;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
@@ -38,7 +36,6 @@ import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 
 public class Fragment_Home extends Fragment {
 
@@ -72,9 +69,9 @@ public class Fragment_Home extends Fragment {
         poSliderx.setScrollTimeInSec(5);
         poSliderx.startAutoCycle();
 
-        gcardPane = v.findViewById(R.id.gCard_panel);
-        txtCardNo = v.findViewById(R.id.txt_card_number);
-        txtGcrdPt = v.findViewById(R.id.txt_gcard_points);
+//        gcardPane = v.findViewById(R.id.gCard_panel);
+//        txtCardNo = v.findViewById(R.id.txt_card_number);
+//        txtGcrdPt = v.findViewById(R.id.txt_gcard_points);
         poRvProds = v.findViewById(R.id.rv_products);
         poRvCateg = v.findViewById(R.id.rv_categories);
         poRvProds.setLayoutManager(new GridLayoutManager(requireActivity(),
@@ -85,58 +82,9 @@ public class Fragment_Home extends Fragment {
     }
 
     private void displayData() {
-        showPromoDialog();
         setSliderImages();
-        initGcardPanel();
         setCategoryAdapter();
         setProductAdapter();
-    }
-
-    private void showPromoDialog() {
-        boolean isThereAnActivePromo = true;
-        if(isThereAnActivePromo) {
-            String sampleUrl = "http://unbox.ph/wp-content/uploads/2021/09/9.9-Lazada-Promo.jpg";
-            Dialog_Promo loDialog = new Dialog_Promo(requireActivity());
-            loDialog.initDialog(sampleUrl, (dialog) -> {
-                // TODO: Intent to specific activity to show product/promo.
-                Toast.makeText(requireActivity(), "Promo Image Clicked.", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            });
-            loDialog.show();
-        }
-    }
-
-    private void initGcardPanel() {
-        mViewModel.getActiveGcard().observe(getViewLifecycleOwner(), eGcardApp -> {
-            try {
-                if(eGcardApp == null) {
-                    gcardPane.setVisibility(View.GONE);
-                } else {
-                    gcardPane.setVisibility(View.VISIBLE);
-                    txtCardNo.setText(Objects.requireNonNull(eGcardApp.getCardNmbr()));
-                    txtGcrdPt.setText(Objects.requireNonNull(eGcardApp.getAvlPoint()));
-
-                    gcardPane.setOnClickListener(view -> mViewModel.ViewGCardQrCode(foVal -> {
-                        //TODO : Create Dialog that will iew QrCode
-                        if(foVal == null){
-                            Toast.makeText(requireActivity(), "Failed generating Qr-Code", Toast.LENGTH_SHORT).show();
-                        } else {
-
-                            Dialog_QRCode dialog_qrCode = new Dialog_QRCode(requireActivity());
-                            dialog_qrCode.initDialog("GCard QR Code", foVal, new Dialog_QRCode.QrCodeCallback() {
-                                @Override
-                                public void onRefresh(AlertDialog foDialogx) {
-
-                                }
-                            });
-                            dialog_qrCode.show();
-                        }
-                    }));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
     }
 
     private void setCategoryAdapter() {
