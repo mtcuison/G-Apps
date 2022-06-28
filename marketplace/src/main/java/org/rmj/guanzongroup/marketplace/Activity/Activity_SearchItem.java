@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
+import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.guanzongroup.digitalgcard.Adapter.Adapter_Advertisement;
 import org.rmj.guanzongroup.digitalgcard.Model.AdvertisementInfo;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
@@ -86,20 +86,35 @@ public class Activity_SearchItem extends AppCompatActivity {
         mBinding.recyclrVw.setVisibility(View.GONE);
         mBinding.lnAdvetse.setVisibility(View.VISIBLE);
         List<AdvertisementInfo> loList = new ArrayList<>();
-        AdvertisementInfo poData = new AdvertisementInfo();
-        poData.setPromoId("1");
-        poData.setImageUrl("https://res.cloudinary.com/dxxbciuwf/image/fetch/f_auto/https://smack.agency/wp-content/uploads/2020/12/how-to-create-a-marketing-campaign-for-your-business-1-scaled.jpg");
-        AdvertisementInfo poData2 = new AdvertisementInfo();
-        poData2.setPromoId("2");
-        poData2.setImageUrl("https://s2.best-wallpaper.net/wallpaper/2560x1920/1108/Waterfalls-and-streams_2560x1920.jpg");
-        loList.add(poData);
-        loList.add(poData2);
-        Adapter_Advertisement loAdapter = new Adapter_Advertisement(loList, loList.size(), fsId -> {
+        mViewModel.GetPromoList().observe(Activity_SearchItem.this, ePromos -> {
+            try{
+                for(int x = 0; x < ePromos.size(); x++){
+                    EPromo loPromo = ePromos.get(x);
+                    if(loPromo.getDivision() == 0){
+                        AdvertisementInfo loAds = new AdvertisementInfo();
+                        loAds.setImageUrl(loPromo.getImageUrl());
+                        loAds.setPromoId(loPromo.getTransNox());
+                        loList.add(loAds);
+                    }
+                }
+                Adapter_Advertisement loAdapter = new Adapter_Advertisement(loList, loList.size(), fsId -> {
 
+                });
+                mBinding.rvAdvrtse.setAdapter(loAdapter);
+                mBinding.rvAdvrtse.setLayoutManager(new LinearLayoutManager(Activity_SearchItem.this));
+                loAdapter.notifyDataSetChanged();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
-        mBinding.rvAdvrtse.setAdapter(loAdapter);
-        mBinding.rvAdvrtse.setLayoutManager(new LinearLayoutManager(Activity_SearchItem.this));
-        loAdapter.notifyDataSetChanged();
+
+//        poData.setPromoId("1");
+//        poData.setImageUrl("https://res.cloudinary.com/dxxbciuwf/image/fetch/f_auto/https://smack.agency/wp-content/uploads/2020/12/how-to-create-a-marketing-campaign-for-your-business-1-scaled.jpg");
+//        AdvertisementInfo poData2 = new AdvertisementInfo();
+//        poData2.setPromoId("2");
+//        poData2.setImageUrl("https://s2.best-wallpaper.net/wallpaper/2560x1920/1108/Waterfalls-and-streams_2560x1920.jpg");
+//        loList.add(poData);
+//        loList.add(poData2);
     }
 
     private void showSuggestions() {
@@ -130,6 +145,7 @@ public class Activity_SearchItem extends AppCompatActivity {
             mViewModel.GetSearchProductList(fsQueryxx).observe(Activity_SearchItem.this, oProducts -> {
                 try{
                     if(oProducts.size() > 0) {
+                        mBinding.textView.setVisibility(View.GONE);
                         loAdapter = new Adapter_ProductList(oProducts, fsListIdx -> {
                             Intent loIntent = new Intent(Activity_SearchItem.this, Activity_ProductOverview.class);
                             loIntent.putExtra("sListingId", fsListIdx);
@@ -138,7 +154,10 @@ public class Activity_SearchItem extends AppCompatActivity {
                         mBinding.recyclrVw.setAdapter(loAdapter);
                         loAdapter.notifyDataSetChanged();
                     } else {
-
+                        mBinding.textView.setText("No item found for keyword '" + fsQueryxx + "'");
+                        mBinding.textView.setVisibility(View.VISIBLE);
+                        mBinding.lnAdvetse.setVisibility(View.VISIBLE);
+                        mBinding.recyclrVw.setVisibility(View.GONE);
                     }
                 } catch (Exception e){
                     e.printStackTrace();

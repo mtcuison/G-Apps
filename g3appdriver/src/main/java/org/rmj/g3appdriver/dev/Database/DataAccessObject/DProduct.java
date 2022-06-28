@@ -140,6 +140,9 @@ public interface DProduct {
             "ORDER BY nUnitPrce ASC")
     LiveData<List<oProduct>> SearchProducts(String fsVal);
 
+    @Query("SELECT xBrandNme FROM Product_Inventory GROUP BY xBrandNme")
+    LiveData<List<String>> GetBrandNames();
+
     class oProduct{
         public String sProdctID;
         public String sProdctNm;

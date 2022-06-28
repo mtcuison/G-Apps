@@ -303,25 +303,26 @@ public class GCardManager implements iGCardSystem{
         String lsMobileNo = new Telephony(mContext).getMobilNumbers();
         String lsUserIDxx = new AccountInfo(mContext).getUserID();
         String lsGcardNox = poGCard.getCardNo();
-        if(poConfig.getTestCase()){
-            lsMobileNo = "09171870011";
-        }
-        if(poGCard.getCardNox() == null){
-            callback.OnFailed("No Gcard number detected");
-        } else if(!poCode.isCodeValid()){
-            callback.OnFailed("Invalid Qr Code");
-        } else if (poCode.isQrCodeTransaction()){
-            if(lsUserIDxx.isEmpty()){
-                callback.OnFailed("No user account detected. Please make sure you login account before proceeding.");
-            } else if(lsMobileNo.isEmpty()){
-                callback.OnFailed("Unable to retrieve device mobile no. Please make sure your device has mobile no.");
-            } else if(lsGcardNox.isEmpty()){
-                callback.OnFailed("No GCard number is registered or active in this account. Please make sure a GCard is active.");
-            } else if(poCode.isDeviceValid(lsMobileNo, lsUserIDxx, lsGcardNox)) {
+//        if(poConfig.getTestCase()){
+//            lsMobileNo = "09171870011";
+//        }
+//        if(poGCard.getCardNox() == null){
+//            callback.OnFailed("No Gcard number detected");
+//        } else if(!poCode.isCodeValid()){
+//            callback.OnFailed("Invalid Qr Code");
+//        } else
+            if (poCode.isQrCodeTransaction()){
+//            if(lsUserIDxx.isEmpty()){
+//                callback.OnFailed("No user account detected. Please make sure you login account before proceeding.");
+//            } else if(lsMobileNo.isEmpty()){
+//                callback.OnFailed("Unable to retrieve device mobile no. Please make sure your device has mobile no.");
+//            } else if(lsGcardNox.isEmpty()){
+//                callback.OnFailed("No GCard number is registered or active in this account. Please make sure a GCard is active.");
+//            } else if(poCode.isDeviceValid(lsMobileNo, lsUserIDxx, lsGcardNox)) {
                 callback.TransactionResult(poCode.getTransactionPIN());
-            } else {
-                callback.OnFailed("Mobile Number or Account is not valid to confirm this transaction");
-            }
+//            } else {
+//                callback.OnFailed("Mobile Number or Account is not valid to confirm this transaction");
+//            }
         } else {
             if(lsUserIDxx.isEmpty()){
                 callback.OnFailed("No user account detected. Please make sure you login account before proceeding.");
@@ -344,7 +345,17 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
+    public LiveData<List<Double>> GetRedeemablePointsFilter() {
+        return null;
+    }
+
+    @Override
     public LiveData<List<ERedeemablesInfo>> GetRedeemablesList() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<ERedeemablesInfo>> GetRedeemablesList(String fsVal) {
         return null;
     }
 
@@ -414,6 +425,7 @@ public class GCardManager implements iGCardSystem{
                     } else {
                         JSONObject loError = loResponse.getJSONObject("error");
                         String lsMessage = loError.getString("message");
+                        callback.OnFailed(lsMessage);
                     }
                 }
             }
@@ -421,7 +433,6 @@ public class GCardManager implements iGCardSystem{
             e.printStackTrace();
             callback.OnFailed("Failed downloading transactions. " + e.getMessage());
         }
-        callback.OnSuccess("");
     }
 
     @Override

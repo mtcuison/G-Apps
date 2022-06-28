@@ -47,18 +47,15 @@ public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemable
             holder.lblProdNm.setText(loProduct.getPromoDsc());
             holder.lblPricex.setText(String.valueOf(loProduct.getPointsxx()));
             holder.setImage(loProduct.getImageUrl());
-            holder.btnAddToCart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    BottomCartDialog bottomSheet = new BottomCartDialog();
-                    bottomSheet.setCancelable(false);
-                    bottomSheet.setItemTransNox(loProduct.getTransNox());
-                    bottomSheet.setItemPromCode(loProduct.getPromoCde());
-                    bottomSheet.setItemNamex(loProduct.getPromoDsc());
-                    bottomSheet.setItemPntsx(loProduct.getPointsxx());
-                    bottomSheet.show(((AppCompatActivity)mContext).getSupportFragmentManager(), "Redeemable Bottom Sheet");
+            holder.btnAddToCart.setOnClickListener(view -> {
+                BottomCartDialog bottomSheet = new BottomCartDialog();
+                bottomSheet.setCancelable(false);
+                bottomSheet.setItemTransNox(loProduct.getTransNox());
+                bottomSheet.setItemPromCode(loProduct.getPromoCde());
+                bottomSheet.setItemNamex(loProduct.getPromoDsc());
+                bottomSheet.setItemPntsx(loProduct.getPointsxx());
+                bottomSheet.show(((AppCompatActivity)mContext).getSupportFragmentManager(), "Redeemable Bottom Sheet");
 
-                }
             });
 //            holder.lblSoldxx.setText(loProduct.getSoldQtyx() + " Sold");
         } catch (Exception e) {

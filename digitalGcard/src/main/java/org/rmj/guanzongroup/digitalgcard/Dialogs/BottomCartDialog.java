@@ -64,10 +64,6 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.bottom_dialog_addtocart_box, container, false);
         setupWidgets(view);
-        return view;
-    }
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         try{
             mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
             mViewModel.setmContext(GCardSystem.CoreFunctions.REDEMPTION);
@@ -77,40 +73,19 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
             lblItemName.setText(itemNamex);
             lblItemPoints.setText(String.valueOf(itemPntsx));
             lblItemTotPoints.setText(String.valueOf(getTotPoints()));
-            btnClose.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dismiss();
-                }
-            });
+            btnClose.setOnClickListener(v -> dismiss());
 
-            btnAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new Handler().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Quantity += 1;
-                            txtQuantity.setText(String.valueOf(getQuantity()));
-                            lblItemTotPoints.setText(String.valueOf(getTotPoints()));
-                        }
-                    });
-                }
-            });
+            btnAdd.setOnClickListener(v -> new Handler().post(() -> {
+                Quantity += 1;
+                txtQuantity.setText(String.valueOf(getQuantity()));
+                lblItemTotPoints.setText(String.valueOf(getTotPoints()));
+            }));
 
-            btnDeduct.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new Handler().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Quantity -= 1;
-                            txtQuantity.setText(String.valueOf(getQuantity()));
-                            lblItemTotPoints.setText(String.valueOf(getTotPoints()));
-                        }
-                    });
-                }
-            });
+            btnDeduct.setOnClickListener(v -> new Handler().post(() -> {
+                Quantity -= 1;
+                txtQuantity.setText(String.valueOf(getQuantity()));
+                lblItemTotPoints.setText(String.valueOf(getTotPoints()));
+            }));
 
             btnAddToCart.setOnClickListener(v -> {
                 CartItem item = new CartItem(itemTransNox, itemPromCode, Integer.parseInt(txtQuantity.getText().toString()), Double.parseDouble(lblItemTotPoints.getText().toString()));
@@ -129,6 +104,7 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
 
                     @Override
                     public void onFailed(String fsMessage) {
+                        dialog_loading.dismiss();
                         showMessage("Failed", fsMessage);
                     }
 
@@ -141,6 +117,7 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
         }catch (NullPointerException e){
             showMessage("Error", e.getMessage());
         }
+        return view;
     }
 
     private void setupWidgets(View v){

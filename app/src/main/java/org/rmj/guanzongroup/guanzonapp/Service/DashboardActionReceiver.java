@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 import org.rmj.guanzongroup.guanzonapp.Activity.Activity_Dashboard;
+import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
 
 public class DashboardActionReceiver extends BroadcastReceiver {
     private static final String TAG = DashboardActionReceiver.class.getSimpleName();
@@ -23,6 +25,12 @@ public class DashboardActionReceiver extends BroadcastReceiver {
                 case "auth":
                     new CheckDataImportTask(context).execute();
                     break;
+                case "promo":
+                    Intent loIntent = new Intent(context, Activity_Browser.class);
+                    loIntent.putExtra("url_link", intent.getStringExtra("url_link"));
+                    loIntent.putExtra("args", intent.getStringExtra("browser_args"));
+                    context.startActivity(loIntent);
+                    break;
             }
         }
     }
@@ -30,11 +38,25 @@ public class DashboardActionReceiver extends BroadcastReceiver {
     private static class CheckDataImportTask extends AsyncTask<String, Void, String>{
 
         private final Context mContext;
+        private iGCardSystem loGcard;
+        private char cImportxx;
 
         GCardSystem.GCardSystemCallback callback = new GCardSystem.GCardSystemCallback() {
             @Override
             public void OnSuccess(String args) {
                 Log.d(TAG, args);
+                try {
+                    switch (cImportxx) {
+                        case '0':
+                            loGcard.SaveGCardInfo(new JSONObject(args));
+                            break;
+                        case '1':
+                            loGcard.SaveMcServiceInfo(new JSONObject(args));
+                            break;
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -51,11 +73,13 @@ public class DashboardActionReceiver extends BroadcastReceiver {
         protected String doInBackground(String... strings) {
             try {
                 pause();
-                iGCardSystem loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
+                loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
 
+                cImportxx = '0';
                 loGcard.DownloadGcardNumbers(callback);
                 pause();
                 if(loGcard.hasActiveGcard().size() > 0){
+                    cImportxx = '1';
                     loGcard.DownloadMCServiceInfo(callback);
                     pause();
                     loGcard.DownloadTransactions(callback);

@@ -289,6 +289,10 @@ public class VMHome extends AndroidViewModel {
         return poSystem.GetPromotions();
     }
 
+    public LiveData<List<String>> GetBrandNames(){
+        return poProduct.GetBrandNames();
+    }
+
     public interface OnCheckPromotions {
         void OnCheckPromos(String args1, String args2);
         void OnCheckEvents(String args1, String args2);

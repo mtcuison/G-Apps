@@ -171,6 +171,10 @@ public class Activity_Dashboard extends AppCompatActivity {
         mViewModel.GetCartItemCount().observe(Activity_Dashboard.this, count -> {
             try {
                 toolbar = findViewById(R.id.toolbar);
+
+                lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+                navigationView.getMenu().findItem(R.id.nav_item_cart).setActionView(lblBadge);
+                lblBadge.setText(GetBadgeValue(count));
                 if(count > 0) {
                     loBadge = BadgeDrawable.create(Activity_Dashboard.this);
                     loBadge.setNumber(count);

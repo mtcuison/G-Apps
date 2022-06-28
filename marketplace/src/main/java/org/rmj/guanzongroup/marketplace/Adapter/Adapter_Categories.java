@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import org.rmj.guanzongroup.marketplace.R;
 
 import java.util.List;
+import java.util.Locale;
 
 
 public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.ViewHolderItem> {
@@ -41,9 +42,9 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
 
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
+        String item = list.get(position);
         try {
-            String item = list.get(position);
-            Picasso.get().load(item)
+            Picasso.get().load(getImageUrl(item))
                     .error(org.rmj.guanzongroup.digitalgcard.R.drawable.ic_no_image_available).into(holder.imgCategx);
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,7 +60,7 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
 
         public ConstraintLayout lnCategry;
         public ImageView imgCategx;
-        public TextView txtCategx;
+        public TextView txtCategx, txtNamexx;
 
         public ViewHolderItem(@NonNull View itemView, OnItemClick foCallBck) {
             super(itemView);
@@ -78,8 +79,28 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
 
     }
 
+    private String getImageUrl(String fsVal){
+        switch (fsVal.toLowerCase(Locale.ROOT)){
+            case "samsung":
+                return "http://192.168.10.141/integsys/marketplace/brand_logos/samsung_logo.png";
+            case "vivo":
+                return "http://192.168.10.141/integsys/marketplace/brand_logos/vivo_logo.png";
+            case "huawei":
+                return "http://192.168.10.141/integsys/marketplace/brand_logos/huawei_logo.png";
+            case "apple":
+                return "http://192.168.10.141/integsys/marketplace/brand_logos/apple_logo.png";
+            case "oppo":
+                return "http://192.168.10.141/integsys/marketplace/brand_logos/oppo_logo.png";
+            case "xiaomi":
+                return "http://192.168.10.141/integsys/marketplace/brand_logos/xiaomi_logo.png";
+            case "techno":
+                return "http://192.168.10.141/integsys/marketplace/brand_logos/techno_logo.png";
+            default:
+                return "http://192.168.10.141/integsys/marketplace/brand_logos/realme_logo.png";
+        }
+    }
+
     public interface OnItemClick {
         void onClick(int position);
     }
-
 }

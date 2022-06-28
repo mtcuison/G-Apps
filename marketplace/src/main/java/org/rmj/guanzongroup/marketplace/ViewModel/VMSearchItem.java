@@ -11,8 +11,11 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
+import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.FilterType;
+import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
+import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 
 import java.util.List;
 
@@ -22,11 +25,13 @@ public class VMSearchItem extends AndroidViewModel {
     private final Context mContext;
 
     private final RProduct poProdct;
+    private iGCardSystem poSystem;
 
     public VMSearchItem(@NonNull Application application) {
         super(application);
         this.mContext = application;
         this.poProdct = new RProduct(mContext);
+        this.poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
     }
 
     public LiveData<List<DProduct.oProduct>> getProductList(int fnIndex) {
@@ -68,5 +73,9 @@ public class VMSearchItem extends AndroidViewModel {
             poCallback.OnSearchFinish();
             super.onPostExecute(s);
         }
+    }
+
+    public LiveData<List<EPromo>> GetPromoList(){
+        return poSystem.GetPromotions();
     }
 }

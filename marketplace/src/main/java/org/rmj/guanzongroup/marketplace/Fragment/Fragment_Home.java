@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,25 +79,30 @@ public class Fragment_Home extends Fragment {
     }
 
     private void setCategoryAdapter() {
-        List<String> strings = new ArrayList<>();
-        strings.add("https://static.zerochan.net/Venti.full.3365467.jpg");
-        strings.add("https://static.zerochan.net/Enomoto.Yuiko.full.1590131.jpg");
-        strings.add("https://datingroo.com/wp-content/uploads/2021/03/stop-abuse-resized.jpg");
-        strings.add("https://images-stylist.s3-eu-west-1.amazonaws.com/app/uploads/2020/12/21183331/how-to-stay-calm-in-an-argument-crop-1640111653-1920x1920.jpg");
-        strings.add("https://www.stylist.co.uk/images/app/uploads/2020/04/08154707/gettyimages-1171901303-1120x1120.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress");
-        strings.add("https://static.zerochan.net/Okumura.Rin.full.598240.jpg");
-        strings.add("https://static.zerochan.net/Venti.full.3365467.jpg");
-        strings.add("https://static.zerochan.net/Enomoto.Yuiko.full.1590131.jpg");
-        strings.add("https://datingroo.com/wp-content/uploads/2021/03/stop-abuse-resized.jpg");
-        strings.add("https://images-stylist.s3-eu-west-1.amazonaws.com/app/uploads/2020/12/21183331/how-to-stay-calm-in-an-argument-crop-1640111653-1920x1920.jpg");
-        strings.add("https://www.stylist.co.uk/images/app/uploads/2020/04/08154707/gettyimages-1171901303-1120x1120.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress");
-        strings.add("https://static.zerochan.net/Okumura.Rin.full.598240.jpg");
+//        List<String> strings = new ArrayList<>();
+        mViewModel.GetBrandNames().observe(getViewLifecycleOwner(), strings -> {
+            try {
+                final Adapter_Categories loAdapter = new Adapter_Categories(strings, position -> {
 
-        final Adapter_Categories loAdapter = new Adapter_Categories(strings, position -> {
-
+                });
+                loAdapter.notifyDataSetChanged();
+                poRvCateg.setAdapter(loAdapter);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
-        loAdapter.notifyDataSetChanged();
-        poRvCateg.setAdapter(loAdapter);
+//        strings.add("https://i0.wp.com/www.getsims.com/wp-content/uploads/2018/03/samsung-logo-square.jpg?resize=300%2C300&ssl=1");
+//        strings.add("https://static.zerochan.net/Enomoto.Yuiko.full.1590131.jpg");
+//        strings.add("https://datingroo.com/wp-content/uploads/2021/03/stop-abuse-resized.jpg");
+//        strings.add("https://images-stylist.s3-eu-west-1.amazonaws.com/app/uploads/2020/12/21183331/how-to-stay-calm-in-an-argument-crop-1640111653-1920x1920.jpg");
+//        strings.add("https://www.stylist.co.uk/images/app/uploads/2020/04/08154707/gettyimages-1171901303-1120x1120.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress");
+//        strings.add("https://static.zerochan.net/Okumura.Rin.full.598240.jpg");
+//        strings.add("https://static.zerochan.net/Venti.full.3365467.jpg");
+//        strings.add("https://static.zerochan.net/Enomoto.Yuiko.full.1590131.jpg");
+//        strings.add("https://datingroo.com/wp-content/uploads/2021/03/stop-abuse-resized.jpg");
+//        strings.add("https://images-stylist.s3-eu-west-1.amazonaws.com/app/uploads/2020/12/21183331/how-to-stay-calm-in-an-argument-crop-1640111653-1920x1920.jpg");
+//        strings.add("https://www.stylist.co.uk/images/app/uploads/2020/04/08154707/gettyimages-1171901303-1120x1120.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress");
+//        strings.add("https://static.zerochan.net/Okumura.Rin.full.598240.jpg");
     }
 
     private void setProductAdapter() {
@@ -129,7 +135,8 @@ public class Fragment_Home extends Fragment {
                     try{
                         Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
                         intent.putExtra("url_link", ePromos.get(args).getPromoUrl());
-                        intent.putExtra("args", "1");
+                        intent.putExtra("browser_args", "1");
+                        intent.putExtra("args", "promo");
                         requireActivity().sendBroadcast(intent);
                     } catch (Exception e){
                         e.printStackTrace();

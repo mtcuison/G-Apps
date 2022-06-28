@@ -184,7 +184,17 @@ public class SystemExtras implements iGCardSystem{
     }
 
     @Override
+    public LiveData<List<Double>> GetRedeemablePointsFilter() {
+        return null;
+    }
+
+    @Override
     public LiveData<List<ERedeemablesInfo>> GetRedeemablesList() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<ERedeemablesInfo>> GetRedeemablesList(String fsVal) {
         return null;
     }
 
