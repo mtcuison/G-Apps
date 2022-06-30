@@ -372,7 +372,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private void showPromoBanner() {
         boolean isThereAPromoForItem = true;
         if(isThereAPromoForItem) {
-            String sampleUrl = "https://www.toysrus.com.bn/dw/image/v2/BDGJ_PRD/on/demandware.static/-/Sites-storefront-catalog-toysrus-bn/default/dw660375c3/categories/brands/W-Z/zuru-2560x320-2.jpg?q=75";
+//            String sampleUrl = "https://www.toysrus.com.bn/dw/image/v2/BDGJ_PRD/on/demandware.static/-/Sites-storefront-catalog-toysrus-bn/default/dw660375c3/categories/brands/W-Z/zuru-2560x320-2.jpg?q=75";
+            String sampleUrl = "http://192.168.10.141/integsys/marketplace/uploads/promo_banner/Promo%20banner%202560x320px.png";
             imgPromox.setVisibility(View.VISIBLE);
             Picasso.get().load(sampleUrl).into(imgPromox);
         }

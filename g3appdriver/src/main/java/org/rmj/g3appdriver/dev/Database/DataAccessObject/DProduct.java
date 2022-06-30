@@ -104,7 +104,7 @@ public interface DProduct {
             "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
-            "WHERE xBrandNme LIKE:fsName " +
+            "WHERE xBrandNme LIKE '%' || :fsName || '%'" +
             "LIMIT 10 OFFSET:nIndex")
     LiveData<List<oProduct>> GetProductsListFilterBrandName(int nIndex, String fsName);
 
@@ -125,7 +125,7 @@ public interface DProduct {
             "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
-            "WHERE xBrandNme LIKE:fsArgs " +
+            "WHERE xBrandNme LIKE '%' || :fsArgs || '%'" +
             "AND sListngID !=:fsArgs1 " +
             "LIMIT 10")
     LiveData<List<oProduct>> GetProductListSameBrandSuggestions(String fsArgs, String fsArgs1);
@@ -139,6 +139,15 @@ public interface DProduct {
             "WHERE sProdctNm LIKE '%' || :fsVal || '%'" +
             "ORDER BY nUnitPrce ASC")
     LiveData<List<oProduct>> SearchProducts(String fsVal);
+
+    @Query("SELECT xBrandNme FROM Product_Inventory GROUP BY xBrandNme")
+    LiveData<List<String>> GetBrandNames();
+
+    @Query("SELECT nUnitPrce " +
+            "FROM Product_Inventory " +
+            "WHERE xBrandNme LIKE '%' || :fsArgs || '%'" +
+            "GROUP BY nUnitPrce")
+    LiveData<List<String>> GetPriceFilterForBrand(String fsArgs);
 
     class oProduct{
         public String sProdctID;

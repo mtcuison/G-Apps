@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductList;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_Categories;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ImageSlider;
@@ -74,49 +76,24 @@ public class Fragment_Home extends Fragment {
     private void displayData() {
         setSliderImages();
         setCategoryAdapter();
-        showPromoDialog();
-        setCategory();
         setProductAdapter();
     }
 
-    private void showPromoDialog() {
-        boolean isThereAnActivePromo = true;
-        if(isThereAnActivePromo) {
-            String sampleUrl = "http://unbox.ph/wp-content/uploads/2021/09/9.9-Lazada-Promo.jpg";
-            Dialog_Promo loDialog = new Dialog_Promo(requireActivity());
-            loDialog.initDialog(sampleUrl, (dialog) -> {
-                // TODO: Intent to specific activity to show product/promo.
-                Toast.makeText(requireActivity(), "Promo Image Clicked.", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            });
-            loDialog.show();
-        }
-    }
-
-    private void setCategory() {
-
-    }
-
     private void setCategoryAdapter() {
-        List<String> strings = new ArrayList<>();
-        strings.add("https://static.zerochan.net/Venti.full.3365467.jpg");
-        strings.add("https://static.zerochan.net/Enomoto.Yuiko.full.1590131.jpg");
-        strings.add("https://datingroo.com/wp-content/uploads/2021/03/stop-abuse-resized.jpg");
-        strings.add("https://images-stylist.s3-eu-west-1.amazonaws.com/app/uploads/2020/12/21183331/how-to-stay-calm-in-an-argument-crop-1640111653-1920x1920.jpg");
-        strings.add("https://www.stylist.co.uk/images/app/uploads/2020/04/08154707/gettyimages-1171901303-1120x1120.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress");
-        strings.add("https://static.zerochan.net/Okumura.Rin.full.598240.jpg");
-        strings.add("https://static.zerochan.net/Venti.full.3365467.jpg");
-        strings.add("https://static.zerochan.net/Enomoto.Yuiko.full.1590131.jpg");
-        strings.add("https://datingroo.com/wp-content/uploads/2021/03/stop-abuse-resized.jpg");
-        strings.add("https://images-stylist.s3-eu-west-1.amazonaws.com/app/uploads/2020/12/21183331/how-to-stay-calm-in-an-argument-crop-1640111653-1920x1920.jpg");
-        strings.add("https://www.stylist.co.uk/images/app/uploads/2020/04/08154707/gettyimages-1171901303-1120x1120.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress");
-        strings.add("https://static.zerochan.net/Okumura.Rin.full.598240.jpg");
-
-        final Adapter_Categories loAdapter = new Adapter_Categories(strings, position -> {
-
+//        List<String> strings = new ArrayList<>();
+        mViewModel.GetBrandNames().observe(getViewLifecycleOwner(), strings -> {
+            try {
+                final Adapter_Categories loAdapter = new Adapter_Categories(strings, args -> {
+                    Intent loIntent = new Intent(requireActivity(), Activity_ProductList.class);
+                    loIntent.putExtra("xBrandNme", args);
+                    startActivity(loIntent);
+                });
+                loAdapter.notifyDataSetChanged();
+                poRvCateg.setAdapter(loAdapter);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         });
-        loAdapter.notifyDataSetChanged();
-        poRvCateg.setAdapter(loAdapter);
     }
 
     private void setProductAdapter() {
@@ -142,12 +119,16 @@ public class Fragment_Home extends Fragment {
         mViewModel.GetPromoLinkList().observe(getViewLifecycleOwner(), ePromos -> {
             try {
                 for (int x = 0; x < ePromos.size(); x++) {
-                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getPromoUrl()));
+                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getImageSld()));
                 }
 
                 Adapter_ImageSlider adapter = new Adapter_ImageSlider(loSliders, args -> {
                     try{
-
+                        Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                        intent.putExtra("url_link", ePromos.get(args).getPromoUrl());
+                        intent.putExtra("browser_args", "1");
+                        intent.putExtra("args", "promo");
+                        requireActivity().sendBroadcast(intent);
                     } catch (Exception e){
                         e.printStackTrace();
                     }

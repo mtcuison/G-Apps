@@ -47,7 +47,9 @@ public interface iGCardSystem {
 
     void DownloadRedeemables(GCardSystem.GCardSystemCallback callback) throws Exception;
     void SaveRedeemables(JSONObject detail) throws Exception;
+    LiveData<List<Double>> GetRedeemablePointsFilter();
     LiveData<List<ERedeemablesInfo>> GetRedeemablesList();
+    LiveData<List<ERedeemablesInfo>> GetRedeemablesList(String fsVal);
     void AddToCart(CartItem item, GCardSystem.GCardSystemCallback callback);
     void UpdateCartItem(CartItem item, GCardSystem.GCardSystemCallback callback) throws Exception;
     LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems();

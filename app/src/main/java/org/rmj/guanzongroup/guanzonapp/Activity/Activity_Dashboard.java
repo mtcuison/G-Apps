@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.guanzonapp.Activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -30,12 +31,15 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
+import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_UserInfo;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
+import org.rmj.guanzongroup.digitalgcard.Dialogs.Dialog_TransactionPIN;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.Service.DashboardActionReceiver;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
@@ -65,6 +69,8 @@ public class Activity_Dashboard extends AppCompatActivity {
     private TextView lblBadge;
     private static final int GCARD_APPLICATION = 1;
 
+    private EGcardApp poGcardNo;
+
     private final DashboardActionReceiver poLogRcv = new DashboardActionReceiver();
 
     private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
@@ -75,15 +81,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                     if (loIntent != null) {
 //                        Toast.makeText(Activity_Dashboard.this, loIntent.getStringExtra("result"), Toast.LENGTH_LONG).show();
                         String lsArgs = loIntent.getStringExtra("args");
-                        AddGCard(lsArgs);
-                    } else {
-                        Toast.makeText(Activity_Dashboard.this, "No data result receive.", Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Intent loIntent = result.getData();
-                    if (loIntent != null) {
-//                        Toast.makeText(Activity_Dashboard.this, loIntent.getStringExtra("result"), Toast.LENGTH_LONG).show();
-                        String lsArgs = loIntent.getStringExtra("args");
+                        ParseQrCode(lsArgs);
                     } else {
                         Toast.makeText(Activity_Dashboard.this, "No data result receive.", Toast.LENGTH_LONG).show();
                     }
@@ -99,7 +97,8 @@ public class Activity_Dashboard extends AppCompatActivity {
         mViewModel = new ViewModelProvider(Activity_Dashboard.this).get(VMHome.class);
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarActivityDashboard.toolbar);
-
+        poLoading = new Dialog_Loading(Activity_Dashboard.this);
+        poDialog = new Dialog_SingleButton(Activity_Dashboard.this);
         DrawerLayout drawer = binding.drawerLayout;
         navigationView = binding.navView;
 
@@ -175,6 +174,10 @@ public class Activity_Dashboard extends AppCompatActivity {
         mViewModel.GetCartItemCount().observe(Activity_Dashboard.this, count -> {
             try {
                 toolbar = findViewById(R.id.toolbar);
+
+                lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+                navigationView.getMenu().findItem(R.id.nav_item_cart).setActionView(lblBadge);
+                lblBadge.setText(GetBadgeValue(count));
                 if(count > 0) {
                     loBadge = BadgeDrawable.create(Activity_Dashboard.this);
                     loBadge.setNumber(count);
@@ -239,9 +242,9 @@ public class Activity_Dashboard extends AppCompatActivity {
             @Override
             public void OnCheckPromos(String args1, String args2) {
                 Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
-                loDialog.initDialog(args1, (dialog) -> {
+                loDialog.initDialog(args2, (dialog) -> {
                     Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
-                    intent.putExtra("url_link", args2);
+                    intent.putExtra("url_link", args1);
                     intent.putExtra("args", "1");
                     startActivity(intent);
                     dialog.dismiss();
@@ -368,32 +371,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                     } else {
                         lsFullNme = eClientinfo.getUserName();
                     }
-                    mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, gcard -> {
-                        try {
-                            if(gcard != null) {
-                                lnGcardxx.setVisibility(View.VISIBLE);
-                                String lsGcardPt = "Points: " + gcard.getAvlPoint();
-                                txtGcardN.setText(gcard.getCardNmbr());
-                                txtGcardP.setText(lsGcardPt);
-                                headerLayout.setOnClickListener(v -> {
-                                    mViewModel.ViewGCardQrCode(bitmap -> {
-                                        try{
-                                            final Dialog_UserInfo loDialog = new Dialog_UserInfo(this);
-                                            loDialog.initDialog(gcard, bitmap);
-                                            loDialog.show();
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    });
-                                });
-                            } else {
-                                lnGcardxx.setVisibility(View.GONE);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            lnGcardxx.setVisibility(View.GONE);
-                        }
-                    });
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
                     txtFullNm.setText(Objects.requireNonNull(lsFullNme));
@@ -424,6 +401,37 @@ public class Activity_Dashboard extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
+
+        mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, gcard -> {
+            try {
+                poGcardNo = gcard;
+                if(gcard != null) {
+                    lnGcardxx.setVisibility(View.VISIBLE);
+                    String lsGcardPt = "Points: " + gcard.getAvlPoint();
+                    txtGcardN.setText(gcard.getCardNmbr());
+                    txtGcardP.setText(lsGcardPt);
+                } else {
+                    lnGcardxx.setVisibility(View.GONE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lnGcardxx.setVisibility(View.GONE);
+            }
+        });
+
+        headerLayout.setOnClickListener(v -> {
+            mViewModel.ViewGCardQrCode(bitmap -> {
+                try{
+                    if(poGcardNo != null) {
+                        final Dialog_UserInfo loDialog = new Dialog_UserInfo(this);
+                        loDialog.initDialog(poGcardNo, bitmap);
+                        loDialog.show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        });
     }
 
     private String GetBadgeValue(int val){
@@ -436,30 +444,50 @@ public class Activity_Dashboard extends AppCompatActivity {
         }
     }
 
-    public void AddGCard(String fsVal){
-        Dialog_Loading loLoad = new Dialog_Loading(Activity_Dashboard.this);
-        Dialog_SingleButton loMessage = new Dialog_SingleButton(Activity_Dashboard.this);
+    public void ParseQrCode(String fsVal){
+        mViewModel.ParseQrCode(fsVal, new GCardSystem.ParseQrCodeCallback() {
+            @Override
+            public void ApplicationResult(String args) {
+                AddGcard(args);
+            }
+
+            @Override
+            public void TransactionResult(String args) {
+                Dialog_TransactionPIN loDialog = new Dialog_TransactionPIN(Activity_Dashboard.this);
+                loDialog.initDialog(args);
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                poDialog.setButtonText("Okay");
+                poDialog.initDialog("Digital GCard", message, Dialog::dismiss);
+                poDialog.show();
+            }
+        });
+    }
+
+    private void AddGcard(String fsVal){
         mViewModel.AddNewGCard(fsVal, new VMHome.OnActionCallback() {
             @Override
             public void OnLoad() {
-                loLoad.initDialog("Digital GCard", "Adding GCard. Please wait...");
-                loLoad.show();
+                poLoading.initDialog("Digital GCard", "Adding GCard. Please wait...");
+                poLoading.show();
             }
 
             @Override
             public void OnSuccess(String args) {
-                loLoad.dismiss();
-                loMessage.setButtonText("Okay");
-                loMessage.initDialog("Digital GCard", args, dialog -> dialog.dismiss());
-                loMessage.show();
+                poLoading.dismiss();
+                poDialog.setButtonText("Okay");
+                poDialog.initDialog("Digital GCard", args, Dialog::dismiss);
+                poDialog.show();
             }
 
             @Override
             public void OnFailed(String args) {
-                loLoad.dismiss();
-                loMessage.setButtonText("Okay");
-                loMessage.initDialog("Digital GCard", args, dialog -> dialog.dismiss());
-                loMessage.show();
+                poLoading.dismiss();
+                poDialog.setButtonText("Okay");
+                poDialog.initDialog("Digital GCard", args, Dialog::dismiss);
+                poDialog.show();
             }
         });
     }

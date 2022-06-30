@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEvents;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPromo;
@@ -29,6 +30,7 @@ import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
 
+import java.util.Date;
 import java.util.List;
 
 public class SystemExtras implements iGCardSystem{
@@ -184,7 +186,17 @@ public class SystemExtras implements iGCardSystem{
     }
 
     @Override
+    public LiveData<List<Double>> GetRedeemablePointsFilter() {
+        return null;
+    }
+
+    @Override
     public LiveData<List<ERedeemablesInfo>> GetRedeemablesList() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<ERedeemablesInfo>> GetRedeemablesList(String fsVal) {
         return null;
     }
 
@@ -398,20 +410,41 @@ public class SystemExtras implements iGCardSystem{
             EPromo loPromo = poPromo.getPromoInfoIfExist(loJson.getString("sTransNox"));
             if(loPromo == null) {
                 //check the records from API, if record status is not equal to 1, record is inactive, do not insert
-//                if(!"1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
-//                    // insert saving method inside...
-//                }
-                EPromo info = new EPromo();
-                info.setTransNox(loJson.getString("sTransNox"));
-                info.setTransact(loJson.getString("dTransact"));
-                info.setImageUrl(loJson.getString("sImageURL"));
-                info.setPromoUrl(loJson.getString("sPromoURL"));
-                info.setCaptionx(loJson.getString("sCaptionx"));
-                info.setDateFrom(loJson.getString("dDateFrom"));
-                info.setDateThru(loJson.getString("dDateThru"));
-                poPromo.insert(info);
+                if(!"1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
+                    // insert saving method inside...
+                    EPromo info = new EPromo();
+                    info.setTransNox(loJson.getString("sTransNox"));
+                    info.setDivision(loJson.getInt("cDivision"));
+                    info.setTransact(loJson.getString("dTransact"));
+                    info.setImageUrl(loJson.getString("sImageURL"));
+                    info.setImageSld(loJson.getString("sImageNme"));
+                    info.setPromoUrl(loJson.getString("sPromoURL"));
+                    info.setCaptionx(loJson.getString("sCaptionx"));
+                    info.setDateFrom(loJson.getString("dDateFrom"));
+                    info.setDateThru(loJson.getString("dDateThru"));
+                    info.setRecdStat(loJson.getString("cRecdStat"));
+                    info.setTimeStmp(loJson.getString("dTimeStmp"));
+                    poPromo.insert(info);
+                    Log.d(TAG, "New record save!");
+                }
             } else {
+                Date ldDate1 = SQLUtil.toDate(loPromo.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
 
+                if(!ldDate1.equals(ldDate2)){
+                    poPromo.UpdatePromoInfo(loJson.getString("dTransact"),
+                            loJson.getString("dDateFrom"),
+                            loJson.getString("dDateThru"),
+                            loJson.getString("sCaptionx"),
+                            loJson.getString("sImageURL"),
+                            loJson.getString("cRecdStat"),
+                            loJson.getString("sImageNme"),
+                            loJson.getString("dTimeStmp"),
+                            loJson.getString("sPromoUrl"),
+                            loJson.getString("cDivision"),
+                            loJson.getString("sTransNox"));
+                    Log.d(TAG, "A record has been updated!");
+                }
             }
         }
     }
@@ -426,7 +459,6 @@ public class SystemExtras implements iGCardSystem{
         return poPromo.CheckPromo();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void DownloadNewsEvents(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
@@ -471,7 +503,7 @@ public class SystemExtras implements iGCardSystem{
 
     @Override
     public LiveData<List<EEvents>> GetNewsEvents() {
-        return null;
+        return poEvents.getAllEvents();
     }
 
     @Override

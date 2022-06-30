@@ -134,7 +134,6 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="121212" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -163,7 +162,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\User\Pictures\Guanzon Logo.svg" />
+                                                <entry key="imagePath" value="C:\Users\User\Pictures\Mobile App Assets -  revised\Brand Categories 100px\xiaomi.png" />
                                                 <entry key="paddingPercent" value="10" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
@@ -198,7 +197,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\User\Pictures\Guanzon Logo.svg" />
+                                      <entry key="iconShape" value="NONE" />
+                                      <entry key="imageAsset" value="C:\Users\User\Pictures\Mobile App Assets -  revised\Brand Categories 100px\xiaomi.png" />
+                                      <entry key="outputName" value="ic_xiaomi_logo" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -343,6 +344,11 @@
                             </entry>
                           </map>
                         </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="LAUNCHER_LEGACY" />
+                          </map>
+                        </option>
                       </PersistentState>
                     </value>
                   </entry>
@@ -378,8 +384,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ff7f32" />
-                            <entry key="outputName" value="ic_baseline_confirmation_pin_24" />
-                            <entry key="sourceFile" value="C:\Users\User\Downloads\computer-svgrepo-com.svg" />
+                            <entry key="outputName" value="ic_baseline_search_box_24" />
+                            <entry key="sourceFile" value="C:\Users\User\Downloads\box-svgrepo-com.svg" />
                           </map>
                         </option>
                       </PersistentState>

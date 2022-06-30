@@ -65,6 +65,7 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
         }
         if(loMaster.cReviewed.equalsIgnoreCase("1")){
             holder.lblReviewd.setVisibility(View.VISIBLE);
+            holder.btnReview.setVisibility(View.GONE);
         }
     }
 

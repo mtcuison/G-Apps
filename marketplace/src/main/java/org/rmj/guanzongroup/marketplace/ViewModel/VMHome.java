@@ -99,6 +99,7 @@ public class VMHome extends AndroidViewModel {
         @Override
         protected Bitmap doInBackground(String... strings) {
             try {
+                poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
                 return poSystem.GenerateGCardQrCode();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -175,6 +176,7 @@ public class VMHome extends AndroidViewModel {
             try {
                 ConnectionUtil loConn = new ConnectionUtil(mContext);
                 if(loConn.isDeviceConnected()) {
+                    poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
                     poSystem.AddGCardQrCode(strings[0], new GCardSystem.GCardSystemCallback() {
                         @Override
                         public void OnSuccess(String args) {
@@ -211,9 +213,85 @@ public class VMHome extends AndroidViewModel {
         }
     }
 
+    public void ParseQrCode(String fsArgs, GCardSystem.ParseQrCodeCallback callback){
+        new ParseQrCodeTask(callback).execute(fsArgs);
+    }
+
+    private class ParseQrCodeTask extends AsyncTask<String, Void, Boolean>{
+
+        private final GCardSystem.ParseQrCodeCallback callback;
+
+        private char cResult;
+        private String message;
+
+        public ParseQrCodeTask(GCardSystem.ParseQrCodeCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try{
+                poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
+                poSystem.ParseQrCode(strings[0], new GCardSystem.ParseQrCodeCallback() {
+                    @Override
+                    public void ApplicationResult(String args) {
+                        cResult = '0';
+                        message = args;
+                    }
+
+                    @Override
+                    public void TransactionResult(String args) {
+                        cResult = '1';
+                        message = args;
+                    }
+
+                    @Override
+                    public void OnFailed(String args) {
+                        cResult = '2';
+                        message = args;
+                    }
+                });
+                return true;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean) {
+                switch (cResult) {
+                    case '0':
+                        callback.ApplicationResult(message);
+                        break;
+                    case '1':
+                        callback.TransactionResult(message);
+                        break;
+                    default:
+                        callback.OnFailed(message);
+                        break;
+                }
+            } else {
+                callback.OnFailed(message);
+            }
+        }
+    }
+
     public LiveData<List<EPromo>> GetPromoLinkList(){
         poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
         return poSystem.GetPromotions();
+    }
+
+    public LiveData<List<String>> GetBrandNames(){
+        return poProduct.GetBrandNames();
     }
 
     public interface OnCheckPromotions {
@@ -258,9 +336,11 @@ public class VMHome extends AndroidViewModel {
         protected void onPostExecute(Boolean aBoolean) {
             if(lsPromo != null) {
                 mListener.OnCheckPromos(lsPromo, lsPmUrl);
-            } else if(lsEvent != null){
+            }
+            if(lsEvent != null){
                 mListener.OnCheckEvents(lsEvent, lsEvUrl);
-            } else {
+            }
+            if(lsEvent == null && lsPromo == null){
                 mListener.NoPromos();
             }
             super.onPostExecute(aBoolean);

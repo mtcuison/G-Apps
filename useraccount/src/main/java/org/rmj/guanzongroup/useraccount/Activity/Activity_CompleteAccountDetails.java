@@ -126,9 +126,10 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                     poDialogx.setButtonText("Okay");
                     poDialogx.initDialog("Account Details", fsMessage, dialog -> {
                         dialog.dismiss();
-                        Intent loIntent = new Intent();
-                        loIntent.putExtra("result", "cancelled");
-                        loIntent.putExtra("args", getIntent().getStringExtra("args"));
+                        Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                        intent.putExtra("args", "auth");
+                        sendBroadcast(intent);
+                        poLoading.dismiss();
                         finish();
                     });
                     poDialogx.show();

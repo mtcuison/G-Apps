@@ -48,7 +48,7 @@ public class Adapter_Advertisement extends RecyclerView.Adapter<Adapter_Advertis
 
         @Override
         public int getItemCount() {
-                return poPromoAd.size();
+                return 2;
         }
 
         public static class AdViewHolder extends RecyclerView.ViewHolder{

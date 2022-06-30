@@ -30,9 +30,6 @@ public interface DPromo {
     @Query("SELECT EXISTS(SELECT * FROM Promo_Link_Info WHERE sTransNox =:TransNox AND cNotified = '1')")
     boolean getPromoExist(String TransNox);
 
-    @Query("UPDATE Promo_Link_Info SET sImagePath =:imgPath WHERE sTransNox =:transNox ")
-    void updatePromoImgPath(String imgPath, String transNox);
-
     @Query("SELECT * FROM PROMO_LINK_INFO WHERE sTransNox =:TransNox")
     EPromo getPromoInfoIfExist(String TransNox);
 
@@ -44,9 +41,10 @@ public interface DPromo {
             "dDateThru=:DateThru, " +
             "sCaptionx=:Captionx, " +
             "sImageUrl=:ImageUrl, " +
-            "sImgeByte=:ImgeByte, " +
+            "sImageSld=:ImageSld, " +
+            "cRecdStat=:RecdStat, " +
+            "dTimeStmp=:TimeStmp, " +
             "sPromoUrl=:PromoUrl, " +
-            "cNotified=:Notified, " +
             "cDivision=:Division  " +
             "WHERE sTransNox=:TransNox")
     void UpdatePromoInfo(String Transact,
@@ -54,9 +52,10 @@ public interface DPromo {
                          String DateThru,
                          String Captionx,
                          String ImageUrl,
-                         String ImgeByte,
+                         String RecdStat,
+                         String ImageSld,
+                         String TimeStmp,
                          String PromoUrl,
-                         String Notified,
                          String Division,
                          String TransNox);
 }

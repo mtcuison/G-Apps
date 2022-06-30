@@ -55,14 +55,6 @@ public class Dialog_GCardCodex {
 
         btnClose = view.findViewById(R.id.btn_dialog_gcard_codex_close);
 
-//        btnDownLoad.setOnClickListener(view1 -> {
-//            if(txtTransN.getText().toString().trim().isEmpty()) {
-////                GToast.CreateMessage(context, "Please enter transaction number.", GToast.WARNING).show();
-//            } else {
-//                listener.OnDownloadClick(poDialogx, txtTransN.getText().toString());
-//            }
-//        });
-//
         btnClose.setOnClickListener(view12 -> listener.OnCancel(poDialogx));
     }
 

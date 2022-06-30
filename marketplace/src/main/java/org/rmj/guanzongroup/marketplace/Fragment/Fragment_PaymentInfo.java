@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.marketplace.Fragment;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -11,12 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_TextInput;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMPayOrder;
 import org.rmj.guanzongroup.marketplace.databinding.FragmentPaymentInfoBinding;
+
+import java.util.Locale;
 
 public class Fragment_PaymentInfo extends Fragment {
 
@@ -83,9 +89,50 @@ public class Fragment_PaymentInfo extends Fragment {
         mViewModel.getPaymentMethod().observe(getViewLifecycleOwner(), payMeth -> {
             binding.txtPayTyp.setText(payMeth.toString());
             psPayment = payMeth.toString();
+            if(!psPayment.equalsIgnoreCase(PaymentMethod.CashOnDelivery.toString())){
+                binding.cardviewPaymentInfo.setVisibility(View.VISIBLE);
+                binding.cardviewCod.setVisibility(View.GONE);
+                mViewModel.CheckPaymentMethods(new OnTransactionsCallback() {
+                @Override
+                public void onLoading() {
+                    poLoading = new Dialog_Loading(requireActivity());
+                    poLoading.initDialog("Pay Order", "Retrieving payment options. Please wait.");
+                    poLoading.show();
+                }
+
+                @Override
+                public void onSuccess(String fsMessage) {
+                    poLoading.dismiss();
+                    try {
+                        JSONObject loJson = new JSONObject(fsMessage);
+                        JSONArray laJson = loJson.getJSONArray("detail");
+                        for(int x = 0; x < laJson.length(); x++){
+                            JSONObject loDetail = laJson.getJSONObject(x);
+                            String lsBankCde = loDetail.getString("sBankCode");
+                            if(lsBankCde.toLowerCase(Locale.ROOT).equalsIgnoreCase(psPayment)) {
+                                binding.txtAccNme.setText(loDetail.getString("sActNamex"));
+                                binding.txtMobile.setText(loDetail.getString("sActNumbr"));
+                                break;
+                            }
+                        }
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialogx.setButtonText("Okay");
+                    poDialogx.initDialog("Pay Order", fsMessage, Dialog::dismiss);
+                    poDialogx.show();
+                }
+            });
+            } else {
+                binding.cardviewPaymentInfo.setVisibility(View.GONE);
+                binding.cardviewCod.setVisibility(View.VISIBLE);
+            }
         });
-        binding.txtAccNme.setText("Guanzon Group of Companies");
-        binding.txtMobile.setText("09123456789");
     }
 
     private void payOrder() {
@@ -121,7 +168,7 @@ public class Fragment_PaymentInfo extends Fragment {
                                 public void onFailed(String fsMessage) {
                                     poLoading.dismiss();
                                     poDialogx.setButtonText("Okay");
-                                    poDialogx.initDialog("Pay Order", fsMessage, dialog1 -> dialog1.dismiss());
+                                    poDialogx.initDialog("Pay Order", fsMessage, Dialog::dismiss);
                                     poDialogx.show();
                                 }
                             });
@@ -129,9 +176,7 @@ public class Fragment_PaymentInfo extends Fragment {
                     dialog.dismiss();
                     poDialogx.setButtonText("Okay");
                     poDialogx.initDialog("Pay Order",
-                            "Please enter payment reference number.", dialog1 -> {
-                                dialog1.dismiss();
-                            });
+                            "Please enter payment reference number.", Dialog::dismiss);
                     poDialogx.show();
                 }
             }
@@ -148,9 +193,7 @@ public class Fragment_PaymentInfo extends Fragment {
         if(mViewModel.getPaymentMethod().getValue() == null) {
             poDialogx.setButtonText("Okay");
             poDialogx.initDialog("Pay Order",
-                    "Please select payment method for your order.", dialog -> {
-                        dialog.dismiss();
-                    });
+                    "Please select payment method for your order.", Dialog::dismiss);
             poDialogx.show();
             return false;
         }

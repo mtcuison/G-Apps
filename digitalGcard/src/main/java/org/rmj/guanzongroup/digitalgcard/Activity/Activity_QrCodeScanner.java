@@ -40,19 +40,10 @@ public class Activity_QrCodeScanner extends AppCompatActivity {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
                         scanner.setResultHandler(rawResult -> {
-                            CodeGenerator loCode = new CodeGenerator();
-                            loCode.setEncryptedQrCode(rawResult.toString());
-                            if(loCode.isQrCodeApplication()){
-                                Intent loIntent = new Intent();
-                                loIntent.putExtra("args", rawResult.toString());
-                                setResult(1, loIntent);
-                                finish();
-                            } else {
-                                Intent loIntent = new Intent();
-                                loIntent.putExtra("args", rawResult.toString());
-                                setResult(2, loIntent);
-                                finish();
-                            }
+                            Intent loIntent = new Intent();
+                            loIntent.putExtra("args", rawResult.toString());
+                            setResult(1, loIntent);
+                            finish();
                         });
                         scanner.startCamera();
                     }

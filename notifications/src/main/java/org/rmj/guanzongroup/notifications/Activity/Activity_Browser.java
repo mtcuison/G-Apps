@@ -63,9 +63,6 @@ public class Activity_Browser extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setUseWideViewPort(true);
-
-
-
     }
 
     private void LoadLink(){
