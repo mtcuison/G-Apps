@@ -223,8 +223,18 @@ public class RedemptionManager implements iGCardSystem{
     }
 
     @Override
+    public LiveData<List<Double>> GetRedeemablePointsFilter() {
+        return poRedeemables.GetRedeemablePointsFilter();
+    }
+
+    @Override
     public LiveData<List<ERedeemablesInfo>> GetRedeemablesList() {
         return poRedeemables.getRedeemablesList();
+    }
+
+    @Override
+    public LiveData<List<ERedeemablesInfo>> GetRedeemablesList(String fsVal) {
+        return poRedeemables.getRedeemablesList(fsVal);
     }
 
     @Override

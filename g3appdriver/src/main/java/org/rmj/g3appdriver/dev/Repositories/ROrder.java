@@ -529,6 +529,38 @@ public class ROrder {
         }
     }
 
+    public boolean CancelOrder(String args, String args1){
+        try{
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            JSONObject params = new JSONObject();
+            params.put("sTransNox", args);
+            params.put("sRemarksx", args1);
+
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getCancelMarketplaceOrderAPI(),
+                    params.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if (lsResponse == null) {
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if (!lsResult.equalsIgnoreCase("success")) {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
     public boolean ImportPurchases(){
         try{
             DOrderMaster loMaster = GGC_GuanzonAppDB.getInstance(mContext).orderMasterDao();
@@ -661,5 +693,38 @@ public class ROrder {
 
     public void UpdateReviewedItem(String OrderID, String ListID){
         poDetail.UpdateReviewedItem(OrderID, ListID);
+    }
+
+    public boolean DownloadBankAccounts(){
+        try{
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            JSONObject params = new JSONObject();
+            params.put("bsearch", true);
+            params.put("descript", "");
+
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.GetDownloadBankAccountAPI(),
+                    params.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if (lsResponse == null) {
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if (!lsResult.equalsIgnoreCase("success")) {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    data = loResponse;
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
     }
 }

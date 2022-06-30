@@ -181,6 +181,16 @@ public class VMGCardSystem extends AndroidViewModel {
         }
     }
 
+    public LiveData<List<Double>> GetRedeemablePointsFilter(){
+        mGcardSys = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
+        return mGcardSys.GetRedeemablePointsFilter();
+    }
+
+    public LiveData<List<ERedeemablesInfo>> GetRedeemablePointsFilter(String fsVal){
+        mGcardSys = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
+        return mGcardSys.GetRedeemablesList(fsVal);
+    }
+
     // ------- ASYNCTASKS -------- //
     private static class AddGcardTask extends AsyncTask<GcardCredentials, Void, String> {
         private static final String ADD_GCARD_TAG = AddGcardTask.class.getSimpleName();

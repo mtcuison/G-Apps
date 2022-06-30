@@ -48,7 +48,6 @@ public class Fragment_MPItemCart extends Fragment {
     private MaterialButton btnCheckOut, btnShopNow;
     private TextView lblGrandTotal;
     private Adapter_ItemCart adapter;
-    private List<ItemCartModel> itemList;
     public static Fragment_MPItemCart newInstance() {
         return new Fragment_MPItemCart();
     }
@@ -56,10 +55,10 @@ public class Fragment_MPItemCart extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMMPItemCart.class);
         View v = inflater.inflate(R.layout.fragment_mp_item_cart, container, false);
         v.setVisibility(View.GONE);
         initWidgets(v);
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMMPItemCart.class);
         try {
             LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
             recyclerView.setLayoutManager(layoutManager);

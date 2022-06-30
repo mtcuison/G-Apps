@@ -58,6 +58,11 @@ public class RProduct {
             JSONObject params = new JSONObject();
             params.put("bsearch", true);
             params.put("descript", "");
+
+            String lsTimeStmp = poDao.GetLatestProductStamp();
+            if(lsTimeStmp != null){
+                params.put("timestamp", lsTimeStmp);
+            }
             String lsResponse = WebClient.httpsPostJSon(
                     loApis.getImportProducts(),
                     params.toString(),
@@ -249,6 +254,10 @@ public class RProduct {
 
     public LiveData<List<DProduct.oProduct>> SearchProducts(String fsVal){
         return poDao.SearchProducts(fsVal);
+    }
+
+    public LiveData<List<String>> GetBrandNames(){
+        return poDao.GetBrandNames();
     }
 
     public boolean SearchProduct(String fsVal){

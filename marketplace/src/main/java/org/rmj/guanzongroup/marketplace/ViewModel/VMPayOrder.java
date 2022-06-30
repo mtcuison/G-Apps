@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
@@ -104,4 +105,52 @@ public class VMPayOrder extends AndroidViewModel {
 
     }
 
+    public void CheckPaymentMethods(OnTransactionsCallback callback){
+        new CheckPaymentMethodTask(application, callback).execute();
+    }
+
+    private static class CheckPaymentMethodTask extends AsyncTask<String, Void, Boolean>{
+
+        private final OnTransactionsCallback callback;
+        private final ROrder poOrder;
+
+        private String message;
+
+        public CheckPaymentMethodTask(Context context, OnTransactionsCallback callback) {
+            this.poOrder = new ROrder(context);
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.onLoading();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try{
+                if(poOrder.DownloadBankAccounts()){
+                    message = poOrder.getData().toString();
+                    return true;
+                } else {
+                    message = poOrder.getMessage();
+                    return false;
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+                callback.onSuccess(message);
+            } else {
+                callback.onFailed(message);
+            }
+        }
+    }
 }

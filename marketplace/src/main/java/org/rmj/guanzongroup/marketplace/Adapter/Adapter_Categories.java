@@ -1,9 +1,5 @@
 package org.rmj.guanzongroup.marketplace.Adapter;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -20,6 +15,7 @@ import com.squareup.picasso.Picasso;
 import org.rmj.guanzongroup.marketplace.R;
 
 import java.util.List;
+import java.util.Locale;
 
 
 public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.ViewHolderItem> {
@@ -41,9 +37,10 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
 
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
+        String item = list.get(position);
+        holder.psItem = item;
         try {
-            String item = list.get(position);
-            Picasso.get().load(item)
+            Picasso.get().load(getImageUrl(item))
                     .error(org.rmj.guanzongroup.digitalgcard.R.drawable.ic_no_image_available).into(holder.imgCategx);
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,9 +54,10 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder {
 
+        public String psItem;
         public ConstraintLayout lnCategry;
         public ImageView imgCategx;
-        public TextView txtCategx;
+        public TextView txtCategx, txtNamexx;
 
         public ViewHolderItem(@NonNull View itemView, OnItemClick foCallBck) {
             super(itemView);
@@ -70,7 +68,7 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
             lnCategry.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION) {
-                    foCallBck.onClick(position);
+                    foCallBck.onClick(psItem);
                 }
             });
 
@@ -78,8 +76,28 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
 
     }
 
-    public interface OnItemClick {
-        void onClick(int position);
+    private String getImageUrl(String fsVal){
+        switch (fsVal.toLowerCase(Locale.ROOT)){
+            case "samsung":
+                return "http://192.168.10.141/integsys/marketplace/uploads/brand_logos/samsung_logo.png";
+            case "vivo":
+                return "http://192.168.10.141/integsys/marketplace/uploads/brand_logos/vivo_logo.png";
+            case "huawei":
+                return "http://192.168.10.141/integsys/marketplace/uploads/brand_logos/huawei_logo.png";
+            case "apple":
+                return "http://192.168.10.141/integsys/marketplace/uploads/brand_logos/apple_logo.png";
+            case "oppo":
+                return "http://192.168.10.141/integsys/marketplace/uploads/brand_logos/oppo_logo.png";
+            case "xiaomi":
+                return "http://192.168.10.141/integsys/marketplace/uploads/brand_logos/xiaomi_logo.png";
+            case "techno":
+                return "http://192.168.10.141/integsys/marketplace/uploads/brand_logos/techno_logo.png";
+            default:
+                return "http://192.168.10.141/integsys/marketplace/uploads/brand_logos/realme_logo.png";
+        }
     }
 
+    public interface OnItemClick {
+        void onClick(String args);
+    }
 }

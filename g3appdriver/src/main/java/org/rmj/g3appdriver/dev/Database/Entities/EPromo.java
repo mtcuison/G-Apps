@@ -29,6 +29,9 @@ public class EPromo {
     @ColumnInfo(name = "sImageUrl")
     private String ImageUrl;
 
+    @ColumnInfo(name = "sImageSld")
+    private String ImageSld;
+
     @ColumnInfo(name = "sImgeByte")
     private String ImgeByte;
 
@@ -41,11 +44,11 @@ public class EPromo {
     @ColumnInfo(name = "cDivision")
     private int Division;
 
-    @ColumnInfo(name = "sDirectoryFolder")
-    private String DirectoryFolder;
+    @ColumnInfo(name = "cRecdStat")
+    private String RecdStat;
 
-    @ColumnInfo(name = "sImagePath")
-    private String ImagePath;
+    @ColumnInfo(name = "dTimeStmp")
+    private String TimeStmp;
 
     public EPromo() {
     }
@@ -131,18 +134,27 @@ public class EPromo {
         Division = division;
     }
 
-    public String getDirectoryFolder() {
-        return DirectoryFolder;
+    public String getImageSld() {
+        return ImageSld;
     }
 
-    public void setDirectoryFolder(String directoryFolder) {
-        DirectoryFolder = directoryFolder;
-    }
-    public String getImagePath() {
-        return ImagePath;
+    public void setImageSld(String imageSld) {
+        ImageSld = imageSld;
     }
 
-    public void setImagePath(String imagePath) {
-        ImagePath = imagePath;
+    public String getRecdStat() {
+        return RecdStat;
+    }
+
+    public void setRecdStat(String recdStat) {
+        RecdStat = recdStat;
+    }
+
+    public String getTimeStmp() {
+        return TimeStmp;
+    }
+
+    public void setTimeStmp(String timeStmp) {
+        TimeStmp = timeStmp;
     }
 }

@@ -32,7 +32,7 @@ public class Fragment_PaymentSelection extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPayOrder.class);
         binding = FragmentPaymentSelectBinding.inflate(inflater, container, false);
         poDialogx = new Dialog_SingleButton(requireActivity());
-        selectPayment();
+
         binding.btnSelect.setOnClickListener(v -> {
             if(isMethodSelected()) {
                 mViewModel.setPaymentMethod(poPayMeth);
@@ -79,10 +79,6 @@ public class Fragment_PaymentSelection extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    private void selectPayment() {
-
     }
 
     private boolean isMethodSelected() {
