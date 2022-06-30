@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.marketplace.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,6 +29,7 @@ public class Activity_ProductList extends AppCompatActivity {
 
     private Toolbar toolbar;
     private ViewPager viewPager;
+    private SearchView searchView;
     private RecyclerView recyclerView;
 
     private Adapter_ProductList poAdapter;
@@ -38,6 +40,7 @@ public class Activity_ProductList extends AppCompatActivity {
         mViewModel = new ViewModelProvider(Activity_ProductList.this).get(VMProductList.class);
         setContentView(R.layout.activity_product_list);
         toolbar = findViewById(R.id.toolbar);
+        searchView = findViewById(R.id.searchview);
         recyclerView = findViewById(R.id.rv_products);
         recyclerView.setLayoutManager(new GridLayoutManager(Activity_ProductList.this,
                 2, RecyclerView.VERTICAL, false));
@@ -45,12 +48,12 @@ public class Activity_ProductList extends AppCompatActivity {
         toolbar.setTitle(lsBrandNme);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mViewModel.SetProductFilter(new RProduct.oFilterx(FilterType.BRAND_NAME, lsBrandNme, ""));
-        mViewModel.GetFilterType().observe(Activity_ProductList.this, oFilterx -> {
-            try{
-                mViewModel.GetBrandProductList(0, oFilterx.getFilter(), oFilterx.getArgs1()).observe(Activity_ProductList.this, new Observer<List<DProduct.oProduct>>() {
-                    @Override
-                    public void onChanged(List<DProduct.oProduct> oProducts) {
+        SetupListView(lsBrandNme);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mViewModel.GetProductsOnBrand(lsBrandNme, query).observe(Activity_ProductList.this, oProducts -> {
+                    try{
                         if(oProducts.size() > 0) {
                             poAdapter = new Adapter_ProductList(oProducts, listingId -> {
                                 Intent loIntent = new Intent(Activity_ProductList.this, Activity_ProductOverview.class);
@@ -60,11 +63,21 @@ public class Activity_ProductList extends AppCompatActivity {
                             recyclerView.setAdapter(poAdapter);
                             poAdapter.notifyDataSetChanged();
                         }
+                    } catch (Exception e){
+                        e.printStackTrace();
                     }
                 });
-            } catch (Exception e){
-                e.printStackTrace();
+                return false;
             }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(() -> {
+            SetupListView(lsBrandNme);
+            return false;
         });
     }
 
@@ -74,5 +87,26 @@ public class Activity_ProductList extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void SetupListView(String lsBrandNme){
+        mViewModel.SetProductFilter(new RProduct.oFilterx(FilterType.BRAND_NAME, lsBrandNme, ""));
+        mViewModel.GetFilterType().observe(Activity_ProductList.this, oFilterx -> {
+            try{
+                mViewModel.GetBrandProductList(0, oFilterx.getFilter(), oFilterx.getArgs1()).observe(Activity_ProductList.this, oProducts -> {
+                    if(oProducts.size() > 0) {
+                        poAdapter = new Adapter_ProductList(oProducts, listingId -> {
+                            Intent loIntent = new Intent(Activity_ProductList.this, Activity_ProductOverview.class);
+                            loIntent.putExtra("sListingId", listingId);
+                            startActivity(loIntent);
+                        });
+                        recyclerView.setAdapter(poAdapter);
+                        poAdapter.notifyDataSetChanged();
+                    }
+                });
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
     }
 }

@@ -149,6 +149,18 @@ public interface DProduct {
             "GROUP BY nUnitPrce")
     LiveData<List<String>> GetPriceFilterForBrand(String fsArgs);
 
+
+    @Query("SELECT sListngID AS sProdctID, " +
+            "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
+            "nUnitPrce AS sPricexxx," +
+            "sImagesxx, " +
+            "nSoldQtyx AS sUntsSold " +
+            "FROM Product_Inventory " +
+            "WHERE sProdctNm LIKE '%' || :fsArgs || '%'" +
+            "AND xBrandNme LIKE '%' || :fsArgs1 || '%'" +
+            "ORDER BY nUnitPrce ASC")
+    LiveData<List<oProduct>> GetProductsOnBrand(String fsArgs, String fsArgs1);
+
     class oProduct{
         public String sProdctID;
         public String sProdctNm;

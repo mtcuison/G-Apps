@@ -34,4 +34,8 @@ public class VMProductList extends AndroidViewModel {
     public LiveData<List<DProduct.oProduct>> GetBrandProductList(int fnIndex, FilterType foVal, String args){
         return poProdct.GetProductsList(fnIndex, foVal, args, null);
     }
+
+    public LiveData<List<DProduct.oProduct>> GetProductsOnBrand(String fsArgs, String fsArgs1){
+        return poProdct.GetProductsOnBrand(fsArgs, fsArgs1);
+    }
 }
