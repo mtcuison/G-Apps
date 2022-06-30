@@ -57,6 +57,7 @@ public class Fragment_MPItemCart extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMMPItemCart.class);
         View v = inflater.inflate(R.layout.fragment_mp_item_cart, container, false);
+        v.setVisibility(View.GONE);
         initWidgets(v);
         try {
             LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
@@ -66,6 +67,7 @@ public class Fragment_MPItemCart extends Fragment {
                 try {
                     List<ItemCartModel> itemCart = mViewModel.ParseDataForAdapter(items);
                     if (itemCart.size() > 0){
+                        v.setVisibility(View.VISIBLE);
                         noItem.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                         lnMPFooter.setVisibility(View.VISIBLE);
@@ -132,6 +134,7 @@ public class Fragment_MPItemCart extends Fragment {
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     } else {
+                        v.setVisibility(View.VISIBLE);
                         noItem.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);
                         lnMPFooter.setVisibility(View.GONE);
