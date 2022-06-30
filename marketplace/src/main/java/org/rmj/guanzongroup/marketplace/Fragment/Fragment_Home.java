@@ -21,6 +21,7 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductList;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_Categories;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ImageSlider;
@@ -82,8 +83,10 @@ public class Fragment_Home extends Fragment {
 //        List<String> strings = new ArrayList<>();
         mViewModel.GetBrandNames().observe(getViewLifecycleOwner(), strings -> {
             try {
-                final Adapter_Categories loAdapter = new Adapter_Categories(strings, position -> {
-
+                final Adapter_Categories loAdapter = new Adapter_Categories(strings, args -> {
+                    Intent loIntent = new Intent(requireActivity(), Activity_ProductList.class);
+                    loIntent.putExtra("xBrandNme", args);
+                    startActivity(loIntent);
                 });
                 loAdapter.notifyDataSetChanged();
                 poRvCateg.setAdapter(loAdapter);
@@ -91,18 +94,6 @@ public class Fragment_Home extends Fragment {
                 e.printStackTrace();
             }
         });
-//        strings.add("https://i0.wp.com/www.getsims.com/wp-content/uploads/2018/03/samsung-logo-square.jpg?resize=300%2C300&ssl=1");
-//        strings.add("https://static.zerochan.net/Enomoto.Yuiko.full.1590131.jpg");
-//        strings.add("https://datingroo.com/wp-content/uploads/2021/03/stop-abuse-resized.jpg");
-//        strings.add("https://images-stylist.s3-eu-west-1.amazonaws.com/app/uploads/2020/12/21183331/how-to-stay-calm-in-an-argument-crop-1640111653-1920x1920.jpg");
-//        strings.add("https://www.stylist.co.uk/images/app/uploads/2020/04/08154707/gettyimages-1171901303-1120x1120.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress");
-//        strings.add("https://static.zerochan.net/Okumura.Rin.full.598240.jpg");
-//        strings.add("https://static.zerochan.net/Venti.full.3365467.jpg");
-//        strings.add("https://static.zerochan.net/Enomoto.Yuiko.full.1590131.jpg");
-//        strings.add("https://datingroo.com/wp-content/uploads/2021/03/stop-abuse-resized.jpg");
-//        strings.add("https://images-stylist.s3-eu-west-1.amazonaws.com/app/uploads/2020/12/21183331/how-to-stay-calm-in-an-argument-crop-1640111653-1920x1920.jpg");
-//        strings.add("https://www.stylist.co.uk/images/app/uploads/2020/04/08154707/gettyimages-1171901303-1120x1120.jpg?w=1200&h=1&fit=max&auto=format%2Ccompress");
-//        strings.add("https://static.zerochan.net/Okumura.Rin.full.598240.jpg");
     }
 
     private void setProductAdapter() {
@@ -128,7 +119,7 @@ public class Fragment_Home extends Fragment {
         mViewModel.GetPromoLinkList().observe(getViewLifecycleOwner(), ePromos -> {
             try {
                 for (int x = 0; x < ePromos.size(); x++) {
-                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getImageUrl()));
+                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getImageSld()));
                 }
 
                 Adapter_ImageSlider adapter = new Adapter_ImageSlider(loSliders, args -> {

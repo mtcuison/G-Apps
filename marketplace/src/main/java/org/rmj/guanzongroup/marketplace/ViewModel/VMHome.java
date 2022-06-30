@@ -99,6 +99,7 @@ public class VMHome extends AndroidViewModel {
         @Override
         protected Bitmap doInBackground(String... strings) {
             try {
+                poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
                 return poSystem.GenerateGCardQrCode();
             } catch (Exception e) {
                 e.printStackTrace();

@@ -58,6 +58,11 @@ public class RProduct {
             JSONObject params = new JSONObject();
             params.put("bsearch", true);
             params.put("descript", "");
+
+            String lsTimeStmp = poDao.GetLatestProductStamp();
+            if(lsTimeStmp != null){
+                params.put("timestamp", lsTimeStmp);
+            }
             String lsResponse = WebClient.httpsPostJSon(
                     loApis.getImportProducts(),
                     params.toString(),

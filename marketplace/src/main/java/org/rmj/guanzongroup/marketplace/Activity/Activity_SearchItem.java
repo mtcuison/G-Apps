@@ -92,10 +92,11 @@ public class Activity_SearchItem extends AppCompatActivity {
                     EPromo loPromo = ePromos.get(x);
                     if(loPromo.getDivision() == 0){
                         AdvertisementInfo loAds = new AdvertisementInfo();
-                        loAds.setImageUrl(loPromo.getImageUrl());
+                        loAds.setImageUrl(loPromo.getImageSld());
                         loAds.setPromoId(loPromo.getTransNox());
                         loList.add(loAds);
                     }
+
                 }
                 Adapter_Advertisement loAdapter = new Adapter_Advertisement(loList, loList.size(), fsId -> {
 

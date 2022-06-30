@@ -31,6 +31,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
@@ -67,6 +68,8 @@ public class Activity_Dashboard extends AppCompatActivity {
     private BadgeDrawable loBadge;
     private TextView lblBadge;
     private static final int GCARD_APPLICATION = 1;
+
+    private EGcardApp poGcardNo;
 
     private final DashboardActionReceiver poLogRcv = new DashboardActionReceiver();
 
@@ -368,32 +371,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                     } else {
                         lsFullNme = eClientinfo.getUserName();
                     }
-                    mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, gcard -> {
-                        try {
-                            if(gcard != null) {
-                                lnGcardxx.setVisibility(View.VISIBLE);
-                                String lsGcardPt = "Points: " + gcard.getAvlPoint();
-                                txtGcardN.setText(gcard.getCardNmbr());
-                                txtGcardP.setText(lsGcardPt);
-                                headerLayout.setOnClickListener(v -> {
-                                    mViewModel.ViewGCardQrCode(bitmap -> {
-                                        try{
-                                            final Dialog_UserInfo loDialog = new Dialog_UserInfo(this);
-                                            loDialog.initDialog(gcard, bitmap);
-                                            loDialog.show();
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    });
-                                });
-                            } else {
-                                lnGcardxx.setVisibility(View.GONE);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            lnGcardxx.setVisibility(View.GONE);
-                        }
-                    });
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
                     txtFullNm.setText(Objects.requireNonNull(lsFullNme));
@@ -423,6 +400,37 @@ public class Activity_Dashboard extends AppCompatActivity {
             } catch(Exception e) {
                 e.printStackTrace();
             }
+        });
+
+        mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, gcard -> {
+            try {
+                poGcardNo = gcard;
+                if(gcard != null) {
+                    lnGcardxx.setVisibility(View.VISIBLE);
+                    String lsGcardPt = "Points: " + gcard.getAvlPoint();
+                    txtGcardN.setText(gcard.getCardNmbr());
+                    txtGcardP.setText(lsGcardPt);
+                } else {
+                    lnGcardxx.setVisibility(View.GONE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lnGcardxx.setVisibility(View.GONE);
+            }
+        });
+
+        headerLayout.setOnClickListener(v -> {
+            mViewModel.ViewGCardQrCode(bitmap -> {
+                try{
+                    if(poGcardNo != null) {
+                        final Dialog_UserInfo loDialog = new Dialog_UserInfo(this);
+                        loDialog.initDialog(poGcardNo, bitmap);
+                        loDialog.show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         });
     }
 

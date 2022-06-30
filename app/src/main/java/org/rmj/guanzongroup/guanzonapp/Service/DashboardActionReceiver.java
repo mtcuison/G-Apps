@@ -25,6 +25,9 @@ public class DashboardActionReceiver extends BroadcastReceiver {
                 case "auth":
                     new CheckDataImportTask(context).execute();
                     break;
+                case "client":
+                    new ImportClientCompleteInfoTask(context).execute();
+                    break;
                 case "promo":
                     Intent loIntent = new Intent(context, Activity_Browser.class);
                     loIntent.putExtra("url_link", intent.getStringExtra("url_link"));
@@ -86,6 +89,57 @@ public class DashboardActionReceiver extends BroadcastReceiver {
                 }
 
                 pause();
+                RClientInfo loClient = new RClientInfo(mContext);
+                if (loClient.ImportAccountInfo()) {
+                    Log.d(TAG, "Client info downloaded successfully.");
+                } else {
+                    Log.e(TAG, "Failed to download client info. " + loClient.getMessage());
+                }
+                pause();
+                if (loClient.getClientId() != null) {
+                    ROrder loPurchase = new ROrder(mContext);
+                    if (loPurchase.ImportMarketPlaceItemCart()) {
+                        Log.d(TAG, "Cart items downloaded successfully.");
+                    } else {
+                        Log.e(TAG, "Failed to download cart items. " + loPurchase.getMessage());
+                    }
+                    pause();
+                    if (loPurchase.ImportPurchases()) {
+                        Log.d(TAG, "Purchases downloaded successfully.");
+                    } else {
+                        Log.e(TAG, "Failed to download purchases. " + loPurchase.getMessage());
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        private void pause() throws Exception{
+            Thread.sleep(1000);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d(TAG, "Local imports for user account has finished.");
+        }
+    }
+
+    private static class ImportClientCompleteInfoTask extends AsyncTask<String, Void, String>{
+
+        private final Context mContext;
+        private iGCardSystem loGcard;
+        private char cImportxx;
+
+        public ImportClientCompleteInfoTask(Context mContext) {
+            this.mContext = mContext;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
                 RClientInfo loClient = new RClientInfo(mContext);
                 if (loClient.ImportAccountInfo()) {
                     Log.d(TAG, "Client info downloaded successfully.");
