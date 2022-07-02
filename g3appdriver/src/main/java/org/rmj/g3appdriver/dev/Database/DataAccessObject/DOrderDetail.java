@@ -57,6 +57,7 @@ public interface DOrderDetail {
     @Query("SELECT a.sListngID AS sListIDxx, " +
             "a.xModelNme, " +
             "a.nUnitPrce, " +
+            "a.sImagesxx, " +
             "b.nQuantity, " +
             "b.cReviewed " +
             "FROM Product_Inventory a " +
@@ -80,6 +81,7 @@ public interface DOrderDetail {
 
     class OrderedItemsInfo{
         public String sListIDxx;
+        public String sImagesxx;
         public String xModelNme;
         public String nUnitPrce;
         public String nQuantity;

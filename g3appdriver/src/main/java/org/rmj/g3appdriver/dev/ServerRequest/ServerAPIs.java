@@ -59,6 +59,7 @@ public class ServerAPIs {
     private static final String IMPORT_CART_ITEMS = "integsys/marketplace/download_cart.php";
     private static final String MKTPL_PLACE_ORDER = "integsys/marketplace/place_order.php";
     private static final String MKTPL_CANCEL_ORDER = "integsys/marketplace/cancel_order.php";
+    private static final String IMPORT_MKTPL_CANCELLATIONS = "integsys/marketplace/import_cancellation_detail.php";
     private static final String MKTPL_ORDER_PAYMENT = "integsys/marketplace/place_order_payment.php";
     private static final String IMPORT_PURCHASES = "integsys/marketplace/download_purchases.php";
     private static final String IMPORT_RETRIEVE_SHIPPING_ADDRESS = "";
@@ -535,5 +536,12 @@ public class ServerAPIs {
             return LOCAL + IMPORT_BANK_ACC;
         }
         return LIVE + IMPORT_BANK_ACC;
+    }
+
+    public String GetDownloadCancellationsAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_MKTPL_CANCELLATIONS;
+        }
+        return LIVE + IMPORT_MKTPL_CANCELLATIONS;
     }
 }

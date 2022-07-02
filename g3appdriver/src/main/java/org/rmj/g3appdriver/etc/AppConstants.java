@@ -145,4 +145,10 @@ public class AppConstants {
     public String GCARD_DATE_TIME = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date());
 
     public static String CURRENT_TIME = String.valueOf(new Timestamp(new Date().getTime()));
+
+    public static String[] REQUEST_CODE = {
+            "New",
+            "Update",
+            "Change"
+    };
 }

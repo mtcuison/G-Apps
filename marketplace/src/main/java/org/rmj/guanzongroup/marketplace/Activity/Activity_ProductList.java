@@ -13,6 +13,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
@@ -31,6 +33,7 @@ public class Activity_ProductList extends AppCompatActivity {
     private ViewPager viewPager;
     private SearchView searchView;
     private RecyclerView recyclerView;
+    private TextView lblNoItem;
 
     private Adapter_ProductList poAdapter;
 
@@ -42,6 +45,7 @@ public class Activity_ProductList extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         searchView = findViewById(R.id.searchview);
         recyclerView = findViewById(R.id.rv_products);
+        lblNoItem = findViewById(R.id.textView);
         recyclerView.setLayoutManager(new GridLayoutManager(Activity_ProductList.this,
                 2, RecyclerView.VERTICAL, false));
         String lsBrandNme = getIntent().getStringExtra("xBrandNme");
@@ -52,9 +56,11 @@ public class Activity_ProductList extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mViewModel.GetProductsOnBrand(lsBrandNme, query).observe(Activity_ProductList.this, oProducts -> {
+                mViewModel.GetProductsOnBrand(query, lsBrandNme).observe(Activity_ProductList.this, oProducts -> {
                     try{
                         if(oProducts.size() > 0) {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            lblNoItem.setVisibility(View.GONE);
                             poAdapter = new Adapter_ProductList(oProducts, listingId -> {
                                 Intent loIntent = new Intent(Activity_ProductList.this, Activity_ProductOverview.class);
                                 loIntent.putExtra("sListingId", listingId);
@@ -62,6 +68,10 @@ public class Activity_ProductList extends AppCompatActivity {
                             });
                             recyclerView.setAdapter(poAdapter);
                             poAdapter.notifyDataSetChanged();
+                        } else {
+                            lblNoItem.setVisibility(View.VISIBLE);
+                            lblNoItem.setText("No item found for keyword '" +query+ "' under " +lsBrandNme+" Brand");
+                            recyclerView.setVisibility(View.GONE);
                         }
                     } catch (Exception e){
                         e.printStackTrace();
@@ -72,12 +82,13 @@ public class Activity_ProductList extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if(newText == null){
+                    SetupListView(lsBrandNme);
+                } else if(newText.isEmpty()){
+                    SetupListView(lsBrandNme);
+                }
                 return false;
             }
-        });
-        searchView.setOnCloseListener(() -> {
-            SetupListView(lsBrandNme);
-            return false;
         });
     }
 
@@ -95,6 +106,7 @@ public class Activity_ProductList extends AppCompatActivity {
             try{
                 mViewModel.GetBrandProductList(0, oFilterx.getFilter(), oFilterx.getArgs1()).observe(Activity_ProductList.this, oProducts -> {
                     if(oProducts.size() > 0) {
+                        lblNoItem.setVisibility(View.GONE);
                         poAdapter = new Adapter_ProductList(oProducts, listingId -> {
                             Intent loIntent = new Intent(Activity_ProductList.this, Activity_ProductOverview.class);
                             loIntent.putExtra("sListingId", listingId);
@@ -102,6 +114,9 @@ public class Activity_ProductList extends AppCompatActivity {
                         });
                         recyclerView.setAdapter(poAdapter);
                         poAdapter.notifyDataSetChanged();
+                    } else {
+                        lblNoItem.setVisibility(View.VISIBLE);
+                        lblNoItem.setText("Currently there are no available items for product '" + lsBrandNme + "'");
                     }
                 });
             } catch (Exception e){

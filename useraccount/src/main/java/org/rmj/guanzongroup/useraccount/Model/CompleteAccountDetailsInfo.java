@@ -158,6 +158,9 @@ public class CompleteAccountDetailsInfo {
         } else if(sFirstNme.isEmpty()) {
             sMessagex = "Please enter First Name";
             return false;
+        } else if(sMiddName.isEmpty()) {
+            sMessagex = "Please enter Middle Name";
+            return false;
         } else if(sBirthDte.isEmpty()) {
             sMessagex = "Please enter Birth Date";
             return false;

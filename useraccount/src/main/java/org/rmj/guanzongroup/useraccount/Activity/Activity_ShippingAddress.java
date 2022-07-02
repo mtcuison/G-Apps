@@ -79,5 +79,4 @@ public class Activity_ShippingAddress extends AppCompatActivity {
             finish();
         }
     }
-
 }

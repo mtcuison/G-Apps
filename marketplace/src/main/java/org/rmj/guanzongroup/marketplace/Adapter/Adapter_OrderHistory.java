@@ -3,11 +3,15 @@ package org.rmj.guanzongroup.marketplace.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderMaster;
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.guanzongroup.marketplace.R;
@@ -41,10 +45,11 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
         holder.lblOrderNo.setText(loMaster.sTransNox);
         holder.lblOrderSt.setText(GetOrderStatus(loMaster.cTranStat));
         holder.lblOrderTl.setText(CashFormatter.parse(loMaster.nTranTotl));
-        holder.lblBrandNm.setText(loMaster.xBrandNme);
+        holder.lblBrandNm.setText(loMaster.xModelNme + "\n " + loMaster.xBrandNme);
         holder.lblItmDisc.setText(GetDiscount(loMaster.nDiscount));
         holder.lblItmPrce.setText(CashFormatter.parse(loMaster.nUnitPrce));
         holder.lblItmQtyx.setText(loMaster.nQuantity);
+        holder.setImage(loMaster.sImagesxx);
         holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sTransNox, loMaster.cTranStat));
     }
 
@@ -62,6 +67,7 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
                 lblItmDisc,
                 lblItmPrce,
                 lblItmQtyx;
+        private ImageView imageView;
 
         public ViewHolderItem(@NonNull View itemView) {
             super(itemView);
@@ -72,6 +78,18 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
             lblItmDisc = itemView.findViewById(R.id.lbl_itemDiscount);
             lblItmPrce = itemView.findViewById(R.id.lbl_itemPrice);
             lblItmQtyx = itemView.findViewById(R.id.lbl_itemQuantity);
+            imageView = itemView.findViewById(R.id.img_item);
+        }
+
+        public void setImage(String image){
+            try {
+                JSONArray laJson = new JSONArray(image);
+                String lsImgVal = laJson.getJSONObject(0).getString("sImageURL");
+                Picasso.get().load(lsImgVal).placeholder(R.drawable.ic_no_image_available)
+                        .error(R.drawable.ic_no_image_available).into(imageView);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 

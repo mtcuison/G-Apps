@@ -98,6 +98,7 @@ public interface DOrderMaster {
             "b.nDiscount, " +
             "c.sBriefDsc, " +
             "c.xBarCodex, " +
+            "c.sImagesxx, " +
             "c.xBrandNme, " +
             "c.xModelNme, " +
             "c.xColorNme, " +
@@ -145,6 +146,7 @@ public interface DOrderMaster {
         public String nDiscount;
         public String sBriefDsc;
         public String xBarCodex;
+        public String sImagesxx;
         public String xBrandNme;
         public String xModelNme;
         public String xColorNme;

@@ -263,7 +263,6 @@ public class ROrder {
                 if(!lsResult.equalsIgnoreCase("success")){
                     JSONObject loError = loResponse.getJSONObject("error");
                     message = loError.getString("message");
-                    Log.e(TAG, loError.getString("sql"));
                     return false;
                 } else {
                     for(int x = 0; x < foItemLst.size(); x++){
@@ -518,7 +517,6 @@ public class ROrder {
                     return false;
                 } else {
                     Thread.sleep(1000);
-                    ImportPurchases();
                     return true;
                 }
             }
@@ -628,6 +626,37 @@ public class ROrder {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean ImportCancellationDetail(String fsArgs){
+        try{
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            JSONObject params = new JSONObject();
+            params.put("sTransNox", fsArgs);
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.GetDownloadCancellationsAPI(),
+                    params.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if (!lsResult.equalsIgnoreCase("success")) {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    data = loResponse;
+                    return true;
+                }
+            }
+        } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return false;

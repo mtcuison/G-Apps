@@ -34,20 +34,15 @@ public class Fragment_AddressCreate extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMShippingAddress.class);
         mBinding = FragmentAddressCreateBinding.inflate(inflater, container, false);
         View view = mBinding.getRoot();
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMShippingAddress.class);
         poDialogx = new Dialog_SingleButton(requireActivity());
         poLoading = new Dialog_Loading(requireActivity());
         infoModel = new ShippingInfoModel(new AccountInfo(requireActivity()).getClientID());
         initInputSelectors();
         mBinding.btnAddShp.setOnClickListener(v -> addShipping());
+        return view;
     }
 
     @Override

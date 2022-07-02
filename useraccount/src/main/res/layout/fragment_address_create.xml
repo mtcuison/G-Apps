@@ -210,7 +210,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddShp"
         android:layout_width="0dp"

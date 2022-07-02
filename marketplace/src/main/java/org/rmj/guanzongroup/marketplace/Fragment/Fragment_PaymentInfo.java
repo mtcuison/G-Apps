@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.marketplace.Fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -59,6 +60,9 @@ public class Fragment_PaymentInfo extends Fragment {
                                 poDialogx.setButtonText("Okay");
                                 poDialogx.initDialog("Pay Order", fsMessage, dialog1 -> {
                                     dialog1.dismiss();
+                                    Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                                    intent.putExtra("args", "purchase");
+                                    requireActivity().sendBroadcast(intent);
                                     requireActivity().finish();
                                 });
                                 poDialogx.show();
@@ -159,6 +163,9 @@ public class Fragment_PaymentInfo extends Fragment {
                                     poDialogx.setButtonText("Okay");
                                     poDialogx.initDialog("Pay Order", fsMessage, dialog1 -> {
                                         dialog1.dismiss();
+                                        Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                                        intent.putExtra("args", "purchase");
+                                        requireActivity().sendBroadcast(intent);
                                         requireActivity().finish();
                                     });
                                     poDialogx.show();
