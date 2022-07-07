@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.useraccount.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.SOURCE_CODE;
+
 import android.app.Application;
 import android.os.AsyncTask;
 
@@ -83,6 +85,7 @@ public class VMShippingAddress extends AndroidViewModel {
                 ShippingInfoModel infoModel = infoModels[0];
                 if(loConnect.isDeviceConnected()) {
                     if(loAddress.AddContactInfo(getMobileInfo(infoModel))) {
+                        Thread.sleep(1000);
                         if(loAddress.AddShipAddress(getAddressInfo(infoModel))) {
                             lsMessage = "Shipping address added.";
                             return true;
@@ -121,10 +124,10 @@ public class VMShippingAddress extends AndroidViewModel {
             loMobilex.setClientID(infoModel.getClientId());
             loMobilex.setMobileNo(infoModel.getMobileN());
 
-            loMobilex.setReqstCDe("");
-            loMobilex.setPrimaryx("");
+            loMobilex.setReqstCDe("0");
+            loMobilex.setPrimaryx("0");
             loMobilex.setRemarksx("");
-            loMobilex.setSourceCD("");
+            loMobilex.setSourceCD(SOURCE_CODE);
             loMobilex.setSourceNo("");
 
             return loMobilex;
@@ -138,6 +141,8 @@ public class VMShippingAddress extends AndroidViewModel {
             loAddress.setAddressx(infoModel.getAddress());
             loAddress.setTownIDxx(infoModel.getTownCty());
             loAddress.setBrgyIDxx(infoModel.getBarngay());
+            loAddress.setReqstCDe("0");
+            loAddress.setPrimaryx("0");
             return loAddress;
         }
 

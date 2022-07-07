@@ -338,8 +338,8 @@ public class RAddressMobile {
             param.put("sTownIDxx", foValue.getTownIDxx());
             param.put("sBrgyIDxx", foValue.getBrgyIDxx());
             param.put("cPrimaryx", foValue.getPrimaryx()); //0-> false, 1-> true
-            param.put("nLatitude", "");
-            param.put("nLongitud", "");
+            param.put("nLatitude", "0.0");
+            param.put("nLongitud", "0.0");
             param.put("sRemarksx", foValue.getRemarksx());
             param.put("sSourceCD", foValue.getSourceCD());
             param.put("sSourceNo", foValue.getSourceNo());
@@ -408,6 +408,7 @@ public class RAddressMobile {
                 message = "Server no response";
                 return false;
             } else {
+                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){

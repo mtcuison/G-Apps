@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.InputFieldController;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
@@ -52,6 +54,7 @@ public class Fragment_AddressCreate extends Fragment {
     }
 
     private void initInputSelectors() {
+//        mBinding.spnSrcCde.setAdapter(new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, AppConstants.REQUEST_CODE));
         mViewModel.getTownCityList().observe(requireActivity(), townObj ->{
             try {
                 ArrayList<String> lsTownCts = mViewModel.getTownCityForInput(townObj);
