@@ -48,7 +48,7 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
         holder.lblBrandNm.setText(loMaster.xModelNme + "\n " + loMaster.xBrandNme);
         holder.lblItmDisc.setText(GetDiscount(loMaster.nDiscount));
         holder.lblItmPrce.setText(CashFormatter.parse(loMaster.nUnitPrce));
-        holder.lblItmQtyx.setText(loMaster.nQuantity);
+        holder.lblItmQtyx.setText("Quantity: "+ loMaster.nQuantity);
         holder.setImage(loMaster.sImagesxx);
         holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sTransNox, loMaster.cTranStat));
     }

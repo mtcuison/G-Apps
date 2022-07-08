@@ -2,6 +2,7 @@ package org.rmj.g3appdriver.lib.Account;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -245,7 +246,6 @@ public class AccountAuthentication {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void RegisterAccount(AccountCredentials credentials, OnCreateAccountCallback callback) throws Exception{
         if(!credentials.isDataValid()){
             callback.OnFailedRegister(credentials.getMessage());
@@ -255,6 +255,7 @@ public class AccountAuthentication {
             if(lsResponse == null){
                 callback.OnFailedRegister("Server no response.");
             } else {
+                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
@@ -273,7 +274,6 @@ public class AccountAuthentication {
         void OnFailedRetrieve(String message);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void RetrievePassword(String email, OnRetrievePasswordCallback callback) throws Exception{
         if(email.isEmpty()){
             callback.OnFailedRetrieve("Please enter email.");

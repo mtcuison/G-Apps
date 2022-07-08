@@ -1,12 +1,15 @@
 package org.rmj.g3appdriver.utils.Dialogs;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -17,15 +20,19 @@ import org.rmj.g3appdriver.R;
 
 public class BottomDialog_AddToCart extends BottomSheetDialogFragment {
 
-    private final String psItemNme;
-    private final String psItemPrc;
-    private final OnAddToCart poCallBck;
+    private final String psItemNme, psItemPrc, psAvlQty;
+    private OnAddToCart poCallBck;
 
+    public boolean isClick = false;
 
-    public BottomDialog_AddToCart(String fsItemNme, String fsItemPrc, OnAddToCart foCallBck) {
+    public BottomDialog_AddToCart(String fsItemNme, String fsAvlQty,String fsItemPrc) {
         this.psItemNme = fsItemNme;
         this.psItemPrc = fsItemPrc;
-        this.poCallBck = foCallBck;
+        this.psAvlQty = fsAvlQty;
+    }
+
+    public void setDialogCallback(OnAddToCart foCallBck){
+        poCallBck = foCallBck;
     }
 
     @Override
@@ -36,6 +43,7 @@ public class BottomDialog_AddToCart extends BottomSheetDialogFragment {
         View v = inflater.inflate(R.layout.bottomsheet_add_to_cart, container, false);
 
         TextView txtItemNm = v.findViewById(R.id.txt_product_name);
+        TextView txtAvlQTy = v.findViewById(R.id.txt_avlQty);
         TextView txtPricex = v.findViewById(R.id.txt_product_price);
         ImageButton btnAddQty = v.findViewById(R.id.btn_add);
         ImageButton btnMinusQ = v.findViewById(R.id.btn_minus);
@@ -44,6 +52,7 @@ public class BottomDialog_AddToCart extends BottomSheetDialogFragment {
 
         txtItmQty.setEnabled(false);
         txtItemNm.setText(psItemNme);
+        txtAvlQTy.setText("Available Quantity: " + psAvlQty);
         txtPricex.setText(psItemPrc);
 
         btnAddQty.setOnClickListener(ve -> {
@@ -57,8 +66,13 @@ public class BottomDialog_AddToCart extends BottomSheetDialogFragment {
         });
 
         btnAddCrt.setOnClickListener(ve -> {
-            poCallBck.onClick(Integer.parseInt(txtItmQty.getText().toString()));
-            dismiss();
+            if(!isClick) {
+                isClick = true;
+                poCallBck.onClick(Integer.parseInt(txtItmQty.getText().toString()));
+                dismiss();
+            } else {
+                Toast.makeText(requireActivity(), "Please wait...", Toast.LENGTH_SHORT).show();
+            }
         });
 
         return v;
@@ -66,6 +80,12 @@ public class BottomDialog_AddToCart extends BottomSheetDialogFragment {
 
     public interface OnAddToCart {
         void onClick(int fnItemQty);
+        void onDismiss();
     }
 
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        poCallBck.onDismiss();
+    }
 }

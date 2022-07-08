@@ -19,6 +19,8 @@ import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.guanzongroup.useraccount.Model.AccountDetailsInfo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,7 +113,7 @@ public class VMAccountDetails extends AndroidViewModel {
             loAcctInf.add(new AccountDetailsInfo(true, psLstHead[0], "", ""));
             loAcctInf.add(new AccountDetailsInfo(false, "", "Full Name", lsFullNme));
             loAcctInf.add(new AccountDetailsInfo(false, "", "Gender", lsGenderx));
-            loAcctInf.add(new AccountDetailsInfo(false, "", "Birth Date", foClientx.getBirthDte()));
+            loAcctInf.add(new AccountDetailsInfo(false, "", "Birth Date", getDate(foClientx.getBirthDte())));
             loAcctInf.add(new AccountDetailsInfo(false, "", "Birth Place", fsBplacex));
             loAcctInf.add(new AccountDetailsInfo(false, "", "Citizen", ""));
             loAcctInf.add(new AccountDetailsInfo(false, "", "Civil Status", lsCivilSt));
@@ -129,6 +131,18 @@ public class VMAccountDetails extends AndroidViewModel {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private String getDate(String val){
+        SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
+        String formattedDate = null;
+        try {
+            formattedDate = formatter.format(fromUser.parse(val));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formattedDate;
     }
 
     public String[] getListHeaders() {

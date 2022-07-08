@@ -28,6 +28,8 @@ import org.rmj.guanzongroup.marketplace.Adapter.Adapter_OrderedItems;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMOrders;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 public class Activity_Purchases extends AppCompatActivity {
@@ -105,7 +107,7 @@ public class Activity_Purchases extends AppCompatActivity {
                             cvCanclDetl.setVisibility(View.VISIBLE);
                             lblCancelUs.setText(sClientNm);
                             lblCancelRm.setText(sRemarksx);
-                            lblCancelDt.setText(dTransact);
+                            lblCancelDt.setText(getDate(dTransact));
                         }
 
                         @Override
@@ -219,5 +221,17 @@ public class Activity_Purchases extends AppCompatActivity {
             default:
                 return StateProgressBar.StateNumber.FIVE;
         }
+    }
+
+    private String getDate(String val){
+        SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy hh:mm a");
+        String formattedDate = null;
+        try {
+            formattedDate = formatter.format(fromUser.parse(val));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formattedDate;
     }
 }

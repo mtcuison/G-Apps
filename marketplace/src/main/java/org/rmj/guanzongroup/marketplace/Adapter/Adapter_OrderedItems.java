@@ -56,7 +56,7 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
         DOrderDetail.OrderedItemsInfo loMaster = poList.get(position);
         holder.lblBrandNm.setText(loMaster.xModelNme);
         holder.lblItmPrce.setText(CashFormatter.parse(loMaster.nUnitPrce));
-        holder.lblItmQtyx.setText(loMaster.nQuantity);
+        holder.lblItmQtyx.setText("Quantity: "+loMaster.nQuantity);
         holder.setImage(loMaster.sImagesxx);
         holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sListIDxx));
         holder.btnReview.setOnClickListener(v -> {
