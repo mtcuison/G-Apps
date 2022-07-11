@@ -136,12 +136,9 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
     private void showMessage(String fsTitle,String fsMessage){
         dialog_success = new Dialog_SingleButton(requireActivity());
         dialog_success.setButtonText("Okay");
-        dialog_success.initDialog(fsTitle, fsMessage, new Dialog_SingleButton.OnButtonClick() {
-            @Override
-            public void onClick(AlertDialog dialog) {
-                dialog.dismiss();
-                dismiss();
-            }
+        dialog_success.initDialog(fsTitle, fsMessage, () -> {
+            dialog_success.dismiss();
+            dismiss();
         });
         dialog_success.show();
     }

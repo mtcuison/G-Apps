@@ -205,10 +205,10 @@ public class CompleteAccountDetailsInfo {
             poClientx.setCvilStat(getCivilStat());
             poClientx.setCitizenx(getCitizenship());
             poClientx.setTaxIDNox(getTaxIdNumber());
-            poClientx.setHouseNox(getHouseNumber());
-            poClientx.setAddressx(getAddress());
-            poClientx.setTownIDxx(getTownCity());
-            poClientx.setBrgyIDxx(getBarangay());
+            poClientx.setHouseNo1(getHouseNumber());
+            poClientx.setAddress1(getAddress());
+            poClientx.setTownIDx1(getTownCity());
+            poClientx.setBrgyIDx1(getBarangay());
             return poClientx;
         } else {
             return null;

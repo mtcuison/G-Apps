@@ -22,16 +22,16 @@ public interface DClientInfo {
     @Update
     void update(EClientInfo eClientInfo);
 
-    @Query("SELECT * FROM Client_Info_Master")
+    @Query("SELECT * FROM Client_Profile_Info")
     EClientInfo GetUserInfo();
 
-    @Query("SELECT * FROM Client_Info_Master")
+    @Query("SELECT * FROM Client_Profile_Info")
     LiveData<EClientInfo> getClientInfo();
 
-    @Query("SELECT sClientID FROM CLIENT_INFO_MASTER")
+    @Query("SELECT sClientID FROM Client_Profile_Info")
     String getClientId();
 
-    @Query("DELETE FROM Client_Info_Master")
+    @Query("DELETE FROM Client_Profile_Info")
     void LogoutAccount();
 
     @Query("DELETE FROM GCard_App_Master")

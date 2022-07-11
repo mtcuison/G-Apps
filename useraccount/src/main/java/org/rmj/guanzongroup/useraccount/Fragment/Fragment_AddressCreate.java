@@ -126,8 +126,8 @@ public class Fragment_AddressCreate extends Fragment {
                 public void onSuccess(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Shipping Address", fsMessage, d -> {
-                        d.dismiss();
+                    poDialogx.initDialog("Shipping Address", fsMessage, () -> {
+                        poDialogx.dismiss();
                         Activity_ShippingAddress.getInstance().setFragment(0);
                     });
                     poDialogx.show();
@@ -137,13 +137,13 @@ public class Fragment_AddressCreate extends Fragment {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Shipping Address", fsMessage, d -> d.dismiss());
+                    poDialogx.initDialog("Shipping Address", fsMessage, () -> poDialogx.dismiss());
                     poDialogx.show();
                 }
             });
         } else {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Shipping Address", infoModel.getErrorMessage(), d -> d.dismiss());
+            poDialogx.initDialog("Shipping Address", infoModel.getErrorMessage(), () -> poDialogx.dismiss());
             poDialogx.show();
         }
     }

@@ -3,66 +3,50 @@ package org.rmj.g3appdriver.dev.Database.Entities;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Mobile_Update_Request")
+@Entity(tableName = "App_User_Mobile", primaryKeys = {"sUserIDxx", "dTransact"})
 public class EMobileInfo {
 
-    @PrimaryKey
     @NonNull
-    @ColumnInfo(name = "sTransNox")
-    private String TransNox;
-    @ColumnInfo(name = "sClientID")
-    private String ClientID;
-    @ColumnInfo(name = "cReqstCDe")
-    private String ReqstCDe;
-    @ColumnInfo(name = "sMobileNo")
+    @ColumnInfo (name = "sUserIDxx")
+    private String UserIDxx;
+    @NonNull
+    @ColumnInfo (name = "dTransact")
+    private String Transact;
+    @ColumnInfo (name = "sMobileNo")
     private String MobileNo;
-    @ColumnInfo(name = "cPrimaryx")
-    private String Primaryx;
-    @ColumnInfo(name = "sSourceCD")
-    private String SourceCD;
-    @ColumnInfo(name = "sSourceNo")
-    private String SourceNo;
-    @ColumnInfo(name = "sRemarksx")
-    private String Remarksx;
-    @ColumnInfo(name = "cTranStat")
-    private String TranStat;
-    @ColumnInfo(name = "cSendStat")
-    private String SendStat;
-    @ColumnInfo(name = "dSendDate")
-    private String SendDate;
-    @ColumnInfo(name = "dModified")
-    private String Modified;
-    @ColumnInfo(name = "dTimeStmp")
+    @ColumnInfo (name = "cUserVrfd")
+    private int UserVrfd;
+    @ColumnInfo (name = "dUserVrfd")
+    private String DateVrfd;
+    @ColumnInfo (name = "dVerified")
+    private String Verified;
+    @ColumnInfo (name = "cRecdStat")
+    private int RecdStat; //0->Deactivated;
+                            // 1->Verified By Customer Thru OTP;
+                            // 2->Verified By Guanzon;
+                            // 3->Invalid as Verified By Guanzon;
+                            // 4->Removed By Customer
+    @ColumnInfo (name = "dTimeStmp")
     private String TimeStmp;
 
     public EMobileInfo() {
     }
 
-    @NonNull
-    public String getTransNox() {
-        return TransNox;
+    public String getUserIDxx() {
+        return UserIDxx;
     }
 
-    public void setTransNox(@NonNull String transNox) {
-        TransNox = transNox;
+    public void setUserIDxx(String userIDxx) {
+        UserIDxx = userIDxx;
     }
 
-    public String getClientID() {
-        return ClientID;
+    public String getTransact() {
+        return Transact;
     }
 
-    public void setClientID(String clientID) {
-        ClientID = clientID;
-    }
-
-    public String getReqstCDe() {
-        return ReqstCDe;
-    }
-
-    public void setReqstCDe(String reqstCDe) {
-        ReqstCDe = reqstCDe;
+    public void setTransact(String transact) {
+        Transact = transact;
     }
 
     public String getMobileNo() {
@@ -73,52 +57,36 @@ public class EMobileInfo {
         MobileNo = mobileNo;
     }
 
-    public String getPrimaryx() {
-        return Primaryx;
+    public int getUserVrfd() {
+        return UserVrfd;
     }
 
-    public void setPrimaryx(String primaryx) {
-        Primaryx = primaryx;
+    public void setUserVrfd(int userVrfd) {
+        UserVrfd = userVrfd;
     }
 
-    public String getRemarksx() {
-        return Remarksx;
+    public String getDateVrfd() {
+        return DateVrfd;
     }
 
-    public void setRemarksx(String remarksx) {
-        Remarksx = remarksx;
+    public void setDateVrfd(String dateVrfd) {
+        DateVrfd = dateVrfd;
     }
 
-    public String getTranStat() {
-        return TranStat;
+    public String getVerified() {
+        return Verified;
     }
 
-    public void setTranStat(String tranStat) {
-        TranStat = tranStat;
+    public void setVerified(String verified) {
+        Verified = verified;
     }
 
-    public String getSendStat() {
-        return SendStat;
+    public int getRecdStat() {
+        return RecdStat;
     }
 
-    public void setSendStat(String sendStat) {
-        SendStat = sendStat;
-    }
-
-    public String getSendDate() {
-        return SendDate;
-    }
-
-    public void setSendDate(String sendDate) {
-        SendDate = sendDate;
-    }
-
-    public String getModified() {
-        return Modified;
-    }
-
-    public void setModified(String modified) {
-        Modified = modified;
+    public void setRecdStat(int recdStat) {
+        RecdStat = recdStat;
     }
 
     public String getTimeStmp() {
@@ -127,21 +95,5 @@ public class EMobileInfo {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
-    }
-
-    public String getSourceCD() {
-        return SourceCD;
-    }
-
-    public void setSourceCD(String sourceCD) {
-        SourceCD = sourceCD;
-    }
-
-    public String getSourceNo() {
-        return SourceNo;
-    }
-
-    public void setSourceNo(String sourceNo) {
-        SourceNo = sourceNo;
     }
 }

@@ -76,10 +76,10 @@ public class Activity_AccountDetails extends AppCompatActivity {
                 try {
                     mViewModel.getBirthplace(eClientInfo.getBirthPlc()).observe(this, bPlace -> {
                         try {
-                            mViewModel.getFullAddress(eClientInfo.getBrgyIDxx()).observe(this, address -> {
+                            mViewModel.getFullAddress(eClientInfo.getBrgyIDx1()).observe(this, address -> {
                                 try {
-                                    String lsFulAdrs = eClientInfo.getHouseNox() + ", "
-                                            + eClientInfo.getAddressx() + ", " + address;
+                                    String lsFulAdrs = eClientInfo.getHouseNo1() + ", "
+                                            + eClientInfo.getAddress1() + ", " + address;
                                     mViewModel.setAccountDetailsList(eClientInfo, lsFulAdrs, bPlace);
                                 } catch (NullPointerException e) {
                                     e.printStackTrace();
@@ -132,8 +132,8 @@ public class Activity_AccountDetails extends AppCompatActivity {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Account Details", fsMessage, dialog -> {
-                        dialog.dismiss();
+                    poDialogx.initDialog("Account Details", fsMessage, () -> {
+                        poDialogx.dismiss();
                         finish();
                     });
                     poDialogx.show();

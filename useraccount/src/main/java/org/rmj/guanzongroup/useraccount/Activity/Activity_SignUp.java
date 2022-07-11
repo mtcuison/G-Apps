@@ -40,6 +40,8 @@ public class Activity_SignUp extends AppCompatActivity {
 
     private static final int VERIFY = 111;
 
+    public boolean isClicked = false;
+
     private AccountAuthentication.AccountCredentials loCrednts;
 
     private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
@@ -65,7 +67,14 @@ public class Activity_SignUp extends AppCompatActivity {
         mViewModel = new ViewModelProvider(Activity_SignUp.this).get(VMAccountAuthentication.class);
         initViews();
         setUpToolbar();
-        btnSignUp.setOnClickListener(view -> signUp());
+        btnSignUp.setOnClickListener(view -> {
+            if(!isClicked) {
+                isClicked = true;
+                signUp();
+            } else {
+                Toast.makeText(Activity_SignUp.this, "Please wait...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -140,6 +149,7 @@ public class Activity_SignUp extends AppCompatActivity {
                 @Override
                 public void onSuccess(String fsMessage) {
                     poLoading.dismiss();
+                    isClicked = false;
                     LoginAccount();
 //                    poDialogx.setButtonText("Okay");
 //                    poDialogx.initDialog("Sign Up", fsMessage, dialog -> {
@@ -153,12 +163,16 @@ public class Activity_SignUp extends AppCompatActivity {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Sign Up Failed", fsMessage, Dialog::dismiss);
+                    poDialogx.initDialog("Sign Up Failed", fsMessage, () -> {
+                        isClicked = false;
+                        poDialogx.dismiss();
+                    });
                     poDialogx.show();
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
+            isClicked = false;
         }
     }
 
@@ -190,7 +204,7 @@ public class Activity_SignUp extends AppCompatActivity {
             public void onFailed(String fsMessage) {
                 poLoading.dismiss();
                 poDialogx.setButtonText("Okay");
-                poDialogx.initDialog("Logging In", "Unable to sign in your account. Please try again. " + fsMessage, Dialog::dismiss);
+                poDialogx.initDialog("Logging In", "Unable to sign in your account. Please try again. " + fsMessage, () -> poDialogx.dismiss());
                 poDialogx.show();
             }
 

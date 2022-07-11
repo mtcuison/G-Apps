@@ -23,8 +23,6 @@ public class BottomDialog_AddToCart extends BottomSheetDialogFragment {
     private final String psItemNme, psItemPrc, psAvlQty;
     private OnAddToCart poCallBck;
 
-    public boolean isClick = false;
-
     public BottomDialog_AddToCart(String fsItemNme, String fsAvlQty,String fsItemPrc) {
         this.psItemNme = fsItemNme;
         this.psItemPrc = fsItemPrc;
@@ -66,13 +64,8 @@ public class BottomDialog_AddToCart extends BottomSheetDialogFragment {
         });
 
         btnAddCrt.setOnClickListener(ve -> {
-            if(!isClick) {
-                isClick = true;
-                poCallBck.onClick(Integer.parseInt(txtItmQty.getText().toString()));
-                dismiss();
-            } else {
-                Toast.makeText(requireActivity(), "Please wait...", Toast.LENGTH_SHORT).show();
-            }
+            dismiss();
+            poCallBck.onClick(Integer.parseInt(txtItmQty.getText().toString()));
         });
 
         return v;

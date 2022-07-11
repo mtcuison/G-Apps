@@ -120,15 +120,15 @@ public class VMShippingAddress extends AndroidViewModel {
 
         private EMobileInfo getMobileInfo(ShippingInfoModel infoModel) {
             EMobileInfo loMobilex = new EMobileInfo();
-            loMobilex.setTransNox(String.valueOf(ThreadLocalRandom.current().nextInt()));
-            loMobilex.setClientID(infoModel.getClientId());
+//            loMobilex.setTransNox(String.valueOf(ThreadLocalRandom.current().nextInt()));
+//            loMobilex.setClientID(infoModel.getClientId());
             loMobilex.setMobileNo(infoModel.getMobileN());
 
-            loMobilex.setReqstCDe("0");
-            loMobilex.setPrimaryx("0");
-            loMobilex.setRemarksx("");
-            loMobilex.setSourceCD(SOURCE_CODE);
-            loMobilex.setSourceNo("");
+//            loMobilex.setReqstCDe("0");
+//            loMobilex.setPrimaryx("0");
+//            loMobilex.setRemarksx("");
+//            loMobilex.setSourceCD(SOURCE_CODE);
+//            loMobilex.setSourceNo("");
 
             return loMobilex;
         }

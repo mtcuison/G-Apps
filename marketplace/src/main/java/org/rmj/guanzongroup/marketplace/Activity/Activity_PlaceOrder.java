@@ -40,6 +40,8 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     private List<DItemCart.oMarketplaceCartItem> poLstOrder = new ArrayList<>();
     private boolean cIsBuyNow;
 
+    public boolean isClicked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,14 @@ public class Activity_PlaceOrder extends AppCompatActivity {
         setUpToolbar();
         setOrderPreview();
 
-        btnTxtPlc.setOnClickListener(v -> placeOrder());
+        btnTxtPlc.setOnClickListener(v -> {
+            if(!isClicked) {
+                isClicked = true;
+                placeOrder();
+            } else {
+
+            }
+        });
     }
 
     @Override
@@ -107,9 +116,9 @@ public class Activity_PlaceOrder extends AppCompatActivity {
             try {
                 txtClient.setText(client.getFrstName() + " " + client.getLastName());
                 txtMobile.setText(client.getMobileNo());
-                mViewModel.getFullAddress(client.getBrgyIDxx()).observe(this, address -> {
+                mViewModel.getFullAddress(client.getBrgyIDx1()).observe(this, address -> {
                     try {
-                        txtAddrss.setText(client.getHouseNox() + " " + client.getAddressx() + ", "
+                        txtAddrss.setText(client.getHouseNo1() + " " + client.getAddress1() + ", "
                                 + address);
                     } catch (NullPointerException e) {
                         e.printStackTrace();
@@ -164,6 +173,7 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                 poLoading = new Dialog_Loading(Activity_PlaceOrder.this);
                 poLoading.initDialog("Place Order", "Placing Order. Please wait.");
                 poLoading.show();
+                isClicked = false;
             }
 
             @Override
@@ -179,9 +189,7 @@ public class Activity_PlaceOrder extends AppCompatActivity {
             public void onFailed(String fsMessage) {
                 poLoading.dismiss();
                 poDialogx.setButtonText("Okay");
-                poDialogx.initDialog("Place Order", fsMessage, dialog -> {
-                    dialog.dismiss();
-                });
+                poDialogx.initDialog("Place Order", fsMessage, () -> poDialogx.dismiss());
                 poDialogx.show();
             }
         });
@@ -212,7 +220,7 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                     public void onFailed(String fsMessage) {
                         poLoading.dismiss();
                         poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Marketplace", fsMessage, dialog -> dialog.dismiss());
+                        poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
                         poDialogx.show();
                     }
                 });

@@ -174,8 +174,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
             psItemIdx = getIntent().getStringExtra("sListingId");
         } else {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Marketplace", "Product does not exist.", d -> {
-                d.dismiss();
+            poDialogx.initDialog("Marketplace", "Product does not exist.", () -> {
+                poDialogx.dismiss();
                 finish();
             });
             poDialogx.show();
@@ -416,7 +416,6 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 Intent loIntent = new Intent(Activity_ProductOverview.this,
                         Activity_CompleteAccountDetails.class);
                 startActivity(loIntent);
-                isClick = false;
             } else {
                 final BottomDialog_AddToCart dialog = new BottomDialog_AddToCart(psProduct, psAvlQtyx, psPricexx);
                 dialog.setDialogCallback(new BottomDialog_AddToCart.OnAddToCart() {
@@ -439,8 +438,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
                                     poDialogx.setButtonText("Okay");
                                     poDialogx.initDialog("Add to Cart",
                                             "Successfully added to cart.",
-                                            Dialog::dismiss);
-                                    dialog.isClick = false;
+                                            () -> poDialogx.dismiss());
                                     poDialogx.show();
                                 }
 
@@ -450,8 +448,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
                                     poLoading.dismiss();
                                     poDialogx.setButtonText("Okay");
                                     poDialogx.initDialog("Add to Cart", fsMessage,
-                                            Dialog::dismiss);
-                                    dialog.isClick = false;
+                                            () -> poDialogx.dismiss());
                                     poDialogx.show();
                                 }
                             });
@@ -462,7 +459,6 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
                     @Override
                     public void onDismiss() {
-                        dialog.isClick = false;
                         isClick = false;
                     }
                 });
@@ -477,7 +473,6 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 Intent loIntent = new Intent(Activity_ProductOverview.this,
                         Activity_CompleteAccountDetails.class);
                 startActivity(loIntent);
-                isClick = false;
             } else {
                 mViewModel.buyNow(psItemIdx, 1, new OnTransactionsCallback() {
                     @Override
@@ -489,7 +484,6 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(String fsMessage) {
-                        isClick = false;
                         poLoading.dismiss();
                         Intent loIntent = new Intent(Activity_ProductOverview.this,
                                 Activity_PlaceOrder.class);
@@ -499,10 +493,9 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
                     @Override
                     public void onFailed(String fsMessage) {
-                        isClick = false;
                         poLoading.dismiss();
                         poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Marketplace", fsMessage, Dialog::dismiss);
+                        poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
                         poDialogx.show();
                     }
                 });

@@ -40,6 +40,8 @@ public class ServerAPIs {
     private static final String IMPORT_PROVINCE = "integsys/param/download_province.php";
     private static final String IMPORT_COUNTRIES = "integsys/param/download_country.php";
 
+    private static final String RETRIEVE_PROFILE_PICTURE = "";
+    private static final String RETRIEVE_VERIFIED_ID = "";
     private static final String REGISTER_ACCOUNT = "integsys/marketplace/add_new_client.php";
     private static final String IMPORT_ACCOUNT_INFO = "integsys/marketplace/get_client_info.php";
     private static final String UPDATE_ACCOUNT_INFO = "integsys/marketplace/update_client_info.php";
@@ -531,17 +533,31 @@ public class ServerAPIs {
         return LIVE + MKTPL_CANCEL_ORDER;
     }
 
-    public String GetDownloadBankAccountAPI(){
+    public String getDownloadBankAccountAPI(){
         if(isTestUnit){
             return LOCAL + IMPORT_BANK_ACC;
         }
         return LIVE + IMPORT_BANK_ACC;
     }
 
-    public String GetDownloadCancellationsAPI(){
+    public String getDownloadCancellationsAPI(){
         if(isTestUnit){
             return LOCAL + IMPORT_MKTPL_CANCELLATIONS;
         }
         return LIVE + IMPORT_MKTPL_CANCELLATIONS;
+    }
+
+    public String getRetrieveProfilePictureAPI(){
+        if(isTestUnit){
+            return LOCAL + RETRIEVE_PROFILE_PICTURE;
+        }
+        return LIVE + RETRIEVE_PROFILE_PICTURE;
+    }
+
+    public String getRetrieveVerifiedIDAPI(){
+        if(isTestUnit){
+            return LOCAL + RETRIEVE_VERIFIED_ID;
+        }
+        return LIVE + RETRIEVE_VERIFIED_ID;
     }
 }

@@ -43,6 +43,8 @@ public class Activity_Login extends AppCompatActivity {
     private TextInputEditText tieEmail, tieMobile, tiePassword;
     private MaterialButton btnLogin;
 
+    public boolean isClicked = false;
+
     private static final int VERIFY = 111;
 
     private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
@@ -71,7 +73,14 @@ public class Activity_Login extends AppCompatActivity {
         setTabLayout();
         setClickLinkListeners();
 
-        btnLogin.setOnClickListener(v -> acccountLogin());
+        btnLogin.setOnClickListener(v -> {
+            if(!isClicked) {
+                isClicked = true;
+                acccountLogin();
+            } else {
+                Toast.makeText(Activity_Login.this, "Please wait...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -151,6 +160,7 @@ public class Activity_Login extends AppCompatActivity {
                         intent.putExtra("args", "auth");
                         sendBroadcast(intent);
                         poLoading.dismiss();
+                        isClicked = false;
                         finish();
                     }
 
@@ -158,7 +168,10 @@ public class Activity_Login extends AppCompatActivity {
                     public void onFailed(String fsMessage) {
                         poLoading.dismiss();
                         poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Log in Failed", fsMessage, Dialog::dismiss);
+                        poDialogx.initDialog("Log in Failed", fsMessage, () -> {
+                            isClicked = false;
+                            poDialogx.dismiss();
+                        });
                         poDialogx.show();
                     }
 
@@ -171,6 +184,7 @@ public class Activity_Login extends AppCompatActivity {
                         loIntent.putExtra("verify", args2);
                         loIntent.putExtra("email", lsEmailxx);
                         loIntent.putExtra("passw", lsPasswrd);
+                        isClicked = false;
                         poArl.launch(loIntent);
                     }
                 });
@@ -179,7 +193,10 @@ public class Activity_Login extends AppCompatActivity {
             }
         } else {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Log in Failed", infoModel.getMessage(), Dialog::dismiss);
+            poDialogx.initDialog("Log in Failed", infoModel.getMessage(), () -> {
+                isClicked = false;
+                poDialogx.dismiss();
+            });
             poDialogx.show();
         }
     }

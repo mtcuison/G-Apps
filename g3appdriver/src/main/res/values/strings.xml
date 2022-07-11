@@ -75,6 +75,7 @@
     <string name="lblLastname">Last Name</string>
     <string name="lblFirstname">First Name</string>
     <string name="lblMiddname">Middle Name</string>
+    <string name="lblMaidenName">Maiden Name</string>
     <string name="lblSuffix">Suffix</string>
     <string name="lblBirthdate">Birth Date</string>
     <string name="lblBirthplace">Birth Place</string>
@@ -83,6 +84,8 @@
     <string name="lblCitizenship">Citizenship</string>
     <string name="lblTaxId">Tax ID No.</string>
     <string name="lblAddress">Address</string>
+    <string name="lblBillingAdd">Billing Address</string>
+    <string name="lblShipAddrss">Shipping Address</string>
     <string name="lblHouseNo">House No.</string>
     <string name="lblStreet">Street</string>
     <string name="lblProvince">Province</string>

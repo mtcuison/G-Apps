@@ -172,8 +172,8 @@ public class Activity_Purchases extends AppCompatActivity {
                         public void OnSuccess(String args) {
                             poLoading.dismiss();
                             poDialogx.setButtonText("Okay");
-                            poDialogx.initDialog("Order Cancellation", args, dialog1 -> {
-                                dialog1.dismiss();
+                            poDialogx.initDialog("Order Cancellation", args, () -> {
+                                poDialogx.dismiss();
                                 Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
                                 intent.putExtra("args", "purchase");
                                 sendBroadcast(intent);
@@ -185,7 +185,7 @@ public class Activity_Purchases extends AppCompatActivity {
                         public void OnFailed(String message) {
                             poLoading.dismiss();
                             poDialogx.setButtonText("Okay");
-                            poDialogx.initDialog("Order Cancellation", message, Dialog::dismiss);
+                            poDialogx.initDialog("Order Cancellation", message, () -> poDialogx.dismiss());
                             poDialogx.show();
                         }
                     });

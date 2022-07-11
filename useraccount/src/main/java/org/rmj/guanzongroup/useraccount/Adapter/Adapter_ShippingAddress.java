@@ -37,8 +37,8 @@ public class Adapter_ShippingAddress extends RecyclerView.Adapter<Adapter_Shippi
             EClientInfo loClientx = poClientx.get(position);
             String lsClientN = loClientx.getFrstName() + " " + loClientx.getMiddName().charAt(0) +
                     ". " + loClientx.getLastName();
-            String lsAddress = loClientx.getHouseNox() + " " + loClientx.getAddressx() +
-                    ", " + loClientx.getTownIDxx();
+            String lsAddress = loClientx.getHouseNo1() + " " + loClientx.getAddress1() +
+                    ", " + loClientx.getTownIDx1();
             holder.txtClient.setText(lsClientN);
             holder.txtMobile.setText(loClientx.getMobileNo());
             holder.txtAddrss.setText(lsAddress);

@@ -638,7 +638,7 @@ public class ROrder {
             JSONObject params = new JSONObject();
             params.put("sTransNox", fsArgs);
             String lsResponse = WebClient.httpsPostJSon(
-                    loApis.GetDownloadCancellationsAPI(),
+                    loApis.getDownloadCancellationsAPI(),
                     params.toString(),
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
@@ -732,7 +732,7 @@ public class ROrder {
             params.put("descript", "");
 
             String lsResponse = WebClient.httpsPostJSon(
-                    loApis.GetDownloadBankAccountAPI(),
+                    loApis.getDownloadBankAccountAPI(),
                     params.toString(),
                     new HttpHeaders(mContext).getHeaders());
             if (lsResponse == null) {

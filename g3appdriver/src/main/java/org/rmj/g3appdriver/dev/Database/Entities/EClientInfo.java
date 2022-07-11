@@ -6,7 +6,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Client_Info_Master")
+@Entity(tableName = "Client_Profile_Info")
 public class EClientInfo {
     @NonNull
     @PrimaryKey
@@ -26,6 +26,8 @@ public class EClientInfo {
     private String MiddName;
     @ColumnInfo(name = "sSuffixNm")
     private String SuffixNm;
+    @ColumnInfo(name = "sMaidenNm")
+    private String MaidenNm;
     @ColumnInfo(name = "cGenderCd")
     private String GenderCd;
     @ColumnInfo(name = "cCvilStat")
@@ -36,26 +38,38 @@ public class EClientInfo {
     private String BirthDte;
     @ColumnInfo(name = "sBirthPlc")
     private String BirthPlc;
-    @ColumnInfo(name = "sHouseNox")
-    private String HouseNox;
-    @ColumnInfo(name = "sAddressx")
-    private String Addressx;
-    @ColumnInfo(name = "sTownIDxx")
-    private String TownIDxx;
-    @ColumnInfo(name = "sBrgyIDxx")
-    private String BrgyIDxx;
+    @ColumnInfo(name = "sHouseNo1")
+    private String HouseNo1;
+    @ColumnInfo(name = "sAddress1")
+    private String Address1;
+    @ColumnInfo(name = "sBrgyIDx1")
+    private String BrgyIDx1;
+    @ColumnInfo(name = "sTownIDx1")
+    private String TownIDx1;
+    @ColumnInfo(name = "sHouseNo2")
+    private String HouseNo2;
+    @ColumnInfo(name = "sAddress2")
+    private String Address2;
+    @ColumnInfo(name = "sBrgyIDx2")
+    private String BrgyIDx2;
+    @ColumnInfo(name = "sTownIDx2")
+    private String TownIDx2;
     @ColumnInfo(name = "sTaxIDNox")
     private String TaxIDNox;
     @ColumnInfo(name = "cRecdStat")
-    private String RecdStat;
+    private int RecdStat;
     @ColumnInfo(name = "sMobileNo")
     private String MobileNo;
-    @ColumnInfo(name = "dLoginxxx")
-    private String Loginxxx;
+    @ColumnInfo(name = "cVerified")
+    private int Verified;
+    @ColumnInfo(name = "dVerified")
+    private String DateVrfd;
     @ColumnInfo(name = "cAgreeTnC")
-    private String AgreeTnC;
+    private int AgreeTnC;
     @ColumnInfo(name = "dDateMmbr")
     private String DateMmbr;
+    @ColumnInfo(name = "dTimeStmp")
+    private String TimeStmp;
 
     public EClientInfo() {
     }
@@ -157,38 +171,6 @@ public class EClientInfo {
         BirthPlc = birthPlc;
     }
 
-    public String getHouseNox() {
-        return HouseNox;
-    }
-
-    public void setHouseNox(String houseNox) {
-        HouseNox = houseNox;
-    }
-
-    public String getAddressx() {
-        return Addressx;
-    }
-
-    public void setAddressx(String addressx) {
-        Addressx = addressx;
-    }
-
-    public String getTownIDxx() {
-        return TownIDxx;
-    }
-
-    public void setTownIDxx(String townIDxx) {
-        TownIDxx = townIDxx;
-    }
-
-    public String getBrgyIDxx() {
-        return BrgyIDxx;
-    }
-
-    public void setBrgyIDxx(String brgyIDxx) {
-        BrgyIDxx = brgyIDxx;
-    }
-
     public String getTaxIDNox() {
         return TaxIDNox;
     }
@@ -197,11 +179,11 @@ public class EClientInfo {
         TaxIDNox = taxIDNox;
     }
 
-    public String getRecdStat() {
+    public int getRecdStat() {
         return RecdStat;
     }
 
-    public void setRecdStat(String recdStat) {
+    public void setRecdStat(int recdStat) {
         RecdStat = recdStat;
     }
 
@@ -211,14 +193,6 @@ public class EClientInfo {
 
     public void setMobileNo(String mobileNo) {
         MobileNo = mobileNo;
-    }
-
-    public String getLoginxxx() {
-        return Loginxxx;
-    }
-
-    public void setLoginxxx(String loginxxx) {
-        Loginxxx = loginxxx;
     }
 
     public String getDateMmbr() {
@@ -237,11 +211,107 @@ public class EClientInfo {
         Citizenx = citizenx;
     }
 
-    public String getAgreeTnC() {
+    public int getAgreeTnC() {
         return AgreeTnC;
     }
 
-    public void setAgreeTnC(String agreeTnC) {
+    public void setAgreeTnC(int agreeTnC) {
         AgreeTnC = agreeTnC;
+    }
+
+    public String getMaidenNm() {
+        return MaidenNm;
+    }
+
+    public void setMaidenNm(String maidenNm) {
+        MaidenNm = maidenNm;
+    }
+
+    public String getHouseNo1() {
+        return HouseNo1;
+    }
+
+    public void setHouseNo1(String houseNo1) {
+        HouseNo1 = houseNo1;
+    }
+
+    public String getAddress1() {
+        return Address1;
+    }
+
+    public void setAddress1(String address1) {
+        Address1 = address1;
+    }
+
+    public String getTownIDx1() {
+        return TownIDx1;
+    }
+
+    public void setTownIDx1(String townIDx1) {
+        TownIDx1 = townIDx1;
+    }
+
+    public String getHouseNo2() {
+        return HouseNo2;
+    }
+
+    public void setHouseNo2(String houseNo2) {
+        HouseNo2 = houseNo2;
+    }
+
+    public String getAddress2() {
+        return Address2;
+    }
+
+    public void setAddress2(String address2) {
+        Address2 = address2;
+    }
+
+    public String getTownIDx2() {
+        return TownIDx2;
+    }
+
+    public void setTownIDx2(String townIDx2) {
+        TownIDx2 = townIDx2;
+    }
+
+    public int getVerified() {
+        return Verified;
+    }
+
+    public void setVerified(int verified) {
+        Verified = verified;
+    }
+
+    public String getDateVrfd() {
+        return DateVrfd;
+    }
+
+    public void setDateVrfd(String dateVrfd) {
+        DateVrfd = dateVrfd;
+    }
+
+    public String getTimeStmp() {
+        return TimeStmp;
+    }
+
+    public void setTimeStmp(String timeStmp) {
+        TimeStmp = timeStmp;
+    }
+
+    public String getBrgyIDx1() {
+        return BrgyIDx1;
+    }
+
+    public void setBrgyIDx1(String brgyIDx1) {
+        BrgyIDx1 = brgyIDx1;
+    }
+
+    public String getBrgyIDx2() {
+        return BrgyIDx2;
+    }
+
+    public void setBrgyIDx2(String brgyIDx2) {
+        BrgyIDx2 = brgyIDx2;
     }
 }

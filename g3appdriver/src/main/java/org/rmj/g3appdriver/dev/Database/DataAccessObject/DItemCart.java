@@ -16,7 +16,7 @@ public interface DItemCart {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void SaveItemInfo(EItemCart foVal);
 
-    @Query("SELECT COUNT(*) FROM MarketPlace_Cart WHERE sUserIDxx = (SELECT sUserIDxx FROM Client_Info_Master)")
+    @Query("SELECT COUNT(*) FROM MarketPlace_Cart WHERE sUserIDxx = (SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetMartketplaceCartItemCount();
 
 
@@ -34,7 +34,7 @@ public interface DItemCart {
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Cart " +
             "WHERE sListIDxx =:fsListID " +
-            "AND sUserIDxx = (SELECT sUserIDxx FROM Client_Info_Master) " +
+            "AND sUserIDxx = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND cBuyNowxx = '1' " +
             "AND cCheckOut = '1'")
     int CheckIfItemForBuyNowExist(String fsListID);
@@ -66,7 +66,7 @@ public interface DItemCart {
             "LEFT JOIN Product_Inventory b " +
             "ON a.sListIDxx = b.sListngID " +
             "WHERE a.sUserIDxx = (" +
-            "SELECT sUserIDxx FROM Client_Info_Master)")
+            "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Double> GetItemCartTotalPrice();
 
     @Query("SELECT a.sListIDxx AS sListIDxx, " +
@@ -80,7 +80,7 @@ public interface DItemCart {
             "ON a.sListIDxx = b.sListngID " +
             "WHERE a.cBuyNowxx = '0' " +
             "AND a.sUserIDxx = (" +
-            "SELECT sUserIDxx FROM Client_Info_Master)")
+            "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<List<oMarketplaceCartItem>> GetCartItemsList();
 
     @Query("SELECT a.sListIDxx AS sListIDxx, " +
@@ -93,7 +93,7 @@ public interface DItemCart {
             "ON a.sListIDxx = b.sListngID " +
             "WHERE a.cBuyNowxx = '1' AND cCheckOut = '1' " +
             "AND a.sUserIDxx = (" +
-            "SELECT sUserIDxx FROM Client_Info_Master)")
+            "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<List<oMarketplaceCartItem>> GetBuyNowItem();
 
     @Query("SELECT a.sListIDxx AS sListIDxx, " +
@@ -107,7 +107,7 @@ public interface DItemCart {
             "ON a.sListIDxx = b.sListngID " +
             "WHERE a.cBuyNowxx = '0' AND cCheckOut = '1' " +
             "AND a.sUserIDxx = (" +
-            "SELECT sUserIDxx FROM Client_Info_Master)")
+            "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<List<oMarketplaceCartItem>> GetItemsForCheckOut();
 
     public class oMarketplaceCartItem{

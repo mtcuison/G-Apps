@@ -154,8 +154,8 @@ public class Fragment_EditPersonalInfo extends Fragment {
                 public void onSuccess(String fsMessage) {
                     poLoading.dismiss();
                     poDialog.setButtonText("Okay");
-                    poDialog.initDialog("Account Details", fsMessage, dialog -> {
-                        dialog.dismiss();
+                    poDialog.initDialog("Account Details", fsMessage, () -> {
+                        poDialog.dismiss();
                         requireActivity().finish();
                     });
                     poDialog.show();
@@ -165,13 +165,13 @@ public class Fragment_EditPersonalInfo extends Fragment {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialog.setButtonText("Okay");
-                    poDialog.initDialog("Account Details", fsMessage, dialog -> dialog.dismiss());
+                    poDialog.initDialog("Account Details", fsMessage, () -> poDialog.dismiss());
                     poDialog.show();
                 }
             });
         } else {
             poDialog.setButtonText("Okay");
-            poDialog.initDialog("Account Details", psErrMesg, dialog -> dialog.dismiss());
+            poDialog.initDialog("Account Details", psErrMesg, () -> poDialog.dismiss());
             poDialog.show();
         }
     }

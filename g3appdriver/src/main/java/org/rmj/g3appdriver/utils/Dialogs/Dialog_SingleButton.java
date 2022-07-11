@@ -20,6 +20,7 @@ public class Dialog_SingleButton {
     private AlertDialog poDialogx;
     private final Context poContext;
     private String psBtnText = "";
+    private static boolean isShown;
 
     public Dialog_SingleButton(Context foContext) {
         this.poContext = foContext;
@@ -41,7 +42,7 @@ public class Dialog_SingleButton {
         lblMesgxx.setText(Objects.requireNonNull(foMessage));
         button.setText(psBtnText);
 
-        button.setOnClickListener(v -> foCallBck.onClick(poDialogx));
+        button.setOnClickListener(v -> foCallBck.onClick());
     }
 
 
@@ -51,13 +52,32 @@ public class Dialog_SingleButton {
     }
 
     public void show(){
-        poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        poDialogx.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
+        if(!poDialogx.isShowing()) {
+            poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            poDialogx.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
+        } else {
+            poDialogx.dismiss();
+            poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            poDialogx.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
+        }
         poDialogx.show();
+        isShown = true;
+    }
+
+    public void dismiss(){
+        if(poDialogx != null && poDialogx.isShowing()){
+            poDialogx.dismiss();
+            isShown = false;
+        } else if(poDialogx.isShowing()){
+            poDialogx.dismiss();
+            isShown = false;
+        } else {
+
+            isShown = false;
+        }
     }
 
     public interface OnButtonClick {
-        void onClick(AlertDialog dialog);
+        void onClick();
     }
-
 }

@@ -378,7 +378,7 @@ public class RAddressMobile {
             EClientInfo loClient = GGC_GuanzonAppDB.getInstance(mContext).EClientDao().GetUserInfo();
             String fsTransNo = String.valueOf(ThreadLocalRandom.current().nextInt());
             if(!fsTransNo.isEmpty()) {
-                foValue.setTransNox(fsTransNo);
+//                foValue.setTransNox(fsTransNo);
             } else {
                 message = "Unable to generate local id for new address. " + getMessage();
                 return false;
@@ -386,20 +386,20 @@ public class RAddressMobile {
 
             //Save new Address Update.
             DMobileAddressInfo loDao = GGC_GuanzonAppDB.getInstance(mContext).mobAddDao();
-            foValue.setSourceCD("MPlc");
-            foValue.setSourceNo(loClient.getClientID());
+//            foValue.setSourceCD("MPlc");
+//            foValue.setSourceNo(loClient.getClientID());
             loDao.SaveMobile(foValue);
             Log.d(TAG, "New contact info has been save successfully.");
 
             JSONObject param = new JSONObject();
-            param.put("sTransNox", foValue.getTransNox());
-            param.put("sClientID", foValue.getClientID());
-            param.put("cReqstCDe", foValue.getReqstCDe());
+//            param.put("sTransNox", foValue.getTransNox());
+//            param.put("sClientID", foValue.getClientID());
+//            param.put("cReqstCDe", foValue.getReqstCDe());
             param.put("sMobileNo", foValue.getMobileNo());
-            param.put("cPrimaryx", foValue.getPrimaryx());
-            param.put("sRemarksx", foValue.getRemarksx());
-            param.put("sSourceCD", foValue.getSourceCD());
-            param.put("sSourceNo", foValue.getSourceNo());
+//            param.put("cPrimaryx", foValue.getPrimaryx());
+//            param.put("sRemarksx", foValue.getRemarksx());
+//            param.put("sSourceCD", foValue.getSourceCD());
+//            param.put("sSourceNo", foValue.getSourceNo());
 
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             String lsAddress = loApis.getMobileUpdateRequestAPI();
@@ -419,7 +419,7 @@ public class RAddressMobile {
                 } else {
                     Log.d(TAG, "New contact info has been uploaded successfully.");
                     String lsTransNo = loResponse.getString("sTransNox");
-                    loDao.UpdateNewContactID(foValue.getTransNox(),lsTransNo);
+//                    loDao.UpdateNewContactID(foValue.getTransNox(),lsTransNo);
                     Log.d(TAG, "New contact info has been updated successfully.");
 
                     return true;
@@ -492,14 +492,14 @@ public class RAddressMobile {
             Log.d(TAG, "New contact info has been save successfully.");
 
             JSONObject param = new JSONObject();
-            param.put("sTransNox", foValue.getTransNox());
-            param.put("sClientID", foValue.getClientID());
-            param.put("cReqstCDe", foValue.getReqstCDe());
+//            param.put("sTransNox", foValue.getTransNox());
+//            param.put("sClientID", foValue.getClientID());
+//            param.put("cReqstCDe", foValue.getReqstCDe());
             param.put("sMobileNo", foValue.getMobileNo());
-            param.put("cPrimaryx", foValue.getPrimaryx());
-            param.put("sRemarksx", foValue.getRemarksx());
-            param.put("sSourceCD", foValue.getSourceCD());
-            param.put("sSourceNo", foValue.getSourceNo());
+//            param.put("cPrimaryx", foValue.getPrimaryx());
+//            param.put("sRemarksx", foValue.getRemarksx());
+//            param.put("sSourceCD", foValue.getSourceCD());
+//            param.put("sSourceNo", foValue.getSourceNo());
 
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             String lsAddress = loApis.getImportCountriesAPI();
@@ -518,7 +518,7 @@ public class RAddressMobile {
                 } else {
                     Log.d(TAG, "New contact info has been uploaded successfully.");
                     String lsTransNo = loResponse.getString("sTransNox");
-                    loDao.UpdateNewContactID(foValue.getTransNox(),lsTransNo);
+//                    loDao.UpdateNewContactID(foValue.getTransNox(),lsTransNo);
                     Log.d(TAG, "New contact info has been updated successfully.");
                     return true;
                 }

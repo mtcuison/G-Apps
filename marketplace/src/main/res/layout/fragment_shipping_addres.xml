@@ -6,11 +6,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/cardview_light_background"
     tools:context=".Fragment.FragmentShippingAddress">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewAddress"
             android:layout_width="match_parent"

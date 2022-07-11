@@ -151,4 +151,38 @@ public class AppConstants {
             "Update",
             "Change"
     };
+
+    public String[] ValidIDList = new String[]{
+            "Philippine Passport from Department of Foreign Affairs",
+            "SSS ID or SSS UMID Card (SSS)",
+            "GSIS ID or GSIS UMID Card (GSIS)",
+            "Driver’s License from Land Transportation Office (LTO)",
+            "PRC ID from Professional Regulatory Commission (PRC)",
+            "OWWA ID Overseas Workers Welfare Administration (OWWA)",
+            "iDOLE Card from Department of Labor and Employment (iDOLE)",
+            "Voter’s ID from Commission on Elections (COMELEC)",
+            "Voter’s Certification from the Officer of Election with Dry Seal",
+            "Firearms License from Philippine National Police (PNP)",
+            "Senior Citizen ID from Local Government Unit (LGU)",
+            "Persons with Disabilities (PWD)",
+            "NBI Clearance (NBI)",
+            "Immigrant Certificate of Registration",
+            "PhilHealth ID (digitized PVC)",
+            "Government Office and GOCC ID",
+            "Integrated Bar of the Philippines ID",
+            "School ID (for students) from the current School or University",
+            "Current Valid ePassport (For Renewal of ePassport)",
+            "TIN ID",
+            "Postal ID (issued 2015 onwards)",
+            "Barangay Certification",
+            "Government Service Insurance System (GSIS) e-Card",
+            "Seaman’s Book",
+            "Department of Social Welfare and Development (DSWD) Certification",
+            "Police Clearance",
+            "Barangay Clearance",
+            "Cedula or Community Tax Certificate",
+            "Government Service Record",
+            "PSA Marriage Contract",
+            "PSA Birth Certificate",
+            "Others"};
 }

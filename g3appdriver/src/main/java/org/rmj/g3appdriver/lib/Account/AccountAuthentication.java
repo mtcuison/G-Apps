@@ -58,7 +58,6 @@ public class AccountAuthentication {
                     EClientInfo loClient = new EClientInfo();
 
                     loClient.setDateMmbr(loResponse.getString("dCreatedx"));
-                    loClient.setLoginxxx(new AppConstants().DATE_MODIFIED);
                     loClient.setEmailAdd(loResponse.getString("sEmailAdd"));
                     loClient.setUserName(loResponse.getString("sUserName"));
                     loClient.setMobileNo(loResponse.getString("sMobileNo"));

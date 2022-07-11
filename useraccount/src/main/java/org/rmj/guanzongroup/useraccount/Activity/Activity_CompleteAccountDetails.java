@@ -124,8 +124,8 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                 public void onSuccess(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Account Details", fsMessage, dialog -> {
-                        dialog.dismiss();
+                    poDialogx.initDialog("Account Details", fsMessage, () -> {
+                        poDialogx.dismiss();
                         Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
                         intent.putExtra("args", "auth");
                         sendBroadcast(intent);
@@ -139,13 +139,13 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Account Details", fsMessage, Dialog::dismiss);
+                    poDialogx.initDialog("Account Details", fsMessage, () -> poDialogx.dismiss());
                     poDialogx.show();
                 }
             });
         } else {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Account Details", poDataMdl.getMessage(), Dialog::dismiss);
+            poDialogx.initDialog("Account Details", poDataMdl.getMessage(), () -> poDialogx.dismiss());
             poDialogx.show();
         }
 
@@ -319,4 +319,6 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         poDblDiag.show();
     }
 
+
 }
+

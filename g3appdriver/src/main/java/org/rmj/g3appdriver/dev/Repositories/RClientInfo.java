@@ -11,6 +11,7 @@ import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 
@@ -104,14 +105,18 @@ public class RClientInfo {
                     loDetail.setCitizenx(loResponse.getString("sCitizenx"));
                     loDetail.setBirthDte(loResponse.getString("dBirthDte"));
                     loDetail.setBirthPlc(loResponse.getString("sBirthPlc"));
-                    loDetail.setHouseNox(loResponse.getString("sHouseNox"));
-                    loDetail.setAddressx(loResponse.getString("sAddressx"));
-                    loDetail.setTownIDxx(loResponse.getString("sTownIDxx"));
-                    loDetail.setBrgyIDxx(loResponse.getString("sBrgyIDxx"));
+                    loDetail.setHouseNo1(loResponse.getString("sHouseNo1"));
+                    loDetail.setAddress1(loResponse.getString("sAddress1"));
+                    loDetail.setBrgyIDx1(loResponse.getString("sAddress1"));
+                    loDetail.setTownIDx1(loResponse.getString("sTownIDx1"));
+                    loDetail.setHouseNo2(loResponse.getString("sHouseNo2"));
+                    loDetail.setAddress2(loResponse.getString("sAddress2"));
+                    loDetail.setBrgyIDx2(loResponse.getString("sAddress2"));
+                    loDetail.setTownIDx2(loResponse.getString("sTownIDx2"));
                     loDetail.setTaxIDNox(loResponse.getString("sTaxIDNox"));
                     loDetail.setMobileNo(loResponse.getString("sMobileNo"));
                     loDetail.setEmailAdd(loResponse.getString("sEmailAdd"));
-                    loDetail.setRecdStat("1");
+                    loDetail.setRecdStat(1);
                     poDao.update(loDetail);
                     AccountInfo loAcc = new AccountInfo(mContext);
                     loAcc.setClientID(loResponse.getString("sClientID"));
@@ -144,20 +149,26 @@ public class RClientInfo {
     public boolean CompleteClientInfo(EClientInfo foClient){
         try {
             JSONObject param = new JSONObject();
+            param.put("sUserIDxx", foClient.getUserIDxx());
+            param.put("dTransact", new AppConstants().DATE_MODIFIED);
             param.put("sLastName", foClient.getLastName());
             param.put("sFrstName", foClient.getFrstName());
             param.put("sMiddName", foClient.getMiddName());
+            param.put("sMaidenNm", foClient.getMaidenNm());
             param.put("sSuffixNm", foClient.getSuffixNm());
             param.put("cGenderCd", foClient.getGenderCd());
             param.put("cCvilStat", foClient.getCvilStat());
             param.put("sCitizenx", foClient.getCitizenx());
             param.put("dBirthDte", foClient.getBirthDte());
             param.put("sBirthPlc", foClient.getBirthPlc());
-            param.put("sHouseNox", foClient.getHouseNox());
-            param.put("sAddressx", foClient.getAddressx());
-            param.put("sTownIDxx", foClient.getTownIDxx());
-            param.put("sBrgyIDxx", foClient.getBrgyIDxx());
-            param.put("sTaxIDNox", foClient.getTaxIDNox());
+            param.put("sHouseNo1", foClient.getHouseNo1());
+            param.put("sAddress1", foClient.getAddress1());
+            param.put("sBrgyIDx1", foClient.getBrgyIDx1());
+            param.put("sTownIDx1", foClient.getTownIDx1());
+            param.put("sHouseNo2", foClient.getHouseNo2());
+            param.put("sAddress2", foClient.getAddress2());
+            param.put("sBrgyIDx2", foClient.getBrgyIDx2());
+            param.put("sTownIDx2", foClient.getTownIDx2());
 
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             String lsAddress = loApis.getCreateNewClientAPI();
@@ -200,6 +211,192 @@ public class RClientInfo {
             String lsResponse = WebClient.httpsPostJSon(
                     loApis.getUpdateAccountInfo(),
                     param.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    poJson = loResponse;
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean UpdateBillingAddress(String houseNo, String Address, String brgyID, String townID){
+        try{
+            JSONObject param = new JSONObject();
+            param.put("sHouseNo1", houseNo);
+            param.put("sAddress1", Address);
+            param.put("sBrgyIDx1", brgyID);
+            param.put("sTownIDx1", townID);
+
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getUpdateAccountInfo(),
+                    param.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    poJson = loResponse;
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean UpdateShippingAddress(String houseNo, String Address, String brgyID, String townID){
+        try{
+            JSONObject param = new JSONObject();
+            param.put("sHouseNo2", houseNo);
+            param.put("sAddress2", Address);
+            param.put("sBrgyIDx2", brgyID);
+            param.put("sTownIDx2", townID);
+
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getUpdateAccountInfo(),
+                    param.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    poJson = loResponse;
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean RetrieveShipAndBillAddress(){
+        try{
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getRetrieveProfilePictureAPI(),
+                    new JSONObject().toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    poJson = loResponse;
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean GetClientProfilePicture(){
+        try{
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getRetrieveProfilePictureAPI(),
+                    new JSONObject().toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    poJson = loResponse;
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean GetVerifiedEmails(){
+        try{
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getRetrieveVerifiedIDAPI(),
+                    new JSONObject().toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    poJson = loResponse;
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean GetClientVerifiedID(){
+        try{
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getRetrieveVerifiedIDAPI(),
+                    new JSONObject().toString(),
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
                 message = "Unable to retrieve server response.";

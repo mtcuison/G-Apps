@@ -50,7 +50,7 @@ public interface DOrderDetail {
             "WHERE c.sTransNox =:fsVal " +
             "AND c.sClientID = (" +
             "SELECT sClientID " +
-            "FROM Client_Info_Master) " +
+            "FROM Client_Profile_Info) " +
             "ORDER BY c.dTransact DESC")
     LiveData<List<OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal);
 

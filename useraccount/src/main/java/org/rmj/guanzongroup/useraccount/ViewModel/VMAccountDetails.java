@@ -33,7 +33,7 @@ public class VMAccountDetails extends AndroidViewModel {
 
     private final String[] psLstHead = new String[] {
             "Personal Information",
-            "Present Address",
+            "Address",
             "Account Information"
     };
 
@@ -120,7 +120,8 @@ public class VMAccountDetails extends AndroidViewModel {
             loAcctInf.add(new AccountDetailsInfo(false, "", "Tax ID", foClientx.getTaxIDNox()));
 
             loAcctInf.add(new AccountDetailsInfo(true, psLstHead[1], "", ""));
-            loAcctInf.add(new AccountDetailsInfo(false, "", "Address", fsAddress));
+            loAcctInf.add(new AccountDetailsInfo(false, "", "Shipping Address", fsAddress));
+            loAcctInf.add(new AccountDetailsInfo(false, "", "Billing Address", fsAddress));
 
             loAcctInf.add(new AccountDetailsInfo(true, psLstHead[2], "", ""));
             loAcctInf.add(new AccountDetailsInfo(false, "", "Email Address", foClientx.getEmailAdd()));
