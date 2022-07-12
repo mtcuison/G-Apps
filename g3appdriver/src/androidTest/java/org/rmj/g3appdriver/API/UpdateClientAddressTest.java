@@ -15,12 +15,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
-import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class NewImportClientInfoTest {
-    private static final String TAG = NewImportClientInfoTest.class.getSimpleName();
+public class UpdateClientAddressTest {
+    private static final String TAG = UpdateClientAddressTest.class.getSimpleName();
     private Context mContext;
 
     private RClientInfo poClient;
@@ -32,29 +31,16 @@ public class NewImportClientInfoTest {
         mContext = ApplicationProvider.getApplicationContext();
         new GuanzonAppConfig(mContext).setTestCase(true);
         poClient = new RClientInfo(mContext);
-
-//        AccountAuthentication loAuth = new AccountAuthentication(mContext);
-//        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "12345678", "09270359402"), new AccountAuthentication.OnLoginCallback() {
-//            @Override
-//            public void OnSuccessLogin(String message) {
-//                isSuccess = true;
-//            }
-//
-//            @Override
-//            public void OnFailedLogin(String message) {
-//                isSuccess = false;
-//            }
-//
-//            @Override
-//            public void OnAccountVerification(String args, String args1) {
-//
-//            }
-//        });
     }
 
     @Test
     public void test01UpdateClientAddressAPI() throws Exception{
-        isSuccess = poClient.ImportAccountInfo();
+        RClientInfo.AddressUpdate loAddress = new RClientInfo.AddressUpdate(true);
+        loAddress.setHouseNo("231");
+        loAddress.setAddress("Sitio Tawi Tawi");
+        loAddress.setBrgyID("1100170");
+        loAddress.setTownID("0346");
+        isSuccess = poClient.UpdateShippingAddress(loAddress);
         if(!isSuccess){
             Log.e(TAG, poClient.getMessage());
         }

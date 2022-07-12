@@ -68,6 +68,12 @@ public class EClientInfo {
     private int AgreeTnC;
     @ColumnInfo(name = "dDateMmbr")
     private String DateMmbr;
+    @ColumnInfo(name = "sImagePth")
+    private String ImagePth;
+    @ColumnInfo(name = "dImgeDate")
+    private String ImgeDate;
+    @ColumnInfo(name = "cImgeStat")
+    private String ImgeStat;
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
 
@@ -313,5 +319,29 @@ public class EClientInfo {
 
     public void setBrgyIDx2(String brgyIDx2) {
         BrgyIDx2 = brgyIDx2;
+    }
+
+    public String getImagePth() {
+        return ImagePth;
+    }
+
+    public void setImagePth(String imagePth) {
+        ImagePth = imagePth;
+    }
+
+    public String getImgeDate() {
+        return ImgeDate;
+    }
+
+    public void setImgeDate(String imgeDate) {
+        ImgeDate = imgeDate;
+    }
+
+    public String getImgeStat() {
+        return ImgeStat;
+    }
+
+    public void setImgeStat(String imgeStat) {
+        ImgeStat = imgeStat;
     }
 }
