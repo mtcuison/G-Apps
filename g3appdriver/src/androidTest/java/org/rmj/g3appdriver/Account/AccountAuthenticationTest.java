@@ -301,14 +301,14 @@ public class AccountAuthenticationTest {
     public void test22SessionManageAfterLoginTest() throws Exception{
         AccountInfo loSession = new AccountInfo(mContext);
         String lsUserIDx = loSession.getUserID();
-        String lsEmailxx = loSession.getEmailAdd();
+//        String lsEmailxx = loSession.getEmailAdd();
         String lsUserNme = loSession.getFullName();
-        String lsMobilex = loSession.getMobileNo();
+//        String lsMobilex = loSession.getMobileNo();
 
         assertEquals("GAP0190554", lsUserIDx);
-        assertEquals("garciamike8748@gmail.com", lsEmailxx);
+//        assertEquals("garciamike8748@gmail.com", lsEmailxx);
         assertEquals("Doe, Garcia Michael ", lsUserNme);
-        assertEquals("09270359402", lsMobilex);
+//        assertEquals("09270359402", lsMobilex);
     }
 
     @Test

@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
@@ -104,6 +105,14 @@ public class VMAccountDetails extends AndroidViewModel {
         new UpdateAccountInfoTask(poConnect, poClientx, foCallBck).execute(foClientx);
     }
 
+    public void UpdateMobileNo(String fsArgs, OnTransactionCallBack foCallBck){
+        new UpdateMobileNoTask(poClientx, foCallBck).execute(fsArgs);
+    }
+
+    public void UpdateEmailAdd(String fsArgs, OnTransactionCallBack foCallBck){
+        new UpdateMobileNoTask(poClientx, foCallBck).execute(fsArgs);
+    }
+
     public void setAccountDetailsList(EClientInfo foClientx, String fsAddress, String fsBplacex) {
         try {
             List<AccountDetailsInfo> loAcctInf = new ArrayList<>();
@@ -111,22 +120,23 @@ public class VMAccountDetails extends AndroidViewModel {
             String lsGenderx = getGenderList().get(Integer.parseInt(foClientx.getGenderCd()));
             String lsCivilSt = getCivilStatusList().get(Integer.parseInt(foClientx.getCvilStat()));
             loAcctInf.add(new AccountDetailsInfo(true, psLstHead[0], "", ""));
+            loAcctInf.add(new AccountDetailsInfo(false, "", "GuanzonApp ID", foClientx.getUserIDxx()));
             loAcctInf.add(new AccountDetailsInfo(false, "", "Full Name", lsFullNme));
             loAcctInf.add(new AccountDetailsInfo(false, "", "Gender", lsGenderx));
             loAcctInf.add(new AccountDetailsInfo(false, "", "Birth Date", getDate(foClientx.getBirthDte())));
             loAcctInf.add(new AccountDetailsInfo(false, "", "Birth Place", fsBplacex));
-            loAcctInf.add(new AccountDetailsInfo(false, "", "Citizen", ""));
+//            loAcctInf.add(new AccountDetailsInfo(false, "", "Citizen", ""));
             loAcctInf.add(new AccountDetailsInfo(false, "", "Civil Status", lsCivilSt));
-            loAcctInf.add(new AccountDetailsInfo(false, "", "Tax ID", foClientx.getTaxIDNox()));
+//            loAcctInf.add(new AccountDetailsInfo(false, "", "Tax ID", foClientx.getTaxIDNox()));
 
-            loAcctInf.add(new AccountDetailsInfo(true, psLstHead[1], "", ""));
-            loAcctInf.add(new AccountDetailsInfo(false, "", "Shipping Address", fsAddress));
-            loAcctInf.add(new AccountDetailsInfo(false, "", "Billing Address", fsAddress));
+//            loAcctInf.add(new AccountDetailsInfo(true, psLstHead[1], "", ""));
+//            loAcctInf.add(new AccountDetailsInfo(false, "", "Shipping Address", fsAddress));
+//            loAcctInf.add(new AccountDetailsInfo(false, "", "Billing Address", fsAddress));
 
             loAcctInf.add(new AccountDetailsInfo(true, psLstHead[2], "", ""));
-            loAcctInf.add(new AccountDetailsInfo(false, "", "Email Address", foClientx.getEmailAdd()));
-            loAcctInf.add(new AccountDetailsInfo(false, "", "Mobile Number", foClientx.getMobileNo()));
-            loAcctInf.add(new AccountDetailsInfo(false, "", "Password", "CHANGE"));
+            loAcctInf.add(new AccountDetailsInfo(true, "Email Address", "", foClientx.getEmailAdd()));
+            loAcctInf.add(new AccountDetailsInfo(true, "Mobile Number", "", foClientx.getMobileNo()));
+            loAcctInf.add(new AccountDetailsInfo(true, "Password", "", "CHANGE"));
 
             poAcctInf.setValue(loAcctInf);
         } catch (Exception e){
@@ -321,11 +331,111 @@ public class VMAccountDetails extends AndroidViewModel {
 
     }
 
+    private static class UpdateMobileNoTask extends AsyncTask<String, Void, Boolean>{
+
+        private final RClientInfo poClient;
+        private final OnTransactionCallBack callBack;
+
+        private String message;
+
+        public UpdateMobileNoTask(RClientInfo poClient, OnTransactionCallBack callBack) {
+            this.poClient = poClient;
+            this.callBack = callBack;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callBack.onLoading();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try{
+                String lsMobileNo = strings[0];
+                if(strings.toString().trim().isEmpty()){
+                    message = "Please enter mobile no.";
+                    return false;
+                } else {
+                    if(poClient.UpdateMobileNo(lsMobileNo)){
+                        return true;
+                    } else {
+                        message = poClient.getMessage();
+                        return false;
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+                callBack.onSuccess("Your request to update mobile no has been submitted. Please wait for verification.");
+            } else {
+                callBack.onFailed(message);
+            }
+        }
+    }
+
+    private static class UpdateEmailAddTask extends AsyncTask<String, Void, Boolean>{
+
+        private final RClientInfo poClient;
+        private final OnTransactionCallBack callBack;
+
+        private String message;
+
+        public UpdateEmailAddTask(RClientInfo poClient, OnTransactionCallBack callBack) {
+            this.poClient = poClient;
+            this.callBack = callBack;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callBack.onLoading();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try{
+                String lsEmailAdd = strings[0];
+                if(strings.toString().trim().isEmpty()){
+                    message = "Please enter email address";
+                    return false;
+                } else {
+                    if(poClient.UpdateEmailAddress(lsEmailAdd)){
+                        return true;
+                    } else {
+                        message = poClient.getMessage();
+                        return false;
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+                callBack.onSuccess("Your request to update email address has been submitted. Please wait for verification.");
+            } else {
+                callBack.onFailed(message);
+            }
+        }
+    }
+
     public interface OnTransactionCallBack {
         void onLoading();
         void onSuccess(String fsMessage);
         void onFailed(String fsMessage);
     }
-
-
 }

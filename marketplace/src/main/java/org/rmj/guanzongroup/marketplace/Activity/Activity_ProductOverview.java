@@ -111,7 +111,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
             if(!isClick) {
                 isClick = true;
                 if (isLoggedIn()) {
-                    if (poAccount.getClientID().isEmpty()) {
+                    if (poAccount.getVerificationStatus() == 0) {
                         Intent loIntent = new Intent(Activity_ProductOverview.this,
                                 Activity_CompleteAccountDetails.class);
                         startActivity(loIntent);
@@ -412,7 +412,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
     private void addToCart() {
         if(isLoggedIn()) {
-            if (poAccount.getClientID().isEmpty()) {
+            if (poAccount.getVerificationStatus() == 0) {
                 Intent loIntent = new Intent(Activity_ProductOverview.this,
                         Activity_CompleteAccountDetails.class);
                 startActivity(loIntent);
@@ -469,7 +469,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
     private void buyNow() {
         if(isLoggedIn()) {
-            if(poAccount.getClientID().isEmpty()) {
+            if(poAccount.getVerificationStatus() == 0) {
                 Intent loIntent = new Intent(Activity_ProductOverview.this,
                         Activity_CompleteAccountDetails.class);
                 startActivity(loIntent);

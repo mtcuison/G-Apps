@@ -23,6 +23,7 @@ import org.rmj.guanzongroup.useraccount.ViewModel.VMShippingAddress;
 import org.rmj.guanzongroup.useraccount.databinding.FragmentAddressCreateBinding;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Fragment_AddressCreate extends Fragment {
 
@@ -84,17 +85,13 @@ public class Fragment_AddressCreate extends Fragment {
                                         )
                                 );
 
-                                mBinding.txtBrgyxx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> adapterView,
-                                                            View view, int i, long l) {
-                                        for(int x = 0; x < brgys.size(); x++){
-                                            if(brgys.get(x).getBrgyName().
-                                                    equalsIgnoreCase(mBinding.txtBrgyxx.getText()
-                                                            .toString().trim())){
-                                                infoModel.setBarngay(brgys.get(x).getBrgyIDxx());
-                                                break;
-                                            }
+                                mBinding.txtBrgyxx.setOnItemClickListener((adapterView1, view1, i1, l1) -> {
+                                    for(int x1 = 0; x1 < brgys.size(); x1++){
+                                        if(brgys.get(x1).getBrgyName().
+                                                equalsIgnoreCase(mBinding.txtBrgyxx.getText()
+                                                        .toString().trim())){
+                                            infoModel.setBarngay(brgys.get(x1).getBrgyIDxx());
+                                            break;
                                         }
                                     }
                                 });
@@ -111,9 +108,9 @@ public class Fragment_AddressCreate extends Fragment {
     }
 
     private void addShipping() {
-        infoModel.setMobileN(mBinding.txtMobile.getText().toString().trim());
-        infoModel.setHouseNo(mBinding.txtHouseN.getText().toString().trim());
-        infoModel.setAddress(mBinding.txtStreet.getText().toString().trim());
+        infoModel.setMobileN(Objects.requireNonNull(mBinding.txtMobile.getText()).toString().trim());
+        infoModel.setHouseNo(Objects.requireNonNull(mBinding.txtHouseN.getText()).toString().trim());
+        infoModel.setAddress(Objects.requireNonNull(mBinding.txtStreet.getText()).toString().trim());
         if(infoModel.isAddressComplete()) {
             mViewModel.addShippingAddress(infoModel, new VMShippingAddress.OnTransactionCallBack() {
                 @Override

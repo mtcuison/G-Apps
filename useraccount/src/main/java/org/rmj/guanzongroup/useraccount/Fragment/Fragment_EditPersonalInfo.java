@@ -32,20 +32,16 @@ public class Fragment_EditPersonalInfo extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMAccountDetails.class);
         mBinding =  FragmentEditPersonalInfoBinding.inflate(inflater, container, false);
         poClientx = new EClientInfo();
-        return mBinding.getRoot();
-    }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMAccountDetails.class);
         poDialog = new Dialog_SingleButton(requireActivity());
         initSelector();
         setDefaultValues();
 
         mBinding.btnUpdate.setOnClickListener(v -> updatePersonalInfo());
+        return mBinding.getRoot();
     }
 
     @Override
@@ -177,10 +173,10 @@ public class Fragment_EditPersonalInfo extends Fragment {
     }
 
     private boolean isFormClear() {
-        if(poClientx.getGenderCd().isEmpty()) {
+        if(poClientx.getGenderCd().trim().isEmpty()) {
             psErrMesg = "Please select gender.";
             return false;
-        } else if (poClientx.getCvilStat().isEmpty()) {
+        } else if (poClientx.getCvilStat().trim().isEmpty()) {
             psErrMesg = "Please select civil status.";
             return false;
         } else if (poClientx.getCitizenx().isEmpty()) {
@@ -190,6 +186,4 @@ public class Fragment_EditPersonalInfo extends Fragment {
             return true;
         }
     }
-
-
 }

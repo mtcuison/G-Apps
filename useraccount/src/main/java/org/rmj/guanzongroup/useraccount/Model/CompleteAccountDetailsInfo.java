@@ -152,40 +152,40 @@ public class CompleteAccountDetailsInfo {
     }
 
     public boolean isDataValid() {
-        if(sLastName.isEmpty()) {
+        if(sLastName.trim().isEmpty()) {
             sMessagex = "Please enter Last Name";
             return false;
-        } else if(sFirstNme.isEmpty()) {
+        } else if(sFirstNme.trim().isEmpty()) {
             sMessagex = "Please enter First Name";
             return false;
-        } else if(sMiddName.isEmpty()) {
+        } else if(sMiddName.trim().isEmpty()) {
             sMessagex = "Please enter Middle Name";
             return false;
-        } else if(sBirthDte.isEmpty()) {
+        } else if(sBirthDte.trim().isEmpty()) {
             sMessagex = "Please enter Birth Date";
             return false;
-        } else if(sBirthPlc.isEmpty()) {
+        } else if(sBirthPlc.trim().isEmpty()) {
             sMessagex = "Please enter Birth Place";
             return false;
-        } else if(sGenderxx.isEmpty()) {
+        } else if(sGenderxx.trim().isEmpty()) {
             sMessagex = "Please select a Gender";
             return false;
-        } else if(sCivilStx.isEmpty()) {
+        } else if(sCivilStx.trim().isEmpty()) {
             sMessagex = "Please select a Civil Status";
             return false;
-        } else if(sCitizenx.isEmpty()) {
+        } else if(sCitizenx.trim().isEmpty()) {
             sMessagex = "Please enter Citizenship";
             return false;
-        } else if(sHouseNox.isEmpty()) {
+        } else if(sHouseNox.trim().isEmpty()) {
             sMessagex = "Please enter House Number";
             return false;
-        } else if(sAddressx.isEmpty()) {
+        } else if(sAddressx.trim().isEmpty()) {
             sMessagex = "Please enter Street Address";
             return false;
-        } else if(sTownCity.isEmpty()) {
+        } else if(sTownCity.trim().isEmpty()) {
             sMessagex = "Please enter Town or City Address";
             return false;
-        } else if(sBarangay.isEmpty()) {
+        } else if(sBarangay.trim().isEmpty()) {
             sMessagex = "Please enter Barangay Address";
             return false;
         } else {
@@ -209,6 +209,10 @@ public class CompleteAccountDetailsInfo {
             poClientx.setAddress1(getAddress());
             poClientx.setTownIDx1(getTownCity());
             poClientx.setBrgyIDx1(getBarangay());
+            poClientx.setHouseNo2(getHouseNumber());
+            poClientx.setAddress2(getAddress());
+            poClientx.setTownIDx2(getTownCity());
+            poClientx.setBrgyIDx2(getBarangay());
             return poClientx;
         } else {
             return null;

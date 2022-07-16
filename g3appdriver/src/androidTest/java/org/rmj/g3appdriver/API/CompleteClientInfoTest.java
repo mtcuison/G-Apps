@@ -62,5 +62,4 @@ public class CompleteClientInfoTest {
         }
         assertTrue(isSuccess);
     }
-
 }

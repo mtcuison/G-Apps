@@ -65,11 +65,10 @@ public class ROrder {
             if(fnQuantity <= 0){
                 message = "Unable to proceed with '0' quantity.";
                 return false;
-
-            } else if(loAccount.getEmailAdd().isEmpty()){
+            } else if(loAccount.getUserID().isEmpty()){
                 message = "Please login your account to continue.";
                 return false;
-            } else if(loAccount.getClientID().isEmpty()){
+            } else if(loAccount.getVerificationStatus() == 0){
                 message = "Please complete your account setup to continue.";
                 return true;
             } else if(ValidateItemQuantity(fsLstngID, fnQuantity)) {
@@ -116,10 +115,10 @@ public class ROrder {
                 message = "Unable to proceed with '0' quantity.";
                 return false;
 
-            } else if(loAccount.getEmailAdd().isEmpty()){
+            } else if(loAccount.getUserID().isEmpty()){
                 message = "Please login your account to continue.";
                 return false;
-            } else if(loAccount.getClientID().isEmpty()){
+            } else if(loAccount.getVerificationStatus() == 0){
                 message = "Please complete your account setup to continue.";
                 return true;
             } else if(ValidateItemQuantity(fsLstngID, fnQuantity)) {

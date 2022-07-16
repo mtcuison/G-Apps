@@ -1,7 +1,5 @@
 package org.rmj.guanzongroup.useraccount.ViewModel;
 
-import static org.rmj.g3appdriver.etc.AppConstants.SOURCE_CODE;
-
 import android.app.Application;
 import android.os.AsyncTask;
 
@@ -10,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EAddressInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
@@ -41,6 +40,10 @@ public class VMShippingAddress extends AndroidViewModel {
         return poClientx.getClientInfo();
     }
 
+    public LiveData<DClientInfo.ClientBSAddress> getClientBSAddress(){
+        return poClientx.getClientBSAddress();
+    }
+
     public LiveData<List<DAddress.oTownObj>> getTownCityList(){
         return poAddress.GetTownList();
     }
@@ -54,6 +57,140 @@ public class VMShippingAddress extends AndroidViewModel {
 
     public ArrayList<String> getBarangayForInput(List<EBarangayInfo> foList) {
         return poAddress.getBarangayForInput(foList);
+    }
+
+    public LiveData<DClientInfo.oAddressUpdate> GetBillingAddressInfoForUpdate(){
+        return poClientx.GetBillingAddressInfoForUpdate();
+    }
+
+    public LiveData<DClientInfo.oAddressUpdate> GetShippingAddressInfoForUpdate(){
+        return poClientx.GetShippingAddressInfoForUpdate();
+    }
+
+    public void UpdateShippingAddress(DClientInfo.oAddressUpdate foVal, OnTransactionCallBack callBack){
+        new UpdateShippingAddTask(poClientx, callBack).execute(foVal);
+    }
+
+    public void UpdateBillingAddress(DClientInfo.oAddressUpdate foVal, OnTransactionCallBack callBack){
+        new UpdateBillingAddTask(poClientx, callBack).execute(foVal);
+    }
+
+    private static class UpdateShippingAddTask extends AsyncTask<DClientInfo.oAddressUpdate, Void, Boolean>{
+
+        private final RClientInfo poClient;
+        private final OnTransactionCallBack callBack;
+
+        private String message;
+
+        public UpdateShippingAddTask(RClientInfo poClient, OnTransactionCallBack callBack) {
+            this.poClient = poClient;
+            this.callBack = callBack;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callBack.onLoading();
+        }
+
+        @Override
+        protected Boolean doInBackground(DClientInfo.oAddressUpdate... strings) {
+            DClientInfo.oAddressUpdate loDetail = strings[0];
+            EClientInfo loInfo = poClient.GetClientInfo();
+            if(loDetail.sTownIDxx.trim().isEmpty()){
+                message = "Please select town/municipality";
+                return false;
+            } else if(loDetail.sBrgyIDxx.trim().isEmpty()){
+                message = "Please select barangay";
+                return false;
+            } else if(loDetail.sHouseNox.equalsIgnoreCase(loInfo.getHouseNo2()) &&
+                    loDetail.sAddressx.equalsIgnoreCase(loInfo.getAddress2()) &&
+                    loDetail.sBrgyIDxx.equalsIgnoreCase(loInfo.getBrgyIDx2()) &&
+                    loDetail.sTownIDxx.equalsIgnoreCase(loInfo.getTownIDx2())) {
+                message = "No changes were made.";
+                return false;
+            } else {
+                loInfo.setHouseNo2(loDetail.sHouseNox);
+                loInfo.setAddress2(loDetail.sAddressx);
+                loInfo.setBrgyIDx2(loDetail.sBrgyIDxx);
+                loInfo.setTownIDx2(loDetail.sTownIDxx);
+                if(poClient.UpdateAddress(loInfo)){
+                    return true;
+                } else {
+                    message = poClient.getMessage();
+                    return false;
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+                callBack.onSuccess("Shipping address has been updated.");
+            } else {
+                callBack.onFailed(message);
+            }
+        }
+    }
+
+    private static class UpdateBillingAddTask extends AsyncTask<DClientInfo.oAddressUpdate, Void, Boolean>{
+
+        private final RClientInfo poClient;
+        private final OnTransactionCallBack callBack;
+
+        private String message;
+
+        public UpdateBillingAddTask(RClientInfo poClient, OnTransactionCallBack callBack) {
+            this.poClient = poClient;
+            this.callBack = callBack;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callBack.onLoading();
+        }
+
+        @Override
+        protected Boolean doInBackground(DClientInfo.oAddressUpdate... strings) {
+            DClientInfo.oAddressUpdate loDetail = strings[0];
+            EClientInfo loInfo = poClient.GetClientInfo();
+            if(loDetail.sTownIDxx.trim().isEmpty()){
+                message = "Please select town/municipality";
+                return false;
+            } else if(loDetail.sBrgyIDxx.trim().isEmpty()){
+                message = "Please select barangay";
+                return false;
+            } else if(loDetail.sHouseNox.equalsIgnoreCase(loInfo.getHouseNo1()) &&
+                loDetail.sAddressx.equalsIgnoreCase(loInfo.getAddress1()) &&
+                loDetail.sBrgyIDxx.equalsIgnoreCase(loInfo.getBrgyIDx1()) &&
+                loDetail.sTownIDxx.equalsIgnoreCase(loInfo.getTownIDx1())) {
+                message = "No changes were made.";
+                return false;
+            } else {
+                loInfo.setHouseNo1(loDetail.sHouseNox);
+                loInfo.setAddress1(loDetail.sAddressx);
+                loInfo.setBrgyIDx1(loDetail.sBrgyIDxx);
+                loInfo.setTownIDx1(loDetail.sTownIDxx);
+                if(poClient.UpdateAddress(loInfo)){
+                    return true;
+                } else {
+                    message = poClient.getMessage();
+                    return false;
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+                callBack.onSuccess("Billing address has been updated.");
+            } else {
+                callBack.onFailed(message);
+            }
+        }
     }
 
     public void addShippingAddress(ShippingInfoModel foInfoMdl, OnTransactionCallBack foCallBck) {
@@ -153,5 +290,4 @@ public class VMShippingAddress extends AndroidViewModel {
         void onSuccess(String fsMessage);
         void onFailed(String fsMessage);
     }
-
 }

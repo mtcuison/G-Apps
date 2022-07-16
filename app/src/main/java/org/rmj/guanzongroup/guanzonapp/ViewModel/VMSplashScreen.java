@@ -64,8 +64,7 @@ public class VMSplashScreen extends AndroidViewModel {
         loConfig.setIfPermissionsGranted(hasPermissions(mContext, laPermissions));
         poLoadStat.setValue(new oLoadStat(
                 loConfig.IsPermissionsGranted(),
-                new AccountInfo(mContext).getLoginStatus(),
-                !new AccountInfo(mContext).getClientID().isEmpty()));
+                new AccountInfo(mContext).getLoginStatus()));
     }
 
     public void setPermissionsGranted(boolean val){
@@ -181,7 +180,7 @@ public class VMSplashScreen extends AndroidViewModel {
                     loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
                     loGcard.DownloadRedeemables(poCallback);
 
-                    if(!new AccountInfo(mContext).getClientID().isEmpty()){
+                    if(new AccountInfo(mContext).getVerificationStatus() > 0){
                         if(new ROrder(mContext).ImportMarketPlaceItemCart()){
                             Log.d(TAG, "Marketplace cart items imported successfully...");
                         }

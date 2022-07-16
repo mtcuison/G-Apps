@@ -35,15 +35,15 @@ public class UpdateClientAddressTest {
 
     @Test
     public void test01UpdateClientAddressAPI() throws Exception{
-        RClientInfo.AddressUpdate loAddress = new RClientInfo.AddressUpdate(true);
-        loAddress.setHouseNo("231");
-        loAddress.setAddress("Sitio Tawi Tawi");
-        loAddress.setBrgyID("1100170");
-        loAddress.setTownID("0346");
-        isSuccess = poClient.UpdateShippingAddress(loAddress);
-        if(!isSuccess){
-            Log.e(TAG, poClient.getMessage());
-        }
-        assertTrue(isSuccess);
+//        RClientInfo.AddressUpdate loAddress = new RClientInfo.AddressUpdate(true);
+//        loAddress.setHouseNo("231");
+//        loAddress.setAddress("Sitio Tawi Tawi");
+//        loAddress.setBrgyID("1100170");
+//        loAddress.setTownID("0346");
+//        isSuccess = poClient.UpdateAddress(loAddress);
+//        if(!isSuccess){
+//            Log.e(TAG, poClient.getMessage());
+//        }
+//        assertTrue(isSuccess);
     }
 }

@@ -38,7 +38,7 @@
                 android:layout_margin="0dp"/>
 
             <TextView
-                android:id="@+id/lblLastname"
+                android:id="@+id/lblAccountUpdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lblLastname"
@@ -49,16 +49,16 @@
                 style="@style/TextInputLabel" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_lastname"
+                android:id="@+id/til_accountUpdate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblLastname"
+                app:layout_constraintTop_toBottomOf="@id/lblAccountUpdate"
                 app:layout_constraintRight_toRightOf="parent"
                 style="@style/TextInputStyle">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_lastname"
+                    android:id="@+id/tie_accountUpdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/lblFirstname"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_lastname"
+                app:layout_constraintTop_toBottomOf="@id/til_accountUpdate"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintHorizontal_bias="0"
                 style="@style/TextInputLabel" />
@@ -300,6 +300,7 @@
                 app:layout_constraintTop_toBottomOf="@id/til_gender"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintHorizontal_bias="0"
+                android:visibility="gone"
                 style="@style/TextInputLabel" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -309,6 +310,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblCitizen"
                 app:layout_constraintRight_toRightOf="parent"
+                android:visibility="gone"
                 style="@style/TextInputStyle">
 
                 <AutoCompleteTextView
@@ -333,6 +335,7 @@
                 app:layout_constraintTop_toBottomOf="@id/til_citizen"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintHorizontal_bias="0"
+                android:visibility="gone"
                 style="@style/TextInputLabel" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -342,6 +345,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblTaxId"
                 app:layout_constraintRight_toRightOf="parent"
+                android:visibility="gone"
                 style="@style/TextInputStyle">
 
                 <com.google.android.material.textfield.TextInputEditText

@@ -15,23 +15,23 @@ public class EClientInfo {
     @ColumnInfo(name = "sClientID")
     private String ClientID;
     @ColumnInfo(name = "sEmailAdd")
-    private String EmailAdd;
+    private String EmailAdd = "";
     @ColumnInfo(name = "sUserName")
-    private String UserName;
+    private String UserName = "";
     @ColumnInfo(name = "sLastName")
-    private String LastName;
+    private String LastName = "";
     @ColumnInfo(name = "sFrstName")
-    private String FrstName;
+    private String FrstName = "";
     @ColumnInfo(name = "sMiddName")
-    private String MiddName;
+    private String MiddName = "";
     @ColumnInfo(name = "sSuffixNm")
-    private String SuffixNm;
+    private String SuffixNm = "";
     @ColumnInfo(name = "sMaidenNm")
-    private String MaidenNm;
+    private String MaidenNm = "";
     @ColumnInfo(name = "cGenderCd")
-    private String GenderCd;
+    private String GenderCd = "";
     @ColumnInfo(name = "cCvilStat")
-    private String CvilStat;
+    private String CvilStat = "";
     @ColumnInfo(name = "sCitizenx")
     private String Citizenx;
     @ColumnInfo(name = "dBirthDte")
@@ -39,27 +39,27 @@ public class EClientInfo {
     @ColumnInfo(name = "sBirthPlc")
     private String BirthPlc;
     @ColumnInfo(name = "sHouseNo1")
-    private String HouseNo1;
+    private String HouseNo1 = "";
     @ColumnInfo(name = "sAddress1")
-    private String Address1;
+    private String Address1 = "";
     @ColumnInfo(name = "sBrgyIDx1")
-    private String BrgyIDx1;
+    private String BrgyIDx1 = "";
     @ColumnInfo(name = "sTownIDx1")
-    private String TownIDx1;
+    private String TownIDx1 = "";
     @ColumnInfo(name = "sHouseNo2")
-    private String HouseNo2;
+    private String HouseNo2 = "";
     @ColumnInfo(name = "sAddress2")
-    private String Address2;
+    private String Address2 = "";
     @ColumnInfo(name = "sBrgyIDx2")
-    private String BrgyIDx2;
+    private String BrgyIDx2 = "";
     @ColumnInfo(name = "sTownIDx2")
-    private String TownIDx2;
+    private String TownIDx2 = "";
     @ColumnInfo(name = "sTaxIDNox")
-    private String TaxIDNox;
+    private String TaxIDNox = "";
     @ColumnInfo(name = "cRecdStat")
     private int RecdStat;
     @ColumnInfo(name = "sMobileNo")
-    private String MobileNo;
+    private String MobileNo = "";
     @ColumnInfo(name = "cVerified")
     private int Verified;
     @ColumnInfo(name = "dVerified")
@@ -69,11 +69,11 @@ public class EClientInfo {
     @ColumnInfo(name = "dDateMmbr")
     private String DateMmbr;
     @ColumnInfo(name = "sImagePth")
-    private String ImagePth;
+    private String ImagePth = "";
     @ColumnInfo(name = "dImgeDate")
-    private String ImgeDate;
+    private String ImgeDate = "";
     @ColumnInfo(name = "cImgeStat")
-    private String ImgeStat;
+    private String ImgeStat = "";
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
 

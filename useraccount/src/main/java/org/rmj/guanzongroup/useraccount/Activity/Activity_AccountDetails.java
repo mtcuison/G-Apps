@@ -98,7 +98,7 @@ public class Activity_AccountDetails extends AppCompatActivity {
                     Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_EditAccountDetails.class);
                     if (label.equals("Personal Information")) {
                         loIntent.putExtra("index", 0);
-                    } else if (label.equals("Present Address")) {
+                    } else if (label.equals("Address")) {
                         loIntent.putExtra("index", 1);
                     } else if (label.equals("Account Information")) {
                         loIntent.putExtra("index", 2);

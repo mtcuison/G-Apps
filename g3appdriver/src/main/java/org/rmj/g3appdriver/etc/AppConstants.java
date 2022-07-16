@@ -135,7 +135,7 @@ public class AppConstants {
 
     public static String[][] ACCOUNT_SETTINGS_MENU = new String[][]{
             new String[] {"0","Account Details","Manage Email, Mobile Number, Password and Personal Information."},
-            new String[] {"2","Shipping Address","Manage shipping address for delivery of ordered products."}
+            new String[] {"2","Address Book","Manage billing and shipping address for delivery of ordered products."}
     };
 
     public String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
