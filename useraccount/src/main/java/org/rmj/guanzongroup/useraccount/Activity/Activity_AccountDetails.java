@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -76,6 +78,56 @@ public class Activity_AccountDetails extends AppCompatActivity {
                 try {
                     mViewModel.getBirthplace(eClientInfo.getBirthPlc()).observe(this, bPlace -> {
                         try {
+                            TextView lblUserID = findViewById(R.id.lbl_appID);
+                            lblUserID.setText(eClientInfo.getUserIDxx());
+
+                            TextView lblFullNm = findViewById(R.id.lbl_fullName);
+                            String lsFullNme = eClientInfo.getLastName() + ", " + eClientInfo.getFrstName();
+                            if(!eClientInfo.getMiddName().trim().isEmpty()){
+                                lsFullNme = lsFullNme + ", " + eClientInfo.getMiddName();
+                            }
+                            if(!eClientInfo.getSuffixNm().trim().isEmpty()){
+                                lsFullNme = lsFullNme + ", " + eClientInfo.getSuffixNm();
+                            }
+                            lblFullNm.setText(lsFullNme);
+
+                            TextView lblGender = findViewById(R.id.lbl_gender);
+                            String lsGenderx = mViewModel.getGenderList().get(Integer.parseInt(eClientInfo.getGenderCd()));
+                            lblGender.setText(lsGenderx);
+
+                            TextView lblCvilSt = findViewById(R.id.lbl_civilStatus);
+                            String lsCivilSt = mViewModel.getCivilStatusList().get(Integer.parseInt(eClientInfo.getCvilStat()));
+                            lblCvilSt.setText(lsCivilSt);
+
+                            TextView lblBirthP = findViewById(R.id.lbl_birthPlace);
+                            lblBirthP.setText(eClientInfo.getBirthPlc());
+
+                            TextView lblBirthD = findViewById(R.id.lbl_birthDate);
+                            String lsBirthDt = mViewModel.getDate(eClientInfo.getBirthDte());
+                            lblBirthD.setText(lsBirthDt);
+
+                            TextView lblEmailx = findViewById(R.id.lbl_email);
+                            lblEmailx.setText(eClientInfo.getEmailAdd());
+                            findViewById(R.id.lbl_editEmail).setOnClickListener(v -> {
+                                Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
+                                loIntent.putExtra("sUpdatexx", 0);
+                                startActivity(loIntent);
+                            });
+
+                            TextView lblMobile = findViewById(R.id.lbl_mobile);
+                            lblMobile.setText(eClientInfo.getMobileNo());
+                            findViewById(R.id.lbl_editMobileNo).setOnClickListener(v -> {
+                                Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
+                                loIntent.putExtra("sUpdatexx", 1);
+                                startActivity(loIntent);
+                            });
+
+                            findViewById(R.id.lbl_editPassword).setOnClickListener(v -> {
+                                Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
+                                loIntent.putExtra("sUpdatexx", 2);
+                                startActivity(loIntent);
+                            });
+
                             mViewModel.getFullAddress(eClientInfo.getBrgyIDx1()).observe(this, address -> {
                                 try {
                                     String lsFulAdrs = eClientInfo.getHouseNo1() + ", "

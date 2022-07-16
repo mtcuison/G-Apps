@@ -4,7 +4,9 @@
     <application>
         <activity
             android:name=".Activity.Activity_AccountUpdate"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_AddressUpdate"
             android:exported="false"

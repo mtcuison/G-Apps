@@ -13,6 +13,7 @@ import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
+import org.rmj.g3appdriver.etc.PasswordStrength;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 
 import java.util.ArrayList;
@@ -258,6 +259,47 @@ public class RClientInfo {
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             String lsResponse = WebClient.httpsPostJSon(
                     loApis.getMobileUpdateAPI(),
+                    param.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    poJson = loResponse;
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean ChangePassword(String fsOld, String fsNew, String fsNw1){
+        try{
+            if("Weak".equalsIgnoreCase(PasswordStrength.getPasswordStrength(fsNew))){
+                message = "Password is too weak.";
+                return false;
+            } else if(fsNw1.equalsIgnoreCase(fsNew)){
+                message = "Password does not match";
+                return false;
+            }
+            JSONObject param = new JSONObject();
+            param.put("dTransact", new AppConstants().DATE_MODIFIED);
+            param.put("oldpswd", fsOld);
+            param.put("newpswd", fsNew);
+
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getEmailUpdateAPI(),
                     param.toString(),
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){

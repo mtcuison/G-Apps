@@ -140,6 +140,8 @@
     <string name="mock_mc_name">Yamaha Aerox 155</string>
     <string name="mock_date">January 1, 2022</string>
 
+    <string name="password_guide">A password is said to be strong if it satisfies the following criteria: \n \n It contains at least one lowercase English character. \n It contains at least one uppercase English character. \n It contains at least one special character. The special characters are: !@#$%^&amp;*()-+ \n Its length is at least 8. \n It contains at least one digit.</string>
+
     <string name="Company_Profile">COMPANY PROFILE</string>
     <string name="CP_Paragraph_1">It all started with the thrill of riding a bicycle and the fondest memories it leaves in the mind of the little child, this is where the dream began.</string>
     <string name="CP_Paragraph_2">Our roots can be traced from selling kalesa (horse cart) parts onto becoming a progressive and stable partner in the motorcycle and mobile phone retail sales. Now with 170 Motorcycle branches and 80 mobile phone shops, we continue to grow and expand with the commitment to loyalty, honesty and trust.</string>

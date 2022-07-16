@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.useraccount.ViewModel;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.PowerManager;
 
@@ -27,6 +28,7 @@ import java.util.List;
 
 public class VMAccountDetails extends AndroidViewModel {
     private static final String TAG = VMAccountDetails.class.getSimpleName();
+    private final Context mContext;
     private final ConnectionUtil poConnect;
     private final RClientInfo poClientx;
     private final RAddressMobile poAddress;
@@ -40,6 +42,7 @@ public class VMAccountDetails extends AndroidViewModel {
 
     public VMAccountDetails(@NonNull Application application) {
         super(application);
+        this.mContext = application;
         this.poConnect = new ConnectionUtil(application);
         this.poClientx = new RClientInfo(application);
         this.poAddress = new RAddressMobile(application);
@@ -106,11 +109,11 @@ public class VMAccountDetails extends AndroidViewModel {
     }
 
     public void UpdateMobileNo(String fsArgs, OnTransactionCallBack foCallBck){
-        new UpdateMobileNoTask(poClientx, foCallBck).execute(fsArgs);
+        new UpdateMobileNoTask(mContext, foCallBck).execute(fsArgs);
     }
 
     public void UpdateEmailAdd(String fsArgs, OnTransactionCallBack foCallBck){
-        new UpdateMobileNoTask(poClientx, foCallBck).execute(fsArgs);
+        new UpdateEmailAddTask(mContext, foCallBck).execute(fsArgs);
     }
 
     public void setAccountDetailsList(EClientInfo foClientx, String fsAddress, String fsBplacex) {
@@ -134,8 +137,8 @@ public class VMAccountDetails extends AndroidViewModel {
 //            loAcctInf.add(new AccountDetailsInfo(false, "", "Billing Address", fsAddress));
 
             loAcctInf.add(new AccountDetailsInfo(true, psLstHead[2], "", ""));
-            loAcctInf.add(new AccountDetailsInfo(true, "Email Address", "", foClientx.getEmailAdd()));
-            loAcctInf.add(new AccountDetailsInfo(true, "Mobile Number", "", foClientx.getMobileNo()));
+            loAcctInf.add(new AccountDetailsInfo(true, "Email Address: " + foClientx.getEmailAdd(), "", ""));
+            loAcctInf.add(new AccountDetailsInfo(true, "Mobile Number: " + foClientx.getMobileNo(), "", ""));
             loAcctInf.add(new AccountDetailsInfo(true, "Password", "", "CHANGE"));
 
             poAcctInf.setValue(loAcctInf);
@@ -144,7 +147,7 @@ public class VMAccountDetails extends AndroidViewModel {
         }
     }
 
-    private String getDate(String val){
+    public String getDate(String val){
         SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
         String formattedDate = null;
@@ -182,7 +185,6 @@ public class VMAccountDetails extends AndroidViewModel {
         @Override
         protected String doInBackground(Void... voids) {
             String lsResultx = "";
-
             try {
                 if(loConnect.isDeviceConnected()) {
                     if(loClientx.ImportAccountInfo()) {
@@ -269,6 +271,67 @@ public class VMAccountDetails extends AndroidViewModel {
         }
     }
 
+    public void UpdatePassword(String fsOld, String fsNew, String fsNew1, OnTransactionCallBack callBack){
+        ArrayList<String> lsParams = new ArrayList<>();
+        lsParams.add(fsOld);
+        lsParams.add(fsNew);
+        lsParams.add(fsNew1);
+        new UpdatePasswordTask(mContext, callBack).execute(lsParams);
+    }
+
+    private static class UpdatePasswordTask extends AsyncTask<ArrayList<String>, Void, Boolean>{
+
+        private final RClientInfo poClient;
+        private final ConnectionUtil poConn;
+        private final OnTransactionCallBack callBack;
+
+        private String message;
+
+        public UpdatePasswordTask(Context context, OnTransactionCallBack callBack) {
+            this.poClient = new RClientInfo(context);
+            this.poConn = new ConnectionUtil(context);
+            this.callBack = callBack;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callBack.onLoading();
+        }
+
+        @Override
+        protected Boolean doInBackground(ArrayList<String>... strings) {
+            try{
+                String lsOld = strings[0].get(0);
+                String lsNew = strings[0].get(1);
+                String lsNw1 = strings[0].get(2);
+                if(!poConn.isDeviceConnected()){
+                    message = "Not connected to internet.";
+                    return false;
+                } else if(poClient.ChangePassword(lsOld, lsNew, lsNw1)){
+                    return true;
+                } else {
+                    message = poClient.getMessage();
+                    return false;
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if(aBoolean){
+                callBack.onSuccess("Password change successfully.");
+            } else {
+                callBack.onFailed(message);
+            }
+        }
+    }
+
     private static class UpdateAccountInfoTask extends AsyncTask<EClientInfo, Void, Boolean> {
 
         private final ConnectionUtil loConnect;
@@ -334,12 +397,14 @@ public class VMAccountDetails extends AndroidViewModel {
     private static class UpdateMobileNoTask extends AsyncTask<String, Void, Boolean>{
 
         private final RClientInfo poClient;
+        private final ConnectionUtil poConn;
         private final OnTransactionCallBack callBack;
 
         private String message;
 
-        public UpdateMobileNoTask(RClientInfo poClient, OnTransactionCallBack callBack) {
-            this.poClient = poClient;
+        public UpdateMobileNoTask(Context context, OnTransactionCallBack callBack) {
+            this.poClient = new RClientInfo(context);
+            this.poConn = new ConnectionUtil(context);
             this.callBack = callBack;
         }
 
@@ -353,11 +418,20 @@ public class VMAccountDetails extends AndroidViewModel {
         protected Boolean doInBackground(String... strings) {
             try{
                 String lsMobileNo = strings[0];
-                if(strings.toString().trim().isEmpty()){
+                if(lsMobileNo.trim().isEmpty()){
                     message = "Please enter mobile no.";
                     return false;
+                } else if(lsMobileNo.substring(0, 2).equalsIgnoreCase("09")){
+                    message = "Mobile number must start with '09'";
+                    return false;
+                } else if(lsMobileNo.length() != 11) {
+                    message = "Mobile number must be 11 characters";
+                    return false;
                 } else {
-                    if(poClient.UpdateMobileNo(lsMobileNo)){
+                    if (!poConn.isDeviceConnected()) {
+                        message = "Not connected to internet.";
+                        return false;
+                    } else if(poClient.UpdateMobileNo(lsMobileNo)){
                         return true;
                     } else {
                         message = poClient.getMessage();
@@ -384,13 +458,16 @@ public class VMAccountDetails extends AndroidViewModel {
 
     private static class UpdateEmailAddTask extends AsyncTask<String, Void, Boolean>{
 
+
         private final RClientInfo poClient;
+        private final ConnectionUtil poConn;
         private final OnTransactionCallBack callBack;
 
         private String message;
 
-        public UpdateEmailAddTask(RClientInfo poClient, OnTransactionCallBack callBack) {
-            this.poClient = poClient;
+        public UpdateEmailAddTask(Context context, OnTransactionCallBack callBack) {
+            this.poClient = new RClientInfo(context);
+            this.poConn = new ConnectionUtil(context);
             this.callBack = callBack;
         }
 
@@ -404,11 +481,14 @@ public class VMAccountDetails extends AndroidViewModel {
         protected Boolean doInBackground(String... strings) {
             try{
                 String lsEmailAdd = strings[0];
-                if(strings.toString().trim().isEmpty()){
+                if(lsEmailAdd.trim().isEmpty()){
                     message = "Please enter email address";
                     return false;
                 } else {
-                    if(poClient.UpdateEmailAddress(lsEmailAdd)){
+                    if (!poConn.isDeviceConnected()) {
+                        message = "Not connected to internet.";
+                        return false;
+                    } else if(poClient.UpdateEmailAddress(lsEmailAdd)){
                         return true;
                     } else {
                         message = poClient.getMessage();
