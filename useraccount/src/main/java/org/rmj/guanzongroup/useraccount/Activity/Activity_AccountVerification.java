@@ -9,7 +9,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -85,8 +84,8 @@ public class Activity_AccountVerification extends AppCompatActivity {
 
                     poDialogx = new Dialog_SingleButton(Activity_AccountVerification.this);
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Activate Account", fsMessage, dialog -> {
-                        dialog.dismiss();
+                    poDialogx.initDialog("Activate Account", fsMessage, () -> {
+                        poDialogx.dismiss();
                         Intent loIntent = new Intent();
                         loIntent.putExtra("result", "success");
                         setResult(111, loIntent);
@@ -100,7 +99,7 @@ public class Activity_AccountVerification extends AppCompatActivity {
                     poLoading.dismiss();
                     poDialogx = new Dialog_SingleButton(Activity_AccountVerification.this);
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Activate Account", fsMessage, Dialog::dismiss);
+                    poDialogx.initDialog("Activate Account", fsMessage, () -> poDialogx.dismiss());
                     poDialogx.show();
                 }
             });

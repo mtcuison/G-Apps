@@ -23,6 +23,6 @@ public interface DUserInfo {
     @Update
     void update(EUserInfo eUserInfo);
 
-    @Query("SELECT * FROM Client_Info_Master")
+    @Query("SELECT * FROM Client_Profile_Info")
     EClientInfo getUserInfo();
 }

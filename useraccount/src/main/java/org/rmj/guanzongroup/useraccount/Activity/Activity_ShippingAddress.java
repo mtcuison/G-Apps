@@ -69,7 +69,7 @@ public class Activity_ShippingAddress extends AppCompatActivity {
     private void setUpToolbar() {
         setSupportActionBar(mBinding.appToolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Shipping Address");
+        getSupportActionBar().setTitle("Address Book");
     }
 
     private void closeRedirection() {
@@ -79,5 +79,4 @@ public class Activity_ShippingAddress extends AppCompatActivity {
             finish();
         }
     }
-
 }

@@ -90,7 +90,7 @@ public class Fragment_AccountSettings extends Fragment {
         poAdapter = new Adapter_AccountSettings(getMenuList(), position -> {
             switch(position) {
                 case 0:
-                    if(new AccountInfo(requireActivity()).getClientID().isEmpty()) {
+                    if(new AccountInfo(requireActivity()).getVerificationStatus() == 0) {
                         Intent loIntent = new Intent(requireActivity(), Activity_CompleteAccountDetails.class);
                         loIntent.putExtra("args", "account");
                         poArl.launch(loIntent);
@@ -100,7 +100,7 @@ public class Fragment_AccountSettings extends Fragment {
                     }
                     break;
                 case 1:
-                    if (poAccount.getClientID().isEmpty()){
+                    if (poAccount.getVerificationStatus() == 0){
                         Intent loIntent = new Intent(requireActivity(), Activity_CompleteAccountDetails.class);
                         loIntent.putExtra("args", "ship");
                         poArl.launch(loIntent);

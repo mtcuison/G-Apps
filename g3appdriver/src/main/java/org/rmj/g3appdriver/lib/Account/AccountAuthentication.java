@@ -2,6 +2,7 @@ package org.rmj.g3appdriver.lib.Account;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -51,13 +52,12 @@ public class AccountAuthentication {
                     AccountInfo loInfo = new AccountInfo(mContext);
                     loInfo.setUserID(loResponse.getString("sUserIDxx"));
                     loInfo.setFullName(loResponse.getString("sUserName"));
-                    loInfo.setEmailAdd(loResponse.getString("sEmailAdd"));
+//                    loInfo.setEmailAdd(loResponse.getString("sEmailAdd"));
                     loInfo.setLoginStatus(true);
 
                     EClientInfo loClient = new EClientInfo();
 
                     loClient.setDateMmbr(loResponse.getString("dCreatedx"));
-                    loClient.setLoginxxx(new AppConstants().DATE_MODIFIED);
                     loClient.setEmailAdd(loResponse.getString("sEmailAdd"));
                     loClient.setUserName(loResponse.getString("sUserName"));
                     loClient.setMobileNo(loResponse.getString("sMobileNo"));
@@ -245,7 +245,6 @@ public class AccountAuthentication {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void RegisterAccount(AccountCredentials credentials, OnCreateAccountCallback callback) throws Exception{
         if(!credentials.isDataValid()){
             callback.OnFailedRegister(credentials.getMessage());
@@ -255,6 +254,7 @@ public class AccountAuthentication {
             if(lsResponse == null){
                 callback.OnFailedRegister("Server no response.");
             } else {
+                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
@@ -273,7 +273,6 @@ public class AccountAuthentication {
         void OnFailedRetrieve(String message);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void RetrievePassword(String email, OnRetrievePasswordCallback callback) throws Exception{
         if(email.isEmpty()){
             callback.OnFailedRetrieve("Please enter email.");

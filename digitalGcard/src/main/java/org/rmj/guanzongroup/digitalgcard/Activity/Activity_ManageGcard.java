@@ -124,8 +124,8 @@ public class Activity_ManageGcard extends AppCompatActivity {
                                 poLoading.dismiss();
                                 poDialogx = new Dialog_SingleButton(Activity_ManageGcard.this);
                                 poDialogx.setButtonText("Okay");
-                                poDialogx.initDialog("GCard Activation", fsMessage, dialog -> {
-                                    dialog.dismiss();
+                                poDialogx.initDialog("GCard Activation", fsMessage, () -> {
+                                    poDialogx.dismiss();
                                 });
                                 poDialogx.show();
                             }
@@ -135,8 +135,8 @@ public class Activity_ManageGcard extends AppCompatActivity {
                                 poLoading.dismiss();
                                 poDialogx = new Dialog_SingleButton(Activity_ManageGcard.this);
                                 poDialogx.setButtonText("Okay");
-                                poDialogx.initDialog("GCard Activation", fsMessage, dialog -> {
-                                    dialog.dismiss();
+                                poDialogx.initDialog("GCard Activation", fsMessage, () -> {
+                                    poDialogx.dismiss();
                                 });
                                 poDialogx.show();
                             }

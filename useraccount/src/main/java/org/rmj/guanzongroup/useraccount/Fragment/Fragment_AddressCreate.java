@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.InputFieldController;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
@@ -21,6 +23,7 @@ import org.rmj.guanzongroup.useraccount.ViewModel.VMShippingAddress;
 import org.rmj.guanzongroup.useraccount.databinding.FragmentAddressCreateBinding;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Fragment_AddressCreate extends Fragment {
 
@@ -34,20 +37,15 @@ public class Fragment_AddressCreate extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMShippingAddress.class);
         mBinding = FragmentAddressCreateBinding.inflate(inflater, container, false);
         View view = mBinding.getRoot();
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMShippingAddress.class);
         poDialogx = new Dialog_SingleButton(requireActivity());
         poLoading = new Dialog_Loading(requireActivity());
         infoModel = new ShippingInfoModel(new AccountInfo(requireActivity()).getClientID());
         initInputSelectors();
         mBinding.btnAddShp.setOnClickListener(v -> addShipping());
+        return view;
     }
 
     @Override
@@ -57,6 +55,7 @@ public class Fragment_AddressCreate extends Fragment {
     }
 
     private void initInputSelectors() {
+//        mBinding.spnSrcCde.setAdapter(new ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, AppConstants.REQUEST_CODE));
         mViewModel.getTownCityList().observe(requireActivity(), townObj ->{
             try {
                 ArrayList<String> lsTownCts = mViewModel.getTownCityForInput(townObj);
@@ -86,17 +85,13 @@ public class Fragment_AddressCreate extends Fragment {
                                         )
                                 );
 
-                                mBinding.txtBrgyxx.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> adapterView,
-                                                            View view, int i, long l) {
-                                        for(int x = 0; x < brgys.size(); x++){
-                                            if(brgys.get(x).getBrgyName().
-                                                    equalsIgnoreCase(mBinding.txtBrgyxx.getText()
-                                                            .toString().trim())){
-                                                infoModel.setBarngay(brgys.get(x).getBrgyIDxx());
-                                                break;
-                                            }
+                                mBinding.txtBrgyxx.setOnItemClickListener((adapterView1, view1, i1, l1) -> {
+                                    for(int x1 = 0; x1 < brgys.size(); x1++){
+                                        if(brgys.get(x1).getBrgyName().
+                                                equalsIgnoreCase(mBinding.txtBrgyxx.getText()
+                                                        .toString().trim())){
+                                            infoModel.setBarngay(brgys.get(x1).getBrgyIDxx());
+                                            break;
                                         }
                                     }
                                 });
@@ -113,9 +108,9 @@ public class Fragment_AddressCreate extends Fragment {
     }
 
     private void addShipping() {
-        infoModel.setMobileN(mBinding.txtMobile.getText().toString().trim());
-        infoModel.setHouseNo(mBinding.txtHouseN.getText().toString().trim());
-        infoModel.setAddress(mBinding.txtStreet.getText().toString().trim());
+        infoModel.setMobileN(Objects.requireNonNull(mBinding.txtMobile.getText()).toString().trim());
+        infoModel.setHouseNo(Objects.requireNonNull(mBinding.txtHouseN.getText()).toString().trim());
+        infoModel.setAddress(Objects.requireNonNull(mBinding.txtStreet.getText()).toString().trim());
         if(infoModel.isAddressComplete()) {
             mViewModel.addShippingAddress(infoModel, new VMShippingAddress.OnTransactionCallBack() {
                 @Override
@@ -128,8 +123,8 @@ public class Fragment_AddressCreate extends Fragment {
                 public void onSuccess(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Shipping Address", fsMessage, d -> {
-                        d.dismiss();
+                    poDialogx.initDialog("Shipping Address", fsMessage, () -> {
+                        poDialogx.dismiss();
                         Activity_ShippingAddress.getInstance().setFragment(0);
                     });
                     poDialogx.show();
@@ -139,13 +134,13 @@ public class Fragment_AddressCreate extends Fragment {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Shipping Address", fsMessage, d -> d.dismiss());
+                    poDialogx.initDialog("Shipping Address", fsMessage, () -> poDialogx.dismiss());
                     poDialogx.show();
                 }
             });
         } else {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Shipping Address", infoModel.getErrorMessage(), d -> d.dismiss());
+            poDialogx.initDialog("Shipping Address", infoModel.getErrorMessage(), () -> poDialogx.dismiss());
             poDialogx.show();
         }
     }

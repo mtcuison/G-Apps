@@ -89,7 +89,7 @@ public interface DNotifications {
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.cMesgStat <> '5' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master) " +
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "ORDER BY b.dReceived DESC")
     LiveData<List<ClientNotificationInfo>> getClientNotificationList();
 
@@ -120,7 +120,7 @@ public interface DNotifications {
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.cMesgStat <> '5' " +
             "AND a.sMsgTypex == '00000' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master)")
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<List<UserNotificationInfo>> getUserMessageList();
 
     @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
@@ -134,7 +134,7 @@ public interface DNotifications {
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.cMesgStat <> '5' " +
             "AND a.sMsgTypex == '00000' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master) " +
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.sCreatrID=:SenderID")
     LiveData<List<UserNotificationInfo>> getUserMessageListFromSender(String SenderID);
 
@@ -150,7 +150,7 @@ public interface DNotifications {
             "WHERE b.cMesgStat <> '5'" +
             "AND a.sMsgTypex == '00000' " +
             "AND a.sMsgTypex == '00000' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master) " +
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "GROUP BY a.sCreatrID")
     LiveData<List<UserNotificationInfo>> getUserMessageListGroupByUser();
 
@@ -158,14 +158,14 @@ public interface DNotifications {
             "LEFT JOIN Notification_Info_Master b " +
             "ON a.sTransNox = b.sMesgIDxx " +
             "WHERE a.cMesgStat = '2' AND a.sRecpntID = (" +
-            "SELECT sUserIDxx FROM Client_Info_Master)")
+            "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> getUnreadMessagesCount();
 
     @Query("SELECT COUNT(*) FROM Notification_Info_Recepient a " +
             "LEFT JOIN Notification_Info_Master b " +
             "ON a.sTransNox = b.sMesgIDxx " +
             "WHERE a.cMesgStat = '2' AND a.sRecpntID = (" +
-            "SELECT sUserIDxx FROM Client_Info_Master) " +
+            "SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND b.sMsgTypex <> '00000'")
     LiveData<Integer> getUnreadNotificationsCount();
 
@@ -180,7 +180,7 @@ public interface DNotifications {
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.cMesgStat <> '5' " +
             "AND a.sMsgTypex <> '00000' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master)")
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<List<UserNotificationInfo>> getUserNotificationList();
 
     @Query("SELECT a.sMesgIDxx FROM Notification_Info_Master a " +
@@ -210,7 +210,7 @@ public interface DNotifications {
     @Query("SELECT COUNT(*) FROM Notification_Info_Master a " +
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
-            "WHERE b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master) " +
+            "WHERE b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND cMesgStat = '2'")
     int GetNotificationCount();
 

@@ -47,6 +47,8 @@ public class Activity_AddGcard extends AppCompatActivity {
 
     private static final int SCAN_GCARD = 1;
 
+    public boolean isClicked = false;
+
     private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -73,7 +75,14 @@ public class Activity_AddGcard extends AppCompatActivity {
         setUpToolbar();
 
         txtBdatex.setOnClickListener(v -> datePicker());
-        btnAddCrd.setOnClickListener(v -> addGcard());
+        btnAddCrd.setOnClickListener(v -> {
+            if(!isClicked) {
+                isClicked = true;
+                addGcard();
+            }  else {
+                Toast.makeText(Activity_AddGcard.this, "Please wait...", Toast.LENGTH_SHORT).show();
+            }
+        });
         btnScanGc.setOnClickListener(v -> scanGcard());
 
         if(getIntent().hasExtra("args")){
@@ -163,8 +172,9 @@ public class Activity_AddGcard extends AppCompatActivity {
                     public void onSuccess(String fsMessage) {
                         poLoading.dismiss();
                         poDialog.setButtonText("Okay");
-                        poDialog.initDialog("Add GCard", "GCard Successfully Added.", dialog -> {
-                            dialog.dismiss();
+                        poDialog.initDialog("Add GCard", "GCard Successfully Added.", () -> {
+                            isClicked = false;
+                            poDialog.dismiss();
                             finish();
                         });
                         poDialog.show();
@@ -186,11 +196,13 @@ public class Activity_AddGcard extends AppCompatActivity {
                                                 @Override
                                                 public void onConfirm(AlertDialog dialog) {
                                                     confirmAddGcard(loGcard);
+                                                    isClicked = false;
                                                     dialog.dismiss();
                                                 }
 
                                                 @Override
                                                 public void onCancel(AlertDialog dialog) {
+                                                    isClicked = false;
                                                     dialog.dismiss();
                                                 }
                                             });
@@ -201,7 +213,10 @@ public class Activity_AddGcard extends AppCompatActivity {
                             }
                         } else {
                             poDialog.setButtonText("Okay");
-                            poDialog.initDialog("Add GCard Failed", fsMessage, dialog -> dialog.dismiss());
+                            poDialog.initDialog("Add GCard Failed", fsMessage, () -> {
+                                isClicked = false;
+                                poDialog.dismiss();
+                            });
                             poDialog.show();
                         }
                     }
@@ -216,7 +231,10 @@ public class Activity_AddGcard extends AppCompatActivity {
             }
         } else {
             poDialog.setButtonText("Okay");
-            poDialog.initDialog("Add GCard Failed", loGcard.getMessage(), dialog -> dialog.dismiss());
+            poDialog.initDialog("Add GCard Failed", loGcard.getMessage(), () -> {
+                isClicked = false;
+                poDialog.dismiss();
+            });
             poDialog.show();
         }
     }
@@ -234,8 +252,8 @@ public class Activity_AddGcard extends AppCompatActivity {
             public void onSuccess(String fsMessage) {
                 poLoading.dismiss();
                 poDialog.setButtonText("Okay");
-                poDialog.initDialog("Add GCard", "GCard Successfully Added.", dialog -> {
-                    dialog.dismiss();
+                poDialog.initDialog("Add GCard", "GCard Successfully Added.", () -> {
+                    poDialog.dismiss();
                     finish();
                 });
                 poDialog.show();
@@ -251,8 +269,8 @@ public class Activity_AddGcard extends AppCompatActivity {
                         lsErrCode = loJson.getString("code");
                         if("CNF".equalsIgnoreCase(lsErrCode)) {
                             poDialog.setButtonText("Okay");
-                            poDialog.initDialog("Add GCard", "GCard is already registered to other account. Please add GCard number manually and confirm to register the GCard on your account.", dialog -> {
-                                dialog.dismiss();
+                            poDialog.initDialog("Add GCard", "GCard is already registered to other account. Please add GCard number manually and confirm to register the GCard on your account.", () -> {
+                                poDialog.dismiss();
                                 finish();
                             });
                             poDialog.show();
@@ -262,7 +280,7 @@ public class Activity_AddGcard extends AppCompatActivity {
                     }
                 } else {
                     poDialog.setButtonText("Okay");
-                    poDialog.initDialog("Add GCard Failed", fsMessage, dialog -> dialog.dismiss());
+                    poDialog.initDialog("Add GCard Failed", fsMessage, () -> poDialog.dismiss());
                     poDialog.show();
                 }
             }
@@ -288,8 +306,8 @@ public class Activity_AddGcard extends AppCompatActivity {
                 public void onSuccess(String fsMessage) {
                     poLoading.dismiss();
                     poDialog.setButtonText("Okay");
-                    poDialog.initDialog("Add GCard", "GCard Successfully Added.", dialog -> {
-                        dialog.dismiss();
+                    poDialog.initDialog("Add GCard", "GCard Successfully Added.", () -> {
+                        poDialog.dismiss();
                         finish();
                     });
                     poDialog.show();
@@ -299,7 +317,7 @@ public class Activity_AddGcard extends AppCompatActivity {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialog.setButtonText("Okay");
-                    poDialog.initDialog("Add GCard Failed", fsMessage, dialog -> dialog.dismiss());
+                    poDialog.initDialog("Add GCard Failed", fsMessage, () -> poDialog.dismiss());
                     poDialog.show();
                 }
 

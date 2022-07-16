@@ -85,9 +85,7 @@ public class Fragment_PaymentSelection extends Fragment {
         if(poPayMeth == null) {
             poDialogx.setButtonText("Okay");
             poDialogx.initDialog("Pay Order",
-                    "Please select payment method for your order.", dialog -> {
-                        dialog.dismiss();
-                    });
+                    "Please select payment method for your order.", () -> poDialogx.dismiss());
             poDialogx.show();
             return false;
         }

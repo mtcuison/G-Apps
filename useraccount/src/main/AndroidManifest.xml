@@ -3,43 +3,59 @@
 
     <application>
         <activity
-            android:name=".Activity.Activity_AccountVerification"
+            android:name=".Activity.Activity_AccountUpdate"
+            android:exported="false"
             android:screenOrientation="userPortrait"
-            android:exported="false" />
+            android:theme="@style/GuanzonMarketplace.Theme" />
+        <activity
+            android:name=".Activity.Activity_AddressUpdate"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GuanzonMarketplace.Theme" />
+        <activity
+            android:name=".Activity.Activity_AccountVerification"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_TermsAndConditions"
+            android:exported="false"
             android:screenOrientation="userPortrait"
-            android:exported="false" />
+            android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_ShippingAddress"
+            android:exported="false"
             android:screenOrientation="userPortrait"
-            android:exported="false" />
+            android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_CompleteAccountDetails"
+            android:exported="false"
             android:screenOrientation="userPortrait"
-            android:exported="false" />
+            android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_EditAccountDetails"
+            android:exported="false"
             android:screenOrientation="userPortrait"
-            android:exported="false" />
+            android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_AccountDetails"
+            android:exported="false"
             android:screenOrientation="userPortrait"
-            android:exported="false" />
+            android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_ForgotPassword"
-            android:screenOrientation="userPortrait"
             android:exported="false"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_SignUp"
-            android:screenOrientation="userPortrait"
             android:exported="false"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_Login"
-            android:screenOrientation="userPortrait"
             android:exported="false"
+            android:screenOrientation="userPortrait"
             android:theme="@style/GuanzonMarketplace.Theme" />
     </application>
 

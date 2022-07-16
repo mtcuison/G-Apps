@@ -40,13 +40,20 @@ public class ServerAPIs {
     private static final String IMPORT_PROVINCE = "integsys/param/download_province.php";
     private static final String IMPORT_COUNTRIES = "integsys/param/download_country.php";
 
-    private static final String REGISTER_ACCOUNT = "integsys/marketplace/add_new_client.php";
-    private static final String IMPORT_ACCOUNT_INFO = "integsys/marketplace/get_client_info.php";
+    private static final String RETRIEVE_PROFILE_PICTURE = "";
+    private static final String RETRIEVE_VERIFIED_ID = "";
+//    private static final String REGISTER_ACCOUNT = "integsys/marketplace/add_new_client.php";
+    private static final String REGISTER_ACCOUNT = "integsys/marketplace/complete_account_detail.php";
+//    private static final String IMPORT_ACCOUNT_INFO = "integsys/marketplace/get_client_info.php";
+    private static final String IMPORT_ACCOUNT_INFO = "integsys/marketplace/import_client_detail.php";
     private static final String UPDATE_ACCOUNT_INFO = "integsys/marketplace/update_client_info.php";
     private static final String UPDATE_MOBILE_NO = "integsys/marketplace/request_mobile_update.php";
+    private static final String IMPORT_MOBILE_NO = "integsys/marketplace/import_client_mobile.php";
     private static final String UPDATE_ADDRESS = "integsys/marketplace/request_address_update.php";
-    private static final String URL_UPDATE_ADDRESS = "integsys/marketplace/request_address_update.php";
-    private static final String URL_UPDATE_MOBILE = "integsys/marketplace/request_mobile_update.php";
+    private static final String URL_UPDATE_ADDRESS = "integsys/marketplace/update_client_address.php";
+    private static final String URL_UPDATE_MOBILE = "integsys/marketplace/update_client_mobile.php";
+    private static final String URL_UPDATE_EMAIL = "integsys/marketplace/update_client_email.php";
+    private static final String IMPORT_EMAILS = "integsys/marketplace/import_client_email.php";
     private static final String IMPORT_PAYMENT_METHODS = "";
     private static final String UPDATE_PAYMENT_METHOD = "";
     private static final String IMPORT_SHIPPING_INFO = "";
@@ -59,6 +66,7 @@ public class ServerAPIs {
     private static final String IMPORT_CART_ITEMS = "integsys/marketplace/download_cart.php";
     private static final String MKTPL_PLACE_ORDER = "integsys/marketplace/place_order.php";
     private static final String MKTPL_CANCEL_ORDER = "integsys/marketplace/cancel_order.php";
+    private static final String IMPORT_MKTPL_CANCELLATIONS = "integsys/marketplace/import_cancellation_detail.php";
     private static final String MKTPL_ORDER_PAYMENT = "integsys/marketplace/place_order_payment.php";
     private static final String IMPORT_PURCHASES = "integsys/marketplace/download_purchases.php";
     private static final String IMPORT_RETRIEVE_SHIPPING_ADDRESS = "";
@@ -411,7 +419,7 @@ public class ServerAPIs {
         return LIVE + UPDATE_MOBILE_NO;
     }
 
-    public String getUpdateAddress() {
+    public String getUpdateAddressAPI() {
         if(isTestUnit){
             return LOCAL + UPDATE_ADDRESS;
         }
@@ -458,6 +466,13 @@ public class ServerAPIs {
             return LOCAL + URL_UPDATE_MOBILE;
         }
         return LIVE + URL_UPDATE_MOBILE;
+    }
+
+    public String getEmailUpdateAPI(){
+        if(isTestUnit){
+            return LOCAL + URL_UPDATE_EMAIL;
+        }
+        return LIVE + URL_UPDATE_EMAIL;
     }
 
     public String getAddToCartAPI(){
@@ -530,10 +545,45 @@ public class ServerAPIs {
         return LIVE + MKTPL_CANCEL_ORDER;
     }
 
-    public String GetDownloadBankAccountAPI(){
+    public String getDownloadBankAccountAPI(){
         if(isTestUnit){
             return LOCAL + IMPORT_BANK_ACC;
         }
         return LIVE + IMPORT_BANK_ACC;
+    }
+
+    public String getDownloadCancellationsAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_MKTPL_CANCELLATIONS;
+        }
+        return LIVE + IMPORT_MKTPL_CANCELLATIONS;
+    }
+
+    public String getRetrieveProfilePictureAPI(){
+        if(isTestUnit){
+            return LOCAL + RETRIEVE_PROFILE_PICTURE;
+        }
+        return LIVE + RETRIEVE_PROFILE_PICTURE;
+    }
+
+    public String getRetrieveVerifiedIDAPI(){
+        if(isTestUnit){
+            return LOCAL + RETRIEVE_VERIFIED_ID;
+        }
+        return LIVE + RETRIEVE_VERIFIED_ID;
+    }
+
+    public String getImportEmailsAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_EMAILS;
+        }
+        return LIVE + IMPORT_EMAILS;
+    }
+
+    public String getImportMobileNoAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_MOBILE_NO;
+        }
+        return LIVE + IMPORT_MOBILE_NO;
     }
 }

@@ -63,8 +63,8 @@ public class Activity_WriteProductReview extends AppCompatActivity {
             psOrderID = getIntent().getStringExtra("sTransNox");
         } else {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Marketplace", "Product does not exist.", d -> {
-                d.dismiss();
+            poDialogx.initDialog("Marketplace", "Product does not exist.", () -> {
+                poDialogx.dismiss();
                 finish();
             });
             poDialogx.show();
@@ -86,9 +86,7 @@ public class Activity_WriteProductReview extends AppCompatActivity {
     private void saveReview() {
         if(mBinding.txtReview.getText().toString().trim().isEmpty()) {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Product Review", "Please enter a product review.", dialog -> {
-                dialog.dismiss();
-            });
+            poDialogx.initDialog("Product Review", "Please enter a product review.", () -> poDialogx.dismiss());
             poDialogx.show();
         } else {
             String lsReviewx = mBinding.txtReview.getText().toString().trim();
@@ -104,8 +102,8 @@ public class Activity_WriteProductReview extends AppCompatActivity {
                 public void onSuccess(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Product Review", fsMessage, dialog -> {
-                        dialog.dismiss();
+                    poDialogx.initDialog("Product Review", fsMessage, () -> {
+                        poDialogx.dismiss();
                         finish();
                     });
                     poDialogx.show();
@@ -115,9 +113,7 @@ public class Activity_WriteProductReview extends AppCompatActivity {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Product Review", fsMessage, dialog -> {
-                        dialog.dismiss();
-                    });
+                    poDialogx.initDialog("Product Review", fsMessage, () -> poDialogx.dismiss());
                     poDialogx.show();
                 }
             });

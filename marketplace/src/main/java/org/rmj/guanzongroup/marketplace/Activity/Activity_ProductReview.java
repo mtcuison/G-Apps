@@ -64,8 +64,8 @@ public class Activity_ProductReview extends AppCompatActivity {
             psItemIdx = getIntent().getStringExtra("sListingId");
         } else {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Marketplace", "Product does not exist.", d -> {
-                d.dismiss();
+            poDialogx.initDialog("Marketplace", "Product does not exist.", () -> {
+                poDialogx.dismiss();
                 finish();
             });
             poDialogx.show();

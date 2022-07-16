@@ -22,6 +22,7 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_MultiLineInput;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductQueries;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
+import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMProductQueries;
 import org.rmj.guanzongroup.marketplace.databinding.ActivityProductQueriesBinding;
 
@@ -72,8 +73,8 @@ public class Activity_ProductQueries extends AppCompatActivity {
             psItemIdx = getIntent().getStringExtra("sListingId");
         } else {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Marketplace", "Product does not exist.", d -> {
-                d.dismiss();
+            poDialogx.initDialog("Marketplace", "Product does not exist.", () -> {
+                poDialogx.dismiss();
                 finish();
             });
             poDialogx.show();
@@ -89,12 +90,13 @@ public class Activity_ProductQueries extends AppCompatActivity {
         mViewModel.getProductInfo(psItemIdx).observe(Activity_ProductQueries.this, product -> {
             try {
                 String lsSoldQty = "Sold: " + product.getSoldQtyx();
-                String sampleImg = "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MHKD3?wid=2000&hei=2000&fmt=jpeg&qlt=95&.v=1623348270000";
+                JSONArray laJson = new JSONArray(product.getImagesxx());
+                String sampleImg = laJson.getJSONObject(0).getString("sImageURL");
                 Picasso.get().load(sampleImg).into(mBinding.imgProdct);
                 mBinding.txtProdNm.setText(product.getModelNme());
                 mBinding.txtSoldQt.setText(lsSoldQty);
                 mBinding.txtPricex.setText(CashFormatter.parse(product.getUnitPrce()));
-            } catch (NullPointerException e) {
+            } catch (NullPointerException | JSONException e) {
                 e.printStackTrace();
                 finish();
             }
@@ -150,7 +152,7 @@ public class Activity_ProductQueries extends AppCompatActivity {
                         public void onSuccess(String fsMessage) {
                             poLoading.dismiss();
                             poDialogx.setButtonText("Okay");
-                            poDialogx.initDialog("Marketplace", fsMessage, dialog1 -> dialog1.dismiss());
+                            poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
                             poDialogx.show();
                         }
 
@@ -158,14 +160,14 @@ public class Activity_ProductQueries extends AppCompatActivity {
                         public void onFailed(String fsMessage) {
                             poLoading.dismiss();
                             poDialogx.setButtonText("Okay");
-                            poDialogx.initDialog("Marketplace", fsMessage, dialog1 -> dialog1.dismiss());
+                            poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
                             poDialogx.show();
                         }
                     });
                 } else {
                     dialog.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Marketplace", "Please enter your question/inquiry.", dialog1 -> dialog1.dismiss());
+                    poDialogx.initDialog("Marketplace", "Please enter your question/inquiry.", () -> poDialogx.dismiss());
                     poDialogx.show();
                 }
             }
@@ -192,5 +194,4 @@ public class Activity_ProductQueries extends AppCompatActivity {
         }
         return loArray;
     }
-
 }

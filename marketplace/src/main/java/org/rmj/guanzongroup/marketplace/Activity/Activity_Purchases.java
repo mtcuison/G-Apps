@@ -3,30 +3,33 @@ package org.rmj.guanzongroup.marketplace.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderDetail;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderMaster;
 import org.rmj.g3appdriver.etc.DateTimeFormatter;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_TextInput;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_OrderedItems;
-import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMOrders;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 public class Activity_Purchases extends AppCompatActivity {
@@ -40,7 +43,16 @@ public class Activity_Purchases extends AppCompatActivity {
             lblMobileNo,
             lblPaymntxx,
             lblDatePlcd,
-            lblDlvyDate;
+            lblDlvyDate,
+            lblCancelUs,
+            lblCancelRm,
+            lblCancelDt;
+
+    private CardView cvCanclDetl;
+    private MaterialButton btnCancel;
+
+    private Dialog_Loading poLoading;
+    private Dialog_SingleButton poDialogx;
 
     private VMOrders mViewModel;
 
@@ -69,11 +81,42 @@ public class Activity_Purchases extends AppCompatActivity {
         lblPaymntxx = findViewById(R.id.lbl_paymnt);
         lblDatePlcd = findViewById(R.id.lbl_datePlace);
         lblDlvyDate = findViewById(R.id.lbl_deliveryDate);
+        lblCancelUs = findViewById(R.id.lbl_userCancel);
+        lblCancelRm = findViewById(R.id.lbl_cancellationRemarks);
+        lblCancelDt = findViewById(R.id.lbl_cancellationDate);
+        cvCanclDetl = findViewById(R.id.cv_cancellation_detail);
+        btnCancel = findViewById(R.id.btn_cancel);
         LinearLayoutManager loManager = new LinearLayoutManager(Activity_Purchases.this);
         loManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(loManager);
         mViewModel.GetDetailOrderHistory(lsOrderIDx).observe(Activity_Purchases.this, foOrder -> {
             try{
+                if(foOrder.cTranStat.equalsIgnoreCase("0")){
+                    btnPay.setVisibility(View.VISIBLE);
+                }
+                if(!foOrder.cTranStat.equalsIgnoreCase("3")){
+                    toolbar.setTitle("Order Detail");
+                    progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setCurrentStateNumber(GetStateNumber(foOrder.cTranStat));
+                } else {
+                    toolbar.setTitle("Cancellation Detail");
+                    btnCancel.setVisibility(View.GONE);
+                    mViewModel.CheckCancellationDetail(foOrder.sTransNox,new VMOrders.OnCheckCancellationCallback() {
+                        @Override
+                        public void OnCheck(String dTransact, String sClientNm, String sRemarksx) {
+                            cvCanclDetl.setVisibility(View.VISIBLE);
+                            lblCancelUs.setText(sClientNm);
+                            lblCancelRm.setText(sRemarksx);
+                            lblCancelDt.setText(getDate(dTransact));
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            Toast.makeText(Activity_Purchases.this, message, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
                 lblOrderID.setText(foOrder.sTransNox);
                 lblTrackNox.setText("");
                 lblAddressx.setText(foOrder.sAddressx);
@@ -87,10 +130,6 @@ public class Activity_Purchases extends AppCompatActivity {
                     loIntent.putExtra("sTransNox", foOrder.sTransNox);
                     startActivity(loIntent);
                 });
-                if(foOrder.cTranStat.equalsIgnoreCase("0")){
-                     btnPay.setVisibility(View.VISIBLE);
-                }
-                progressBar.setCurrentStateNumber(GetStateNumber(foOrder.cTranStat));
 
                 mViewModel.GetOrderedItemsList(lsOrderIDx).observe(Activity_Purchases.this, orderedItemsInfos -> {
                     try {
@@ -113,6 +152,51 @@ public class Activity_Purchases extends AppCompatActivity {
             } catch (Exception e){
                 e.printStackTrace();
             }
+        });
+        btnCancel.setOnClickListener(v -> {
+            Dialog_TextInput loDialog = new Dialog_TextInput(Activity_Purchases.this);
+            loDialog.initDialog("Remarks", new Dialog_TextInput.OnDialogConfirmation() {
+                @Override
+                public void onConfirm(String fsInputx, AlertDialog dialog) {
+                    dialog.dismiss();
+                    poLoading = new Dialog_Loading(Activity_Purchases.this);
+                    poDialogx = new Dialog_SingleButton(Activity_Purchases.this);
+                    mViewModel.CancelOrder(lsOrderIDx, fsInputx, new VMOrders.OnCancelCallback() {
+                        @Override
+                        public void OnLoad() {
+                            poLoading.initDialog("Order Cancellation", "Processing order cancellation. Please wait...");
+                            poLoading.show();
+                        }
+
+                        @Override
+                        public void OnSuccess(String args) {
+                            poLoading.dismiss();
+                            poDialogx.setButtonText("Okay");
+                            poDialogx.initDialog("Order Cancellation", args, () -> {
+                                poDialogx.dismiss();
+                                Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                                intent.putExtra("args", "purchase");
+                                sendBroadcast(intent);
+                            });
+                            poDialogx.show();
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            poLoading.dismiss();
+                            poDialogx.setButtonText("Okay");
+                            poDialogx.initDialog("Order Cancellation", message, () -> poDialogx.dismiss());
+                            poDialogx.show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancel(AlertDialog dialog) {
+                    dialog.dismiss();
+                }
+            });
+            loDialog.show();
         });
     }
 
@@ -137,5 +221,17 @@ public class Activity_Purchases extends AppCompatActivity {
             default:
                 return StateProgressBar.StateNumber.FIVE;
         }
+    }
+
+    private String getDate(String val){
+        SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy hh:mm a");
+        String formattedDate = null;
+        try {
+            formattedDate = formatter.format(fromUser.parse(val));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formattedDate;
     }
 }

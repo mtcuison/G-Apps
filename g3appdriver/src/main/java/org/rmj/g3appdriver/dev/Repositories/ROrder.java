@@ -65,11 +65,10 @@ public class ROrder {
             if(fnQuantity <= 0){
                 message = "Unable to proceed with '0' quantity.";
                 return false;
-
-            } else if(loAccount.getEmailAdd().isEmpty()){
+            } else if(loAccount.getUserID().isEmpty()){
                 message = "Please login your account to continue.";
                 return false;
-            } else if(loAccount.getClientID().isEmpty()){
+            } else if(loAccount.getVerificationStatus() == 0){
                 message = "Please complete your account setup to continue.";
                 return true;
             } else if(ValidateItemQuantity(fsLstngID, fnQuantity)) {
@@ -116,10 +115,10 @@ public class ROrder {
                 message = "Unable to proceed with '0' quantity.";
                 return false;
 
-            } else if(loAccount.getEmailAdd().isEmpty()){
+            } else if(loAccount.getUserID().isEmpty()){
                 message = "Please login your account to continue.";
                 return false;
-            } else if(loAccount.getClientID().isEmpty()){
+            } else if(loAccount.getVerificationStatus() == 0){
                 message = "Please complete your account setup to continue.";
                 return true;
             } else if(ValidateItemQuantity(fsLstngID, fnQuantity)) {
@@ -263,7 +262,6 @@ public class ROrder {
                 if(!lsResult.equalsIgnoreCase("success")){
                     JSONObject loError = loResponse.getJSONObject("error");
                     message = loError.getString("message");
-                    Log.e(TAG, loError.getString("sql"));
                     return false;
                 } else {
                     for(int x = 0; x < foItemLst.size(); x++){
@@ -518,7 +516,6 @@ public class ROrder {
                     return false;
                 } else {
                     Thread.sleep(1000);
-                    ImportPurchases();
                     return true;
                 }
             }
@@ -634,6 +631,37 @@ public class ROrder {
         }
     }
 
+    public boolean ImportCancellationDetail(String fsArgs){
+        try{
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            JSONObject params = new JSONObject();
+            params.put("sTransNox", fsArgs);
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getDownloadCancellationsAPI(),
+                    params.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if (!lsResult.equalsIgnoreCase("success")) {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    data = loResponse;
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
     public LiveData<Integer> GetToPayOrders(){
         DOrderMaster loMaster = GGC_GuanzonAppDB.getInstance(mContext).orderMasterDao();
         return loMaster.GetToPayOrders();
@@ -703,7 +731,7 @@ public class ROrder {
             params.put("descript", "");
 
             String lsResponse = WebClient.httpsPostJSon(
-                    loApis.GetDownloadBankAccountAPI(),
+                    loApis.getDownloadBankAccountAPI(),
                     params.toString(),
                     new HttpHeaders(mContext).getHeaders());
             if (lsResponse == null) {

@@ -94,7 +94,6 @@ public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductLis
                 e.printStackTrace();
             }
         }
-
     }
 
     public interface OnItemClick {

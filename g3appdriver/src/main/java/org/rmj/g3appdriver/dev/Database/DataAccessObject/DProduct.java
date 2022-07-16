@@ -65,6 +65,10 @@ public interface DProduct {
             "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
+            "WHERE strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
+            "AND nQtyOnHnd > 0 " +
+            "AND cTranStat = '1' " +
+            "ORDER BY dListStrt DESC " +
             "LIMIT 10 OFFSET:fnIndex")
     LiveData<List<oProduct>> GetProductsList(int fnIndex);
 
@@ -74,6 +78,9 @@ public interface DProduct {
             "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
+            "WHERE strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
+            "AND nQtyOnHnd > 0 " +
+            "AND cTranStat = '1' " +
             "ORDER BY nUnitPrce ASC " +
             "LIMIT 10 OFFSET:nIndex")
     LiveData<List<oProduct>> GetProductsListPriceSortASC(int nIndex);
@@ -84,6 +91,9 @@ public interface DProduct {
             "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
+            "WHERE strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
+            "AND nQtyOnHnd > 0 " +
+            "AND cTranStat = '1'" +
             "ORDER BY nUnitPrce DESC " +
             "LIMIT 10 OFFSET:nIndex ")
     LiveData<List<oProduct>> GetProductsListPriceSortDESC(int nIndex);
@@ -95,6 +105,9 @@ public interface DProduct {
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
             "WHERE xCategrNm =:fsCategory " +
+            "AND strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
+            "AND nQtyOnHnd > 0 " +
+            "AND cTranStat = '1'" +
             "LIMIT 10 OFFSET:nIndex")
     LiveData<List<oProduct>> GetProductsListFilterCategory(int nIndex, String fsCategory);
 
@@ -104,7 +117,10 @@ public interface DProduct {
             "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
-            "WHERE xBrandNme LIKE '%' || :fsName || '%'" +
+            "WHERE xBrandNme LIKE '%' || :fsName || '%' " +
+            "AND strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
+            "AND nQtyOnHnd > 0 " +
+            "AND cTranStat = '1'" +
             "LIMIT 10 OFFSET:nIndex")
     LiveData<List<oProduct>> GetProductsListFilterBrandName(int nIndex, String fsName);
 
@@ -115,6 +131,9 @@ public interface DProduct {
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
             "WHERE nUnitPrce BETWEEN :fnFrom AND :fnToxx " +
+            "AND strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
+            "AND nQtyOnHnd > 0 " +
+            "AND cTranStat = '1'" +
             "ORDER BY nUnitPrce ASC " +
             "LIMIT 10 OFFSET:nIndex")
     LiveData<List<oProduct>> GetProductsListFilterPriceRange(int nIndex, String fnFrom, String fnToxx);
@@ -125,8 +144,11 @@ public interface DProduct {
             "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
-            "WHERE xBrandNme LIKE '%' || :fsArgs || '%'" +
+            "WHERE xBrandNme LIKE '%' || :fsArgs || '%' " +
             "AND sListngID !=:fsArgs1 " +
+            "AND strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
+            "AND nQtyOnHnd > 0 " +
+            "AND cTranStat = '1'" +
             "LIMIT 10")
     LiveData<List<oProduct>> GetProductListSameBrandSuggestions(String fsArgs, String fsArgs1);
 
@@ -136,7 +158,10 @@ public interface DProduct {
             "sImagesxx, " +
             "nSoldQtyx AS sUntsSold " +
             "FROM Product_Inventory " +
-            "WHERE sProdctNm LIKE '%' || :fsVal || '%'" +
+            "WHERE sProdctNm LIKE '%' || :fsVal || '%' " +
+            "AND strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
+            "AND nQtyOnHnd > 0 " +
+            "AND cTranStat = '1'" +
             "ORDER BY nUnitPrce ASC")
     LiveData<List<oProduct>> SearchProducts(String fsVal);
 
@@ -145,9 +170,27 @@ public interface DProduct {
 
     @Query("SELECT nUnitPrce " +
             "FROM Product_Inventory " +
-            "WHERE xBrandNme LIKE '%' || :fsArgs || '%'" +
+            "WHERE xBrandNme LIKE '%' || :fsArgs || '%' " +
+            "AND strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
+            "AND nQtyOnHnd > 0 " +
+            "AND cTranStat = '1'" +
             "GROUP BY nUnitPrce")
     LiveData<List<String>> GetPriceFilterForBrand(String fsArgs);
+
+
+    @Query("SELECT sListngID AS sProdctID, " +
+            "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
+            "nUnitPrce AS sPricexxx," +
+            "sImagesxx, " +
+            "nSoldQtyx AS sUntsSold " +
+            "FROM Product_Inventory " +
+            "WHERE sProdctNm LIKE '%' || :fsArgs || '%' " +
+            "AND xBrandNme LIKE '%' || :fsArgs1 || '%' " +
+            "AND strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
+            "AND nQtyOnHnd > 0 " +
+            "AND cTranStat = '1'" +
+            "ORDER BY nUnitPrce ASC")
+    LiveData<List<oProduct>> GetProductsOnBrand(String fsArgs, String fsArgs1);
 
     class oProduct{
         public String sProdctID;

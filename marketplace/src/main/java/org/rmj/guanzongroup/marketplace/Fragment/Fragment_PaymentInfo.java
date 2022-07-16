@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.marketplace.Fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -57,8 +58,11 @@ public class Fragment_PaymentInfo extends Fragment {
                             public void onSuccess(String fsMessage) {
                                 poLoading.dismiss();
                                 poDialogx.setButtonText("Okay");
-                                poDialogx.initDialog("Pay Order", fsMessage, dialog1 -> {
-                                    dialog1.dismiss();
+                                poDialogx.initDialog("Pay Order", fsMessage, () -> {
+                                    poDialogx.dismiss();
+                                    Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                                    intent.putExtra("args", "purchase");
+                                    requireActivity().sendBroadcast(intent);
                                     requireActivity().finish();
                                 });
                                 poDialogx.show();
@@ -68,7 +72,7 @@ public class Fragment_PaymentInfo extends Fragment {
                             public void onFailed(String fsMessage) {
                                 poLoading.dismiss();
                                 poDialogx.setButtonText("Okay");
-                                poDialogx.initDialog("Pay Order", fsMessage, dialog1 -> dialog1.dismiss());
+                                poDialogx.initDialog("Pay Order", fsMessage, () -> poDialogx.dismiss());
                                 poDialogx.show();
                             }
                         });
@@ -124,7 +128,7 @@ public class Fragment_PaymentInfo extends Fragment {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Pay Order", fsMessage, Dialog::dismiss);
+                    poDialogx.initDialog("Pay Order", fsMessage, () -> poDialogx.dismiss());
                     poDialogx.show();
                 }
             });
@@ -157,8 +161,11 @@ public class Fragment_PaymentInfo extends Fragment {
                                 public void onSuccess(String fsMessage) {
                                     poLoading.dismiss();
                                     poDialogx.setButtonText("Okay");
-                                    poDialogx.initDialog("Pay Order", fsMessage, dialog1 -> {
-                                        dialog1.dismiss();
+                                    poDialogx.initDialog("Pay Order", fsMessage, () -> {
+                                        poDialogx.dismiss();
+                                        Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                                        intent.putExtra("args", "purchase");
+                                        requireActivity().sendBroadcast(intent);
                                         requireActivity().finish();
                                     });
                                     poDialogx.show();
@@ -168,7 +175,7 @@ public class Fragment_PaymentInfo extends Fragment {
                                 public void onFailed(String fsMessage) {
                                     poLoading.dismiss();
                                     poDialogx.setButtonText("Okay");
-                                    poDialogx.initDialog("Pay Order", fsMessage, Dialog::dismiss);
+                                    poDialogx.initDialog("Pay Order", fsMessage, () -> poDialogx.dismiss());
                                     poDialogx.show();
                                 }
                             });
@@ -176,7 +183,7 @@ public class Fragment_PaymentInfo extends Fragment {
                     dialog.dismiss();
                     poDialogx.setButtonText("Okay");
                     poDialogx.initDialog("Pay Order",
-                            "Please enter payment reference number.", Dialog::dismiss);
+                            "Please enter payment reference number.", () -> poDialogx.dismiss());
                     poDialogx.show();
                 }
             }
@@ -193,7 +200,7 @@ public class Fragment_PaymentInfo extends Fragment {
         if(mViewModel.getPaymentMethod().getValue() == null) {
             poDialogx.setButtonText("Okay");
             poDialogx.initDialog("Pay Order",
-                    "Please select payment method for your order.", Dialog::dismiss);
+                    "Please select payment method for your order.", () -> poDialogx.dismiss());
             poDialogx.show();
             return false;
         }

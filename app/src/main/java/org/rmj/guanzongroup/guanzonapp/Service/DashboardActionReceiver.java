@@ -34,6 +34,9 @@ public class DashboardActionReceiver extends BroadcastReceiver {
                     loIntent.putExtra("args", intent.getStringExtra("browser_args"));
                     context.startActivity(loIntent);
                     break;
+                case "purchase":
+                    new ImportClientPurchasesTask(context).execute();
+                    break;
             }
         }
     }
@@ -160,6 +163,42 @@ public class DashboardActionReceiver extends BroadcastReceiver {
                     } else {
                         Log.e(TAG, "Failed to download purchases. " + loPurchase.getMessage());
                     }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        private void pause() throws Exception{
+            Thread.sleep(1000);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d(TAG, "Local imports for user account has finished.");
+        }
+    }
+
+    private static class ImportClientPurchasesTask extends AsyncTask<String, Void, String>{
+
+        private final Context mContext;
+        private iGCardSystem loGcard;
+        private char cImportxx;
+
+        public ImportClientPurchasesTask(Context mContext) {
+            this.mContext = mContext;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                ROrder loPurchase = new ROrder(mContext);
+                if (loPurchase.ImportPurchases()) {
+                    Log.d(TAG, "Purchases downloaded successfully.");
+                } else {
+                    Log.e(TAG, "Failed to download purchases. " + loPurchase.getMessage());
                 }
             } catch (Exception e){
                 e.printStackTrace();

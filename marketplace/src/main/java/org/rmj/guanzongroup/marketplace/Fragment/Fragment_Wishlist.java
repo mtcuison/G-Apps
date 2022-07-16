@@ -107,42 +107,42 @@ public class Fragment_Wishlist extends Fragment {
         adapter = new Adapter_Wishlist(itemList, new Adapter_Wishlist.OnCartAction() {
             @Override
             public void onAddToCart(String fsItemIdx, String fsItemNme, String fsItemPrc) {
-                final BottomDialog_AddToCart dialog = new BottomDialog_AddToCart(fsItemNme, fsItemPrc,
-                        fnItemQty -> {
-                            try {
-                                mViewModel.addUpdateCart(fsItemIdx, fnItemQty, false,new OnTransactionsCallback() {
-                                    @Override
-                                    public void onLoading() {
-                                        poLoading = new Dialog_Loading(requireActivity());
-                                        poLoading.initDialog("Add to Cart",
-                                                "Adding to cart. Please wait.");
-                                        poLoading.show();
-                                    }
-
-                                    @Override
-                                    public void onSuccess(String fsMessage) {
-                                        poLoading.dismiss();
-                                        poDialogx.setButtonText("Okay");
-                                        poDialogx.initDialog("Add to Cart",
-                                                "Successfully added to cart.",
-                                                dialog -> dialog.dismiss());
-                                        poDialogx.show();
-                                    }
-
-                                    @Override
-                                    public void onFailed(String fsMessage) {
-                                        poLoading.dismiss();
-                                        poDialogx.setButtonText("Okay");
-                                        poDialogx.initDialog("Add to Cart", fsMessage,
-                                                dialog -> dialog.dismiss());
-                                        poDialogx.show();
-                                    }
-                                });
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-                dialog.show(requireActivity().getSupportFragmentManager(), "Add To Cart");
+//                final BottomDialog_AddToCart dialog = new BottomDialog_AddToCart(fsItemNme, fsItemPrc,
+//                        fnItemQty -> {
+//                            try {
+//                                mViewModel.addUpdateCart(fsItemIdx, fnItemQty, false,new OnTransactionsCallback() {
+//                                    @Override
+//                                    public void onLoading() {
+//                                        poLoading = new Dialog_Loading(requireActivity());
+//                                        poLoading.initDialog("Add to Cart",
+//                                                "Adding to cart. Please wait.");
+//                                        poLoading.show();
+//                                    }
+//
+//                                    @Override
+//                                    public void onSuccess(String fsMessage) {
+//                                        poLoading.dismiss();
+//                                        poDialogx.setButtonText("Okay");
+//                                        poDialogx.initDialog("Add to Cart",
+//                                                "Successfully added to cart.",
+//                                                dialog -> dialog.dismiss());
+//                                        poDialogx.show();
+//                                    }
+//
+//                                    @Override
+//                                    public void onFailed(String fsMessage) {
+//                                        poLoading.dismiss();
+//                                        poDialogx.setButtonText("Okay");
+//                                        poDialogx.initDialog("Add to Cart", fsMessage,
+//                                                dialog -> dialog.dismiss());
+//                                        poDialogx.show();
+//                                    }
+//                                });
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        });
+//                dialog.show(requireActivity().getSupportFragmentManager(), "Add To Cart");
             }
 
             @Override

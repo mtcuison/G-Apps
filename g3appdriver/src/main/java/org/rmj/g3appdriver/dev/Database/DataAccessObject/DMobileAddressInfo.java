@@ -30,18 +30,18 @@ public interface DMobileAddressInfo {
     @Query("SELECT * FROM Address_Update_Request")
     LiveData<List<EAddressInfo>> GetAddressInfoList();
 
-    @Query("SELECT * FROM Mobile_Update_Request")
+    @Query("SELECT * FROM App_User_Mobile")
     LiveData<List<EMobileInfo>> GetMobileInfoList();
 
     @Query("SELECT * FROM Address_Update_Request WHERE sTransNox =:fsTransNo")
     LiveData<EAddressInfo> GetAddressInfo(String fsTransNo);
 
-    @Query("SELECT * FROM Mobile_Update_Request WHERE sTransNox =:fsTransNo")
+    @Query("SELECT * FROM App_User_Mobile WHERE sUserIDxx =:fsTransNo")
     LiveData<EMobileInfo> GetMobileInfo(String fsTransNo);
 
     @Query("UPDATE Address_Update_Request SET sTransNox =:fsNewTran WHERE sTransNox =:fsOldTran")
     void UpdateNewAddressID(String fsOldTran, String fsNewTran);
 
-    @Query("UPDATE Mobile_Update_Request SET sTransNox =:fsNewTran WHERE sTransNox =:fsOldTran")
+    @Query("UPDATE App_User_Mobile SET sUserIDxx =:fsNewTran WHERE sUserIDxx =:fsOldTran")
     void UpdateNewContactID(String fsOldTran, String fsNewTran);
 }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,10 +19,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -77,7 +78,10 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
     private String psItemIdx = "";
     private String psProduct = "";
+    private String psAvlQtyx = "";
     private String psPricexx = "";
+
+    public boolean isClick = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,27 +96,53 @@ public class Activity_ProductOverview extends AppCompatActivity {
         displayData();
 
         btnSeeRev.setOnClickListener(v -> {
-            Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductReview.class);
-            loIntent.putExtra("sListingId", psItemIdx);
-            startActivity(loIntent);
-        });
-
-        btnAskQst.setOnClickListener(v -> {
-            if(isLoggedIn()) {
-                if(poAccount.getClientID().isEmpty()) {
-                    Intent loIntent = new Intent(Activity_ProductOverview.this,
-                            Activity_CompleteAccountDetails.class);
-                    startActivity(loIntent);
-                } else {
-                    Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductQueries.class);
-                    loIntent.putExtra("sListingId", psItemIdx);
-                    startActivity(loIntent);
-                }
+            if(!isClick) {
+                isClick = true;
+                Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductReview.class);
+                loIntent.putExtra("sListingId", psItemIdx);
+                startActivity(loIntent);
+                isClick = false;
+            } else {
+                Toast.makeText(Activity_ProductOverview.this, "Please wait...", Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnAddCrt.setOnClickListener(v -> addToCart());
-        btnBuyNow.setOnClickListener(v -> buyNow());
+        btnAskQst.setOnClickListener(v -> {
+            if(!isClick) {
+                isClick = true;
+                if (isLoggedIn()) {
+                    if (poAccount.getVerificationStatus() == 0) {
+                        Intent loIntent = new Intent(Activity_ProductOverview.this,
+                                Activity_CompleteAccountDetails.class);
+                        startActivity(loIntent);
+                    } else {
+                        Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductQueries.class);
+                        loIntent.putExtra("sListingId", psItemIdx);
+                        startActivity(loIntent);
+                    }
+                }
+                isClick = false;
+            } else {
+                Toast.makeText(Activity_ProductOverview.this, "Please wait...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnAddCrt.setOnClickListener(v -> {
+            if(!isClick) {
+                isClick = true;
+                addToCart();
+            } else {
+                Toast.makeText(Activity_ProductOverview.this, "Please wait...", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnBuyNow.setOnClickListener(v -> {
+            if(!isClick) {
+                isClick = true;
+                buyNow();
+            } else {
+                Toast.makeText(Activity_ProductOverview.this, "Please wait...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -144,8 +174,8 @@ public class Activity_ProductOverview extends AppCompatActivity {
             psItemIdx = getIntent().getStringExtra("sListingId");
         } else {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Marketplace", "Product does not exist.", d -> {
-                d.dismiss();
+            poDialogx.initDialog("Marketplace", "Product does not exist.", () -> {
+                poDialogx.dismiss();
                 finish();
             });
             poDialogx.show();
@@ -231,6 +261,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
             try {
                 showPromoBanner();
                 psProduct = Objects.requireNonNull(product.getModelNme());
+                psAvlQtyx = product.getQtyOnHnd();
                 psPricexx = CashFormatter.parse(Objects.requireNonNull(product.getUnitPrce()));
 
                 txtProdNm.setText(Objects.requireNonNull(product.getModelNme()));
@@ -381,46 +412,56 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
     private void addToCart() {
         if(isLoggedIn()) {
-            if (poAccount.getClientID().isEmpty()) {
+            if (poAccount.getVerificationStatus() == 0) {
                 Intent loIntent = new Intent(Activity_ProductOverview.this,
                         Activity_CompleteAccountDetails.class);
                 startActivity(loIntent);
             } else {
-                final BottomDialog_AddToCart dialog = new BottomDialog_AddToCart(psProduct, psPricexx,
-                        fnItemQty -> {
-                            try {
-                                mViewModel.addUpdateCart(psItemIdx, fnItemQty, new OnTransactionsCallback() {
-                                    @Override
-                                    public void onLoading() {
-                                        poLoading = new Dialog_Loading(Activity_ProductOverview.this);
-                                        poLoading.initDialog("Add to Cart",
-                                                "Adding to cart. Please wait.");
-                                        poLoading.show();
-                                    }
+                final BottomDialog_AddToCart dialog = new BottomDialog_AddToCart(psProduct, psAvlQtyx, psPricexx);
+                dialog.setDialogCallback(new BottomDialog_AddToCart.OnAddToCart() {
+                    @Override
+                    public void onClick(int fnItemQty) {
+                        try {
+                            mViewModel.addUpdateCart(psItemIdx, fnItemQty, new OnTransactionsCallback() {
+                                @Override
+                                public void onLoading() {
+                                    poLoading = new Dialog_Loading(Activity_ProductOverview.this);
+                                    poLoading.initDialog("Add to Cart",
+                                            "Adding to cart. Please wait.");
+                                    poLoading.show();
+                                }
 
-                                    @Override
-                                    public void onSuccess(String fsMessage) {
-                                        poLoading.dismiss();
-                                        poDialogx.setButtonText("Okay");
-                                        poDialogx.initDialog("Add to Cart",
-                                                "Successfully added to cart.",
-                                                dialog -> dialog.dismiss());
-                                        poDialogx.show();
-                                    }
+                                @Override
+                                public void onSuccess(String fsMessage) {
+                                    isClick = false;
+                                    poLoading.dismiss();
+                                    poDialogx.setButtonText("Okay");
+                                    poDialogx.initDialog("Add to Cart",
+                                            "Successfully added to cart.",
+                                            () -> poDialogx.dismiss());
+                                    poDialogx.show();
+                                }
 
-                                    @Override
-                                    public void onFailed(String fsMessage) {
-                                        poLoading.dismiss();
-                                        poDialogx.setButtonText("Okay");
-                                        poDialogx.initDialog("Add to Cart", fsMessage,
-                                                dialog -> dialog.dismiss());
-                                        poDialogx.show();
-                                    }
-                                });
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
+                                @Override
+                                public void onFailed(String fsMessage) {
+                                    isClick = false;
+                                    poLoading.dismiss();
+                                    poDialogx.setButtonText("Okay");
+                                    poDialogx.initDialog("Add to Cart", fsMessage,
+                                            () -> poDialogx.dismiss());
+                                    poDialogx.show();
+                                }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onDismiss() {
+                        isClick = false;
+                    }
+                });
                 dialog.show(getSupportFragmentManager(), "Add To Cart");
             }
         }
@@ -428,7 +469,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
     private void buyNow() {
         if(isLoggedIn()) {
-            if(poAccount.getClientID().isEmpty()) {
+            if(poAccount.getVerificationStatus() == 0) {
                 Intent loIntent = new Intent(Activity_ProductOverview.this,
                         Activity_CompleteAccountDetails.class);
                 startActivity(loIntent);
@@ -454,7 +495,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
                     public void onFailed(String fsMessage) {
                         poLoading.dismiss();
                         poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Marketplace", fsMessage, dialog -> dialog.dismiss());
+                        poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
                         poDialogx.show();
                     }
                 });

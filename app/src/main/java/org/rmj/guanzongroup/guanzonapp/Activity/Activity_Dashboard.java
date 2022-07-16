@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.guanzonapp.Activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -460,7 +459,7 @@ public class Activity_Dashboard extends AppCompatActivity {
             @Override
             public void OnFailed(String message) {
                 poDialog.setButtonText("Okay");
-                poDialog.initDialog("Digital GCard", message, Dialog::dismiss);
+                poDialog.initDialog("Digital GCard", message, () -> poDialog.dismiss());
                 poDialog.show();
             }
         });
@@ -478,7 +477,9 @@ public class Activity_Dashboard extends AppCompatActivity {
             public void OnSuccess(String args) {
                 poLoading.dismiss();
                 poDialog.setButtonText("Okay");
-                poDialog.initDialog("Digital GCard", args, Dialog::dismiss);
+                poDialog.initDialog("Digital GCard", args, () -> {
+                    poDialog.dismiss();
+                });
                 poDialog.show();
             }
 
@@ -486,7 +487,7 @@ public class Activity_Dashboard extends AppCompatActivity {
             public void OnFailed(String args) {
                 poLoading.dismiss();
                 poDialog.setButtonText("Okay");
-                poDialog.initDialog("Digital GCard", args, Dialog::dismiss);
+                poDialog.initDialog("Digital GCard", args, () -> poDialog.dismiss());
                 poDialog.show();
             }
         });

@@ -8,12 +8,9 @@ import androidx.lifecycle.ViewModelProvider;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -45,7 +42,10 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     private Dialog_DoubleButton poDblDiag;
     private TextInputEditText txtLastNm, txtFirstN, txtMidNme, txtSuffix, txtBdatex, txtTaxNox,
             txtHouseN, txtStreet;
-    private AutoCompleteTextView txtBplace, txtGender, txtCivilS, txtCtizen, txtTownCt, txtBarngy;
+    private AutoCompleteTextView txtBplace, txtGender, txtCivilS,
+            txtCtizen,
+            txtTownCt,
+            txtBarngy;
     private MaterialButton btnSaveDt;
 
     private List<DAddress.oTownObj> poTownCty = new ArrayList<>();
@@ -85,7 +85,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         poDialogx = new Dialog_SingleButton(Activity_CompleteAccountDetails.this);
         poDblDiag = new Dialog_DoubleButton(Activity_CompleteAccountDetails.this);
-        txtLastNm = findViewById(R.id.tie_lastname);
+        txtLastNm = findViewById(R.id.tie_accountUpdate);
         txtFirstN = findViewById(R.id.tie_firstname);
         txtMidNme = findViewById(R.id.tie_middname);
         txtSuffix = findViewById(R.id.tie_suffix);
@@ -124,8 +124,8 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                 public void onSuccess(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Account Details", fsMessage, dialog -> {
-                        dialog.dismiss();
+                    poDialogx.initDialog("Account Details", fsMessage, () -> {
+                        poDialogx.dismiss();
                         Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
                         intent.putExtra("args", "auth");
                         sendBroadcast(intent);
@@ -139,13 +139,13 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Account Details", fsMessage, Dialog::dismiss);
+                    poDialogx.initDialog("Account Details", fsMessage, () -> poDialogx.dismiss());
                     poDialogx.show();
                 }
             });
         } else {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Account Details", poDataMdl.getMessage(), Dialog::dismiss);
+            poDialogx.initDialog("Account Details", poDataMdl.getMessage(), () -> poDialogx.dismiss());
             poDialogx.show();
         }
 
@@ -318,5 +318,5 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         });
         poDblDiag.show();
     }
-
 }
+

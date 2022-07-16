@@ -100,7 +100,7 @@ public class Fragment_MPItemCart extends Fragment {
                                     public void onFailed(String fsMessage) {
                                         poLoading.dismiss();
                                         poDialogx.setButtonText("Okay");
-                                        poDialogx.initDialog("Item Cart", fsMessage, Dialog::dismiss);
+                                        poDialogx.initDialog("Item Cart", fsMessage, () -> poDialogx.dismiss());
                                         poDialogx.show();
                                     }
                                 });
@@ -124,7 +124,7 @@ public class Fragment_MPItemCart extends Fragment {
                                     public void onFailed(String fsMessage) {
                                         poLoading.dismiss();
                                         poDialogx.setButtonText("Okay");
-                                        poDialogx.initDialog("Item Cart", fsMessage, Dialog::dismiss);
+                                        poDialogx.initDialog("Item Cart", fsMessage, () -> poDialogx.dismiss());
                                         poDialogx.show();
                                     }
                                 });
@@ -178,7 +178,7 @@ public class Fragment_MPItemCart extends Fragment {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Item Cart", fsMessage, Dialog::dismiss);
+                    poDialogx.initDialog("Item Cart", fsMessage, () -> poDialogx.dismiss());
                     poDialogx.show();
                 }
             });

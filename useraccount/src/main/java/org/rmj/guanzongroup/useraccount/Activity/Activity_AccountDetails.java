@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -76,10 +78,60 @@ public class Activity_AccountDetails extends AppCompatActivity {
                 try {
                     mViewModel.getBirthplace(eClientInfo.getBirthPlc()).observe(this, bPlace -> {
                         try {
-                            mViewModel.getFullAddress(eClientInfo.getBrgyIDxx()).observe(this, address -> {
+                            TextView lblUserID = findViewById(R.id.lbl_appID);
+                            lblUserID.setText(eClientInfo.getUserIDxx());
+
+                            TextView lblFullNm = findViewById(R.id.lbl_fullName);
+                            String lsFullNme = eClientInfo.getLastName() + ", " + eClientInfo.getFrstName();
+                            if(!eClientInfo.getMiddName().trim().isEmpty()){
+                                lsFullNme = lsFullNme + ", " + eClientInfo.getMiddName();
+                            }
+                            if(!eClientInfo.getSuffixNm().trim().isEmpty()){
+                                lsFullNme = lsFullNme + ", " + eClientInfo.getSuffixNm();
+                            }
+                            lblFullNm.setText(lsFullNme);
+
+                            TextView lblGender = findViewById(R.id.lbl_gender);
+                            String lsGenderx = mViewModel.getGenderList().get(Integer.parseInt(eClientInfo.getGenderCd()));
+                            lblGender.setText(lsGenderx);
+
+                            TextView lblCvilSt = findViewById(R.id.lbl_civilStatus);
+                            String lsCivilSt = mViewModel.getCivilStatusList().get(Integer.parseInt(eClientInfo.getCvilStat()));
+                            lblCvilSt.setText(lsCivilSt);
+
+                            TextView lblBirthP = findViewById(R.id.lbl_birthPlace);
+                            lblBirthP.setText(eClientInfo.getBirthPlc());
+
+                            TextView lblBirthD = findViewById(R.id.lbl_birthDate);
+                            String lsBirthDt = mViewModel.getDate(eClientInfo.getBirthDte());
+                            lblBirthD.setText(lsBirthDt);
+
+                            TextView lblEmailx = findViewById(R.id.lbl_email);
+                            lblEmailx.setText(eClientInfo.getEmailAdd());
+                            findViewById(R.id.lbl_editEmail).setOnClickListener(v -> {
+                                Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
+                                loIntent.putExtra("sUpdatexx", 0);
+                                startActivity(loIntent);
+                            });
+
+                            TextView lblMobile = findViewById(R.id.lbl_mobile);
+                            lblMobile.setText(eClientInfo.getMobileNo());
+                            findViewById(R.id.lbl_editMobileNo).setOnClickListener(v -> {
+                                Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
+                                loIntent.putExtra("sUpdatexx", 1);
+                                startActivity(loIntent);
+                            });
+
+                            findViewById(R.id.lbl_editPassword).setOnClickListener(v -> {
+                                Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
+                                loIntent.putExtra("sUpdatexx", 2);
+                                startActivity(loIntent);
+                            });
+
+                            mViewModel.getFullAddress(eClientInfo.getBrgyIDx1()).observe(this, address -> {
                                 try {
-                                    String lsFulAdrs = eClientInfo.getHouseNox() + ", "
-                                            + eClientInfo.getAddressx() + ", " + address;
+                                    String lsFulAdrs = eClientInfo.getHouseNo1() + ", "
+                                            + eClientInfo.getAddress1() + ", " + address;
                                     mViewModel.setAccountDetailsList(eClientInfo, lsFulAdrs, bPlace);
                                 } catch (NullPointerException e) {
                                     e.printStackTrace();
@@ -98,7 +150,7 @@ public class Activity_AccountDetails extends AppCompatActivity {
                     Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_EditAccountDetails.class);
                     if (label.equals("Personal Information")) {
                         loIntent.putExtra("index", 0);
-                    } else if (label.equals("Present Address")) {
+                    } else if (label.equals("Address")) {
                         loIntent.putExtra("index", 1);
                     } else if (label.equals("Account Information")) {
                         loIntent.putExtra("index", 2);
@@ -132,8 +184,8 @@ public class Activity_AccountDetails extends AppCompatActivity {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Account Details", fsMessage, dialog -> {
-                        dialog.dismiss();
+                    poDialogx.initDialog("Account Details", fsMessage, () -> {
+                        poDialogx.dismiss();
                         finish();
                     });
                     poDialogx.show();

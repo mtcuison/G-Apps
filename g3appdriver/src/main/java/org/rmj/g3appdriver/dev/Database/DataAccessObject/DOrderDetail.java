@@ -50,13 +50,14 @@ public interface DOrderDetail {
             "WHERE c.sTransNox =:fsVal " +
             "AND c.sClientID = (" +
             "SELECT sClientID " +
-            "FROM Client_Info_Master) " +
+            "FROM Client_Profile_Info) " +
             "ORDER BY c.dTransact DESC")
     LiveData<List<OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal);
 
     @Query("SELECT a.sListngID AS sListIDxx, " +
             "a.xModelNme, " +
             "a.nUnitPrce, " +
+            "a.sImagesxx, " +
             "b.nQuantity, " +
             "b.cReviewed " +
             "FROM Product_Inventory a " +
@@ -80,6 +81,7 @@ public interface DOrderDetail {
 
     class OrderedItemsInfo{
         public String sListIDxx;
+        public String sImagesxx;
         public String xModelNme;
         public String nUnitPrce;
         public String nQuantity;

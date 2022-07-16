@@ -183,7 +183,7 @@ public class Fragment_GCardItemCart extends Fragment {
     }
     void showMessage(String title, String msg){
         poMessage.setButtonText("Okay");
-        poMessage.initDialog(title, msg, dialog -> dialog.dismiss());
+        poMessage.initDialog(title, msg, () -> poMessage.dismiss());
         poMessage.show();
     }
     public static String currencyFormat(double amount) {
