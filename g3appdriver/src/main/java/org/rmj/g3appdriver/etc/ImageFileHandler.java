@@ -11,8 +11,10 @@ import android.provider.MediaStore;
 import android.widget.ImageView;
 
 import androidx.core.content.FileProvider;
+import androidx.exifinterface.media.ExifInterface;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -25,10 +27,14 @@ public class ImageFileHandler {
         void OnInitialize(Intent intent, String path);
     }
 
+    public interface OnInitializeFileChooser{
+        void OnInitialize(Intent intent);
+    }
+
     public ImageFileHandler() {
     }
 
-    public static void InitializeCamera(Context context, OnInitializeCamera listener){
+    public static void InitializeMainCamera(Context context, OnInitializeCamera listener){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
@@ -41,6 +47,25 @@ public class ImageFileHandler {
                         "org.rmj.guanzongroup.guanzonapp.provider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                listener.OnInitialize(takePictureIntent, currentPhotoPath);
+            }
+        }
+    }
+
+    public static void InitializeFrontCamera(Context context, OnInitializeCamera listener){
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            photoFile = createImageFile(context);
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(context,
+                        "org.rmj.guanzongroup.guanzonapp.provider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                takePictureIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);
                 listener.OnInitialize(takePictureIntent, currentPhotoPath);
             }
         }
@@ -67,7 +92,7 @@ public class ImageFileHandler {
         }
     }
 
-    public static void setImagePreview(String path, ImageView imageView) {
+    public static Bitmap getImagePreview(String path) throws IOException {
         // Get the dimensions of the View
         int targetW = 1000;
         int targetH = 1000;
@@ -97,6 +122,47 @@ public class ImageFileHandler {
         matrix.setRotate(degrees);
         bOutput = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
-        imageView.setImageBitmap(bOutput);
+        ExifInterface ei = new ExifInterface(path);
+        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_UNDEFINED);
+
+        Bitmap rotatedBitmap = null;
+        switch(orientation) {
+
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                rotatedBitmap = rotateImage(bitmap, 90);
+                break;
+
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                rotatedBitmap = rotateImage(bitmap, 180);
+                break;
+
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                rotatedBitmap = rotateImage(bitmap, 270);
+                break;
+
+            case ExifInterface.ORIENTATION_NORMAL:
+            default:
+                rotatedBitmap = bitmap;
+        }
+
+        return rotatedBitmap;
+    }
+
+    public static void InitializeFileManager(OnInitializeFileChooser listener){
+        Intent loIntent = new Intent();
+        loIntent.setType("image/*");
+        loIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+        // pass the constant to compare it
+        // with the returned requestCode
+        listener.OnInitialize(loIntent);
+    }
+
+    private static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
     }
 }

@@ -102,6 +102,8 @@
     <string name="lblRateProduct">Rate this Product</string>
     <string name="lblAddShipping">Add Shipping Address</string>
     <string name="lblSave">Save</string>
+    <string name="lblTakePicture">Take Picture</string>
+    <string name="lblSelectPhoto">Select Photo</string>
     <string name="lblUpdate">Update</string>
     <string name="lblLogin">Log In</string>
     <string name="lblSignup">Sign Up</string>
@@ -115,6 +117,12 @@
     <string name="lblAgree">I Agree</string>
     <string name="lblSetNow">Set Now</string>
     <string name="lblNotSet">Not Set</string>
+    <string name="lblSelectID">Select Identification</string>
+    <string name="lblFrontID">Front ID</string>
+    <string name="lblBackID">Back ID</string>
+    <string name="lblSpecifyID">Please Specify ID</string>
+    <string name="lblSubmitVerify">Submit for Verification</string>
+    <string name="lblSkipProcess">Skip For Now</string>
 
     <string name="lblInfoPassword">Please provide a password for your account.</string>
     <string name="lblCompleteInfo">Please provide the complete details.</string>
@@ -139,6 +147,10 @@
     <string name="mock_fullname">Juan Sison Dela Cruz</string>
     <string name="mock_mc_name">Yamaha Aerox 155</string>
     <string name="mock_date">January 1, 2022</string>
+
+    <string name="selfie_verification_notice">Please take a picture of yourself or select photo from your gallery.</string>
+
+    <string name="id_verification_notice">Please check the following before submitting for verification: \n \n 1. Valid government ID must be unexpired. \n 2. All four corners are showing. \n 3. Text is clear. \n 4. Avoid shadows or reflections.</string>
 
     <string name="password_guide">A password is said to be strong if it satisfies the following criteria: \n \n It contains at least one lowercase English character. \n It contains at least one uppercase English character. \n It contains at least one special character. The special characters are: !@#$%^&amp;*()-+ \n Its length is at least 8. \n It contains at least one digit.</string>
 

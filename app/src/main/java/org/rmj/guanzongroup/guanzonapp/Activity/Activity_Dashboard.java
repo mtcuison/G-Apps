@@ -46,7 +46,9 @@ import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
 import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_DocumentScanner;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_ProfileVerification;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
 
@@ -331,7 +333,9 @@ public class Activity_Dashboard extends AppCompatActivity {
         if(item.getItemId() == android.R.id.home){
 
         } else if (item.getItemId() == R.id.item_search) {
-            startActivity(new Intent(Activity_Dashboard.this, Activity_IDVerification.class));
+//            startActivity(new Intent(Activity_Dashboard.this, Activity_IDVerification.class));
+//            startActivity(new Intent(Activity_Dashboard.this, Activity_DocumentScanner.class));
+            startActivity(new Intent(Activity_Dashboard.this, Activity_ProfileVerification.class));
 //            loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
 //            startActivity(loIntent);
         } else if (item.getItemId() == R.id.item_cart) {

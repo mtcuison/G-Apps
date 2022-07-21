@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.kofigyan.stateprogressbar.StateProgressBar;
+
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.Adapter.Adapter_AccountDetails;
@@ -25,11 +27,11 @@ import org.rmj.guanzongroup.useraccount.R;
 public class Activity_AccountDetails extends AppCompatActivity {
     private static final String TAG = Activity_AccountDetails.class.getSimpleName();
     private VMAccountDetails mViewModel;
-    private Adapter_AccountDetails poAdapter;
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
     private Toolbar toolbar;
-    private RecyclerView recyclerView;
+
+    String[] descriptionData = {"Registered", "Account Verified", "Fully Verified"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +62,9 @@ public class Activity_AccountDetails extends AppCompatActivity {
     private void initViews() {
         toolbar = findViewById(R.id.toolbar);
         poDialogx = new Dialog_SingleButton(Activity_AccountDetails.this);
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(Activity_AccountDetails.this));
-        recyclerView.setHasFixedSize(true);
+
+        StateProgressBar progressBar = findViewById(R.id.your_state_progress_bar_id);
+        progressBar.setStateDescriptionData(descriptionData);
     }
 
     // Initialize initViews() before this method.
@@ -144,21 +146,6 @@ public class Activity_AccountDetails extends AppCompatActivity {
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
-            });
-            mViewModel.getAccountDetailsList().observe(Activity_AccountDetails.this, details -> {
-                poAdapter = new Adapter_AccountDetails(details, (label) -> {
-                    Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_EditAccountDetails.class);
-                    if (label.equals("Personal Information")) {
-                        loIntent.putExtra("index", 0);
-                    } else if (label.equals("Address")) {
-                        loIntent.putExtra("index", 1);
-                    } else if (label.equals("Account Information")) {
-                        loIntent.putExtra("index", 2);
-                    }
-                    startActivity(loIntent);
-                });
-                recyclerView.setAdapter(poAdapter);
-                poAdapter.notifyDataSetChanged();
             });
         } catch (Exception e) {
             e.printStackTrace();

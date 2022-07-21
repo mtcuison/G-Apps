@@ -152,7 +152,10 @@ public class AppConstants {
             "Change"
     };
 
-    public String[] ValidIDList = new String[]{
+    public static final int CAPTURE_FRONT = 1;
+    public static final int CAPTURE_BACK = 2;
+
+    public static String[] ValidIDList = new String[]{
             "Philippine Passport from Department of Foreign Affairs",
             "SSS ID or SSS UMID Card (SSS)",
             "GSIS ID or GSIS UMID Card (GSIS)",
