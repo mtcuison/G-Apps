@@ -77,6 +77,10 @@ public class RClientInfo {
         return poDao.GetClientInfo();
     }
 
+    public LiveData<DClientInfo.ClientDetail> GetClientDetailForPreview(){
+        return poDao.GetClientDetailForPreview();
+    }
+
     public String getClientId() {
         return poDao.getClientId();
     }

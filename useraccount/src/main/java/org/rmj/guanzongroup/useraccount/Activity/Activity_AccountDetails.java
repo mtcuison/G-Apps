@@ -76,73 +76,65 @@ public class Activity_AccountDetails extends AppCompatActivity {
 
     private void setAdapter() {
         try {
-            mViewModel.getClientInfo().observe(this, eClientInfo -> {
+            mViewModel.GetClientDetailForPreview().observe(this, eClientInfo -> {
                 try {
-                    mViewModel.getBirthplace(eClientInfo.getBirthPlc()).observe(this, bPlace -> {
-                        try {
-                            TextView lblUserID = findViewById(R.id.lbl_appID);
-                            lblUserID.setText(eClientInfo.getUserIDxx());
+                    try {
+                        TextView lblUserNm = findViewById(R.id.lbl_username);
+                        lblUserNm.setText(eClientInfo.sUserName);
 
-                            TextView lblFullNm = findViewById(R.id.lbl_fullName);
-                            String lsFullNme = eClientInfo.getLastName() + ", " + eClientInfo.getFrstName();
-                            if(!eClientInfo.getMiddName().trim().isEmpty()){
-                                lsFullNme = lsFullNme + ", " + eClientInfo.getMiddName();
-                            }
-                            if(!eClientInfo.getSuffixNm().trim().isEmpty()){
-                                lsFullNme = lsFullNme + ", " + eClientInfo.getSuffixNm();
-                            }
-                            lblFullNm.setText(lsFullNme);
+                        TextView lblUserID = findViewById(R.id.lbl_appID);
+                        lblUserID.setText(eClientInfo.sUserIDxx);
 
-                            TextView lblGender = findViewById(R.id.lbl_gender);
-                            String lsGenderx = mViewModel.getGenderList().get(Integer.parseInt(eClientInfo.getGenderCd()));
-                            lblGender.setText(lsGenderx);
-
-                            TextView lblCvilSt = findViewById(R.id.lbl_civilStatus);
-                            String lsCivilSt = mViewModel.getCivilStatusList().get(Integer.parseInt(eClientInfo.getCvilStat()));
-                            lblCvilSt.setText(lsCivilSt);
-
-                            TextView lblBirthP = findViewById(R.id.lbl_birthPlace);
-                            lblBirthP.setText(eClientInfo.getBirthPlc());
-
-                            TextView lblBirthD = findViewById(R.id.lbl_birthDate);
-                            String lsBirthDt = mViewModel.getDate(eClientInfo.getBirthDte());
-                            lblBirthD.setText(lsBirthDt);
-
-                            TextView lblEmailx = findViewById(R.id.lbl_email);
-                            lblEmailx.setText(eClientInfo.getEmailAdd());
-                            findViewById(R.id.lbl_editEmail).setOnClickListener(v -> {
-                                Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
-                                loIntent.putExtra("sUpdatexx", 0);
-                                startActivity(loIntent);
-                            });
-
-                            TextView lblMobile = findViewById(R.id.lbl_mobile);
-                            lblMobile.setText(eClientInfo.getMobileNo());
-                            findViewById(R.id.lbl_editMobileNo).setOnClickListener(v -> {
-                                Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
-                                loIntent.putExtra("sUpdatexx", 1);
-                                startActivity(loIntent);
-                            });
-
-                            findViewById(R.id.lbl_editPassword).setOnClickListener(v -> {
-                                Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
-                                loIntent.putExtra("sUpdatexx", 2);
-                                startActivity(loIntent);
-                            });
-
-                            mViewModel.getFullAddress(eClientInfo.getBrgyIDx1()).observe(this, address -> {
-                                try {
-                                    String lsFulAdrs = eClientInfo.getHouseNo1() + ", "
-                                            + eClientInfo.getAddress1() + ", " + address;
-                                    mViewModel.setAccountDetailsList(eClientInfo, lsFulAdrs, bPlace);
-                                } catch (NullPointerException e) {
-                                    e.printStackTrace();
-                                }
-                            });
-                        } catch (NullPointerException e) {
-                            e.printStackTrace();
+                        TextView lblFullNm = findViewById(R.id.lbl_fullName);
+                        String lsFullNme = eClientInfo.sLastName + ", " + eClientInfo.sFrstName;
+                        if(!eClientInfo.sMiddName.trim().isEmpty()){
+                            lsFullNme = lsFullNme + ", " + eClientInfo.sMiddName;
                         }
-                    });
+                        if(!eClientInfo.sSuffixNm.trim().isEmpty()){
+                            lsFullNme = lsFullNme + ", " + eClientInfo.sSuffixNm;
+                        }
+                        lblFullNm.setText(lsFullNme);
+
+                        TextView lblGender = findViewById(R.id.lbl_gender);
+                        String lsGenderx = mViewModel.getGenderList().get(Integer.parseInt(eClientInfo.cGenderCd));
+                        lblGender.setText(lsGenderx);
+
+                        TextView lblCvilSt = findViewById(R.id.lbl_civilStatus);
+                        String lsCivilSt = mViewModel.getCivilStatusList().get(Integer.parseInt(eClientInfo.cCvilStat));
+                        lblCvilSt.setText(lsCivilSt);
+
+                        TextView lblBirthP = findViewById(R.id.lbl_birthPlace);
+                        lblBirthP.setText(eClientInfo.sBirthPlc);
+
+                        TextView lblBirthD = findViewById(R.id.lbl_birthDate);
+                        String lsBirthDt = mViewModel.getDate(eClientInfo.dBirthDte);
+                        lblBirthD.setText(lsBirthDt);
+
+                        TextView lblEmailx = findViewById(R.id.lbl_email);
+                        lblEmailx.setText(eClientInfo.sEmailAdd);
+                        findViewById(R.id.lbl_editEmail).setOnClickListener(v -> {
+                            Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
+                            loIntent.putExtra("sUpdatexx", 0);
+                            startActivity(loIntent);
+                        });
+
+                        TextView lblMobile = findViewById(R.id.lbl_mobile);
+                        lblMobile.setText(eClientInfo.sMobileNo);
+                        findViewById(R.id.lbl_editMobileNo).setOnClickListener(v -> {
+                            Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
+                            loIntent.putExtra("sUpdatexx", 1);
+                            startActivity(loIntent);
+                        });
+
+                        findViewById(R.id.lbl_editPassword).setOnClickListener(v -> {
+                            Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
+                            loIntent.putExtra("sUpdatexx", 2);
+                            startActivity(loIntent);
+                        });
+
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }

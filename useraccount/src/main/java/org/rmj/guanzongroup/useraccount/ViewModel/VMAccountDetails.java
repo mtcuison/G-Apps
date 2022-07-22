@@ -52,6 +52,10 @@ public class VMAccountDetails extends AndroidViewModel {
         return poClientx.getClientInfo();
     }
 
+    public LiveData<DClientInfo.ClientDetail> GetClientDetailForPreview(){
+        return poClientx.GetClientDetailForPreview();
+    }
+
     public ArrayList<String> getGenderList() {
         return poClientx.getGenderList();
     }
