@@ -94,6 +94,15 @@
                 app:spb_animateToCurrentProgressState="true"
                 app:spb_checkStateCompleted="true"/>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVerify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:text="@string/lblVerifyAccount"
+                style="@style/ButtonStyle.Orange.Medium"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -423,6 +432,7 @@
                     app:drawableLeftCompat="@drawable/ic_baseline_edit_24" />
 
             </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>

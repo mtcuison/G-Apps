@@ -12,8 +12,10 @@ import android.view.View;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductReview;
 import org.rmj.guanzongroup.marketplace.R;
@@ -27,7 +29,8 @@ public class Activity_ProductReview extends AppCompatActivity {
     private VMProductReview mViewModel;
     private ActivityProductReviewBinding mBinding;
     private Dialog_SingleButton poDialogx;
-    private String psItemIdx = "";
+    private Dialog_Loading poLoad;
+    private String psItemIdx = "", psEntryNo = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class Activity_ProductReview extends AppCompatActivity {
         mViewModel = new ViewModelProvider(Activity_ProductReview.this).get(VMProductReview.class);
         mBinding = ActivityProductReviewBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+        poLoad = new Dialog_Loading(Activity_ProductReview.this);
         getExtras();
 
         setSupportActionBar(mBinding.toolbar);
@@ -60,8 +64,8 @@ public class Activity_ProductReview extends AppCompatActivity {
     }
 
     private void getExtras() {
-        if(getIntent().hasExtra("sListingId")) {
-            psItemIdx = getIntent().getStringExtra("sListingId");
+        if(getIntent().hasExtra("sListngId")) {
+            psItemIdx = getIntent().getStringExtra("sListngId");
         } else {
             poDialogx.setButtonText("Okay");
             poDialogx.initDialog("Marketplace", "Product does not exist.", () -> {
@@ -69,6 +73,9 @@ public class Activity_ProductReview extends AppCompatActivity {
                 finish();
             });
             poDialogx.show();
+        }
+        if(getIntent().hasExtra("nEntryNox")){
+            psEntryNo = getIntent().getStringExtra("nEntryNox");
         }
     }
 
@@ -81,12 +88,13 @@ public class Activity_ProductReview extends AppCompatActivity {
         mViewModel.getProductInfo(psItemIdx).observe(Activity_ProductReview.this, product -> {
             try {
                 String lsSoldQty = "Sold: " + product.getSoldQtyx();
-                String sampleImg = "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MHKD3?wid=2000&hei=2000&fmt=jpeg&qlt=95&.v=1623348270000";
+                JSONArray laJson = new JSONArray(product.getImagesxx());
+                String sampleImg = laJson.getJSONObject(0).getString("sImageURL");
                 Picasso.get().load(sampleImg).into(mBinding.imgProdct);
                 mBinding.txtProdNm.setText(product.getModelNme());
                 mBinding.txtSoldQt.setText(lsSoldQty);
                 mBinding.ratingBar.setRating(4.5f);
-            } catch (NullPointerException e) {
+            } catch (NullPointerException | JSONException e) {
                 e.printStackTrace();
                 finish();
             }
@@ -94,20 +102,39 @@ public class Activity_ProductReview extends AppCompatActivity {
     }
 
     private void showReviews() {
+        poLoad.initDialog("Product Reviews", "Loading product reviews. Please wait...");
+        poLoad.show();
         mViewModel.ImportReviews(psItemIdx, new VMProductReview.OnInquiryReviewsImportCallback() {
             @Override
             public void OnImport(String args) {
                 try {
+                    poLoad.dismiss();
                     mBinding.rvRatings.setVisibility(View.VISIBLE);
                     mBinding.lblNoRevs.setVisibility(View.GONE);
                     JSONObject loJson = new JSONObject(args);
                     Adapter_ProductReview loAdapter = new
-                            Adapter_ProductReview(loJson.getJSONArray("detail"),
+                            Adapter_ProductReview(getFilteredFaqs(loJson.getJSONArray("detail")),
                             false);
                     loAdapter.notifyDataSetChanged();
                     mBinding.rvRatings.setLayoutManager(new LinearLayoutManager(Activity_ProductReview.this));
                     mBinding.rvRatings.setHasFixedSize(true);
                     mBinding.rvRatings.setAdapter(loAdapter);
+
+                    if(!psEntryNo.isEmpty()){
+                        mBinding.cvHLReview.setVisibility(View.VISIBLE);
+                        JSONArray laJson = loJson.getJSONArray("detail");
+                        for(int x = 0; x < laJson.length(); x++){
+                            JSONObject loDetail = laJson.getJSONObject(x);
+                            if(loDetail.getString("nEntryNox").equalsIgnoreCase(psEntryNo)){
+                                mBinding.ratings.setRating(Integer.parseInt(loDetail.getString("nRatingxx")));
+                                mBinding.txtClientName.setText(loDetail.getString("sUserName"));
+                                mBinding.txtDateReview.setText(loDetail.getString("dCreatedx"));
+                                mBinding.txtReview.setText(loDetail.getString("sRemarksx"));
+                                mBinding.txtResponse.setText(loDetail.getString("sReplyxxx"));
+                                break;
+                            }
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     mBinding.rvRatings.setVisibility(View.GONE);
@@ -118,10 +145,28 @@ public class Activity_ProductReview extends AppCompatActivity {
             @Override
             public void OnFailed(String message) {
                 Log.e(TAG, message);
+                poLoad.dismiss();
                 mBinding.rvRatings.setVisibility(View.GONE);
                 mBinding.lblNoRevs.setVisibility(View.VISIBLE);
             }
         });
     }
 
+    private JSONArray getFilteredFaqs(JSONArray foArray){
+        JSONArray loArray = new JSONArray();
+        if(!psEntryNo.isEmpty()) {
+            for (int x = 0; x < foArray.length(); x++) {
+                try {
+                    if (!foArray.getJSONObject(x).getString("nEntryNox").equalsIgnoreCase(psEntryNo)) {
+                        loArray.put(foArray.getJSONObject(x));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return loArray;
+        } else {
+            return foArray;
+        }
+    }
 }

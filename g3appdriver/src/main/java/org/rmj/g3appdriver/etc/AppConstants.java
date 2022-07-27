@@ -125,6 +125,9 @@ public class AppConstants {
     public static String GET_DEVICE_LOG_REQUEST = "DEVICES_GETDEVICELOG";
 
     public static String SOURCE_CODE = "MPlc";
+    public static String APP_CLIENT = "GGC_BGAP0";
+    public static String DOC_FILE_APPLICANT_PHOTO = "0029";
+    public static String DOC_FILE_VALID_ID = "0005";
 
 //    public static String[][] ACCOUNT_SETTINGS_MENU = new String[][]{
 //            new String[] {"0","Account Details","Manage Email, Mobile Number, Password and Personal Information."},
@@ -152,8 +155,10 @@ public class AppConstants {
             "Change"
     };
 
-    public static final int CAPTURE_FRONT = 1;
-    public static final int CAPTURE_BACK = 2;
+    public static final int CAPTURE_FRONT_1 = 1;
+    public static final int CAPTURE_BACK_1 = 2;
+    public static final int CAPTURE_FRONT_2 = 3;
+    public static final int CAPTURE_BACK_2 = 4;
 
     public static String[] ValidIDList = new String[]{
             "Philippine Passport from Department of Foreign Affairs",

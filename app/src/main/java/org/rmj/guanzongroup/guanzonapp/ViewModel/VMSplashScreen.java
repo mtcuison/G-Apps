@@ -18,6 +18,7 @@ import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.oLoadStat;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
@@ -60,6 +61,8 @@ public class VMSplashScreen extends AndroidViewModel {
 
     public void setupApp(){
         GuanzonAppConfig loConfig = new GuanzonAppConfig(mContext);
+        loConfig.setProductID("GuanzonApp");
+        loConfig.setClientID(AppConstants.APP_CLIENT);
         loConfig.setTestCase(true);
         loConfig.setIfPermissionsGranted(hasPermissions(mContext, laPermissions));
         poLoadStat.setValue(new oLoadStat(

@@ -130,7 +130,7 @@ public interface DClientInfo {
             "a.sEmailAdd, " +
             "a.sMobileNo, " +
             "a.sImagePth, " +
-            "a.cVerified AS cAccountx FROM Client_Profile_Info a " +
+            "a.cVerified FROM Client_Profile_Info a " +
             "LEFT JOIN Town_Info b ON a.sBirthPlc = b.sTownIDxx LEFT JOIN Province_Info c ON b.sProvIDxx = c.sProvIDxx")
     LiveData<ClientDetail> GetClientDetailForPreview();
 

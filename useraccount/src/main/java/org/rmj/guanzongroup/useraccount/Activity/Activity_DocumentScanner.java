@@ -38,7 +38,7 @@ public class Activity_DocumentScanner extends DocumentScanActivity {
 
     private Toolbar toolbar;
 
-    private String psPath;
+    private String psPath, psFileNm;
     private int cCapturex;
 
     private FrameLayout holderImageCrop;
@@ -53,13 +53,13 @@ public class Activity_DocumentScanner extends DocumentScanActivity {
             try {
                 if(result.getResultCode() == RESULT_OK) {
                     poBMap = ImageFileHandler.getImagePreview(psPath);
+                    startCropping();
                 } else {
                     finish();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            startCropping();
         }
     });
 
@@ -74,8 +74,9 @@ public class Activity_DocumentScanner extends DocumentScanActivity {
 
         if(getIntent().hasExtra("cCapturex")){
             cCapturex = getIntent().getIntExtra("cCapturex", 0);
-            ImageFileHandler.InitializeMainCamera(Activity_DocumentScanner.this, (intent, path) -> {
+            ImageFileHandler.InitializeMainCamera(Activity_DocumentScanner.this, (intent, path, fileName) -> {
                 psPath = path;
+                psFileNm = fileName;
                 poCamera.launch(intent);
             });
         }
@@ -139,6 +140,7 @@ public class Activity_DocumentScanner extends DocumentScanActivity {
                                     Intent loIntent = new Intent();
                                     loIntent.putExtra("args", psPath);
                                     loIntent.putExtra("cCapturex", cCapturex);
+                                    loIntent.putExtra("sImageNme", psFileNm);
                                     setResult(1, loIntent);
                                     finish();
 //                                    setResult(RESULT_OK);

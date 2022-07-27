@@ -31,7 +31,7 @@ public class Activity_AccountDetails extends AppCompatActivity {
     private Dialog_SingleButton poDialogx;
     private Toolbar toolbar;
 
-    String[] descriptionData = {"Registered", "Account Verified", "Fully Verified"};
+    String[] descriptionData = {"Basic Account", "Account Verified", "Fully Verified"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,7 @@ public class Activity_AccountDetails extends AppCompatActivity {
 
         StateProgressBar progressBar = findViewById(R.id.your_state_progress_bar_id);
         progressBar.setStateDescriptionData(descriptionData);
+
     }
 
     // Initialize initViews() before this method.
@@ -78,63 +79,69 @@ public class Activity_AccountDetails extends AppCompatActivity {
         try {
             mViewModel.GetClientDetailForPreview().observe(this, eClientInfo -> {
                 try {
-                    try {
-                        TextView lblUserNm = findViewById(R.id.lbl_username);
-                        lblUserNm.setText(eClientInfo.sUserName);
+                    TextView lblUserNm = findViewById(R.id.lbl_username);
+                    lblUserNm.setText(eClientInfo.sUserName);
 
-                        TextView lblUserID = findViewById(R.id.lbl_appID);
-                        lblUserID.setText(eClientInfo.sUserIDxx);
+                    TextView lblUserID = findViewById(R.id.lbl_appID);
+                    lblUserID.setText(eClientInfo.sUserIDxx);
 
-                        TextView lblFullNm = findViewById(R.id.lbl_fullName);
-                        String lsFullNme = eClientInfo.sLastName + ", " + eClientInfo.sFrstName;
-                        if(!eClientInfo.sMiddName.trim().isEmpty()){
-                            lsFullNme = lsFullNme + ", " + eClientInfo.sMiddName;
-                        }
-                        if(!eClientInfo.sSuffixNm.trim().isEmpty()){
-                            lsFullNme = lsFullNme + ", " + eClientInfo.sSuffixNm;
-                        }
-                        lblFullNm.setText(lsFullNme);
-
-                        TextView lblGender = findViewById(R.id.lbl_gender);
-                        String lsGenderx = mViewModel.getGenderList().get(Integer.parseInt(eClientInfo.cGenderCd));
-                        lblGender.setText(lsGenderx);
-
-                        TextView lblCvilSt = findViewById(R.id.lbl_civilStatus);
-                        String lsCivilSt = mViewModel.getCivilStatusList().get(Integer.parseInt(eClientInfo.cCvilStat));
-                        lblCvilSt.setText(lsCivilSt);
-
-                        TextView lblBirthP = findViewById(R.id.lbl_birthPlace);
-                        lblBirthP.setText(eClientInfo.sBirthPlc);
-
-                        TextView lblBirthD = findViewById(R.id.lbl_birthDate);
-                        String lsBirthDt = mViewModel.getDate(eClientInfo.dBirthDte);
-                        lblBirthD.setText(lsBirthDt);
-
-                        TextView lblEmailx = findViewById(R.id.lbl_email);
-                        lblEmailx.setText(eClientInfo.sEmailAdd);
-                        findViewById(R.id.lbl_editEmail).setOnClickListener(v -> {
-                            Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
-                            loIntent.putExtra("sUpdatexx", 0);
-                            startActivity(loIntent);
-                        });
-
-                        TextView lblMobile = findViewById(R.id.lbl_mobile);
-                        lblMobile.setText(eClientInfo.sMobileNo);
-                        findViewById(R.id.lbl_editMobileNo).setOnClickListener(v -> {
-                            Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
-                            loIntent.putExtra("sUpdatexx", 1);
-                            startActivity(loIntent);
-                        });
-
-                        findViewById(R.id.lbl_editPassword).setOnClickListener(v -> {
-                            Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
-                            loIntent.putExtra("sUpdatexx", 2);
-                            startActivity(loIntent);
-                        });
-
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
+                    TextView lblFullNm = findViewById(R.id.lbl_fullName);
+                    String lsFullNme = eClientInfo.sLastName + ", " + eClientInfo.sFrstName;
+                    if(!eClientInfo.sMiddName.trim().isEmpty()){
+                        lsFullNme = lsFullNme + " " + eClientInfo.sMiddName;
                     }
+                    if(!eClientInfo.sSuffixNm.trim().isEmpty()){
+                        lsFullNme = lsFullNme + ", " + eClientInfo.sSuffixNm;
+                    }
+                    lblFullNm.setText(lsFullNme);
+
+                    TextView lblGender = findViewById(R.id.lbl_gender);
+                    String lsGenderx = mViewModel.getGenderList().get(Integer.parseInt(eClientInfo.cGenderCd));
+                    lblGender.setText(lsGenderx);
+
+                    TextView lblCvilSt = findViewById(R.id.lbl_civilStatus);
+                    String lsCivilSt = mViewModel.getCivilStatusList().get(Integer.parseInt(eClientInfo.cCvilStat));
+                    lblCvilSt.setText(lsCivilSt);
+
+                    TextView lblBirthP = findViewById(R.id.lbl_birthPlace);
+                    lblBirthP.setText(eClientInfo.sBirthPlc);
+
+                    TextView lblBirthD = findViewById(R.id.lbl_birthDate);
+                    String lsBirthDt = mViewModel.getDate(eClientInfo.dBirthDte);
+                    lblBirthD.setText(lsBirthDt);
+
+                    TextView lblEmailx = findViewById(R.id.lbl_email);
+                    lblEmailx.setText(eClientInfo.sEmailAdd);
+                    findViewById(R.id.lbl_editEmail).setOnClickListener(v -> {
+                        Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
+                        loIntent.putExtra("sUpdatexx", 0);
+                        startActivity(loIntent);
+                    });
+
+                    TextView lblMobile = findViewById(R.id.lbl_mobile);
+                    lblMobile.setText(eClientInfo.sMobileNo);
+                    findViewById(R.id.lbl_editMobileNo).setOnClickListener(v -> {
+                        Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
+                        loIntent.putExtra("sUpdatexx", 1);
+                        startActivity(loIntent);
+                    });
+
+                    findViewById(R.id.lbl_editPassword).setOnClickListener(v -> {
+                        Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
+                        loIntent.putExtra("sUpdatexx", 2);
+                        startActivity(loIntent);
+                    });
+
+                    if(!eClientInfo.cVerified.equalsIgnoreCase("1")){
+                        findViewById(R.id.btnVerify).setVisibility(View.VISIBLE);
+                    }
+
+                    findViewById(R.id.btnVerify).setOnClickListener(v -> {
+                        Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_ProfileVerification.class);
+                        loIntent.putExtra("cSkippedx", false);
+                        startActivity(loIntent);
+                    });
+
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }

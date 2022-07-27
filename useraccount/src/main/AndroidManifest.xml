@@ -9,6 +9,11 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_IDSumittion"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GuanzonMarketplace.Theme"  />
+        <activity
             android:name=".Activity.Activity_ProfileVerification"
             android:exported="false"
             android:screenOrientation="userPortrait"

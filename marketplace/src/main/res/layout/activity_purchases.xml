@@ -19,10 +19,23 @@
             android:theme="@style/AppToolbar"/>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <TextView
+        android:id="@+id/lblNoOrderInfo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:fontFamily="@font/roboto"
+        android:text="@string/lblNoOrderInfo"
+        android:textColor="@color/font_light"
+        android:textSize="14sp"/>
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
+        android:visibility="gone"
         style="@style/FragmentTheme">
 
         <LinearLayout
@@ -169,7 +182,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

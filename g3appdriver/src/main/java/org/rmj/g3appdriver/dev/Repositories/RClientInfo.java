@@ -1,10 +1,12 @@
 package org.rmj.g3appdriver.dev.Repositories;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
+import org.rmj.apprdiver.util.WebFile;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
@@ -14,12 +16,13 @@ import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.PasswordStrength;
+import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 
 import java.util.ArrayList;
 
 public class RClientInfo {
-    private static final String TAG = "RAppEventInfo";
+    private static final String TAG = RClientInfo.class.getSimpleName();
 
     private final Context mContext;
     private final DClientInfo poDao;
@@ -92,6 +95,7 @@ public class RClientInfo {
                     loApis.getImportAccountInfoAPI(),
                     new JSONObject().toString(),
                     new HttpHeaders(mContext).getHeaders());
+            Log.d(TAG, lsResponse);
             if(lsResponse == null){
                 message = "Unable to retrieve server response.";
                 return false;
@@ -574,7 +578,139 @@ public class RClientInfo {
     public LiveData<DClientInfo.oAddressUpdate> GetBillingAddressInfoForUpdate(){
         return poDao.GetBillingAddressInfoForUpdate();
     }
+
     public LiveData<DClientInfo.oAddressUpdate> GetShippingAddressInfoForUpdate(){
         return poDao.GetShippingAddressInfoForUpdate();
+    }
+
+    public boolean UploadVerificationImage(PhotoDetail foVal){
+        try{
+            String lsProdct = new GuanzonAppConfig(mContext).getProductID();
+            String lsClient = new GuanzonAppConfig(mContext).getClientID();
+            String lsUserID = new AccountInfo(mContext).getUserID();
+
+            String lsClntTk = WebFileServer.RequestClientToken(lsProdct, lsClient, lsUserID);
+            if(lsClntTk == null){
+                message = "Unable to generate client. Please try again later.";
+                return false;
+            } else if(lsClntTk.isEmpty()){
+                message = "Unable to generate client. Please try again later.";
+                return false;
+            } else {
+                String lsAccess = WebFileServer.RequestAccessToken(lsClntTk);
+                if(lsAccess == null){
+                    message = "Unable to generate access token. Please try again later.";
+                    return false;
+                } else if(lsAccess.isEmpty()){
+                    message = "Unable to generate access token. Please try again later.";
+                    return false;
+                } else {
+                    org.json.simple.JSONObject loResponse = WebFileServer.UploadFile(
+                            foVal.getFileLoct(),
+                            lsAccess,
+                            foVal.getFileCode(),
+                            foVal.getDtlSrcNo(),
+                            foVal.getImageNme(),
+                            "",
+                            foVal.getSourceCD(),
+                            foVal.getSourceNo(),
+                            "");
+
+                    if (loResponse == null) {
+                        message = "Upload failed. Server no response.";
+                        return false;
+                    } else {
+                        String lsResult = (String) loResponse.get("result");
+                        if (lsResult.equalsIgnoreCase("success")) {
+                            return true;
+                        } else {
+                            JSONObject loError = new JSONObject((String) loResponse.get("error"));
+                            message = loError.getString("message");
+                            return false;
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public static class PhotoDetail{
+        private String sSourceCD;
+        private String sSourceNo;
+        private String sDtlSrcNo;
+        private String sFileCode;
+        private String sImageNme;
+        private String sMD5Hashx;
+        private String sFileLoct;
+        private String dCaptured;
+
+        public PhotoDetail() {
+
+        }
+
+        public String getSourceCD() {
+            return sSourceCD;
+        }
+
+        public void setSourceCD(String sSourceCD) {
+            this.sSourceCD = sSourceCD;
+        }
+
+        public String getSourceNo() {
+            return sSourceNo;
+        }
+
+        public void setSourceNo(String sSourceNo) {
+            this.sSourceNo = sSourceNo;
+        }
+
+        public String getDtlSrcNo() {
+            return sDtlSrcNo;
+        }
+
+        public void setDtlSrcNo(String sDtlSrcNo) {
+            this.sDtlSrcNo = sDtlSrcNo;
+        }
+
+        public String getFileCode() {
+            return sFileCode;
+        }
+
+        public void setFileCode(String sFileCode) {
+            this.sFileCode = sFileCode;
+        }
+
+        public String getImageNme() {
+            return sImageNme;
+        }
+
+        public void setImageNme(String sImageNme) {
+            this.sImageNme = sImageNme;
+        }
+
+        public String getMD5Hashx() {
+            return WebFileServer.createMD5Hash(sFileLoct);
+        }
+
+        public String getFileLoct() {
+            return sFileLoct;
+        }
+
+        public void setFileLoct(String sFileLoct) {
+            this.sFileLoct = sFileLoct;
+        }
+
+        public String getCaptured() {
+            return dCaptured;
+        }
+
+        public void setCaptured(String dCaptured) {
+            this.dCaptured = dCaptured;
+        }
     }
 }

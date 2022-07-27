@@ -99,7 +99,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
             if(!isClick) {
                 isClick = true;
                 Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductReview.class);
-                loIntent.putExtra("sListingId", psItemIdx);
+                loIntent.putExtra("sListngId", psItemIdx);
                 startActivity(loIntent);
                 isClick = false;
             } else {
@@ -117,7 +117,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
                         startActivity(loIntent);
                     } else {
                         Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductQueries.class);
-                        loIntent.putExtra("sListingId", psItemIdx);
+                        loIntent.putExtra("sListngId", psItemIdx);
                         startActivity(loIntent);
                     }
                 }

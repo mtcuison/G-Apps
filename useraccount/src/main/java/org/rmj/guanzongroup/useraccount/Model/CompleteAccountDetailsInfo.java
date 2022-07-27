@@ -173,9 +173,6 @@ public class CompleteAccountDetailsInfo {
         } else if(sCivilStx.trim().isEmpty()) {
             sMessagex = "Please select a Civil Status";
             return false;
-        } else if(sCitizenx.trim().isEmpty()) {
-            sMessagex = "Please enter Citizenship";
-            return false;
         } else if(sHouseNox.trim().isEmpty()) {
             sMessagex = "Please enter House Number";
             return false;

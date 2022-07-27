@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.core.content.FileProvider;
@@ -21,10 +22,10 @@ import java.util.Date;
 public class ImageFileHandler {
     private static final String TAG = ImageFileHandler.class.getSimpleName();
 
-    private static String currentPhotoPath;
+    private static String currentPhotoPath, fileName;
 
     public interface OnInitializeCamera{
-        void OnInitialize(Intent intent, String path);
+        void OnInitialize(Intent intent, String path, String fileName);
     }
 
     public interface OnInitializeFileChooser{
@@ -47,7 +48,7 @@ public class ImageFileHandler {
                         "org.rmj.guanzongroup.guanzonapp.provider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                listener.OnInitialize(takePictureIntent, currentPhotoPath);
+                listener.OnInitialize(takePictureIntent, currentPhotoPath, fileName);
             }
         }
     }
@@ -66,7 +67,7 @@ public class ImageFileHandler {
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 takePictureIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);
-                listener.OnInitialize(takePictureIntent, currentPhotoPath);
+                listener.OnInitialize(takePictureIntent, currentPhotoPath, fileName);
             }
         }
     }
@@ -74,14 +75,16 @@ public class ImageFileHandler {
     private static File createImageFile(Context context){
         try {
             // Create an image file name
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            String imageFileName = "JPEG_" + timeStamp + "_";
+            String timeStamp = new SimpleDateFormat("yyyyMMdd").format(new Date());
+            String imageFileName = "GApp_" + timeStamp + "_";
             File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             File image = File.createTempFile(
                     imageFileName,  /* prefix */
                     ".jpg",         /* suffix */
                     storageDir      /* directory */
             );
+            Log.d(TAG, image.getName());
+            fileName = image.getName();
 
             // Save a file: path for use with ACTION_VIEW intents
             currentPhotoPath = image.getAbsolutePath();

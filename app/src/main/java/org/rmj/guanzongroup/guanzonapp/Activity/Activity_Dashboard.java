@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -42,6 +43,7 @@ import org.rmj.guanzongroup.digitalgcard.Dialogs.Dialog_TransactionPIN;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.Service.DashboardActionReceiver;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
@@ -103,6 +105,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         navigationView = binding.navView;
 
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -334,10 +337,8 @@ public class Activity_Dashboard extends AppCompatActivity {
 
         } else if (item.getItemId() == R.id.item_search) {
 //            startActivity(new Intent(Activity_Dashboard.this, Activity_IDVerification.class));
-//            startActivity(new Intent(Activity_Dashboard.this, Activity_DocumentScanner.class));
-            startActivity(new Intent(Activity_Dashboard.this, Activity_ProfileVerification.class));
-//            loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
-//            startActivity(loIntent);
+            loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
+            startActivity(loIntent);
         } else if (item.getItemId() == R.id.item_cart) {
             Intent intent = new Intent(Activity_Dashboard.this, Activity_ItemCart.class);
             intent.putExtra("args", "1");

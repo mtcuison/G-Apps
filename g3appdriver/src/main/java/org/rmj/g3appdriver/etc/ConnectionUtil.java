@@ -64,20 +64,8 @@ public class ConnectionUtil {
             int responseCode = httpUrlConnection.getResponseCode();
 
             return responseCode == HttpURLConnection.HTTP_OK;
-        } catch (UnknownHostException noInternetConnection){
+        } catch (IOException | NetworkOnMainThreadException noInternetConnection){
             noInternetConnection.printStackTrace();
-            return false;
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-            return false;
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        } catch (NetworkOnMainThreadException e){
-            e.printStackTrace();
             return false;
         }
     }

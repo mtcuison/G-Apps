@@ -65,6 +65,7 @@ public class Activity_Purchases extends AppCompatActivity {
         setContentView(R.layout.activity_purchases);
 
         toolbar = findViewById(R.id.toolbar_purchases);
+        toolbar.setTitle("Order Detail");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
@@ -89,12 +90,15 @@ public class Activity_Purchases extends AppCompatActivity {
         LinearLayoutManager loManager = new LinearLayoutManager(Activity_Purchases.this);
         loManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(loManager);
+
         mViewModel.GetDetailOrderHistory(lsOrderIDx).observe(Activity_Purchases.this, foOrder -> {
             try{
-                if(foOrder.cTranStat.equalsIgnoreCase("0")){
+                if(foOrder == null) {
+                    findViewById(R.id.lblNoOrderInfo).setVisibility(View.VISIBLE);
+                } else if(foOrder.cTranStat.equalsIgnoreCase("0")){
+                    findViewById(R.id.scrollView).setVisibility(View.VISIBLE);
                     btnPay.setVisibility(View.VISIBLE);
-                }
-                if(!foOrder.cTranStat.equalsIgnoreCase("3")){
+                } else if(!foOrder.cTranStat.equalsIgnoreCase("3")){
                     toolbar.setTitle("Order Detail");
                     progressBar.setVisibility(View.VISIBLE);
                     progressBar.setCurrentStateNumber(GetStateNumber(foOrder.cTranStat));

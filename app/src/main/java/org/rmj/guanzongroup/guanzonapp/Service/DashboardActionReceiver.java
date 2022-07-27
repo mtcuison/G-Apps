@@ -11,7 +11,6 @@ import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
-import org.rmj.guanzongroup.guanzonapp.Activity.Activity_Dashboard;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
 
 public class DashboardActionReceiver extends BroadcastReceiver {

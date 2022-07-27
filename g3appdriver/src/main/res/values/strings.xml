@@ -117,17 +117,21 @@
     <string name="lblAgree">I Agree</string>
     <string name="lblSetNow">Set Now</string>
     <string name="lblNotSet">Not Set</string>
-    <string name="lblSelectID">Select Identification</string>
+    <string name="lblSelectID">Select Valid ID</string>
+    <string name="lblValidID1">Valid ID 1</string>
+    <string name="lblValidID2">Valid ID 2</string>
     <string name="lblFrontID">Front ID</string>
     <string name="lblBackID">Back ID</string>
     <string name="lblSpecifyID">Please Specify ID</string>
     <string name="lblSubmitVerify">Submit for Verification</string>
     <string name="lblSkipProcess">Skip For Now</string>
+    <string name="lblVerifyAccount">Verify Account</string>
 
     <string name="lblInfoPassword">Please provide a password for your account.</string>
     <string name="lblCompleteInfo">Please provide the complete details.</string>
     <string name="lblTermsConditions"> in Terms and Conditions</string>
     <string name="lblNoAskedQuestions">No current questions asked for this product.</string>
+    <string name="lblNoOrderInfo">Order info not found.</string>
     <string name="lblNoReviewsAndRatings">No current reviews and ratings for this product.</string>
     <string name="lblNoGcardAvailable">No GCard Available.</string>
     <string name="lblNoGcardTransactions">No GCard Transactions Available.</string>
@@ -137,16 +141,22 @@
     <string name="lblNoRedeemablesList">No Redeemable Items Available.</string>
     <string name="lblNoCartItem">No Items on Cart.</string>
     <string name="lblNoProductListings">No Product Listings Available.</string>
+    <string name="lblHigligth">Highlighted Question</string>
+    <string name="lblHigligthRev">Highlighted Review</string>
+    <string name="lblSellerResp">Seller Response</string>
     <string name="lblSelectPaymentMethod">Please select a payment method for your order.</string>
 
     <string name="descServiceDate">Your next service date:</string>
 
-    <string name="hintReviewProduct">Write product review here</string>
+    <string name="hintReviewProduct">Write product review here...</string>
+    <string name="hintProductInquiry">Enter your question(s) here...</string>
     <string name="hintBdayFormat">(MM/DD/YYYY)</string>
 
     <string name="mock_fullname">Juan Sison Dela Cruz</string>
     <string name="mock_mc_name">Yamaha Aerox 155</string>
     <string name="mock_date">January 1, 2022</string>
+
+    <string name="lbl_imageUpload">Uploading Images. Please wait...</string>
 
     <string name="selfie_verification_notice">Please take a picture of yourself or select photo from your gallery.</string>
 
