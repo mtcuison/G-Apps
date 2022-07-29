@@ -133,7 +133,6 @@ public class Activity_ProductQueries extends AppCompatActivity {
                 mBinding.txtPricex.setText(CashFormatter.parse(product.getUnitPrce()));
             } catch (NullPointerException | JSONException e) {
                 e.printStackTrace();
-                finish();
             }
         });
     }

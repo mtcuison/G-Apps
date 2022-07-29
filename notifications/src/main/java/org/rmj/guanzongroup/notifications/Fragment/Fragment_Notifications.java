@@ -36,7 +36,7 @@ public class Fragment_Notifications extends Fragment {
         mViewModel.GetClientNotificationList().observe(requireActivity(), notif ->{
             if(notif.size() > 0){
                 noNotif.setVisibility(View.GONE);
-                adapter = new Adapter_Notifications(notif, (fsMesgIDxx, fsMesgType) -> {
+                adapter = new Adapter_Notifications(notif, (fsMesgIDxx, lsCreated, fsMesgType, lsDataSent) -> {
                     Intent loIntent = new Intent(requireActivity(), Activity_ViewNotification.class);
                     loIntent.putExtra("sMsgIDxxx", fsMesgIDxx);
                     startActivity(loIntent);

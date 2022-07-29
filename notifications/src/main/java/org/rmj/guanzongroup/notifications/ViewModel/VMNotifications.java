@@ -37,4 +37,8 @@ public class VMNotifications extends AndroidViewModel {
     public LiveData<List<DNotifications.ClientNotificationInfo>> GetClientNotificationList(){
         return poNotif.GetClientNotificationList();
     }
+
+    public LiveData<List<DNotifications.RegularMessage>> GetRegularMessagesSystemNotif(){
+        return poNotif.GetRegularMessagesSystemNotif();
+    }
 }

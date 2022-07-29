@@ -55,38 +55,38 @@ public interface DOrderMaster {
             "ON a.sTransNox = b.sTransNox " +
             "LEFT JOIN Product_Inventory c " +
             "ON b.sReferNox = c.sListngID " +
-            "WHERE a.sClientID = (SELECT sClientID FROM Client_Profile_Info) " +
+            "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "ORDER BY a.dTransact DESC")
     LiveData<List<OrderHistory>> GetOrderHistoryList();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
             "WHERE cTranStat = '0' " +
-            "AND sClientID = (" +
-            "SELECT sClientID FROM Client_Profile_Info)")
+            "AND sAppUsrID = (" +
+            "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetToPayOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
             "WHERE cTranStat = '1' " +
-            "AND sClientID = (" +
-            "SELECT sClientID FROM Client_Profile_Info)")
+            "AND sAppUsrID = (" +
+            "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetProcessingOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
             "WHERE cTranStat = '2' " +
-            "AND sClientID = (" +
-            "SELECT sClientID FROM Client_Profile_Info)")
+            "AND sAppUsrID = (" +
+            "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetToShipOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
             "WHERE cTranStat = '3' " +
-            "AND sClientID = (" +
-            "SELECT sClientID FROM Client_Profile_Info)")
+            "AND sAppUsrID = (" +
+            "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetDeliveredOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
             "WHERE cTranStat = '4' " +
-            "AND sClientID = (" +
-            "SELECT sClientID FROM Client_Profile_Info)")
+            "AND sAppUsrID = (" +
+            "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetCancelledOrdersCount();
 
     @Query("SELECT a.sTransNox, " +
@@ -108,7 +108,7 @@ public interface DOrderMaster {
             "ON a.sTransNox = b.sTransNox " +
             "LEFT JOIN Product_Inventory c " +
             "ON b.sReferNox = c.sListngID " +
-            "WHERE a.sClientID = (SELECT sClientID FROM Client_Profile_Info) " +
+            "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.cTranStat=:fsVal " +
             "ORDER BY a.dTransact DESC")
     LiveData<List<OrderHistory>> GetOrderHistoryList(String fsVal);
@@ -125,7 +125,7 @@ public interface DOrderMaster {
             " b.sMobileNo" +
             " FROM MarketPlace_Order_Master a " +
             " LEFT JOIN Client_Profile_Info b " +
-            " ON a.sClientID = b.sClientID " +
+            " ON a.sAppUsrID = b.sUserIDxx " +
             " LEFT JOIN Barangay_Info c " +
             " ON b.sBrgyIDx1 = c.sBrgyIDxx" +
             " LEFT JOIN Town_Info d" +

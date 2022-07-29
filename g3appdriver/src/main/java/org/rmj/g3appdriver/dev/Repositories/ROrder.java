@@ -592,6 +592,7 @@ public class ROrder {
                         oMaster.setTransact(joMaster.getString("dTransact"));
                         oMaster.setExpected(joMaster.getString("dExpected"));
                         oMaster.setClientID(joMaster.getString("sClientID"));
+                        oMaster.setAppUsrID(joMaster.getString("sAppUsrID"));
                         oMaster.setTranTotl(joMaster.getString("nTranTotl"));
                         oMaster.setDiscount(joMaster.getString("nDiscount"));
                         oMaster.setFreightx(joMaster.getString("nFreightx"));

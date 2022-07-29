@@ -148,15 +148,16 @@
 
     <string name="descServiceDate">Your next service date:</string>
 
-    <string name="hintReviewProduct">Write product review here...</string>
-    <string name="hintProductInquiry">Enter your question(s) here...</string>
+    <string name="hintReviewProduct">Write product review here…</string>
+    <string name="hintProductInquiry">Enter your question(s) here…</string>
+    <string name="hintReply">Enter your message here…</string>
     <string name="hintBdayFormat">(MM/DD/YYYY)</string>
 
     <string name="mock_fullname">Juan Sison Dela Cruz</string>
     <string name="mock_mc_name">Yamaha Aerox 155</string>
     <string name="mock_date">January 1, 2022</string>
 
-    <string name="lbl_imageUpload">Uploading Images. Please wait...</string>
+    <string name="lbl_imageUpload">Uploading Images. Please wait…</string>
 
     <string name="selfie_verification_notice">Please take a picture of yourself or select photo from your gallery.</string>
 

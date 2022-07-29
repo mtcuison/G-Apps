@@ -54,7 +54,7 @@ public class ConnectionUtil {
             if(new GuanzonAppConfig(context).getTestCase()){
                 lsAddress = "http://192.168.10.141";
             } else {
-                lsAddress = "https://restgk.guanzongroup.com.ph/index.php";
+                lsAddress = "https://restgk.guanzongroup.com.ph";
             }
             HttpURLConnection httpUrlConnection = (HttpURLConnection) new URL(
                     lsAddress).openConnection();

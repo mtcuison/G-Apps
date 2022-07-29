@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.marketplace.ViewModel;
 import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -76,6 +77,7 @@ public class VMOrders extends AndroidViewModel {
         protected String doInBackground(String... strings) {
             ConnectionUtil loConnect = new ConnectionUtil(mContext);
             if(loConnect.isDeviceConnected()) {
+                Log.d(TAG, "Importing purchase info.");
                 poORder.ImportPurchases();
             }
             return null;

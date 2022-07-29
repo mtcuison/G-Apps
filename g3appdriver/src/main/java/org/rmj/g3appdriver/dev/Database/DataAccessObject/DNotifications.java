@@ -84,7 +84,8 @@ public interface DNotifications {
             "a.sCreatrNm AS CreatrNm," +
             "b.cMesgStat AS MesgStat," +
             "a.sMsgTitle AS MsgTitle," +
-            "a.sMsgTypex AS MsgTypex " +
+            "a.sMsgTypex AS MsgTypex, " +
+            "a.sDataSndx AS DataInfo " +
             "FROM Notification_Info_Master a " +
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
@@ -217,6 +218,23 @@ public interface DNotifications {
     @Query("SELECT COUNT(*) FROM Notification_Info_Master")
     int GetNotificationCountForID();
 
+    @Query("SELECT a.sMesgIDxx, " +
+            "b.dReceived, " +
+            "a.sMessagex, " +
+            "a.sCreatrID, " +
+            "a.sCreatrNm, " +
+            "b.sRecpntID, " +
+            "b.cMesgStat, " +
+            "a.sDataSndx " +
+            "FROM Notification_Info_Master a " +
+            "LEFT JOIN Notification_Info_Recepient b " +
+            "ON a.sMesgIDxx = b.sTransNox " +
+            "WHERE b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND a.sMsgTypex = '00000' " +
+            "AND a.sCreatrID IS NULL " +
+            "OR a.sCreatrID = ''")
+    LiveData<List<RegularMessage>> GetRegularMessagesSystemNotif();
+
     class ClientNotificationInfo{
         public String MesgIDxx;
         public String AppSrcex;
@@ -238,6 +256,18 @@ public interface DNotifications {
         public String Messagex;
         public String Received;
     }
+
+    class RegularMessage{
+        public String sMesgIDxx;
+        public String dReceived;
+        public String sMessagex;
+        public String sRecpntID;
+        public String sCreatrID;
+        public String sCreatrNm;
+        public String cMesgStat;
+        public String sDataSndx;
+    }
+
 }
 
 

@@ -20,6 +20,8 @@ public class EOrderMaster {
     private String Expected;
     @ColumnInfo(name = "sClientID")
     private String ClientID;
+    @ColumnInfo(name = "sAppUsrID")
+    private String AppUsrID;
     @ColumnInfo(name = "sReferNox")
     private String ReferNox;
     @ColumnInfo(name = "sRemarksx")
@@ -213,5 +215,13 @@ public class EOrderMaster {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public String getAppUsrID() {
+        return AppUsrID;
+    }
+
+    public void setAppUsrID(String appUsrID) {
+        AppUsrID = appUsrID;
     }
 }

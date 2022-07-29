@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
@@ -48,6 +49,10 @@ public class VMPlaceOrder extends AndroidViewModel {
 
     public LiveData<List<DItemCart.oMarketplaceCartItem>> getCheckoutItems(boolean cBuyNowxx) {
         return poItmCart.GetCheckoutItems(cBuyNowxx);
+    }
+
+    public LiveData<DClientInfo.ClientBSAddress> getClientBSAddress(){
+        return poClientx.getClientBSAddress();
     }
 
     public void cancelBuyNow(boolean fromBuyNow, OnTransactionsCallback foCallBck) {

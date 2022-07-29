@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.marketplace.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
@@ -22,6 +24,7 @@ import org.rmj.guanzongroup.marketplace.Adapter.Adapter_OrderList;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMPlaceOrder;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_AddressUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +37,13 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     private Dialog_Loading poLoading;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
-    private TextView txtClient, txtMobile, txtAddrss, txtSubTot, txtShipFe, txtOthFee, txtTotalx,
+    private TextView txtClient, txtMobile,
+            txtShipAddrss,
+            txtBillAddrss,
+            txtSubTot,
+            txtShipFe,
+            txtOthFee,
+            txtTotalx,
             btnTxtPlc;
 
     private List<DItemCart.oMarketplaceCartItem> poLstOrder = new ArrayList<>();
@@ -52,14 +61,19 @@ public class Activity_PlaceOrder extends AppCompatActivity {
         setUpToolbar();
         setOrderPreview();
 
-        btnTxtPlc.setOnClickListener(v -> {
-            if(!isClicked) {
-                isClicked = true;
-                placeOrder();
-            } else {
-
-            }
+        findViewById(R.id.lbl_chg_ship_address).setOnClickListener(v -> {
+            Intent loIntent = new Intent(Activity_PlaceOrder.this, Activity_AddressUpdate.class);
+            loIntent.putExtra("sAddUpdte", "shipping");
+            startActivity(loIntent);
         });
+
+        findViewById(R.id.lbl_chg_bill_address).setOnClickListener(v -> {
+            Intent loIntent = new Intent(Activity_PlaceOrder.this, Activity_AddressUpdate.class);
+            loIntent.putExtra("sAddUpdte", "billing");
+            startActivity(loIntent);
+        });
+
+        btnTxtPlc.setOnClickListener(v -> placeOrder());
     }
 
     @Override
@@ -87,7 +101,8 @@ public class Activity_PlaceOrder extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         txtClient = findViewById(R.id.txt_client_name);
         txtMobile = findViewById(R.id.txt_mobile_no);
-        txtAddrss = findViewById(R.id.txt_address);
+        txtBillAddrss = findViewById(R.id.txt_bill_address);
+        txtShipAddrss = findViewById(R.id.txt_ship_address);
         txtSubTot = findViewById(R.id.txt_sub_total);
         txtShipFe = findViewById(R.id.txt_shipping_fee);
         txtOthFee = findViewById(R.id.txt_other_fee);
@@ -112,19 +127,32 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     }
 
     private void setDefaultShipping() {
-        mViewModel.getClientInfo().observe(Activity_PlaceOrder.this, client -> {
-            try {
-                txtClient.setText(client.getFrstName() + " " + client.getLastName());
-                txtMobile.setText(client.getMobileNo());
-                mViewModel.getFullAddress(client.getBrgyIDx1()).observe(this, address -> {
-                    try {
-                        txtAddrss.setText(client.getHouseNo1() + " " + client.getAddress1() + ", "
-                                + address);
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                    }
-                });
-            } catch (NullPointerException e) {
+        mViewModel.getClientBSAddress().observe(Activity_PlaceOrder.this, clientBSAddress -> {
+            try{
+                String lsBillAdd = "";
+                if(!clientBSAddress.sHouseNo1.isEmpty()){
+                    lsBillAdd = clientBSAddress.sHouseNo1 + ", ";
+                }
+                if(!clientBSAddress.sAddress1.isEmpty()){
+                    lsBillAdd = lsBillAdd + clientBSAddress.sAddress1 + ", ";
+                }
+                lsBillAdd = lsBillAdd + clientBSAddress.sBrgyNme1 + ", " +
+                        clientBSAddress.sTownNme1 + ", " +
+                        clientBSAddress.sProvNme1;
+                txtBillAddrss.setText(lsBillAdd);
+
+                String lsShipAdd = "";
+                if(!clientBSAddress.sHouseNo2.isEmpty()){
+                    lsShipAdd = clientBSAddress.sHouseNo2 + ", ";
+                }
+                if(!clientBSAddress.sAddress2.isEmpty()){
+                    lsShipAdd = lsShipAdd + clientBSAddress.sAddress2 + ", ";
+                }
+                lsShipAdd = lsShipAdd + clientBSAddress.sBrgyNme2 + ", " +
+                        clientBSAddress.sTownNme2 + ", " +
+                        clientBSAddress.sProvNme2;
+                txtShipAddrss.setText(lsShipAdd);
+            } catch (Exception e){
                 e.printStackTrace();
             }
         });
