@@ -72,62 +72,28 @@ public class AppConstants {
         return loJson.getJSONObject("error").getString("message");
     }
 
-    public static String APPROVAL_CODE_EMPTY(String fsMessage) throws Exception{
-        JSONObject loJson = new JSONObject();
-        JSONObject loError = new JSONObject();
-        loJson.put("result", "error");
-        loError.put("code", "404");
-        loError.put("message", fsMessage);
-        loJson.put("error", loError);
-        return loJson.toString();
-    }
-
-    public static String APPROVAL_CODE_GENERATED(String fsMessage) throws Exception{
-        JSONObject loJson = new JSONObject();
-        loJson.put("result", "success");
-        loJson.put("code", fsMessage);
-        return loJson.toString();
-    }
-
-    public static final int LOCATION_REQUEST = 1000;
-    public static final int CAMERA_REQUEST = 999;
-    public static final int CONTACT_REQUEST = 998;
-    public static final int STORAGE_REQUEST = 997;
-    public static final int GPS_REQUEST = 1001;
-
-    public static int LOGIN_ACTIVITY_REQUEST_CODE = 143;
-
-    public static int INVENTORY_REQUEST_CODE = 129;
-
-    public static int PERMISION_REQUEST_CODE = 102;
-    public static int ACCOUNT_REQUEST_CODE = 101;
-
-    public static int DataServiceID = 213;
-
-    public static int GLocatorServiceID = 913;
-
-    public static int INTENT_OB_APPLICATION = 101;
-
-    public static int INTENT_LEAVE_APPLICATION = 102;
-
-    public static int INTENT_SELFIE_LOGIN = 103;
-
-    public static int INTENT_AREA_MONITORING = 105;
-
-    public static int INTENT_BRANCH_MONITORING = 104;
-
-    public static int INTENT_QR_CODE = 1002;
-
-    public static String ACTIVATE_REQUEST = "DEVICES_APPROVE";
-    public static String GET_PIN_REQUEST = "DEVICES_GETPIN";
-    public static String UNLOCK_REQUEST = "DEVICES_UNLOCK";
-    public static String OFFLINE_PIN_REQUEST = "DEVICES_OFFLINE_PIN";
-    public static String GET_DEVICE_LOG_REQUEST = "DEVICES_GETDEVICELOG";
-
     public static String SOURCE_CODE = "MPlc";
     public static String APP_CLIENT = "GGC_BGAP0";
+    public static String FS_SCANNER = "GAP0";
     public static String DOC_FILE_APPLICANT_PHOTO = "0029";
     public static String DOC_FILE_VALID_ID = "0005";
+
+    public static String getPaymentMethod(String fsCode){
+        switch (fsCode){
+            case "COD":
+                return "Cash On Delivery";
+            case "GCash":
+                return "Paid through GCash";
+            default:
+                return "Paid through PayMaya";
+        }
+    }
+
+    public final static String ID = "0";
+    public final static String IMAGE = "1";
+    public final static String PROFILE = "2";
+    public final static String MOBILE = "3";
+    public final static String EMAIL = "4";
 
 //    public static String[][] ACCOUNT_SETTINGS_MENU = new String[][]{
 //            new String[] {"0","Account Details","Manage Email, Mobile Number, Password and Personal Information."},
@@ -146,8 +112,6 @@ public class AppConstants {
     public static String CURRENT_DATE = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
     public static String CURRENT_DATE_WORD = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).format(new Date());
     public String GCARD_DATE_TIME = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date());
-
-    public static String CURRENT_TIME = String.valueOf(new Timestamp(new Date().getTime()));
 
     public static String[] REQUEST_CODE = {
             "New",

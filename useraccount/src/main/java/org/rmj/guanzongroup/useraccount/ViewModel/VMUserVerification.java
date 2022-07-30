@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 
@@ -71,6 +72,18 @@ public class VMUserVerification extends AndroidViewModel {
                         message = poClient.getMessage();
                         return false;
                     } else {
+                        String lsDtrn = loDetail.getCaptured();
+                        String lsName = loDetail.getImageNme();
+                        String lsHash = loDetail.getMD5Hashx();
+                        String lsPath = loDetail.getFileLoct();
+                        String lsDate = loDetail.getCaptured();
+                        Log.d(TAG, "Selfie verification parameters: + \n" +
+                                        "dTransact: " + lsDtrn + "\n" +
+                                        "sImageNme: " + lsName + "\n" +
+                                        "sMD5Hashx: " + lsHash + "\n" +
+                                        "sImagePth: " + lsPath + "\n" +
+                                        "dImgeDate: " + lsDate + "\n");
+                        poClient.SubmitSelfieVerification(lsDtrn, lsName, lsHash, lsPath, lsDate);
                         return true;
                     }
                 }
@@ -131,7 +144,15 @@ public class VMUserVerification extends AndroidViewModel {
                         publishProgress(x);
                         Thread.sleep(1000);
                     }
-                    return true;
+
+                    JSONObject loJson = new JSONObject();
+                    boolean isSuccess = poClient.SubmitIDVerification(loJson);
+                    if(!isSuccess){
+                        message = poClient.getMessage();
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
             } catch (Exception e){
                 e.printStackTrace();

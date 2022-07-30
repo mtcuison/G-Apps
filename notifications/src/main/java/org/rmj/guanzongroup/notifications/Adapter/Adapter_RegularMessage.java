@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.notifications.Adapter;
 
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,10 @@ public class Adapter_RegularMessage extends RecyclerView.Adapter<Adapter_Regular
             holder.lblDteRcv.setText(loMssg.dReceived);
             holder.lnRcve.setVisibility(View.VISIBLE);
 
+            if(loMssg.cMesgStat.equalsIgnoreCase("2")){
+                holder.lblRcvMsg.setTypeface(Typeface.DEFAULT_BOLD);
+            }
+
             Log.d(TAG, loMssg.sDataSndx);
             if (mListener != null) {
                 JSONObject loJson = new JSONObject(loMssg.sDataSndx);
@@ -59,7 +64,7 @@ public class Adapter_RegularMessage extends RecyclerView.Adapter<Adapter_Regular
                 switch (lsModule){
                     case "00005":
                         holder.btnAction.setVisibility(View.VISIBLE);
-                        holder.btnAction.setText("Shop Now");
+                        holder.btnAction.setText("Get Fully Verified");
                         holder.btnAction.setOnClickListener(v -> mListener.OnProductCheck(lsModule ,loMssg.sDataSndx));
                         break;
                     case "00003":

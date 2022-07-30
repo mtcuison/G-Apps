@@ -128,6 +128,80 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
+                        android:id="@+id/lblIDNo1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="@string/lblIDNo"
+                        android:textColor="@color/font_regular"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/til_specifyID" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_idNox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lblIDNo1"
+                        app:layout_constraintRight_toRightOf="parent"
+                        style="@style/TextInputStyle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_idNox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLength="50"
+                            android:inputType="textCapWords"
+                            android:imeOptions="actionNext" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <CheckBox
+                        android:id="@+id/cbNoExpire1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="0dp"
+                        android:text="@string/lblIDExpire"
+                        android:textColor="@color/link_text_color"
+                        android:textSize="14sp"
+                        android:layout_marginTop="10dp"
+                        app:buttonTint="@color/guanzon_digital_light_orange"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintTop_toBottomOf="@+id/til_idNox" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_expryDte1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hintExpiryDate"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cbNoExpire1"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginTop="10dp"
+                        style="@style/TextInputStyle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_expryDte1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="date"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:maxLines="1"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@id/tie_bplace" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
                         android:id="@+id/textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -139,7 +213,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/til_specifyID" />
+                        app:layout_constraintTop_toBottomOf="@id/til_expryDte1" />
 
                     <ImageView
                         android:id="@+id/img_frontID"
@@ -293,6 +367,80 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
+                        android:id="@+id/lblIDNo2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="@string/lblIDNo"
+                        android:textColor="@color/font_regular"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/til_specifyID1" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_idNox1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lblIDNo2"
+                        app:layout_constraintRight_toRightOf="parent"
+                        style="@style/TextInputStyle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_idNo1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLength="50"
+                            android:inputType="textCapWords"
+                            android:imeOptions="actionNext" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <CheckBox
+                        android:id="@+id/cbNoExpire2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="0dp"
+                        android:text="@string/lblIDExpire"
+                        android:textColor="@color/link_text_color"
+                        android:textSize="14sp"
+                        android:layout_marginTop="10dp"
+                        app:buttonTint="@color/guanzon_digital_light_orange"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintTop_toBottomOf="@+id/til_idNox1" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_expryDte2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hintExpiryDate"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cbNoExpire2"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginTop="10dp"
+                        style="@style/TextInputStyle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_expryDte2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="date"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:maxLines="1"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@id/tie_bplace" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
                         android:id="@+id/lblSpecify1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -336,7 +484,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/til_specifyID1" />
+                        app:layout_constraintTop_toBottomOf="@id/til_expryDte2" />
 
                     <ImageView
                         android:id="@+id/img_frontID1"

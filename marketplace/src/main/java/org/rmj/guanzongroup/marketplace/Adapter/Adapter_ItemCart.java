@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
 import org.rmj.guanzongroup.marketplace.R;
 
@@ -44,7 +45,7 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
         holder.lblItemPrice.setText("₱ " + loCart.getItemPrice());
         holder.lblItemQty.setText(loCart.getItemQty());
         holder.checkBox.setChecked(loCart.iscMktCheck());
-        if(!loCart.isMarket()){
+        if(loCart.isMarket()){
             holder.setImage(loCart.getItemImage());
         }
 
@@ -100,8 +101,14 @@ public class Adapter_ItemCart extends RecyclerView.Adapter<Adapter_ItemCart.Orde
         }
 
         public void setImage(String image){
-            Picasso.get().load(image).placeholder(R.drawable.ic_no_image_available)
-                    .error(R.drawable.ic_no_image_available).into(imgItem);
+            try {
+                JSONArray laJson = new JSONArray(image);
+                String lsImgVal = laJson.getJSONObject(0).getString("sImageURL");
+                Picasso.get().load(lsImgVal).placeholder(R.drawable.ic_no_image_available)
+                        .error(R.drawable.ic_no_image_available).into(imgItem);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
     }

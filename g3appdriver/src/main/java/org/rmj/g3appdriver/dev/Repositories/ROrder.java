@@ -64,12 +64,15 @@ public class ROrder {
             AccountInfo loAccount = new AccountInfo(mContext);
             if(fnQuantity <= 0){
                 message = "Unable to proceed with '0' quantity.";
+                Log.e(TAG, message);
                 return false;
             } else if(loAccount.getUserID().isEmpty()){
                 message = "Please login your account to continue.";
+                Log.e(TAG, message);
                 return false;
             } else if(loAccount.getVerificationStatus() == 0){
                 message = "Please complete your account setup to continue.";
+                Log.e(TAG, message);
                 return true;
             } else if(ValidateItemQuantity(fsLstngID, fnQuantity)) {
                 Thread.sleep(1000);
@@ -85,6 +88,7 @@ public class ROrder {
                         new HttpHeaders(mContext).getHeaders());
                 if (lsResponse == null) {
                     message = "Unable to retrieve server response.";
+                    Log.e(TAG, message);
                     return false;
                 } else {
                     JSONObject loResponse = new JSONObject(lsResponse);
@@ -92,9 +96,11 @@ public class ROrder {
                     if (!lsResult.equalsIgnoreCase("success")) {
                         JSONObject loError = loResponse.getJSONObject("error");
                         message = loError.getString("message");
+                        Log.e(TAG, message);
                         return false;
                     } else {
                         data = loResponse;
+                        Log.e(TAG, data.toString());
                         return AddUpdateCartLocal(fsLstngID, fnQuantity);
                     }
                 }
@@ -113,13 +119,15 @@ public class ROrder {
             AccountInfo loAccount = new AccountInfo(mContext);
             if(fnQuantity <= 0){
                 message = "Unable to proceed with '0' quantity.";
+                Log.e(TAG, "Unable to proceed with '0' quantity.");
                 return false;
-
             } else if(loAccount.getUserID().isEmpty()){
                 message = "Please login your account to continue.";
+                Log.e(TAG, "Please login your account to continue.");
                 return false;
             } else if(loAccount.getVerificationStatus() == 0){
                 message = "Please complete your account setup to continue.";
+                Log.e(TAG, "Please complete your account setup to continue.");
                 return true;
             } else if(ValidateItemQuantity(fsLstngID, fnQuantity)) {
                 Thread.sleep(1000);
@@ -297,6 +305,7 @@ public class ROrder {
             if(!lsResult.equalsIgnoreCase("success")){
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = loError.getString("message");
+                Log.e(TAG, message);
                 return false;
             } else {
                 JSONArray laDetail = loResponse.getJSONArray("detail");
@@ -313,6 +322,7 @@ public class ROrder {
                     return true;
                 } else {
                     message = "Order quantity is higher than quantity on hand.";
+                    Log.e(TAG, message);
                     return false;
                 }
             }
@@ -331,6 +341,7 @@ public class ROrder {
             loItem.setTimeStmp(new AppConstants().DATE_MODIFIED);
             if(poCartDao.CheckIFItemExist(fsLstngID) == null){
                 poCartDao.SaveItemInfo(loItem);
+                Log.d(TAG, "");
             } else {
                 int lnQty = Integer.parseInt(poCartDao.CheckIFItemExist(fsLstngID).getQuantity());
                 lnQty = lnQty + fnQuantity;

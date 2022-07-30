@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.DateTimeFormatter;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -124,40 +125,39 @@ public class Activity_Purchases extends AppCompatActivity {
                                 Toast.makeText(Activity_Purchases.this, message, Toast.LENGTH_LONG).show();
                             }
                         });
-
-                        lblOrderID.setText(foOrder.sTransNox);
-                        lblTrackNox.setText("");
-                        lblAddressx.setText(foOrder.sAddressx);
-                        lblClientNm.setText(foOrder.sUserName);
-                        lblMobileNo.setText(foOrder.sMobileNo);
-                        lblPaymntxx.setText(foOrder.sTermCode);
-                        lblDatePlcd.setText("Place on : " + DateTimeFormatter.ParseDateFullyDetailed(foOrder.dTransact));
-                        lblDlvyDate.setText("Get By : " + DateTimeFormatter.ParseDateForList(foOrder.dExpected));
-                        btnPay.setOnClickListener(v -> {
-                            Intent loIntent = new Intent(Activity_Purchases.this, Activity_PayOrder.class);
-                            loIntent.putExtra("sTransNox", foOrder.sTransNox);
-                            startActivity(loIntent);
-                        });
-
-                        mViewModel.GetOrderedItemsList(lsOrderIDx).observe(Activity_Purchases.this, orderedItemsInfos -> {
-                            try {
-                                Adapter_OrderedItems loAdapter = new Adapter_OrderedItems(orderedItemsInfos, args -> {
-                                    Intent loIntent = new Intent(Activity_Purchases.this, Activity_ProductOverview.class);
-                                    loIntent.putExtra("sListngId", args);
-                                    startActivity(loIntent);
-                                }, args -> {
-                                    Intent loIntent = new Intent(Activity_Purchases.this, Activity_WriteProductReview.class);
-                                    loIntent.putExtra("sTransNox", foOrder.sTransNox);
-                                    loIntent.putExtra("sListngId", args);
-                                    startActivity(loIntent);
-                                });
-                                loAdapter.setForReview(foOrder.cTranStat.equalsIgnoreCase("4"));
-                                recyclerView.setAdapter(loAdapter);
-                            } catch (Exception e){
-                                e.printStackTrace();
-                            }
-                        });
                     }
+                    lblOrderID.setText(foOrder.sTransNox);
+                    lblTrackNox.setText("");
+                    lblAddressx.setText(foOrder.sAddressx);
+                    lblClientNm.setText(foOrder.sUserName);
+                    lblMobileNo.setText(foOrder.sMobileNo);
+                    lblPaymntxx.setText(AppConstants.getPaymentMethod(foOrder.sTermCode));
+                    lblDatePlcd.setText("Place on : " + DateTimeFormatter.ParseDateFullyDetailed(foOrder.dTransact));
+                    lblDlvyDate.setText("Get By : " + DateTimeFormatter.ParseDateForList(foOrder.dExpected));
+                    btnPay.setOnClickListener(v -> {
+                        Intent loIntent = new Intent(Activity_Purchases.this, Activity_PayOrder.class);
+                        loIntent.putExtra("sTransNox", foOrder.sTransNox);
+                        startActivity(loIntent);
+                    });
+
+                    mViewModel.GetOrderedItemsList(lsOrderIDx).observe(Activity_Purchases.this, orderedItemsInfos -> {
+                        try {
+                            Adapter_OrderedItems loAdapter = new Adapter_OrderedItems(orderedItemsInfos, args -> {
+                                Intent loIntent = new Intent(Activity_Purchases.this, Activity_ProductOverview.class);
+                                loIntent.putExtra("sListngId", args);
+                                startActivity(loIntent);
+                            }, args -> {
+                                Intent loIntent = new Intent(Activity_Purchases.this, Activity_WriteProductReview.class);
+                                loIntent.putExtra("sTransNox", foOrder.sTransNox);
+                                loIntent.putExtra("sListngId", args);
+                                startActivity(loIntent);
+                            });
+                            loAdapter.setForReview(foOrder.cTranStat.equalsIgnoreCase("4"));
+                            recyclerView.setAdapter(loAdapter);
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
                 }
 
             } catch (Exception e){

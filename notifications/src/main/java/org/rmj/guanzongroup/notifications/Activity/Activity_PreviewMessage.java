@@ -58,7 +58,9 @@ public class Activity_PreviewMessage extends AppCompatActivity {
 
                     switch (module){
                         case "00005":
-//                            Intent loIntent = new Intent(Activity_PreviewMessage.this)
+                            Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                            intent.putExtra("args", "verify");
+                            sendBroadcast(intent);
                             break;
                         case "00003":
                             loIntent = new Intent(Activity_PreviewMessage.this, Activity_Purchases.class);

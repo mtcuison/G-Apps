@@ -46,6 +46,7 @@ public interface DOrderMaster {
             "b.nDiscount, " +
             "c.sBriefDsc, " +
             "c.xBarCodex, " +
+            "c.sImagesxx, " +
             "c.xBrandNme, " +
             "c.xModelNme, " +
             "c.xColorNme, " +
@@ -121,13 +122,13 @@ public interface DOrderMaster {
             " a.sTermCode," +
             " a.cTranStat," +
             " b.sFrstName || ' ' || b.sMiddName || ' ' || b.sLastName || ' ' || IFNULL(b.sSuffixNm, '') AS sUserName," +
-            " IFNULL(b.sHouseNo1, '') || ' ' || IFNULL(b.sAddress1, '') || ' ' || c.sBrgyName || ' ' ||  d.sTownName || ' ' || e.sProvName AS sAddressx," +
+            " IFNULL(b.sHouseNo2, '') || ' ' || IFNULL(b.sAddress2, '') || ' ' || c.sBrgyName || ' ' ||  d.sTownName || ' ' || e.sProvName AS sAddressx," +
             " b.sMobileNo" +
             " FROM MarketPlace_Order_Master a " +
             " LEFT JOIN Client_Profile_Info b " +
             " ON a.sAppUsrID = b.sUserIDxx " +
             " LEFT JOIN Barangay_Info c " +
-            " ON b.sBrgyIDx1 = c.sBrgyIDxx" +
+            " ON b.sBrgyIDx2 = c.sBrgyIDxx" +
             " LEFT JOIN Town_Info d" +
             " ON c.sTownIDxx = d.sTownIDxx" +
             " LEFT JOIN Province_Info e" +

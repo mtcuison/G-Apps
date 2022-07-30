@@ -605,33 +605,122 @@ public class RClientInfo {
                     message = "Unable to generate access token. Please try again later.";
                     return false;
                 } else {
-                    org.json.simple.JSONObject loResponse = WebFileServer.UploadFile(
-                            foVal.getFileLoct(),
-                            lsAccess,
-                            foVal.getFileCode(),
-                            foVal.getDtlSrcNo(),
-                            foVal.getImageNme(),
-                            "",
-                            foVal.getSourceCD(),
-                            foVal.getSourceNo(),
-                            "");
-
-                    if (loResponse == null) {
-                        message = "Upload failed. Server no response.";
-                        return false;
+                    if(new GuanzonAppConfig(mContext).getTestCase()){
+                        return true;
                     } else {
-                        String lsResult = (String) loResponse.get("result");
-                        if (lsResult.equalsIgnoreCase("success")) {
-                            return true;
-                        } else {
-                            JSONObject loError = new JSONObject((String) loResponse.get("error"));
-                            message = loError.getString("message");
+                        org.json.simple.JSONObject loResponse = WebFileServer.UploadFile(
+                                foVal.getFileLoct(),
+                                lsAccess,
+                                foVal.getFileCode(),
+                                foVal.getDtlSrcNo(),
+                                foVal.getImageNme(),
+                                "",
+                                foVal.getSourceCD(),
+                                foVal.getSourceNo(),
+                                "");
+
+                        if (loResponse == null) {
+                            message = "Upload failed. Server no response.";
                             return false;
+                        } else {
+                            String lsResult = (String) loResponse.get("result");
+                            if (lsResult.equalsIgnoreCase("success")) {
+                                poJson = new JSONObject(loResponse.toJSONString());
+                                Log.d(TAG, poJson.toString());
+                                return true;
+                            } else {
+                                JSONObject loError = new JSONObject((String) loResponse.get("error"));
+                                message = loError.getString("message");
+                                Log.e(TAG, loError.toString());
+                                return false;
+                            }
                         }
                     }
                 }
             }
 
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean SubmitSelfieVerification(String fsDtrn,
+                                             String fsName,
+                                             String fsHash,
+                                             String fsPath,
+                                             String fsDate){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("dTransact", fsDtrn);
+            params.put("sImageNme", fsName);
+            params.put("sMD5Hashx", fsHash);
+            params.put("sImagePth", fsPath);
+            params.put("sImgeDate", fsDate);
+
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getSubmitSelfieVerificationAPI(),
+                    params.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    poJson = loResponse;
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean SubmitIDVerification(JSONObject foVal){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("dTransact", new AppConstants().DATE_MODIFIED);
+            params.put("sIDCodex1", foVal.getString("sIDName1x"));
+            params.put("sIDNoxxx1", foVal.getString("sIDNmbr1x"));
+            params.put("sIDFrntx1", foVal.getString("sIDFrnt1x"));
+            params.put("sIDBackx1", foVal.getString("sIDBack1x"));
+            params.put("dIDExpry1", foVal.getString("dExpiry1x"));
+            params.put("sIDCodex2", foVal.getString("sIDName2x"));
+            params.put("sIDNoxxx2", foVal.getString("sIDNmbr2x"));
+            params.put("sIDFrntx2", foVal.getString("sIDFrnt2x"));
+            params.put("sIDBackx2", foVal.getString("sIDBack2x"));
+            params.put("dIDExpry2", foVal.getString("dExpiry2x"));
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getSubmitIdVerificationAPI(),
+                    params.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                Log.d(TAG, lsResponse);
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    poJson = loResponse;
+                    return true;
+                }
+            }
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

@@ -336,9 +336,9 @@ public class Activity_Dashboard extends AppCompatActivity {
         if(item.getItemId() == android.R.id.home){
 
         } else if (item.getItemId() == R.id.item_search) {
-//            startActivity(new Intent(Activity_Dashboard.this, Activity_IDVerification.class));
-            loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
-            startActivity(loIntent);
+            startActivity(new Intent(Activity_Dashboard.this, Activity_IDVerification.class));
+//            loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
+//            startActivity(loIntent);
         } else if (item.getItemId() == R.id.item_cart) {
             Intent intent = new Intent(Activity_Dashboard.this, Activity_ItemCart.class);
             intent.putExtra("args", "1");

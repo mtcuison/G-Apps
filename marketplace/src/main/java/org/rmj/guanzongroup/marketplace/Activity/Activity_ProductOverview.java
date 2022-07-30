@@ -168,6 +168,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
     private void getExtras() {
         if(getIntent().hasExtra("sListngId")) {
             psItemIdx = getIntent().getStringExtra("sListngId");
+            Log.d(TAG, psItemIdx);
         } else {
             poDialogx.setButtonText("Okay");
             poDialogx.initDialog("Marketplace", "Product does not exist.", () -> {
