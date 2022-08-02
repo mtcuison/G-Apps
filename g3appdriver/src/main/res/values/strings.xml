@@ -127,7 +127,7 @@
     <string name="lblSpecifyID">Please Specify ID</string>
     <string name="lblSubmitVerify">Submit for Verification</string>
     <string name="lblSkipProcess">Skip For Now</string>
-    <string name="lblVerifyAccount">Verify Account</string>
+    <string name="lblVerifyAccount">Verify Account Request</string>
 
     <string name="lblInfoPassword">Please provide a password for your account.</string>
     <string name="lblCompleteInfo">Please provide the complete details.</string>
