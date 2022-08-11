@@ -31,10 +31,10 @@ public class Activity_IDSumittion extends AppCompatActivity {
 
         if(getIntent().hasExtra("oParametr")){
             String lsParams = getIntent().getStringExtra("oParametr");
-
             try {
-                JSONObject params = new JSONObject(lsParams);
+                List<RClientInfo.PhotoDetail> loDetail = new ArrayList<>();
 
+                JSONObject params = new JSONObject(lsParams);
                 RClientInfo.PhotoDetail poFront1 = new RClientInfo.PhotoDetail();
                 RClientInfo.PhotoDetail poBackx1 = new RClientInfo.PhotoDetail();
                 RClientInfo.PhotoDetail poFront2 = new RClientInfo.PhotoDetail();
@@ -49,16 +49,20 @@ public class Activity_IDSumittion extends AppCompatActivity {
                 poFront1.setFileLoct(loFront1.getString("sMD5Hashx"));
                 poFront1.setFileLoct(loFront1.getString("sFileLoct"));
                 poFront1.setFileLoct(loFront1.getString("dCaptured"));
+                loDetail.add(poFront1);
 
-                JSONObject loBack1 = params.getJSONObject("oBackImg1");
-                poBackx1.setFileLoct(loBack1.getString("sSourceCD"));
-                poBackx1.setFileLoct(loBack1.getString("sSourceNo"));
-                poBackx1.setFileLoct(loBack1.getString("sDtlSrcNo"));
-                poBackx1.setFileLoct(loBack1.getString("sFileCode"));
-                poBackx1.setFileLoct(loBack1.getString("sImageNme"));
-                poBackx1.setFileLoct(loBack1.getString("sMD5Hashx"));
-                poBackx1.setFileLoct(loBack1.getString("sFileLoct"));
-                poBackx1.setFileLoct(loBack1.getString("dCaptured"));
+                if(params.has("oBackImg1")) {
+                    JSONObject loBack1 = params.getJSONObject("oBackImg1");
+                    poBackx1.setFileLoct(loBack1.getString("sSourceCD"));
+                    poBackx1.setFileLoct(loBack1.getString("sSourceNo"));
+                    poBackx1.setFileLoct(loBack1.getString("sDtlSrcNo"));
+                    poBackx1.setFileLoct(loBack1.getString("sFileCode"));
+                    poBackx1.setFileLoct(loBack1.getString("sImageNme"));
+                    poBackx1.setFileLoct(loBack1.getString("sMD5Hashx"));
+                    poBackx1.setFileLoct(loBack1.getString("sFileLoct"));
+                    poBackx1.setFileLoct(loBack1.getString("dCaptured"));
+                    loDetail.add(poBackx1);
+                }
 
                 JSONObject loFront2 = params.getJSONObject("oFrontIm2");
                 poFront2.setFileLoct(loFront2.getString("sSourceCD"));
@@ -69,24 +73,23 @@ public class Activity_IDSumittion extends AppCompatActivity {
                 poFront2.setFileLoct(loFront2.getString("sMD5Hashx"));
                 poFront2.setFileLoct(loFront2.getString("sFileLoct"));
                 poFront2.setFileLoct(loFront2.getString("dCaptured"));
-
-                JSONObject loBack2 = params.getJSONObject("oBackImg2");
-                poBackx2.setFileLoct(loBack2.getString("sSourceCD"));
-                poBackx2.setFileLoct(loBack2.getString("sSourceNo"));
-                poBackx2.setFileLoct(loBack2.getString("sDtlSrcNo"));
-                poBackx2.setFileLoct(loBack2.getString("sFileCode"));
-                poBackx2.setFileLoct(loBack2.getString("sImageNme"));
-                poBackx2.setFileLoct(loBack2.getString("sMD5Hashx"));
-                poBackx2.setFileLoct(loBack2.getString("sFileLoct"));
-                poBackx2.setFileLoct(loBack2.getString("dCaptured"));
-
-                List<RClientInfo.PhotoDetail> loDetail = new ArrayList<>();
-                loDetail.add(poFront1);
-                loDetail.add(poBackx1);
                 loDetail.add(poFront2);
-                loDetail.add(poBackx2);
 
-                mViewModel.UploadIDVerification(loDetail, new VMUserVerification.OnIDVerificationSubmitCallback() {
+                if(params.has("oBackImg2")) {
+                    JSONObject loBack2 = params.getJSONObject("oBackImg2");
+                    poBackx2.setFileLoct(loBack2.getString("sSourceCD"));
+                    poBackx2.setFileLoct(loBack2.getString("sSourceNo"));
+                    poBackx2.setFileLoct(loBack2.getString("sDtlSrcNo"));
+                    poBackx2.setFileLoct(loBack2.getString("sFileCode"));
+                    poBackx2.setFileLoct(loBack2.getString("sImageNme"));
+                    poBackx2.setFileLoct(loBack2.getString("sMD5Hashx"));
+                    poBackx2.setFileLoct(loBack2.getString("sFileLoct"));
+                    poBackx2.setFileLoct(loBack2.getString("dCaptured"));
+                    loDetail.add(poBackx2);
+                }
+
+                JSONObject joDetail = params.getJSONObject("sDataDetl");
+                mViewModel.UploadIDVerification(loDetail, joDetail, new VMUserVerification.OnIDVerificationSubmitCallback() {
                     @Override
                     public void OnProgress(int progress) {
                         progressBar.setProgress(progress);

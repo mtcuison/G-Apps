@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -36,7 +37,7 @@ public class Activity_ProfileVerification extends AppCompatActivity {
     private Toolbar toolbar;
     private ImageView imageView;
 
-    private String psPath;
+    private String psPath, psFleNme;
     private RClientInfo.PhotoDetail poPhoto;
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
@@ -104,44 +105,49 @@ public class Activity_ProfileVerification extends AppCompatActivity {
         findViewById(R.id.btnCapture).setOnClickListener(v -> {
             ImageFileHandler.InitializeFrontCamera(Activity_ProfileVerification.this, (intent, path, fileName) -> {
                 psPath = path;
+                psFleNme = fileName;
                 poCamera.launch(intent);
             });
         });
 
 
         findViewById(R.id.btn_Submit).setOnClickListener(v -> {
-            mViewModel.UploadForVerification(poPhoto, new VMUserVerification.OnSelfieVerificationSubmitCallback() {
-                @Override
-                public void OnLoad() {
-                    poLoading.initDialog("Selfie Verification", "Uploading selfie verification. Please wait...");
-                    poLoading.show();
-                }
+            if(!poPhoto.isDataValid()){
+                Toast.makeText(Activity_ProfileVerification.this, "Please take a selfie or select from your gallery", Toast.LENGTH_SHORT).show();
+            } else {
+                mViewModel.UploadForVerification(poPhoto, new VMUserVerification.OnSelfieVerificationSubmitCallback() {
+                    @Override
+                    public void OnLoad() {
+                        poLoading.initDialog("Selfie Verification", "Uploading selfie verification. Please wait...");
+                        poLoading.show();
+                    }
 
-                @Override
-                public void OnSuccess(String message) {
-                    poLoading.dismiss();
-                    poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Account Details", message, () -> {
-                        poDialogx.dismiss();
-                        Intent loIntent = new Intent(Activity_ProfileVerification.this, Activity_IDVerification.class);
-                        loIntent.putExtra("cSkippedx", false);
-                        startActivity(loIntent);
-                        finish();
-                        finish();
-                    });
-                    poDialogx.show();
-                }
+                    @Override
+                    public void OnSuccess(String message) {
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Account Details", message, () -> {
+                            poDialogx.dismiss();
+                            Intent loIntent = new Intent(Activity_ProfileVerification.this, Activity_IDVerification.class);
+                            loIntent.putExtra("cSkippedx", false);
+                            startActivity(loIntent);
+                            finish();
+                            finish();
+                        });
+                        poDialogx.show();
+                    }
 
-                @Override
-                public void OnFailed(String message) {
-                    poLoading.dismiss();
-                    poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Account Details", message, () -> {
-                        poDialogx.dismiss();
-                    });
-                    poDialogx.show();
-                }
-            });
+                    @Override
+                    public void OnFailed(String message) {
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Account Details", message, () -> {
+                            poDialogx.dismiss();
+                        });
+                        poDialogx.show();
+                    }
+                });
+            }
         });
 
         findViewById(R.id.btn_Skip).setOnClickListener(v -> {
@@ -162,12 +168,12 @@ public class Activity_ProfileVerification extends AppCompatActivity {
 
     private void initializePhotoDetail(){
         String lsUserID = new AccountInfo(Activity_ProfileVerification.this).getUserID();
-
         poPhoto.setCaptured(new AppConstants().DATE_MODIFIED);
         poPhoto.setFileCode(AppConstants.DOC_FILE_APPLICANT_PHOTO);
         poPhoto.setSourceCD(AppConstants.SOURCE_CODE);
         poPhoto.setDtlSrcNo(lsUserID);
         poPhoto.setSourceNo(lsUserID);
+        poPhoto.setImageNme(psFleNme);
         poPhoto.setFileLoct(psPath);
     }
 }

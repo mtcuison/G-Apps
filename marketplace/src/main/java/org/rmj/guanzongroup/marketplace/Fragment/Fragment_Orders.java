@@ -103,9 +103,7 @@ public class Fragment_Orders extends Fragment {
                         } else {
                             txtNoList.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);
-                            String lsOrderTp = psTabCont[Integer.parseInt(s)+1].equalsIgnoreCase(psTabCont[0])
-                                    ? "" : psTabCont[Integer.parseInt(s)+1];
-                            txtNoList.setText("No available " + lsOrderTp + " orders.");
+                            txtNoList.setText("No order history.");
                         }
                     });
                 } else {

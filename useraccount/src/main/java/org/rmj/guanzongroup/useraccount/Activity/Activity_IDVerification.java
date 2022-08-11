@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -21,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,26 +32,29 @@ import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ImageFileHandler;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.R;
+import org.rmj.guanzongroup.useraccount.ViewModel.VMUserVerification;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_IDVerification extends AppCompatActivity {
     private static final String TAG = Activity_IDVerification.class.getSimpleName();
 
+    private VMUserVerification mViewModel;
+
     private ImageView imgFront1, imgBack1, imgFront2, imgBack2;
     private AutoCompleteTextView spnID1, spnID2;
-    private CheckBox cbExpire1, cbExpire2;
     private TextInputEditText txtExpire1,
             txtExpire2,
-            txtSpfID1,
-            txtSpfID2,
             txtIDNox1,
             txtIDNox2;
 
@@ -60,10 +63,13 @@ public class Activity_IDVerification extends AppCompatActivity {
             psExpiry1 = "",
             psExpiry2 = "";
 
-    private String cHasExp1 = "0",
-            cHasExp2 = "0";
+    private String cHasExp1,
+            cHasExp2,
+            cHasBck1,
+            cHasBck2;
 
     private Dialog_SingleButton poDialogx;
+    private Dialog_Loading poLoad;
 
     private final RClientInfo.PhotoDetail poFront1 = new RClientInfo.PhotoDetail();
     private final RClientInfo.PhotoDetail poBackx1 = new RClientInfo.PhotoDetail();
@@ -76,12 +82,15 @@ public class Activity_IDVerification extends AppCompatActivity {
             if(result.getData() != null){
                 Intent loIntent = result.getData();
                 if (loIntent.hasExtra("result")) {
-                    String lsResult = getIntent().getStringExtra("result");
+                    String lsResult = loIntent.getStringExtra("result");
                     if(lsResult.equalsIgnoreCase("success")){
                         poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Identity Verification", "Your request for full verification has been submitted.", () -> poDialogx.dismiss());
+                        poDialogx.initDialog("Identity Verification", "Your request for full verification has been submitted.", () -> {
+                            poDialogx.dismiss();
+                            finish();
+                        });
                     } else {
-                        String message = getIntent().getStringExtra("message");
+                        String message = loIntent.getStringExtra("message");
                         poDialogx.setButtonText("Okay");
                         poDialogx.initDialog("Identity Verification", message, () -> poDialogx.dismiss());
                     }
@@ -247,8 +256,10 @@ public class Activity_IDVerification extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(Activity_IDVerification.this).get(VMUserVerification.class);
         setContentView(R.layout.activity_id_verification);
         poDialogx = new Dialog_SingleButton(Activity_IDVerification.this);
+        poLoad = new Dialog_Loading(Activity_IDVerification.this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Identity Verification");
@@ -256,13 +267,8 @@ public class Activity_IDVerification extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         spnID1 = findViewById(R.id.tie_validIDNames);
         spnID2 = findViewById(R.id.tie_validIDNames1);
-        txtSpfID1 = findViewById(R.id.tie_specifyID);
-        txtSpfID2 = findViewById(R.id.tie_specifyID1);
         txtIDNox1 = findViewById(R.id.tie_idNox);
         txtIDNox2 = findViewById(R.id.tie_idNo1);
-
-        cbExpire1 = findViewById(R.id.cbNoExpire1);
-        cbExpire2 = findViewById(R.id.cbNoExpire2);
 
         txtExpire1 = findViewById(R.id.tie_expryDte1);
         txtExpire2 = findViewById(R.id.tie_expryDte2);
@@ -278,41 +284,127 @@ public class Activity_IDVerification extends AppCompatActivity {
             }
         }
 
-        spnID1.setAdapter(new ArrayAdapter<>(Activity_IDVerification.this, android.R.layout.simple_dropdown_item_1line, AppConstants.ValidIDList));
-        spnID1.setOnItemClickListener((parent, view, position, id) -> {
-            if(spnID1.getText().toString().equalsIgnoreCase("Others")){
-                findViewById(R.id.lblSpecify).setVisibility(View.VISIBLE);
-                findViewById(R.id.til_specifyID).setVisibility(View.VISIBLE);
-            } else {
-                psID1 = spnID1.getText().toString();
-                findViewById(R.id.lblSpecify).setVisibility(View.GONE);
-                findViewById(R.id.til_specifyID).setVisibility(View.GONE);
+        mViewModel.ImportValidIDCode(new VMUserVerification.OnImportIDCode() {
+            @Override
+            public void OnLoad() {
+                poLoad.initDialog("Identity Verification", "Loading valid ids. Please wait...");
+                poLoad.show();
             }
-            imgFront1.setImageBitmap(null);
-            imgBack1.setImageBitmap(null);
-        });
 
-        spnID2.setAdapter(new ArrayAdapter<>(Activity_IDVerification.this, android.R.layout.simple_dropdown_item_1line, AppConstants.ValidIDList));
-        spnID2.setOnItemClickListener((parent, view, position, id) -> {
-            if(spnID2.getText().toString().equalsIgnoreCase("Others")){
-                findViewById(R.id.lblSpecify1).setVisibility(View.VISIBLE);
-                findViewById(R.id.til_specifyID1).setVisibility(View.VISIBLE);
-            } else {
-                psID2 = spnID2.getText().toString();
-                findViewById(R.id.lblSpecify1).setVisibility(View.GONE);
-                findViewById(R.id.til_specifyID1).setVisibility(View.GONE);
+            @Override
+            public void OnSuccess(List<JSONObject> idCode) {
+                poLoad.dismiss();
+                try {
+                    ArrayList<String> lsIDList = new ArrayList<>();
+                    for (int x = 0; x < idCode.size(); x++) {
+                        lsIDList.add(idCode.get(x).getString("sIDNamexx"));
+                    }
+
+                    spnID1.setAdapter(new ArrayAdapter<>(Activity_IDVerification.this, android.R.layout.simple_dropdown_item_1line, lsIDList));
+                    spnID1.setOnItemClickListener((parent, view, position, id) -> {
+                        try {
+                            for (int x = 0; x < idCode.size(); x++) {
+                                if (spnID1.getText().toString().trim().equalsIgnoreCase(idCode.get(x).getString("sIDNamexx"))) {
+                                    psID1 = idCode.get(x).getString("sIDCodexx");
+                                    cHasExp1 = idCode.get(x).getString("cWithExpr");
+                                    if(cHasExp1.equalsIgnoreCase("1")){
+                                        findViewById(R.id.til_expryDte1).setVisibility(View.VISIBLE);
+                                    } else {
+                                        findViewById(R.id.til_expryDte1).setVisibility(View.GONE);
+                                    }
+
+                                    findViewById(R.id.textview).setVisibility(View.VISIBLE);
+                                    findViewById(R.id.img_frontID).setVisibility(View.VISIBLE);
+                                    findViewById(R.id.btnCaptureFront).setVisibility(View.VISIBLE);
+                                    findViewById(R.id.btnSelectFront).setVisibility(View.VISIBLE);
+
+                                    cHasBck1 = idCode.get(x).getString("cWithBack");
+                                    if(cHasBck1.equalsIgnoreCase("1")){
+                                        findViewById(R.id.textview1).setVisibility(View.VISIBLE);
+                                        findViewById(R.id.img_backID).setVisibility(View.VISIBLE);
+                                        findViewById(R.id.btnCaptureBack).setVisibility(View.VISIBLE);
+                                        findViewById(R.id.btnSelectBack).setVisibility(View.VISIBLE);
+                                    } else {
+                                        findViewById(R.id.textview1).setVisibility(View.GONE);
+                                        findViewById(R.id.img_backID).setVisibility(View.GONE);
+                                        findViewById(R.id.btnCaptureBack).setVisibility(View.GONE);
+                                        findViewById(R.id.btnSelectBack).setVisibility(View.GONE);
+                                    }
+                                    Log.d(TAG, "Selected ID 1: " + psID1);
+                                    Log.d(TAG, "Has expiration 1: " + cHasExp1);
+                                    Log.d(TAG, "Has back 1: " + cHasBck1);
+                                    break;
+                                }
+                            }
+                            imgFront1.setImageBitmap(null);
+                            imgBack1.setImageBitmap(null);
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
+
+                    spnID2.setAdapter(new ArrayAdapter<>(Activity_IDVerification.this, android.R.layout.simple_dropdown_item_1line, lsIDList));
+                    spnID2.setOnItemClickListener((parent, view, position, id) -> {
+                        try {
+                            if(spnID2.getText().toString().trim().equalsIgnoreCase(spnID1.getText().toString().trim())){
+                                Toast.makeText(Activity_IDVerification.this, "Unable to use the same ID for second valid ID.", Toast.LENGTH_SHORT).show();
+                                spnID2.setText("");
+                            } else {
+                                for (int x = 0; x < idCode.size(); x++) {
+                                    if (spnID2.getText().toString().trim().equalsIgnoreCase(idCode.get(x).getString("sIDNamexx"))) {
+                                        psID2 = idCode.get(x).getString("sIDCodexx");
+                                        cHasExp2 = idCode.get(x).getString("cWithExpr");
+                                        if(cHasExp2.equalsIgnoreCase("1")){
+                                            findViewById(R.id.til_expryDte2).setVisibility(View.VISIBLE);
+                                        } else {
+                                            findViewById(R.id.til_expryDte2).setVisibility(View.GONE);
+                                        }
+
+                                        findViewById(R.id.textview1).setVisibility(View.VISIBLE);
+                                        findViewById(R.id.img_frontID1).setVisibility(View.VISIBLE);
+                                        findViewById(R.id.btnCaptureFront1).setVisibility(View.VISIBLE);
+                                        findViewById(R.id.btnSelectFront1).setVisibility(View.VISIBLE);
+
+                                        cHasBck2 = idCode.get(x).getString("cWithBack");
+                                        if(cHasBck2.equalsIgnoreCase("1")){
+                                            findViewById(R.id.textview2).setVisibility(View.VISIBLE);
+                                            findViewById(R.id.img_backID1).setVisibility(View.VISIBLE);
+                                            findViewById(R.id.btnCaptureBack1).setVisibility(View.VISIBLE);
+                                            findViewById(R.id.btnSelectBack1).setVisibility(View.VISIBLE);
+                                        } else {
+                                            findViewById(R.id.textview2).setVisibility(View.GONE);
+                                            findViewById(R.id.img_backID1).setVisibility(View.GONE);
+                                            findViewById(R.id.btnCaptureBack1).setVisibility(View.GONE);
+                                            findViewById(R.id.btnSelectBack1).setVisibility(View.GONE);
+                                        }
+                                        Log.d(TAG, "Selected ID 2: " + psID2);
+                                        Log.d(TAG, "Has expiration 2: " + cHasExp2);
+                                        Log.d(TAG, "Has back 2: " + cHasBck2);
+                                        break;
+                                    }
+                                }
+                                imgFront2.setImageBitmap(null);
+                                imgBack2.setImageBitmap(null);
+                            }
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
+
+                } catch (Exception e){
+                    e.printStackTrace();
+                    finish();
+                }
             }
-            imgFront2.setImageBitmap(null);
-            imgBack2.setImageBitmap(null);
-        });
 
-        cbExpire1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked){
-                cHasExp1 = "1";
-                findViewById(R.id.til_expryDte1).setVisibility(View.VISIBLE);
-            } else {
-                cHasExp1 = "0";
-                findViewById(R.id.til_expryDte1).setVisibility(View.GONE);
+            @Override
+            public void OnFailed(String message) {
+                poLoad.dismiss();
+                poDialogx.setButtonText("Okay");
+                poDialogx.initDialog("Identity Verification", message, () -> {
+                    poDialogx.dismiss();
+                    finish();
+                });
             }
         });
 
@@ -329,16 +421,6 @@ public class Activity_IDVerification extends AppCompatActivity {
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             StartTime.getDatePicker().setMinDate(new Date().getTime());
             StartTime.show();
-        });
-
-        cbExpire2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked){
-                cHasExp2 = "1";
-                findViewById(R.id.til_expryDte2).setVisibility(View.VISIBLE);
-            } else {
-                cHasExp2 = "0";
-                findViewById(R.id.til_expryDte2).setVisibility(View.GONE);
-            }
         });
 
         txtExpire2.setOnClickListener(v -> {
@@ -445,20 +527,12 @@ public class Activity_IDVerification extends AppCompatActivity {
         try {
             Log.d(TAG, "Valid ID 1 name: " + psID1);
             Log.d(TAG, "Valid ID 1 name: " + psID2);
-            Log.d(TAG, "ID Number 1: " + txtIDNox1.getText().toString().trim());
-            Log.d(TAG, "ID Number 2: " + txtIDNox2.getText().toString().trim());
+            Log.d(TAG, "ID Number 1: " + Objects.requireNonNull(txtIDNox1.getText()).toString().trim());
+            Log.d(TAG, "ID Number 2: " + Objects.requireNonNull(txtIDNox2.getText()).toString().trim());
             Log.d(TAG, "Has expiration 1: " + cHasExp1);
             Log.d(TAG, "Has expiration 2: " + cHasExp2);
             Log.d(TAG, "Expiry Date 1: " + psExpiry1);
             Log.d(TAG, "Expiry Date 2: " + psExpiry2);
-            if(spnID1.getText().toString().trim().equalsIgnoreCase("Others")){
-                psID1 = txtSpfID1.getText().toString().trim();
-            }
-
-            if(spnID2.getText().toString().trim().equalsIgnoreCase("Others")){
-                psID2 = txtSpfID2.getText().toString().trim();
-            }
-
             if(psID1.trim().isEmpty()){
                 Toast.makeText(Activity_IDVerification.this, "Please enter the name of first valid ID", Toast.LENGTH_SHORT).show();
             } else if(psID2.trim().isEmpty()){
@@ -475,13 +549,17 @@ public class Activity_IDVerification extends AppCompatActivity {
                 Toast.makeText(Activity_IDVerification.this, "Please enter ID number date of your second valid ID", Toast.LENGTH_SHORT).show();
             } else if(poFront1.getImageNme() == null){
                 Toast.makeText(Activity_IDVerification.this, "Please take a front photo of your first valid ID", Toast.LENGTH_SHORT).show();
-            } else if(poBackx1.getImageNme() == null){
+            } else if(cHasBck1.equalsIgnoreCase("1") && poBackx1.getImageNme() == null){
                 Toast.makeText(Activity_IDVerification.this, "Please take a back photo of your first valid ID", Toast.LENGTH_SHORT).show();
             } else if(poFront2.getImageNme() == null){
                 Toast.makeText(Activity_IDVerification.this, "Please take a front photo of your second valid ID", Toast.LENGTH_SHORT).show();
-            } else if(poBackx2.getImageNme() == null){
+            } else if(cHasBck2.equalsIgnoreCase("1") && poBackx2.getImageNme() == null){
                 Toast.makeText(Activity_IDVerification.this, "Please take a back photo of your second valid ID", Toast.LENGTH_SHORT).show();
             } else {
+                //Parent
+                JSONObject loJson = new JSONObject();
+
+                //Child
                 JSONObject loFront1 = new JSONObject();
                 loFront1.put("sSourceCD", poFront1.getSourceCD());
                 loFront1.put("sSourceNo", poFront1.getSourceNo());
@@ -494,15 +572,18 @@ public class Activity_IDVerification extends AppCompatActivity {
                 Log.d(TAG, loFront1.toString());
 
                 JSONObject loBack1 = new JSONObject();
-                loBack1.put("sSourceCD", poBackx1.getSourceCD());
-                loBack1.put("sSourceNo", poBackx1.getSourceNo());
-                loBack1.put("sDtlSrcNo", poBackx1.getDtlSrcNo());
-                loBack1.put("sFileCode", poBackx1.getFileCode());
-                loBack1.put("sImageNme", poBackx1.getImageNme());
-                loBack1.put("sMD5Hashx", poBackx1.getMD5Hashx());
-                loBack1.put("sFileLoct", poBackx1.getFileLoct());
-                loBack1.put("dCaptured", poBackx1.getCaptured());
-                Log.d(TAG, loBack1.toString());
+                if(cHasBck1.equalsIgnoreCase("1")) {
+                    loBack1.put("sSourceCD", poBackx1.getSourceCD());
+                    loBack1.put("sSourceNo", poBackx1.getSourceNo());
+                    loBack1.put("sDtlSrcNo", poBackx1.getDtlSrcNo());
+                    loBack1.put("sFileCode", poBackx1.getFileCode());
+                    loBack1.put("sImageNme", poBackx1.getImageNme());
+                    loBack1.put("sMD5Hashx", poBackx1.getMD5Hashx());
+                    loBack1.put("sFileLoct", poBackx1.getFileLoct());
+                    loBack1.put("dCaptured", poBackx1.getCaptured());
+                    loJson.put("oBackImg1", loBack1);
+                    Log.d(TAG, loBack1.toString());
+                }
 
                 JSONObject loFront2 = new JSONObject();
                 loFront2.put("sSourceCD", poFront2.getSourceCD());
@@ -516,15 +597,18 @@ public class Activity_IDVerification extends AppCompatActivity {
                 Log.d(TAG, loFront2.toString());
 
                 JSONObject loBack2 = new JSONObject();
-                loBack2.put("sSourceCD", poBackx2.getSourceCD());
-                loBack2.put("sSourceNo", poBackx2.getSourceNo());
-                loBack2.put("sDtlSrcNo", poBackx2.getDtlSrcNo());
-                loBack2.put("sFileCode", poBackx2.getFileCode());
-                loBack2.put("sImageNme", poBackx2.getImageNme());
-                loBack2.put("sMD5Hashx", poBackx2.getMD5Hashx());
-                loBack2.put("sFileLoct", poBackx2.getFileLoct());
-                loBack2.put("dCaptured", poBackx2.getCaptured());
-                Log.d(TAG, loBack2.toString());
+                if(cHasBck2.equalsIgnoreCase("1")) {
+                    loBack2.put("sSourceCD", poBackx2.getSourceCD());
+                    loBack2.put("sSourceNo", poBackx2.getSourceNo());
+                    loBack2.put("sDtlSrcNo", poBackx2.getDtlSrcNo());
+                    loBack2.put("sFileCode", poBackx2.getFileCode());
+                    loBack2.put("sImageNme", poBackx2.getImageNme());
+                    loBack2.put("sMD5Hashx", poBackx2.getMD5Hashx());
+                    loBack2.put("sFileLoct", poBackx2.getFileLoct());
+                    loBack2.put("dCaptured", poBackx2.getCaptured());
+                    loJson.put("oBackImg2", loBack2);
+                    Log.d(TAG, loBack2.toString());
+                }
 
                 JSONObject params = new JSONObject();
                 params.put("sIDName1x", psID1);
@@ -535,18 +619,24 @@ public class Activity_IDVerification extends AppCompatActivity {
                 params.put("cHasExp2x", cHasExp2);
                 params.put("dExpiry1x", psExpiry1);
                 params.put("dExpiry2x", psExpiry2);
+                params.put("sIDBack1x", "");
+                params.put("sIDBack2x", "");
                 params.put("sIDFrnt1x", poFront1.getImageNme());
-                params.put("sIDBack1x", poBackx1.getImageNme());
                 params.put("sIDFrnt2x", poFront2.getImageNme());
-                params.put("sIDBack2x", poBackx2.getImageNme());
+
+                if(cHasBck1.equalsIgnoreCase("1")){
+                    params.put("sIDBack1x", poBackx1.getImageNme());
+                } else {
+                }
+
+                if(cHasBck2.equalsIgnoreCase("1")){
+                    params.put("sIDBack2x", poBackx2.getImageNme());
+                }
                 Log.d(TAG, params.toString());
 
-                JSONObject loJson = new JSONObject();
                 loJson.put("sDataDetl", params);
                 loJson.put("oFrontIm1", loFront1);
-                loJson.put("oBackImg1", loBack1);
                 loJson.put("oFrontIm2", loFront2);
-                loJson.put("oBackImg2", loBack2);
                 Log.d(TAG, loJson.toString());
                 Intent loIntent = new Intent(Activity_IDVerification.this, Activity_IDSumittion.class);
                 loIntent.putExtra("oParametr", loJson.toString());

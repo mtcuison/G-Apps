@@ -160,30 +160,14 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <CheckBox
-                        android:id="@+id/cbNoExpire1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="0dp"
-                        android:text="@string/lblIDExpire"
-                        android:textColor="@color/link_text_color"
-                        android:textSize="14sp"
-                        android:layout_marginTop="10dp"
-                        app:buttonTint="@color/guanzon_digital_light_orange"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintTop_toBottomOf="@+id/til_idNox" />
-
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/til_expryDte1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hintExpiryDate"
                         android:visibility="gone"
+                        android:hint="@string/hintExpiryDate"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cbNoExpire1"
+                        app:layout_constraintTop_toBottomOf="@id/til_idNox"
                         app:layout_constraintRight_toRightOf="parent"
                         android:layout_marginTop="10dp"
                         style="@style/TextInputStyle">
@@ -210,6 +194,7 @@
                         android:text="@string/lblFrontID"
                         android:textColor="@color/font_regular"
                         android:textSize="18sp"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -220,6 +205,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:adjustViewBounds="true"
+                        android:visibility="gone"
                         app:layout_constraintDimensionRatio="16:9"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -233,6 +219,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/lblTakePicture"
+                        android:visibility="gone"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/img_frontID" />
 
@@ -243,6 +230,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/lblSelectPhoto"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/img_frontID"/>
 
@@ -255,6 +243,7 @@
                         android:text="@string/lblBackID"
                         android:textColor="@color/font_regular"
                         android:textSize="18sp"
+                        android:visibility="gone"
                         android:layout_marginTop="20dp"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -266,6 +255,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:adjustViewBounds="true"
+                        android:visibility="gone"
                         app:layout_constraintDimensionRatio="16:9"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -277,6 +267,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/lblTakePicture"
+                        android:visibility="gone"
                         style="@style/ButtonStyle.Orange.Medium"
                         android:layout_marginTop="10dp"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -289,6 +280,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/lblSelectPhoto"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/img_backID" />
 
@@ -399,30 +391,14 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <CheckBox
-                        android:id="@+id/cbNoExpire2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="0dp"
-                        android:text="@string/lblIDExpire"
-                        android:textColor="@color/link_text_color"
-                        android:textSize="14sp"
-                        android:layout_marginTop="10dp"
-                        app:buttonTint="@color/guanzon_digital_light_orange"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintTop_toBottomOf="@+id/til_idNox1" />
-
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/til_expryDte2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hintExpiryDate"
                         android:visibility="gone"
+                        android:hint="@string/hintExpiryDate"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cbNoExpire2"
+                        app:layout_constraintTop_toBottomOf="@id/til_idNox1"
                         app:layout_constraintRight_toRightOf="parent"
                         android:layout_marginTop="10dp"
                         style="@style/TextInputStyle">
@@ -481,6 +457,7 @@
                         android:text="@string/lblFrontID"
                         android:textColor="@color/font_regular"
                         android:textSize="18sp"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -491,6 +468,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:adjustViewBounds="true"
+                        android:visibility="gone"
                         app:layout_constraintDimensionRatio="16:9"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -504,6 +482,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/lblTakePicture"
+                        android:visibility="gone"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/img_frontID1" />
 
@@ -514,6 +493,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/lblSelectPhoto"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/img_frontID1"/>
 
@@ -526,6 +506,7 @@
                         android:text="@string/lblBackID"
                         android:textColor="@color/font_regular"
                         android:textSize="18sp"
+                        android:visibility="gone"
                         android:layout_marginTop="20dp"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -537,6 +518,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:adjustViewBounds="true"
+                        android:visibility="gone"
                         app:layout_constraintDimensionRatio="16:9"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -548,6 +530,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/lblTakePicture"
+                        android:visibility="gone"
                         style="@style/ButtonStyle.Orange.Medium"
                         android:layout_marginTop="10dp"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -560,6 +543,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/lblSelectPhoto"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/img_backID1" />
 

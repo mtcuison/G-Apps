@@ -590,7 +590,9 @@ public class RClientInfo {
             String lsUserID = new AccountInfo(mContext).getUserID();
 
             String lsClntTk = WebFileServer.RequestClientToken(lsProdct, lsClient, lsUserID);
-            if(lsClntTk == null){
+            if(new GuanzonAppConfig(mContext).getTestCase()){
+                return true;
+            } else if(lsClntTk == null){
                 message = "Unable to generate client. Please try again later.";
                 return false;
             } else if(lsClntTk.isEmpty()){
@@ -605,35 +607,31 @@ public class RClientInfo {
                     message = "Unable to generate access token. Please try again later.";
                     return false;
                 } else {
-                    if(new GuanzonAppConfig(mContext).getTestCase()){
-                        return true;
-                    } else {
-                        org.json.simple.JSONObject loResponse = WebFileServer.UploadFile(
-                                foVal.getFileLoct(),
-                                lsAccess,
-                                foVal.getFileCode(),
-                                foVal.getDtlSrcNo(),
-                                foVal.getImageNme(),
-                                "",
-                                foVal.getSourceCD(),
-                                foVal.getSourceNo(),
-                                "");
+                    org.json.simple.JSONObject loResponse = WebFileServer.UploadFile(
+                            foVal.getFileLoct(),
+                            lsAccess,
+                            foVal.getFileCode(),
+                            foVal.getDtlSrcNo(),
+                            foVal.getImageNme(),
+                            foVal.getDtlSrcNo(),
+                            foVal.getSourceCD(),
+                            foVal.getSourceNo(),
+                            "");
 
-                        if (loResponse == null) {
-                            message = "Upload failed. Server no response.";
-                            return false;
+                    if (loResponse == null) {
+                        message = "Upload failed. Server no response.";
+                        return false;
+                    } else {
+                        String lsResult = (String) loResponse.get("result");
+                        if (lsResult.equalsIgnoreCase("success")) {
+                            poJson = new JSONObject(loResponse.toJSONString());
+                            Log.d(TAG, poJson.toString());
+                            return true;
                         } else {
-                            String lsResult = (String) loResponse.get("result");
-                            if (lsResult.equalsIgnoreCase("success")) {
-                                poJson = new JSONObject(loResponse.toJSONString());
-                                Log.d(TAG, poJson.toString());
-                                return true;
-                            } else {
-                                JSONObject loError = new JSONObject((String) loResponse.get("error"));
-                                message = loError.getString("message");
-                                Log.e(TAG, loError.toString());
-                                return false;
-                            }
+                            JSONObject loError = new JSONObject((String) loResponse.get("error"));
+                            message = loError.getString("message");
+                            Log.e(TAG, loError.toString());
+                            return false;
                         }
                     }
                 }
@@ -657,7 +655,7 @@ public class RClientInfo {
             params.put("sImageNme", fsName);
             params.put("sMD5Hashx", fsHash);
             params.put("sImagePth", fsPath);
-            params.put("sImgeDate", fsDate);
+            params.put("dImgeDate", fsDate);
 
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             String lsResponse = WebClient.httpsPostJSon(
@@ -668,6 +666,37 @@ public class RClientInfo {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
+                Log.d(TAG, lsResponse);
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    return false;
+                } else {
+                    poJson = loResponse;
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean ImportIDCode(){
+        try {
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getImportValidIdCodeAPI(),
+                    new JSONObject().toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            } else {
+                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){
@@ -800,6 +829,10 @@ public class RClientInfo {
 
         public void setCaptured(String dCaptured) {
             this.dCaptured = dCaptured;
+        }
+
+        public boolean isDataValid(){
+            return sFileLoct != null;
         }
     }
 }
