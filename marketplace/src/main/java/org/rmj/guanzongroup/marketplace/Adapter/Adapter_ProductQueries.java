@@ -35,7 +35,7 @@ public class Adapter_ProductQueries extends RecyclerView.Adapter<Adapter_Product
     public void onBindViewHolder(ViewHolderItem holder, int position) {
         try {
             JSONObject loJson = loJsonArr.getJSONObject(position);
-            holder.txtClient.setText("Guanzon Group of Companies");
+            holder.txtClient.setText(loJson.getString("sUserName"));
             holder.txtDatexx.setText(loJson.getString("dCreatedx"));
             holder.txtQueryx.setText(loJson.getString("sQuestion"));
             holder.txtRespnd.setText(loJson.getString("sReplyxxx"));

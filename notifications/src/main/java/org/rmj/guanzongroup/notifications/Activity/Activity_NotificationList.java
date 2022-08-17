@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+
 import org.rmj.guanzongroup.notifications.Adapter.Adapter_Notifications;
 import org.rmj.guanzongroup.notifications.R;
 import org.rmj.guanzongroup.notifications.ViewModel.VMNotifications;
@@ -46,10 +48,18 @@ public class Activity_NotificationList extends AppCompatActivity {
         mViewModel.GetClientNotificationList().observe(Activity_NotificationList.this, notif ->{
             if(notif.size() > 0){
                 noNotif.setVisibility(View.GONE);
-                adapter = new Adapter_Notifications(notif, (fsMesgIDxx, fsMesgType) -> {
-                    Intent loIntent = new Intent(Activity_NotificationList.this, Activity_ViewNotification.class);
-                    loIntent.putExtra("sMsgIDxxx", fsMesgIDxx);
-                    startActivity(loIntent);
+                adapter = new Adapter_Notifications(notif, (fsMesgIDxx, lsCreated, fsMesgType, lsDataSent) -> {
+                    if(!fsMesgType.equalsIgnoreCase("00000")) {
+                        Intent loIntent = new Intent(Activity_NotificationList.this, Activity_ViewNotification.class);
+                        loIntent.putExtra("sMsgIDxxx", fsMesgIDxx);
+                        loIntent.putExtra("sMsgTypex", fsMesgType);
+                        loIntent.putExtra("sDataSent", lsDataSent);
+                        startActivity(loIntent);
+                    } else {
+                        Intent loIntent = new Intent(Activity_NotificationList.this, Activity_PreviewMessage.class);
+                        loIntent.putExtra("sCreatedx", lsCreated);
+                        startActivity(loIntent);
+                    }
                 });
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();

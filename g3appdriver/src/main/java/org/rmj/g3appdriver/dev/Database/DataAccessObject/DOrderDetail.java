@@ -48,8 +48,8 @@ public interface DOrderDetail {
             "LEFT JOIN MarketPlace_Order_Master c " +
             "ON a.sTransNox = c.sTransNox " +
             "WHERE c.sTransNox =:fsVal " +
-            "AND c.sClientID = (" +
-            "SELECT sClientID " +
+            "AND c.sAppUsrID = (" +
+            "SELECT sUserIDxx " +
             "FROM Client_Profile_Info) " +
             "ORDER BY c.dTransact DESC")
     LiveData<List<OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal);

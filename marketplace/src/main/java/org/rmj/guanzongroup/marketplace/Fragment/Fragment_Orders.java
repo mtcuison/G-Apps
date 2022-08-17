@@ -95,27 +95,31 @@ public class Fragment_Orders extends Fragment {
             try{
                 if(s.isEmpty()){
                     mViewModel.GetOrderHistoryList().observe(getViewLifecycleOwner(), eOrderMasters -> {
-                        loAdapter = new Adapter_OrderHistory(eOrderMasters, loListener);
-                        recyclerView.setAdapter(loAdapter);
+                        if(eOrderMasters.size() > 0) {
+                            txtNoList.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            loAdapter = new Adapter_OrderHistory(eOrderMasters, loListener);
+                            recyclerView.setAdapter(loAdapter);
+                        } else {
+                            txtNoList.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                            txtNoList.setText("No order history.");
+                        }
                     });
                 } else {
                     mViewModel.GetOrderHistoryList(s).observe(getViewLifecycleOwner(), eOrderMasters -> {
-                        try {
-                            if(eOrderMasters.size() > 0) {
-                                txtNoList.setVisibility(View.GONE);
-                                recyclerView.setVisibility(View.VISIBLE);
-                                loAdapter = new Adapter_OrderHistory(eOrderMasters, loListener);
-                            } else {
-                                txtNoList.setVisibility(View.VISIBLE);
-                                recyclerView.setVisibility(View.GONE);
-                                String lsOrderTp = psTabCont[Integer.parseInt(s)+1].equalsIgnoreCase(psTabCont[0])
-                                        ? "" : psTabCont[Integer.parseInt(s)+1];
-                                txtNoList.setText("No available " + lsOrderTp + " orders.");
-                            }
-                            recyclerView.setAdapter(loAdapter);
-                        } catch (NullPointerException e) {
-                            e.printStackTrace();
+                        if(eOrderMasters.size() > 0) {
+                            txtNoList.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            loAdapter = new Adapter_OrderHistory(eOrderMasters, loListener);
+                        } else {
+                            txtNoList.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                            String lsOrderTp = psTabCont[Integer.parseInt(s)+1].equalsIgnoreCase(psTabCont[0])
+                                    ? "" : psTabCont[Integer.parseInt(s)+1];
+                            txtNoList.setText("No available " + lsOrderTp + " orders.");
                         }
+                        recyclerView.setAdapter(loAdapter);
                     });
                 }
             } catch (Exception e){

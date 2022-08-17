@@ -11,8 +11,8 @@ import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
-import org.rmj.guanzongroup.guanzonapp.Activity.Activity_Dashboard;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_ProfileVerification;
 
 public class DashboardActionReceiver extends BroadcastReceiver {
     private static final String TAG = DashboardActionReceiver.class.getSimpleName();
@@ -21,6 +21,7 @@ public class DashboardActionReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if(intent.hasExtra("args")){
             String args = intent.getStringExtra("args");
+            Intent loIntent;
             switch (args){
                 case "auth":
                     new CheckDataImportTask(context).execute();
@@ -29,13 +30,19 @@ public class DashboardActionReceiver extends BroadcastReceiver {
                     new ImportClientCompleteInfoTask(context).execute();
                     break;
                 case "promo":
-                    Intent loIntent = new Intent(context, Activity_Browser.class);
+                    loIntent = new Intent(context, Activity_Browser.class);
                     loIntent.putExtra("url_link", intent.getStringExtra("url_link"));
                     loIntent.putExtra("args", intent.getStringExtra("browser_args"));
+                    loIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(loIntent);
                     break;
                 case "purchase":
                     new ImportClientPurchasesTask(context).execute();
+                    break;
+                case "verify":
+                    loIntent = new Intent(context, Activity_ProfileVerification.class);
+                    loIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(loIntent);
                     break;
             }
         }

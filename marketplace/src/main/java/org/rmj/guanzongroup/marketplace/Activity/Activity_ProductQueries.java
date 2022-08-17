@@ -34,13 +34,15 @@ public class Activity_ProductQueries extends AppCompatActivity {
     private ActivityProductQueriesBinding mBinding;
     private Dialog_SingleButton poDialogx;
     private Dialog_Loading poLoading;
-    private String psItemIdx = "";
+    private String psItemIdx = "", psEntryNo = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityProductQueriesBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+        poDialogx = new Dialog_SingleButton(Activity_ProductQueries.this);
+        poLoading = new Dialog_Loading(Activity_ProductQueries.this);
         mViewModel = new ViewModelProvider(Activity_ProductQueries.this).get(VMProductQueries.class);
         getExtras();
 
@@ -48,11 +50,40 @@ public class Activity_ProductQueries extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Asked Questions");
 
-        poDialogx = new Dialog_SingleButton(Activity_ProductQueries.this);
-        poLoading = new Dialog_Loading(Activity_ProductQueries.this);
-
         displayData();
-        mBinding.btnAskQst.setOnClickListener(v -> openDialog());
+        mBinding.btnSend.setOnClickListener(v -> {
+            if(!mBinding.tieQuestion.getText().toString().trim().isEmpty()) {
+                String lsInput = mBinding.tieQuestion.getText().toString().trim();
+                mViewModel.sendProductInquiry(psItemIdx, lsInput, new OnTransactionsCallback() {
+                    @Override
+                    public void onLoading() {
+                        poLoading.initDialog("Marketplace", "Sending question/inquiry. Please wait.");
+                        poLoading.show();
+                    }
+
+                    @Override
+                    public void onSuccess(String fsMessage) {
+                        mBinding.tieQuestion.setText("");
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
+                        poDialogx.show();
+                    }
+
+                    @Override
+                    public void onFailed(String fsMessage) {
+                        poLoading.dismiss();
+                        poDialogx.setButtonText("Okay");
+                        poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
+                        poDialogx.show();
+                    }
+                });
+            } else {
+                poDialogx.setButtonText("Okay");
+                poDialogx.initDialog("Marketplace", "Please enter your question/inquiry.", () -> poDialogx.dismiss());
+                poDialogx.show();
+            }
+        });
     }
 
     @Override
@@ -69,8 +100,8 @@ public class Activity_ProductQueries extends AppCompatActivity {
     }
 
     private void getExtras() {
-        if(getIntent().hasExtra("sListingId")) {
-            psItemIdx = getIntent().getStringExtra("sListingId");
+        if(getIntent().hasExtra("sListngId")) {
+            psItemIdx = getIntent().getStringExtra("sListngId");
         } else {
             poDialogx.setButtonText("Okay");
             poDialogx.initDialog("Marketplace", "Product does not exist.", () -> {
@@ -78,6 +109,10 @@ public class Activity_ProductQueries extends AppCompatActivity {
                 finish();
             });
             poDialogx.show();
+        }
+
+        if(getIntent().hasExtra("nEntryNox")){
+            psEntryNo = getIntent().getStringExtra("nEntryNox");
         }
     }
 
@@ -98,16 +133,18 @@ public class Activity_ProductQueries extends AppCompatActivity {
                 mBinding.txtPricex.setText(CashFormatter.parse(product.getUnitPrce()));
             } catch (NullPointerException | JSONException e) {
                 e.printStackTrace();
-                finish();
             }
         });
     }
 
     private void showInquiries() {
+        poLoading.initDialog("Product Inquiries", "Loading product inquiries. Please wait...");
+        poLoading.show();
         mViewModel.ImportInquiries(psItemIdx, new VMProductQueries.OnInquiryReviewsImportCallback() {
             @Override
             public void OnImport(String args) {
                 try {
+                    poLoading.dismiss();
                     JSONObject loJson = new JSONObject(args);
                     mBinding.rvQueries.setVisibility(View.VISIBLE);
                     mBinding.lblNoFaqs.setVisibility(View.GONE);
@@ -118,6 +155,21 @@ public class Activity_ProductQueries extends AppCompatActivity {
                     mBinding.rvQueries.setLayoutManager(new LinearLayoutManager(Activity_ProductQueries.this));
                     mBinding.rvQueries.setHasFixedSize(true);
                     mBinding.rvQueries.setAdapter(loAdapter);
+
+                    if(!psEntryNo.isEmpty()){
+                        mBinding.cvHLQuestion.setVisibility(View.VISIBLE);
+                        JSONArray laJson = loJson.getJSONArray("detail");
+                        for(int x = 0; x < laJson.length(); x++){
+                            JSONObject loDetail = laJson.getJSONObject(x);
+                            if(loDetail.getString("nEntryNox").equalsIgnoreCase(psEntryNo)){
+                                mBinding.txtClientName.setText(loDetail.getString("sUserName"));
+                                mBinding.txtDateAsked.setText(loDetail.getString("dCreatedx"));
+                                mBinding.txtQuery.setText(loDetail.getString("sQuestion"));
+                                mBinding.txtResponse.setText(loDetail.getString("sReplyxxx"));
+                                break;
+                            }
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     mBinding.rvQueries.setVisibility(View.GONE);
@@ -128,68 +180,38 @@ public class Activity_ProductQueries extends AppCompatActivity {
             @Override
             public void OnFailed(String message) {
                 Log.e(TAG, message);
+                poLoading.dismiss();
                 mBinding.rvQueries.setVisibility(View.GONE);
                 mBinding.lblNoFaqs.setVisibility(View.VISIBLE);
             }
         });
     }
 
-    private void openDialog() {
-        final Dialog_MultiLineInput loDialog = new Dialog_MultiLineInput(Activity_ProductQueries.this);
-        loDialog.initDialog("Ask Question", new Dialog_MultiLineInput.OnDialogConfirmation() {
-            @Override
-            public void onConfirm(String fsInputx, AlertDialog dialog) {
-                if(!fsInputx.isEmpty()) {
-                    dialog.dismiss();
-                    mViewModel.sendProductInquiry(psItemIdx, fsInputx, new OnTransactionsCallback() {
-                        @Override
-                        public void onLoading() {
-                            poLoading.initDialog("Marketplace", "Sending question/inquiry. Please wait.");
-                            poLoading.show();
-                        }
-
-                        @Override
-                        public void onSuccess(String fsMessage) {
-                            poLoading.dismiss();
-                            poDialogx.setButtonText("Okay");
-                            poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
-                            poDialogx.show();
-                        }
-
-                        @Override
-                        public void onFailed(String fsMessage) {
-                            poLoading.dismiss();
-                            poDialogx.setButtonText("Okay");
-                            poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
-                            poDialogx.show();
-                        }
-                    });
-                } else {
-                    dialog.dismiss();
-                    poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Marketplace", "Please enter your question/inquiry.", () -> poDialogx.dismiss());
-                    poDialogx.show();
-                }
-            }
-
-            @Override
-            public void onCancel(AlertDialog dialog) {
-                dialog.dismiss();
-            }
-        });
-        loDialog.show();
-    }
-
     private JSONArray getFilteredFaqs(JSONArray foArray) {
         JSONArray loArray = new JSONArray();
-        for(int x = 0; x < foArray.length(); x++) {
-            try {
-                if (!foArray.getJSONObject(x).getString("sReplyxxx")
-                        .equalsIgnoreCase("null")) {
-                    loArray.put(foArray.getJSONObject(x));
+        if(psEntryNo.isEmpty()) {
+            for (int x = 0; x < foArray.length(); x++) {
+                try {
+                    if (!foArray.getJSONObject(x).getString("sReplyxxx")
+                            .equalsIgnoreCase("null")) {
+                        loArray.put(foArray.getJSONObject(x));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }
+        } else {
+            for (int x = 0; x < foArray.length(); x++) {
+                try {
+                    if(!foArray.getJSONObject(x).getString("nEntryNox").equalsIgnoreCase(psEntryNo)) {
+                        if (!foArray.getJSONObject(x).getString("sReplyxxx")
+                                .equalsIgnoreCase("null")) {
+                            loArray.put(foArray.getJSONObject(x));
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return loArray;

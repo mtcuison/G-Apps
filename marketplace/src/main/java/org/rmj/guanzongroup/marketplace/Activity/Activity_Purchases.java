@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.DateTimeFormatter;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -65,6 +66,7 @@ public class Activity_Purchases extends AppCompatActivity {
         setContentView(R.layout.activity_purchases);
 
         toolbar = findViewById(R.id.toolbar_purchases);
+        toolbar.setTitle("Order Detail");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
@@ -89,66 +91,75 @@ public class Activity_Purchases extends AppCompatActivity {
         LinearLayoutManager loManager = new LinearLayoutManager(Activity_Purchases.this);
         loManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(loManager);
+
+        if(getIntent().hasExtra("cReimport")){
+            mViewModel.ImportOrdersTask();
+        }
+
         mViewModel.GetDetailOrderHistory(lsOrderIDx).observe(Activity_Purchases.this, foOrder -> {
             try{
-                if(foOrder.cTranStat.equalsIgnoreCase("0")){
-                    btnPay.setVisibility(View.VISIBLE);
-                }
-                if(!foOrder.cTranStat.equalsIgnoreCase("3")){
-                    toolbar.setTitle("Order Detail");
-                    progressBar.setVisibility(View.VISIBLE);
-                    progressBar.setCurrentStateNumber(GetStateNumber(foOrder.cTranStat));
+                if(foOrder == null) {
+                    findViewById(R.id.lblNoOrderInfo).setVisibility(View.VISIBLE);
                 } else {
-                    toolbar.setTitle("Cancellation Detail");
-                    btnCancel.setVisibility(View.GONE);
-                    mViewModel.CheckCancellationDetail(foOrder.sTransNox,new VMOrders.OnCheckCancellationCallback() {
-                        @Override
-                        public void OnCheck(String dTransact, String sClientNm, String sRemarksx) {
-                            cvCanclDetl.setVisibility(View.VISIBLE);
-                            lblCancelUs.setText(sClientNm);
-                            lblCancelRm.setText(sRemarksx);
-                            lblCancelDt.setText(getDate(dTransact));
-                        }
+                    findViewById(R.id.scrollView).setVisibility(View.VISIBLE);
+                    if (foOrder.cTranStat.equalsIgnoreCase("0")) {
+                        btnPay.setVisibility(View.VISIBLE);
+                    } else if (!foOrder.cTranStat.equalsIgnoreCase("3")) {
+                        toolbar.setTitle("Order Detail");
+                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setCurrentStateNumber(GetStateNumber(foOrder.cTranStat));
+                    } else {
+                        toolbar.setTitle("Cancellation Detail");
+                        btnCancel.setVisibility(View.GONE);
+                        mViewModel.CheckCancellationDetail(foOrder.sTransNox, new VMOrders.OnCheckCancellationCallback() {
+                            @Override
+                            public void OnCheck(String dTransact, String sClientNm, String sRemarksx) {
+                                cvCanclDetl.setVisibility(View.VISIBLE);
+                                lblCancelUs.setText(sClientNm);
+                                lblCancelRm.setText(sRemarksx);
+                                lblCancelDt.setText(getDate(dTransact));
+                            }
 
-                        @Override
-                        public void OnFailed(String message) {
-                            Toast.makeText(Activity_Purchases.this, message, Toast.LENGTH_LONG).show();
+                            @Override
+                            public void OnFailed(String message) {
+                                Toast.makeText(Activity_Purchases.this, message, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                    lblOrderID.setText(foOrder.sTransNox);
+                    lblTrackNox.setText("");
+                    lblAddressx.setText(foOrder.sAddressx);
+                    lblClientNm.setText(foOrder.sUserName);
+                    lblMobileNo.setText(foOrder.sMobileNo);
+                    lblPaymntxx.setText(AppConstants.getPaymentMethod(foOrder.sTermCode));
+                    lblDatePlcd.setText("Place on : " + DateTimeFormatter.ParseDateFullyDetailed(foOrder.dTransact));
+                    lblDlvyDate.setText("Get By : " + DateTimeFormatter.ParseDateForList(foOrder.dExpected));
+                    btnPay.setOnClickListener(v -> {
+                        Intent loIntent = new Intent(Activity_Purchases.this, Activity_PayOrder.class);
+                        loIntent.putExtra("sTransNox", foOrder.sTransNox);
+                        startActivity(loIntent);
+                    });
+
+                    mViewModel.GetOrderedItemsList(lsOrderIDx).observe(Activity_Purchases.this, orderedItemsInfos -> {
+                        try {
+                            Adapter_OrderedItems loAdapter = new Adapter_OrderedItems(orderedItemsInfos, args -> {
+                                Intent loIntent = new Intent(Activity_Purchases.this, Activity_ProductOverview.class);
+                                loIntent.putExtra("sListngId", args);
+                                startActivity(loIntent);
+                            }, args -> {
+                                Intent loIntent = new Intent(Activity_Purchases.this, Activity_WriteProductReview.class);
+                                loIntent.putExtra("sTransNox", foOrder.sTransNox);
+                                loIntent.putExtra("sListngId", args);
+                                startActivity(loIntent);
+                            });
+                            loAdapter.setForReview(foOrder.cTranStat.equalsIgnoreCase("4"));
+                            recyclerView.setAdapter(loAdapter);
+                        } catch (Exception e){
+                            e.printStackTrace();
                         }
                     });
                 }
 
-                lblOrderID.setText(foOrder.sTransNox);
-                lblTrackNox.setText("");
-                lblAddressx.setText(foOrder.sAddressx);
-                lblClientNm.setText(foOrder.sUserName);
-                lblMobileNo.setText(foOrder.sMobileNo);
-                lblPaymntxx.setText(foOrder.sTermCode);
-                lblDatePlcd.setText("Place on : " + DateTimeFormatter.ParseDateFullyDetailed(foOrder.dTransact));
-                lblDlvyDate.setText("Get By : " + DateTimeFormatter.ParseDateForList(foOrder.dExpected));
-                btnPay.setOnClickListener(v -> {
-                    Intent loIntent = new Intent(Activity_Purchases.this, Activity_PayOrder.class);
-                    loIntent.putExtra("sTransNox", foOrder.sTransNox);
-                    startActivity(loIntent);
-                });
-
-                mViewModel.GetOrderedItemsList(lsOrderIDx).observe(Activity_Purchases.this, orderedItemsInfos -> {
-                    try {
-                        Adapter_OrderedItems loAdapter = new Adapter_OrderedItems(orderedItemsInfos, args -> {
-                            Intent loIntent = new Intent(Activity_Purchases.this, Activity_ProductOverview.class);
-                            loIntent.putExtra("sListingId", args);
-                            startActivity(loIntent);
-                        }, args -> {
-                            Intent loIntent = new Intent(Activity_Purchases.this, Activity_WriteProductReview.class);
-                            loIntent.putExtra("sTransNox", foOrder.sTransNox);
-                            loIntent.putExtra("sListingId", args);
-                            startActivity(loIntent);
-                        });
-                        loAdapter.setForReview(foOrder.cTranStat.equalsIgnoreCase("4"));
-                        recyclerView.setAdapter(loAdapter);
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                });
             } catch (Exception e){
                 e.printStackTrace();
             }

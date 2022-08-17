@@ -153,9 +153,11 @@ public class RProduct {
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
                 message = "Unable to retrieve server response.";
+                Log.e(TAG, "Unable to retrieve server response.");
                 return false;
             } else {
                 JSONObject loResponse = new JSONObject(lsResponse);
+                Log.d(TAG, lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){
                     JSONObject loError = loResponse.getJSONObject("error");

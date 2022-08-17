@@ -70,7 +70,5 @@ public class Adapter_ProductReview extends RecyclerView.Adapter<Adapter_ProductR
             txtReview = itemView.findViewById(R.id.txt_review);
             txtReplyx = itemView.findViewById(R.id.txt_response);
         }
-
     }
-
 }

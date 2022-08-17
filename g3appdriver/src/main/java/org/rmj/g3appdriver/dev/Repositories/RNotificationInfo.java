@@ -12,7 +12,6 @@
 package org.rmj.g3appdriver.dev.Repositories;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -279,6 +278,10 @@ public class RNotificationInfo {
 
     public LiveData<List<DNotifications.ClientNotificationInfo>> GetClientNotificationList(){
         return poDao.getClientNotificationList();
+    }
+
+    public LiveData<List<DNotifications.RegularMessage>> GetRegularMessagesSystemNotif(){
+        return poDao.GetRegularMessagesSystemNotif();
     }
 
     public LiveData<DNotifications.ClientNotificationInfo> GetNotificationInfo(String fsMesgID){

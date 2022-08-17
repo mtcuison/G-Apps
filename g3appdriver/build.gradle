@@ -49,6 +49,7 @@ dependencies {
     //loading implementation
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation 'com.google.android.play:core:1.10.3'
+    implementation files('libs/json-simple-1.1.1.jar')
     implementation files('libs/commons-codec-1.11.jar')
     implementation files('libs/appdriver.jar')
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'

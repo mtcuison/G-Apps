@@ -3,14 +3,18 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_PreviewMessage"
+            android:exported="false"
+            android:screenOrientation="userPortrait" />
+        <activity
             android:name=".Activity.Activity_NotificationList"
-            android:screenOrientation="userPortrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_ViewNotification"
-            android:screenOrientation="userPortrait"
             android:exported="false"
-            android:label="Notifications" />
+            android:label="Notifications"
+            android:screenOrientation="userPortrait" />
     </application>
 
 </manifest>

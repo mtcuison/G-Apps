@@ -86,12 +86,13 @@ public class Activity_ProductOverview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_overview);
-        poAccount = new AccountInfo(Activity_ProductOverview.this);
         mViewModel = new ViewModelProvider(Activity_ProductOverview.this)
                 .get(VMProductOverview.class);
-        initViews();
+        setContentView(R.layout.activity_product_overview);
+        poAccount = new AccountInfo(Activity_ProductOverview.this);
+        poDialogx = new Dialog_SingleButton(Activity_ProductOverview.this);
         getExtras();
+        initViews();
         setUpToolbar();
         displayData();
 
@@ -99,7 +100,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
             if(!isClick) {
                 isClick = true;
                 Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductReview.class);
-                loIntent.putExtra("sListingId", psItemIdx);
+                loIntent.putExtra("sListngId", psItemIdx);
                 startActivity(loIntent);
                 isClick = false;
             } else {
@@ -117,7 +118,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
                         startActivity(loIntent);
                     } else {
                         Intent loIntent = new Intent(Activity_ProductOverview.this, Activity_ProductQueries.class);
-                        loIntent.putExtra("sListingId", psItemIdx);
+                        loIntent.putExtra("sListngId", psItemIdx);
                         startActivity(loIntent);
                     }
                 }
@@ -164,14 +165,10 @@ public class Activity_ProductOverview extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
-
     private void getExtras() {
-        if(getIntent().hasExtra("sListingId")) {
-            psItemIdx = getIntent().getStringExtra("sListingId");
+        if(getIntent().hasExtra("sListngId")) {
+            psItemIdx = getIntent().getStringExtra("sListngId");
+            Log.d(TAG, psItemIdx);
         } else {
             poDialogx.setButtonText("Okay");
             poDialogx.initDialog("Marketplace", "Product does not exist.", () -> {
@@ -183,7 +180,6 @@ public class Activity_ProductOverview extends AppCompatActivity {
     }
 
     private void initViews() {
-        poDialogx = new Dialog_SingleButton(Activity_ProductOverview.this);
         toolbar = findViewById(R.id.toolbar);
         poItmSpec = findViewById(R.id.layout_specifications);
 
@@ -350,7 +346,6 @@ public class Activity_ProductOverview extends AppCompatActivity {
 
                 } catch (NullPointerException e) {
                     e.printStackTrace();
-                    finish();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -382,7 +377,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
                     Adapter_ProductList loAdapter = new Adapter_ProductList(products, listingId -> {
                         Intent loIntent = new Intent(Activity_ProductOverview.this
                                 , Activity_ProductOverview.class);
-                        loIntent.putExtra("sListingId", listingId);
+                        loIntent.putExtra("sListngId", listingId);
                         startActivity(loIntent);
                         finish();
                     });

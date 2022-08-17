@@ -19,7 +19,6 @@ import org.rmj.appdriver.base.GConnection;
 import org.rmj.appdriver.base.GProperty;
 import org.rmj.appdriver.crypt.GCryptFactory;
 import org.rmj.appdriver.iface.iGCrypt;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 
 import java.io.InputStream;
 
@@ -59,6 +58,4 @@ public class DbConnection {
             return null;
         }
     }
-
-
 }

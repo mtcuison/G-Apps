@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/GuanzonMarketplace.Theme"
     tools:context=".Activity.Activity_ProductQueries">
 
     <androidx.core.widget.NestedScrollView
@@ -96,12 +97,97 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTabBtns"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_HLQuestion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"/>
+                app:cardCornerRadius="10dp"
+                android:visibility="gone"
+                android:layout_marginVertical="7dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="15dp"
+                    android:layout_marginHorizontal="15dp">
+
+                    <TextView
+                        android:id="@+id/txt_highlight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/lblHigligth"
+                        android:textColor="@color/font_regular"
+                        android:textSize="14sp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/txt_client_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/font_regular"
+                        android:textSize="14sp"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_highlight"/>
+
+                    <TextView
+                        android:id="@+id/txt_date_asked"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/font_light"
+                        android:textSize="14sp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_client_name"/>
+
+                    <TextView
+                        android:id="@+id/txt_query"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:lines="2"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/font_light"
+                        android:textSize="14sp"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@id/txt_date_asked"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/lblResponse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="@string/lblSellerResp"
+                        android:textColor="@color/font_regular"
+                        android:textSize="14sp"
+                        android:layout_marginTop="18dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_query"/>
+
+                    <TextView
+                        android:id="@+id/txt_response"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:lines="2"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/font_light"
+                        android:textSize="14sp"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@id/lblResponse"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvQueries"
@@ -125,22 +211,48 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <TextView
-        android:id="@+id/btnAskQst"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:fontFamily="@font/roboto"
-        android:text="@string/lblAskQuestion"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:background="@color/guanzon_digital_orange"
+        android:orientation="horizontal"
         android:gravity="center"
         android:padding="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_question"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.7"
+            android:hint="@string/hintProductInquiry"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblAccountUpdate"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="50"
+                android:inputType="textCapWords"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/tie_firstname" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/btn_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_baseline_send_24"
+            android:layout_weight=".3" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

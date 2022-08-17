@@ -15,7 +15,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.SecUtil;
 import org.rmj.g3appdriver.etc.Telephony;
@@ -51,7 +50,7 @@ public class HttpHeaders {
         String lsClientx = poAccount.getClientID();
         String lsLogNoxx = "";
         String lsTokenxx = poConfigx.getAppToken();
-        String lsProduct = "GuanzonApp";
+        String lsProduct = poConfigx.getProductID();
         String lsDevcIDx = poTlphony.getDeviceID();
         String lsDateTme = SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss");
         String lsDevcMdl = Build.MODEL;

@@ -74,6 +74,7 @@ public interface DItemCart {
             "a.cCheckOut AS cCheckOut, " +
             "b.xModelNme AS xModelNme, " +
             "b.xDescript AS xDescript," +
+            "b.sImagesxx," +
             "b.nUnitPrce AS nUnitPrce " +
             "FROM MarketPlace_Cart a " +
             "LEFT JOIN Product_Inventory b " +
@@ -87,6 +88,7 @@ public interface DItemCart {
             "a.nQuantity AS nQuantity, " +
             "b.xModelNme AS xModelNme, " +
             "b.xDescript AS xDescript," +
+            "b.sImagesxx," +
             "b.nUnitPrce AS nUnitPrce " +
             "FROM MarketPlace_Cart a " +
             "LEFT JOIN Product_Inventory b " +
@@ -101,6 +103,7 @@ public interface DItemCart {
             "a.cCheckOut AS cCheckOut, " +
             "b.xModelNme AS xModelNme, " +
             "b.xDescript AS xDescript," +
+            "b.sImagesxx," +
             "b.nUnitPrce AS nUnitPrce " +
             "FROM MarketPlace_Cart a " +
             "LEFT JOIN Product_Inventory b " +
@@ -110,11 +113,12 @@ public interface DItemCart {
             "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<List<oMarketplaceCartItem>> GetItemsForCheckOut();
 
-    public class oMarketplaceCartItem{
+    class oMarketplaceCartItem{
         public String sListIDxx;
         public String nQuantity;
         public String xModelNme;
         public String xDescript;
+        public String sImagesxx;
         public String nUnitPrce;
         public String cCheckOut;
     }

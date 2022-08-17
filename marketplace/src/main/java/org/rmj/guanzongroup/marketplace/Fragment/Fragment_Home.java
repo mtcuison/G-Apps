@@ -102,7 +102,7 @@ public class Fragment_Home extends Fragment {
                 if(products.size() > 0) {
                     poAdapter = new Adapter_ProductList(products, listingId -> {
                         Intent loIntent = new Intent(requireActivity(), Activity_ProductOverview.class);
-                        loIntent.putExtra("sListingId", listingId);
+                        loIntent.putExtra("sListngId", listingId);
                         startActivity(loIntent);
                     });
                     poRvProds.setAdapter(poAdapter);

@@ -27,6 +27,7 @@ import org.rmj.guanzongroup.useraccount.ViewModel.VMShippingAddress;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Activity_AddressUpdate extends AppCompatActivity {
 
@@ -55,7 +56,7 @@ public class Activity_AddressUpdate extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Address Update");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         lblType = findViewById(R.id.lblEditAddress);
         tieHouseNo = findViewById(R.id.tie_houseNo);
         tieAddress = findViewById(R.id.tie_street);

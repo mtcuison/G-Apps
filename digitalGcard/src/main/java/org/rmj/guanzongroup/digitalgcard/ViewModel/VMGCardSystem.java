@@ -4,6 +4,7 @@ import static org.rmj.g3appdriver.utils.CallbackJson.CallbackStatus.FAILED;
 import static org.rmj.g3appdriver.utils.CallbackJson.CallbackStatus.SUCCESS;
 import static org.rmj.g3appdriver.utils.CallbackJson.parse;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -1232,6 +1233,42 @@ public class VMGCardSystem extends AndroidViewModel {
             loCallBck.onSuccess(branchInfos);
         }
     }
+
+    public void ViewGCardQrCode(OnViewGCardQrCode callback){
+        new CreateGCardQrCodeTask(callback).execute();
+    }
+
+    public interface OnViewGCardQrCode{
+        void OnView(Bitmap foVal);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class CreateGCardQrCodeTask extends AsyncTask<String, Void, Bitmap>{
+        private final OnViewGCardQrCode callback;
+
+        public CreateGCardQrCodeTask(OnViewGCardQrCode callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            try {
+                mGcardSys = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
+                return mGcardSys.GenerateGCardQrCode();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap s) {
+//            callback.OnView(s);
+            super.onPostExecute(s);
+            callback.OnView(s);
+        }
+    }
+
 
     public interface GetBranchCallback {
         void onSuccess(List<EBranchInfo> branchInfos);

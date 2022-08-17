@@ -63,7 +63,7 @@ public class Activity_ProductList extends AppCompatActivity {
                             lblNoItem.setVisibility(View.GONE);
                             poAdapter = new Adapter_ProductList(oProducts, listingId -> {
                                 Intent loIntent = new Intent(Activity_ProductList.this, Activity_ProductOverview.class);
-                                loIntent.putExtra("sListingId", listingId);
+                                loIntent.putExtra("sListngId", listingId);
                                 startActivity(loIntent);
                             });
                             recyclerView.setAdapter(poAdapter);
@@ -109,7 +109,7 @@ public class Activity_ProductList extends AppCompatActivity {
                         lblNoItem.setVisibility(View.GONE);
                         poAdapter = new Adapter_ProductList(oProducts, listingId -> {
                             Intent loIntent = new Intent(Activity_ProductList.this, Activity_ProductOverview.class);
-                            loIntent.putExtra("sListingId", listingId);
+                            loIntent.putExtra("sListngId", listingId);
                             startActivity(loIntent);
                         });
                         recyclerView.setAdapter(poAdapter);
