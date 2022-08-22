@@ -102,6 +102,7 @@
     <string name="lblRateProduct">Rate this Product</string>
     <string name="lblAddShipping">Add Shipping Address</string>
     <string name="lblSave">Save</string>
+    <string name="lblApplyLoan">Apply Loan</string>
     <string name="lblTakePicture">Take Picture</string>
     <string name="lblSelectPhoto">Select Photo</string>
     <string name="lblUpdate">Update</string>
@@ -128,6 +129,24 @@
     <string name="lblSubmitVerify">Submit for Verification</string>
     <string name="lblSkipProcess">Skip For Now</string>
     <string name="lblVerifyAccount">Verify Account Request</string>
+
+    <string name="lblDownpayment">Downpayment</string>
+    <string name="lblLoanTermSelection">Loan Term Selection</string>
+    <string name="lblMonthlyPayment">Monthly Payment</string>
+    <string name="lblPriceOfUnit">Price Of Unit</string>
+    <string name="lblDiscount">Discount</string>
+
+    <string name="lblEmployeeStatus">Employee Status</string>
+    <string name="lblEmployed">Employed</string>
+    <string name="lblSelfEmployed">Self Employed</string>
+    <string name="lblOFW">OFW</string>
+    <string name="lblIndustry">Industry</string>
+    <string name="lblJobTitle">Job Title</string>
+    <string name="lblEstimateIncome">Estimate Income</string>
+
+    <string name="lblOtherIncome">Other Income</string>
+    <string name="lblBankName">Bank Name</string>
+    <string name="lblTypeofAccount">Type of Account</string>
 
     <string name="lblInfoPassword">Please provide a password for your account.</string>
     <string name="lblCompleteInfo">Please provide the complete details.</string>

@@ -4,6 +4,18 @@
 
     <application>
         <activity
+            android:name=".Activities.Activity_LoanPreview"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_OtherInfo"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_MeansInfo"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_IntroductoryQuestion"
+            android:exported="false" />
+        <activity
             android:name=".Activity_ProductList"
             android:exported="false" />
     </application>
