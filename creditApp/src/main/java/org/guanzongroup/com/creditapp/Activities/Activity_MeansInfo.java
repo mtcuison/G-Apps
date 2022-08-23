@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -38,23 +39,29 @@ public class Activity_MeansInfo extends AppCompatActivity {
 
     private void goToNextpage() {
 
-        try {
-            Intent receiveIntent = getIntent();
-            String param = receiveIntent.getStringExtra("params");
-            JSONObject params = new JSONObject(param);
-            params.put("sTypeOfEmployment", (TypeOfEmployee));
-            params.put("sIndustry", (txt_Industry.getText().toString()));
-            params.put("sJobTitle", (txt_JobTitle.getText().toString()));
-            params.put("sEstimatedIncome", (txt_EstimatedIncome.getText().toString()));
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent receiveIntent = getIntent();
+                    String param = receiveIntent.getStringExtra("params");
+                    JSONObject params = new JSONObject(param);
+                    params.put("sTypeOfEmployment", (TypeOfEmployee));
+                    params.put("sIndustry", (txt_Industry.getText().toString()));
+                    params.put("sJobTitle", (txt_JobTitle.getText().toString()));
+                    params.put("sEstimatedIncome", (txt_EstimatedIncome.getText().toString()));
 
-            Intent loIntent = new Intent(Activity_MeansInfo.this, Activity_OtherInfo.class);
+                    Intent loIntent = new Intent(Activity_MeansInfo.this, Activity_OtherInfo.class);
 
-            loIntent.putExtra("params", params.toString());
-            startActivity(loIntent);
+                    loIntent.putExtra("params", params.toString());
+                    startActivity(loIntent);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     private void rg_EmployeeStats() {

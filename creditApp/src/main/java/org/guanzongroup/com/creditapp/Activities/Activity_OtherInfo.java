@@ -4,9 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -32,8 +32,6 @@ public class Activity_OtherInfo extends AppCompatActivity {
         bankName();
         goToNextPage();
 
-
-
     }
 
     private void bankName() {
@@ -42,24 +40,31 @@ public class Activity_OtherInfo extends AppCompatActivity {
 
     private void goToNextPage() {
 
-        try {
-            Intent receiveIntent = getIntent();
-            String param = receiveIntent.getStringExtra("params");
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            JSONObject params = new JSONObject(param);
-            params.put("sBankName", (txt_BankName.getText().toString()));
-            params.put("sEstimatedIncome2", (txt_EstimatedIncome.getText().toString()));
-            params.put("sOtherIncome", (txt_OtherIncome.getText().toString()));
-            params.put("sTypeOfAccount", (txt_TypeOfAccount.getText().toString()));
+                try {
+                    Intent receiveIntent = getIntent();
+                    String param = receiveIntent.getStringExtra("params");
 
-            Intent loIntent = new Intent(Activity_OtherInfo.this, Activity_LoanPreview.class);
+                    JSONObject params = new JSONObject(param);
+                    params.put("sBankName", (txt_BankName.getText().toString()));
+                    params.put("sEstimatedIncome2", (txt_EstimatedIncome.getText().toString()));
+                    params.put("sOtherIncome", (txt_OtherIncome.getText().toString()));
+                    params.put("sTypeOfAccount", (txt_TypeOfAccount.getText().toString()));
 
-            loIntent.putExtra("params", params.toString());
-            startActivity(loIntent);
+                    Intent loIntent = new Intent(Activity_OtherInfo.this, Activity_LoanPreview.class);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                    loIntent.putExtra("params", params.toString());
+                    startActivity(loIntent);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     private void initViews() {
