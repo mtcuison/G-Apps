@@ -36,8 +36,6 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
         LoanTermSelection();
         goToNextPage();
 
-
-
     }
 
     private void goToNextPage() {
@@ -61,8 +59,6 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
             }
         });
 
