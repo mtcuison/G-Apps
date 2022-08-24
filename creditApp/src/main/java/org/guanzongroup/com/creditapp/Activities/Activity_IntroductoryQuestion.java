@@ -1,15 +1,14 @@
 package org.guanzongroup.com.creditapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -18,6 +17,7 @@ import org.guanzongroup.com.creditapp.R;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Activity_IntroductoryQuestion extends AppCompatActivity {
 
@@ -27,41 +27,45 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
 
     private MaterialButton btnNext;
 
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_introductory_question);
 
         initViews();
+        setUpToolbar();
         LoanTermSelection();
         goToNextPage();
-
     }
 
     private void goToNextPage() {
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                try {
-                    JSONObject params = new JSONObject();
-                    params.put("sDownPayment", (txt_DownPayment.getText().toString()));
-                    params.put("sLTSelection", (txt_LoanTermSelection.getText().toString()));
-                    params.put("sPriceOfUnit", (txt_PriceOfUnit.getText().toString()));
-                    params.put("sMonthlyPayment", (txt_MonthlyPayment.getText().toString()));
-                    params.put("sDiscount", (txt_Discount.getText().toString()));
+            btnNext.setOnClickListener(v -> {
 
-                    Intent loIntent = new Intent(Activity_IntroductoryQuestion.this, Activity_MeansInfo.class);
-                    loIntent.putExtra("params", params.toString());
+                if (validateData()) {
+                    Toast.makeText(Activity_IntroductoryQuestion.this, "Proceeding to next Page ", Toast.LENGTH_SHORT).show();
 
-                    startActivity(loIntent);
+                    try {
+                        JSONObject params = new JSONObject();
+                        params.put("sDownPayment", (Objects.requireNonNull(txt_DownPayment.getText()).toString()));
+                        params.put("sLTSelection", (txt_LoanTermSelection.getText().toString()));
+                        params.put("sPriceOfUnit", (Objects.requireNonNull(txt_PriceOfUnit.getText()).toString()));
+                        params.put("sMonthlyPayment", (Objects.requireNonNull(txt_MonthlyPayment.getText()).toString()));
+                        params.put("sDiscount", (Objects.requireNonNull(txt_Discount.getText()).toString()));
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        Intent loIntent = new Intent(Activity_IntroductoryQuestion.this, Activity_MeansInfo.class);
+                        loIntent.putExtra("params", params.toString());
+
+                        startActivity(loIntent);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
-            }
-        });
-
+            });
     }
 
     private void LoanTermSelection() {
@@ -88,6 +92,26 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
         txt_MonthlyPayment = findViewById(R.id.tie_MonthlyPayment);
         txt_Discount = findViewById(R.id.tie_Discount);
 
+        toolbar = findViewById(R.id.toolbar);
+
         btnNext = findViewById(R.id.btnNext);
+    }
+
+    private boolean validateData() {
+
+        if (Objects.requireNonNull(txt_DownPayment.getText()).toString().equals("")) {
+            Toast.makeText(this, "Please Enter Down Payment Amount", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (txt_LoanTermSelection.getText().toString().equals("")){
+            Toast.makeText(this, "Please Select Loan Terms", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void setUpToolbar() {
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Loan Application Info");
     }
 }

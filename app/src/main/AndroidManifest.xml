@@ -47,7 +47,7 @@
             android:exported="false"
             android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
-            android:name=".Activity.Activity_SplashScreen"
+            android:name="org.guanzongroup.com.creditapp.Activities.Activity_IntroductoryQuestion"
             android:screenOrientation="userPortrait"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -72,7 +72,7 @@
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider{421750648719700}"
-            android:exported="false" />
+            android:exported="false"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

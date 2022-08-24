@@ -1,6 +1,7 @@
 package org.guanzongroup.com.creditapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -13,12 +14,16 @@ import org.guanzongroup.com.creditapp.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 public class Activity_LoanPreview extends AppCompatActivity {
 
     private TextView lbl_DownPayment, lbl_LoanTermSelection, lbl_MonthlyPayment, lbl_PriceOfUnit,
             lbl_Discount, lbl_TypeOfEmployment, lbl_Industry, lbl_JobTitle, lbl_EstimatedIncome1,
             lbl_OtherIncome, lbl_EstimatedIncome2, lbl_BankName, lbl_TypeOfAccount;
     private MaterialButton btnApplyLoan;
+    private TextView txt_industry;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +31,11 @@ public class Activity_LoanPreview extends AppCompatActivity {
         setContentView(R.layout.activity_loan_preview);
 
         initViews();
+        setUpToolbar();
         receiveIntent();
 
     }
+
     @SuppressLint("SetTextI18n")
     private void receiveIntent() {
 
@@ -61,7 +68,13 @@ public class Activity_LoanPreview extends AppCompatActivity {
                 lbl_Discount.setText(Discount);
 
                 lbl_TypeOfEmployment.setText(TypeOfEmployment);
-                lbl_Industry.setText(Industry);
+
+                if (lbl_TypeOfEmployment.getText().toString().equalsIgnoreCase("OFW")){
+                    lbl_Industry.setVisibility(TextView.GONE);
+                    txt_industry.setVisibility(TextView.GONE);
+                }else {
+                    lbl_Industry.setText(Industry);
+                }
                 lbl_JobTitle.setText(JobTitle);
                 lbl_EstimatedIncome1.setText(EstimatedIncome);
 
@@ -70,11 +83,9 @@ public class Activity_LoanPreview extends AppCompatActivity {
                 lbl_BankName.setText(BankName);
                 lbl_TypeOfAccount.setText(TypeOfAccount);
 
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
     }
 
     private void initViews() {
@@ -92,6 +103,16 @@ public class Activity_LoanPreview extends AppCompatActivity {
         lbl_BankName = findViewById(R.id.lbl_BankName);
         lbl_TypeOfAccount = findViewById(R.id.lbl_TypeOfAccount);
 
+        txt_industry = findViewById(R.id.txt7);
+
+        toolbar = findViewById(R.id.toolbar);
+
         btnApplyLoan = findViewById(R.id.btnApplyLoan);
+    }
+
+    private void setUpToolbar() {
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Loan Preview");
     }
 }

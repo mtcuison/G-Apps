@@ -1,5 +1,6 @@
 package org.guanzongroup.com.creditapp;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.util.Log;
@@ -74,7 +75,7 @@ public class TestCreditAppObj {
         boolean isSuccess = poApp.isDataValid();
         Log.d(TAG, poApp.getData());
 
-        assertTrue(isSuccess);
+        assertFalse(isSuccess);
     }
 
     @Test
@@ -111,6 +112,6 @@ public class TestCreditAppObj {
         boolean isSuccess = poApp.isDataValid();
         Log.d(TAG, poApp.getData());
 
-        assertTrue(isSuccess);
+        assertFalse(isSuccess);
     }
 }
