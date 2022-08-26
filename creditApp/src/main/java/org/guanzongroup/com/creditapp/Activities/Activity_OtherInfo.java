@@ -1,10 +1,12 @@
 package org.guanzongroup.com.creditapp.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
@@ -23,6 +25,8 @@ public class Activity_OtherInfo extends AppCompatActivity {
     private AutoCompleteTextView txt_BankName , txt_TypeOfAccount;
     private MaterialButton btnNext;
     private Toolbar toolbar;
+    private String a,b,c,d,e,f,g,h,i;
+
 
     String [] Bank = new String[] {"BDO", "Union Bank", "Security", "DBP", "UCPB"};
 
@@ -32,13 +36,87 @@ public class Activity_OtherInfo extends AppCompatActivity {
         setContentView(R.layout.activity_other_info);
 
         initViews();
+        receiveIntent();
         bankName();
         goToNextPage();
         setUpToolbar();
     }
 
-    private void bankName() {
-        txt_BankName.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this, android.R.layout.simple_list_item_1, Bank));
+    private void receiveIntent() {
+
+        Intent receiveIntent = getIntent();
+        Bundle bundle = receiveIntent.getBundleExtra("bundle");
+
+        String OthInc = bundle.getString("OtherIncomex");
+        String EstInc = bundle.getString("EstimatedIncomex");
+        String BnkName= bundle.getString("BankNamex");
+        String TypeofAcc = bundle.getString("TypeOfAccountx");
+
+        txt_OtherIncome.setText(OthInc);
+        txt_EstimatedIncome.setText(EstInc);
+        txt_BankName.setText(BnkName);
+        txt_TypeOfAccount.setText(TypeofAcc);
+
+        try {
+            String param = receiveIntent.getStringExtra("params");
+            JSONObject obj = new JSONObject(param);
+
+            String DownPayment = obj.getString("sDownPayment");
+            String LoanTermSelection = obj.getString("sLTSelection");
+            String MonthlyPayment = obj.getString("sPriceOfUnit");
+            String PriceOfUnit = obj.getString("sMonthlyPayment");
+            String Discount = obj.getString("sDiscount");
+
+            String TypeOfEmployment = obj.getString("sTypeOfEmployment");
+            String Industry = obj.getString("sIndustry");
+            String JobTitle = obj.getString("sJobTitle");
+            String EstimatedIncome = obj.getString("sEstimatedIncome");
+
+            a = DownPayment;
+            b = LoanTermSelection;
+            c = MonthlyPayment;
+            d = PriceOfUnit;
+            e = Discount;
+            f = TypeOfEmployment;
+            g = Industry;
+            h = JobTitle;
+            i = EstimatedIncome;
+
+        } catch (Exception ee) {
+            ee.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+
+            Intent returnIntent = new Intent(Activity_OtherInfo.this ,
+                    Activity_MeansInfo.class);
+            Bundle bundle = new Bundle();
+
+            bundle.putString("xOtherAccount", txt_OtherIncome.getText().toString().trim());
+            bundle.putString("xEstimatedIncome1", txt_EstimatedIncome.getText().toString().trim());
+            bundle.putString("xBankName", txt_BankName.getText().toString().trim());
+            bundle.putString("xTypeOfAccount", txt_TypeOfAccount.getText().toString().trim());
+
+            bundle.putString("xDownPayment", a);
+            bundle.putString("xLTSelection", b);
+            bundle.putString("xPriceOfUnit", c);
+            bundle.putString("xMonthlyPayment", d);
+            bundle.putString("xDiscount", e);
+
+            bundle.putString("xEmployment", f);
+            bundle.putString("xIndustry", g);
+            bundle.putString("xEstimatedIncome", h);
+            bundle.putString("xJobTitle", i);
+
+            returnIntent.putExtra("bundle",bundle);
+            startActivity(returnIntent);
+
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void goToNextPage() {
@@ -68,6 +146,10 @@ public class Activity_OtherInfo extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void bankName() {
+        txt_BankName.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this, android.R.layout.simple_list_item_1, Bank));
     }
 
     private void initViews() {

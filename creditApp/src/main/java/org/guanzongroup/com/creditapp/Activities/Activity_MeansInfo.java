@@ -7,8 +7,10 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +31,7 @@ public class Activity_MeansInfo extends AppCompatActivity {
     private MaterialButton btnNext;
     private TextView lblInd;
     private Toolbar toolbar;
-    String TypeOfEmployee = "";
+    private String TypeOfEmployee, aa, bb, cc, dd, ee, w, x, y, z;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +39,96 @@ public class Activity_MeansInfo extends AppCompatActivity {
         setContentView(R.layout.activity_means_info);
 
         initViews();
+        receiveIntent();
         setUpToolbar();
         rg_EmployeeStats();
         goToNextPage();
+    }
 
+    private void receiveIntent() {
 
+        Intent receiveIntent = getIntent();
+        Bundle bundle = receiveIntent.getBundleExtra("bundle");
+
+        String emp = bundle.getString("xEmployment");
+        String ind = bundle.getString("xIndustry");
+        String est = bundle.getString("xEstimatedIncome");
+        String job = bundle.getString("xJobTitle");
+
+        String OthInc = bundle.getString("xOtherAccount");
+        String EstInc = bundle.getString("xEstimatedIncome1");
+        String BnkName = bundle.getString("xBankName");
+        String TypeofAcc = bundle.getString("xTypeOfAccount");
+
+        w = OthInc;
+        x = EstInc;
+        y = BnkName;
+        z = TypeofAcc;
+
+        TypeOfEmployee = emp;
+        if ("OFW".equalsIgnoreCase(TypeOfEmployee)) {
+            rg_EmployeeStatus.check(R.id.rb_OFW);
+            txt_Industry.setVisibility(TextInputEditText.GONE);
+            lblInd.setVisibility(TextView.GONE);
+        } else if ("Employed".equalsIgnoreCase(TypeOfEmployee)) {
+            rg_EmployeeStatus.check(R.id.rb_Employed);
+        } else if ("Self Employed".equalsIgnoreCase(TypeOfEmployee)) {
+            rg_EmployeeStatus.check(R.id.rb_SelfEmployed);
+        }
+        txt_Industry.setText(ind);
+        txt_JobTitle.setText(job);
+        txt_EstimatedIncome.setText(est);
+
+        try {
+            String param = receiveIntent.getStringExtra("params");
+            JSONObject obj = new JSONObject(param);
+
+            String DownPayment = obj.getString("sDownPayment");
+            String LoanTermSelection = obj.getString("sLTSelection");
+            String MonthlyPayment = obj.getString("sPriceOfUnit");
+            String PriceOfUnit = obj.getString("sMonthlyPayment");
+            String Discount = obj.getString("sDiscount");
+
+            aa = DownPayment;
+            bb = LoanTermSelection;
+            cc = MonthlyPayment;
+            dd = PriceOfUnit;
+            ee = Discount;
+
+        } catch (Exception ee) {
+            ee.printStackTrace();
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
 
-            finish();
+            Intent returnIntent = new Intent(Activity_MeansInfo.this,
+                    Activity_IntroductoryQuestion.class);
+
+            Bundle bundle = new Bundle();
+
+            bundle.putString("xDownPayment", aa);
+            bundle.putString("xLTSelection", bb);
+            bundle.putString("xPriceOfUnit", cc);
+            bundle.putString("xMonthlyPayment", dd);
+            bundle.putString("xDiscount", ee);
+
+            bundle.putString("xEmployment", TypeOfEmployee);
+            bundle.putString("xIndustry", txt_Industry.getText().toString().trim());
+            bundle.putString("xEstimatedIncome", txt_EstimatedIncome.getText().toString().trim());
+            bundle.putString("xJobTitle", txt_JobTitle.getText().toString().trim());
+
+            bundle.putString("xOtherIncome", w);
+            bundle.putString("xEstimatedIncome1", x);
+            bundle.putString("xBankName", y);
+            bundle.putString("xTypeOfAccount", z);
+
+            returnIntent.putExtra("bundle", bundle);
+            startActivity(returnIntent);
+
+            this.finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -56,16 +136,40 @@ public class Activity_MeansInfo extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        finish();
+        Intent returnIntent = new Intent(Activity_MeansInfo.this,
+                Activity_IntroductoryQuestion.class);
+
+        Bundle bundle = new Bundle();
+
+        bundle.putString("xDownPayment", aa);
+        bundle.putString("xLTSelection", bb);
+        bundle.putString("xPriceOfUnit", cc);
+        bundle.putString("xMonthlyPayment", dd);
+        bundle.putString("xDiscount", ee);
+
+        bundle.putString("xEmployment", TypeOfEmployee);
+        bundle.putString("xIndustry", txt_Industry.getText().toString().trim());
+        bundle.putString("xEstimatedIncome", txt_EstimatedIncome.getText().toString().trim());
+        bundle.putString("xJobTitle", txt_JobTitle.getText().toString().trim());
+
+        bundle.putString("xOtherIncome", w);
+        bundle.putString("xEstimatedIncome1", x);
+        bundle.putString("xBankName", y);
+        bundle.putString("xTypeOfAccount", z);
+
+        returnIntent.putExtra("bundle", bundle);
+        startActivity(returnIntent);
+
+        this.finish();
+
+        this.finish();
     }
 
     private void goToNextPage() {
 
         btnNext.setOnClickListener(v -> {
-
             if (validateData()) {
                 Toast.makeText(Activity_MeansInfo.this, "Proceeding to the next page", Toast.LENGTH_SHORT).show();
-
                 try {
                     Intent receiveIntent = getIntent();
                     String param = receiveIntent.getStringExtra("params");
@@ -78,15 +182,29 @@ public class Activity_MeansInfo extends AppCompatActivity {
                     Intent loIntent = new Intent(Activity_MeansInfo.this, Activity_OtherInfo.class);
 
                     loIntent.putExtra("params", params.toString());
-                    startActivity(loIntent);
 
+                    Bundle bundle = new Bundle();
+                    bundle.putString("xDownPayment", aa);
+                    bundle.putString("xLTSelection", bb);
+                    bundle.putString("xPriceOfUnit", cc);
+                    bundle.putString("xMonthlyPayment", dd);
+                    bundle.putString("xDiscount", ee);
+
+                    bundle.putString("OtherIncomex", w);
+                    bundle.putString("EstimatedIncomex", x);
+                    bundle.putString("BankNamex", y);
+                    bundle.putString("TypeOfAccountx", z);
+
+                    loIntent.putExtra("bundle", bundle);
+
+
+                    startActivity(loIntent);
+                    this.finish();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
         });
-
     }
 
     private boolean validateData() {
@@ -141,7 +259,6 @@ public class Activity_MeansInfo extends AppCompatActivity {
                 Toast.makeText(Activity_MeansInfo.this, "Invalid Input",
                         Toast.LENGTH_SHORT).show();
             }
-
         });
     }
 

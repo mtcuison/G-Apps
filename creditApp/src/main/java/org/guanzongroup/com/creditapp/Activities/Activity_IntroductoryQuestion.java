@@ -1,11 +1,12 @@
 package org.guanzongroup.com.creditapp.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
@@ -24,20 +25,76 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
     private TextInputEditText txt_DownPayment,
             txt_MonthlyPayment, txt_PriceOfUnit, txt_Discount;
     private AutoCompleteTextView txt_LoanTermSelection;
-
     private MaterialButton btnNext;
-
     private Toolbar toolbar;
+    private JSONObject params;
+    private String a,b,c,d,w,x,y,z;
+    private String param;
+    private Bundle bundle, bundlex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_introductory_question);
 
+        Bundle bundle = new Bundle();
+
         initViews();
+        receiveIntent();
         setUpToolbar();
         LoanTermSelection();
         goToNextPage();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home){
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+       this.finish();
+    }
+
+    private void receiveIntent() {
+
+        try {
+            Intent intent = getIntent();
+            bundle = intent.getBundleExtra("bundle");
+            bundlex = new Bundle(bundle);
+
+            String emp = bundlex.getString("xEmployment");
+            String ind = bundlex.getString("xIndustry");
+            String est = bundlex.getString("xEstimatedIncome");
+            String job = bundlex.getString("xJobTitle");
+
+            String down = bundlex.getString("xDownPayment");
+            String loan = bundlex.getString("xLTSelection");
+            String price = bundlex.getString("xPriceOfUnit");
+            String MonPay = bundlex.getString("xMonthlyPayment");
+            String Dis = bundlex.getString("xDiscount");
+
+            String OthInc = bundlex.getString("xOtherAccount");
+            String EstInc = bundlex.getString("xEstimatedIncome1");
+            String BnkName = bundlex.getString("xBankName");
+            String TypeofAcc = bundlex.getString("xTypeOfAccount");
+
+            w = emp; x = ind; y = est; z = job;
+
+            a = OthInc;  b = EstInc;  c = BnkName;  d = TypeofAcc;
+
+            txt_DownPayment.setText(down);
+            txt_LoanTermSelection.setText(loan);
+            txt_PriceOfUnit.setText(price);
+            txt_MonthlyPayment.setText(MonPay);
+            txt_Discount.setText(Dis);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void goToNextPage() {
@@ -48,6 +105,8 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                     Toast.makeText(Activity_IntroductoryQuestion.this, "Proceeding to next Page ", Toast.LENGTH_SHORT).show();
 
                     try {
+                        Intent receiveIntent = getIntent();
+                        param = receiveIntent.getStringExtra("params");
                         JSONObject params = new JSONObject();
                         params.put("sDownPayment", (Objects.requireNonNull(txt_DownPayment.getText()).toString()));
                         params.put("sLTSelection", (txt_LoanTermSelection.getText().toString()));
@@ -58,12 +117,24 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                         Intent loIntent = new Intent(Activity_IntroductoryQuestion.this, Activity_MeansInfo.class);
                         loIntent.putExtra("params", params.toString());
 
-                        startActivity(loIntent);
+                        Bundle meansInfo = new Bundle();
+                            meansInfo.putString("xEmployment", w);
+                            meansInfo.putString("xIndustry", x);
+                            meansInfo.putString("xEstimatedIncome", y);
+                            meansInfo.putString("xJobTitle", z);
 
+                            meansInfo.putString("xOtherAccount",a);
+                            meansInfo.putString("xEstimatedIncome1", b );
+                            meansInfo.putString("xBankName", c );
+                            meansInfo.putString("xTypeOfAccount", d );
+
+                        loIntent.putExtra("bundle", meansInfo);
+
+                        startActivity(loIntent);
+                        this.finish();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
             });
     }
