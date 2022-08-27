@@ -31,6 +31,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         setContentView(R.layout.activity_splash_screen);
         splashScreen.setKeepOnScreenCondition(() -> true );
+
         if (!isMyServiceRunning(GMessagingService.class)) {
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
         }

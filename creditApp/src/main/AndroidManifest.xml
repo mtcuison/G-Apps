@@ -5,19 +5,19 @@
     <application>
         <activity
             android:name=".Activities.Activity_LoanPreview"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".Activities.Activity_OtherInfo"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".Activities.Activity_MeansInfo"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".Activities.Activity_IntroductoryQuestion"
             android:exported="true" />
         <activity
             android:name=".Activity_ProductList"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 
 </manifest>

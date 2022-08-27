@@ -1,12 +1,15 @@
 package org.guanzongroup.com.creditapp.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -34,58 +37,144 @@ public class Activity_LoanPreview extends AppCompatActivity {
         setUpToolbar();
         receiveIntent();
 
+        btnApplyLoan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     @SuppressLint("SetTextI18n")
     private void receiveIntent() {
+        try {
+            Intent receiveIntent = getIntent();
+            String param = receiveIntent.getStringExtra("params");
 
+            JSONObject obj = new JSONObject(param);
+
+            String DownPayment = obj.getString("sDownPayment");
+            String LoanTermSelection = obj.getString("sLTSelection");
+            String MonthlyPayment = obj.getString("sPriceOfUnit");
+            String PriceOfUnit = obj.getString("sMonthlyPayment");
+            String Discount = obj.getString("sDiscount");
+
+            String TypeOfEmployment = obj.getString("sTypeOfEmployment");
+            String Industry = obj.getString("sIndustry");
+            String JobTitle = obj.getString("sJobTitle");
+            String EstimatedIncome = obj.getString("sEstimatedIncome");
+
+            String OtherIncome = obj.getString("sOtherIncome");
+            String EstimatedIncome2 = obj.getString("sEstimatedIncome2");
+            String BankName = obj.getString("sBankName");
+            String TypeOfAccount = obj.getString("sTypeOfAccount");
+
+            lbl_DownPayment.setText(DownPayment);
+            lbl_LoanTermSelection.setText(LoanTermSelection);
+            lbl_MonthlyPayment.setText(MonthlyPayment);
+            lbl_PriceOfUnit.setText(PriceOfUnit);
+            lbl_Discount.setText(Discount);
+
+            lbl_TypeOfEmployment.setText(TypeOfEmployment);
+
+            if (lbl_TypeOfEmployment.getText().toString().equalsIgnoreCase("OFW")) {
+                lbl_Industry.setVisibility(TextView.GONE);
+                txt_industry.setVisibility(TextView.GONE);
+            } else {
+                lbl_Industry.setText(Industry);
+            }
+            lbl_JobTitle.setText(JobTitle);
+            lbl_EstimatedIncome1.setText(EstimatedIncome);
+
+            lbl_OtherIncome.setText(OtherIncome);
+            lbl_EstimatedIncome2.setText(EstimatedIncome2);
+            lbl_BankName.setText(BankName);
+            lbl_TypeOfAccount.setText(TypeOfAccount);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
             try {
                 Intent receiveIntent = getIntent();
                 String param = receiveIntent.getStringExtra("params");
+                JSONObject params = new JSONObject(param);
 
-                JSONObject obj = new JSONObject(param);
+                Intent returnIntent = new Intent(Activity_LoanPreview.this,
+                        Activity_OtherInfo.class);
+                Bundle bundle = new Bundle();
 
-                String DownPayment = obj.getString("sDownPayment");
-                String LoanTermSelection = obj.getString("sLTSelection");
-                String MonthlyPayment = obj.getString("sPriceOfUnit");
-                String PriceOfUnit = obj.getString("sMonthlyPayment");
-                String Discount = obj.getString("sDiscount");
+                bundle.putString("xDownPayment", lbl_DownPayment.getText().toString());
+                bundle.putString("xLTSelection", lbl_LoanTermSelection.getText().toString());
+                bundle.putString("xPriceOfUnit", lbl_MonthlyPayment.getText().toString());
+                bundle.putString("xMonthlyPayment", lbl_PriceOfUnit.getText().toString());
+                bundle.putString("xDiscount", lbl_Discount.getText().toString());
 
-                String TypeOfEmployment = obj.getString("sTypeOfEmployment");
-                String Industry = obj.getString("sIndustry");
-                String JobTitle = obj.getString("sJobTitle");
-                String EstimatedIncome = obj.getString("sEstimatedIncome");
+                bundle.putString("xEmployment", lbl_TypeOfEmployment.getText().toString());
+                bundle.putString("xIndustry", lbl_Industry.getText().toString());
+                bundle.putString("xEstimatedIncome", lbl_JobTitle.getText().toString());
+                bundle.putString("xJobTitle", lbl_EstimatedIncome1.getText().toString());
 
-                String OtherIncome = obj.getString("sOtherIncome");
-                String EstimatedIncome2 = obj.getString("sEstimatedIncome2");
-                String BankName = obj.getString("sBankName");
-                String TypeOfAccount = obj.getString("sTypeOfAccount");
+                bundle.putString("xOtherIncome", lbl_OtherIncome.getText().toString());
+                bundle.putString("xEstimatedIncome1", lbl_EstimatedIncome2.getText().toString());
+                bundle.putString("xBankName", lbl_BankName.getText().toString());
+                bundle.putString("xTypeOfAccount", lbl_TypeOfAccount.getText().toString());
 
-                lbl_DownPayment.setText(DownPayment);
-                lbl_LoanTermSelection.setText(LoanTermSelection);
-                lbl_MonthlyPayment.setText(MonthlyPayment);
-                lbl_PriceOfUnit.setText(PriceOfUnit);
-                lbl_Discount.setText(Discount);
+                returnIntent.putExtra("bundle", bundle);
+                returnIntent.putExtra("params", params.toString());
 
-                lbl_TypeOfEmployment.setText(TypeOfEmployment);
+                startActivity(returnIntent);
 
-                if (lbl_TypeOfEmployment.getText().toString().equalsIgnoreCase("OFW")){
-                    lbl_Industry.setVisibility(TextView.GONE);
-                    txt_industry.setVisibility(TextView.GONE);
-                }else {
-                    lbl_Industry.setText(Industry);
-                }
-                lbl_JobTitle.setText(JobTitle);
-                lbl_EstimatedIncome1.setText(EstimatedIncome);
-
-                lbl_OtherIncome.setText(OtherIncome);
-                lbl_EstimatedIncome2.setText(EstimatedIncome2);
-                lbl_BankName.setText(BankName);
-                lbl_TypeOfAccount.setText(TypeOfAccount);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+                this.finish();
+            } catch (Exception ee) {
+                ee.printStackTrace();
             }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        try {
+            Intent receiveIntent = getIntent();
+            String param = receiveIntent.getStringExtra("params");
+            JSONObject params = new JSONObject(param);
+
+            Intent returnIntent = new Intent(Activity_LoanPreview.this,
+                    Activity_OtherInfo.class);
+
+            Bundle bundle = new Bundle();
+
+            bundle.putString("xDownPayment", lbl_DownPayment.getText().toString());
+            bundle.putString("xLTSelection", lbl_LoanTermSelection.getText().toString());
+            bundle.putString("xPriceOfUnit", lbl_MonthlyPayment.getText().toString());
+            bundle.putString("xMonthlyPayment", lbl_PriceOfUnit.getText().toString());
+            bundle.putString("xDiscount", lbl_Discount.getText().toString());
+
+            bundle.putString("xEmployment", lbl_TypeOfEmployment.getText().toString());
+            bundle.putString("xIndustry", lbl_Industry.getText().toString());
+            bundle.putString("xEstimatedIncome", lbl_JobTitle.getText().toString());
+            bundle.putString("xJobTitle", lbl_EstimatedIncome1.getText().toString());
+
+            bundle.putString("xOtherIncome", lbl_OtherIncome.getText().toString());
+            bundle.putString("xEstimatedIncome1", lbl_EstimatedIncome2.getText().toString());
+            bundle.putString("xBankName", lbl_BankName.getText().toString());
+            bundle.putString("xTypeOfAccount", lbl_TypeOfAccount.getText().toString());
+
+            returnIntent.putExtra("bundle", bundle);
+            returnIntent.putExtra("params", params.toString());
+
+            startActivity(returnIntent);
+            this.finish();
+        } catch (Exception ee) {
+            ee.printStackTrace();
+        }
     }
 
     private void initViews() {
