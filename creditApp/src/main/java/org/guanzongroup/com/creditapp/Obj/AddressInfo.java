@@ -19,7 +19,7 @@ public class AddressInfo {
     private String message;
 
     public AddressInfo() {
-        try{
+        try {
             params.put("sHouseNo", sHouseNo);
             params.put("sAddress", sAddress);
             params.put("sBrgyIDx", sBrgyIDx);
@@ -28,7 +28,7 @@ public class AddressInfo {
             params.put("sBrgyNme", sBrgyNme);
             params.put("sTownNme", sTownNme);
             params.put("sProvNme", sProvNme);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -57,16 +57,16 @@ public class AddressInfo {
         return sTownIDx;
     }
 
+    public void setTownID(String sTownIDx) {
+        this.sTownIDx = sTownIDx;
+    }
+
     public String getBarangayID() {
         return sBrgyIDx;
     }
 
     public void setBarangayID(String sBrgyIDx) {
         this.sBrgyIDx = sBrgyIDx;
-    }
-
-    public void setTownID(String sTownIDx) {
-        this.sTownIDx = sTownIDx;
     }
 
     public String getProvinceID() {
@@ -101,16 +101,16 @@ public class AddressInfo {
         this.sProvNme = sProvNme;
     }
 
-    public boolean isDataValid(){
-        if(sBrgyIDx.trim().isEmpty()){
+    public boolean isDataValid() {
+        if (sBrgyIDx.trim().isEmpty()) {
             message = "Unset barangay id detected.";
             return false;
         }
-        if(sTownIDx.trim().isEmpty()){
+        if (sTownIDx.trim().isEmpty()) {
             message = "Unset town id detected.";
             return false;
         }
-        if(sProvIDx.trim().isEmpty()){
+        if (sProvIDx.trim().isEmpty()) {
             message = "Unset province id detected.";
             return false;
         } else {
@@ -118,8 +118,8 @@ public class AddressInfo {
         }
     }
 
-    public JSONObject getData(){
-        try{
+    public JSONObject getData() {
+        try {
             params.put("sHouseNo", sHouseNo);
             params.put("sAddress", sAddress);
             params.put("sBrgyIDx", sBrgyIDx);
@@ -128,7 +128,7 @@ public class AddressInfo {
             params.put("sBrgyNme", sBrgyNme);
             params.put("sTownNme", sTownNme);
             params.put("sProvNme", sProvNme);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return params;

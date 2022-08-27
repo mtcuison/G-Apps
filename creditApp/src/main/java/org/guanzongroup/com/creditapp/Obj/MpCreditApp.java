@@ -4,7 +4,11 @@ import org.json.JSONObject;
 
 public class MpCreditApp {
     private static final String TAG = MpCreditApp.class.getSimpleName();
-
+    private final JSONObject params = new JSONObject(); //parent
+    private final PersonalInfo poClient = new PersonalInfo();
+    private final AddressInfo poAddxx = new AddressInfo();
+    private final MeansInfo poMeans = new MeansInfo();
+    private final OtherInfo poOther = new OtherInfo();
     private String dTransact = "";
     private String cUnitType = "";
     private String sModelIDx = "";
@@ -14,18 +18,10 @@ public class MpCreditApp {
     private String nUnitPrce = "";
     private String nDiscount = "";
     private String sMiscExpn = "";
-
-    private final JSONObject params = new JSONObject(); //parent
-
-    private final PersonalInfo poClient = new PersonalInfo();
-    private final AddressInfo poAddxx = new AddressInfo();
-    private final MeansInfo poMeans = new MeansInfo();
-    private final OtherInfo poOther = new OtherInfo();
-
     private String message;
 
     public MpCreditApp() {
-        try{
+        try {
             params.put("dTransact", dTransact);
             params.put("cUnitType", cUnitType);
             params.put("sModelIDx", sModelIDx);
@@ -36,36 +32,36 @@ public class MpCreditApp {
             params.put("nDiscount", nDiscount);
             params.put("sMiscExpn", sMiscExpn);
             params.put("address", "");
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setUnitType(String fsVal){
+    public void setUnitType(String fsVal) {
         this.cUnitType = fsVal;
     }
 
-    public void setModel(String fsVal){
+    public void setModel(String fsVal) {
         this.sModelIDx = fsVal;
     }
 
-    public void setDiscount(String fsVal){
+    public void setDiscount(String fsVal) {
         this.nDiscount = fsVal;
     }
 
-    public void setDownpayment(String fsVal){
+    public void setDownpayment(String fsVal) {
         this.nDwnpymnt = fsVal;
     }
 
-    public void setAmortization(String fsVal){
+    public void setAmortization(String fsVal) {
         this.nAmortztn = fsVal;
     }
 
-    public void setInstallmentTerm(String fsVal){
+    public void setInstallmentTerm(String fsVal) {
         this.nUnitPrce = fsVal;
     }
 
-    public void setMiscellaneousExpense(String fsVal){
+    public void setMiscellaneousExpense(String fsVal) {
         this.sMiscExpn = fsVal;
     }
 
@@ -77,46 +73,46 @@ public class MpCreditApp {
         return poAddxx;
     }
 
-    public MeansInfo meansInfo(){
+    public MeansInfo meansInfo() {
         return poMeans;
     }
 
-    public OtherInfo otherInfo(){
+    public OtherInfo otherInfo() {
         return poOther;
     }
 
-    public boolean isDataValid(){
-        if(nDwnpymnt.trim().isEmpty()){
+    public boolean isDataValid() {
+        if (nDwnpymnt.trim().isEmpty()) {
             message = "Unset downpayment detected.";
             return false;
-        } else if(nAmortztn.trim().isEmpty()){
+        } else if (nAmortztn.trim().isEmpty()) {
             message = "Unset amortization detected.";
             return false;
-        } else if(nUnitPrce.trim().isEmpty()){
+        } else if (nUnitPrce.trim().isEmpty()) {
             message = "Unset unit price detected.";
             return false;
-        } else if(sMiscExpn.trim().isEmpty()){
+        } else if (sMiscExpn.trim().isEmpty()) {
             message = "Unset miscellaneous expense detected.";
             return false;
-        } else if(cUnitType.trim().isEmpty()){
+        } else if (cUnitType.trim().isEmpty()) {
             message = "Please select unit type.";
             return false;
-        } else if(sModelIDx.trim().isEmpty()){
+        } else if (sModelIDx.trim().isEmpty()) {
             message = "Please select model.";
             return false;
-        } else if(sInstlTrm.trim().isEmpty()){
+        } else if (sInstlTrm.trim().isEmpty()) {
             message = "Please select installment term.";
             return false;
-        } else if(!poClient.isDataValid()) {
+        } else if (!poClient.isDataValid()) {
             message = poClient.getMessage();
             return false;
-        } else if(poAddxx.isDataValid()){
+        } else if (poAddxx.isDataValid()) {
             message = poAddxx.getMessage();
             return false;
-        } else if(!meansInfo().isDataValid()){
+        } else if (!meansInfo().isDataValid()) {
             message = meansInfo().getMessage();
             return false;
-        } else if(!otherInfo().isDataValid()){
+        } else if (!otherInfo().isDataValid()) {
             message = otherInfo().getMessage();
             return false;
         } else {
@@ -124,8 +120,8 @@ public class MpCreditApp {
         }
     }
 
-    public String getData(){
-        try{
+    public String getData() {
+        try {
             params.put("dTransact", dTransact);
             params.put("cUnitType", cUnitType);
             params.put("sModelIDx", sModelIDx);
@@ -139,7 +135,7 @@ public class MpCreditApp {
             params.put("address", poAddxx.getData());
             params.put("means_info", meansInfo().getData());
             params.put("other_info", otherInfo().getData());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return params.toString();

@@ -67,7 +67,7 @@
                 android:maxLength="50"
                 android:inputType="numberDecimal"
                 android:imeOptions="actionNext"
-                android:nextFocusForward="@id/tie_LoanTermSelection" />
+                android:nextFocusForward="@id/btnNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -127,9 +127,11 @@
                     android:id="@+id/tie_MonthlyPayment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"
-                    android:inputType="numberDecimal"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:maxLength="50"
                     android:nextFocusForward="@id/tie_PriceOfUnit" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -160,6 +162,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:inputType="numberDecimal"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_Discount" />
@@ -191,6 +195,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:inputType="numberDecimal"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/btnNext" />

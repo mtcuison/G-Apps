@@ -15,13 +15,13 @@ public class OtherInfo {
     private String message;
 
     public OtherInfo() {
-        try{
+        try {
             params.put("cSourceCD", sOthrIncm);
             params.put("sPosition", nOthrIncm);
             params.put("sIndustry", sBankName);
             params.put("sCompName", sAcctType);
             params.put("nSalaryxx", sFBAcctxx);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -70,11 +70,11 @@ public class OtherInfo {
         this.sFBAcctxx = sFBAcctxx;
     }
 
-    public boolean isDataValid(){
-        if(sOthrIncm.trim().isEmpty() && nOthrIncm.trim().isEmpty()){
+    public boolean isDataValid() {
+        if (sOthrIncm.trim().isEmpty() && nOthrIncm.trim().isEmpty()) {
             message = "Please enter estimated income.";
             return false;
-        } else if(sBankName.trim().isEmpty() && sAcctType.trim().isEmpty()){
+        } else if (sBankName.trim().isEmpty() && sAcctType.trim().isEmpty()) {
             message = "Please enter account type.";
             return false;
         } else {
@@ -82,14 +82,14 @@ public class OtherInfo {
         }
     }
 
-    public JSONObject getData(){
-        try{
+    public JSONObject getData() {
+        try {
             params.put("cSourceCD", sOthrIncm);
             params.put("sPosition", nOthrIncm);
             params.put("sIndustry", sBankName);
             params.put("sCompName", sAcctType);
             params.put("nSalaryxx", sFBAcctxx);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return params;
