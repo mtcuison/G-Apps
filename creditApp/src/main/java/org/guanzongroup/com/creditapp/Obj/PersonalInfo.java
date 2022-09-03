@@ -1,30 +1,26 @@
 package org.guanzongroup.com.creditapp.Obj;
 
+import android.util.Log;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PersonalInfo {
+    private static final String TAG = PersonalInfo.class.getSimpleName();
 
-    private final JSONObject params = new JSONObject();
-
-    private String sLastName = "";
-    private String sFrstName = "";
-    private String sMiddName = "";
-    private String sSuffixxx = "";
-    private String sMaidenNm = "";
-    private String cGenderxx = "";
-    private String cCvilStat = "";
+    private JSONObject params = new JSONObject();
 
     private String message;
 
     public PersonalInfo() {
         try{
-            params.put("sLastName", sLastName);
-            params.put("sFrstName", sFrstName);
-            params.put("sMiddName", sMiddName);
-            params.put("sSuffixxx", sSuffixxx);
-            params.put("sMaidenNm", sMaidenNm);
-            params.put("cGenderxx", cGenderxx);
-            params.put("cCvilStat", cCvilStat);
+            params.put("sLastName", "");
+            params.put("sFrstName", "");
+            params.put("sMiddName", "");
+            params.put("sSuffixxx", "");
+            params.put("sMaidenNm", "");
+            params.put("cGenderxx", "");
+            params.put("cCvilStat", "");
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -34,76 +30,97 @@ public class PersonalInfo {
         return message;
     }
 
-    public String getLastName() {
-        return sLastName;
+    public String getLastName() throws JSONException {
+        if(params.has("sLastName")) {
+            return params.getString("sLastName");
+        }
+        return "";
     }
 
-    public void setLastName(String sLastName) {
-        this.sLastName = sLastName;
+    public void setLastName(String sLastName) throws JSONException {
+        params.put("sLastName", sLastName);
     }
 
-    public String getFirstName() {
-        return sFrstName;
+    public String getFirstName() throws JSONException {
+        if(params.has("sFrstName")) {
+            return params.getString("sFrstName");
+        }
+        return "";
     }
 
-    public void setFirstName(String sFrstName) {
-        this.sFrstName = sFrstName;
+    public void setFirstName(String sFrstName) throws JSONException {
+        params.put("sFrstName", sFrstName);
     }
 
-    public String getMiddleName() {
-        return sMiddName;
+    public String getMiddleName() throws JSONException {
+        if(params.has("sMiddName")) {
+            return params.getString("sMiddName");
+        }
+        return "";
     }
 
-    public void setMiddleName(String sMiddName) {
-        this.sMiddName = sMiddName;
+    public void setMiddleName(String sMiddName) throws JSONException {
+        params.put("sMiddName", sMiddName);
     }
 
-    public String getSuffix() {
-        return sSuffixxx;
+    public String getSuffix() throws JSONException {
+        if(params.has("sSuffixxx")) {
+            return params.getString("sSuffixxx");
+        }
+        return "";
     }
 
-    public void setSuffix(String sSuffixxx) {
-        this.sSuffixxx = sSuffixxx;
+    public void setSuffix(String sSuffixxx) throws JSONException {
+        params.put("sSuffixxx", sSuffixxx);
     }
 
-    public String getMotherMaidenName() {
-        return sMaidenNm;
+    public String getMotherMaidenName() throws JSONException {
+        if(params.has("sMaidenNm")) {
+            return params.getString("sMaidenNm");
+        }
+        return "";
     }
 
-    public void setMotherMaidenName(String sMaidenNm) {
-        this.sMaidenNm = sMaidenNm;
+    public void setMotherMaidenName(String sMaidenNm) throws JSONException {
+        params.put("sMaidenNm", sMaidenNm);
     }
 
-    public String getGender() {
-        return cGenderxx;
+    public String getGender() throws JSONException {
+        if(params.has("cGenderxx")) {
+            return params.getString("cGenderxx");
+        }
+        return "";
     }
 
-    public void setGender(String cGenderxx) {
-        this.cGenderxx = cGenderxx;
+    public void setGender(String cGenderxx) throws JSONException {
+        params.put("cGenderxx", cGenderxx);
     }
 
-    public String getCivilStatus() {
-        return cCvilStat;
+    public String getCivilStatus() throws JSONException {
+        if(params.has("cCvilStat")) {
+            return params.getString("cCvilStat");
+        }
+        return "";
     }
 
-    public void setCivilStatus(String cCvilStat) {
-        this.cCvilStat = cCvilStat;
+    public void setCivilStatus(String cCvilStat) throws JSONException {
+        params.put("cCvilStat", cCvilStat);
     }
 
-    public boolean isDataValid(){
-        if(sLastName.trim().isEmpty()){
+    public boolean isDataValid() throws JSONException {
+        if(params.getString("sLastName").trim().isEmpty()){
             message = "Unset last name detected.";
             return false;
-        }else if(sFrstName.trim().isEmpty()){
+        }else if(params.getString("sFrstName").trim().isEmpty()){
             message = "Unset first name detected.";
             return false;
-        }else if(sMiddName.trim().isEmpty()){
+        }else if(params.getString("sMiddName").trim().isEmpty()){
             message = "Unset middle name detected.";
             return false;
-        }else if(cGenderxx.trim().isEmpty()){
+        }else if(params.getString("cGenderxx").trim().isEmpty()){
             message = "Unset gender detected.";
             return false;
-        }else if(cCvilStat.trim().isEmpty()){
+        }else if(params.getString("cCvilStat").trim().isEmpty()){
             message = "Unset civil status detected.";
             return false;
         } else {
@@ -111,18 +128,13 @@ public class PersonalInfo {
         }
     }
 
+    public void setData(String fsVal) throws JSONException{
+        JSONObject loJson = new JSONObject(fsVal);
+        params = loJson.getJSONObject("personal_info");
+    }
+
     public JSONObject getData(){
-        try{
-            params.put("sLastName", sLastName);
-            params.put("sFrstName", sFrstName);
-            params.put("sMiddName", sMiddName);
-            params.put("sSuffixxx", sSuffixxx);
-            params.put("sMaidenNm", sMaidenNm);
-            params.put("cGenderxx", cGenderxx);
-            params.put("cCvilStat", cCvilStat);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        Log.d(TAG, params.toString());
         return params;
     }
 }

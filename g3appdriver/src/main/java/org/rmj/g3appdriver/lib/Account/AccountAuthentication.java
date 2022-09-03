@@ -46,6 +46,7 @@ public class AccountAuthentication {
             if (lsResponse == null) {
                 callback.OnFailedLogin("Unable to login account. Server no response.");
             } else {
+                Log.d(TAG, "Server response: " + lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if (lsResult.equalsIgnoreCase("success")) {

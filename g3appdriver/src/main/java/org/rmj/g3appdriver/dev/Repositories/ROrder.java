@@ -265,6 +265,7 @@ public class ROrder {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
+                Log.d(TAG, "Server Response : " + lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){
@@ -587,6 +588,7 @@ public class ROrder {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
+                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if (!lsResult.equalsIgnoreCase("success")) {
@@ -623,10 +625,10 @@ public class ROrder {
                         oDetail.setUnitPrce(joDetail.getString("nUnitPrce"));
                         oDetail.setDiscount(joDetail.getString("nDiscount"));
                         oDetail.setAddDiscx(joDetail.getString("nAddDiscx"));
-                        oDetail.setApproved(joDetail.getString("nApproved"));
-                        oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
-                        oDetail.setCancelld(joDetail.getString("nCancelld"));
-                        oDetail.setReferNox(joDetail.getString("sReferNox"));
+                        oDetail.setStockIDx(joDetail.getString("sStockIDx"));
+//                        oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
+//                        oDetail.setCancelld(joDetail.getString("nCancelld"));
+//                        oDetail.setReferNox(joDetail.getString("sReferNox"));
                         oDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
                         oDetail.setReviewed(joDetail.getString("cReviewed"));
                         oDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
@@ -656,6 +658,7 @@ public class ROrder {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
+                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if (!lsResult.equalsIgnoreCase("success")) {

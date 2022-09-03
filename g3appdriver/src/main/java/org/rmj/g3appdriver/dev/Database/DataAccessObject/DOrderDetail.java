@@ -44,7 +44,7 @@ public interface DOrderDetail {
             "c.cTranStat " +
             "FROM MarketPlace_Order_Detail a " +
             "LEFT JOIN Product_Inventory b " +
-            "ON a.sReferNox = b.sListngID " +
+            "ON a.sStockIDx = b.sStockIDx " +
             "LEFT JOIN MarketPlace_Order_Master c " +
             "ON a.sTransNox = c.sTransNox " +
             "WHERE c.sTransNox =:fsVal " +

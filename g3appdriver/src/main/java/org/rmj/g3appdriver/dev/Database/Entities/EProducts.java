@@ -16,6 +16,8 @@ public class EProducts {
     private String BriefDsc;
     @ColumnInfo(name = "sDescript")
     private String Descript;
+    @ColumnInfo(name = "sStockIDx")
+    private String StockIDx;
     @ColumnInfo(name = "xBarCodex")
     private String BarCodex;
     @ColumnInfo(name = "xDescript")
@@ -214,5 +216,13 @@ public class EProducts {
 
     public void setRatingxx(String ratingxx) {
         Ratingxx = ratingxx;
+    }
+
+    public String getStockIDx() {
+        return StockIDx;
+    }
+
+    public void setStockIDx(String stockIDx) {
+        StockIDx = stockIDx;
     }
 }

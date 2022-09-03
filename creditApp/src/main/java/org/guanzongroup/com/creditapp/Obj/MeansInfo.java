@@ -1,26 +1,24 @@
 package org.guanzongroup.com.creditapp.Obj;
 
+import android.util.Log;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MeansInfo {
+    private static final String TAG = MeansInfo.class.getSimpleName();
 
-    private final JSONObject params = new JSONObject();
-
-    private String cSourceCD = "";
-    private String sPosition = "";
-    private String sIndustry = "";
-    private String sCompName = "";
-    private String nSalaryxx = "";
+    private JSONObject params = new JSONObject();
 
     private String message;
 
     public MeansInfo() {
         try{
-            params.put("cSourceCD", cSourceCD);
-            params.put("sPosition", sPosition);
-            params.put("sIndustry", sIndustry);
-            params.put("sCompName", sCompName);
-            params.put("nSalaryxx", nSalaryxx);
+            params.put("cSourceCD", "");
+            params.put("sPosition", "");
+            params.put("sIndustry", "");
+            params.put("sCompName", "");
+            params.put("nSalaryxx", "");
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -30,60 +28,75 @@ public class MeansInfo {
         return message;
     }
 
-    public String getSourceCD() {
-        return cSourceCD;
+    public String getSourceCD() throws JSONException{
+        if(params.has("cSourceCD")) {
+            return params.getString("cSourceCD");
+        }
+        return "";
     }
 
-    public void setSourceCD(String cSourceCD) {
-        this.cSourceCD = cSourceCD;
+    public void setSourceCD(String cSourceCD) throws JSONException{
+        params.put("cSourceCD", cSourceCD);
     }
 
-    public String getPosition() {
-        return sPosition;
+    public String getPosition() throws JSONException{
+        if(params.has("sPosition")) {
+            return params.getString("sPosition");
+        }
+        return "";
     }
 
-    public void setPosition(String sPosition) {
-        this.sPosition = sPosition;
+    public void setPosition(String sPosition) throws JSONException{
+        params.put("sPosition", sPosition);
     }
 
-    public String getIndustry() {
-        return sIndustry;
+    public String getIndustry() throws JSONException{
+        if(params.has("sIndustry")) {
+            return params.getString("sIndustry");
+        }
+        return "";
     }
 
-    public void setIndustry(String sIndustry) {
-        this.sIndustry = sIndustry;
+    public void setIndustry(String sIndustry) throws JSONException{
+        params.put("sIndustry", sIndustry);
     }
 
-    public String getCompanyName() {
-        return sCompName;
+    public String getCompanyName() throws JSONException{
+        if(params.has("sCompName")) {
+            return params.getString("sCompName");
+        }
+        return "";
     }
 
-    public void setCompanyName(String sCompName) {
-        this.sCompName = sCompName;
+    public void setCompanyName(String sCompName) throws JSONException{
+        params.put("sCompName", sCompName);
     }
 
-    public String getSalary() {
-        return nSalaryxx;
+    public String getSalary() throws JSONException{
+        if(params.has("nSalaryxx")) {
+            return params.getString("nSalaryxx");
+        }
+        return "";
     }
 
-    public void setSalary(String nSalaryxx) {
-        this.nSalaryxx = nSalaryxx;
+    public void setSalary(String nSalaryxx) throws JSONException{
+        params.put("nSalaryxx", nSalaryxx);
     }
 
-    public boolean isDataValid(){
-        if(cSourceCD.trim().isEmpty()){
+    public boolean isDataValid() throws JSONException{
+        if(params.getString("cSourceCD").trim().isEmpty()){
             message = "Please provide source of income.";
             return false;
-        } else if(sPosition.trim().isEmpty()){
+        } else if(params.getString("sPosition").trim().isEmpty()){
             message = "Please enter position.";
             return false;
-        } else if(sIndustry.trim().isEmpty()){
+        } else if(params.getString("sIndustry").trim().isEmpty()){
             message = "Please enter business industry.";
             return false;
-        } else if(sCompName.trim().isEmpty()){
+        } else if(params.getString("sCompName").trim().isEmpty()){
             message = "Please enter company name.";
             return false;
-        } else if(nSalaryxx.trim().isEmpty()){
+        } else if(params.getString("nSalaryxx").trim().isEmpty()){
             message = "Please enter estimated salary.";
             return false;
         } else {
@@ -91,16 +104,13 @@ public class MeansInfo {
         }
     }
 
+    public void setData(String fsVal) throws JSONException{
+        JSONObject loJson = new JSONObject(fsVal);
+        params = loJson.getJSONObject("means_info");
+    }
+
     public JSONObject getData(){
-        try{
-            params.put("cSourceCD", cSourceCD);
-            params.put("sPosition", sPosition);
-            params.put("sIndustry", sIndustry);
-            params.put("sCompName", sCompName);
-            params.put("nSalaryxx", nSalaryxx);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        Log.d(TAG, params.toString());
         return params;
     }
 }

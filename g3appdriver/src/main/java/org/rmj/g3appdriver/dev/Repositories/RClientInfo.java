@@ -95,11 +95,11 @@ public class RClientInfo {
                     loApis.getImportAccountInfoAPI(),
                     new JSONObject().toString(),
                     new HttpHeaders(mContext).getHeaders());
-            Log.d(TAG, lsResponse);
             if(lsResponse == null){
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
+                Log.d(TAG, "Server response: " + lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){
@@ -107,12 +107,14 @@ public class RClientInfo {
                     message = loError.getString("message");
                     return false;
                 } else {
+                    Log.d(TAG, "Server response : " + lsResponse);
                     EClientInfo loDetail = poDao.GetUserInfo();
                     loDetail.setClientID(loResponse.getString("sClientID"));
                     loDetail.setLastName(loResponse.getString("sLastName"));
                     loDetail.setFrstName(loResponse.getString("sFrstName"));
                     loDetail.setMiddName(loResponse.getString("sMiddName"));
                     loDetail.setSuffixNm(loResponse.getString("sSuffixNm"));
+                    loDetail.setMaidenNm(loResponse.getString("sMaidenNm"));
                     loDetail.setGenderCd(loResponse.getString("cGenderCd"));
                     loDetail.setCvilStat(loResponse.getString("cCvilStat"));
                     loDetail.setBirthDte(loResponse.getString("dBirthDte"));
@@ -125,9 +127,11 @@ public class RClientInfo {
                     loDetail.setAddress2(loResponse.getString("sAddress2"));
                     loDetail.setBrgyIDx2(loResponse.getString("sBrgyIDx2"));
                     loDetail.setTownIDx2(loResponse.getString("sTownIDx2"));
-                    loDetail.setImagePth(loResponse.getString("sImagePth"));
-                    loDetail.setImgeDate(loResponse.getString("dImgeDate"));
-                    loDetail.setImgeStat(loResponse.getString("cImgeStat"));
+                    loDetail.setMobileNo(loResponse.getString("sMobileNo"));
+                    loDetail.setEmailAdd(loResponse.getString("sEmailAdd"));
+//                    loDetail.setImgeStat(loResponse.getString("cImgeStat"));
+//                    loDetail.setImagePth(loResponse.getString("sImagePth"));
+//                    loDetail.setImgeDate(loResponse.getString("dImgeDate"));
                     loDetail.setRecdStat(1);
                     poDao.update(loDetail);
                     AccountInfo loAcc = new AccountInfo(mContext);

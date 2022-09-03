@@ -361,6 +361,38 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                android:id="@+id/lblMaiden"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblMaidenName"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_taxId"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                style="@style/TextInputLabel" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_maidenNm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblMaiden"
+                app:layout_constraintRight_toRightOf="parent"
+                style="@style/TextInputStyle">
+
+                <AutoCompleteTextView
+                    android:id="@+id/tie_maidenNm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="100"
+                    android:inputType="textAutoComplete|textCapWords"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/tie_gender"
+                    style="@style/AutoCompleteStyleTheme"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
                 android:id="@+id/lblAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -370,7 +402,7 @@
                 android:textSize="16sp"
                 android:layout_marginTop="30dp"
                 app:layout_constraintStart_toStartOf="@id/lblHouseNo"
-                app:layout_constraintTop_toBottomOf="@id/til_taxId" />
+                app:layout_constraintTop_toBottomOf="@id/til_maidenNm" />
 
             <View
                 android:id="@+id/divider"

@@ -1,21 +1,14 @@
 package org.guanzongroup.com.creditapp.Obj;
 
+import android.util.Log;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MpCreditApp {
     private static final String TAG = MpCreditApp.class.getSimpleName();
 
-    private String dTransact = "";
-    private String cUnitType = "";
-    private String sModelIDx = "";
-    private String nDwnpymnt = "";
-    private String sInstlTrm = "";
-    private String nAmortztn = "";
-    private String nUnitPrce = "";
-    private String nDiscount = "";
-    private String sMiscExpn = "";
-
-    private final JSONObject params = new JSONObject(); //parent
+    private JSONObject params = new JSONObject(); //parent
 
     private final PersonalInfo poClient = new PersonalInfo();
     private final AddressInfo poAddxx = new AddressInfo();
@@ -25,48 +18,35 @@ public class MpCreditApp {
     private String message;
 
     public MpCreditApp() {
-        try{
-            params.put("dTransact", dTransact);
-            params.put("cUnitType", cUnitType);
-            params.put("sModelIDx", sModelIDx);
-            params.put("nDwnpymnt", nDwnpymnt);
-            params.put("sInstlTrm", sInstlTrm);
-            params.put("nAmortztn", nAmortztn);
-            params.put("nUnitPrce", nUnitPrce);
-            params.put("nDiscount", nDiscount);
-            params.put("sMiscExpn", sMiscExpn);
-            params.put("address", "");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+
     }
 
-    public void setUnitType(String fsVal){
-        this.cUnitType = fsVal;
+    public void setUnitType(String fsVal) throws JSONException {
+        params.put("cUnitType", fsVal);
     }
 
-    public void setModel(String fsVal){
-        this.sModelIDx = fsVal;
+    public void setModel(String fsVal) throws JSONException {
+        params.put("sModelIDx", fsVal);
     }
 
-    public void setDiscount(String fsVal){
-        this.nDiscount = fsVal;
+    public void setDiscount(String fsVal) throws JSONException {
+        params.put("nDiscount", fsVal);
     }
 
-    public void setDownpayment(String fsVal){
-        this.nDwnpymnt = fsVal;
+    public void setDownpayment(String fsVal) throws JSONException {
+        params.put("nDwnpymnt", fsVal);
     }
 
-    public void setAmortization(String fsVal){
-        this.nAmortztn = fsVal;
+    public void setAmortization(String fsVal) throws JSONException {
+        params.put("nAmortztn", fsVal);
     }
 
-    public void setInstallmentTerm(String fsVal){
-        this.nUnitPrce = fsVal;
+    public void setInstallmentTerm(String fsVal) throws JSONException {
+        params.put("sInstlTrm", fsVal);
     }
 
-    public void setMiscellaneousExpense(String fsVal){
-        this.sMiscExpn = fsVal;
+    public void setMiscellaneousExpense(String fsVal) throws JSONException {
+        params.put("sMiscExpn", fsVal);
     }
 
     public PersonalInfo clientInfo() {
@@ -85,26 +65,33 @@ public class MpCreditApp {
         return poOther;
     }
 
-    public boolean isDataValid(){
-        if(nDwnpymnt.trim().isEmpty()){
+    public boolean isDataValid() throws JSONException{
+        if(params.has("nDwnpymnt") &&
+                params.getString("nDwnpymnt").trim().isEmpty()){
             message = "Unset downpayment detected.";
             return false;
-        } else if(nAmortztn.trim().isEmpty()){
+        } else if(params.has("nAmortztn") &&
+                params.getString("nAmortztn").trim().isEmpty()){
             message = "Unset amortization detected.";
             return false;
-        } else if(nUnitPrce.trim().isEmpty()){
+        } else if(params.has("nUnitPrce") &&
+                params.getString("nUnitPrce").trim().isEmpty()){
             message = "Unset unit price detected.";
             return false;
-        } else if(sMiscExpn.trim().isEmpty()){
+        } else if(params.has("sMiscExpn") &&
+                params.getString("sMiscExpn").trim().isEmpty()){
             message = "Unset miscellaneous expense detected.";
             return false;
-        } else if(cUnitType.trim().isEmpty()){
+        } else if(params.has("cUnitType") &&
+                params.getString("cUnitType").trim().isEmpty()){
             message = "Please select unit type.";
             return false;
-        } else if(sModelIDx.trim().isEmpty()){
+        } else if(params.has("sModelIDx") &&
+                params.getString("sModelIDx").trim().isEmpty()){
             message = "Please select model.";
             return false;
-        } else if(sInstlTrm.trim().isEmpty()){
+        } else if(params.has("sInstlTrm") &&
+                params.getString("sInstlTrm").trim().isEmpty()){
             message = "Please select installment term.";
             return false;
         } else if(!poClient.isDataValid()) {
@@ -124,24 +111,21 @@ public class MpCreditApp {
         }
     }
 
-    public String getData(){
-        try{
-            params.put("dTransact", dTransact);
-            params.put("cUnitType", cUnitType);
-            params.put("sModelIDx", sModelIDx);
-            params.put("nDwnpymnt", nDwnpymnt);
-            params.put("sInstlTrm", sInstlTrm);
-            params.put("nAmortztn", nAmortztn);
-            params.put("nUnitPrce", nUnitPrce);
-            params.put("nDiscount", nDiscount);
-            params.put("sMiscExpn", sMiscExpn);
-            params.put("personal_info", poClient.getData());
-            params.put("address", poAddxx.getData());
-            params.put("means_info", meansInfo().getData());
-            params.put("other_info", otherInfo().getData());
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public void setData(String fsVal) throws JSONException{
+        params = new JSONObject(fsVal);
+        poClient.setData(fsVal);
+        poAddxx.setData(fsVal);
+        poMeans.setData(fsVal);
+        poOther.setData(fsVal);
+        Log.d(TAG, params.toString());
+    }
+
+    public String getData() throws JSONException {
+        params.put("personal_info", poClient.getData());
+        params.put("address_info", poAddxx.getData());
+        params.put("means_info", poMeans.getData());
+        params.put("other_info", poOther.getData());
+        Log.d(TAG, params.toString());
         return params.toString();
     }
 }

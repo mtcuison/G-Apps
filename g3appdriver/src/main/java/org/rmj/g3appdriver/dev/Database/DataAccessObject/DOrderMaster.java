@@ -55,7 +55,7 @@ public interface DOrderMaster {
             "LEFT JOIN MarketPlace_Order_Detail b " +
             "ON a.sTransNox = b.sTransNox " +
             "LEFT JOIN Product_Inventory c " +
-            "ON b.sReferNox = c.sListngID " +
+            "ON b.sStockIDx = c.sStockIDx " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "ORDER BY a.dTransact DESC")
     LiveData<List<OrderHistory>> GetOrderHistoryList();
@@ -108,7 +108,7 @@ public interface DOrderMaster {
             "LEFT JOIN MarketPlace_Order_Detail b " +
             "ON a.sTransNox = b.sTransNox " +
             "LEFT JOIN Product_Inventory c " +
-            "ON b.sReferNox = c.sListngID " +
+            "ON b.sStockIDx = c.sStockIDx " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.cTranStat=:fsVal " +
             "ORDER BY a.dTransact DESC")
@@ -119,6 +119,7 @@ public interface DOrderMaster {
             " IFNULL(a.dExpected, '')," +
             " a.sReferNox," +
             " a.nTranTotl," +
+            " a.nAmtPaidx," +
             " a.sTermCode," +
             " a.cTranStat," +
             " b.sFrstName || ' ' || b.sMiddName || ' ' || b.sLastName || ' ' || IFNULL(b.sSuffixNm, '') AS sUserName," +
@@ -160,6 +161,7 @@ public interface DOrderMaster {
         public String dExpected;
         public String sReferNox;
         public String nTranTotl;
+        public String nAmtPaidx;
         public String sTermCode;
         public String cTranStat;
         public String sUserName;

@@ -4,8 +4,13 @@
 
     <application>
         <activity
-            android:name=".Activity_ProductList"
-            android:exported="false" />
+            android:name=".Activity_Sample"
+            android:exported="true"
+            android:screenOrientation="userPortrait"/>
+        <activity
+            android:name=".Activity_LoanProductList"
+            android:exported="true"
+            android:screenOrientation="userPortrait"/>
     </application>
 
 </manifest>

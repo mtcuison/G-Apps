@@ -157,4 +157,19 @@ public class AppConstants {
             "PSA Marriage Contract",
             "PSA Birth Certificate",
             "Others"};
+
+    public static String parseTermCode(String fsVal){
+        switch (fsVal){
+            case "C001018":
+                return "3 Months";
+            case "C001019":
+                return "6 Months";
+            case "C001023":
+                return "9 Months";
+            case "C001020":
+                return "12 Months";
+            default:
+                return "Cash On Delivery";
+        }
+    }
 }
