@@ -468,8 +468,12 @@ public class ROrder {
         return poCartDao.GetCartItemsList();
     }
 
-    public LiveData<Double> GetItemCartTotalPrice(){
-        return poCartDao.GetItemCartTotalPrice();
+    public LiveData<Double> GetSelectedItemCartTotalPrice(){
+        return poCartDao.GetSelectedItemCartTotalPrice();
+    }
+
+    public LiveData<Integer> GetSelectedItemCartTotalCount(){
+        return poCartDao.GetSelectedItemCartTotalCount();
     }
 
     public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCheckoutItems(boolean cBuyNowxx){
@@ -706,6 +710,11 @@ public class ROrder {
         return poMaster.GetOrderHistoryList(fsVal);
     }
 
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetToPayOrderList(){
+        return poMaster.GetToPayOrderList();
+    }
+
     public LiveData<List<DOrderDetail.OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal){
         return poDetail.GetOrderHistoryDetail(fsVal);
     }
@@ -764,6 +773,32 @@ public class ROrder {
                     return true;
                 }
             }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean SelectAll(boolean isSelected){
+        try {
+            if (isSelected) {
+                poCartDao.UpdateSelectAllCheckOut();
+            } else {
+                poCartDao.UpdateUnselectAllCheckOut();
+            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean DeleteAll(){
+        try{
+            poCartDao.DeleteAllSelected();
+            return true;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

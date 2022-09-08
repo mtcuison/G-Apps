@@ -136,14 +136,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 Toast.makeText(Activity_ProductOverview.this, "Please wait...", Toast.LENGTH_SHORT).show();
             }
         });
-        btnBuyNow.setOnClickListener(v -> {
-            if(!isClick) {
-                isClick = true;
-                buyNow();
-            } else {
-                Toast.makeText(Activity_ProductOverview.this, "Please wait...", Toast.LENGTH_SHORT).show();
-            }
-        });
+        btnBuyNow.setOnClickListener(v -> buyNow());
     }
 
     @Override

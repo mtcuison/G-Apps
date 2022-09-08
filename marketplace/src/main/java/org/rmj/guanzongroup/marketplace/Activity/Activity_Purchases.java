@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -104,15 +103,17 @@ public class Activity_Purchases extends AppCompatActivity {
                     findViewById(R.id.scrollView).setVisibility(View.VISIBLE);
                     if(foOrder.sTermCode.equalsIgnoreCase("C001002")){
 
-                    } else {
+                    } else if(foOrder.nAmtPaidx != null){
                         double lnTotal = Double.parseDouble(foOrder.nTranTotl);
                         double lnAmntx = Double.parseDouble(foOrder.nAmtPaidx);
+
                         if(lnTotal > lnAmntx){
                             btnPay.setVisibility(View.VISIBLE);
                         } else {
                             btnPay.setVisibility(View.GONE);
                         }
                     }
+
                     if (!foOrder.cTranStat.equalsIgnoreCase("3")) {
                         toolbar.setTitle("Order Detail");
                         progressBar.setVisibility(View.VISIBLE);

@@ -42,6 +42,8 @@ public class Fragment_Orders extends Fragment {
             "Delivered"
     };
 
+    private String sLabel;
+
 
     private final Adapter_OrderHistory.OnOrderHistoryClickListener loListener = (args, args1) -> {
         Intent loIntent = new Intent(requireActivity(), Activity_Purchases.class);
@@ -72,11 +74,31 @@ public class Fragment_Orders extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(tab.getPosition() > 0) {
-                    int lnPosition = tab.getPosition() - 1;
-                    mViewModel.setOrderStatusFilter(String.valueOf(lnPosition));
-                } else {
-                    mViewModel.setOrderStatusFilter("");
+                switch (tab.getPosition()){
+                    case 0:
+                        mViewModel.setOrderStatusFilter("");
+                        sLabel = "All";
+                        break;
+                    case 1:
+                        mViewModel.setOrderStatusFilter("ToPay");
+                        sLabel = "To Pay";
+                        break;
+                    case 2:
+                        mViewModel.setOrderStatusFilter("0");
+                        sLabel = "Processing";
+                        break;
+                    case 3:
+                        mViewModel.setOrderStatusFilter("1");
+                        sLabel = "To Ship";
+                        break;
+                    case 4:
+                        mViewModel.setOrderStatusFilter("3");
+                        sLabel = "Canceled";
+                        break;
+                    case 5:
+                        mViewModel.setOrderStatusFilter("4");
+                        sLabel = "Delivered";
+                        break;
                 }
             }
 
@@ -106,7 +128,7 @@ public class Fragment_Orders extends Fragment {
                             txtNoList.setText("No order history.");
                         }
                     });
-                } else {
+                } else if(!s.equalsIgnoreCase("ToPay")){
                     mViewModel.GetOrderHistoryList(s).observe(getViewLifecycleOwner(), eOrderMasters -> {
                         if(eOrderMasters.size() > 0) {
                             txtNoList.setVisibility(View.GONE);
@@ -115,9 +137,20 @@ public class Fragment_Orders extends Fragment {
                         } else {
                             txtNoList.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);
-                            String lsOrderTp = psTabCont[Integer.parseInt(s)+1].equalsIgnoreCase(psTabCont[0])
-                                    ? "" : psTabCont[Integer.parseInt(s)+1];
-                            txtNoList.setText("No available " + lsOrderTp + " orders.");
+                            txtNoList.setText("No available " + sLabel + " orders.");
+                        }
+                        recyclerView.setAdapter(loAdapter);
+                    });
+                } else {
+                    mViewModel.GetToPayOrderList().observe(getViewLifecycleOwner(), orderHistories -> {
+                        if(orderHistories.size() > 0) {
+                            txtNoList.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            loAdapter = new Adapter_OrderHistory(orderHistories, loListener);
+                        } else {
+                            txtNoList.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                            txtNoList.setText("No available " + sLabel + " orders.");
                         }
                         recyclerView.setAdapter(loAdapter);
                     });

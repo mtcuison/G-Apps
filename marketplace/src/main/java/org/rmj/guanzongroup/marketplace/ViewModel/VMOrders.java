@@ -63,6 +63,10 @@ public class VMOrders extends AndroidViewModel {
         return poORder.GetOrderHistoryList(fsVal);
     }
 
+    public LiveData<List<DOrderMaster.OrderHistory>> GetToPayOrderList(){
+        return poORder.GetToPayOrderList();
+    }
+
     public LiveData<List<DOrderDetail.OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal){
         return poORder.GetOrderHistoryDetail(fsVal);
     }

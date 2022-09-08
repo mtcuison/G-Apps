@@ -57,12 +57,13 @@ public interface DOrderDetail {
     @Query("SELECT a.sListngID AS sListIDxx, " +
             "a.xModelNme, " +
             "a.nUnitPrce, " +
+            "a.sStockIDx, " +
             "a.sImagesxx, " +
             "b.nQuantity, " +
             "b.cReviewed " +
             "FROM Product_Inventory a " +
             "LEFT JOIN MarketPlace_Order_Detail b " +
-            "ON a.sListngID = b.sReferNox WHERE b.sTransNox =:fsVal")
+            "ON a.sStockIDx = b.sStockIDx WHERE b.sTransNox =:fsVal")
     LiveData<List<OrderedItemsInfo>> GetOrderedItems(String fsVal);
 
     class OrderHistoryDetail{
@@ -82,6 +83,7 @@ public interface DOrderDetail {
     class OrderedItemsInfo{
         public String sListIDxx;
         public String sImagesxx;
+        public String sStockIDx;
         public String xModelNme;
         public String nUnitPrce;
         public String nQuantity;

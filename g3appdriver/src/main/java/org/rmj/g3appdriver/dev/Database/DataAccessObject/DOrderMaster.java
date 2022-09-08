@@ -61,19 +61,19 @@ public interface DOrderMaster {
     LiveData<List<OrderHistory>> GetOrderHistoryList();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
-            "WHERE cTranStat = '0' " +
+            "WHERE nTranTotl > nAmtPaidx " +
             "AND sAppUsrID = (" +
             "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetToPayOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
-            "WHERE cTranStat = '1' " +
+            "WHERE cTranStat = '0' " +
             "AND sAppUsrID = (" +
             "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetProcessingOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
-            "WHERE cTranStat = '2' " +
+            "WHERE cTranStat = '1' " +
             "AND sAppUsrID = (" +
             "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetToShipOrdersCount();
@@ -113,6 +113,31 @@ public interface DOrderMaster {
             "AND a.cTranStat=:fsVal " +
             "ORDER BY a.dTransact DESC")
     LiveData<List<OrderHistory>> GetOrderHistoryList(String fsVal);
+
+
+    @Query("SELECT a.sTransNox, " +
+            "a.cTranStat, " +
+            "b.nQuantity * b.nUnitPrce AS nTranTotl, " +
+            "b.nEntryNox, " +
+            "b.nQuantity, " +
+            "b.nUnitPrce, " +
+            "b.nDiscount, " +
+            "c.sBriefDsc, " +
+            "c.xBarCodex, " +
+            "c.sImagesxx, " +
+            "c.xBrandNme, " +
+            "c.xModelNme, " +
+            "c.xColorNme, " +
+            "c.xCategrNm " +
+            "FROM MarketPlace_Order_Master a " +
+            "LEFT JOIN MarketPlace_Order_Detail b " +
+            "ON a.sTransNox = b.sTransNox " +
+            "LEFT JOIN Product_Inventory c " +
+            "ON b.sStockIDx = c.sStockIDx " +
+            "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND a.nTranTotl > a.nAmtPaidx " +
+            "ORDER BY a.dTransact DESC")
+    LiveData<List<OrderHistory>> GetToPayOrderList();
 
     @Query("SELECT a.sTransNox," +
             " a.dTransact," +
