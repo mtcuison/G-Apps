@@ -62,8 +62,9 @@
                     android:id="@+id/tie_accountUpdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"
-                    android:inputType="textCapWords"
+                    android:maxLength="60"
+                    android:digits="@string/free_text_restriction"
+                    android:inputType="textPersonName"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_firstname" />
 
@@ -93,8 +94,9 @@
                     android:id="@+id/tie_firstname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"
-                    android:inputType="textCapWords"
+                    android:maxLength="60"
+                    android:digits="@string/free_text_restriction"
+                    android:inputType="textPersonName"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_middname" />
 
@@ -126,8 +128,9 @@
                     android:id="@+id/tie_middname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"
-                    android:inputType="textCapWords"
+                    android:maxLength="60"
+                    android:digits="@string/free_text_restriction"
+                    android:inputType="textPersonName"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_suffix" />
 
@@ -158,7 +161,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="5"
-                    android:inputType="textCapWords"
+                    android:digits="@string/free_text_restriction"
+                    android:inputType="textPersonName"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_bdate" />
 
@@ -179,7 +183,6 @@
                 android:id="@+id/til_bdate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/hintBdayFormat"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblBdate"
                 app:layout_constraintRight_toRightOf="parent"
@@ -380,15 +383,15 @@
                 app:layout_constraintRight_toRightOf="parent"
                 style="@style/TextInputStyle">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tie_maidenNm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="100"
-                    android:inputType="textAutoComplete|textCapWords"
+                    android:maxLength="60"
+                    android:digits="@string/free_text_restriction"
+                    android:inputType="textPersonName"
                     android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/tie_gender"
-                    style="@style/AutoCompleteStyleTheme"/>
+                    android:nextFocusForward="@id/tie_gender" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -472,7 +475,8 @@
                     android:id="@+id/tie_street"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="20"
+                    android:maxLength="128"
+                    android:digits="@string/free_text_restriction"
                     android:inputType="textCapWords"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_towncity" />

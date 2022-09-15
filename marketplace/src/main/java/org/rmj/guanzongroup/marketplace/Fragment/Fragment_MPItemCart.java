@@ -264,7 +264,6 @@ public class Fragment_MPItemCart extends Fragment {
             Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
             intent.putExtra("args", "dashboard");
             requireActivity().sendBroadcast(intent);
-            poLoading.dismiss();
             requireActivity().finish();
         });
         return v;
