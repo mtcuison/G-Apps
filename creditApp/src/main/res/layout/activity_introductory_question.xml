@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Activity_IntroductoryQuestion"
+    android:orientation="vertical"
     android:theme="@style/GuanzonMarketplace.Theme"
-    android:orientation="vertical">
+    tools:context=".Activities.Activity_IntroductoryQuestion">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ClearAppTheme.ActionBar.Transparent"/>
+        android:theme="@style/ClearAppTheme.ActionBar.Transparent" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,108 +20,279 @@
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/FragmentTheme"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/FragmentTheme">
+            android:layout_height="match_parent">
 
 
             <TextView
                 android:id="@+id/lblInfo"
+                style="@style/TextInputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/lblCompleteInfo"
+                android:layout_margin="0dp"
                 android:drawableStart="@drawable/ic_baseline_info_24"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                style="@style/TextInputLabel"
                 android:paddingBottom="15dp"
-                android:layout_margin="0dp"/>
+                android:text="@string/lblCompleteInfo"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-<!--downpayment-->
+            <!--Unit Applied-->
             <TextView
-                android:id="@+id/lblDP"
+                android:id="@+id/lblAU"
+                style="@style/TextInputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/lblDownpayment"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblInfo"
-                app:layout_constraintRight_toRightOf="parent"
+                android:text="Apply unit"
                 app:layout_constraintHorizontal_bias="0"
-                style="@style/TextInputLabel" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_DownPayment"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblDP"
                 app:layout_constraintRight_toRightOf="parent"
-                style="@style/TextInputStyle">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_DownPayment"
+                app:layout_constraintTop_toBottomOf="@id/lblInfo" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_Application"
+                style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="50"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/btnNext" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-<!--Loan Term Selection-->
-            <TextView
-                android:id="@+id/lblLTS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lblLoanTermSelection"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_DownPayment"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                style="@style/TextInputLabel" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_LoanTermSelection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblLTS"
-                app:layout_constraintRight_toLeftOf="parent"
-                style="@style/CustomDropDownTilStyle">
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="lblAU"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblAU">
 
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                    android:id="@+id/tie_LoanTermSelection"
+                    android:id="@+id/tie_Application"
+                    style="@style/DropdownStyleTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_MonthlyPayment"
-                    style="@style/DropdownStyleTheme"/>
+                    android:textSize="16sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-<!--Monthly Payment-->
+            <!--downpayment-->
             <TextView
-                android:id="@+id/lblMP"
+                android:id="@+id/lblDp"
+                style="@style/TextInputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/lblMonthlyPayment"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_LoanTermSelection"
-                app:layout_constraintRight_toRightOf="parent"
+                android:text="@string/lblDownpayment"
                 app:layout_constraintHorizontal_bias="0"
-                style="@style/TextInputLabel" />
-
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_Application" />
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_MonthlyPayment"
+                android:id="@+id/til_DownPayment"
+                style="@style/TextInputStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblMP"
                 app:layout_constraintRight_toRightOf="parent"
-                style="@style/TextInputStyle">
+                app:layout_constraintTop_toBottomOf="@id/lblDp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_DownPayment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:maxLength="50"
+                    android:nextFocusForward="@id/btnNext"
+                    android:textSize="16dp"
+                    android:transitionName="edittext_4" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <!--Model of Selected Item-->
+            <TextView
+                android:id="@+id/lblM"
+                style="@style/TextInputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unit model"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_DownPayment" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_ModelId"
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblM">
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/tie_ModelId"
+                    style="@style/DropdownStyleTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/tie_MonthlyPayment"
+                    android:textSize="16sp"
+                    android:transitionName="edittext_4" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--Price Of Unit-->
+            <TextView
+                android:id="@+id/lblPOU"
+                style="@style/TextInputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblPriceOfUnit"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_ModelId" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_PriceOfUnit"
+                style="@style/TextInputStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblPOU">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_PriceOfUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:maxLength="50"
+                    android:nextFocusForward="@id/tie_Discount" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--Discount-->
+            <TextView
+                android:id="@+id/lblDisc"
+                style="@style/TextInputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblDiscount"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_PriceOfUnit" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_Discount"
+                style="@style/TextInputStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblDisc">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_Discount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:maxLength="50"
+                    android:nextFocusForward="@id/btnNext" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--Miscellaneous-->
+            <TextView
+                android:id="@+id/lblMisc"
+                style="@style/TextInputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Miscellaneous"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_Discount" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_Miscellaneous"
+                style="@style/TextInputStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblMisc">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_Miscellaneous"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:maxLength="50"
+                    android:nextFocusForward="@id/btnNext"
+                    android:transitionName="edittext_4" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--Loan Term Selection-->
+            <TextView
+                android:id="@+id/lblLTS"
+                style="@style/TextInputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblLoanTermSelection"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_Miscellaneous" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_LoanTermSelection"
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblLTS">
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/tie_LoanTermSelection"
+                    style="@style/DropdownStyleTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/tie_MonthlyPayment"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--Monthly Payment-->
+            <TextView
+                android:id="@+id/lblMP"
+                style="@style/TextInputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblMonthlyPayment"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_LoanTermSelection" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_MonthlyPayment"
+                style="@style/TextInputStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblMP">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tie_MonthlyPayment"
@@ -136,87 +307,21 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-<!--Price Of Unit-->
-            <TextView
-                android:id="@+id/lblPU"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lblPriceOfUnit"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_MonthlyPayment"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                style="@style/TextInputLabel" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_PriceOfUnit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblPU"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/TextInputStyle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_PriceOfUnit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLength="50"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:inputType="numberDecimal"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/tie_Discount" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-<!--Discount-->
-            <TextView
-                android:id="@+id/lblDis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lblDiscount"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_PriceOfUnit"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                style="@style/TextInputLabel" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_Discount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblDis"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/TextInputStyle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_Discount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLength="50"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:inputType="numberDecimal"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/btnNext" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-<!--button Next-->
+            <!--button Next-->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnNext"
+                style="@style/ButtonStyle.Orange.Medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/lblNext"
                 android:layout_marginTop="50dp"
-                style="@style/ButtonStyle.Orange.Medium"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_Discount"
-                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginBottom="150dp"
+                android:text="@string/lblNext"
+                android:transitionName="button_next"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="1"
-                android:layout_marginBottom="150dp"/>
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_MonthlyPayment"
+                app:layout_constraintVertical_bias="1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,12 +36,7 @@ public class Activity_LoanPreview extends AppCompatActivity {
         setUpToolbar();
         receiveIntent();
 
-        btnApplyLoan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        btnApplyLoan.setOnClickListener(v -> finish());
 
     }
 
@@ -106,7 +100,7 @@ public class Activity_LoanPreview extends AppCompatActivity {
                 JSONObject params = new JSONObject(param);
 
                 Intent returnIntent = new Intent(Activity_LoanPreview.this,
-                        Activity_OtherInfo.class);
+                        Activity_DisbursementInfo.class);
                 Bundle bundle = new Bundle();
 
                 bundle.putString("xDownPayment", lbl_DownPayment.getText().toString());
@@ -147,7 +141,7 @@ public class Activity_LoanPreview extends AppCompatActivity {
             JSONObject params = new JSONObject(param);
 
             Intent returnIntent = new Intent(Activity_LoanPreview.this,
-                    Activity_OtherInfo.class);
+                    Activity_DisbursementInfo.class);
 
             Bundle bundle = new Bundle();
 

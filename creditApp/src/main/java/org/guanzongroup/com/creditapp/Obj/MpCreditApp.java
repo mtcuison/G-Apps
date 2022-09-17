@@ -9,11 +9,11 @@ public class MpCreditApp {
     private final AddressInfo poAddxx = new AddressInfo();
     private final MeansInfo poMeans = new MeansInfo();
     private final OtherInfo poOther = new OtherInfo();
-    private String dTransact = "";
+    private final String dTransact = "";
     private String cUnitType = "";
     private String sModelIDx = "";
     private String nDwnpymnt = "";
-    private String sInstlTrm = "";
+    private final String sInstlTrm = "";
     private String nAmortztn = "";
     private String nUnitPrce = "";
     private String nDiscount = "";

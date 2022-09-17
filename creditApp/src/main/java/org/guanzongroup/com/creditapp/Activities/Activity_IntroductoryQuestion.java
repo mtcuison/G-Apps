@@ -1,10 +1,15 @@
 package org.guanzongroup.com.creditapp.Activities;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Pair;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,19 +27,20 @@ import java.util.Objects;
 
 public class Activity_IntroductoryQuestion extends AppCompatActivity {
 
+    TextView DP, LTS, MP, POU;
     private TextInputEditText txt_DownPayment,
             txt_MonthlyPayment, txt_PriceOfUnit, txt_Discount;
     private AutoCompleteTextView txt_LoanTermSelection;
     private MaterialButton btnNext;
     private Toolbar toolbar;
-    private JSONObject params;
     private String a, b, c, d, w, x, y, z;
-    private Bundle bundle, bundlex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_introductory_question);
+
+
 
         initViews();
         receiveIntent();
@@ -42,6 +48,8 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
         LoanTermSelection();
         goToNextPage();
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -61,8 +69,8 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
 
         try {
             Intent receiveIntent = getIntent();
-            bundle = receiveIntent.getBundleExtra("bundle");
-            bundlex = new Bundle(bundle);
+            Bundle bundle = receiveIntent.getBundleExtra("bundle");
+            Bundle bundlex = new Bundle(bundle);
 
             String down = bundlex.getString("xDownPayment");
             String loan = bundlex.getString("xLTSelection");
@@ -107,8 +115,9 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
 
             if (validateData()) {
                 Toast.makeText(Activity_IntroductoryQuestion.this, "Proceeding to next Page ", Toast.LENGTH_SHORT).show();
-
                 try {
+                    Intent loIntent = new Intent(Activity_IntroductoryQuestion.this, Activity_MeansInfo.class);
+
                     JSONObject params = new JSONObject();
                     params.put("sDownPayment", (Objects.requireNonNull(txt_DownPayment.getText()).toString()));
                     params.put("sLTSelection", (txt_LoanTermSelection.getText().toString()));
@@ -116,7 +125,6 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                     params.put("sMonthlyPayment", (Objects.requireNonNull(txt_MonthlyPayment.getText()).toString()));
                     params.put("sDiscount", (Objects.requireNonNull(txt_Discount.getText()).toString()));
 
-                    Intent loIntent = new Intent(Activity_IntroductoryQuestion.this, Activity_MeansInfo.class);
                     loIntent.putExtra("params", params.toString());
 
                     Bundle meansInfo = new Bundle();
@@ -140,7 +148,6 @@ public class Activity_IntroductoryQuestion extends AppCompatActivity {
                     loIntent.putExtra("bundles", meansInfo);
 
                     startActivity(loIntent);
-                    this.finish();
 
                 } catch (Exception e) {
                     e.printStackTrace();

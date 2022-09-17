@@ -20,7 +20,8 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 
-public class Activity_MeansInfo extends AppCompatActivity {
+public class Activity_MeansInfo extends AppCompatActivity{
+
 
     private RadioGroup rg_EmployeeStatus;
     private RadioButton rb_Employed, rb_SelfEmployed, rb_OFW;
@@ -29,7 +30,8 @@ public class Activity_MeansInfo extends AppCompatActivity {
     private TextView lblInd;
     private Toolbar toolbar;
     private String TypeOfEmployee, aa, bb, cc, dd, ee, w, x, y, z;
-    private Intent receiveIntent, intent;
+    private Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class Activity_MeansInfo extends AppCompatActivity {
 
     private void receiveIntent() {
         try {
-            receiveIntent = getIntent();
+            Intent receiveIntent = getIntent();
             Bundle bundle = receiveIntent.getBundleExtra("bundles");
             Bundle bundlex = new Bundle(bundle);
 
@@ -60,26 +62,6 @@ public class Activity_MeansInfo extends AppCompatActivity {
             cc = MonthlyPayment;
             dd = PriceOfUnit;
             ee = Discount;
-
-            String emp = bundlex.getString("xEmployment");
-            String ind = bundlex.getString("xIndustry");
-            String est = bundlex.getString("xEstimatedIncome");
-            String job = bundlex.getString("xJobTitle");
-
-            TypeOfEmployee = emp;
-            if ("OFW".equalsIgnoreCase(TypeOfEmployee)) {
-                rg_EmployeeStatus.check(R.id.rb_OFW);
-                txt_Industry.setVisibility(TextInputEditText.GONE);
-                lblInd.setVisibility(TextView.GONE);
-            } else if ("Employed".equalsIgnoreCase(TypeOfEmployee)) {
-                rg_EmployeeStatus.check(R.id.rb_Employed);
-            } else if ("Self Employed".equalsIgnoreCase(TypeOfEmployee)) {
-                rg_EmployeeStatus.check(R.id.rb_SelfEmployed);
-            }
-            txt_Industry.setText(ind);
-            txt_JobTitle.setText(job);
-            txt_EstimatedIncome.setText(est);
-
 
             String OthInc = bundlex.getString("xOtherIncome");
             String EstInc = bundlex.getString("xEstimatedIncome1");
@@ -109,9 +91,9 @@ public class Activity_MeansInfo extends AppCompatActivity {
             bundle.putString("xDiscount", ee);
 
             bundle.putString("xEmployment", TypeOfEmployee);
-            bundle.putString("xIndustry", txt_Industry.getText().toString().trim());
-            bundle.putString("xEstimatedIncome", txt_EstimatedIncome.getText().toString().trim());
-            bundle.putString("xJobTitle", txt_JobTitle.getText().toString().trim());
+            bundle.putString("xIndustry", Objects.requireNonNull(txt_Industry.getText()).toString().trim());
+            bundle.putString("xEstimatedIncome", Objects.requireNonNull(txt_EstimatedIncome.getText()).toString().trim());
+            bundle.putString("xJobTitle", Objects.requireNonNull(txt_JobTitle.getText()).toString().trim());
 
             bundle.putString("xOtherIncome", w);
             bundle.putString("xEstimatedIncome1", x);
@@ -119,9 +101,8 @@ public class Activity_MeansInfo extends AppCompatActivity {
             bundle.putString("xTypeOfAccount", z);
 
             returnIntent.putExtra("bundle", bundle);
-            startActivity(returnIntent);
 
-            this.finish();
+            startActivity(returnIntent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -140,19 +121,19 @@ public class Activity_MeansInfo extends AppCompatActivity {
         bundle.putString("xDiscount", ee);
 
         bundle.putString("xEmployment", TypeOfEmployee);
-        bundle.putString("xIndustry", txt_Industry.getText().toString().trim());
-        bundle.putString("xEstimatedIncome", txt_EstimatedIncome.getText().toString().trim());
-        bundle.putString("xJobTitle", txt_JobTitle.getText().toString().trim());
+        bundle.putString("xIndustry", Objects.requireNonNull(txt_Industry.getText()).toString().trim());
+        bundle.putString("xEstimatedIncome", Objects.requireNonNull(txt_EstimatedIncome.getText()).toString().trim());
+        bundle.putString("xJobTitle", Objects.requireNonNull(txt_JobTitle.getText()).toString().trim());
 
         bundle.putString("xOtherIncome", w);
         bundle.putString("xEstimatedIncome1", x);
         bundle.putString("xBankName", y);
         bundle.putString("xTypeOfAccount", z);
 
-        returnIntent.putExtra("bundle", bundle);
+
+
         startActivity(returnIntent);
 
-        this.finish();
     }
 
     private void goToNextPage() {
@@ -170,7 +151,7 @@ public class Activity_MeansInfo extends AppCompatActivity {
                     params.put("sJobTitle", (Objects.requireNonNull(txt_JobTitle.getText()).toString().trim()));
                     params.put("sEstimatedIncome", (Objects.requireNonNull(txt_EstimatedIncome.getText()).toString().trim()));
 
-                    Intent loIntent = new Intent(Activity_MeansInfo.this, Activity_OtherInfo.class);
+                    Intent loIntent = new Intent(Activity_MeansInfo.this, Activity_DisbursementInfo.class);
                     loIntent.putExtra("params", params.toString());
 
                     Bundle bundle = new Bundle();
@@ -260,15 +241,9 @@ public class Activity_MeansInfo extends AppCompatActivity {
 
     private void initViews() {
 
-        rg_EmployeeStatus = findViewById(R.id.rg_EmployeeStatus);
-        rb_Employed = findViewById(R.id.rb_Employed);
-        rb_SelfEmployed = findViewById(R.id.rb_SelfEmployed);
-        rb_OFW = findViewById(R.id.rb_OFW);
-        txt_Industry = findViewById(R.id.tie_Industry);
-        txt_JobTitle = findViewById(R.id.tie_JobTitle);
+
         txt_EstimatedIncome = findViewById(R.id.tie_EstimatedIncome);
 
-        lblInd = findViewById(R.id.lblInd);
         toolbar = findViewById(R.id.toolbar);
 
         btnNext = findViewById(R.id.btnNext);

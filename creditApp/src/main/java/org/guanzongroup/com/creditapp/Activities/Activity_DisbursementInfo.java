@@ -19,7 +19,7 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 
-public class Activity_OtherInfo extends AppCompatActivity {
+public class Activity_DisbursementInfo extends AppCompatActivity {
 
     String[] Bank = new String[]{"BDO", "Union Bank", "Security", "DBP", "UCPB"};
     private TextInputEditText txt_OtherIncome, txt_EstimatedIncome;
@@ -31,7 +31,7 @@ public class Activity_OtherInfo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_other_info);
+        setContentView(R.layout.activity_disbursement_info);
 
         initViews();
         receiveIntent();
@@ -90,7 +90,7 @@ public class Activity_OtherInfo extends AppCompatActivity {
                 String param = receiveIntent.getStringExtra("params");
                 JSONObject params = new JSONObject(param);
 
-                Intent returnIntent = new Intent(Activity_OtherInfo.this,
+                Intent returnIntent = new Intent(Activity_DisbursementInfo.this,
                         Activity_MeansInfo.class);
 
                 Bundle bundle = new Bundle();
@@ -105,8 +105,8 @@ public class Activity_OtherInfo extends AppCompatActivity {
                 bundle.putString("xEstimatedIncome", h);
                 bundle.putString("xJobTitle", i);
 
-                bundle.putString("xOtherIncome", txt_OtherIncome.getText().toString().trim());
-                bundle.putString("xEstimatedIncome1", txt_EstimatedIncome.getText().toString().trim());
+                bundle.putString("xOtherIncome", Objects.requireNonNull(txt_OtherIncome.getText()).toString().trim());
+                bundle.putString("xEstimatedIncome1", Objects.requireNonNull(txt_EstimatedIncome.getText()).toString().trim());
                 bundle.putString("xBankName", txt_BankName.getText().toString().trim());
                 bundle.putString("xTypeOfAccount", txt_TypeOfAccount.getText().toString().trim());
 
@@ -130,8 +130,9 @@ public class Activity_OtherInfo extends AppCompatActivity {
             String param = receiveIntent.getStringExtra("params");
             JSONObject params = new JSONObject(param);
 
-            Intent returnIntent = new Intent(Activity_OtherInfo.this,
+            Intent returnIntent = new Intent(Activity_DisbursementInfo.this,
                     Activity_MeansInfo.class);
+
 
             Bundle bundle = new Bundle();
             bundle.putString("xDownPayment", a);
@@ -145,8 +146,8 @@ public class Activity_OtherInfo extends AppCompatActivity {
             bundle.putString("xEstimatedIncome", h);
             bundle.putString("xJobTitle", i);
 
-            bundle.putString("xOtherIncome", txt_OtherIncome.getText().toString().trim());
-            bundle.putString("xEstimatedIncome1", txt_EstimatedIncome.getText().toString().trim());
+            bundle.putString("xOtherIncome", Objects.requireNonNull(txt_OtherIncome.getText()).toString().trim());
+            bundle.putString("xEstimatedIncome1", Objects.requireNonNull(txt_EstimatedIncome.getText()).toString().trim());
             bundle.putString("xBankName", txt_BankName.getText().toString().trim());
             bundle.putString("xTypeOfAccount", txt_TypeOfAccount.getText().toString().trim());
 
@@ -165,7 +166,7 @@ public class Activity_OtherInfo extends AppCompatActivity {
         btnNext.setOnClickListener(v -> {
 
             if (validateData()) {
-                Toast.makeText(Activity_OtherInfo.this, "Proceeding to Next Page", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_DisbursementInfo.this, "Proceeding to Next Page", Toast.LENGTH_SHORT).show();
 
                 try {
                     Intent receiveIntent = getIntent();
@@ -177,7 +178,7 @@ public class Activity_OtherInfo extends AppCompatActivity {
                     params.put("sOtherIncome", (Objects.requireNonNull(txt_OtherIncome.getText()).toString()));
                     params.put("sTypeOfAccount", (txt_TypeOfAccount.getText().toString()));
 
-                    Intent loIntent = new Intent(Activity_OtherInfo.this, Activity_LoanPreview.class);
+                    Intent loIntent = new Intent(Activity_DisbursementInfo.this, Activity_LoanPreview.class);
 
                     loIntent.putExtra("params", params.toString());
                     startActivity(loIntent);
@@ -191,7 +192,7 @@ public class Activity_OtherInfo extends AppCompatActivity {
     }
 
     private void bankName() {
-        txt_BankName.setAdapter(new ArrayAdapter<>(Activity_OtherInfo.this, android.R.layout.simple_list_item_1, Bank));
+        txt_BankName.setAdapter(new ArrayAdapter<>(Activity_DisbursementInfo.this, android.R.layout.simple_list_item_1, Bank));
     }
 
     private void initViews() {

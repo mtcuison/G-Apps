@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Activity_IntroductoryQuestion"
+    android:orientation="vertical"
     android:theme="@style/GuanzonMarketplace.Theme"
-    android:orientation="vertical">
+    tools:context=".Activities.Activity_IntroductoryQuestion">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ClearAppTheme.ActionBar.Transparent"/>
+        android:theme="@style/ClearAppTheme.ActionBar.Transparent" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,180 +20,438 @@
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/FragmentTheme"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/FragmentTheme">
+            android:layout_height="match_parent">
 
 
             <TextView
                 android:id="@+id/lblInfo"
+                style="@style/TextInputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/lblCompleteInfo"
+                android:layout_margin="0dp"
                 android:drawableStart="@drawable/ic_baseline_info_24"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                style="@style/TextInputLabel"
                 android:paddingBottom="15dp"
-                android:layout_margin="0dp"/>
-
-            <!--Employee Status-->
-            <TextView
-                android:id="@+id/lblES"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lblEmployeeStatus"
+                android:text="@string/lblCompleteInfo"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblInfo"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                style="@style/TextInputLabel" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioGroup
-                android:id="@+id/rg_EmployeeStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/lblES"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/tie_Industry">
-
-                <RadioButton
-                    android:id="@+id/rb_Employed"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lblEmployed" />
-
-                <RadioButton
-                    android:id="@+id/rb_SelfEmployed"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/lblSelfEmployed" />
-
-                <RadioButton
-                    android:id="@+id/rb_OFW"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/lblOFW" />
-            </RadioGroup>
-
-            <!--Industry-->
+            <!--Employed Status-->
             <TextView
-                android:id="@+id/lblInd"
+                android:id="@+id/lblPSI"
+                style="@style/TextInputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/lblIndustry"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rg_EmployeeStatus"
-                app:layout_constraintRight_toRightOf="parent"
+                android:text="@string/lblSourceOfIncome"
+                android:transitionName="text_1"
                 app:layout_constraintHorizontal_bias="0"
-                style="@style/TextInputLabel" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblInfo" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_Industry"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblInd"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/TextInputStyle">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_Industry"
+                android:id="@+id/til_PSincome"
+                style="@style/CustomDropDownTilStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="50"
-                android:inputType="textCapWords"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/tie_JobTitle" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblPSI">
 
-            <!--Job Title-->
-            <TextView
-                android:id="@+id/lblJT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lblJobTitle"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_Industry"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                style="@style/TextInputLabel" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_JobTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblJT"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/TextInputStyle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_JobTitle"
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/tie_PSincome"
+                    style="@style/DropdownStyleTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"
-                    android:inputType="textCapWords"
                     android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/tie_EstimatedIncome" />
+                    android:nextFocusForward="@id/tie_NatureOfWork" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--Estimated Income-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/employed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_PSincome">
+
+                <!--Industry-->
+                <TextView
+                    android:id="@+id/lblNoW"
+                    style="@style/TextInputLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lblNatureOfWork"
+                    android:transitionName="text_2"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                     app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_NatureOfWork"
+                    style="@style/TextInputStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:transitionName="edittext_2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lblNoW">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_NatureOfWork"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:maxLength="50"
+                        android:nextFocusForward="@id/tie_Position"
+                        android:transitionName="edittext_2" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--Job Title-->
+                <TextView
+                    android:id="@+id/lblJT"
+                    style="@style/TextInputLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lblPosition"
+                    android:transitionName="text_3"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_NatureOfWork" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_Position"
+                    style="@style/TextInputStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:transitionName="edittext_3"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lblJT">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_Position"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:maxLength="50"
+                        android:nextFocusForward="@id/tie_Salary"
+                        android:transitionName="edittext_3" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--Estimated Income-->
+                <TextView
+                    android:id="@+id/lblSlr"
+                    style="@style/TextInputLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lblSalary"
+                    android:transitionName="text_4"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_Position" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_Salary"
+                    style="@style/TextInputStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:transitionName="edittext_4"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lblSlr">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_Salary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:maxLength="50"
+                        android:nextFocusForward="@id/tie_Discount"
+                        android:transitionName="edittext_4" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/self_employed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/employed">
+
+                <!--Industry-->
+                <TextView
+                    android:id="@+id/lblNoB"
+                    style="@style/TextInputLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lblNatureOfBus"
+                    android:transitionName="text_2"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_NatureOfBus"
+                    style="@style/TextInputStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:transitionName="edittext_2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lblNoB">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_NatureOfBus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:maxLength="50"
+                        android:nextFocusForward="@id/tie_Position"
+                        android:transitionName="edittext_2" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--Job Title-->
+                <TextView
+                    android:id="@+id/lblBusInc"
+                    style="@style/TextInputLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lblMonthlyIncome"
+                    android:transitionName="text_3"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_NatureOfBus" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_BusInc"
+                    style="@style/TextInputStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:transitionName="edittext_3"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/lblBusInc">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_BusInc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:maxLength="50"
+                        android:nextFocusForward="@id/tie_PenType"
+                        android:transitionName="edittext_3" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/lblPentype"
+                style="@style/TextInputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblPenType"
+                android:transitionName="text_1"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/self_employed" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_PenType"
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblPentype">
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/tie_PenType"
+                    style="@style/DropdownStyleTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/tie_PenRnge" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/lblPenRnge"
+                style="@style/TextInputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblPenRange"
+                android:transitionName="text_1"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_PenType" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_PenRnge"
+                style="@style/TextInputStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblPenRnge">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_PenRnge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/tie_NatureOfWork" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/lblFinanced"
+                style="@style/TextInputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblFinanced"
+                android:transitionName="text_1"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_PenRnge" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_Financed"
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblFinanced">
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/tie_Financed"
+                    style="@style/DropdownStyleTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/tie_PenRnge" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <TextView
                 android:id="@+id/lblEI"
+                style="@style/TextInputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lblEstimateIncome"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_JobTitle"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintHorizontal_bias="0"
-                style="@style/TextInputLabel" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_Financed" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_EstimatedIncome"
-                android:layout_width="0dp"
+                style="@style/TextInputStyle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lblEI"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/TextInputStyle">
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblEI">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tie_EstimatedIncome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="50"
-                    android:inputType="numberDecimal"
                     android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/tie_Discount" />
+                    android:nextFocusForward="@id/tie_NatureOfWork" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/lbl_OtherIncome"
+                style="@style/TextInputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblOtherIncome"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_EstimatedIncome" />
 
-            <!--button Next-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_OtherIncome"
+                style="@style/TextInputStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lbl_OtherIncome">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_OtherIncome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/tie_NatureOfWork" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/lblEI2"
+                style="@style/TextInputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lblEstimateIncome"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_OtherIncome" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_EstimatedIncome2"
+                style="@style/TextInputStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lblEI2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_EstimatedIncome2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/tie_NatureOfWork" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+<!--            button Next-->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnNext"
+                style="@style/ButtonStyle.Orange.Medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/lblNext"
                 android:layout_marginTop="50dp"
-                style="@style/ButtonStyle.Orange.Medium"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_EstimatedIncome"
-                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginBottom="150dp"
+                android:text="@string/lblNext"
+                android:transitionName="button_next"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="1"
-                android:layout_marginBottom="150dp"/>
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_EstimatedIncome2"
+                app:layout_constraintVertical_bias="1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
