@@ -99,7 +99,7 @@ public class OtherInfo {
 
     public void setData(String fsVal) throws JSONException{
         JSONObject loJson = new JSONObject(fsVal);
-        params = loJson.getJSONObject("other_info");
+        params = loJson.getJSONObject("disbursement_info");
     }
 
     public JSONObject getData(){

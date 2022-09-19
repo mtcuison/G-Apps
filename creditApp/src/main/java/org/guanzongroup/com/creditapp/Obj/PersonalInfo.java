@@ -10,6 +10,8 @@ public class PersonalInfo {
 
     private JSONObject params = new JSONObject();
 
+    private final AddressInfo poAddxx = new AddressInfo();
+
     private String message;
 
     public PersonalInfo() {
@@ -18,9 +20,10 @@ public class PersonalInfo {
             params.put("sFrstName", "");
             params.put("sMiddName", "");
             params.put("sSuffixxx", "");
-            params.put("sMaidenNm", "");
-            params.put("cGenderxx", "");
             params.put("cCvilStat", "");
+            params.put("cGenderxx", "");
+            params.put("sMaidenNm", "");
+            params.put("sFBAcctxx", "");
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -128,13 +131,149 @@ public class PersonalInfo {
         }
     }
 
+    public AddressInfo addressInfo() {
+        return poAddxx;
+    }
+
     public void setData(String fsVal) throws JSONException{
         JSONObject loJson = new JSONObject(fsVal);
         params = loJson.getJSONObject("personal_info");
+        poAddxx.setData(params.toString());
     }
 
-    public JSONObject getData(){
+    public JSONObject getData() throws JSONException{
+        params.put("address", poAddxx.getData());
         Log.d(TAG, params.toString());
         return params;
+    }
+
+
+    public static class AddressInfo {
+
+        private JSONObject params = new JSONObject();
+
+        private String message;
+
+        public AddressInfo() {
+            try{
+                params.put("sLandMark", "");
+                params.put("sHouseNox", "");
+                params.put("sAddress1", "");
+                params.put("sAddress2", "");
+                params.put("sBrgyIDxx", "");
+                params.put("sTownIDxx", "");
+                params.put("sProvIDxx", "");
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String getLandMark() throws JSONException {
+            if(params.has("sLandMark")) {
+                return params.getString("sLandMark");
+            }
+            return "";
+        }
+
+        public void setLandMark(String sHouseNo) throws JSONException {
+            params.put("sLandMark", sHouseNo);
+        }
+
+        public String getHouseNo() throws JSONException {
+            if(params.has("sHouseNox")) {
+                return params.getString("sHouseNox");
+            }
+            return "";
+        }
+
+        public void setHouseNo(String sHouseNo) throws JSONException {
+            params.put("sHouseNox", sHouseNo);
+        }
+
+        public String getAddress1() throws JSONException {
+            if(params.has("sAddress1")) {
+                return params.getString("sAddress1");
+            }
+            return "";
+        }
+
+        public void setAddress1(String sAddress) throws JSONException {
+            params.put("sAddress1", sAddress);
+        }
+
+        public void setAddress2(String sAddress) throws JSONException {
+            params.put("sAddress2", sAddress);
+        }
+
+        public String getAddress2() throws JSONException {
+            if(params.has("sAddress2")) {
+                return params.getString("sAddress2");
+            }
+            return "";
+        }
+
+        public String getTownID() throws JSONException {
+            if(params.has("sTownIDxx")) {
+                return params.getString("sTownIDxx");
+            }
+            return "";
+        }
+
+        public String getBarangayID() throws JSONException {
+            if(params.has("sBrgyIDxx")) {
+                return params.getString("sBrgyIDxx");
+            }
+            return "";
+        }
+
+        public void setBarangayID(String sBrgyIDx) throws JSONException {
+            params.put("sBrgyIDxx", sBrgyIDx);
+        }
+
+        public void setTownID(String sTownIDx) throws JSONException {
+            params.put("sTownIDxx", sTownIDx);
+        }
+
+        public String getProvinceID() throws JSONException {
+            if(params.has("sProvIDxx")) {
+                return params.getString("sProvIDxx");
+            }
+            return "";
+        }
+
+        public void setProvinceID(String sProvIDx) throws JSONException {
+            params.put("sProvIDxx", sProvIDx);
+        }
+
+        public boolean isDataValid() throws JSONException{
+            if(params.getString("sBrgyIDx").trim().isEmpty()){
+                message = "Unset barangay id detected.";
+                return false;
+            }
+            if(params.getString("sTownIDx").trim().isEmpty()){
+                message = "Unset town id detected.";
+                return false;
+            }
+            if(params.getString("sProvIDx").trim().isEmpty()){
+                message = "Unset province id detected.";
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        public void setData(String fsVal) throws JSONException{
+            JSONObject loJson = new JSONObject(fsVal);
+            params = loJson.getJSONObject("address");
+        }
+
+        public JSONObject getData() {
+            Log.d(TAG, params.toString());
+            return params;
+        }
     }
 }

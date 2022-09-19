@@ -4,6 +4,7 @@ import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.etc.AppConstants;
 
 public class MpCreditApp {
     private static final String TAG = MpCreditApp.class.getSimpleName();
@@ -11,7 +12,6 @@ public class MpCreditApp {
     private JSONObject params = new JSONObject(); //parent
 
     private final PersonalInfo poClient = new PersonalInfo();
-    private final AddressInfo poAddxx = new AddressInfo();
     private final MeansInfo poMeans = new MeansInfo();
     private final OtherInfo poOther = new OtherInfo();
 
@@ -49,12 +49,20 @@ public class MpCreditApp {
         params.put("sMiscExpn", fsVal);
     }
 
-    public PersonalInfo clientInfo() {
-        return poClient;
+    public void setDateApplied(String fsVal) throws Exception{
+        params.put("dAppliedx", new AppConstants().CURRENT_DATE);
     }
 
-    public AddressInfo addressInfo() {
-        return poAddxx;
+    public void setDateCreated(String fsVal) throws Exception{
+        params.put("dCreatedx", new AppConstants().DATE_MODIFIED);
+    }
+
+    public void setUnitApplied(String fsVal) throws Exception{
+        params.put("cUnitAppl", "1"); //Default 1 for mobile phone loan app
+    }
+
+    public PersonalInfo clientInfo() {
+        return poClient;
     }
 
     public MeansInfo meansInfo(){
@@ -97,9 +105,6 @@ public class MpCreditApp {
         } else if(!poClient.isDataValid()) {
             message = poClient.getMessage();
             return false;
-        } else if(poAddxx.isDataValid()){
-            message = poAddxx.getMessage();
-            return false;
         } else if(!meansInfo().isDataValid()){
             message = meansInfo().getMessage();
             return false;
@@ -114,7 +119,6 @@ public class MpCreditApp {
     public void setData(String fsVal) throws JSONException{
         params = new JSONObject(fsVal);
         poClient.setData(fsVal);
-        poAddxx.setData(fsVal);
         poMeans.setData(fsVal);
         poOther.setData(fsVal);
         Log.d(TAG, params.toString());
@@ -122,9 +126,8 @@ public class MpCreditApp {
 
     public String getData() throws JSONException {
         params.put("personal_info", poClient.getData());
-        params.put("address_info", poAddxx.getData());
         params.put("means_info", poMeans.getData());
-        params.put("other_info", poOther.getData());
+        params.put("disbursement_info", poOther.getData());
         Log.d(TAG, params.toString());
         return params.toString();
     }
