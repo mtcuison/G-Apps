@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.guanzongroup.marketplace.R;
@@ -36,10 +39,10 @@ public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.Vi
     public void onBindViewHolder(ViewHolderItem holder, int position) {
         try {
             DItemCart.oMarketplaceCartItem loItemxxx = poItemsxx.get(position);
-//            holder.imgProdct.setImageBitmap();
             holder.txtProdNm.setText(loItemxxx.xModelNme);
             holder.txtPricex.setText(CashFormatter.parse(loItemxxx.nUnitPrce));
             holder.txtItemQt.setText("Qty: " + loItemxxx.nQuantity);
+            holder.setImage(loItemxxx.sImagesxx);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,6 +66,16 @@ public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.Vi
             txtItemQt = itemView.findViewById(R.id.txt_item_quantity);
         }
 
+        public void setImage(String image) {
+            try {
+                JSONArray laJson = new JSONArray(image);
+                String lsImgVal = laJson.getJSONObject(0).getString("sImageURL");
+                Picasso.get().load(lsImgVal).placeholder(R.drawable.ic_no_image_available)
+                        .error(R.drawable.ic_no_image_available).into(imgProdct);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

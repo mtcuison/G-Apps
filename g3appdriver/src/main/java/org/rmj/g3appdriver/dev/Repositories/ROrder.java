@@ -265,6 +265,7 @@ public class ROrder {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
+                Log.d(TAG, "Server Response : " + lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){
@@ -463,16 +464,20 @@ public class ROrder {
         }
     }
 
-    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetItemCartList(){
+    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetItemCartList() {
         return poCartDao.GetCartItemsList();
     }
 
-    public LiveData<Double> GetItemCartTotalPrice(){
-        return poCartDao.GetItemCartTotalPrice();
+    public LiveData<Double> GetSelectedItemCartTotalPrice() {
+        return poCartDao.GetSelectedItemCartTotalPrice();
     }
 
-    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCheckoutItems(boolean cBuyNowxx){
-        if(!cBuyNowxx) {
+    public LiveData<Integer> GetSelectedItemCartTotalCount() {
+        return poCartDao.GetSelectedItemCartTotalCount();
+    }
+
+    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCheckoutItems(boolean cBuyNowxx) {
+        if (!cBuyNowxx) {
             return poCartDao.GetItemsForCheckOut();
         } else {
             return poCartDao.GetBuyNowItem();
@@ -587,6 +592,7 @@ public class ROrder {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
+                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if (!lsResult.equalsIgnoreCase("success")) {
@@ -614,7 +620,7 @@ public class ROrder {
                         loMaster.SaveOrderMaster(oMaster);
                     }
 
-                    for(int i = 0; i <jaDetail.length(); i++){
+                    for(int i = 0; i <jaDetail.length(); i++) {
                         JSONObject joDetail = jaDetail.getJSONObject(i);
                         EOrderDetail oDetail = new EOrderDetail();
                         oDetail.setTransNox(joDetail.getString("sTransNox"));
@@ -623,10 +629,10 @@ public class ROrder {
                         oDetail.setUnitPrce(joDetail.getString("nUnitPrce"));
                         oDetail.setDiscount(joDetail.getString("nDiscount"));
                         oDetail.setAddDiscx(joDetail.getString("nAddDiscx"));
-                        oDetail.setApproved(joDetail.getString("nApproved"));
-                        oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
-                        oDetail.setCancelld(joDetail.getString("nCancelld"));
-                        oDetail.setReferNox(joDetail.getString("sReferNox"));
+                        oDetail.setStockIDx(joDetail.getString("sStockIDx"));
+//                        oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
+//                        oDetail.setCancelld(joDetail.getString("nCancelld"));
+//                        oDetail.setReferNox(joDetail.getString("sReferNox"));
                         oDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
                         oDetail.setReviewed(joDetail.getString("cReviewed"));
                         oDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
@@ -656,6 +662,7 @@ public class ROrder {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
+                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if (!lsResult.equalsIgnoreCase("success")) {
@@ -695,23 +702,28 @@ public class ROrder {
         return poMaster.GetMasterOrderHistory();
     }
 
-    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(){
+    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList() {
         return poMaster.GetOrderHistoryList();
     }
 
-    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(String fsVal){
+    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(String fsVal) {
         return poMaster.GetOrderHistoryList(fsVal);
     }
 
-    public LiveData<List<DOrderDetail.OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal){
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetToPayOrderList() {
+        return poMaster.GetToPayOrderList();
+    }
+
+    public LiveData<List<DOrderDetail.OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal) {
         return poDetail.GetOrderHistoryDetail(fsVal);
     }
 
-    public LiveData<List<DOrderDetail.OrderedItemsInfo>> GetOrderedItems(String fsVal){
+    public LiveData<List<DOrderDetail.OrderedItemsInfo>> GetOrderedItems(String fsVal) {
         return poDetail.GetOrderedItems(fsVal);
     }
 
-    public LiveData<Integer> GetToPayOrdersCount(){
+    public LiveData<Integer> GetToPayOrdersCount() {
         return poMaster.GetToPayOrdersCount();
     }
     public LiveData<Integer> GetProcessingOrdersCount(){
@@ -761,7 +773,33 @@ public class ROrder {
                     return true;
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean SelectAll(boolean isSelected) {
+        try {
+            if (isSelected) {
+                poCartDao.UpdateSelectAllCheckOut();
+            } else {
+                poCartDao.UpdateUnselectAllCheckOut();
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean DeleteAll() {
+        try {
+            poCartDao.DeleteAllSelected();
+            return true;
+        } catch (Exception e) {
             e.printStackTrace();
             message = e.getMessage();
             return false;

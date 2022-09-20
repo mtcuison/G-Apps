@@ -4,20 +4,13 @@
 
     <application>
         <activity
-            android:name=".Activities.Activity_LoanPreview"
-            android:exported="false" />
+            android:name=".Activity_Sample"
+            android:exported="true"
+            android:screenOrientation="userPortrait" />
         <activity
-            android:name=".Activities.Activity_OtherInfo"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Activity_MeansInfo"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Activity_IntroductoryQuestion"
-            android:exported="true" />
-        <activity
-            android:name=".Activity_ProductList"
-            android:exported="false" />
+            android:name=".Activity_LoanProductList"
+            android:exported="true"
+            android:screenOrientation="userPortrait" />
     </application>
 
 </manifest>

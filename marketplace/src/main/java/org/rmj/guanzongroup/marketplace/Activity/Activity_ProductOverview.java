@@ -129,21 +129,14 @@ public class Activity_ProductOverview extends AppCompatActivity {
         });
 
         btnAddCrt.setOnClickListener(v -> {
-            if(!isClick) {
+            if (!isClick) {
                 isClick = true;
                 addToCart();
             } else {
                 Toast.makeText(Activity_ProductOverview.this, "Please wait...", Toast.LENGTH_SHORT).show();
             }
         });
-        btnBuyNow.setOnClickListener(v -> {
-            if(!isClick) {
-                isClick = true;
-                buyNow();
-            } else {
-                Toast.makeText(Activity_ProductOverview.this, "Please wait...", Toast.LENGTH_SHORT).show();
-            }
-        });
+        btnBuyNow.setOnClickListener(v -> buyNow());
     }
 
     @Override

@@ -70,17 +70,8 @@ public class Dialog_Loading {
         isShown = true;
     }
 
-    public void dismiss(){
-        if(poDialogx != null && poDialogx.isShowing()){
-            poDialogx.dismiss();
-            isShown = false;
-        } else if(poDialogx.isShowing()){
-            poDialogx.dismiss();
-            isShown = false;
-        } else {
-            poDialogx.dismiss();
-            isShown = false;
-        }
+    public void dismiss() {
+        poDialogx.dismiss();
+        isShown = false;
     }
-
 }

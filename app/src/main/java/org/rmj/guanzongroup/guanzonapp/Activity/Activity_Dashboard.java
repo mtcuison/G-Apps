@@ -31,6 +31,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.guanzongroup.com.creditapp.Activity_LoanProductList;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
@@ -128,15 +129,15 @@ public class Activity_Dashboard extends AppCompatActivity {
                 .setOpenableLayout(drawer)
                 .build();
 
+        //Disable Pre-Termination page untill project is develop...
+        navigationView.getMenu().findItem(R.id.nav_wishlist).setVisible(false);
+        navigationView.getMenu().findItem(R.id.nav_pre_termination).setVisible(false);
+        navigationView.getMenu().findItem(R.id.nav_customer_service).setVisible(false);
+
         mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, eGcardApp -> {
             try {
                 navigationView = findViewById(R.id.nav_view);
                 Menu nav_Menu = navigationView.getMenu();
-
-                //Disable Pre-Termination page untill project is develop...
-                nav_Menu.findItem(R.id.nav_wishlist).setVisible(false);
-                nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
-                nav_Menu.findItem(R.id.nav_customer_service).setVisible(false);
                 if (eGcardApp == null) {
                     nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
                     nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);
@@ -236,6 +237,12 @@ public class Activity_Dashboard extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nav_item_cart).setOnMenuItemClickListener(menuItem -> {
             Intent intent = new Intent(Activity_Dashboard.this, Activity_ItemCart.class);
             intent.putExtra("args", "1");
+            startActivity(intent);
+            return false;
+        });
+
+        navigationView.getMenu().findItem(R.id.nav_applyLoan).setOnMenuItemClickListener(menuItem -> {
+            Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanProductList.class);
             startActivity(intent);
             return false;
         });
@@ -371,10 +378,12 @@ public class Activity_Dashboard extends AppCompatActivity {
                 Menu nav_Menu = navigationView.getMenu();
                 if(eClientinfo != null) {
                     String lsFullNme;
-                    if(eClientinfo.getClientID() != null) {
-                        lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
-                    } else {
+                    if (eClientinfo.getLastName() == null && eClientinfo.getFrstName() == null) {
                         lsFullNme = eClientinfo.getUserName();
+                    } else if (eClientinfo.getLastName().isEmpty() && eClientinfo.getFrstName().isEmpty()) {
+                        lsFullNme = eClientinfo.getUserName();
+                    } else {
+                        lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
                     }
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
@@ -382,6 +391,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
                     nav_Menu.findItem(R.id.nav_wishlist).setVisible(true);
                     nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(true);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(true);
                 } else {
@@ -399,6 +409,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
                     nav_Menu.findItem(R.id.nav_wishlist).setVisible(false);
                     nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(false);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(false);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(false);
                 }

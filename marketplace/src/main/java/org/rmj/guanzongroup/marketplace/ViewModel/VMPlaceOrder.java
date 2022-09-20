@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
@@ -51,14 +52,25 @@ public class VMPlaceOrder extends AndroidViewModel {
         return poItmCart.GetCheckoutItems(cBuyNowxx);
     }
 
-    public LiveData<DClientInfo.ClientBSAddress> getClientBSAddress(){
+    public LiveData<DClientInfo.ClientBSAddress> getClientBSAddress() {
         return poClientx.getClientBSAddress();
     }
 
+    public LiveData<Double> GetSelectedItemCartTotalPrice() {
+        return poItmCart.GetSelectedItemCartTotalPrice();
+    }
+
+    public LiveData<Double> GetShippingFee() {
+        MutableLiveData<Double> lnShipFee = new MutableLiveData();
+        lnShipFee.setValue(100.0);
+        return lnShipFee;
+    }
+
     public void cancelBuyNow(boolean fromBuyNow, OnTransactionsCallback foCallBck) {
-        if(fromBuyNow) {
+        if (fromBuyNow) {
             new CancelBuyNowTask(application, foCallBck).execute();
         } else {
+            foCallBck.onLoading();
             foCallBck.onSuccess("");
         }
     }

@@ -85,6 +85,7 @@ public class RProduct {
                             EProducts loProdct = new EProducts();
                             loProdct.setListngID(joDetail.getString("sListngID"));
                             loProdct.setBriefDsc(joDetail.getString("sBriefDsc"));
+                            loProdct.setStockIDx(joDetail.getString("sStockIDx"));
                             loProdct.setDescript(joDetail.getString("sDescript"));
                             loProdct.setRatingxx(joDetail.getString("nRatingxx"));
                             loProdct.setBarCodex(joDetail.getString("xBarCodex"));

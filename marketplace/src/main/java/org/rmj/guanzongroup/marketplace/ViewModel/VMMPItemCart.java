@@ -51,21 +51,37 @@ public class VMMPItemCart extends AndroidViewModel {
     }
 
 
-    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCartItemsList(){
+    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCartItemsList() {
         return poOrder.GetItemCartList();
     }
 
-    public LiveData<Double> GetGrandTotal(){
-        return poOrder.GetItemCartTotalPrice();
+    public LiveData<Double> GetSelectedItemTotalPrice() {
+        return poOrder.GetSelectedItemCartTotalPrice();
     }
 
-    public LiveData<List<ItemCartModel>> getMarketPlaceItemCart(){
+    public LiveData<Integer> GetSelectedItemCartTotalCount() {
+        return poOrder.GetSelectedItemCartTotalCount();
+    }
+
+    public LiveData<Integer> GetMpItemCartCount() {
+        return poOrder.GetMartketplaceCartItemCount();
+    }
+
+    public void SelectAllItemOnCart(boolean isSelected) {
+        new SelectAllTask(poOrder).execute(isSelected);
+    }
+
+    public void DeleteAllSelected() {
+        new DeleteSelectedTask(poOrder).execute();
+    }
+
+    public LiveData<List<ItemCartModel>> getMarketPlaceItemCart() {
         return poItemCart;
     }
 
     public List<ItemCartModel> ParseDataForAdapter(List<DItemCart.oMarketplaceCartItem> foVal) {
         ArrayList<ItemCartModel> list = new ArrayList<>();
-        for(int x = 0; x < foVal.size(); x++){
+        for (int x = 0; x < foVal.size(); x++) {
             ItemCartModel loDetail = new ItemCartModel();
             loDetail.setMarket(true);
             loDetail.setListingId(foVal.get(x).sListIDxx);
@@ -93,6 +109,42 @@ public class VMMPItemCart extends AndroidViewModel {
 
     public void checkCartItemsForCheckOut(OnTransactionsCallback foCallBck) {
         new CheckCartItemsForCheckOutTask(poOrder, foCallBck).execute();
+    }
+
+    private static class SelectAllTask extends AsyncTask<Boolean, Void, Boolean> {
+
+        private final ROrder loItmCart;
+
+        private String message;
+
+        private SelectAllTask(ROrder foItmCart) {
+            this.loItmCart = foItmCart;
+        }
+
+        @Override
+        protected Boolean doInBackground(Boolean... booleans) {
+            if (!loItmCart.SelectAll(booleans[0])) {
+                message = loItmCart.getMessage();
+            }
+            return null;
+        }
+    }
+
+    private static class DeleteSelectedTask extends AsyncTask<String, Void, Boolean> {
+
+        private final ROrder loItmCart;
+
+        private DeleteSelectedTask(ROrder foItmCart) {
+            this.loItmCart = foItmCart;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            if (!loItmCart.DeleteAll()) {
+                return true;
+            }
+            return false;
+        }
     }
 
     private static class ForCheckoutTask extends AsyncTask<String, Void, Void> {
@@ -214,51 +266,6 @@ public class VMMPItemCart extends AndroidViewModel {
             } else {
                 callback.onFailed(message);
             }
-        }
-    }
-
-    private static class UpdateItemAddQuantityTask extends AsyncTask<String, Void, Boolean>{
-        private final OnTransactionsCallback callback;
-
-        public UpdateItemAddQuantityTask(OnTransactionsCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-        }
-    }
-    private static class UpdateItemDeductQuantityTask extends AsyncTask<String, Void, Boolean>{
-        private final OnTransactionsCallback callback;
-
-        public UpdateItemDeductQuantityTask(OnTransactionsCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
         }
     }
 }

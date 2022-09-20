@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.AutoCompleteTextView;
 
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Activity_CompleteAccountDetails extends AppCompatActivity {
+    private static final String TAG = Activity_CompleteAccountDetails.class.getSimpleName();
 
     private VMAccountDetails mViewModel;
     private CompleteAccountDetailsInfo poDataMdl;
@@ -48,7 +50,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
             txtBarngy;
     private MaterialButton btnSaveDt;
 
-    private List<DAddress.oTownObj> poTownCty = new ArrayList<>();
+    private String psBDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,7 +161,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         poDataMdl.setFirstName(Objects.requireNonNull(Objects.requireNonNull(txtFirstN.getText()).toString().trim()));
         poDataMdl.setMiddName(Objects.requireNonNull(Objects.requireNonNull(txtMidNme.getText()).toString().trim()));
         poDataMdl.setSuffixName(Objects.requireNonNull(Objects.requireNonNull(txtSuffix.getText()).toString().trim()));
-        poDataMdl.setBirthDate(Objects.requireNonNull(Objects.requireNonNull(txtBdatex.getText()).toString().trim()));
+        poDataMdl.setBirthDate(psBDate);
         poDataMdl.setTaxIdNumber(Objects.requireNonNull(Objects.requireNonNull(txtTaxNox.getText()).toString().trim()));
         poDataMdl.setHouseNumber(Objects.requireNonNull(Objects.requireNonNull(txtHouseN.getText()).toString().trim()));
         poDataMdl.setAddress(Objects.requireNonNull(Objects.requireNonNull(txtStreet.getText()).toString().trim()));
@@ -169,12 +171,20 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         /** Date Auto Formatter */
         txtBdatex.setOnClickListener(v ->  {
             final Calendar newCalendar = Calendar.getInstance();
-            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
             final DatePickerDialog StartTime = new DatePickerDialog(this, (view131, year, monthOfYear, dayOfMonth) -> {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                String lsDate = dateFormatter.format(newDate.getTime());
-                txtBdatex.setText(lsDate);
+                try {
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.set(year, monthOfYear, dayOfMonth);
+                    String lsDate = dateFormatter.format(newDate.getTime());
+                    txtBdatex.setText(lsDate);
+                    Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
+                    lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
+                    Log.d(TAG, "Save formatted time: " + lsDate);
+                    psBDate = lsDate;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             StartTime.getDatePicker().setMaxDate(new Date().getTime());
             StartTime.show();

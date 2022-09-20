@@ -46,9 +46,9 @@ public class ServerAPIs {
     private static final String REGISTER_ACCOUNT = "integsys/marketplace/complete_account_detail.php";
     private static final String SUBMIT_SELFIE_VERIFICATION = "integsys/marketplace/submit_selfie_verification.php";
     private static final String SUBMIT_ID_VERIFICATION = "integsys/marketplace/submit_id_verification.php";
-//    private static final String IMPORT_ACCOUNT_INFO = "integsys/marketplace/get_client_info.php";
+    private static final String IMPORT_ACCOUNT_INFO = "integsys/marketplace/get_client_info.php";
     private static final String IMPORT_VALID_ID_CODE = "integsys/marketplace/import_valid_id_code.php";
-    private static final String IMPORT_ACCOUNT_INFO = "integsys/marketplace/import_client_detail.php";
+    //    private static final String IMPORT_ACCOUNT_INFO = "integsys/marketplace/import_client_detail.php";
     private static final String UPDATE_ACCOUNT_INFO = "integsys/marketplace/update_client_info.php";
     private static final String UPDATE_MOBILE_NO = "integsys/marketplace/request_mobile_update.php";
     private static final String IMPORT_MOBILE_NO = "integsys/marketplace/import_client_mobile.php";

@@ -19,7 +19,6 @@ public interface DItemCart {
     @Query("SELECT COUNT(*) FROM MarketPlace_Cart WHERE sUserIDxx = (SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetMartketplaceCartItemCount();
 
-
     @Query("SELECT ((SELECT COUNT(*) FROM MarketPlace_Cart) + (SELECT COUNT(*) FROM Redeem_Item WHERE sBatchNox IS NULL)) AS CartItemCount")
     LiveData<Integer> GetCartItemCount();
 
@@ -54,20 +53,38 @@ public interface DItemCart {
     @Query("UPDATE MarketPlace_Cart SET cCheckOut = '1' WHERE sListIDxx =:fsListID")
     void UpdateForCheckOut(String fsListID);
 
+    @Query("UPDATE MarketPlace_Cart SET cCheckOut = '1'")
+    void UpdateSelectAllCheckOut();
+
+    @Query("UPDATE MarketPlace_Cart SET cCheckOut = '0'")
+    void UpdateUnselectAllCheckOut();
+
+    @Query("DELETE FROM MarketPlace_Cart WHERE cCheckOut = '1'")
+    void DeleteAllSelected();
+
     @Query("UPDATE MarketPlace_Cart SET cCheckOut = '0' WHERE sListIDxx =:fsListID")
     void RemoveForCheckOut(String fsListID);
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Cart WHERE cCheckOut ='1'")
     int CheckCartItemsForOrder();
 
-    @Query("SELECT SUM(b.nUnitPrce * a.nQuantity) " +
+    @Query("SELECT IFNULL(SUM(b.nUnitPrce * a.nQuantity), 0) " +
             "AS CART_TOTAL " +
             "FROM MarketPlace_Cart a " +
             "LEFT JOIN Product_Inventory b " +
+            "ON a.sListIDxx = b.sListngID  " +
+            "WHERE a.sUserIDxx = (" +
+            "SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND cCheckOut = '1'")
+    LiveData<Double> GetSelectedItemCartTotalPrice();
+
+    @Query("SELECT IFNULL(COUNT (a.sListIDxx), 0) FROM MARKETPLACE_CART a " +
+            "LEFT JOIN Product_Inventory b " +
             "ON a.sListIDxx = b.sListngID " +
             "WHERE a.sUserIDxx = (" +
-            "SELECT sUserIDxx FROM Client_Profile_Info)")
-    LiveData<Double> GetItemCartTotalPrice();
+            "SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND a.cCheckOut = '1'")
+    LiveData<Integer> GetSelectedItemCartTotalCount();
 
     @Query("SELECT a.sListIDxx AS sListIDxx, " +
             "a.nQuantity AS nQuantity, " +
@@ -92,7 +109,7 @@ public interface DItemCart {
             "b.nUnitPrce AS nUnitPrce " +
             "FROM MarketPlace_Cart a " +
             "LEFT JOIN Product_Inventory b " +
-            "ON a.sListIDxx = b.sListngID " +
+            "ON a.sListIDxx = b.sListngID  " +
             "WHERE a.cBuyNowxx = '1' AND cCheckOut = '1' " +
             "AND a.sUserIDxx = (" +
             "SELECT sUserIDxx FROM Client_Profile_Info)")
@@ -107,7 +124,7 @@ public interface DItemCart {
             "b.nUnitPrce AS nUnitPrce " +
             "FROM MarketPlace_Cart a " +
             "LEFT JOIN Product_Inventory b " +
-            "ON a.sListIDxx = b.sListngID " +
+            "ON a.sListIDxx = b.sListngID  " +
             "WHERE a.cBuyNowxx = '0' AND cCheckOut = '1' " +
             "AND a.sUserIDxx = (" +
             "SELECT sUserIDxx FROM Client_Profile_Info)")

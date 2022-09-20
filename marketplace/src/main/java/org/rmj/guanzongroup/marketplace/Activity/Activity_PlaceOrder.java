@@ -26,6 +26,7 @@ import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMPlaceOrder;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_AddressUpdate;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -48,6 +49,10 @@ public class Activity_PlaceOrder extends AppCompatActivity {
 
     private List<DItemCart.oMarketplaceCartItem> poLstOrder = new ArrayList<>();
     private boolean cIsBuyNow;
+
+    private double nSubTotl = 0.0,
+            nShipFee = 0.0,
+            nOthrFee = 0.0;
 
     public boolean isClicked = false;
 
@@ -122,7 +127,6 @@ public class Activity_PlaceOrder extends AppCompatActivity {
 
     private void setOrderPreview() {
         setDefaultShipping();
-        setDefaultPayMethod();
         setOrderList();
     }
 
@@ -158,10 +162,6 @@ public class Activity_PlaceOrder extends AppCompatActivity {
         });
     }
 
-    private void setDefaultPayMethod() {
-
-    }
-
     private void setOrderList() {
         mViewModel.getCheckoutItems(cIsBuyNow).observe(Activity_PlaceOrder.this, orders -> {
             if(orders != null) {
@@ -179,8 +179,8 @@ public class Activity_PlaceOrder extends AppCompatActivity {
         double lnShipFee = 0.0;
         double lnOthrFee = 0.0;
 
-        if(orders.size() > 0) {
-            for(int x = 0; x < orders.size(); x++) {
+        if (orders.size() > 0) {
+            for (int x = 0; x < orders.size(); x++) {
                 lnSubTotl += Double.parseDouble(orders.get(x).nUnitPrce)
                         * Integer.parseInt(orders.get(x).nQuantity);
             }
@@ -188,10 +188,30 @@ public class Activity_PlaceOrder extends AppCompatActivity {
 
         double lnTotalPr = lnSubTotl + lnShipFee + lnOthrFee;
 
-        txtSubTot.setText(CashFormatter.parse(String.valueOf(lnSubTotl)));
-        txtShipFe.setText(CashFormatter.parse(String.valueOf(lnShipFee)));
+        mViewModel.GetSelectedItemCartTotalPrice().observe(Activity_PlaceOrder.this, subtotal -> {
+            try {
+                txtSubTot.setText("₱ " + CashFormatter.parse(String.valueOf(subtotal)));
+                nSubTotl = subtotal;
+                txtTotalx.setText(CashFormatter.parse(String.valueOf(CalculateGrandTotal())));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.GetShippingFee().observe(Activity_PlaceOrder.this, shipFee -> {
+            try {
+                txtShipFe.setText(CashFormatter.parse(String.valueOf(shipFee)));
+                nShipFee = shipFee;
+                txtTotalx.setText(CashFormatter.parse(String.valueOf(CalculateGrandTotal())));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+//        txtSubTot.setText(CashFormatter.parse(String.valueOf(lnSubTotl)));
+//        txtShipFe.setText(CashFormatter.parse(String.valueOf(lnShipFee)));
         txtOthFee.setText(CashFormatter.parse(String.valueOf(lnOthrFee)));
-        txtTotalx.setText(CashFormatter.parse(String.valueOf(lnTotalPr)));
+        txtTotalx.setText(CashFormatter.parse(String.valueOf(CalculateGrandTotal())));
     }
 
     private void placeOrder () {
@@ -214,6 +234,7 @@ public class Activity_PlaceOrder extends AppCompatActivity {
             }
 
             @Override
+
             public void onFailed(String fsMessage) {
                 poLoading.dismiss();
                 poDialogx.setButtonText("Okay");
@@ -254,12 +275,15 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                 });
             }
 
-            @Override
-            public void onCancel(AlertDialog dialog) {
-                dialog.dismiss();
-            }
-        });
+                    @Override
+                    public void onCancel(AlertDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
         loDblDiag.show();
     }
 
+    private double CalculateGrandTotal() {
+        return nSubTotl + nShipFee + nOthrFee;
+    }
 }

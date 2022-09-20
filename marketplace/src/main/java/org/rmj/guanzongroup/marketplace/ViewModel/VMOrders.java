@@ -55,23 +55,27 @@ public class VMOrders extends AndroidViewModel {
         return poORder.GetOrderDetailInfo(fsVal);
     }
 
-    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(){
+    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList() {
         return poORder.GetOrderHistoryList();
     }
 
-    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(String fsVal){
+    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(String fsVal) {
         return poORder.GetOrderHistoryList(fsVal);
     }
 
-    public LiveData<List<DOrderDetail.OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal){
+    public LiveData<List<DOrderMaster.OrderHistory>> GetToPayOrderList() {
+        return poORder.GetToPayOrderList();
+    }
+
+    public LiveData<List<DOrderDetail.OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal) {
         return poORder.GetOrderHistoryDetail(fsVal);
     }
 
-    public void ImportOrdersTask(){
+    public void ImportOrdersTask() {
         new ImportOrdersTask().execute();
     }
 
-    private class ImportOrdersTask extends AsyncTask<String, Void, String>{
+    private class ImportOrdersTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... strings) {

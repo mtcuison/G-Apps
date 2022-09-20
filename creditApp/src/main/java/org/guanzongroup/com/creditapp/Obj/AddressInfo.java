@@ -57,16 +57,16 @@ public class AddressInfo {
         return sTownIDx;
     }
 
-    public void setTownID(String sTownIDx) {
-        this.sTownIDx = sTownIDx;
-    }
-
     public String getBarangayID() {
         return sBrgyIDx;
     }
 
     public void setBarangayID(String sBrgyIDx) {
         this.sBrgyIDx = sBrgyIDx;
+    }
+
+    public void setTownID(String sTownIDx) {
+        this.sTownIDx = sTownIDx;
     }
 
     public String getProvinceID() {
