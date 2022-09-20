@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.marketplace.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_Home extends Fragment {
+    private static final String TAG = Fragment_Home.class.getSimpleName();
 
     private VMHome mViewModel;
     private Adapter_ProductList poAdapter;
@@ -103,6 +105,7 @@ public class Fragment_Home extends Fragment {
                     poAdapter = new Adapter_ProductList(products, listingId -> {
                         Intent loIntent = new Intent(requireActivity(), Activity_ProductOverview.class);
                         loIntent.putExtra("sListngId", listingId);
+                        Log.d(TAG, "Passed parameter: " + listingId);
                         startActivity(loIntent);
                     });
                     poRvProds.setAdapter(poAdapter);

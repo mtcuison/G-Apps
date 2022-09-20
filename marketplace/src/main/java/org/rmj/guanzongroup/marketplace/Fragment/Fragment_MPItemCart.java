@@ -1,8 +1,9 @@
 package org.rmj.guanzongroup.marketplace.Fragment;
 
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,11 +19,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_PlaceOrder;
@@ -45,9 +49,17 @@ public class Fragment_MPItemCart extends Fragment {
     private LinearLayout noItem, lnMPFooter;
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
+    private Dialog_DoubleButton poMessage;
     private MaterialButton btnCheckOut, btnShopNow;
-    private TextView lblGrandTotal;
+    private ImageButton btnDelete;
+    private TextView lblGrandTotal, lblTotalCount;
+    private CheckBox cbSelectAll;
+    private CardView cvSelectAll;
     private Adapter_ItemCart adapter;
+
+    private int nTotCount = 0;
+    private int nSelected = 0;
+
     public static Fragment_MPItemCart newInstance() {
         return new Fragment_MPItemCart();
     }
@@ -68,6 +80,7 @@ public class Fragment_MPItemCart extends Fragment {
                     List<ItemCartModel> itemCart = mViewModel.ParseDataForAdapter(items);
                     if (itemCart.size() > 0){
                         v.setVisibility(View.VISIBLE);
+                        cvSelectAll.setVisibility(View.VISIBLE);
                         noItem.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                         lnMPFooter.setVisibility(View.VISIBLE);
@@ -136,6 +149,7 @@ public class Fragment_MPItemCart extends Fragment {
                     } else {
                         v.setVisibility(View.VISIBLE);
                         noItem.setVisibility(View.VISIBLE);
+                        cvSelectAll.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.GONE);
                         lnMPFooter.setVisibility(View.GONE);
                     }
@@ -144,9 +158,44 @@ public class Fragment_MPItemCart extends Fragment {
                 }
             });
 
-            mViewModel.GetGrandTotal().observe(getViewLifecycleOwner(), subtotal -> {
+            mViewModel.GetSelectedItemTotalPrice().observe(getViewLifecycleOwner(), subtotal -> {
                 try{
                     lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            });
+
+            mViewModel.GetMpItemCartCount().observe(getViewLifecycleOwner(), count -> {
+                try{
+                    if(count > 0){
+                        if(count == 1){
+                            cbSelectAll.setText("Select All(1 Item)");
+                        } else {
+                            cbSelectAll.setText("Select All(" + count+ " Items)");
+                        }
+                    }
+                    nTotCount = count;
+                    setupSelectAllCheckBox();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            });
+
+            mViewModel.GetSelectedItemCartTotalCount().observe(getViewLifecycleOwner(), count -> {
+                try{
+                    if(count == 0){
+                        lblTotalCount.setText("Total(" + count + ")item");
+                        btnDelete.setVisibility(View.GONE);
+                    } else if(count == 1){
+                        lblTotalCount.setText("Total(" + count + ")item");
+                        btnDelete.setVisibility(View.VISIBLE);
+                    } else {
+                        lblTotalCount.setText("Total(" + count + ")items");
+                        btnDelete.setVisibility(View.VISIBLE);
+                    }
+                    nSelected = count;
+                    setupSelectAllCheckBox();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -157,6 +206,33 @@ public class Fragment_MPItemCart extends Fragment {
 
         // Show items below cart
         showSuggestions();
+
+        cbSelectAll.setOnClickListener(v13 -> {
+            boolean isChecked = cbSelectAll.isChecked();
+            mViewModel.SelectAllItemOnCart(isChecked);
+            if(isChecked) {
+                btnDelete.setVisibility(View.VISIBLE);
+            } else {
+                btnDelete.setVisibility(View.GONE);
+            }
+        });
+
+        btnDelete.setOnClickListener(v12 -> {
+            poMessage.setButtonText("Yes", "No");
+            poMessage.initDialog("Marketplace Item Cart", "Remove selected items?", new Dialog_DoubleButton.OnDialogConfirmation() {
+                @Override
+                public void onConfirm(AlertDialog dialog) {
+                    dialog.dismiss();
+                    mViewModel.DeleteAllSelected();
+                }
+
+                @Override
+                public void onCancel(AlertDialog dialog) {
+                    dialog.dismiss();
+                }
+            });
+            poMessage.show();
+        });
 
         btnCheckOut.setOnClickListener(view ->{
             mViewModel.checkCartItemsForCheckOut(new OnTransactionsCallback() {
@@ -188,7 +264,6 @@ public class Fragment_MPItemCart extends Fragment {
             Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
             intent.putExtra("args", "dashboard");
             requireActivity().sendBroadcast(intent);
-            poLoading.dismiss();
             requireActivity().finish();
         });
         return v;
@@ -196,14 +271,18 @@ public class Fragment_MPItemCart extends Fragment {
     private void initWidgets(View view){
         poLoading = new Dialog_Loading(requireActivity());
         poDialogx = new Dialog_SingleButton(requireActivity());
+        poMessage = new Dialog_DoubleButton(requireActivity());
         recyclerView = view.findViewById(R.id.recyclerView_MPCart);
         rvSuggest = view.findViewById(R.id.rvSuggest);
         noItem = view.findViewById(R.id.layoutMPNoItem);
         lnMPFooter = view.findViewById(R.id.lnMPFooter);
         lblGrandTotal = view.findViewById(R.id.lblMPGrandTotal);
+        lblTotalCount = view.findViewById(R.id.lblMpTotalItems);
         btnCheckOut = view.findViewById(R.id.btnMPCheckOut);
         btnShopNow = view.findViewById(R.id.btnMPShopNow);
-
+        cbSelectAll = view.findViewById(R.id.cbSelectAll);
+        btnDelete = view.findViewById(R.id.btnRemoveAll);
+        cvSelectAll = view.findViewById(R.id.cvSelectAll);
     }
 
     public static String currencyFormat(double amount) {
@@ -220,7 +299,7 @@ public class Fragment_MPItemCart extends Fragment {
                 if(products.size() > 0) {
                     Adapter_ProductList poAdapter = new Adapter_ProductList(products, listingId -> {
                         Intent loIntent = new Intent(requireActivity(), Activity_ProductOverview.class);
-                        loIntent.putExtra("sListingId", listingId);
+                        loIntent.putExtra("sListngId", listingId);
                         startActivity(loIntent);
                     });
                     poAdapter.notifyDataSetChanged();
@@ -232,4 +311,11 @@ public class Fragment_MPItemCart extends Fragment {
         });
     }
 
+    private void setupSelectAllCheckBox(){
+        if(nTotCount == nSelected){
+            cbSelectAll.setChecked(true);
+        } else {
+            cbSelectAll.setChecked(false);
+        }
+    }
 }

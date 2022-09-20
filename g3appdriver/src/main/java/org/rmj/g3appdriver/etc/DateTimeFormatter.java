@@ -9,8 +9,8 @@ public class DateTimeFormatter {
     public static String ParseDateFullyDetailed(String date){
         try {
             if (date != null) {
-                Date parseDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);
-                return new SimpleDateFormat("MMMM dd, yyyy hh:mm aa").format(parseDate);
+                Date parseDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                return new SimpleDateFormat("MMMM dd, yyyy").format(parseDate);
             } else {
                 return "";
             }

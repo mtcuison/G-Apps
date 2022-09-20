@@ -17,6 +17,7 @@
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/AppToolbar"/>
     </com.google.android.material.appbar.AppBarLayout>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout_item_cart_fragment_indicator"
         android:layout_width="match_parent"

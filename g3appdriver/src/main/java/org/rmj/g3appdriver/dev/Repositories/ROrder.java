@@ -265,6 +265,7 @@ public class ROrder {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
+                Log.d(TAG, "Server Response : " + lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){
@@ -467,8 +468,12 @@ public class ROrder {
         return poCartDao.GetCartItemsList();
     }
 
-    public LiveData<Double> GetItemCartTotalPrice(){
-        return poCartDao.GetItemCartTotalPrice();
+    public LiveData<Double> GetSelectedItemCartTotalPrice(){
+        return poCartDao.GetSelectedItemCartTotalPrice();
+    }
+
+    public LiveData<Integer> GetSelectedItemCartTotalCount(){
+        return poCartDao.GetSelectedItemCartTotalCount();
     }
 
     public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCheckoutItems(boolean cBuyNowxx){
@@ -587,6 +592,7 @@ public class ROrder {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
+                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if (!lsResult.equalsIgnoreCase("success")) {
@@ -623,10 +629,10 @@ public class ROrder {
                         oDetail.setUnitPrce(joDetail.getString("nUnitPrce"));
                         oDetail.setDiscount(joDetail.getString("nDiscount"));
                         oDetail.setAddDiscx(joDetail.getString("nAddDiscx"));
-                        oDetail.setApproved(joDetail.getString("nApproved"));
-                        oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
-                        oDetail.setCancelld(joDetail.getString("nCancelld"));
-                        oDetail.setReferNox(joDetail.getString("sReferNox"));
+                        oDetail.setStockIDx(joDetail.getString("sStockIDx"));
+//                        oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
+//                        oDetail.setCancelld(joDetail.getString("nCancelld"));
+//                        oDetail.setReferNox(joDetail.getString("sReferNox"));
                         oDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
                         oDetail.setReviewed(joDetail.getString("cReviewed"));
                         oDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
@@ -656,6 +662,7 @@ public class ROrder {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
+                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if (!lsResult.equalsIgnoreCase("success")) {
@@ -701,6 +708,11 @@ public class ROrder {
 
     public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(String fsVal){
         return poMaster.GetOrderHistoryList(fsVal);
+    }
+
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetToPayOrderList(){
+        return poMaster.GetToPayOrderList();
     }
 
     public LiveData<List<DOrderDetail.OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal){
@@ -761,6 +773,32 @@ public class ROrder {
                     return true;
                 }
             }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean SelectAll(boolean isSelected){
+        try {
+            if (isSelected) {
+                poCartDao.UpdateSelectAllCheckOut();
+            } else {
+                poCartDao.UpdateUnselectAllCheckOut();
+            }
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean DeleteAll(){
+        try{
+            poCartDao.DeleteAllSelected();
+            return true;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

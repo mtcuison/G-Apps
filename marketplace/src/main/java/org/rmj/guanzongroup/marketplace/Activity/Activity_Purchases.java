@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -102,9 +101,20 @@ public class Activity_Purchases extends AppCompatActivity {
                     findViewById(R.id.lblNoOrderInfo).setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.scrollView).setVisibility(View.VISIBLE);
-                    if (foOrder.cTranStat.equalsIgnoreCase("0")) {
-                        btnPay.setVisibility(View.VISIBLE);
-                    } else if (!foOrder.cTranStat.equalsIgnoreCase("3")) {
+                    if(foOrder.sTermCode.equalsIgnoreCase("C001002")){
+
+                    } else if(foOrder.nAmtPaidx != null){
+                        double lnTotal = Double.parseDouble(foOrder.nTranTotl);
+                        double lnAmntx = Double.parseDouble(foOrder.nAmtPaidx);
+
+                        if(lnTotal > lnAmntx){
+                            btnPay.setVisibility(View.VISIBLE);
+                        } else {
+                            btnPay.setVisibility(View.GONE);
+                        }
+                    }
+
+                    if (!foOrder.cTranStat.equalsIgnoreCase("3")) {
                         toolbar.setTitle("Order Detail");
                         progressBar.setVisibility(View.VISIBLE);
                         progressBar.setCurrentStateNumber(GetStateNumber(foOrder.cTranStat));
@@ -131,7 +141,7 @@ public class Activity_Purchases extends AppCompatActivity {
                     lblAddressx.setText(foOrder.sAddressx);
                     lblClientNm.setText(foOrder.sUserName);
                     lblMobileNo.setText(foOrder.sMobileNo);
-                    lblPaymntxx.setText(AppConstants.getPaymentMethod(foOrder.sTermCode));
+                    lblPaymntxx.setText(AppConstants.parseTermCode(foOrder.sTermCode));
                     lblDatePlcd.setText("Place on : " + DateTimeFormatter.ParseDateFullyDetailed(foOrder.dTransact));
                     lblDlvyDate.setText("Get By : " + DateTimeFormatter.ParseDateForList(foOrder.dExpected));
                     btnPay.setOnClickListener(v -> {
