@@ -62,7 +62,9 @@
 
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/tie_PSincome"
+                    android:textSize="16sp"
                     style="@style/DropdownStyleTheme"
+                    android:text="@string/lblTapHeretoSelect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
@@ -287,6 +289,8 @@
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/tie_PenType"
                     style="@style/DropdownStyleTheme"
+                    android:textSize="16sp"
+                    android:text="@string/lblTapHeretoSelect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
@@ -347,6 +351,8 @@
                     android:id="@+id/tie_Financed"
                     style="@style/DropdownStyleTheme"
                     android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:text="@string/lblTapHeretoSelect"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_PenRnge" />
@@ -365,7 +371,7 @@
                 app:layout_constraintTop_toBottomOf="@id/til_Financed" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_EstimatedIncome"
+                android:id="@+id/til_fEstIncome"
                 style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -373,7 +379,7 @@
                 app:layout_constraintTop_toBottomOf="@id/lblEI">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_EstimatedIncome"
+                    android:id="@+id/tie_fEstIncome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
@@ -390,7 +396,7 @@
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_EstimatedIncome" />
+                app:layout_constraintTop_toBottomOf="@id/til_fEstIncome" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_OtherIncome"
@@ -421,7 +427,7 @@
                 app:layout_constraintTop_toBottomOf="@id/til_OtherIncome" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_EstimatedIncome2"
+                android:id="@+id/til_OthrEstIncome"
                 style="@style/TextInputStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -429,7 +435,7 @@
                 app:layout_constraintTop_toBottomOf="@id/lblEI2">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tie_EstimatedIncome2"
+                    android:id="@+id/tie_OthrEstIncome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
@@ -450,7 +456,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_EstimatedIncome2"
+                app:layout_constraintTop_toBottomOf="@id/til_OthrEstIncome"
                 app:layout_constraintVertical_bias="1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

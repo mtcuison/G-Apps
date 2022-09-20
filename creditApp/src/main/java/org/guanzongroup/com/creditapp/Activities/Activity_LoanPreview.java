@@ -23,6 +23,7 @@ public class Activity_LoanPreview extends AppCompatActivity {
     private TextView lbl_DownPayment, lbl_LoanTermSelection, lbl_MonthlyPayment, lbl_PriceOfUnit,
             lbl_Discount, lbl_TypeOfEmployment, lbl_Industry, lbl_JobTitle, lbl_EstimatedIncome1,
             lbl_OtherIncome, lbl_EstimatedIncome2, lbl_BankName, lbl_TypeOfAccount;
+
     private MaterialButton btnApplyLoan;
     private TextView txt_industry;
     private Toolbar toolbar;
