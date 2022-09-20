@@ -17,6 +17,7 @@ import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.FilterType;
 
 import java.util.List;
+import java.util.Objects;
 
 public class VMLoanProductList extends AndroidViewModel {
     private static final String TAG = VMLoanProductList.class.getSimpleName();
@@ -25,8 +26,6 @@ public class VMLoanProductList extends AndroidViewModel {
     private final RProduct poProdct;
 
     private final MutableLiveData<MpCreditApp> poCredApp = new MutableLiveData<>();
-
-    private String message;
 
     public VMLoanProductList(@NonNull Application application) {
         super(application);
@@ -50,7 +49,7 @@ public class VMLoanProductList extends AndroidViewModel {
 
     public void StartActivity(Class<?> activity) {
         try {
-            String lsDetail = poCredApp.getValue().getData();
+            String lsDetail = Objects.requireNonNull(poCredApp.getValue()).getData();
             Intent loIntent = new Intent(mContext, activity);
             loIntent.putExtra("sDetlInfo", lsDetail);
             loIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

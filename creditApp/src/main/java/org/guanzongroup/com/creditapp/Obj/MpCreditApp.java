@@ -13,7 +13,7 @@ public class MpCreditApp {
 
     private final PersonalInfo poClient = new PersonalInfo();
     private final MeansInfo poMeans = new MeansInfo();
-    private final OtherInfo poOther = new OtherInfo();
+    private final DisbursementInfo poOther = new DisbursementInfo();
 
     private String message;
 
@@ -69,7 +69,7 @@ public class MpCreditApp {
         return poMeans;
     }
 
-    public OtherInfo otherInfo(){
+    public DisbursementInfo disbursementInfo(){
         return poOther;
     }
 
@@ -108,8 +108,8 @@ public class MpCreditApp {
         } else if(!meansInfo().isDataValid()){
             message = meansInfo().getMessage();
             return false;
-        } else if(!otherInfo().isDataValid()){
-            message = otherInfo().getMessage();
+        } else if(!disbursementInfo().isDataValid()){
+            message = disbursementInfo().getMessage();
             return false;
         } else {
             return true;

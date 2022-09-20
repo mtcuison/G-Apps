@@ -1,5 +1,7 @@
 package org.guanzongroup.com.creditapp;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import android.util.Log;
@@ -87,12 +89,19 @@ public class TestCreditAppObj {
     @Test
     public void test05SetOtherInfo() throws Exception{
         poApp.setData(psData);
-        poApp.otherInfo().setOtherIncome("Freelancing");
-        poApp.otherInfo().setEstimatedIncome("10000");
-        poApp.otherInfo().setBankName("Secutiry Bank");
-        poApp.otherInfo().setAccountType("Payroll");
-        poApp.otherInfo().setFacebookAccount("mikegarcia8748");
+        poApp.disbursementInfo().bankInfo().setAccountType("0");
+        poApp.disbursementInfo().bankInfo().setBankName("BDO");
 
         Log.d(TAG, poApp.getData());
+    }
+
+    @Test
+    public void test06SetMpCreditApp() throws Exception{
+        String lsData = "{\"dAppliedx\":\"2022-09-20\",\"dCreatedx\":\"2022-09-20 01:16:37\",\"cUnitAppl\":\"1\",\"sModelIDx\":\"Samsung\",\"cUnitType\":\"1\",\"nDiscount\":\"50\",\"nAmortztn\":\"16000\",\"nDwnpymnt\":\"1500\",\"sInstlTrm\":\"\",\"sMiscExpn\":\"\",\"personal_info\":{\"sLastName\":\"Garcia\",\"sFrstName\":\"Michael\",\"sMiddName\":\"Permison\",\"sSuffixxx\":\"\",\"cCvilStat\":\"0\",\"cGenderxx\":\"0\",\"sMaidenNm\":\"\",\"sFBAcctxx\":\"\",\"address\":{\"sLandMark\":\"\",\"sHouseNox\":\"231\",\"sAddress1\":\"Sitio Tawi-Tawi\",\"sAddress2\":\"\",\"sBrgyIDxx\":\"211\",\"sTownIDxx\":\"123\",\"sProvIDxx\":\"0123\"}},\"means_info\":{\"employed\":{\"sIndstWrk\":\"Retail\",\"sPosition\":\"Developer\",\"nSalaryxx\":\"10000\"},\"self_employed\":{},\"pensioner\":{},\"financed\":{},\"other_income\":{},\"cSourceCD\":\"0\"},\"disbursement_info\":{\"bank_account\":{\"sAcctType\":\"0\",\"sBankName\":\"BDO\"}}}";
+
+        MpCreditApp loApp = new MpCreditApp();
+        loApp.setData(lsData);
+        Log.d(TAG, loApp.getData());
+        assertEquals(lsData, loApp.getData());
     }
 }
