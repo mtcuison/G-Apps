@@ -9,6 +9,6 @@ public class Activity_ProductList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_list);
+        setContentView(R.layout.activity_loan_product_list);
     }
 }

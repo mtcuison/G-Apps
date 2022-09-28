@@ -8,404 +8,50 @@
     android:theme="@style/GuanzonMarketplace.Theme"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ClearAppTheme.ActionBar.Transparent"/>
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.core.widget.NestedScrollView
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/AppToolbar" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
         android:fillViewport="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/FragmentTheme">
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
 
-
-            <TextView
-                android:id="@+id/lblInfo"
-                style="@style/TextInputLabel"
-                android:layout_width="wrap_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="0dp"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                android:paddingBottom="15dp"
-                android:text="@string/please_review_the_information_attach"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:drawableStartCompat="@drawable/ic_baseline_info_24" />
-
-            <TextView
-                android:id="@+id/txt1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingTop="10dp"
-                android:text="@string/lblDownpayment"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblInfo" />
-
-            <TextView
-                android:id="@+id/txt2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingTop="10dp"
-                android:text="@string/lblLoanTermSelection"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt1" />
-
-            <TextView
-                android:id="@+id/txt3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/lblMonthlyPayment"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt2" />
-
-            <TextView
-                android:id="@+id/txt4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/lblPriceOfUnit"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt3" />
-
-            <TextView
-                android:id="@+id/txt5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/lblDiscount"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt4" />
-
-            <TextView
-                android:id="@+id/txt6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/lblEmployeeStatus"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt5" />
-
-            <TextView
-                android:id="@+id/txt7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/lblIndustry"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt6" />
-
-            <TextView
-                android:id="@+id/txt8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/lblJobTitle"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt7" />
-
-            <TextView
-                android:id="@+id/txt9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/lblEstimateIncome"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt8" />
-
-            <TextView
-                android:id="@+id/txt10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/lblOtherIncome"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt9" />
-
-            <TextView
-                android:id="@+id/txt11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/lblEstimateIncome"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt10" />
-
-            <TextView
-                android:id="@+id/txt12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/lblBankName"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt11" />
-
-            <TextView
-                android:id="@+id/txt13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="start"
-                android:paddingTop="10dp"
-                android:text="@string/lblTypeofAccount"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt12" />
-
-            <TextView
-                android:id="@+id/lbl_DownPayment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:hint="@string/lblNotSet"
-                android:paddingTop="10dp"
-                android:textColorHint="#546E7A"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt1" />
-
-            <TextView
-                android:id="@+id/lbl_LoanTermSelection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:hint="@string/lblNotSet"
-                android:paddingTop="10dp"
-                android:textColorHint="#546E7A"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt2" />
-
-            <TextView
-                android:id="@+id/lbl_MonthlyPayment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:hint="@string/lblNotSet"
-                android:paddingTop="10dp"
-                android:textColorHint="#546E7A"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt3" />
-
-            <TextView
-                android:id="@+id/lbl_PriceOfUnit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:hint="@string/lblNotSet"
-                android:paddingTop="10dp"
-                android:textColorHint="#546E7A"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt4" />
-
-            <TextView
-                android:id="@+id/lbl_Discount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:hint="@string/lblNotSet"
-                android:paddingTop="10dp"
-                android:textColorHint="#546E7A"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt5" />
-
-            <TextView
-                android:id="@+id/lbl_EmployeeStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:hint="@string/lblNotSet"
-                android:paddingTop="10dp"
-                android:textColorHint="#546E7A"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt6" />
-
-            <TextView
-                android:id="@+id/lbl_Industry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:hint="@string/lblNotSet"
-                android:paddingTop="10dp"
-                android:textColorHint="#546E7A"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt7"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt7" />
-
-            <TextView
-                android:id="@+id/lbl_JobTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:hint="@string/lblNotSet"
-                android:paddingTop="10dp"
-                android:textColorHint="#546E7A"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt8"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt8" />
-
-            <TextView
-                android:id="@+id/lbl_EstimatedIncome1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:hint="@string/lblNotSet"
-                android:paddingTop="10dp"
-                android:textColorHint="#546E7A"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt9"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt9" />
-
-            <TextView
-                android:id="@+id/lbl_OtherIncome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:hint="@string/lblNotSet"
-                android:paddingTop="10dp"
-                android:textColorHint="#546E7A"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt10"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt10" />
-
-            <TextView
-                android:id="@+id/lbl_EstimatedIncome2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:hint="@string/lblNotSet"
-                android:paddingTop="10dp"
-                android:textColorHint="#546E7A"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt11"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt11" />
-
-            <TextView
-                android:id="@+id/lbl_BankName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:hint="@string/lblNotSet"
-                android:paddingTop="10dp"
-                android:textColorHint="#546E7A"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt12"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt12" />
-
-            <TextView
-                android:id="@+id/lbl_TypeOfAccount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="end"
-                android:hint="@string/lblNotSet"
-                android:paddingTop="10dp"
-                android:textColorHint="#546E7A"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt13"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txt13" />
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="1dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnApplyLoan"
                 style="@style/ButtonStyle.Orange.Medium"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="150dp"
                 android:text="@string/lblApplyLoan"
-                android:textColor="#4E342E"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt13"
-                app:layout_constraintVertical_bias="0.0" />
+                android:textColor="#4E342E" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+
+
+    </ScrollView>
 </LinearLayout>
