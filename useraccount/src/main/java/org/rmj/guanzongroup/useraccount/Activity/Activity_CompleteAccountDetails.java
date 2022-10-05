@@ -133,9 +133,6 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                         sendBroadcast(intent);
                         poLoading.dismiss();
                         finish();
-                        Intent loIntent = new Intent(Activity_CompleteAccountDetails.this, Activity_ProfileVerification.class);
-                        loIntent.putExtra("cSkippedx", true);
-                        startActivity(loIntent);
                     });
                     poDialogx.show();
                 }

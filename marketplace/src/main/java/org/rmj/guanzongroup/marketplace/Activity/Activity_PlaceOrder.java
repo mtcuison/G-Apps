@@ -190,7 +190,7 @@ public class Activity_PlaceOrder extends AppCompatActivity {
 
         mViewModel.GetSelectedItemCartTotalPrice().observe(Activity_PlaceOrder.this, subtotal -> {
             try{
-                txtSubTot.setText("₱ " + CashFormatter.parse(String.valueOf(subtotal)));
+                txtSubTot.setText(CashFormatter.parse(String.valueOf(subtotal)));
                 nSubTotl = subtotal;
                 txtTotalx.setText(CashFormatter.parse(String.valueOf(CalculateGrandTotal())));
             } catch (Exception e){
@@ -229,6 +229,8 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                 poLoading.dismiss();
                 Intent loIntent = new Intent(Activity_PlaceOrder.this, Activity_PayOrder.class);
                 loIntent.putExtra("sTransNox", fsMessage);
+                loIntent.putExtra("nSubTotal", nSubTotl);
+                loIntent.putExtra("nShipFeex", nShipFee);
                 startActivity(loIntent);
                 finish();
             }

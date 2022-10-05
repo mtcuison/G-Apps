@@ -92,7 +92,8 @@
                 app:spb_currentStateDescriptionColor="@color/guanzon_digital_light_orange"
                 app:spb_stateDescriptionColor="#808080"
                 app:spb_animateToCurrentProgressState="true"
-                app:spb_checkStateCompleted="true"/>
+                app:spb_checkStateCompleted="true"
+                android:visibility="gone"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnVerify"

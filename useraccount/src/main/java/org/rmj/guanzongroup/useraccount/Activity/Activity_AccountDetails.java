@@ -65,7 +65,6 @@ public class Activity_AccountDetails extends AppCompatActivity {
 
         StateProgressBar progressBar = findViewById(R.id.your_state_progress_bar_id);
         progressBar.setStateDescriptionData(descriptionData);
-
     }
 
     // Initialize initViews() before this method.
@@ -132,9 +131,9 @@ public class Activity_AccountDetails extends AppCompatActivity {
                         startActivity(loIntent);
                     });
 
-                    if(!eClientInfo.cVerified.equalsIgnoreCase("1")){
-                        findViewById(R.id.btnVerify).setVisibility(View.VISIBLE);
-                    }
+//                    if(!eClientInfo.cVerified.equalsIgnoreCase("1")){
+//                        findViewById(R.id.btnVerify).setVisibility(View.VISIBLE);
+//                    }
 
                     findViewById(R.id.btnVerify).setOnClickListener(v -> {
                         Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_ProfileVerification.class);

@@ -64,15 +64,7 @@ public class CompleteAccountDetailsInfo {
     }
 
     public String getBirthDate() {
-        try {
-            SimpleDateFormat userFormat = new SimpleDateFormat("MM/dd/yyyy");
-            SimpleDateFormat tableFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String lsFormatted = tableFormat.format(userFormat.parse(sBirthDte));
-            return lsFormatted;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "";
+        return sBirthDte;
     }
 
     public void setBirthDate(String sBirthDte) {
