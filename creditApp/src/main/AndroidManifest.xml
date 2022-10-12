@@ -4,13 +4,16 @@
 
     <application>
         <activity
-            android:name=".Activity_Sample"
-            android:exported="true"
-            android:screenOrientation="userPortrait"/>
+            android:name=".Activities.Activity_LoanTerm"
+            android:exported="false" />
         <activity
-            android:name=".Activity_LoanProductList"
+            android:name=".Activities.Activity_Sample"
             android:exported="true"
-            android:screenOrientation="userPortrait"/>
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".Activities.Activity_LoanProductList"
+            android:exported="true"
+            android:screenOrientation="userPortrait" />
     </application>
 
 </manifest>

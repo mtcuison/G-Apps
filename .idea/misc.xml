@@ -343,9 +343,11 @@
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/useraccount/src/main/res/layout/fragment_edit_personal_info.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/G-Apps/useraccount/src/main/res/layout/fragment_sign_up_info.xml" value="0.22" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GApps/app/src/main/res/menu/activity_dashboard_drawer.xml" value="0.1" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GApps/creditApp/src/main/res/layout/activity_loan_product_list.xml" value="0.18" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GApps/creditApp/src/main/res/layout/activity_loan_term.xml" value="0.209375" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GApps/marketplace/src/main/res/layout/activity_pay_order.xml" value="0.16041666666666668" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GApps/marketplace/src/main/res/layout/fragment_payment_info.xml" value="0.25" />
-        <entry key="..\:/Users/User/Documents/AndroidStudio/_GApps/useraccount/src/main/res/layout/activity_account_details.xml" value="0.15" />
+        <entry key="..\:/Users/User/Documents/AndroidStudio/_GApps/useraccount/src/main/res/layout/activity_account_details.xml" value="0.25" />
         <entry key="..\:/Users/User/Documents/AndroidStudio/_GApps/useraccount/src/main/res/layout/activity_complete_account_details.xml" value="0.25" />
       </map>
     </option>

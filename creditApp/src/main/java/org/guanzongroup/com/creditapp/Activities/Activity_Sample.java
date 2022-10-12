@@ -1,4 +1,4 @@
-package org.guanzongroup.com.creditapp;
+package org.guanzongroup.com.creditapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.util.Log;
 
+import org.guanzongroup.com.creditapp.R;
 import org.guanzongroup.com.creditapp.ViewModel.VMLoanProductList;
 
 public class Activity_Sample extends AppCompatActivity {

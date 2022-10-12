@@ -287,13 +287,10 @@ public class Activity_IDVerification extends AppCompatActivity {
         mViewModel.ImportValidIDCode(new VMUserVerification.OnImportIDCode() {
             @Override
             public void OnLoad() {
-                poLoad.initDialog("Identity Verification", "Loading valid ids. Please wait...");
-                poLoad.show();
             }
 
             @Override
             public void OnSuccess(List<JSONObject> idCode) {
-                poLoad.dismiss();
                 try {
                     ArrayList<String> lsIDList = new ArrayList<>();
                     for (int x = 0; x < idCode.size(); x++) {
@@ -399,12 +396,6 @@ public class Activity_IDVerification extends AppCompatActivity {
 
             @Override
             public void OnFailed(String message) {
-                poLoad.dismiss();
-                poDialogx.setButtonText("Okay");
-                poDialogx.initDialog("Identity Verification", message, () -> {
-                    poDialogx.dismiss();
-                    finish();
-                });
             }
         });
 

@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         app:cardCornerRadius="10dp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtPayTyp"
         app:layout_constraintRight_toRightOf="parent"
@@ -97,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_regular"
-                android:text="After successful deposit of payment. Tap 'Confirm Payment' and enter your payment reference number and finish your purchase."
+                android:text="After successful deposit of payment. Tap 'Confirm Payment' and enter your payment reference number and Tap 'Confirm' to finish your purchase."
                 android:textColor="@color/font_regular"
                 android:layout_marginTop="30dp"
                 android:gravity="center"/>

@@ -30,10 +30,12 @@ import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 import java.util.List;
 
 public class VMHome extends AndroidViewModel {
-    private final RClientInfo poClientx;
+
+    private final RClientInfo poClient;
     private final RAddressMobile poAddress;
     private final RProduct poProduct;
     private final ROrder poOrder;
+    private final ConnectionUtil poConn;
     private final RNotificationInfo poNotif;
     private iGCardSystem poSystem;
     private Context mContext;
@@ -42,20 +44,28 @@ public class VMHome extends AndroidViewModel {
         void OnView(Bitmap foVal);
     }
 
+    public interface OnValidateVerifiedUser{
+        void OnValidate(String title, String message);
+        void OnAccountVerified();
+        void OnAccountNotVerified();
+        void OnFailed(String message);
+    }
+
     public VMHome(@NonNull Application application) {
         super(application);
         this.mContext = application;
-        this.poClientx = new RClientInfo(application);
+        this.poClient = new RClientInfo(application);
         this.poProduct = new RProduct(application);
         this.poAddress = new RAddressMobile(application);
         this.poOrder = new ROrder(application);
+        this.poConn = new ConnectionUtil(application);
         this.poNotif = new RNotificationInfo(application);
         this.poSystem = new GCardSystem(application).getInstance(GCardSystem.CoreFunctions.GCARD);
         new GuanzonAppConfig(application).setFirstLaunch(false);
     }
 
     public LiveData<EClientInfo> getClientInfo() {
-        return poClientx.getClientInfo();
+        return poClient.getClientInfo();
     }
 
     public LiveData<EGcardApp> getActiveGcard() {
@@ -133,7 +143,7 @@ public class VMHome extends AndroidViewModel {
 
         @Override
         protected String doInBackground(String... strings) {
-            poClientx.LogoutUserSession();
+            poClient.LogoutUserSession();
             new AccountInfo(mContext).LogoutUser();
             return null;
         }
@@ -344,6 +354,78 @@ public class VMHome extends AndroidViewModel {
                 mListener.NoPromos();
             }
             super.onPostExecute(aBoolean);
+        }
+    }
+
+
+    public void ValidateUserVerification(OnValidateVerifiedUser listener){
+        new ValidateVerifiedTask(listener).execute();
+    }
+
+    private class ValidateVerifiedTask extends AsyncTask<Void, String, Integer>{
+
+        private final OnValidateVerifiedUser mListener;
+
+        private String message;
+
+        public ValidateVerifiedTask(OnValidateVerifiedUser mListener) {
+            this.mListener = mListener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mListener.OnValidate("Guanzon App", "Checking account. Please wait...");
+        }
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+            try{
+                if(!poConn.isDeviceConnected()){
+                    message = "Unable to connect.";
+                    return 0;
+                }
+
+                if(!poClient.ImportAccountInfo()){
+                    message = poClient.getMessage();
+                    return 0;
+                }
+
+                EClientInfo loClient = poClient.GetClientInfo();
+                if(loClient == null){
+                    message = "Unable to find client record. Please try restarting the app and try again.";
+                    return 0;
+                }
+
+                int lnVerified = loClient.getVerified();
+                if(lnVerified == 0){
+                    message = "Account not verified. Proceed to account verification.";
+                    return 2;
+                }
+
+                message = "Account verified. Proceed to loan application.";
+                return 1;
+            } catch (Exception e){
+                e.printStackTrace();
+                message = e.getMessage();
+                return 0;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            switch (result){
+                case 0:
+                    mListener.OnFailed(message);
+                    break;
+                case 2:
+                    mListener.OnAccountNotVerified();
+                    break;
+                default:
+                    mListener.OnAccountVerified();
+                    break;
+            }
         }
     }
 }
