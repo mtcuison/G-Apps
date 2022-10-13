@@ -9,10 +9,19 @@
 
     <application>
         <activity
+            android:name=".Activity_LoanTermsAndConditions"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Activity_LoanIntroduction"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Activity_IDVerification1"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_IDSumittion"
             android:exported="false"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GuanzonMarketplace.Theme"  />
+            android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_ProfileVerification"
             android:exported="false"

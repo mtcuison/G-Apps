@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
+import org.rmj.g3appdriver.lib.Account.Obj.PhotoDetail;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMUserVerification;
 
@@ -32,13 +33,13 @@ public class Activity_IDSumittion extends AppCompatActivity {
         if(getIntent().hasExtra("oParametr")){
             String lsParams = getIntent().getStringExtra("oParametr");
             try {
-                List<RClientInfo.PhotoDetail> loDetail = new ArrayList<>();
+                List<PhotoDetail> loDetail = new ArrayList<>();
 
                 JSONObject params = new JSONObject(lsParams);
-                RClientInfo.PhotoDetail poFront1 = new RClientInfo.PhotoDetail();
-                RClientInfo.PhotoDetail poBackx1 = new RClientInfo.PhotoDetail();
-                RClientInfo.PhotoDetail poFront2 = new RClientInfo.PhotoDetail();
-                RClientInfo.PhotoDetail poBackx2 = new RClientInfo.PhotoDetail();
+                PhotoDetail poFront1 = new PhotoDetail();
+                PhotoDetail poBackx1 = new PhotoDetail();
+                PhotoDetail poFront2 = new PhotoDetail();
+                PhotoDetail poBackx2 = new PhotoDetail();
 
                 JSONObject loFront1 = params.getJSONObject("oFrontIm1");
                 poFront1.setFileLoct(loFront1.getString("sSourceCD"));

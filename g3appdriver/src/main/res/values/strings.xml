@@ -127,6 +127,8 @@
     <string name="lblBackID">Back ID</string>
     <string name="lblSpecifyID">Please Specify ID</string>
     <string name="lblSubmitVerify">Submit for Verification</string>
+    <string name="lblContinue">Continue Loan Application</string>
+    <string name="lblGetPin">Send OTP</string>
     <string name="lblSkipProcess">Skip For Now</string>
     <string name="lblVerifyAccount">Verify Account Request</string>
 

@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.Fragment_ID1"
+    android:theme="@style/GuanzonMarketplace.Theme"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardview_front"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:id="@+id/lblID1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="@string/lblValidID1"
+                        android:textColor="@color/font_regular"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/lblIDType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="@string/lblSelectID"
+                        android:textColor="@color/font_regular"
+                        android:textSize="18sp"
+                        app:layout_constraintTop_toBottomOf="@+id/lblID1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_validIDNames"
+                        style="@style/CustomDropDownTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lblIDType">
+
+                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                            android:id="@+id/tie_validIDNames"
+                            style="@style/DropdownStyleTheme"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/lblSpecify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lblSpecifyID"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/til_validIDNames"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        style="@style/TextInputLabel" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_specifyID"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lblSpecify"
+                        app:layout_constraintRight_toRightOf="parent"
+                        style="@style/TextInputStyle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_specifyID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLength="50"
+                            android:inputType="textCapWords"
+                            android:imeOptions="actionNext" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/lblIDNo1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="@string/lblIDNo"
+                        android:textColor="@color/font_regular"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/til_specifyID" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_idNox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lblIDNo1"
+                        app:layout_constraintRight_toRightOf="parent"
+                        style="@style/TextInputStyle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_idNox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLength="50"
+                            android:inputType="textCapWords"
+                            android:imeOptions="actionNext" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_expryDte1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:hint="@string/hintExpiryDate"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/til_idNox"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginTop="10dp"
+                        style="@style/TextInputStyle">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_expryDte1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="date"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:maxLines="1"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@id/tie_bplace" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="@string/lblFrontID"
+                        android:textColor="@color/font_regular"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/til_expryDte1" />
+
+                    <ImageView
+                        android:id="@+id/img_frontID"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:adjustViewBounds="true"
+                        app:layout_constraintDimensionRatio="16:9"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textview"
+                        android:layout_marginTop="10dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCaptureFront"
+                        style="@style/ButtonStyle.Orange.Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/lblTakePicture"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/img_frontID" />
+
+                    <TextView
+                        android:id="@+id/textview1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="@string/lblBackID"
+                        android:textColor="@color/font_regular"
+                        android:textSize="18sp"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btnCaptureFront" />
+
+                    <ImageView
+                        android:id="@+id/img_backID"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:adjustViewBounds="true"
+                        app:layout_constraintDimensionRatio="16:9"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textview1"
+                        android:layout_marginTop="10dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCaptureBack"
+                        style="@style/ButtonStyle.Orange.Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/lblTakePicture"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/img_backID" />
+
+                    <TextView
+                        android:id="@+id/lblIDNotice1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="@string/id_verification_notice"
+                        android:textColor="@color/font_regular"
+                        android:textSize="15sp"
+                        app:layout_constraintTop_toBottomOf="@id/btnCaptureBack"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_next"
+                        style="@style/ButtonStyle.Orange.Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/lblNext"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lblIDNotice1" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</ScrollView>

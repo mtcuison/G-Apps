@@ -18,6 +18,7 @@ import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.PasswordStrength;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
+import org.rmj.g3appdriver.lib.Account.Obj.PhotoDetail;
 
 import java.util.ArrayList;
 
@@ -99,7 +100,6 @@ public class RClientInfo {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
-                Log.d(TAG, "Server response: " + lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){
@@ -107,7 +107,6 @@ public class RClientInfo {
                     message = loError.getString("message");
                     return false;
                 } else {
-                    Log.d(TAG, "Server response : " + lsResponse);
                     EClientInfo loDetail = poDao.GetUserInfo();
                     loDetail.setClientID(loResponse.getString("sClientID"));
                     loDetail.setLastName(loResponse.getString("sLastName"));
@@ -629,12 +628,10 @@ public class RClientInfo {
                         String lsResult = (String) loResponse.get("result");
                         if (lsResult.equalsIgnoreCase("success")) {
                             poJson = new JSONObject(loResponse.toJSONString());
-                            Log.d(TAG, poJson.toString());
                             return true;
                         } else {
                             JSONObject loError = new JSONObject((String) loResponse.get("error"));
                             message = loError.getString("message");
-                            Log.e(TAG, loError.toString());
                             return false;
                         }
                     }
@@ -670,7 +667,6 @@ public class RClientInfo {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
-                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){
@@ -700,7 +696,6 @@ public class RClientInfo {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
-                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){
@@ -742,7 +737,6 @@ public class RClientInfo {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
-                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){
@@ -758,85 +752,6 @@ public class RClientInfo {
             e.printStackTrace();
             message = e.getMessage();
             return false;
-        }
-    }
-
-    public static class PhotoDetail{
-        private String sSourceCD;
-        private String sSourceNo;
-        private String sDtlSrcNo;
-        private String sFileCode;
-        private String sImageNme;
-        private String sMD5Hashx;
-        private String sFileLoct;
-        private String dCaptured;
-
-        public PhotoDetail() {
-
-        }
-
-        public String getSourceCD() {
-            return sSourceCD;
-        }
-
-        public void setSourceCD(String sSourceCD) {
-            this.sSourceCD = sSourceCD;
-        }
-
-        public String getSourceNo() {
-            return sSourceNo;
-        }
-
-        public void setSourceNo(String sSourceNo) {
-            this.sSourceNo = sSourceNo;
-        }
-
-        public String getDtlSrcNo() {
-            return sDtlSrcNo;
-        }
-
-        public void setDtlSrcNo(String sDtlSrcNo) {
-            this.sDtlSrcNo = sDtlSrcNo;
-        }
-
-        public String getFileCode() {
-            return sFileCode;
-        }
-
-        public void setFileCode(String sFileCode) {
-            this.sFileCode = sFileCode;
-        }
-
-        public String getImageNme() {
-            return sImageNme;
-        }
-
-        public void setImageNme(String sImageNme) {
-            this.sImageNme = sImageNme;
-        }
-
-        public String getMD5Hashx() {
-            return WebFileServer.createMD5Hash(sFileLoct);
-        }
-
-        public String getFileLoct() {
-            return sFileLoct;
-        }
-
-        public void setFileLoct(String sFileLoct) {
-            this.sFileLoct = sFileLoct;
-        }
-
-        public String getCaptured() {
-            return dCaptured;
-        }
-
-        public void setCaptured(String dCaptured) {
-            this.dCaptured = dCaptured;
-        }
-
-        public boolean isDataValid(){
-            return sFileLoct != null;
         }
     }
 }

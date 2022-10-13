@@ -22,6 +22,7 @@ import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ImageFileHandler;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
+import org.rmj.g3appdriver.lib.Account.Obj.PhotoDetail;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.R;
@@ -38,7 +39,7 @@ public class Activity_ProfileVerification extends AppCompatActivity {
     private ImageView imageView;
 
     private String psPath, psFleNme;
-    private RClientInfo.PhotoDetail poPhoto;
+    private PhotoDetail poPhoto;
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
 
@@ -84,7 +85,7 @@ public class Activity_ProfileVerification extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(Activity_ProfileVerification.this).get(VMUserVerification.class);
         setContentView(R.layout.activity_profile_verification);
-        poPhoto = new RClientInfo.PhotoDetail();
+        poPhoto = new PhotoDetail();
         poLoading = new Dialog_Loading(Activity_ProfileVerification.this);
         poDialogx = new Dialog_SingleButton(Activity_ProfileVerification.this);
 
@@ -94,13 +95,7 @@ public class Activity_ProfileVerification extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         imageView = findViewById(R.id.img_profile);
 
-        if(getIntent().hasExtra("cSkippedx")){
-            if (getIntent().getBooleanExtra("cSkippedx", true)) {
-                findViewById(R.id.btn_Skip).setVisibility(View.VISIBLE);
-            }
-        }
-
-        findViewById(R.id.btnSelect).setOnClickListener(v -> ImageFileHandler.InitializeFileManager(intent -> poFileChooser.launch(intent)));
+        findViewById(R.id.btn_next).setOnClickListener(v -> ImageFileHandler.InitializeFileManager(intent -> poFileChooser.launch(intent)));
 
         findViewById(R.id.btnCapture).setOnClickListener(v -> {
             ImageFileHandler.InitializeFrontCamera(Activity_ProfileVerification.this, (intent, path, fileName) -> {
@@ -109,7 +104,6 @@ public class Activity_ProfileVerification extends AppCompatActivity {
                 poCamera.launch(intent);
             });
         });
-
 
         findViewById(R.id.btn_Submit).setOnClickListener(v -> {
             if(!poPhoto.isDataValid()){
@@ -148,13 +142,6 @@ public class Activity_ProfileVerification extends AppCompatActivity {
                     }
                 });
             }
-        });
-
-        findViewById(R.id.btn_Skip).setOnClickListener(v -> {
-            Intent loIntent = new Intent(Activity_ProfileVerification.this, Activity_IDVerification.class);
-            loIntent.putExtra("cSkippedx", true);
-            startActivity(loIntent);
-            finish();
         });
     }
 
