@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
+import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.CreditApp.Obj.LoanTerm;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class CreditApplication {
 
     private final Context mContext;
 
+    private final GuanzonAppConfig poConfig;
     private final ServerAPIs poApi;
     private final HttpHeaders poHeaders;
 
@@ -24,6 +26,9 @@ public class CreditApplication {
 
     public CreditApplication(Context mContext) {
         this.mContext = mContext;
+        this.poConfig = new GuanzonAppConfig(mContext);
+        this.poApi = new ServerAPIs(poConfig.getTestCase());
+        this.poHeaders = new HttpHeaders(mContext);
     }
 
     public String getMessage() {
@@ -69,4 +74,10 @@ public class CreditApplication {
             return null;
         }
     }
+
+    //TODO: Submit Credit Online Application
+
+    //TODO: Download Means Info
+
+    //TODO: Download Other Info
 }
