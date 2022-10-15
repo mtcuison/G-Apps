@@ -36,6 +36,7 @@ import org.rmj.g3appdriver.lib.Account.Obj.UserIdentification;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_ProfileVerification;
 import org.rmj.guanzongroup.useraccount.Etc.IDDetail;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.OnSubmitIDPictureListener;
@@ -213,7 +214,7 @@ public class Fragment_ID2 extends Fragment {
             }
         });
 
-        view.findViewById(R.id.btn_next).setOnClickListener(v -> {
+        view.findViewById(R.id.btn_Submit).setOnClickListener(v -> {
             if(poDetail.getsIDCodexx() == null){
                 Toast.makeText(requireActivity(), "Please select type of ID.", Toast.LENGTH_SHORT).show();
                 return;
@@ -264,7 +265,8 @@ public class Fragment_ID2 extends Fragment {
             @Override
             public void OnSuccess(String args) {
                 poLoad.dismiss();
-                Activity_IDVerification.getInstance().moveToNext(1);
+                requireActivity().startActivity(new Intent(requireActivity(), Activity_ProfileVerification.class));
+                requireActivity().finish();
             }
 
             @Override

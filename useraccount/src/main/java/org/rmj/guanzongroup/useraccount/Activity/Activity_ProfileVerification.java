@@ -105,7 +105,7 @@ public class Activity_ProfileVerification extends AppCompatActivity {
             });
         });
 
-        findViewById(R.id.btn_Submit).setOnClickListener(v -> {
+        findViewById(R.id.btn_next).setOnClickListener(v -> {
             if(!poPhoto.isDataValid()){
                 Toast.makeText(Activity_ProfileVerification.this, "Please take a selfie or select from your gallery", Toast.LENGTH_SHORT).show();
             } else {
