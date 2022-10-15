@@ -75,9 +75,64 @@ public class CreditApplication {
         }
     }
 
-    //TODO: Submit Credit Online Application
-
     //TODO: Download Means Info
+    public String GetAccountVerificationInfo(){
+        try{
+            String lsResponse = WebClient.httpsPostJSon(
+                    "",
+                    new JSONObject().toString(),
+                    poHeaders.getHeaders());
 
-    //TODO: Download Other Info
+            if(lsResponse == null){
+                message = "Server no response";
+                return null;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return null;
+            }
+
+            return loResponse.getString("payload");
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
+    //TODO: Submit Credit Online Application
+    public boolean SubmitApplication(String fsVal){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("", fsVal);
+
+            String lsResponse = WebClient.httpsPostJSon(
+                    "",
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = "Server no response";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
 }

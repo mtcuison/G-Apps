@@ -85,6 +85,47 @@ public class AccountVerification {
         }
     }
 
+    public List<UserIdentification> ImportIDCode(){
+        try {
+            String lsResponse = WebClient.httpsPostJSon(
+                    poApi.getImportValidIdCodeAPI(),
+                    new JSONObject().toString(),
+                    new HttpHeaders(mContext).getHeaders());
+
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return null;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return null;
+            }
+
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            List<UserIdentification> idCode = new ArrayList<>();
+            for(int x = 0; x < laJson.length(); x++){
+                JSONObject loDetail = laJson.getJSONObject(x);
+
+                UserIdentification loID = new UserIdentification(
+                        loDetail.getString("sIDNamexx"),
+                        loDetail.getString("sIDCodexx"),
+                        loDetail.getString("cWithBack"),
+                        loDetail.getString("cWithExpr"));
+
+                idCode.add(loID);
+            }
+            return idCode;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
     public boolean SubmitIDVerification(String args, String args1){
         try{
             EClientInfo loUser = poClient.GetClientInfo();
@@ -199,47 +240,6 @@ public class AccountVerification {
         }
     }
 
-    public List<UserIdentification> ImportIDCode(){
-        try {
-            String lsResponse = WebClient.httpsPostJSon(
-                    poApi.getImportValidIdCodeAPI(),
-                    new JSONObject().toString(),
-                    new HttpHeaders(mContext).getHeaders());
-
-            if(lsResponse == null){
-                message = "Unable to retrieve server response.";
-                return null;
-            }
-
-            JSONObject loResponse = new JSONObject(lsResponse);
-            String lsResult = loResponse.getString("result");
-            if(lsResult.equalsIgnoreCase("error")){
-                JSONObject loError = loResponse.getJSONObject("error");
-                message = loError.getString("message");
-                return null;
-            }
-
-            JSONArray laJson = loResponse.getJSONArray("detail");
-            List<UserIdentification> idCode = new ArrayList<>();
-            for(int x = 0; x < laJson.length(); x++){
-                JSONObject loDetail = laJson.getJSONObject(x);
-
-                UserIdentification loID = new UserIdentification(
-                        loDetail.getString("sIDNamexx"),
-                        loDetail.getString("sIDCodexx"),
-                        loDetail.getString("cWithBack"),
-                        loDetail.getString("cWithExpr"));
-
-                idCode.add(loID);
-            }
-            return idCode;
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return null;
-        }
-    }
-
     public boolean SubmitIDVerification(JSONObject foVal){
         try{
             JSONObject params = new JSONObject();
@@ -262,6 +262,70 @@ public class AccountVerification {
 
             if(lsResponse == null){
                 message = "Unable to retrieve server response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    //TODO: create new api for saving means info and use this method to test the api and this class at the same time...
+    public boolean SubmitMeansInfo(String fsVal){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("sMeansInf", fsVal);
+
+            String lsResponse = WebClient.httpsPostJSon(
+                    "",
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null) {
+                message = "Server no response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    //TODO: create new api for saving other info and use this method to test the api and this class at the same time...
+    public boolean SubmitOtherInfo(String fsVal){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("sMeansInf", fsVal);
+
+            String lsResponse = WebClient.httpsPostJSon(
+                    "",
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null) {
+                message = "Server no response.";
                 return false;
             }
 
