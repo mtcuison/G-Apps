@@ -89,6 +89,8 @@
     <string name="lblShipAddrss">Shipping Address</string>
     <string name="lblHouseNo">House No.</string>
     <string name="lblStreet">Street</string>
+    <string name="lblLandmark">Landmark</string>
+    <string name="lblPLSitio">Phase # /Lot # /Sitio</string>
     <string name="lblProvince">Province</string>
     <string name="lblTownCity">Town/City</string>
     <string name="lblBarangay">Barangay</string>
@@ -103,6 +105,7 @@
     <string name="lblRateProduct">Rate this Product</string>
     <string name="lblAddShipping">Add Shipping Address</string>
     <string name="lblSave">Save</string>
+    <string name="lblApplyLoan">Apply Loan</string>
     <string name="lblTakePicture">Take Picture</string>
     <string name="lblSelectPhoto">Select Photo</string>
     <string name="lblUpdate">Update</string>
@@ -131,6 +134,37 @@
     <string name="lblGetPin">Send OTP</string>
     <string name="lblSkipProcess">Skip For Now</string>
     <string name="lblVerifyAccount">Verify Account Request</string>
+
+    <string name="lblDownpayment">Downpayment</string>
+    <string name="lblSourceOfIncome">Source of Income</string>
+    <string name="lblNatureOfWork">Nature of Work</string>
+    <string name="lblPosition">Position</string>
+    <string name="lblSalary">Estimated Salary</string>
+    <string name="lblFinanced">Financed</string>
+    <string name="lblFinancier">Financier</string>
+    <string name="lblPenRange">Pension Range</string>
+    <string name="lblPenType">Type of Pension</string>
+    <string name="lblMonthlyIncome">Estimated Monthly Income</string>
+    <string name="lblNatureOfBus">Nature of Business</string>
+    <string name="lblLoanTermSelection">Loan Term Selection</string>
+    <string name="lblMonthlyPayment">Monthly Payment</string>
+    <string name="lblPriceOfUnit">Price Of Unit</string>
+    <string name="lblDiscount">Discount</string>
+
+    <string name="lblEmployeeStatus">Employee Status</string>
+    <string name="lblEmployed">Employed</string>
+    <string name="lblSelfEmployed">Self Employed</string>
+    <string name="lblOFW">OFW</string>
+    <string name="lblFbAcc">Facebook Account</string>
+    <string name="lblMotherMaidenName">Mother\'s Maiden Name</string>
+    <string name="lblIndustry">Industry</string>
+    <string name="lblJobTitle">Job Title</string>
+    <string name="lblEstimateIncome">Estimate Income</string>
+
+    <string name="lblOtherIncome">Source of Income</string>
+    <string name="lblBankName">Bank Name</string>
+    <string name="lblTypeofAccount">Type of Account</string>
+    <string name="lblTapHeretoSelect">Tap here to select</string>
 
     <string name="lblInfoPassword">Please provide a password for your account.</string>
     <string name="lblCompleteInfo">Please provide the complete details.</string>

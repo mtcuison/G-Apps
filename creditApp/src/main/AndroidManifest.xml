@@ -4,6 +4,12 @@
 
     <application>
         <activity
+            android:name=".Activities.Activity_LoanPreview"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_PersonalInfo"
+            android:exported="false" />
+        <activity
             android:name=".Activities.Activity_LoanTerm"
             android:exported="false" />
         <activity
