@@ -1,4 +1,4 @@
-package org.guanzongroup.com.creditapp.Obj;
+package org.rmj.g3appdriver.lib.CreditApp.model;
 
 import android.util.Log;
 

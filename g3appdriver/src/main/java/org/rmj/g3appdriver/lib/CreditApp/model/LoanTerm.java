@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.lib.CreditApp.Obj;
+package org.rmj.g3appdriver.lib.CreditApp.model;
 
 public class LoanTerm {
 

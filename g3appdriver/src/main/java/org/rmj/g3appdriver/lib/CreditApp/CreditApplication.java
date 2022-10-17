@@ -8,7 +8,7 @@ import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
-import org.rmj.g3appdriver.lib.CreditApp.Obj.LoanTerm;
+import org.rmj.g3appdriver.lib.CreditApp.model.LoanTerm;
 
 import java.util.ArrayList;
 import java.util.List;

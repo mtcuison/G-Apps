@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import org.guanzongroup.com.creditapp.Adapter.Adapter_LoanProductList;
-import org.guanzongroup.com.creditapp.Obj.MpCreditApp;
+import org.rmj.g3appdriver.lib.CreditApp.model.MpCreditApp;
 import org.guanzongroup.com.creditapp.R;
 import org.guanzongroup.com.creditapp.ViewModel.VMLoanProductList;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;

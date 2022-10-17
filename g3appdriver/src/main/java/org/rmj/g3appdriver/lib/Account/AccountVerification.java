@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.Account;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -22,7 +23,7 @@ import java.util.List;
 public class AccountVerification {
     private static final String TAG = AccountVerification.class.getSimpleName();
 
-    private final Application mContext;
+    private final Context mContext;
 
     private final RClientInfo poClient;
     private final GuanzonAppConfig poConfig;
@@ -31,7 +32,7 @@ public class AccountVerification {
 
     private String message;
 
-    public AccountVerification(Application context) {
+    public AccountVerification(Context context) {
         this.mContext = context;
         this.poClient = new RClientInfo(mContext);
         this.poConfig = new GuanzonAppConfig(mContext);
@@ -283,12 +284,13 @@ public class AccountVerification {
 
     //TODO: create new api for saving means info and use this method to test the api and this class at the same time...
     public boolean SubmitMeansInfo(String fsVal){
+//        return true;
         try{
             JSONObject params = new JSONObject();
             params.put("sMeansInf", fsVal);
 
             String lsResponse = WebClient.httpsPostJSon(
-                    "",
+                    poApi.getSubmitMeansInfo(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -317,10 +319,10 @@ public class AccountVerification {
     public boolean SubmitOtherInfo(String fsVal){
         try{
             JSONObject params = new JSONObject();
-            params.put("sMeansInf", fsVal);
+            params.put("sOtherInf", fsVal);
 
             String lsResponse = WebClient.httpsPostJSon(
-                    "",
+                    poApi.getSubmitOtherInfo(),
                     params.toString(),
                     poHeaders.getHeaders());
 

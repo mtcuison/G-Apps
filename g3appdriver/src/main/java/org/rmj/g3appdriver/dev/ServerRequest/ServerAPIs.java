@@ -86,6 +86,9 @@ public class ServerAPIs {
     private static final String SUBMIT_REVIEW = "integsys/marketplace/submit_product_review.php";
     private static final String SUBMIT_INQUIRY = "integsys/marketplace/submit_product_inquiry.php";
 
+    private static final String SUBMIT_MEANS_INFO = "integsys/gocas/mp_submit_means_info.php";
+    private static final String SUBMIT_OTHER_INFO = "integsys/gocas/mp_submit_other_info.php";
+
     private static final String IMPORT_NOTIFICATIONS = "integsys/notification/request_previous_notifications.php";
     private static final String SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/notification/send_response.php";
     private static final String SEND_REQUEST = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
@@ -611,4 +614,19 @@ public class ServerAPIs {
         }
         return LIVE + IMPORT_VALID_ID_CODE;
     }
+
+    public String getSubmitMeansInfo(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_MEANS_INFO;
+        }
+        return LIVE + SUBMIT_MEANS_INFO;
+    }
+
+    public String getSubmitOtherInfo(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_OTHER_INFO;
+        }
+        return LIVE + SUBMIT_OTHER_INFO;
+    }
+
 }

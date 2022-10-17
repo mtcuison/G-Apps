@@ -50,7 +50,7 @@ public class HttpHeaders {
         String lsClientx = poAccount.getClientID();
         String lsLogNoxx = "";
         String lsTokenxx = poConfigx.getAppToken();
-        String lsProduct = poConfigx.getProductID();
+        String lsProduct = "GuanzonApp";
         String lsDevcIDx = poTlphony.getDeviceID();
         String lsDateTme = SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss");
         String lsDevcMdl = Build.MODEL;

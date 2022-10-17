@@ -8,7 +8,7 @@ import android.util.Log;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.guanzongroup.com.creditapp.Obj.MpCreditApp;
+import org.rmj.g3appdriver.lib.CreditApp.model.MpCreditApp;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
