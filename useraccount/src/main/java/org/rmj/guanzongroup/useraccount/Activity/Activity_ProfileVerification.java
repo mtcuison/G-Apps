@@ -122,7 +122,8 @@ public class Activity_ProfileVerification extends AppCompatActivity {
                         poDialogx.setButtonText("Okay");
                         poDialogx.initDialog("Account Details", message, () -> {
                             poDialogx.dismiss();
-                            Intent loIntent = new Intent(Activity_ProfileVerification.this, Activity_IDVerification.class);
+//                            Intent loIntent = new Intent(Activity_ProfileVerification.this, Activity_IDVerification.class);
+                            Intent loIntent = new Intent(Activity_ProfileVerification.this, Activity_MeansInfo.class);
                             loIntent.putExtra("cSkippedx", false);
                             startActivity(loIntent);
                             finish();

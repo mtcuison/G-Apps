@@ -97,6 +97,20 @@
         <item name="boxCornerRadiusTopEnd">10dp</item>
     </style>
 
+    <style name="MeansDropDownTilStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:popupBackground">@color/app_background</item>
+        <item name="boxStrokeColor">@color/guanzon_digital_light_orange</item>
+        <item name="hintTextColor">@color/guanzon_digital_light_orange</item>
+        <item name="colorControlActivated">@color/guanzon_digital_light_orange</item>
+        <item name="boxBackgroundColor">#FCFCFC</item>
+        <item name="background">@color/app_background</item>
+        <item name="fontFamily">@font/roboto</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+    </style>
+
     <style name="DropdownStyleTheme" parent="AutoCompleteStyleTheme">
         <item name="android:focusable">false</item>
         <item name="android:clickable">false</item>

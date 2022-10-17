@@ -53,6 +53,7 @@ import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_LoanIntroduction;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_MeansInfo;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 
 import java.util.Objects;
@@ -259,7 +260,8 @@ public class Activity_Dashboard extends AppCompatActivity {
                 @Override
                 public void OnAccountNotVerified() {
                     poLoading.dismiss();
-                    Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanIntroduction.class);
+//                    Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanIntroduction.class);
+                    Intent intent = new Intent(Activity_Dashboard.this, Activity_MeansInfo.class);
                     startActivity(intent);
                 }
 
