@@ -88,6 +88,8 @@ public class ServerAPIs {
 
     private static final String SUBMIT_MEANS_INFO = "integsys/gocas/mp_submit_means_info.php";
     private static final String SUBMIT_OTHER_INFO = "integsys/gocas/mp_submit_other_info.php";
+    private static final String GET_OTHER_APPLICATION_INFO = "integsys/gocas/mp_get_other_application_info.php";
+    private static final String SUBMIT_LOAN_APPLICATION = "integsys/gocas/mp_submit_credit_app.php";
 
     private static final String IMPORT_NOTIFICATIONS = "integsys/notification/request_previous_notifications.php";
     private static final String SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/notification/send_response.php";
@@ -627,6 +629,20 @@ public class ServerAPIs {
             return LOCAL + SUBMIT_OTHER_INFO;
         }
         return LIVE + SUBMIT_OTHER_INFO;
+    }
+
+    public String getOtherApplicationInfo(){
+        if(isTestUnit){
+            return LOCAL + GET_OTHER_APPLICATION_INFO;
+        }
+        return LIVE + GET_OTHER_APPLICATION_INFO;
+    }
+
+    public String getSubmitLoanApplication(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_LOAN_APPLICATION;
+        }
+        return LIVE + SUBMIT_LOAN_APPLICATION;
     }
 
 }

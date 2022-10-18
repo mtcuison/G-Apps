@@ -73,7 +73,7 @@ public class SubmitMeansInfoTest {
         loApp.meansInfo().employment().setPosition("Sales");
         loApp.meansInfo().finance().setFinancierRelation("0");
         loApp.meansInfo().finance().setAmount("20000");
-        if(!poSys.SubmitMeansInfo(loApp.meansInfo().getData().toString())){
+        if(!poSys.SubmitMeansInfo(loApp.getData())){
             message = poSys.getMessage();
             Log.e(TAG, message);
         } else {

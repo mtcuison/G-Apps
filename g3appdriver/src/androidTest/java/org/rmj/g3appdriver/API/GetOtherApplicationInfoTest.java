@@ -16,26 +16,26 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
-import org.rmj.g3appdriver.lib.Account.AccountVerification;
-import org.rmj.g3appdriver.lib.CreditApp.model.MpCreditApp;
+import org.rmj.g3appdriver.lib.CreditApp.CreditApplication;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class SubmitOtherInfoTest {
-    private static final String TAG = SubmitMeansInfoTest.class.getSimpleName();
+public class GetOtherApplicationInfoTest {
+    private static final String TAG = GetOtherApplicationInfoTest.class.getSimpleName();
 
     private Context mContext;
 
-    private AccountVerification poSys;
+    private CreditApplication poSys;
 
     private static boolean isSuccess = false;
     private String message;
+
 
     @Before
     public void setUp() throws Exception {
         this.mContext = ApplicationProvider.getApplicationContext();
         new GuanzonAppConfig(mContext).setTestCase(true);
-        this.poSys = new AccountVerification(mContext);
+        this.poSys = new CreditApplication(mContext);
     }
 
     @After
@@ -63,19 +63,22 @@ public class SubmitOtherInfoTest {
             }
         });
         Thread.sleep(1000);
+
+        assertTrue(isSuccess);
     }
 
     @Test
-    public void test02SubmitOtherInfo() throws Exception{
-        MpCreditApp loApp = new MpCreditApp();
-        loApp.disbursementInfo().bankInfo().setBankName("BDO");
-        loApp.disbursementInfo().bankInfo().setAccountType("0");
-        if(!poSys.SubmitOtherInfo(loApp.getData())){
+    public void test02GetOtherApplicationInfo() {
+        String lsResult = poSys.GetOtherApplicationInfo();
+
+        if(lsResult == null){
             message = poSys.getMessage();
             Log.e(TAG, message);
         } else {
+            Log.d(TAG, lsResult);
             isSuccess = true;
         }
+
         assertTrue(isSuccess);
     }
 }

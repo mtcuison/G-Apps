@@ -7,8 +7,10 @@ import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.CreditApp.model.LoanTerm;
+import org.rmj.g3appdriver.lib.CreditApp.model.MpCreditApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,11 +77,10 @@ public class CreditApplication {
         }
     }
 
-    //TODO: Download Means Info
-    public String GetAccountVerificationInfo(){
+    public String GetOtherApplicationInfo(){
         try{
             String lsResponse = WebClient.httpsPostJSon(
-                    "",
+                    poApi.getOtherApplicationInfo(),
                     new JSONObject().toString(),
                     poHeaders.getHeaders());
 
@@ -104,14 +105,20 @@ public class CreditApplication {
         }
     }
 
-    //TODO: Submit Credit Online Application
     public boolean SubmitApplication(String fsVal){
         try{
-            JSONObject params = new JSONObject();
-            params.put("", fsVal);
+            MpCreditApp loApp = new MpCreditApp();
+            loApp.setData(fsVal);
+            JSONObject params = new JSONObject(fsVal);
+            params.put("sBranchCd", "M001");
+            params.put("dAppliedx", new AppConstants().DATE_MODIFIED);
+            params.put("sClientNm", loApp.clientInfo().getClientName());
+            params.put("cUnitAppl", loApp.getUnitType());
+            params.put("nDownPaym", loApp.getDownpayment());
+            params.put("dCreatedx", new AppConstants().DATE_MODIFIED);
 
             String lsResponse = WebClient.httpsPostJSon(
-                    "",
+                    poApi.getSubmitLoanApplication(),
                     params.toString(),
                     poHeaders.getHeaders());
 

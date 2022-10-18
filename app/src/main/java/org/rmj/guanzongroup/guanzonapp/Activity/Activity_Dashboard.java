@@ -50,6 +50,7 @@ import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
 import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_AccountVerification;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_LoanIntroduction;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
@@ -260,9 +261,8 @@ public class Activity_Dashboard extends AppCompatActivity {
                 @Override
                 public void OnAccountNotVerified() {
                     poLoading.dismiss();
-//                    Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanIntroduction.class);
-//                    Intent intent = new Intent(Activity_Dashboard.this, Activity_MeansInfo.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanIntroduction.class);
+                    startActivity(intent);
                 }
 
                 @Override

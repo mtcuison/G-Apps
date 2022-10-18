@@ -50,53 +50,7 @@ public class Activity_LoanProductList extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(Activity_LoanProductList.this, 2, RecyclerView.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
 
-        mViewModel.ValidateUserVerification(new VMLoanProductList.OnValidateVerifiedUser() {
-            @Override
-            public void OnValidate(String title, String message) {
-                poLoad.initDialog(title, message);
-                poLoad.show();
-            }
-
-            @Override
-            public void OnAccountVerified() {
-                poLoad.dismiss();
-                InitializeProductList();
-            }
-
-            @Override
-            public void OnAccountNotVerified() {
-                poLoad.dismiss();
-                startActivity(new Intent(Activity_LoanProductList.this, Activity_IDVerification.class));
-                finish();
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                poLoad.dismiss();
-                poDialog.setButtonText("Okay");
-                poDialog.initDialog("Guanzon App", message, () -> {
-                    poDialog.dismiss();
-                });
-                poDialog.show();
-            }
-        });
-
-//        mViewModel.getCreditAppData().observe(Activity_LoanProductList.this, mpCreditApp -> {
-//            try {
-//                poCredApp = mpCreditApp;
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        });
-
-//        findViewById(R.id._lbl).setOnClickListener(v -> {
-//            try {
-//                mViewModel.setData(poCredApp);
-//                mViewModel.StartActivity(Activity_Sample.class);
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        });
+        InitializeProductList();
     }
 
     @Override
@@ -112,7 +66,10 @@ public class Activity_LoanProductList extends AppCompatActivity {
             try{
                 if(products.size() > 0){
                     Adapter_LoanProductList loAdapter = new Adapter_LoanProductList(products, fsListIdx -> {
-
+                        Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_LoanTerm.class);
+                        loIntent.putExtra("sListngID", fsListIdx);
+                        startActivity(loIntent);
+                        finish();
                     });
                     recyclerView.setAdapter(loAdapter);
                 }

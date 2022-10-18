@@ -33,6 +33,27 @@ public class PersonalInfo {
         return message;
     }
 
+    public String getClientName() throws Exception{
+        String lsClient = "";
+        if(params.has("sLastName")){
+            lsClient = params.getString("sLastName");
+        }
+
+        if(params.has("sFrstName")){
+            lsClient = lsClient + ", " + params.getString("sFrstName");
+        }
+
+        if(params.has("sMiddName")){
+            lsClient = lsClient + " " + params.getString("sMiddName");
+        }
+
+        if(params.has("sSuffixxx")) {
+            lsClient = lsClient + " " + params.getString("sSuffixxx");
+        }
+
+        return lsClient;
+    }
+
     public String getLastName() throws JSONException {
         if(params.has("sLastName")) {
             return params.getString("sLastName");

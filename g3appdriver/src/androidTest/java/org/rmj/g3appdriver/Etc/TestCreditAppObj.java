@@ -1,4 +1,4 @@
-package org.guanzongroup.com.creditapp;
+package org.rmj.g3appdriver.Etc;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

@@ -25,6 +25,13 @@ public class MpCreditApp {
         params.put("cUnitType", fsVal);
     }
 
+    public String getUnitType() throws Exception{
+        if(params.has("cUnitType")){
+            return params.getString("cUnitType");
+        }
+        return "";
+    }
+
     public void setModel(String fsVal) throws JSONException {
         params.put("sModelIDx", fsVal);
     }
@@ -34,7 +41,14 @@ public class MpCreditApp {
     }
 
     public void setDownpayment(String fsVal) throws JSONException {
-        params.put("nDwnpymnt", fsVal);
+        params.put("nDownPaym", fsVal);
+    }
+
+    public String getDownpayment() throws Exception{
+        if(params.has("nDownPaym")){
+            return params.getString("nDownPaym");
+        }
+        return "";
     }
 
     public void setAmortization(String fsVal) throws JSONException {
@@ -74,8 +88,8 @@ public class MpCreditApp {
     }
 
     public boolean isDataValid() throws JSONException{
-        if(params.has("nDwnpymnt") &&
-                params.getString("nDwnpymnt").trim().isEmpty()){
+        if(params.has("nDownPaym") &&
+                params.getString("nDownPaym").trim().isEmpty()){
             message = "Unset downpayment detected.";
             return false;
         } else if(params.has("nAmortztn") &&
