@@ -1,1 +1,7 @@
-<resources></resources>
+<resources>
+    <string name="lbl18Months">18 Months Installment</string>
+    <string name="lbl24Months">24 Months Installment</string>
+    <string name="lbl12Months">12 Months Installment</string>
+    <string name="lbl6Months">6 Months Installment</string>
+    <string name="lbl3Months">3 Months Installment</string>
+</resources>

@@ -46,6 +46,7 @@ public class VMHome extends AndroidViewModel {
 
     public interface OnValidateVerifiedUser{
         void OnValidate(String title, String message);
+        void OnIncompleteAccountInfo();
         void OnAccountVerified();
         void OnAccountNotVerified();
         void OnFailed(String message);
@@ -397,6 +398,11 @@ public class VMHome extends AndroidViewModel {
                     return 0;
                 }
 
+                if(!poClient.HasCompleteInfo()){
+                    message = "Client incomplete info.";
+                    return 3;
+                }
+
                 int lnVerified = loClient.getVerified();
                 if(lnVerified == 0){
                     message = "Account not verified. Proceed to account verification.";
@@ -421,6 +427,9 @@ public class VMHome extends AndroidViewModel {
                     break;
                 case 2:
                     mListener.OnAccountNotVerified();
+                    break;
+                case 3:
+                    mListener.OnIncompleteAccountInfo();
                     break;
                 default:
                     mListener.OnAccountVerified();

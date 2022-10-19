@@ -126,29 +126,37 @@ public class Fragment_ID2 extends Fragment {
             try {
                 for (int x = 0; x < loList.size(); x++) {
                     if (spnIDType.getText().toString().trim().equalsIgnoreCase(loList.get(x).getIDName())) {
-                        poDetail.setsIDCodexx(loList.get(x).getIDCode());
-                        poDetail.setcHasExpre(loList.get(x).hasExpiry());
-                        poDetail.setcHasExpre(loList.get(x).hasExpiry());
 
-                        if(loList.get(x).hasExpiry().equalsIgnoreCase("1")){
-                            view.findViewById(R.id.til_expryDte1).setVisibility(View.VISIBLE);
+                        //Check if selected ID is already selected as the first id
+                        String lsIDCode1 = Activity_IDVerification.getInstance().getsIDCodexx();
+                        if(loList.get(x).getIDCode().equalsIgnoreCase(lsIDCode1)){
+                            spnIDType.setText("");
+                            Toast.makeText(requireActivity(), "Please select other valid ID type.", Toast.LENGTH_SHORT).show();
                         } else {
-                            view.findViewById(R.id.til_expryDte1).setVisibility(View.GONE);
-                        }
+                            poDetail.setsIDCodexx(loList.get(x).getIDCode());
+                            poDetail.setcHasExpre(loList.get(x).hasExpiry());
+                            poDetail.setcHasExpre(loList.get(x).hasExpiry());
 
-                        view.findViewById(R.id.textview).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.img_frontID).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.btnCaptureFront).setVisibility(View.VISIBLE);
+                            if (loList.get(x).hasExpiry().equalsIgnoreCase("1")) {
+                                view.findViewById(R.id.til_expryDte1).setVisibility(View.VISIBLE);
+                            } else {
+                                view.findViewById(R.id.til_expryDte1).setVisibility(View.GONE);
+                            }
 
-                        poDetail.setcHasBackx(loList.get(x).hasBack());
-                        if(loList.get(x).hasBack().equalsIgnoreCase("1")){
-                            view.findViewById(R.id.textview1).setVisibility(View.VISIBLE);
-                            view.findViewById(R.id.img_backID).setVisibility(View.VISIBLE);
-                            view.findViewById(R.id.btnCaptureBack).setVisibility(View.VISIBLE);
-                        } else {
-                            view.findViewById(R.id.textview1).setVisibility(View.GONE);
-                            view.findViewById(R.id.img_backID).setVisibility(View.GONE);
-                            view.findViewById(R.id.btnCaptureBack).setVisibility(View.GONE);
+                            view.findViewById(R.id.textview).setVisibility(View.VISIBLE);
+                            view.findViewById(R.id.img_frontID).setVisibility(View.VISIBLE);
+                            view.findViewById(R.id.btnCaptureFront).setVisibility(View.VISIBLE);
+
+                            poDetail.setcHasBackx(loList.get(x).hasBack());
+                            if (loList.get(x).hasBack().equalsIgnoreCase("1")) {
+                                view.findViewById(R.id.textview1).setVisibility(View.VISIBLE);
+                                view.findViewById(R.id.img_backID).setVisibility(View.VISIBLE);
+                                view.findViewById(R.id.btnCaptureBack).setVisibility(View.VISIBLE);
+                            } else {
+                                view.findViewById(R.id.textview1).setVisibility(View.GONE);
+                                view.findViewById(R.id.img_backID).setVisibility(View.GONE);
+                                view.findViewById(R.id.btnCaptureBack).setVisibility(View.GONE);
+                            }
                         }
                         break;
                     }

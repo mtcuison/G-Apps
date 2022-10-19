@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderDetail;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderMaster;
@@ -23,6 +24,7 @@ import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 
+import java.util.Date;
 import java.util.List;
 
 public class ROrder {
@@ -592,7 +594,6 @@ public class ROrder {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
-                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if (!lsResult.equalsIgnoreCase("success")) {
@@ -604,40 +605,88 @@ public class ROrder {
                     JSONArray jaDetail = loResponse.getJSONArray("detail");
                     for(int x = 0; x < jaMaster.length(); x++){
                         JSONObject joMaster = jaMaster.getJSONObject(x);
-                        EOrderMaster oMaster = new EOrderMaster();
-                        oMaster.setTransNox(joMaster.getString("sTransNox"));
-                        oMaster.setTransact(joMaster.getString("dTransact"));
-                        oMaster.setExpected(joMaster.getString("dExpected"));
-                        oMaster.setClientID(joMaster.getString("sClientID"));
-                        oMaster.setAppUsrID(joMaster.getString("sAppUsrID"));
-                        oMaster.setTranTotl(joMaster.getString("nTranTotl"));
-                        oMaster.setDiscount(joMaster.getString("nDiscount"));
-                        oMaster.setFreightx(joMaster.getString("nFreightx"));
-                        oMaster.setTermCode(joMaster.getString("sTermCode"));
-                        oMaster.setTranStat(joMaster.getString("cTranStat"));
-                        oMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
 
-                        loMaster.SaveOrderMaster(oMaster);
+                        EOrderMaster loclMaster = poMaster.CheckOrderMasterIfExist(joMaster.getString("sTransNox"));
+
+                        if(loclMaster == null) {
+
+                            EOrderMaster oMaster = new EOrderMaster();
+                            oMaster.setTransNox(joMaster.getString("sTransNox"));
+                            oMaster.setTransact(joMaster.getString("dTransact"));
+                            oMaster.setExpected(joMaster.getString("dExpected"));
+                            oMaster.setClientID(joMaster.getString("sClientID"));
+                            oMaster.setAppUsrID(joMaster.getString("sAppUsrID"));
+                            oMaster.setTranTotl(joMaster.getString("nTranTotl"));
+                            oMaster.setDiscount(joMaster.getString("nDiscount"));
+                            oMaster.setFreightx(joMaster.getString("nFreightx"));
+                            oMaster.setTermCode(joMaster.getString("sTermCode"));
+                            oMaster.setTranStat(joMaster.getString("cTranStat"));
+                            oMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
+                            loMaster.SaveOrderMaster(oMaster);
+                        } else {
+                            Date ldDate1 = SQLUtil.toDate(loclMaster.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                            Date ldDate2 = SQLUtil.toDate((String) joMaster.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                            if (!ldDate1.equals(ldDate2)) {
+                                loclMaster.setTransact(joMaster.getString("dTransact"));
+                                loclMaster.setExpected(joMaster.getString("dExpected"));
+                                loclMaster.setClientID(joMaster.getString("sClientID"));
+                                loclMaster.setAppUsrID(joMaster.getString("sAppUsrID"));
+                                loclMaster.setTranTotl(joMaster.getString("nTranTotl"));
+                                loclMaster.setDiscount(joMaster.getString("nDiscount"));
+                                loclMaster.setFreightx(joMaster.getString("nFreightx"));
+                                loclMaster.setTermCode(joMaster.getString("sTermCode"));
+                                loclMaster.setTranStat(joMaster.getString("cTranStat"));
+                                loclMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
+                                poMaster.UpdateMaster(loclMaster);
+                            }
+                        }
                     }
 
                     for(int i = 0; i <jaDetail.length(); i++){
                         JSONObject joDetail = jaDetail.getJSONObject(i);
-                        EOrderDetail oDetail = new EOrderDetail();
-                        oDetail.setTransNox(joDetail.getString("sTransNox"));
-                        oDetail.setEntryNox(joDetail.getString("nEntryNox"));
-                        oDetail.setQuantity(joDetail.getString("nQuantity"));
-                        oDetail.setUnitPrce(joDetail.getString("nUnitPrce"));
-                        oDetail.setDiscount(joDetail.getString("nDiscount"));
-                        oDetail.setAddDiscx(joDetail.getString("nAddDiscx"));
-                        oDetail.setStockIDx(joDetail.getString("sStockIDx"));
+
+                        EOrderDetail loclDetail = poDetail.GetOrderDetail(
+                                joDetail.getString("sTransNox"),
+                                joDetail.getString("nEntryNox"));
+
+                        if(loclDetail == null) {
+
+                            EOrderDetail oDetail = new EOrderDetail();
+                            oDetail.setTransNox(joDetail.getString("sTransNox"));
+                            oDetail.setEntryNox(joDetail.getString("nEntryNox"));
+                            oDetail.setQuantity(joDetail.getString("nQuantity"));
+                            oDetail.setUnitPrce(joDetail.getString("nUnitPrce"));
+                            oDetail.setDiscount(joDetail.getString("nDiscount"));
+                            oDetail.setAddDiscx(joDetail.getString("nAddDiscx"));
+                            oDetail.setStockIDx(joDetail.getString("sStockIDx"));
 //                        oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
 //                        oDetail.setCancelld(joDetail.getString("nCancelld"));
 //                        oDetail.setReferNox(joDetail.getString("sReferNox"));
-                        oDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
-                        oDetail.setReviewed(joDetail.getString("cReviewed"));
-                        oDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
+                            oDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
+                            oDetail.setReviewed(joDetail.getString("cReviewed"));
+                            oDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
 
-                        loDetail.SaveDetailOrder(oDetail);
+                            loDetail.SaveDetailOrder(oDetail);
+                        } else {
+                            Date ldDate1 = SQLUtil.toDate(loclDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                            Date ldDate2 = SQLUtil.toDate((String) joDetail.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                            if (!ldDate1.equals(ldDate2)) {
+                                loclDetail.setTransNox(joDetail.getString("sTransNox"));
+                                loclDetail.setEntryNox(joDetail.getString("nEntryNox"));
+                                loclDetail.setQuantity(joDetail.getString("nQuantity"));
+                                loclDetail.setUnitPrce(joDetail.getString("nUnitPrce"));
+                                loclDetail.setDiscount(joDetail.getString("nDiscount"));
+                                loclDetail.setAddDiscx(joDetail.getString("nAddDiscx"));
+                                loclDetail.setStockIDx(joDetail.getString("sStockIDx"));
+//                        oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
+//                        oDetail.setCancelld(joDetail.getString("nCancelld"));
+//                        oDetail.setReferNox(joDetail.getString("sReferNox"));
+                                loclDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
+                                loclDetail.setReviewed(joDetail.getString("cReviewed"));
+                                loclDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
+                                loDetail.UpdateDetail(loclDetail);
+                            }
+                        }
                     }
                     return true;
                 }

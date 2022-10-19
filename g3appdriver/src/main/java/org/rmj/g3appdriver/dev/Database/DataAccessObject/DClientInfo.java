@@ -117,6 +117,9 @@ public interface DClientInfo {
     @Query("SELECT * FROM Client_Profile_Info")
     EClientInfo GetClientInfo();
 
+    @Query("SELECT * FROM Client_Profile_Info WHERE sLastName != '' AND sFrstName != '' AND dBirthDte != ''")
+    EClientInfo GetClientCompleteDetail();
+
     @Query("SELECT a.sUserIDxx, " +
             "a.sUserName, " +
             "a.sLastName, " +

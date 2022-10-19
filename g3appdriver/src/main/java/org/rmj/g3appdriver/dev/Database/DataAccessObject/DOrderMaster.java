@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EOrderMaster;
 
@@ -13,8 +14,11 @@ import java.util.List;
 @Dao
 public interface DOrderMaster {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void SaveOrderMaster(EOrderMaster foVal);
+
+    @Update
+    void UpdateMaster(EOrderMaster foVal);
 
     @Query("SELECT * FROM MarketPlace_Order_Master WHERE sTransNox=:fsTransNo")
     EOrderMaster CheckOrderMasterIfExist(String fsTransNo);
@@ -44,20 +48,18 @@ public interface DOrderMaster {
             "b.nQuantity, " +
             "b.nUnitPrce, " +
             "b.nDiscount, " +
-            "c.sBriefDsc, " +
-            "c.xBarCodex, " +
-            "c.sImagesxx, " +
-            "c.xBrandNme, " +
-            "c.xModelNme, " +
-            "c.xColorNme, " +
-            "c.xCategrNm " +
+            "(SELECT sBriefDsc FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS sBriefDsc, " +
+            "(SELECT xBarCodex FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS xBarCodex, " +
+            "(SELECT sImagesxx FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS sImagesxx, " +
+            "(SELECT xBrandNme FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS xBrandNme, " +
+            "(SELECT xModelNme FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS xModelNme, " +
+            "(SELECT xColorNme FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS xColorNme, " +
+            "(SELECT xCategrNm FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS xCategrNm " +
             "FROM MarketPlace_Order_Master a " +
             "LEFT JOIN MarketPlace_Order_Detail b " +
             "ON a.sTransNox = b.sTransNox " +
-            "LEFT JOIN Product_Inventory c " +
-            "ON b.sStockIDx = c.sStockIDx " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
-            "ORDER BY a.dTransact DESC")
+            "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetOrderHistoryList();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
@@ -97,21 +99,19 @@ public interface DOrderMaster {
             "b.nQuantity, " +
             "b.nUnitPrce, " +
             "b.nDiscount, " +
-            "c.sBriefDsc, " +
-            "c.xBarCodex, " +
-            "c.sImagesxx, " +
-            "c.xBrandNme, " +
-            "c.xModelNme, " +
-            "c.xColorNme, " +
-            "c.xCategrNm " +
+            "(SELECT sBriefDsc FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS sBriefDsc, " +
+            "(SELECT xBarCodex FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS xBarCodex, " +
+            "(SELECT sImagesxx FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS sImagesxx, " +
+            "(SELECT xBrandNme FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS xBrandNme, " +
+            "(SELECT xModelNme FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS xModelNme, " +
+            "(SELECT xColorNme FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS xColorNme, " +
+            "(SELECT xCategrNm FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS xCategrNm " +
             "FROM MarketPlace_Order_Master a " +
             "LEFT JOIN MarketPlace_Order_Detail b " +
             "ON a.sTransNox = b.sTransNox " +
-            "LEFT JOIN Product_Inventory c " +
-            "ON b.sStockIDx = c.sStockIDx " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.cTranStat=:fsVal " +
-            "ORDER BY a.dTransact DESC")
+            "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetOrderHistoryList(String fsVal);
 
 
@@ -136,7 +136,7 @@ public interface DOrderMaster {
             "ON b.sStockIDx = c.sStockIDx " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.nTranTotl > a.nAmtPaidx " +
-            "ORDER BY a.dTransact DESC")
+            "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetToPayOrderList();
 
     @Query("SELECT a.sTransNox," +

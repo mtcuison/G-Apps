@@ -15,12 +15,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductList;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
@@ -41,6 +43,7 @@ public class Fragment_Home extends Fragment {
     private Adapter_ProductList poAdapter;
     private RecyclerView poRvProds, poRvCateg;
     private SliderView poSliderx;
+    private final List<DProduct.oProduct> poList = new ArrayList<>();
 
     public Fragment_Home() {}
 
@@ -82,7 +85,6 @@ public class Fragment_Home extends Fragment {
     }
 
     private void setCategoryAdapter() {
-//        List<String> strings = new ArrayList<>();
         mViewModel.GetBrandNames().observe(getViewLifecycleOwner(), strings -> {
             try {
                 final Adapter_Categories loAdapter = new Adapter_Categories(strings, args -> {
@@ -102,7 +104,9 @@ public class Fragment_Home extends Fragment {
         mViewModel.getProductList(0).observe(getViewLifecycleOwner(), products -> {
             try {
                 if(products.size() > 0) {
-                    poAdapter = new Adapter_ProductList(products, listingId -> {
+                    poList.clear();
+                    poList.addAll(products);
+                    poAdapter = new Adapter_ProductList(poList, listingId -> {
                         Intent loIntent = new Intent(requireActivity(), Activity_ProductOverview.class);
                         loIntent.putExtra("sListngId", listingId);
                         Log.d(TAG, "Passed parameter: " + listingId);
@@ -113,6 +117,31 @@ public class Fragment_Home extends Fragment {
                 }
             } catch (NullPointerException e) {
                 e.printStackTrace();
+            }
+        });
+
+        poRvProds.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
+                int totalItemCount = layoutManager.getItemCount();
+                int lastVisible = layoutManager.findLastVisibleItemPosition();
+
+                boolean endHasBeenReached = lastVisible + 5 >= totalItemCount;
+                if (totalItemCount > 0 && endHasBeenReached) {
+                    mViewModel.getProductList(totalItemCount).observe(getViewLifecycleOwner(), products -> {
+                        try {
+                            if(products.size() > 0) {
+                                poList.addAll(products);
+                                poAdapter.notifyDataSetChanged();
+                                Log.d(TAG, "New items added");
+                            }
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
             }
         });
     }

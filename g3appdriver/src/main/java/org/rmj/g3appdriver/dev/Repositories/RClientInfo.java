@@ -81,6 +81,23 @@ public class RClientInfo {
         return poDao.GetClientInfo();
     }
 
+    public boolean HasCompleteInfo(){
+        try{
+            EClientInfo loClient = poDao.GetClientCompleteDetail();
+
+            if(loClient == null){
+                message = "Client incomplete detail";
+                return false;
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
     public LiveData<DClientInfo.ClientDetail> GetClientDetailForPreview(){
         return poDao.GetClientDetailForPreview();
     }

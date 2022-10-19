@@ -149,6 +149,8 @@ public class Fragment_ID1 extends Fragment {
                             view.findViewById(R.id.img_backID).setVisibility(View.GONE);
                             view.findViewById(R.id.btnCaptureBack).setVisibility(View.GONE);
                         }
+
+                        Activity_IDVerification.getInstance().setsIDCodexx(loList.get(x).getIDCode());
                         break;
                     }
                 }

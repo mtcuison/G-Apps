@@ -45,12 +45,14 @@ import org.rmj.guanzongroup.digitalgcard.Dialogs.Dialog_TransactionPIN;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.Service.DashboardActionReceiver;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
 import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_AccountVerification;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_LoanIntroduction;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
@@ -252,6 +254,13 @@ public class Activity_Dashboard extends AppCompatActivity {
                 }
 
                 @Override
+                public void OnIncompleteAccountInfo() {
+                    poLoading.dismiss();
+                    Intent loIntent = new Intent(Activity_Dashboard.this, Activity_CompleteAccountDetails.class);
+                    startActivity(loIntent);
+                }
+
+                @Override
                 public void OnAccountVerified() {
                     poLoading.dismiss();
                     Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanProductList.class);
@@ -373,7 +382,6 @@ public class Activity_Dashboard extends AppCompatActivity {
         if(item.getItemId() == android.R.id.home){
 
         } else if (item.getItemId() == R.id.item_search) {
-//            startActivity(new Intent(Activity_Dashboard.this, Activity_IDVerification.class));
             loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
             startActivity(loIntent);
         } else if (item.getItemId() == R.id.item_cart) {
@@ -419,7 +427,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                     txtFullNm.setVisibility(View.VISIBLE);
                     txtFullNm.setText(Objects.requireNonNull(lsFullNme));
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_wishlist).setVisible(true);
                     nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
                     nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(true);
@@ -437,7 +444,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                         startActivity(loIntent);
                     });
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_wishlist).setVisible(false);
                     nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
                     nav_Menu.findItem(R.id.nav_applyLoan).setVisible(false);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(false);
