@@ -43,10 +43,12 @@ public interface DOrderMaster {
 
     @Query("SELECT a.sTransNox, " +
             "a.cTranStat, " +
-            "b.nQuantity * b.nUnitPrce AS nTranTotl, " +
+            "a.nTranTotl, " +
+            "a.nAmtPaidx, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
             "b.nUnitPrce, " +
+            "b.nDiscount, " +
             "b.nDiscount, " +
             "(SELECT sBriefDsc FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS sBriefDsc, " +
             "(SELECT xBarCodex FROM Product_Inventory WHERE sStockIDx = b.sStockIDx) AS xBarCodex, " +
@@ -59,13 +61,15 @@ public interface DOrderMaster {
             "LEFT JOIN MarketPlace_Order_Detail b " +
             "ON a.sTransNox = b.sTransNox " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "GROUP BY a.sTransNox " +
             "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetOrderHistoryList();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
             "WHERE nTranTotl > nAmtPaidx " +
+            "AND sTermCode = 'C0W2011' " +
             "AND sAppUsrID = (" +
-            "SELECT sUserIDxx FROM Client_Profile_Info)")
+            "SELECT sUserIDxx FROM Client_Profile_Info) ")
     LiveData<Integer> GetToPayOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
@@ -94,7 +98,8 @@ public interface DOrderMaster {
 
     @Query("SELECT a.sTransNox, " +
             "a.cTranStat, " +
-            "b.nQuantity * b.nUnitPrce AS nTranTotl, " +
+            "a.nTranTotl, " +
+            "a.nAmtPaidx, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
             "b.nUnitPrce, " +
@@ -111,13 +116,15 @@ public interface DOrderMaster {
             "ON a.sTransNox = b.sTransNox " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.cTranStat=:fsVal " +
+            "GROUP BY a.sTransNox " +
             "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetOrderHistoryList(String fsVal);
 
 
     @Query("SELECT a.sTransNox, " +
             "a.cTranStat, " +
-            "b.nQuantity * b.nUnitPrce AS nTranTotl, " +
+            "a.nTranTotl, " +
+            "a.nAmtPaidx, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
             "b.nUnitPrce, " +
@@ -136,6 +143,8 @@ public interface DOrderMaster {
             "ON b.sStockIDx = c.sStockIDx " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.nTranTotl > a.nAmtPaidx " +
+            "AND a.sTermCode = 'C0W2011' " +
+            "GROUP BY a.sTransNox " +
             "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetToPayOrderList();
 
@@ -167,6 +176,7 @@ public interface DOrderMaster {
         public String sTransNox;
         public String cTranStat;
         public String nTranTotl;
+        public String nAmtPaidx;
         public String nEntryNox;
         public String nQuantity;
         public String nUnitPrce;
@@ -193,4 +203,5 @@ public interface DOrderMaster {
         public String sAddressx;
         public String sMobileNo;
     }
+
 }

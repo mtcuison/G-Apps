@@ -48,6 +48,8 @@ public class EProducts {
     private String ListStrt;
     @ColumnInfo(name = "dListEndx")
     private String ListEndx;
+    @ColumnInfo(name = "cAllwCrdt")
+    private String AllwCrdt;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
     @ColumnInfo(name = "dTimeStmp")
@@ -224,5 +226,13 @@ public class EProducts {
 
     public void setStockIDx(String stockIDx) {
         StockIDx = stockIDx;
+    }
+
+    public String getAllwCrdt() {
+        return AllwCrdt;
+    }
+
+    public void setAllwCrdt(String allwCrdt) {
+        AllwCrdt = allwCrdt;
     }
 }

@@ -619,10 +619,13 @@ public class ROrder {
                             oMaster.setTranTotl(joMaster.getString("nTranTotl"));
                             oMaster.setDiscount(joMaster.getString("nDiscount"));
                             oMaster.setFreightx(joMaster.getString("nFreightx"));
+                            oMaster.setProcPaym(joMaster.getString("nProcPaym"));
+                            oMaster.setAmtPaidx(joMaster.getString("nAmtPaidx"));
                             oMaster.setTermCode(joMaster.getString("sTermCode"));
                             oMaster.setTranStat(joMaster.getString("cTranStat"));
                             oMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
                             loMaster.SaveOrderMaster(oMaster);
+                            Log.d(TAG, "Order master save!. Transaction No. : " + oMaster.getTransNox());
                         } else {
                             Date ldDate1 = SQLUtil.toDate(loclMaster.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
                             Date ldDate2 = SQLUtil.toDate((String) joMaster.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
@@ -634,10 +637,13 @@ public class ROrder {
                                 loclMaster.setTranTotl(joMaster.getString("nTranTotl"));
                                 loclMaster.setDiscount(joMaster.getString("nDiscount"));
                                 loclMaster.setFreightx(joMaster.getString("nFreightx"));
+                                loclMaster.setProcPaym(joMaster.getString("nProcPaym"));
+                                loclMaster.setAmtPaidx(joMaster.getString("nAmtPaidx"));
                                 loclMaster.setTermCode(joMaster.getString("sTermCode"));
                                 loclMaster.setTranStat(joMaster.getString("cTranStat"));
                                 loclMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
                                 poMaster.UpdateMaster(loclMaster);
+                                Log.d(TAG, "Order master updated!. Transaction No. : " + loclMaster.getTransNox());
                             }
                         }
                     }
@@ -667,6 +673,7 @@ public class ROrder {
                             oDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
 
                             loDetail.SaveDetailOrder(oDetail);
+                            Log.d(TAG, "Order detail saved!. Transaction No. : " + oDetail.getTransNox());
                         } else {
                             Date ldDate1 = SQLUtil.toDate(loclDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
                             Date ldDate2 = SQLUtil.toDate((String) joDetail.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
@@ -685,6 +692,7 @@ public class ROrder {
                                 loclDetail.setReviewed(joDetail.getString("cReviewed"));
                                 loclDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
                                 loDetail.UpdateDetail(loclDetail);
+                                Log.d(TAG, "Order detail updated!. Transaction No. : " + loclDetail.getTransNox());
                             }
                         }
                     }

@@ -102,8 +102,8 @@ public class Activity_Purchases extends AppCompatActivity {
                 } else {
                     findViewById(R.id.scrollView).setVisibility(View.VISIBLE);
                     if(foOrder.sTermCode.equalsIgnoreCase("C001002")){
-
-                    } else if(foOrder.nAmtPaidx != null){
+                        lblPaymntxx.setText(AppConstants.parseTermCode(foOrder.sTermCode));
+                    } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011")){
                         double lnTotal = Double.parseDouble(foOrder.nTranTotl);
                         double lnAmntx = Double.parseDouble(foOrder.nAmtPaidx);
 
@@ -121,6 +121,9 @@ public class Activity_Purchases extends AppCompatActivity {
                     } else {
                         toolbar.setTitle("Cancellation Detail");
                         btnCancel.setVisibility(View.GONE);
+                        btnPay.setVisibility(View.GONE);
+                        findViewById(R.id.linear_shipAddress).setVisibility(View.GONE);
+                        findViewById(R.id.lbl_trackNoLabel).setVisibility(View.GONE);
                         mViewModel.CheckCancellationDetail(foOrder.sTransNox, new VMOrders.OnCheckCancellationCallback() {
                             @Override
                             public void OnCheck(String dTransact, String sClientNm, String sRemarksx) {

@@ -43,7 +43,7 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
     public void onBindViewHolder(@NonNull ViewHolderItem holder, int position) {
         DOrderMaster.OrderHistory loMaster = poMaster.get(position);
         holder.lblOrderNo.setText(loMaster.sTransNox);
-        holder.lblOrderSt.setText(GetOrderStatus(loMaster.cTranStat));
+        holder.lblOrderSt.setText(GetOrderStatus(loMaster));
         holder.lblOrderTl.setText(CashFormatter.parse(loMaster.nTranTotl));
         holder.lblBrandNm.setText(loMaster.xModelNme + "\n " + loMaster.xBrandNme);
         holder.lblItmDisc.setText(GetDiscount(loMaster.nDiscount));
@@ -93,9 +93,12 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
         }
     }
 
-    private String GetOrderStatus(String fsVal){
-        switch (fsVal){
+    private String GetOrderStatus(DOrderMaster.OrderHistory fsVal){
+        switch (fsVal.cTranStat){
             case "0":
+                if(!fsVal.nTranTotl.equalsIgnoreCase(fsVal.nAmtPaidx)){
+                    return "To Pay";
+                }
                 return "Processing";
             case "1":
                 return "Verified";

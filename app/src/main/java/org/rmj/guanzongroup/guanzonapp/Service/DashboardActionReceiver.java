@@ -19,32 +19,41 @@ public class DashboardActionReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(intent.hasExtra("args")){
-            String args = intent.getStringExtra("args");
-            Intent loIntent;
-            switch (args){
-                case "auth":
-                    new CheckDataImportTask(context).execute();
-                    break;
-                case "client":
-                    new ImportClientCompleteInfoTask(context).execute();
-                    break;
-                case "promo":
-                    loIntent = new Intent(context, Activity_Browser.class);
-                    loIntent.putExtra("url_link", intent.getStringExtra("url_link"));
-                    loIntent.putExtra("args", intent.getStringExtra("browser_args"));
-                    loIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(loIntent);
-                    break;
-                case "purchase":
-                    new ImportClientPurchasesTask(context).execute();
-                    break;
-                case "verify":
-                    loIntent = new Intent(context, Activity_ProfileVerification.class);
-                    loIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(loIntent);
-                    break;
+        try {
+            if (intent.hasExtra("args")) {
+                String args = intent.getStringExtra("args");
+                Intent loIntent;
+                switch (args) {
+                    case "auth":
+                        Thread.sleep(1000);
+                        new CheckDataImportTask(context).execute();
+                        break;
+                    case "client":
+                        Thread.sleep(1000);
+                        new ImportClientCompleteInfoTask(context).execute();
+                        break;
+                    case "promo":
+                        Thread.sleep(1000);
+                        loIntent = new Intent(context, Activity_Browser.class);
+                        loIntent.putExtra("url_link", intent.getStringExtra("url_link"));
+                        loIntent.putExtra("args", intent.getStringExtra("browser_args"));
+                        loIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(loIntent);
+                        break;
+                    case "purchase":
+                        Thread.sleep(1000);
+                        new ImportClientPurchasesTask(context).execute();
+                        break;
+                    case "verify":
+                        Thread.sleep(1000);
+                        loIntent = new Intent(context, Activity_ProfileVerification.class);
+                        loIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(loIntent);
+                        break;
+                }
             }
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 

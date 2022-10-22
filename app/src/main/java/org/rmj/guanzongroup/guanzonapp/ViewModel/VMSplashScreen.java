@@ -46,7 +46,6 @@ public class VMSplashScreen extends AndroidViewModel {
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION,};
 
-    private final MutableLiveData<Boolean> poIsGranted = new MutableLiveData<>();
     private final MutableLiveData<oLoadStat> poLoadStat = new MutableLiveData<>();
 
     public VMSplashScreen(@NonNull Application application) {
@@ -61,6 +60,7 @@ public class VMSplashScreen extends AndroidViewModel {
 
     public void setupApp(){
         GuanzonAppConfig loConfig = new GuanzonAppConfig(mContext);
+        loConfig.setTestCase(true);
         loConfig.setProductID("GuanzonApp");
         loConfig.setClientID(AppConstants.APP_CLIENT);
         loConfig.setIfPermissionsGranted(hasPermissions(mContext, laPermissions));
@@ -78,10 +78,6 @@ public class VMSplashScreen extends AndroidViewModel {
 
     public String[] GetPermissions(){
         return laPermissions;
-    }
-
-    public LiveData<Boolean> CheckIfPermissionsGranted(){
-        return poIsGranted;
     }
 
     public LiveData<oLoadStat> GetLoadStatus(){
@@ -211,6 +207,5 @@ public class VMSplashScreen extends AndroidViewModel {
                 e.printStackTrace();
             }
         }
-
     }
 }

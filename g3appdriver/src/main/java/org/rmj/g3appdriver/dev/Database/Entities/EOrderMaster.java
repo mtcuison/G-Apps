@@ -36,6 +36,8 @@ public class EOrderMaster {
     private String AddDiscx;
     @ColumnInfo(name = "nFreightx")
     private String Freightx;
+    @ColumnInfo(name = "nProcPaym")
+    private String ProcPaym;
     @ColumnInfo(name = "nAmtPaidx")
     private String AmtPaidx;
     @ColumnInfo(name = "dDueDatex")
@@ -223,5 +225,13 @@ public class EOrderMaster {
 
     public void setAppUsrID(String appUsrID) {
         AppUsrID = appUsrID;
+    }
+
+    public String getProcPaym() {
+        return ProcPaym;
+    }
+
+    public void setProcPaym(String procPaym) {
+        ProcPaym = procPaym;
     }
 }
