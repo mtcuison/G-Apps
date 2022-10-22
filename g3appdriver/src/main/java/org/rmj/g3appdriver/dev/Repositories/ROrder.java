@@ -619,7 +619,6 @@ public class ROrder {
                             oMaster.setTranTotl(joMaster.getString("nTranTotl"));
                             oMaster.setDiscount(joMaster.getString("nDiscount"));
                             oMaster.setFreightx(joMaster.getString("nFreightx"));
-                            oMaster.setProcPaym(joMaster.getString("nProcPaym"));
                             oMaster.setAmtPaidx(joMaster.getString("nAmtPaidx"));
                             oMaster.setTermCode(joMaster.getString("sTermCode"));
                             oMaster.setTranStat(joMaster.getString("cTranStat"));
@@ -637,7 +636,6 @@ public class ROrder {
                                 loclMaster.setTranTotl(joMaster.getString("nTranTotl"));
                                 loclMaster.setDiscount(joMaster.getString("nDiscount"));
                                 loclMaster.setFreightx(joMaster.getString("nFreightx"));
-                                loclMaster.setProcPaym(joMaster.getString("nProcPaym"));
                                 loclMaster.setAmtPaidx(joMaster.getString("nAmtPaidx"));
                                 loclMaster.setTermCode(joMaster.getString("sTermCode"));
                                 loclMaster.setTranStat(joMaster.getString("cTranStat"));
