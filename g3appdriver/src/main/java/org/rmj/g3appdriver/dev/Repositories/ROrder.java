@@ -621,6 +621,7 @@ public class ROrder {
                             oMaster.setFreightx(joMaster.getString("nFreightx"));
                             oMaster.setAmtPaidx(joMaster.getString("nAmtPaidx"));
                             oMaster.setTermCode(joMaster.getString("sTermCode"));
+                            oMaster.setPaymType(joMaster.getString("cPaymType"));
                             oMaster.setTranStat(joMaster.getString("cTranStat"));
                             oMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
                             loMaster.SaveOrderMaster(oMaster);
@@ -738,7 +739,7 @@ public class ROrder {
 
     public LiveData<Integer> GetToPayOrders(){
         DOrderMaster loMaster = GGC_GuanzonAppDB.getInstance(mContext).orderMasterDao();
-        return loMaster.GetToPayOrders();
+        return loMaster.GetOrdersCount();
     }
 
     public LiveData<EOrderMaster> GetOrderMasterInfo(String fsVal){

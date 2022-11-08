@@ -9,11 +9,18 @@
 
     <application>
         <activity
-            android:name=".Activity.Activity_DisbursementInfo"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.Activity_MeansInfo"
-            android:exported="false" />
+            android:name=".Activity.Activity_DocumentScan"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+<!--        <activity-->
+<!--            android:name=".Activity.Activity_DisbursementInfo"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".Activity.Activity_MeansInfo"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".Activity.Activity_LoanTermsAndConditions"
             android:exported="false" />
@@ -33,16 +40,16 @@
             android:exported="false"
             android:screenOrientation="userPortrait"
             android:theme="@style/GuanzonMarketplace.Theme" />
-        <activity
-            android:name=".Activity.Activity_DocumentScanner"
-            android:exported="false"
-            android:screenOrientation="userPortrait"
-            android:theme="@style/GuanzonMarketplace.Theme" />
 <!--        <activity-->
-<!--            android:name=".Activity.Activity_IDVerification1"-->
+<!--            android:name=".Activity.Activity_DocumentScanner"-->
 <!--            android:exported="false"-->
 <!--            android:screenOrientation="userPortrait"-->
 <!--            android:theme="@style/GuanzonMarketplace.Theme" />-->
+        <!-- <activity -->
+        <!-- android:name=".Activity.Activity_IDVerification1" -->
+        <!-- android:exported="false" -->
+        <!-- android:screenOrientation="userPortrait" -->
+        <!-- android:theme="@style/GuanzonMarketplace.Theme" /> -->
         <activity
             android:name=".Activity.Activity_AccountUpdate"
             android:exported="false"

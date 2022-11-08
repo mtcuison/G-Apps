@@ -3,7 +3,6 @@ package org.rmj.g3appdriver.dev.Database.DataAccessObject;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -29,8 +28,8 @@ public interface DOrderMaster {
     @Query("SELECT dTimeStmp FROM MarketPlace_Order_Detail ORDER BY dTimeStmp DESC LIMIT 1")
     String getMasterLatestTimeStmp();
 
-    @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master")
-    LiveData<Integer> GetToPayOrders();
+    @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master WHERE cTranStat != '3'")
+    LiveData<Integer> GetOrdersCount();
 
     @Query("SELECT * FROM MarketPlace_Order_Master WHERE sTransNox =:fsTransNo")
     LiveData<EOrderMaster> GetMasterInfo(String fsTransNo);
@@ -45,6 +44,7 @@ public interface DOrderMaster {
             "a.cTranStat, " +
             "a.nTranTotl, " +
             "a.nAmtPaidx, " +
+            "a.sTermCode, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
             "b.nUnitPrce, " +
@@ -67,7 +67,10 @@ public interface DOrderMaster {
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
             "WHERE nTranTotl > nAmtPaidx " +
+            "AND cPaymType == '2' " +
             "AND sTermCode = 'C0W2011' " +
+            "AND nTranTotl > nProcPaym " +
+            "AND cTranStat == '0' " +
             "AND sAppUsrID = (" +
             "SELECT sUserIDxx FROM Client_Profile_Info) ")
     LiveData<Integer> GetToPayOrdersCount();
@@ -85,13 +88,13 @@ public interface DOrderMaster {
     LiveData<Integer> GetToShipOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
-            "WHERE cTranStat = '3' " +
+            "WHERE cTranStat = '4' " +
             "AND sAppUsrID = (" +
             "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetDeliveredOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
-            "WHERE cTranStat = '4' " +
+            "WHERE cTranStat = '3' " +
             "AND sAppUsrID = (" +
             "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetCancelledOrdersCount();
@@ -100,6 +103,7 @@ public interface DOrderMaster {
             "a.cTranStat, " +
             "a.nTranTotl, " +
             "a.nAmtPaidx, " +
+            "a.sTermCode, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
             "b.nUnitPrce, " +
@@ -125,6 +129,7 @@ public interface DOrderMaster {
             "a.cTranStat, " +
             "a.nTranTotl, " +
             "a.nAmtPaidx, " +
+            "a.sTermCode, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
             "b.nUnitPrce, " +
@@ -142,8 +147,10 @@ public interface DOrderMaster {
             "LEFT JOIN Product_Inventory c " +
             "ON b.sStockIDx = c.sStockIDx " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
-            "AND a.nTranTotl > a.nAmtPaidx " +
+            "AND a.cPaymType == '2' " +
+            "AND a.nTranTotl > a.nProcPaym " +
             "AND a.sTermCode = 'C0W2011' " +
+            "AND a.cTranStat == '0' " +
             "GROUP BY a.sTransNox " +
             "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetToPayOrderList();
@@ -177,6 +184,7 @@ public interface DOrderMaster {
         public String cTranStat;
         public String nTranTotl;
         public String nAmtPaidx;
+        public String sTermCode;
         public String nEntryNox;
         public String nQuantity;
         public String nUnitPrce;

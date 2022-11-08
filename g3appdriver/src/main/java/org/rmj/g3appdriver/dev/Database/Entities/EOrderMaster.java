@@ -50,6 +50,8 @@ public class EOrderMaster {
     private String SourceCd;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
+    @ColumnInfo(name = "cPaymType")
+    private String PaymType;
     @ColumnInfo(name = "dModified")
     private String Modified;
     @ColumnInfo(name = "dTimeStmp")
@@ -233,5 +235,13 @@ public class EOrderMaster {
 
     public void setProcPaym(String procPaym) {
         ProcPaym = procPaym;
+    }
+
+    public String getPaymType() {
+        return PaymType;
+    }
+
+    public void setPaymType(String paymType) {
+        PaymType = paymType;
     }
 }

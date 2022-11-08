@@ -70,7 +70,9 @@ public interface DOrderDetail {
             "b.cReviewed " +
             "FROM Product_Inventory a " +
             "LEFT JOIN MarketPlace_Order_Detail b " +
-            "ON a.sStockIDx = b.sStockIDx WHERE b.sTransNox =:fsVal")
+            "ON a.sStockIDx = b.sStockIDx " +
+            "WHERE b.sTransNox =:fsVal " +
+            "AND a.cTranStat == '1'")
     LiveData<List<OrderedItemsInfo>> GetOrderedItems(String fsVal);
 
     class OrderHistoryDetail{
