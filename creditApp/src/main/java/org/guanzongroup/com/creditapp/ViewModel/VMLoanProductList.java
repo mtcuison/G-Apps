@@ -82,7 +82,7 @@ public class VMLoanProductList extends AndroidViewModel {
         poCredApp.setValue(foVal);
     }
 
-    public LiveData<List<DProduct.oProduct>> getProductList(int fnIndex) {
-        return poProdct.GetProductsList(fnIndex, FilterType.DEFAULT, null, null);
+    public LiveData<List<DProduct.oProduct>> getProductList() {
+        return poProdct.GetProductsForLoanApplication();
     }
 }

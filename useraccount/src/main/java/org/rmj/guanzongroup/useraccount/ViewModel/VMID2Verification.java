@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import org.rmj.g3appdriver.etc.ConnectionUtil;
+import org.rmj.g3appdriver.etc.SessionManager;
 import org.rmj.g3appdriver.lib.Account.AccountVerification;
 import org.rmj.guanzongroup.useraccount.Etc.IDDetail;
 
@@ -14,11 +15,17 @@ public class VMID2Verification extends AndroidViewModel {
 
     private final AccountVerification poSys;
     private final ConnectionUtil poConn;
+    private final SessionManager poSession;
 
     public VMID2Verification(@NonNull Application application) {
         super(application);
         this.poSys = new AccountVerification(application);
         this.poConn = new ConnectionUtil(application);
+        this.poSession = new SessionManager(application);
+    }
+
+    public String getUserID(){
+        return poSession.getUserID();
     }
 
     public void SubmitIDPicture(IDDetail foVal, OnSubmitIDPictureListener listener){

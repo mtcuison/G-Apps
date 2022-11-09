@@ -97,6 +97,7 @@ public class RProduct {
                             loProdct.setCategrNm(joDetail.getString("xCategrNm"));
                             loProdct.setTotalQty(joDetail.getString("nTotalQty"));
                             loProdct.setQtyOnHnd(joDetail.getString("nQtyOnHnd"));
+                            loProdct.setAllwCrdt(joDetail.getString("cAllwCrdt"));
                             loProdct.setResvOrdr(joDetail.getString("nResvOrdr"));
                             loProdct.setSoldQtyx(joDetail.getString("nSoldQtyx"));
                             loProdct.setUnitPrce(joDetail.getString("nUnitPrce"));
@@ -230,6 +231,10 @@ public class RProduct {
             default:
                 return poDao.GetProductsList(fnIndex);
         }
+    }
+
+    public LiveData<List<DProduct.oProduct>> GetProductsForLoanApplication(){
+        return poDao.GetProductsForLoanApplication();
     }
 
     public static class oFilterx{

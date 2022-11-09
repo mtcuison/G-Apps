@@ -197,7 +197,7 @@ public class Fragment_Orders extends Fragment {
             }
         });
 
-        mViewModel.GetDeliveredOrdersCount().observe(getViewLifecycleOwner(), integer -> {
+        mViewModel.GetCancelledOrdersCount().observe(getViewLifecycleOwner(), integer -> {
             try{
                 if (integer > 0) {
                     Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(4)).getOrCreateBadge()).setNumber(integer);
@@ -209,7 +209,7 @@ public class Fragment_Orders extends Fragment {
             }
         });
 
-        mViewModel.GetCancelledOrdersCount().observe(getViewLifecycleOwner(), integer -> {
+        mViewModel.GetDeliveredOrdersCount().observe(getViewLifecycleOwner(), integer -> {
             try{
                 if (integer > 0) {
                     Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(5)).getOrCreateBadge()).setNumber(integer);

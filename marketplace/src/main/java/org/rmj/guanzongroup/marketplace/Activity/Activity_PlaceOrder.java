@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Activity_PlaceOrder extends AppCompatActivity {
+    private static final String TAG = Activity_PlaceOrder.class.getSimpleName();
 
     private VMPlaceOrder mViewModel;
     private Dialog_SingleButton poDialogx;
@@ -231,6 +233,9 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                 loIntent.putExtra("sTransNox", fsMessage);
                 loIntent.putExtra("nSubTotal", nSubTotl);
                 loIntent.putExtra("nShipFeex", nShipFee);
+                Log.d(TAG, "Arguments: " + fsMessage);
+                Log.d(TAG, "SubTotal: " + nSubTotl);
+                Log.d(TAG, "Shipping Fee: " + nShipFee);
                 startActivity(loIntent);
                 finish();
             }

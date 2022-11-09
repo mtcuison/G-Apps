@@ -177,7 +177,6 @@ public interface DProduct {
             "GROUP BY nUnitPrce")
     LiveData<List<String>> GetPriceFilterForBrand(String fsArgs);
 
-
     @Query("SELECT sListngID AS sProdctID, " +
             "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
             "nUnitPrce AS sPricexxx," +
@@ -191,6 +190,19 @@ public interface DProduct {
             "AND cTranStat = '1'" +
             "ORDER BY nUnitPrce ASC")
     LiveData<List<oProduct>> GetProductsOnBrand(String fsArgs, String fsArgs1);
+
+    @Query("SELECT sListngID AS sProdctID, " +
+            "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
+            "nUnitPrce AS sPricexxx, " +
+            "sImagesxx, " +
+            "nSoldQtyx AS sUntsSold " +
+            "FROM Product_Inventory " +
+            "WHERE strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
+            "AND cAllwCrdt = '1' " +
+            "AND nQtyOnHnd > 0 " +
+            "AND cTranStat = '1' " +
+            "ORDER BY dListStrt DESC")
+    LiveData<List<oProduct>> GetProductsForLoanApplication();
 
     class oProduct{
         public String sProdctID;

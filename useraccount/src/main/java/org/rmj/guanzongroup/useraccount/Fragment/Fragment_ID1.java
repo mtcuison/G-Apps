@@ -33,12 +33,14 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ImageFileHandler;
 import org.rmj.g3appdriver.lib.Account.Obj.UserIdentification;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_DocumentScan;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
+import org.rmj.guanzongroup.useraccount.Etc.DocScanner;
 import org.rmj.guanzongroup.useraccount.Etc.IDDetail;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.OnSubmitIDPictureListener;
@@ -61,8 +63,7 @@ public class Fragment_ID1 extends Fragment {
 
     private ImageView imageFront, imageBack;
     private AutoCompleteTextView spnIDType;
-    private TextInputEditText txtExpire,
-            txtIDNmbr;
+    private TextInputEditText txtExpire, txtIDNmbr;
 
     private Dialog_SingleButton poDialogx;
     private Dialog_Loading poLoad;
@@ -90,13 +91,27 @@ public class Fragment_ID1 extends Fragment {
                     FileInputStream loStream = requireActivity().openFileInput(lsFileNme);
                     Bitmap bmp = BitmapFactory.decodeStream(loStream);
                     loStream.close();
+
                     if (cFront) {
-                        //                    String psPath = poDetail.getsFrntPath();
-                        imageFront.setImageBitmap(bmp);
+                        String lsFileNm = mViewModel.getUserID() + "-" + poDetail.getsIDCodexx() + "-" + AppConstants.DOC_FILE_VALID_ID + "_Front.jpg";
+                        poDetail.setsFrontImg(lsFileNm);
+                        String lsResult = DocScanner.saveBitmap2SD(bmp, lsFileNm);
+                        if(lsResult == null){
+
+                        } else {
+                            imageFront.setImageBitmap(bmp);
+                            poDetail.setsFrntPath(lsResult);
+                        }
                     } else {
-//                        String psPath = poDetail.getsBackPath();
-//                        imageBack.setImageBitmap(ImageFileHandler.getImagePreview(psPath));
-                        imageBack.setImageBitmap(bmp);
+                        String lsFileNm = mViewModel.getUserID() + "-" + poDetail.getsIDCodexx() + "-" + AppConstants.DOC_FILE_VALID_ID + "_Back.jpg";
+                        poDetail.setsBackImgx(lsFileNm);
+                        String lsResult = DocScanner.saveBitmap2SD(bmp, lsFileNm);
+                        if(lsResult == null){
+
+                        } else {
+                            imageBack.setImageBitmap(bmp);
+                            poDetail.setsBackPath(lsResult);
+                        }
                     }
                 }
             } catch (Exception e){

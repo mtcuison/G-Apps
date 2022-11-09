@@ -43,6 +43,7 @@ public class Adapter_LoanProductList extends RecyclerView.Adapter<Adapter_LoanPr
             holder.sListIdxx = loProduct.sProdctID;
             holder.txtProdNm.setText(loProduct.sProdctNm);
             holder.setImage(loProduct.sImagesxx);
+            holder.txtPricex.setText(CashFormatter.parse(loProduct.sPricexxx));
             // TODO: Set product image url ~> Picasso.get().load(stringUrl).into(holder.imgProdct);
             // TODO: Display promo banner if there is any (8:1 aspect ratio)
 //            boolean isThereAPromoForThisItem = true;
@@ -64,19 +65,25 @@ public class Adapter_LoanProductList extends RecyclerView.Adapter<Adapter_LoanPr
 
         public String sListIdxx = "";
         public ImageView imgProdct, imgPromox;
-        public TextView txtProdNm;
+        public TextView txtProdNm, txtPricex, btnAppLoan;
 
         public ViewHolderItem(@NonNull View itemView, OnItemClick foCallBck) {
             super(itemView);
             imgProdct = itemView.findViewById(R.id.img_product);
             imgPromox = itemView.findViewById(R.id.imgPromox);
             txtProdNm = itemView.findViewById(R.id.txt_product_name);
+            txtPricex = itemView.findViewById(R.id.txt_product_price);
+            btnAppLoan = itemView.findViewById(R.id.btnAppLoan);
 
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION) {
                     foCallBck.onClick(sListIdxx);
                 }
+            });
+
+            btnAppLoan.setOnClickListener(view -> {
+                foCallBck.onApplyLoanClick(sListIdxx);
             });
         }
 
@@ -94,5 +101,6 @@ public class Adapter_LoanProductList extends RecyclerView.Adapter<Adapter_LoanPr
 
     public interface OnItemClick {
         void onClick(String fsListIdx);
+        void onApplyLoanClick(String fsListIdx);
     }
 }

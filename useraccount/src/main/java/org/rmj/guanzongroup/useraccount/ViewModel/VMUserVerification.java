@@ -85,6 +85,8 @@ public class VMUserVerification extends AndroidViewModel {
                         String lsName = loDetail.getImageNme();
                         String lsHash = loDetail.getMD5Hashx();
                         String lsPath = loDetail.getFileLoct();
+
+
                         String lsDate = loDetail.getCaptured();
                         Log.d(TAG, "Selfie verification parameters: + \n" +
                                         "dTransact: " + lsDtrn + "\n" +

@@ -62,14 +62,25 @@ public class Activity_LoanProductList extends AppCompatActivity {
     }
 
     private void InitializeProductList(){
-        mViewModel.getProductList(0).observe(Activity_LoanProductList.this, products -> {
+        mViewModel.getProductList().observe(Activity_LoanProductList.this, products -> {
             try{
                 if(products.size() > 0){
-                    Adapter_LoanProductList loAdapter = new Adapter_LoanProductList(products, fsListIdx -> {
-                        Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_LoanTerm.class);
-                        loIntent.putExtra("sListngID", fsListIdx);
-                        startActivity(loIntent);
-                        finish();
+                    Adapter_LoanProductList loAdapter = new Adapter_LoanProductList(products, new Adapter_LoanProductList.OnItemClick() {
+                        @Override
+                        public void onClick(String fsListIdx) {
+                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_ItemPreview.class);
+                            loIntent.putExtra("sListngID", fsListIdx);
+                            startActivity(loIntent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onApplyLoanClick(String fsListIdx) {
+                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_LoanTerm.class);
+                            loIntent.putExtra("sListngID", fsListIdx);
+                            startActivity(loIntent);
+                            finish();
+                        }
                     });
                     recyclerView.setAdapter(loAdapter);
                 }
