@@ -9,8 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.guanzongroup.com.creditapp.R;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.lib.CreditApp.model.LoanTerm;
 
 import java.util.List;
@@ -21,7 +19,7 @@ public class Adapter_InstallmentPlans extends RecyclerView.Adapter<Adapter_Insta
     private final OnItemClick mListener;
 
     public interface OnItemClick {
-        void onClick(String fsListIdx);
+        void onClick(String fsListIdx, String lsDown, String lsAmort);
     }
 
     public Adapter_InstallmentPlans(List<LoanTerm> poPlans, OnItemClick mListener) {
@@ -41,16 +39,15 @@ public class Adapter_InstallmentPlans extends RecyclerView.Adapter<Adapter_Insta
         try{
             LoanTerm loDetail = poPlans.get(position);
 
-            holder.lblPlanx.setText(loDetail.getnDiscount());
-            holder.lblDownP.setText(loDetail.getnDiscount());
-            holder.lblAmort.setText(loDetail.getnDiscount());
+            holder.lblPlanx.setText(loDetail.getsLoanTerm());
+            holder.lblAmort.setText("Monthly Payment: " + loDetail.getnMonAmort());
 
-            String lsValue = loDetail.getnDiscount();
+            String lsValue = loDetail.getsLoanTerm();
 
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.onClick(lsValue);
+                    mListener.onClick(lsValue, loDetail.getnDownPaym(), loDetail.getnMonAmort());
                 }
             });
         } catch (Exception e){
@@ -66,13 +63,12 @@ public class Adapter_InstallmentPlans extends RecyclerView.Adapter<Adapter_Insta
     public class PlanViewHolder extends RecyclerView.ViewHolder{
 
         public View view;
-        public TextView lblPlanx, lblDownP, lblAmort;
+        public TextView lblPlanx, lblAmort;
 
         public PlanViewHolder(@NonNull View itemView) {
             super(itemView);
             view = itemView;
             lblPlanx = itemView.findViewById(R.id.lbl_installmentPlan);
-            lblDownP = itemView.findViewById(R.id.lbl_downpayment);
             lblAmort = itemView.findViewById(R.id.lbl_amortization);
         }
     }

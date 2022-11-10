@@ -50,6 +50,12 @@ public class VMLoanProductList extends AndroidViewModel {
 
     public void initData(Intent foVal){
         try {
+            String sListngID, nMinDownx, nMonAmort;
+
+            sListngID = foVal.getStringExtra("sListngID");
+            nMinDownx = foVal.getStringExtra("nMinDownx");
+            nMonAmort = foVal.getStringExtra("nMonAmort");
+
             if(foVal.hasExtra("sDetlInfo")) {
                 String lsDetail = foVal.getStringExtra("sDetlInfo");
                 MpCreditApp loCredApp = new MpCreditApp();

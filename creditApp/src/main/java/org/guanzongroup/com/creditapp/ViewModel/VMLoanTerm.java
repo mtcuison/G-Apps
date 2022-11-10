@@ -5,7 +5,10 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
+import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.lib.CreditApp.CreditApplication;
 import org.rmj.g3appdriver.lib.CreditApp.model.LoanTerm;
@@ -16,6 +19,7 @@ public class VMLoanTerm extends AndroidViewModel {
     private static final String TAG = VMLoanTerm.class.getSimpleName();
 
     private final CreditApplication poApp;
+    private final RProduct poProdct;
     private final ConnectionUtil poConn;
 
     private String message;
@@ -29,7 +33,12 @@ public class VMLoanTerm extends AndroidViewModel {
     public VMLoanTerm(@NonNull Application application) {
         super(application);
         this.poApp = new CreditApplication(application);
+        this.poProdct = new RProduct(application);
         this.poConn = new ConnectionUtil(application);
+    }
+
+    public LiveData<EProducts> GetProductInfo(String args){
+        return poProdct.GetProductInfo(args);
     }
 
     public void ImportInstallmentPlans(String args, OnDownloadInstallmentPlan listener){

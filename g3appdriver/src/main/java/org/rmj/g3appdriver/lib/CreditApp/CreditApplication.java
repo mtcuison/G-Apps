@@ -40,11 +40,13 @@ public class CreditApplication {
     public List<LoanTerm> GetLoanTerms(String args){
         try{
             JSONObject params = new JSONObject();
-            params.put("sModelID", args);
+            params.put("paymform", "1");
+            params.put("modelid", args);
 
             //TODO: Create new API for retrieving installment term details for the selected item on marketplace...
+//            String lsResponse = "{\"result\":\"success\",\"payload\":{\"master\":{\"sModelIDx\":\"C00119005\",\"sModelNme\":\"Galaxy S10+\",\"sModelCde\":\"G975F\\/DS\",\"nRebatesx\":0,\"nEndMrtgg\":0,\"nOthersxx\":0},\"detail\":[{\"nMinDownx\":16317,\"nMiscChrg\":1920,\"nMonAmort\":900},{\"nMinDownx\":16317,\"nMiscChrg\":1920,\"nMonAmort\":700},{\"nMinDownx\":16317,\"nMiscChrg\":1920,\"nMonAmort\":450},{\"nMinDownx\":16317,\"nMiscChrg\":1920,\"nMonAmort\":300}]}}";
             String lsResponse = WebClient.httpsPostJSon(
-                    "",
+                    poApi.getDownloadPriceListAPI(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -61,12 +63,40 @@ public class CreditApplication {
                 return null;
             }
 
-            JSONArray jaDetail = loResponse.getJSONArray("detail");
+            JSONObject loPayload = loResponse.getJSONObject("payload");
+            JSONObject joMaster = loPayload.getJSONObject("master");
+
+            JSONArray jaDetail = loPayload.getJSONArray("detail");
             List<LoanTerm> loTerms = new ArrayList<>();
 
             for(int x = 0; x < jaDetail.length(); x++){
-                LoanTerm loanTerm = new LoanTerm("", "", "", "");
-                loTerms.add(loanTerm);
+                JSONObject loJson = jaDetail.getJSONObject(x);
+                if(!loJson.getString("nMonAmort").equalsIgnoreCase("0")) {
+                    String lsTerm;
+                    switch (x){
+                        case 0:
+                            lsTerm = "3 Months";
+                            break;
+                        case 1:
+                            lsTerm = "6 Months";
+                            break;
+                        case 2:
+                            lsTerm = "9 Months";
+                            break;
+                        case 3:
+                            lsTerm = "12 Months";
+                            break;
+                        default:
+                            lsTerm = "24 Months";
+                            break;
+                    }
+                    LoanTerm loanTerm = new LoanTerm(
+                            lsTerm,
+                            loJson.getString("nMonAmort"),
+                            loJson.getString("nMinDownx"),
+                            loJson.getString("nMiscChrg"));
+                    loTerms.add(loanTerm);
+                }
             }
 
             return loTerms;

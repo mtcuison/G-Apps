@@ -112,7 +112,7 @@ public class Activity_ItemPreview extends AppCompatActivity {
 
     private void initWidgets(){
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Product Overview");
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

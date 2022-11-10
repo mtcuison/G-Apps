@@ -7,22 +7,23 @@ import android.os.Bundle;
 import android.util.Log;
 
 import org.guanzongroup.com.creditapp.R;
+import org.guanzongroup.com.creditapp.ViewModel.VMLoanPreview;
 import org.guanzongroup.com.creditapp.ViewModel.VMLoanProductList;
 
-public class Activity_Sample extends AppCompatActivity {
-    private static final String TAG = Activity_Sample.class.getSimpleName();
+public class Activity_LoanPreview extends AppCompatActivity {
+    private static final String TAG = Activity_LoanPreview.class.getSimpleName();
 
-    private VMLoanProductList mViewModel;
+    private VMLoanPreview mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(Activity_Sample.this).get(VMLoanProductList.class);
-        setContentView(R.layout.activity_sample);
+        mViewModel = new ViewModelProvider(Activity_LoanPreview.this).get(VMLoanPreview.class);
+        setContentView(R.layout.activity_loan_preview);
 
-        mViewModel.initData(getIntent());
+        mViewModel.InitIntentData(getIntent());
 
-        mViewModel.getCreditAppData().observe(Activity_Sample.this, mpCreditApp -> {
+        mViewModel.getCreditAppData().observe(Activity_LoanPreview.this, mpCreditApp -> {
             try{
                 Log.d(TAG, "Data passed: " + mpCreditApp.getData());
             } catch (Exception e){

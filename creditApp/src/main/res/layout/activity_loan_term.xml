@@ -24,20 +24,84 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp">
+
+            <ImageView
+                android:id="@+id/imgProdct"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/font_light"
+                android:src="@drawable/image_placeholder"
+                android:adjustViewBounds="true"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.25"/>
+
+            <TextView
+                android:id="@+id/txtProdNm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="Product Name"
+                android:textColor="@color/font_regular"
+                android:textSize="15sp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:lines="2"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintLeft_toRightOf="@id/imgProdct"
+                app:layout_constraintTop_toTopOf="@id/imgProdct"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/imgProdct"
+                app:layout_constraintVertical_bias="0.15"/>
+
+            <TextView
+                android:id="@+id/lblUnitPrce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unit Price"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintStart_toEndOf="@+id/imgProdct"
+                app:layout_constraintTop_toBottomOf="@+id/txtProdNm" />
+
+            <TextView
+                android:id="@+id/lblDownpaym"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgProdct"
+                app:layout_constraintTop_toBottomOf="@+id/lblUnitPrce" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
     <TextView
         android:id="@+id/lblLoanTerm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_medium"
-        android:paddingHorizontal="5dp"
+        android:paddingHorizontal="10dp"
         android:paddingVertical="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:text="Select Installment Plan"
         android:textColor="@color/font_regular"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/cvProduct" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

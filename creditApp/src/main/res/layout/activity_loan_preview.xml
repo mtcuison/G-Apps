@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Activity_Sample">
+    tools:context=".Activities.Activity_LoanPreview">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -21,7 +21,5 @@
             android:theme="@style/AppToolbar" />
 
     </com.google.android.material.appbar.AppBarLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

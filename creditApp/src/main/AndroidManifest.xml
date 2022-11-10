@@ -20,7 +20,7 @@
             android:name=".Activities.Activity_LoanTerm"
             android:exported="false" />
         <activity
-            android:name=".Activities.Activity_Sample"
+            android:name=".Activities.Activity_LoanPreview"
             android:exported="true"
             android:screenOrientation="userPortrait" />
         <activity

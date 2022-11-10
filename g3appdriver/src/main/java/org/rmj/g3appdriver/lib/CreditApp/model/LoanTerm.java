@@ -4,14 +4,14 @@ public class LoanTerm {
 
     private String sLoanTerm;
     private String nMonAmort;
-    private String nInterest;
-    private String nDiscount;
+    private String nDownPaym;
+    private String nMiscChrg;
 
-    public LoanTerm(String sLoanTerm, String nMonAmort, String nInterest, String nDiscount) {
+    public LoanTerm(String sLoanTerm, String nMonAmort, String nDownPaym, String nMiscChrg) {
         this.sLoanTerm = sLoanTerm;
         this.nMonAmort = nMonAmort;
-        this.nInterest = nInterest;
-        this.nDiscount = nDiscount;
+        this.nDownPaym = nDownPaym;
+        this.nMiscChrg = nMiscChrg;
     }
 
     public String getsLoanTerm() {
@@ -30,19 +30,19 @@ public class LoanTerm {
         this.nMonAmort = nMonAmort;
     }
 
-    public String getnInterest() {
-        return nInterest;
+    public String getnDownPaym() {
+        return nDownPaym;
     }
 
-    public void setnInterest(String nInterest) {
-        this.nInterest = nInterest;
+    public void setnDownPaym(String nDownPaym) {
+        this.nDownPaym = nDownPaym;
     }
 
-    public String getnDiscount() {
-        return nDiscount;
+    public String getnMiscChrg() {
+        return nMiscChrg;
     }
 
-    public void setnDiscount(String nDiscount) {
-        this.nDiscount = nDiscount;
+    public void setnMiscChrg(String nMiscChrg) {
+        this.nMiscChrg = nMiscChrg;
     }
 }

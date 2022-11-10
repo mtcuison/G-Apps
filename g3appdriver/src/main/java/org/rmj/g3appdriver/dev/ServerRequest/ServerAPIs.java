@@ -62,6 +62,7 @@ public class ServerAPIs {
     private static final String IMPORT_SHIPPING_INFO = "";
     private static final String IMPORT_TOP_SELLING_ITEMS = "";
     private static final String IMPORT_PROMO_ITEMS = "integsys/marketplace/download_item_list.php";
+    private static final String IMPORT_PRICE_LIST = "integsys/marketplace/download_pricelist.php";
     private static final String IMPORT_SEARCH_RESULTS = "";
     private static final String IMPORT_PRODUCT_INFO = "";
     private static final String ADD_TO_CART_ITEM = "integsys/marketplace/add_to_cart.php";
@@ -644,5 +645,15 @@ public class ServerAPIs {
         }
         return LIVE + SUBMIT_LOAN_APPLICATION;
     }
+
+    public String getDownloadPriceListAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_PRICE_LIST;
+        }
+        return LIVE + IMPORT_PRICE_LIST;
+    }
+
+
+
 
 }
