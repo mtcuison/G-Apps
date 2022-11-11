@@ -52,7 +52,7 @@
                 android:id="@+id/txtProdNm"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/roboto_medium"
                 android:text="Product Name"
                 android:textColor="@color/font_regular"
                 android:textSize="15sp"
@@ -70,7 +70,8 @@
                 android:id="@+id/lblUnitPrce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Unit Price"
+                android:textColor="@color/font_regular"
+                android:fontFamily="@font/roboto_medium"
                 android:layout_marginLeft="10dp"
                 app:layout_constraintStart_toEndOf="@+id/imgProdct"
                 app:layout_constraintTop_toBottomOf="@+id/txtProdNm" />
@@ -80,6 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:textColor="@color/font_regular"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imgProdct"
                 app:layout_constraintTop_toBottomOf="@+id/lblUnitPrce" />

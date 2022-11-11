@@ -2,16 +2,48 @@ package org.rmj.g3appdriver.lib.CreditApp.model;
 
 public class LoanTerm {
 
-    private String sLoanTerm;
-    private String nMonAmort;
-    private String nDownPaym;
-    private String nMiscChrg;
+    private String sModelIDx = "";
+    private String nRebatesx = "";
+    private String nEndMrtgg = "";
+    private String nOthersxx = "";
+    private String sLoanTerm = "";
+    private String nMonAmort = "";
+    private String nDownPaym = "";
+    private String nMiscChrg = "";
 
-    public LoanTerm(String sLoanTerm, String nMonAmort, String nDownPaym, String nMiscChrg) {
-        this.sLoanTerm = sLoanTerm;
-        this.nMonAmort = nMonAmort;
-        this.nDownPaym = nDownPaym;
-        this.nMiscChrg = nMiscChrg;
+    public LoanTerm() {
+    }
+
+    public String getsModelIDx() {
+        return sModelIDx;
+    }
+
+    public void setsModelIDx(String sModelIDx) {
+        this.sModelIDx = sModelIDx;
+    }
+
+    public String getnRebatesx() {
+        return nRebatesx;
+    }
+
+    public void setnRebatesx(String nRebatesx) {
+        this.nRebatesx = nRebatesx;
+    }
+
+    public String getnEndMrtgg() {
+        return nEndMrtgg;
+    }
+
+    public void setnEndMrtgg(String nEndMrtgg) {
+        this.nEndMrtgg = nEndMrtgg;
+    }
+
+    public String getnOthersxx() {
+        return nOthersxx;
+    }
+
+    public void setnOthersxx(String nOthersxx) {
+        this.nOthersxx = nOthersxx;
     }
 
     public String getsLoanTerm() {

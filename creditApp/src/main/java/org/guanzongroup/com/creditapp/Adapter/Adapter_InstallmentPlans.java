@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.guanzongroup.com.creditapp.R;
+import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.g3appdriver.lib.CreditApp.model.LoanTerm;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class Adapter_InstallmentPlans extends RecyclerView.Adapter<Adapter_Insta
     private final OnItemClick mListener;
 
     public interface OnItemClick {
-        void onClick(String fsListIdx, String lsDown, String lsAmort);
+        void onClick(LoanTerm args);
     }
 
     public Adapter_InstallmentPlans(List<LoanTerm> poPlans, OnItemClick mListener) {
@@ -40,14 +41,14 @@ public class Adapter_InstallmentPlans extends RecyclerView.Adapter<Adapter_Insta
             LoanTerm loDetail = poPlans.get(position);
 
             holder.lblPlanx.setText(loDetail.getsLoanTerm());
-            holder.lblAmort.setText("Monthly Payment: " + loDetail.getnMonAmort());
+            holder.lblAmort.setText("Monthly Payment: " + CashFormatter.parse(loDetail.getnMonAmort()));
 
             String lsValue = loDetail.getsLoanTerm();
 
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.onClick(lsValue, loDetail.getnDownPaym(), loDetail.getnMonAmort());
+                    mListener.onClick(loDetail);
                 }
             });
         } catch (Exception e){

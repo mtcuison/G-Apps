@@ -93,7 +93,6 @@ public class SubmitCreditAppTest {
         loApp.clientInfo().addressInfo().setAddress1("Sitio Tawi-Tawi");
         loApp.clientInfo().addressInfo().setBarangayID("211");
         loApp.clientInfo().addressInfo().setTownID("123");
-        loApp.clientInfo().addressInfo().setProvinceID("0123");
 
         loApp.meansInfo().setSourceCD("0");
         loApp.meansInfo().employment().setBusinessIndustry("Retail");

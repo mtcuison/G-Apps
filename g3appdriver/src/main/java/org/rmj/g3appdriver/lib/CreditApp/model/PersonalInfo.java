@@ -183,7 +183,6 @@ public class PersonalInfo {
                 params.put("sAddress2", "");
                 params.put("sBrgyIDxx", "");
                 params.put("sTownIDxx", "");
-                params.put("sProvIDxx", "");
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -257,17 +256,6 @@ public class PersonalInfo {
 
         public void setTownID(String sTownIDx) throws JSONException {
             params.put("sTownIDxx", sTownIDx);
-        }
-
-        public String getProvinceID() throws JSONException {
-            if(params.has("sProvIDxx")) {
-                return params.getString("sProvIDxx");
-            }
-            return "";
-        }
-
-        public void setProvinceID(String sProvIDx) throws JSONException {
-            params.put("sProvIDxx", sProvIDx);
         }
 
         public boolean isDataValid() throws JSONException{

@@ -92,6 +92,7 @@ public class RProduct {
                             loProdct.setDescrptx(joDetail.getString("xDescript"));
                             loProdct.setBrandNme(joDetail.getString("xBrandNme"));
                             loProdct.setModelNme(joDetail.getString("xModelNme"));
+                            loProdct.setModelIDx(joDetail.getString("sModelIDx"));
                             loProdct.setImagesxx(joDetail.getString("sImagesxx"));
                             loProdct.setColorNme(joDetail.getString("xColorNme"));
                             loProdct.setCategrNm(joDetail.getString("xCategrNm"));

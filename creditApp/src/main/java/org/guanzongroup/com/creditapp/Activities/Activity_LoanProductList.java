@@ -9,15 +9,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import org.guanzongroup.com.creditapp.Adapter.Adapter_LoanProductList;
-import org.rmj.g3appdriver.lib.CreditApp.model.MpCreditApp;
 import org.guanzongroup.com.creditapp.R;
 import org.guanzongroup.com.creditapp.ViewModel.VMLoanProductList;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
 
 import java.util.Objects;
 
@@ -26,11 +28,10 @@ public class Activity_LoanProductList extends AppCompatActivity {
     private VMLoanProductList mViewModel;
 
     private Toolbar toolbar;
+    private TextInputEditText txtSearch;
     private RecyclerView recyclerView;
     private Dialog_Loading poLoad;
     private Dialog_SingleButton poDialog;
-
-    private MpCreditApp poCredApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,8 @@ public class Activity_LoanProductList extends AppCompatActivity {
         toolbar.setTitle("Apply For A Loan");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        txtSearch = findViewById(R.id.txt_search);
 
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new GridLayoutManager(Activity_LoanProductList.this, 2, RecyclerView.VERTICAL, false));
@@ -75,9 +78,12 @@ public class Activity_LoanProductList extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onApplyLoanClick(String fsListIdx) {
+                        public void onApplyLoanClick(String fsListIdx, String BrandNme, String ModelID) {
                             Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_LoanTerm.class);
                             loIntent.putExtra("sListngID", fsListIdx);
+                            loIntent.putExtra("sModelIDx", BrandNme);
+                            loIntent.putExtra("sUnitAppl", BrandNme);
+                            loIntent.putExtra("sModelIDx", ModelID);
                             startActivity(loIntent);
                             finish();
                         }
@@ -86,6 +92,24 @@ public class Activity_LoanProductList extends AppCompatActivity {
                 }
             } catch (Exception e){
                 e.printStackTrace();
+            }
+        });
+
+
+        txtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
     }

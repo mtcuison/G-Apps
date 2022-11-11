@@ -32,6 +32,7 @@ import java.util.Objects;
 
 public class Activity_LoanTerm extends AppCompatActivity {
 
+    private static Activity_LoanTerm instance;
     private VMLoanTerm mViewModel;
     private Dialog_Loading poLoad;
     private Dialog_SingleButton poMessage;
@@ -43,9 +44,14 @@ public class Activity_LoanTerm extends AppCompatActivity {
 
     private RecyclerView recyclerView;
 
+    public static Activity_LoanTerm getInstance(){
+        return instance;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
         mViewModel = new ViewModelProvider(Activity_LoanTerm.this).get(VMLoanTerm.class);
         poLoad = new Dialog_Loading(Activity_LoanTerm.this);
         poMessage = new Dialog_SingleButton(Activity_LoanTerm.this);
@@ -64,52 +70,54 @@ public class Activity_LoanTerm extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
 
         String lsListID = getIntent().getStringExtra("sListngID");
+        String lsModlID = getIntent().getStringExtra("sModelIDx");
         mViewModel.GetProductInfo(lsListID).observe(Activity_LoanTerm.this, product -> {
             try{
-                String lsSoldQty = "Sold: " + product.getSoldQtyx();
                 JSONArray laJson = new JSONArray(product.getImagesxx());
                 String sampleImg = laJson.getJSONObject(0).getString("sImageURL");
                 Picasso.get().load(sampleImg).into(imgView);
                 lblProdctx.setText(product.getModelNme());
                 lblUnitPrc.setText(CashFormatter.parse(product.getUnitPrce()));
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
 
-        mViewModel.ImportInstallmentPlans(lsListID, new VMLoanTerm.OnDownloadInstallmentPlan() {
-            @Override
-            public void OnDownload(String title, String message) {
-                poLoad.initDialog(title, message);
-                poLoad.show();
-            }
-
-            @Override
-            public void OnDownload(List<LoanTerm> args) {
-                poLoad.dismiss();
-                LinearLayoutManager loManager = new LinearLayoutManager(Activity_LoanTerm.this);
-                loManager.setOrientation(RecyclerView.VERTICAL);
-                recyclerView.setLayoutManager(loManager);
-                lblDownPym.setText(CashFormatter.parse(args.get(0).getnDownPaym()));
-                Adapter_InstallmentPlans loAdapter = new Adapter_InstallmentPlans(args, new Adapter_InstallmentPlans.OnItemClick() {
+                mViewModel.ImportInstallmentPlans(lsModlID, new VMLoanTerm.OnDownloadInstallmentPlan() {
                     @Override
-                    public void onClick(String fsListIdx, String lsDown, String lsAmort) {
-                        Intent loIntent = new Intent(Activity_LoanTerm.this, Activity_LoanPreview.class);
-                        loIntent.putExtra("sListngID", lsListID);
-                        loIntent.putExtra("nMinDownx", args.get(0).getnDownPaym());
-                        loIntent.putExtra("nMonAmort", lsAmort);
-                        startActivity(loIntent);
+                    public void OnDownload(String title, String message) {
+                        poLoad.initDialog(title, message);
+                        poLoad.show();
+                    }
+
+                    @Override
+                    public void OnDownload(List<LoanTerm> args) {
+                        poLoad.dismiss();
+                        LinearLayoutManager loManager = new LinearLayoutManager(Activity_LoanTerm.this);
+                        loManager.setOrientation(RecyclerView.VERTICAL);
+                        recyclerView.setLayoutManager(loManager);
+                        lblDownPym.setText("Downayment: " + CashFormatter.parse(args.get(0).getnDownPaym()));
+                        Adapter_InstallmentPlans loAdapter = new Adapter_InstallmentPlans(args, args1 -> {
+                            Intent loIntent = new Intent(Activity_LoanTerm.this, Activity_LoanPreview.class);
+                            loIntent.putExtra("sListngID", lsListID);
+                            loIntent.putExtra("sUnitAppl", product.getBrandNme());
+                            loIntent.putExtra("sModelIDx", args1.getsModelIDx());
+                            loIntent.putExtra("sLoanTerm", args1.getsLoanTerm());
+                            loIntent.putExtra("sDownPaym", args1.getnDownPaym());
+                            loIntent.putExtra("nMonAmort", args1.getnMonAmort());
+                            loIntent.putExtra("nDiscount", args1.getnRebatesx());
+                            loIntent.putExtra("nMiscExps", args1.getnMiscChrg());
+                            startActivity(loIntent);
+                        });
+                        recyclerView.setAdapter(loAdapter);
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+                        poLoad.dismiss();
+                        poMessage.setButtonText("Okay");
+                        poMessage.initDialog("Apply For A Loan", message, () -> poMessage.dismiss());
+                        poMessage.show();
                     }
                 });
-                recyclerView.setAdapter(loAdapter);
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                poLoad.dismiss();
-                poMessage.setButtonText("Okay");
-                poMessage.initDialog("Apply For A Loan", message, () -> poMessage.dismiss());
-                poMessage.show();
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
     }

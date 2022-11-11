@@ -66,6 +66,10 @@ public class CreditApplication {
             JSONObject loPayload = loResponse.getJSONObject("payload");
             JSONObject joMaster = loPayload.getJSONObject("master");
 
+            String sModelIDx = joMaster.getString("sModelIDx");
+            String nRebatesx = joMaster.getString("nRebatesx");
+            String nEndMrtgg = joMaster.getString("nEndMrtgg");
+            String nOthersxx = joMaster.getString("nOthersxx");
             JSONArray jaDetail = loPayload.getJSONArray("detail");
             List<LoanTerm> loTerms = new ArrayList<>();
 
@@ -90,12 +94,21 @@ public class CreditApplication {
                             lsTerm = "24 Months";
                             break;
                     }
-                    LoanTerm loanTerm = new LoanTerm(
-                            lsTerm,
-                            loJson.getString("nMonAmort"),
-                            loJson.getString("nMinDownx"),
-                            loJson.getString("nMiscChrg"));
-                    loTerms.add(loanTerm);
+
+                    String lsDownPaym = loJson.getString("nMinDownx");
+                    String lsMiscChrg = loJson.getString("nMiscChrg");
+                    String lsMonAmort = loJson.getString("nMonAmort");
+
+                    LoanTerm loTerm = new LoanTerm();
+                    loTerm.setsModelIDx(sModelIDx);
+                    loTerm.setnRebatesx(nRebatesx);
+                    loTerm.setnEndMrtgg(nEndMrtgg);
+                    loTerm.setnOthersxx(nOthersxx);
+                    loTerm.setsLoanTerm(lsTerm);
+                    loTerm.setnDownPaym(lsDownPaym);
+                    loTerm.setnMiscChrg(lsMiscChrg);
+                    loTerm.setnMonAmort(lsMonAmort);
+                    loTerms.add(loTerm);
                 }
             }
 

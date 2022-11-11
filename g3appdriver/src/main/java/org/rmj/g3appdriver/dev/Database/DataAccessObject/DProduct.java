@@ -195,7 +195,9 @@ public interface DProduct {
             "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
             "nUnitPrce AS sPricexxx, " +
             "sImagesxx, " +
-            "nSoldQtyx AS sUntsSold " +
+            "nSoldQtyx AS sUntsSold, " +
+            "xBrandNme, " +
+            "sModelIDx " +
             "FROM Product_Inventory " +
             "WHERE strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
             "AND cAllwCrdt = '1' " +
@@ -210,5 +212,7 @@ public interface DProduct {
         public String sPricexxx;
         public String sUntsSold;
         public String sImagesxx;
+        public String xBrandNme;
+        public String sModelIDx;
     }
 }

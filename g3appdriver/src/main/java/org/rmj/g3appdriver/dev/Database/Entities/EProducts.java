@@ -26,6 +26,8 @@ public class EProducts {
     private String Ratingxx;
     @ColumnInfo(name = "xBrandNme")
     private String BrandNme;
+    @ColumnInfo(name = "sModelIDx")
+    private String ModelIDx;
     @ColumnInfo(name = "xModelNme")
     private String ModelNme;
     @ColumnInfo(name = "sImagesxx")
@@ -234,5 +236,13 @@ public class EProducts {
 
     public void setAllwCrdt(String allwCrdt) {
         AllwCrdt = allwCrdt;
+    }
+
+    public String getModelIDx() {
+        return ModelIDx;
+    }
+
+    public void setModelIDx(String modelIDx) {
+        ModelIDx = modelIDx;
     }
 }
