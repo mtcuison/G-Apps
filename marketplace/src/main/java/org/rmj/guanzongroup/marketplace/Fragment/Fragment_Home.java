@@ -157,7 +157,7 @@ public class Fragment_Home extends Fragment {
                 Adapter_ImageSlider adapter = new Adapter_ImageSlider(loSliders, args -> {
                     try{
                         Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
-                        intent.putExtra("url_link", ePromos.get(args).getPromoUrl());
+                        intent.putExtra("url_link", ePromos.get(args).getImageUrl());
                         intent.putExtra("browser_args", "1");
                         intent.putExtra("args", "promo");
                         requireActivity().sendBroadcast(intent);

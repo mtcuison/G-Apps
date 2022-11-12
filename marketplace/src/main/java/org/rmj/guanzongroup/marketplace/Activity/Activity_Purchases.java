@@ -105,7 +105,7 @@ public class Activity_Purchases extends AppCompatActivity {
                         lblPaymntxx.setText(AppConstants.parseTermCode(foOrder.sTermCode));
                     } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011")){
                         double lnTotal = Double.parseDouble(foOrder.nTranTotl);
-                        double lnAmntx = Double.parseDouble(foOrder.nAmtPaidx);
+                        double lnAmntx = Double.parseDouble(foOrder.nProcPaym);
 
                         if(lnTotal > lnAmntx){
                             btnPay.setVisibility(View.VISIBLE);

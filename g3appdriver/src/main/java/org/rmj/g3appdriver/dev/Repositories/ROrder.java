@@ -664,6 +664,7 @@ public class ROrder {
                             oDetail.setDiscount(joDetail.getString("nDiscount"));
                             oDetail.setAddDiscx(joDetail.getString("nAddDiscx"));
                             oDetail.setStockIDx(joDetail.getString("sStockIDx"));
+                            oDetail.setReferNox(joDetail.getString("sReferNox"));
 //                        oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
 //                        oDetail.setCancelld(joDetail.getString("nCancelld"));
 //                        oDetail.setReferNox(joDetail.getString("sReferNox"));

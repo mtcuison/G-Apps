@@ -50,7 +50,7 @@ public class VMEventsPromos extends AndroidViewModel {
                 loGcard.DownloadPromotions(new GCardSystem.GCardSystemCallback() {
                     @Override
                     public void OnSuccess(String args) {
-                        Log.e("promos OnSuccess", args);
+//                        Log.e("promos OnSuccess", args);
                     }
 
                     @Override

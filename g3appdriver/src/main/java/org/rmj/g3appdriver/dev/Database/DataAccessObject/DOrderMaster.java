@@ -160,6 +160,7 @@ public interface DOrderMaster {
             " IFNULL(a.dExpected, '')," +
             " a.sReferNox," +
             " a.nTranTotl," +
+            " IFNULL(a.nProcPaym, a.nTranTotl) nProcPaym, " +
             " a.nAmtPaidx," +
             " a.sTermCode," +
             " a.cTranStat," +
@@ -204,6 +205,7 @@ public interface DOrderMaster {
         public String dExpected;
         public String sReferNox;
         public String nTranTotl;
+        public String nProcPaym;
         public String nAmtPaidx;
         public String sTermCode;
         public String cTranStat;
