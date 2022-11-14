@@ -41,7 +41,7 @@ public class Adapter_InstallmentPlans extends RecyclerView.Adapter<Adapter_Insta
             LoanTerm loDetail = poPlans.get(position);
 
             holder.lblPlanx.setText(loDetail.getsLoanTerm());
-            holder.lblAmort.setText("Monthly Payment: " + CashFormatter.parse(loDetail.getnMonAmort()));
+//            holder.lblAmort.setText("Monthly Payment: " + CashFormatter.parse(loDetail.getnMonAmort()));
 
             String lsValue = loDetail.getsLoanTerm();
 
@@ -64,13 +64,12 @@ public class Adapter_InstallmentPlans extends RecyclerView.Adapter<Adapter_Insta
     public class PlanViewHolder extends RecyclerView.ViewHolder{
 
         public View view;
-        public TextView lblPlanx, lblAmort;
+        public TextView lblPlanx;
 
         public PlanViewHolder(@NonNull View itemView) {
             super(itemView);
             view = itemView;
             lblPlanx = itemView.findViewById(R.id.lbl_installmentPlan);
-            lblAmort = itemView.findViewById(R.id.lbl_amortization);
         }
     }
 }

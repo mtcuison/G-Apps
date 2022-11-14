@@ -62,6 +62,12 @@ public interface DAddress {
             "ON a.sProvIDxx = b.sProvIDxx")
     LiveData<List<oTownObj>> GetTownList();
 
+    @Query("SELECT sBrgyName FROM Barangay_Info WHERE sBrgyIDxx =:args")
+    String GetBarangayName(String args);
+
+    @Query("SELECT a.sTownName || ', ' || b.sProvName FROM Town_Info a LEFT JOIN Province_Info b ON a.sProvIDxx = b.sProvIDxx WHERE sTownIDxx =:args")
+    String GetTownProvinceName(String args);
+
     class oTownObj{
         public String sTownID;
         public String sTownNm;

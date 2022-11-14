@@ -44,6 +44,7 @@ public interface DOrderMaster {
             "a.cTranStat, " +
             "a.nTranTotl, " +
             "a.nAmtPaidx, " +
+            "IIF(a.nProcPaym == '0.00', a.nTranTotl, a.nProcPaym) nProcPaym, " +
             "a.sTermCode, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
@@ -72,7 +73,7 @@ public interface DOrderMaster {
             "AND nTranTotl > nProcPaym " +
             "AND cTranStat == '0' " +
             "AND sAppUsrID = (" +
-            "SELECT sUserIDxx FROM Client_Profile_Info) ")
+            "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> GetToPayOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
@@ -103,6 +104,7 @@ public interface DOrderMaster {
             "a.cTranStat, " +
             "a.nTranTotl, " +
             "a.nAmtPaidx, " +
+            "IIF(a.nProcPaym == '0.00', a.nTranTotl, a.nProcPaym) nProcPaym, " +
             "a.sTermCode, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
@@ -129,6 +131,7 @@ public interface DOrderMaster {
             "a.cTranStat, " +
             "a.nTranTotl, " +
             "a.nAmtPaidx, " +
+            "IIF(a.nProcPaym == '0.00', a.nTranTotl, a.nProcPaym) nProcPaym, " +
             "a.sTermCode, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
@@ -160,7 +163,7 @@ public interface DOrderMaster {
             " IFNULL(a.dExpected, '')," +
             " a.sReferNox," +
             " a.nTranTotl," +
-            " IFNULL(a.nProcPaym, a.nTranTotl) nProcPaym, " +
+            "IIF(a.nProcPaym == '0.00', a.nTranTotl, a.nProcPaym) nProcPaym, " +
             " a.nAmtPaidx," +
             " a.sTermCode," +
             " a.cTranStat," +
@@ -185,6 +188,7 @@ public interface DOrderMaster {
         public String cTranStat;
         public String nTranTotl;
         public String nAmtPaidx;
+        public String nProcPaym;
         public String sTermCode;
         public String nEntryNox;
         public String nQuantity;

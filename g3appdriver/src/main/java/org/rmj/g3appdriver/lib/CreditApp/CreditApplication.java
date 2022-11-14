@@ -2,8 +2,15 @@ package org.rmj.g3appdriver.lib.CreditApp;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
+import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
+import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
@@ -23,6 +30,9 @@ public class CreditApplication {
     private final GuanzonAppConfig poConfig;
     private final ServerAPIs poApi;
     private final HttpHeaders poHeaders;
+    private final RClientInfo poClient;
+
+    private final DAddress poAddress;
 
     private String message;
 
@@ -31,6 +41,8 @@ public class CreditApplication {
         this.poConfig = new GuanzonAppConfig(mContext);
         this.poApi = new ServerAPIs(poConfig.getTestCase());
         this.poHeaders = new HttpHeaders(mContext);
+        this.poAddress = GGC_GuanzonAppDB.getInstance(mContext).AddDao();
+        this.poClient = new RClientInfo(mContext);
     }
 
     public String getMessage() {
@@ -148,6 +160,57 @@ public class CreditApplication {
         }
     }
 
+    public MpCreditApp ParseData(JSONObject args){
+        try{
+            String lsMeans = args.getString("sMeansInf");
+            String lsOther = args.getString("sOtherInf");
+
+            MpCreditApp loApp = new MpCreditApp();
+            loApp.setDateApplied(new AppConstants().DATE_MODIFIED);
+            loApp.setDateCreated(new AppConstants().DATE_MODIFIED);
+
+            EClientInfo loClient = poClient.GetClientInfo();
+
+            String lsLastNm = loClient.getLastName();
+            String lsMiddNm = loClient.getMiddName();
+            String lsFrstNm = loClient.getFrstName();
+            String lsGender = loClient.getGenderCd();
+            String lsCvlStt = loClient.getCvilStat();
+
+            loApp.clientInfo().setLastName(lsLastNm);
+            loApp.clientInfo().setFirstName(lsFrstNm);
+            loApp.clientInfo().setMiddleName(lsMiddNm);
+            loApp.clientInfo().setGender(lsGender);
+            loApp.clientInfo().setCivilStatus(lsCvlStt);
+
+            loApp.clientInfo().addressInfo().setHouseNo(loClient.getHouseNo1());
+            loApp.clientInfo().addressInfo().setAddress1(loClient.getAddress1());
+//                loApp.clientInfo().addressInfo().setAddress2(loClient.get());
+            loApp.clientInfo().addressInfo().setBarangayID(loClient.getBrgyIDx1());
+            loApp.clientInfo().addressInfo().setTownID(loClient.getTownIDx1());
+
+            String lsBrgy = poAddress.GetBarangayName(loApp.clientInfo().addressInfo().getBarangayID());
+            String lsTown = poAddress.GetTownProvinceName(loApp.clientInfo().addressInfo().getTownID());
+
+            loApp.clientInfo().addressInfo().setBrgy(lsBrgy);
+            loApp.clientInfo().addressInfo().setTown(lsTown);
+
+            MpCreditApp loMeans = new MpCreditApp();
+            loMeans.setData(lsMeans);
+            loApp.meansInfo().setData(loMeans.getData());
+
+            MpCreditApp loOther = new MpCreditApp();
+            loMeans.setData(lsOther);
+            loApp.disbursementInfo().setData(loOther.getData());
+
+            return loApp;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return null;
+        }
+    }
+
     public boolean SubmitApplication(String fsVal){
         try{
             MpCreditApp loApp = new MpCreditApp();
@@ -184,5 +247,13 @@ public class CreditApplication {
             message = e.getMessage();
             return false;
         }
+    }
+
+    public LiveData<List<EBarangayInfo>> GetBarangayList(String TownID){
+        return poAddress.GetBarangayList(TownID);
+    }
+
+    public LiveData<List<DAddress.oTownObj>> GetTownList(){
+        return poAddress.GetTownList();
     }
 }

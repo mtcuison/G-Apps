@@ -20,6 +20,7 @@ import com.google.android.material.button.MaterialButton;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.g3appdriver.etc.DateTimeFormatter;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -46,7 +47,8 @@ public class Activity_Purchases extends AppCompatActivity {
             lblDlvyDate,
             lblCancelUs,
             lblCancelRm,
-            lblCancelDt;
+            lblCancelDt,
+            lblAmountPd;
 
     private CardView cvCanclDetl;
     private MaterialButton btnCancel;
@@ -85,6 +87,7 @@ public class Activity_Purchases extends AppCompatActivity {
         lblCancelUs = findViewById(R.id.lbl_userCancel);
         lblCancelRm = findViewById(R.id.lbl_cancellationRemarks);
         lblCancelDt = findViewById(R.id.lbl_cancellationDate);
+        lblAmountPd = findViewById(R.id.lbl_AmountPaid);
         cvCanclDetl = findViewById(R.id.cv_cancellation_detail);
         btnCancel = findViewById(R.id.btn_cancel);
         LinearLayoutManager loManager = new LinearLayoutManager(Activity_Purchases.this);
@@ -106,6 +109,8 @@ public class Activity_Purchases extends AppCompatActivity {
                     } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011")){
                         double lnTotal = Double.parseDouble(foOrder.nTranTotl);
                         double lnAmntx = Double.parseDouble(foOrder.nProcPaym);
+
+                        lblAmountPd.setText("Amount Paid: " + CashFormatter.parse(foOrder.nProcPaym) + "\n\n Online payment takes time to process and may not take effect immediately in order preview.");
 
                         if(lnTotal > lnAmntx){
                             btnPay.setVisibility(View.VISIBLE);

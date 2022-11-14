@@ -131,6 +131,17 @@ public class PersonalInfo {
         params.put("cCvilStat", cCvilStat);
     }
 
+    public String getFacebook() throws JSONException {
+        if(params.has("sFBAcctxx")) {
+            return params.getString("sFBAcctxx");
+        }
+        return "";
+    }
+
+    public void setFacebook(String cCvilStat) throws JSONException {
+        params.put("sFBAcctxx", cCvilStat);
+    }
+
     public boolean isDataValid() throws JSONException {
         if(params.getString("sLastName").trim().isEmpty()){
             message = "Unset last name detected.";
@@ -172,6 +183,8 @@ public class PersonalInfo {
     public static class AddressInfo {
 
         private JSONObject params = new JSONObject();
+
+        private String psTown, psBrgy;
 
         private String message;
 
@@ -256,6 +269,22 @@ public class PersonalInfo {
 
         public void setTownID(String sTownIDx) throws JSONException {
             params.put("sTownIDxx", sTownIDx);
+        }
+
+        public String getTown() {
+            return psTown;
+        }
+
+        public void setTown(String psTown) {
+            this.psTown = psTown;
+        }
+
+        public String getBrgy() {
+            return psBrgy;
+        }
+
+        public void setBrgy(String psBrgy) {
+            this.psBrgy = psBrgy;
         }
 
         public boolean isDataValid() throws JSONException{

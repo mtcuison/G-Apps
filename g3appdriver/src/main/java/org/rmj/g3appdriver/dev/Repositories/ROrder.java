@@ -620,6 +620,7 @@ public class ROrder {
                             oMaster.setDiscount(joMaster.getString("nDiscount"));
                             oMaster.setFreightx(joMaster.getString("nFreightx"));
                             oMaster.setAmtPaidx(joMaster.getString("nAmtPaidx"));
+                            oMaster.setProcPaym(joMaster.getString("nProcPaym"));
                             oMaster.setTermCode(joMaster.getString("sTermCode"));
                             oMaster.setPaymType(joMaster.getString("cPaymType"));
                             oMaster.setTranStat(joMaster.getString("cTranStat"));
