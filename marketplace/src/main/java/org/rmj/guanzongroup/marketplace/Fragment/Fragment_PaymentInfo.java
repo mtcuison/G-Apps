@@ -57,7 +57,12 @@ public class Fragment_PaymentInfo extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
+    public void
+
+
+
+
+    onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
@@ -110,7 +115,6 @@ public class Fragment_PaymentInfo extends Fragment {
                     poDialogx.show();
                 }
             });
-
             } else if(psPayment.equalsIgnoreCase(PaymentMethod.CashOnDelivery.toString())){
                 binding.lblSendThru.setVisibility(View.GONE);
                 mViewModel.payOrder(mViewModel.getTransactionNumber(), mViewModel.getPaymentMethod().getValue(),

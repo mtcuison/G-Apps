@@ -104,15 +104,17 @@ public class Activity_Purchases extends AppCompatActivity {
                     findViewById(R.id.lblNoOrderInfo).setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.scrollView).setVisibility(View.VISIBLE);
-                    if(foOrder.sTermCode.equalsIgnoreCase("C001002")){
+                    if(foOrder.sTermCode.isEmpty()){
+                        lblAmountPd.setText("Unpaid order will be automatically cancelled within 24 hours.");
+                        btnPay.setVisibility(View.VISIBLE);
+                    } else if(foOrder.sTermCode.equalsIgnoreCase("C001002")){ //COW2011 termcode for COD
                         lblPaymntxx.setText(AppConstants.parseTermCode(foOrder.sTermCode));
-                    } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011")){
-                        double lnTotal = Double.parseDouble(foOrder.nTranTotl);
-                        double lnAmntx = Double.parseDouble(foOrder.nProcPaym);
+                    } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011")){ //COW2011 termcode for online payment
+//                        double lnTotal = Double.parseDouble(foOrder.nTranTotl);
+//                        double lnAmntx = Double.parseDouble(foOrder.nProcPaym);
 
-                        lblAmountPd.setText("Amount Paid: " + CashFormatter.parse(foOrder.nProcPaym) + "\n\n Online payment takes time to process and may not take effect immediately in order preview.");
-
-                        if(lnTotal > lnAmntx){
+                        if(foOrder.cNeedPaym.equalsIgnoreCase("1")){
+                            lblAmountPd.setText("Amount Paid: " + CashFormatter.parse(foOrder.nProcPaym) + "\n\n Online payment takes time to process and may not take effect immediately in order preview.");
                             btnPay.setVisibility(View.VISIBLE);
                         } else {
                             btnPay.setVisibility(View.GONE);

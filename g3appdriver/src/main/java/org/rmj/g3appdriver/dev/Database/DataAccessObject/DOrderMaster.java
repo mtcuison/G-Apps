@@ -40,6 +40,9 @@ public interface DOrderMaster {
     @Query("SELECT * FROM MarketPlace_Order_Master")
     LiveData<List<EOrderMaster>> GetMasterOrderHistory();
 
+    @Query("SELECT nTranTotl - nProcPaym FROM MarketPlace_Order_Master WHERE sTransNox=:args")
+    LiveData<String> GetOrderAmount(String args);
+
     @Query("SELECT a.sTransNox, " +
             "a.cTranStat, " +
             "a.nTranTotl, " +
@@ -67,13 +70,12 @@ public interface DOrderMaster {
     LiveData<List<OrderHistory>> GetOrderHistoryList();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
-            "WHERE nTranTotl > nAmtPaidx " +
-            "AND cPaymType == '2' " +
+            "WHERE sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND sTermCode == '' " +
+            "OR cPaymType == '2' " +
             "AND sTermCode = 'C0W2011' " +
-            "AND nTranTotl > nProcPaym " +
-            "AND cTranStat == '0' " +
-            "AND sAppUsrID = (" +
-            "SELECT sUserIDxx FROM Client_Profile_Info)")
+            "AND nTranTotl > IIF(nProcPaym == '0.00', nTranTotl, nProcPaym) " +
+            "AND cTranStat == '0'")
     LiveData<Integer> GetToPayOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
@@ -150,8 +152,9 @@ public interface DOrderMaster {
             "LEFT JOIN Product_Inventory c " +
             "ON b.sStockIDx = c.sStockIDx " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
-            "AND a.cPaymType == '2' " +
-            "AND a.nTranTotl > a.nProcPaym " +
+            "AND a.sTermCode == '' " +
+            "OR a.cPaymType == '2' " +
+            "AND a.nTranTotl > IIF(a.nProcPaym == '0.00', a.nTranTotl, a.nProcPaym) " +
             "AND a.sTermCode = 'C0W2011' " +
             "AND a.cTranStat == '0' " +
             "GROUP BY a.sTransNox " +
@@ -160,10 +163,11 @@ public interface DOrderMaster {
 
     @Query("SELECT a.sTransNox," +
             " a.dTransact," +
-            " IFNULL(a.dExpected, '')," +
+            " IFNULL(a.dExpected, ''), dExpected," +
             " a.sReferNox," +
             " a.nTranTotl," +
             "IIF(a.nProcPaym == '0.00', a.nTranTotl, a.nProcPaym) nProcPaym, " +
+            "IIF(a.sTermCode == '', '1', IIF(a.nTranTotl > IIF(a.nProcPaym == '0.00', a.nTranTotl, a.nProcPaym), '1', '0')) cNeedPaym," +
             " a.nAmtPaidx," +
             " a.sTermCode," +
             " a.cTranStat," +
@@ -210,6 +214,7 @@ public interface DOrderMaster {
         public String sReferNox;
         public String nTranTotl;
         public String nProcPaym;
+        public String cNeedPaym;
         public String nAmtPaidx;
         public String sTermCode;
         public String cTranStat;

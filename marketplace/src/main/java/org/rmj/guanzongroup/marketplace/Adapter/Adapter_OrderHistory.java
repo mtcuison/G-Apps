@@ -96,6 +96,9 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
     private String GetOrderStatus(DOrderMaster.OrderHistory fsVal){
         switch (fsVal.cTranStat){
             case "0":
+                if(fsVal.sTermCode.isEmpty()){
+                    return "To Pay";
+                }
                 if(fsVal.sTermCode.equalsIgnoreCase("C0W2011")){
                     if(Double.parseDouble(fsVal.nTranTotl) > Double.parseDouble(fsVal.nProcPaym)) {
                         return "To Pay";

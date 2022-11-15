@@ -157,6 +157,8 @@ public class AppConstants {
 
     public static String parseTermCode(String fsVal){
         switch (fsVal){
+            case "":
+                return "Order is not paid yet";
             case "C001018":
                 return "3 Months Installment";
             case "C001019":

@@ -486,6 +486,10 @@ public class ROrder {
         }
     }
 
+    public LiveData<String> GetOrderAmount(String args){
+        return poMaster.GetOrderAmount(args);
+    }
+
     public boolean PayOrder(String fsTransno, PaymentMethod foTypexx, String fsReferNo){
         try{
             JSONObject param = new JSONObject();

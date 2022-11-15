@@ -9,8 +9,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EOrderMaster;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
-import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
@@ -18,19 +18,28 @@ import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 public class VMPayOrder extends AndroidViewModel {
 
     private final Application application;
-    private final ROrder poItmCart;
+    private final ROrder poOrder;
 
     private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
     private final MutableLiveData<PaymentMethod> poPayMeth = new MutableLiveData<>();
 
+
     public VMPayOrder(@NonNull Application application) {
         super(application);
         this.application = application;
-        this.poItmCart = new ROrder(application);
+        this.poOrder = new ROrder(application);
     }
 
     public void setTransactionNumber(String fsTransNo) {
         this.psTransNo.setValue(fsTransNo);
+    }
+
+    public LiveData<EOrderMaster> GetOrderMaster(String args){
+        return poOrder.GetOrderMasterInfo(args);
+    }
+
+    public LiveData<String> GetOrderAmount(String args){
+        return poOrder.GetOrderAmount(args);
     }
 
     public void setPaymentMethod(PaymentMethod foPayMeth) {
