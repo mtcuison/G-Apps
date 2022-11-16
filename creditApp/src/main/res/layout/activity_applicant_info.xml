@@ -163,16 +163,13 @@
                 android:id="@+id/tilGender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextInputStyle">
+                style="@style/CustomDropDownTilStyle">
 
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/tieGender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="60"
                     style="@style/DropdownStyleTheme"
-                    android:digits="@string/free_text_restriction"
-                    android:inputType="textPersonName"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_firstname" />
 
@@ -191,16 +188,13 @@
                 android:id="@+id/tilCvilStat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TextInputStyle">
+                style="@style/CustomDropDownTilStyle">
 
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/tieCvilStat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="60"
                     style="@style/DropdownStyleTheme"
-                    android:digits="@string/free_text_restriction"
-                    android:inputType="textPersonName"
                     android:imeOptions="actionNext"
                     android:nextFocusForward="@id/tie_firstname" />
 

@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.guanzongroup.com.creditapp.Model.PurchaseInfo;
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ public class VMApplicantInfo extends AndroidViewModel {
     private final ConnectionUtil poConn;
     private final PurchaseInfo poModel;
 
+    private final MutableLiveData<String> psTownID = new MutableLiveData<>();
 
     private String message;
 
@@ -42,6 +44,7 @@ public class VMApplicantInfo extends AndroidViewModel {
         this.poApp = new CreditApplication(application);
         this.poConn = new ConnectionUtil(application);
         this.poModel = new PurchaseInfo();
+        this.psTownID.setValue("");
     }
 
     public void InitIntentData(Intent foVal){
@@ -55,10 +58,23 @@ public class VMApplicantInfo extends AndroidViewModel {
         poModel.setLsInstallx(foVal.getStringExtra("sLoanTerm"));
     }
 
-    LiveData<List<EBarangayInfo>> GetBarangayList(String TownID) {
+    public PurchaseInfo getModel(){
+        return poModel;
+    }
+
+    public void setTownID(String val){
+        this.psTownID.setValue(val);
+    }
+
+    public LiveData<String> GetTownID(){
+        return psTownID;
+    }
+
+    public LiveData<List<EBarangayInfo>> GetBarangayList(String TownID) {
         return poApp.GetBarangayList(TownID);
     }
-    LiveData<List<DAddress.oTownObj>> GetTownList() {
+
+    public LiveData<List<DAddress.oTownObj>> GetTownList() {
         return poApp.GetTownList();
     }
 

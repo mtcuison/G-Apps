@@ -33,8 +33,6 @@ public class Activity_LoanPreview extends AppCompatActivity {
     private Dialog_Loading poLoad;
     private Dialog_SingleButton poMessage;
 
-    private MpCreditApp poApp;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,27 +71,26 @@ public class Activity_LoanPreview extends AppCompatActivity {
                     lblTermxx.setText(mViewModel.getModel().getLsInstallx());
                     lblAmortx.setText(CashFormatter.parse(mViewModel.getModel().getLsAmortztn()));
 
-                    mViewModel.InitializeApplicantInfo(new VMLoanPreview.OnInitializeInfo() {
-                        @Override
-                        public void OnLoad(String title, String message) {
-                            poLoad.initDialog(title, message);
-                            poLoad.show();
-                        }
-
-                        @Override
-                        public void OnSuccess(MpCreditApp args) {
-                            poLoad.dismiss();
-                            poApp = args;
-                        }
-
-                        @Override
-                        public void OnFailed(String message) {
-                            poLoad.dismiss();
-                            poMessage.setButtonText("Okay");
-                            poMessage.initDialog("Apply For A Loan", message, () -> poMessage.dismiss());
-                            poMessage.show();
-                        }
-                    });
+//                    mViewModel.InitializeApplicantInfo(new VMLoanPreview.OnInitializeInfo() {
+//                        @Override
+//                        public void OnLoad(String title, String message) {
+//                            poLoad.initDialog(title, message);
+//                            poLoad.show();
+//                        }
+//
+//                        @Override
+//                        public void OnSuccess(MpCreditApp args) {
+//                            poLoad.dismiss();
+//                        }
+//
+//                        @Override
+//                        public void OnFailed(String message) {
+//                            poLoad.dismiss();
+//                            poMessage.setButtonText("Okay");
+//                            poMessage.initDialog("Apply For A Loan", message, () -> poMessage.dismiss());
+//                            poMessage.show();
+//                        }
+//                    });
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -102,7 +99,7 @@ public class Activity_LoanPreview extends AppCompatActivity {
 
         btnSubmit.setOnClickListener(view -> {
             try {
-                mViewModel.SubmitApplication(poApp.getData(), new VMLoanPreview.OnSubmitApplication() {
+                mViewModel.SubmitApplication(new VMLoanPreview.OnSubmitApplication() {
                     @Override
                     public void OnSubmit(String title, String message) {
                         poLoad.initDialog(title, message);
@@ -118,6 +115,7 @@ public class Activity_LoanPreview extends AppCompatActivity {
                             public void onClick() {
                                 poMessage.dismiss();
                                 Activity_LoanTerm.getInstance().finish();
+                                Activity_ApplicantInfo.getInstance().finish();
                                 finish();
                             }
                         });

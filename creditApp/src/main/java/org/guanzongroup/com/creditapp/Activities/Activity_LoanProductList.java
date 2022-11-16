@@ -2,6 +2,7 @@ package org.guanzongroup.com.creditapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -65,6 +67,44 @@ public class Activity_LoanProductList extends AppCompatActivity {
     }
 
     private void InitializeProductList(){
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                mViewModel.GetProductsOnBrand(query, lsBrandNme).observe(Activity_ProductList.this, oProducts -> {
+//                    try{
+//                        if(oProducts.size() > 0) {
+//                            recyclerView.setVisibility(View.VISIBLE);
+//                            lblNoItem.setVisibility(View.GONE);
+//                            poAdapter = new Adapter_ProductList(oProducts, listingId -> {
+//                                Intent loIntent = new Intent(Activity_ProductList.this, Activity_ProductOverview.class);
+//                                loIntent.putExtra("sListngId", listingId);
+//                                startActivity(loIntent);
+//                            });
+//                            recyclerView.setAdapter(poAdapter);
+//                            poAdapter.notifyDataSetChanged();
+//                        } else {
+//                            lblNoItem.setVisibility(View.VISIBLE);
+//                            lblNoItem.setText("No item found for keyword '" +query+ "' under " +lsBrandNme+" Brand");
+//                            recyclerView.setVisibility(View.GONE);
+//                        }
+//                    } catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//                });
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                if(newText == null){
+//                    SetupListView(lsBrandNme);
+//                } else if(newText.isEmpty()){
+//                    SetupListView(lsBrandNme);
+//                }
+//                return false;
+//            }
+//        });
+
         mViewModel.getProductList().observe(Activity_LoanProductList.this, products -> {
             try{
                 if(products.size() > 0){

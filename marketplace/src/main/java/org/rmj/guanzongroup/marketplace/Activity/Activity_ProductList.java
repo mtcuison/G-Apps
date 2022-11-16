@@ -19,6 +19,8 @@ import android.widget.TextView;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.FilterType;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMProductList;
@@ -28,6 +30,9 @@ import java.util.List;
 public class Activity_ProductList extends AppCompatActivity {
 
     private VMProductList mViewModel;
+
+    private Dialog_Loading poLoad;
+    private Dialog_SingleButton poDialog;
 
     private Toolbar toolbar;
     private ViewPager viewPager;
@@ -41,6 +46,8 @@ public class Activity_ProductList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(Activity_ProductList.this).get(VMProductList.class);
+        poLoad = new Dialog_Loading(Activity_ProductList.this);
+        poDialog = new Dialog_SingleButton(Activity_ProductList.this);
         setContentView(R.layout.activity_product_list);
         toolbar = findViewById(R.id.toolbar);
         searchView = findViewById(R.id.searchview);
@@ -56,6 +63,27 @@ public class Activity_ProductList extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                mViewModel.SearchItem(query, new VMProductList.OnSearchItemListener() {
+                    @Override
+                    public void OnSearch(String title, String message) {
+                        poLoad.initDialog(title, message);
+                        poLoad.show();
+                    }
+
+                    @Override
+                    public void OnSuccess() {
+                        poLoad.dismiss();
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+                        poLoad.dismiss();
+                        poDialog.setButtonText("Okay");
+                        poDialog.initDialog("Guanzon App", message, () -> poDialog.dismiss());
+                        poDialog.show();
+                    }
+                });
+
                 mViewModel.GetProductsOnBrand(query, lsBrandNme).observe(Activity_ProductList.this, oProducts -> {
                     try{
                         if(oProducts.size() > 0) {
