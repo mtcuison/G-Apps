@@ -47,7 +47,7 @@ public interface DOrderMaster {
             "a.cTranStat, " +
             "a.nTranTotl, " +
             "a.nAmtPaidx, " +
-            "IIF(a.nProcPaym == '0.00', a.nTranTotl, a.nProcPaym) nProcPaym, " +
+            "CASE WHEN a.nProcPaym = '0.00' THEN a.nTranTotl ELSE a.nProcPaym END nProcPaym, " +
             "a.sTermCode, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
@@ -106,7 +106,7 @@ public interface DOrderMaster {
             "a.cTranStat, " +
             "a.nTranTotl, " +
             "a.nAmtPaidx, " +
-            "IIF(a.nProcPaym == '0.00', a.nTranTotl, a.nProcPaym) nProcPaym, " +
+            "CASE WHEN a.nProcPaym = '0.00' THEN a.nTranTotl ELSE a.nProcPaym END nProcPaym, " +
             "a.sTermCode, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
@@ -128,12 +128,11 @@ public interface DOrderMaster {
             "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetOrderHistoryList(String fsVal);
 
-
     @Query("SELECT a.sTransNox, " +
             "a.cTranStat, " +
             "a.nTranTotl, " +
             "a.nAmtPaidx, " +
-            "IIF(a.nProcPaym == '0.00', a.nTranTotl, a.nProcPaym) nProcPaym, " +
+            "CASE WHEN a.nProcPaym = '0.00' THEN a.nTranTotl ELSE a.nProcPaym END nProcPaym, " +
             "a.sTermCode, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
@@ -166,8 +165,13 @@ public interface DOrderMaster {
             " IFNULL(a.dExpected, ''), dExpected," +
             " a.sReferNox," +
             " a.nTranTotl," +
-            "IIF(a.nProcPaym == '0.00', a.nTranTotl, a.nProcPaym) nProcPaym, " +
-            "IIF(a.sTermCode == '', '1', IIF(a.nTranTotl > IIF(a.nProcPaym == '0.00', a.nTranTotl, a.nProcPaym), '1', '0')) cNeedPaym," +
+            " CASE WHEN a.nProcPaym = '0.00' THEN a.nTranTotl ELSE a.nProcPaym END nProcPaym," +
+            "(SELECT "+
+            "CASE WHEN sTermCode = '' THEN 1 "+
+            "ELSE 0 END cUnPaidxx FROM MarketPlace_Order_Master) cUnPaidxx, "+
+            "(SELECT CASE "+
+            "WHEN nTranTotl > (SELECT CASE nProcPaym WHEN '0.00' THEN nTranTotl ELSE nProcPaym END cNeedPaym FROM MarketPlace_Order_Master) "+
+            "THEN 1 ELSE 0 END cNeedPaym FROM MarketPlace_Order_Master) cNeedPaym, "+
             " a.nAmtPaidx," +
             " a.sTermCode," +
             " a.cTranStat," +
@@ -214,6 +218,7 @@ public interface DOrderMaster {
         public String sReferNox;
         public String nTranTotl;
         public String nProcPaym;
+        public String cUnPaidxx;
         public String cNeedPaym;
         public String nAmtPaidx;
         public String sTermCode;
