@@ -417,7 +417,7 @@ public class SystemExtras implements iGCardSystem{
                     info.setDivision(loJson.getInt("cDivision"));
                     info.setTransact(loJson.getString("dTransact"));
                     info.setImageUrl(loJson.getString("sImageURL"));
-//                    info.setImageSld(loJson.getString("sImageNme"));
+                    info.setImageSld(loJson.getString("sImageNme"));
                     info.setPromoUrl(loJson.getString("sPromoURL"));
                     info.setCaptionx(loJson.getString("sCaptionx"));
                     info.setDateFrom(loJson.getString("dDateFrom"));
@@ -510,4 +510,5 @@ public class SystemExtras implements iGCardSystem{
     public EEvents CheckEvents() {
         return poEvents.CheckEvent();
     }
+
 }

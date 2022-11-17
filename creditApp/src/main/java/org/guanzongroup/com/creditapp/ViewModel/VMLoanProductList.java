@@ -39,6 +39,11 @@ public class VMLoanProductList extends AndroidViewModel {
         void OnFailed(String message);
     }
 
+    public interface OnSearchCallback{
+        void OnSearch();
+        void OnSearchFinish();
+    }
+
     public VMLoanProductList(@NonNull Application application) {
         super(application);
         this.mContext = application;
@@ -90,5 +95,44 @@ public class VMLoanProductList extends AndroidViewModel {
 
     public LiveData<List<DProduct.oProduct>> getProductList() {
         return poProdct.GetProductsForLoanApplication();
+    }
+
+    public LiveData<List<DProduct.oProduct>> searchLoanProduct(String args) {
+        return poProdct.SearchLoanProducts(args);
+    }
+
+    public void SearchItem(String args, OnSearchCallback callback){
+        new SearchProductTask(callback).execute(args);
+    }
+
+    private class SearchProductTask extends AsyncTask<String, Void, Boolean>{
+
+        private final OnSearchCallback callback;
+
+        public SearchProductTask(OnSearchCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            callback.OnSearch();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            if(poProdct.SearchProduct(strings[0])){
+                Log.d(TAG, "");
+            } else {
+                Log.e(TAG, poProdct.getMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            callback.OnSearchFinish();
+        }
     }
 }

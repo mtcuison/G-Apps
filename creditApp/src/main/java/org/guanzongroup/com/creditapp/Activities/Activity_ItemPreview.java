@@ -93,6 +93,8 @@ public class Activity_ItemPreview extends AppCompatActivity {
                 btnAppLoan.setOnClickListener(view -> {
                     Intent loIntent = new Intent(Activity_ItemPreview.this, Activity_LoanTerm.class);
                     loIntent.putExtra("sListngID", product.getListngID());
+                    loIntent.putExtra("sModelIDx", product.getModelIDx());
+                    loIntent.putExtra("sUnitAppl", product.getBrandNme());
                     startActivity(loIntent);
                     finish();
                 });

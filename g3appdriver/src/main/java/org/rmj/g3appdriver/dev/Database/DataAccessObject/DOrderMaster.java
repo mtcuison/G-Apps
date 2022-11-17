@@ -222,5 +222,4 @@ public interface DOrderMaster {
         public String sAddressx;
         public String sMobileNo;
     }
-
 }

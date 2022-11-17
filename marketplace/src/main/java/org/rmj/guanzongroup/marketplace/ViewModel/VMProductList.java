@@ -8,7 +8,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
-import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.FilterType;
 
@@ -23,8 +22,7 @@ public class VMProductList extends AndroidViewModel {
 
     public interface OnSearchItemListener{
         void OnSearch(String title, String message);
-        void OnSuccess();
-        void OnFailed(String message);
+        void OnSearch();
     }
 
     public VMProductList(@NonNull Application application) {
@@ -85,11 +83,7 @@ public class VMProductList extends AndroidViewModel {
         @Override
         protected void onPostExecute(Boolean isSuccess) {
             super.onPostExecute(isSuccess);
-            if(!isSuccess){
-                listener.OnFailed(message);
-            } else {
-                listener.OnSuccess();
-            }
+            listener.OnSearch();
         }
     }
 }

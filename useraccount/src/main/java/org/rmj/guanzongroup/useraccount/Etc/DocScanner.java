@@ -11,7 +11,7 @@ import android.util.Log;
 import androidx.activity.ComponentActivity;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.websitebeaver.documentscanner.DocumentScanner;
+//import com.websitebeaver.documentscanner.DocumentScanner;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -44,31 +44,31 @@ public class DocScanner {
         // user canceled document scan
         //                    Log.v("documentscannerlogs", "User canceled document scan");
 
-        DocumentScanner poScan = new DocumentScanner(
-                instance,
-                (croppedImageResults) -> {
-                    //Decode the image result into bitmap to display the result on image view
-                    listener.OnScanned(BitmapFactory.decodeFile(croppedImageResults.get(0)));
-                    return null;
-                },
-                (errorMessage) -> {
-                    // an error happened
-                    Log.d(TAG, errorMessage);
-                    listener.OnFailed(errorMessage);
-                    return null;
-                },
-                () -> {
-                    // user canceled document scan
-                    Log.d(TAG, "User canceled document scan");
-                    listener.OnCancelled();
-                    return null;
-                },
-                null,
-                null,
-                null
-        );
-
-        poScan.startScan();
+//        DocumentScanner poScan = new DocumentScanner(
+//                instance,
+//                (croppedImageResults) -> {
+//                    //Decode the image result into bitmap to display the result on image view
+//                    listener.OnScanned(BitmapFactory.decodeFile(croppedImageResults.get(0)));
+//                    return null;
+//                },
+//                (errorMessage) -> {
+//                    // an error happened
+//                    Log.d(TAG, errorMessage);
+//                    listener.OnFailed(errorMessage);
+//                    return null;
+//                },
+//                () -> {
+//                    // user canceled document scan
+//                    Log.d(TAG, "User canceled document scan");
+//                    listener.OnCancelled();
+//                    return null;
+//                },
+//                null,
+//                null,
+//                null
+//        );
+//
+//        poScan.startScan();
     }
 
     public static String saveBitmap2SD(Bitmap bitmap, String fsFileName) {

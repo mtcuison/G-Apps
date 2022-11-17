@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
@@ -35,8 +37,8 @@ public class Activity_ProductList extends AppCompatActivity {
     private Dialog_SingleButton poDialog;
 
     private Toolbar toolbar;
-    private ViewPager viewPager;
     private SearchView searchView;
+    private LinearLayout lnLoading;
     private RecyclerView recyclerView;
     private TextView lblNoItem;
 
@@ -51,6 +53,7 @@ public class Activity_ProductList extends AppCompatActivity {
         setContentView(R.layout.activity_product_list);
         toolbar = findViewById(R.id.toolbar);
         searchView = findViewById(R.id.searchview);
+        lnLoading = findViewById(R.id.lnLoading);
         recyclerView = findViewById(R.id.rv_products);
         lblNoItem = findViewById(R.id.textView);
         recyclerView.setLayoutManager(new GridLayoutManager(Activity_ProductList.this,
@@ -66,43 +69,33 @@ public class Activity_ProductList extends AppCompatActivity {
                 mViewModel.SearchItem(query, new VMProductList.OnSearchItemListener() {
                     @Override
                     public void OnSearch(String title, String message) {
-                        poLoad.initDialog(title, message);
-                        poLoad.show();
+                        lnLoading.setVisibility(View.VISIBLE);
                     }
 
                     @Override
-                    public void OnSuccess() {
-                        poLoad.dismiss();
-                    }
-
-                    @Override
-                    public void OnFailed(String message) {
-                        poLoad.dismiss();
-                        poDialog.setButtonText("Okay");
-                        poDialog.initDialog("Guanzon App", message, () -> poDialog.dismiss());
-                        poDialog.show();
-                    }
-                });
-
-                mViewModel.GetProductsOnBrand(query, lsBrandNme).observe(Activity_ProductList.this, oProducts -> {
-                    try{
-                        if(oProducts.size() > 0) {
-                            recyclerView.setVisibility(View.VISIBLE);
-                            lblNoItem.setVisibility(View.GONE);
-                            poAdapter = new Adapter_ProductList(oProducts, listingId -> {
-                                Intent loIntent = new Intent(Activity_ProductList.this, Activity_ProductOverview.class);
-                                loIntent.putExtra("sListngId", listingId);
-                                startActivity(loIntent);
-                            });
-                            recyclerView.setAdapter(poAdapter);
-                            poAdapter.notifyDataSetChanged();
-                        } else {
-                            lblNoItem.setVisibility(View.VISIBLE);
-                            lblNoItem.setText("No item found for keyword '" +query+ "' under " +lsBrandNme+" Brand");
-                            recyclerView.setVisibility(View.GONE);
-                        }
-                    } catch (Exception e){
-                        e.printStackTrace();
+                    public void OnSearch() {
+                        lnLoading.setVisibility(View.GONE);
+                        mViewModel.GetProductsOnBrand(query, lsBrandNme).observe(Activity_ProductList.this, oProducts -> {
+                            try{
+                                if(oProducts.size() > 0) {
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                    lblNoItem.setVisibility(View.GONE);
+                                    poAdapter = new Adapter_ProductList(oProducts, listingId -> {
+                                        Intent loIntent = new Intent(Activity_ProductList.this, Activity_ProductOverview.class);
+                                        loIntent.putExtra("sListngId", listingId);
+                                        startActivity(loIntent);
+                                    });
+                                    recyclerView.setAdapter(poAdapter);
+                                    poAdapter.notifyDataSetChanged();
+                                } else {
+                                    lblNoItem.setVisibility(View.VISIBLE);
+                                    lblNoItem.setText("No item found for keyword '" +query+ "' under " +lsBrandNme+" Brand");
+                                    recyclerView.setVisibility(View.GONE);
+                                }
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        });
                     }
                 });
                 return false;
@@ -110,12 +103,22 @@ public class Activity_ProductList extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(newText == null){
-                    SetupListView(lsBrandNme);
-                } else if(newText.isEmpty()){
-                    SetupListView(lsBrandNme);
-                }
+//                if(newText == null){
+//                    SetupListView(lsBrandNme);
+//                } else if(newText.isEmpty()){
+//                    SetupListView(lsBrandNme);
+//                }
                 return false;
+            }
+        });
+        ImageView clearButton = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
+        clearButton.setOnClickListener(v -> {
+            if(searchView.getQuery().length() == 0) {
+                searchView.setIconified(true);
+            } else {
+                // Do your task here
+                searchView.setQuery("", false);
+                SetupListView(lsBrandNme);
             }
         });
     }

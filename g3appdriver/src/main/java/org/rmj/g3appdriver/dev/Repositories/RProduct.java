@@ -81,7 +81,8 @@ public class RProduct {
                     JSONArray laDetail = loResponse.getJSONArray("detail");
                     for (int x = 0; x < laDetail.length(); x++) {
                         JSONObject joDetail = laDetail.getJSONObject(x);
-                        if (poDao.GetProductIfExist(joDetail.getString("sListngID")) == null) {
+                        EProducts loDetail = poDao.GetProductIfExist(joDetail.getString("sListngID"));
+                        if (loDetail == null) {
                             EProducts loProdct = new EProducts();
                             loProdct.setListngID(joDetail.getString("sListngID"));
                             loProdct.setBriefDsc(joDetail.getString("sBriefDsc"));
@@ -109,20 +110,32 @@ public class RProduct {
                             poDao.SaveProductInfo(loProdct);
                             Log.d(TAG, "New product listing save!");
                         } else {
-                            EProducts loProdct = poDao.GetProductIfExist(joDetail.getString("sListngID"));
-                            Date ldDate1 = SQLUtil.toDate(loProdct.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                            Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
                             Date ldDate2 = SQLUtil.toDate((String) joDetail.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
                             if (!ldDate1.equals(ldDate2)) {
-                                poDao.UpdateProductListing(joDetail.getString("sListngID"),
-                                        joDetail.getString("nTotalQty"),
-                                        joDetail.getString("nQtyOnHnd"),
-                                        joDetail.getString("nResvOrdr"),
-                                        joDetail.getString("nSoldQtyx"),
-                                        joDetail.getString("nUnitPrce"),
-                                        joDetail.getString("dListStrt"),
-                                        joDetail.getString("dListEndx"),
-                                        joDetail.getString("cTranStat"),
-                                        joDetail.getString("dTimeStmp"));
+                                loDetail.setBriefDsc(joDetail.getString("sBriefDsc"));
+                                loDetail.setStockIDx(joDetail.getString("sStockIDx"));
+                                loDetail.setDescript(joDetail.getString("sDescript"));
+                                loDetail.setRatingxx(joDetail.getString("nRatingxx"));
+                                loDetail.setBarCodex(joDetail.getString("xBarCodex"));
+                                loDetail.setDescrptx(joDetail.getString("xDescript"));
+                                loDetail.setBrandNme(joDetail.getString("xBrandNme"));
+                                loDetail.setModelNme(joDetail.getString("xModelNme"));
+                                loDetail.setModelIDx(joDetail.getString("sModelIDx"));
+                                loDetail.setImagesxx(joDetail.getString("sImagesxx"));
+                                loDetail.setColorNme(joDetail.getString("xColorNme"));
+                                loDetail.setCategrNm(joDetail.getString("xCategrNm"));
+                                loDetail.setTotalQty(joDetail.getString("nTotalQty"));
+                                loDetail.setQtyOnHnd(joDetail.getString("nQtyOnHnd"));
+                                loDetail.setAllwCrdt(joDetail.getString("cAllwCrdt"));
+                                loDetail.setResvOrdr(joDetail.getString("nResvOrdr"));
+                                loDetail.setSoldQtyx(joDetail.getString("nSoldQtyx"));
+                                loDetail.setUnitPrce(joDetail.getString("nUnitPrce"));
+                                loDetail.setListStrt(joDetail.getString("dListStrt"));
+                                loDetail.setListEndx(joDetail.getString("dListEndx"));
+                                loDetail.setTranStat(joDetail.getString("cTranStat"));
+                                loDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
+                                poDao.UpdateProductInfo(loDetail);
                                 Log.d(TAG, "New product listing updated!");
                             }
                         }
@@ -236,6 +249,10 @@ public class RProduct {
 
     public LiveData<List<DProduct.oProduct>> GetProductsForLoanApplication(){
         return poDao.GetProductsForLoanApplication();
+    }
+
+    public LiveData<List<DProduct.oProduct>> SearchLoanProducts(String fsVal){
+        return poDao.SearchLoanProducts(fsVal);
     }
 
     public static class oFilterx{
