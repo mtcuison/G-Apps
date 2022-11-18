@@ -74,7 +74,11 @@ public interface DOrderMaster {
             "AND sTermCode == '' " +
             "OR cPaymType == '2' " +
             "AND sTermCode = 'C0W2011' " +
-            "AND nTranTotl > IIF(nProcPaym == '0.00', nTranTotl, nProcPaym) " +
+            "AND nTranTotl > (SELECT " +
+            "CASE WHEN nProcPaym = '0.00' " +
+            "THEN nTranTotl " +
+            "ELSE nProcPaym " +
+            "END nProcPaym FROM MarketPlace_Order_Master WHERE cPaymType = '2' AND sTermCode = 'C0W2011' AND cTranStat = '0') " +
             "AND cTranStat == '0'")
     LiveData<Integer> GetToPayOrdersCount();
 
@@ -153,7 +157,11 @@ public interface DOrderMaster {
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.sTermCode == '' " +
             "OR a.cPaymType == '2' " +
-            "AND a.nTranTotl > IIF(a.nProcPaym == '0.00', a.nTranTotl, a.nProcPaym) " +
+            "AND a.nTranTotl > (SELECT " +
+            "CASE WHEN nProcPaym = '0.00' " +
+            "THEN nTranTotl " +
+            "ELSE nProcPaym " +
+            "END nProcPaym FROM MarketPlace_Order_Master WHERE cPaymType = '2' AND sTermCode = 'C0W2011' AND cTranStat = '0') " +
             "AND a.sTermCode = 'C0W2011' " +
             "AND a.cTranStat == '0' " +
             "GROUP BY a.sTransNox " +
