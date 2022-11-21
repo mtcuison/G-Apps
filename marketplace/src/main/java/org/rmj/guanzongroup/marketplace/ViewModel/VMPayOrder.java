@@ -80,10 +80,10 @@ public class VMPayOrder extends AndroidViewModel {
                 String lsTransNo = strings[0];
                 if(loConnect.isDeviceConnected()) {
                     boolean isSuccess = loItmCart.PayOrder(lsTransNo, loPayMeth, lsReferNo);
-                    lsMessage = (isSuccess) ? "Order payment selection success." : loItmCart.getMessage();
+                    lsMessage = (isSuccess) ? "Order Completed. \nThank you for your purchase." : loItmCart.getMessage();
                     return isSuccess;
                 } else {
-                    lsMessage = AppConstants.SERVER_NO_RESPONSE();
+                    lsMessage = "Unable to connect.";
                     return false;
                 }
             } catch (Exception e) {

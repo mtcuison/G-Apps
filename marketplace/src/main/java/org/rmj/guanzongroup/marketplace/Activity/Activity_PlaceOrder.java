@@ -51,8 +51,8 @@ public class Activity_PlaceOrder extends AppCompatActivity {
     private boolean cIsBuyNow;
 
     private double nSubTotl = 0.0,
-            nShipFee = 0.0,
-            nOthrFee = 0.0;
+                   nShipFee = 0.0,
+                   nOthrFee = 0.0;
 
     public boolean isClicked = false;
 
@@ -179,8 +179,8 @@ public class Activity_PlaceOrder extends AppCompatActivity {
         double lnShipFee = 0.0;
         double lnOthrFee = 0.0;
 
-        if (orders.size() > 0) {
-            for (int x = 0; x < orders.size(); x++) {
+        if(orders.size() > 0) {
+            for(int x = 0; x < orders.size(); x++) {
                 lnSubTotl += Double.parseDouble(orders.get(x).nUnitPrce)
                         * Integer.parseInt(orders.get(x).nQuantity);
             }
@@ -189,21 +189,21 @@ public class Activity_PlaceOrder extends AppCompatActivity {
         double lnTotalPr = lnSubTotl + lnShipFee + lnOthrFee;
 
         mViewModel.GetSelectedItemCartTotalPrice().observe(Activity_PlaceOrder.this, subtotal -> {
-            try {
-                txtSubTot.setText("₱ " + CashFormatter.parse(String.valueOf(subtotal)));
+            try{
+                txtSubTot.setText(CashFormatter.parse(String.valueOf(subtotal)));
                 nSubTotl = subtotal;
                 txtTotalx.setText(CashFormatter.parse(String.valueOf(CalculateGrandTotal())));
-            } catch (Exception e) {
+            } catch (Exception e){
                 e.printStackTrace();
             }
         });
 
         mViewModel.GetShippingFee().observe(Activity_PlaceOrder.this, shipFee -> {
-            try {
+            try{
                 txtShipFe.setText(CashFormatter.parse(String.valueOf(shipFee)));
                 nShipFee = shipFee;
                 txtTotalx.setText(CashFormatter.parse(String.valueOf(CalculateGrandTotal())));
-            } catch (Exception e) {
+            } catch (Exception e){
                 e.printStackTrace();
             }
         });
@@ -229,6 +229,8 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                 poLoading.dismiss();
                 Intent loIntent = new Intent(Activity_PlaceOrder.this, Activity_PayOrder.class);
                 loIntent.putExtra("sTransNox", fsMessage);
+                loIntent.putExtra("nSubTotal", nSubTotl);
+                loIntent.putExtra("nShipFeex", nShipFee);
                 startActivity(loIntent);
                 finish();
             }
@@ -275,15 +277,15 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                 });
             }
 
-                    @Override
-                    public void onCancel(AlertDialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
+            @Override
+            public void onCancel(AlertDialog dialog) {
+                dialog.dismiss();
+            }
+        });
         loDblDiag.show();
     }
 
-    private double CalculateGrandTotal() {
+    private double CalculateGrandTotal(){
         return nSubTotl + nShipFee + nOthrFee;
     }
 }

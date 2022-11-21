@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -43,39 +44,11 @@ public class Fragment_PaymentInfo extends Fragment {
         poDialogx = new Dialog_SingleButton(requireActivity());
         displayPaymentInfo();
         binding.btnConfrm.setOnClickListener(v -> {
-            if(psPayment.equalsIgnoreCase("CashOnDelivery")){
-                mViewModel.payOrder(mViewModel.getTransactionNumber(),
-                        mViewModel.getPaymentMethod().getValue(),
-                        "", new OnTransactionsCallback() {
-                            @Override
-                            public void onLoading() {
-                                poLoading = new Dialog_Loading(requireActivity());
-                                poLoading.initDialog("Pay Order", "Payment Processing. Please wait.");
-                                poLoading.show();
-                            }
-
-                            @Override
-                            public void onSuccess(String fsMessage) {
-                                poLoading.dismiss();
-                                poDialogx.setButtonText("Okay");
-                                poDialogx.initDialog("Pay Order", fsMessage, () -> {
-                                    poDialogx.dismiss();
-                                    Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
-                                    intent.putExtra("args", "purchase");
-                                    requireActivity().sendBroadcast(intent);
-                                    requireActivity().finish();
-                                });
-                                poDialogx.show();
-                            }
-
-                            @Override
-                            public void onFailed(String fsMessage) {
-                                poLoading.dismiss();
-                                poDialogx.setButtonText("Okay");
-                                poDialogx.initDialog("Pay Order", fsMessage, () -> poDialogx.dismiss());
-                                poDialogx.show();
-                            }
-                        });
+            if(psPayment.equalsIgnoreCase("CashOnDelivery")) {
+                Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                intent.putExtra("args", "purchase");
+                requireActivity().sendBroadcast(intent);
+                requireActivity().finish();
             } else if(isMethodSelected()) {
                 payOrder();
             }
@@ -94,8 +67,13 @@ public class Fragment_PaymentInfo extends Fragment {
             binding.txtPayTyp.setText(payMeth.toString());
             psPayment = payMeth.toString();
             if(!psPayment.equalsIgnoreCase(PaymentMethod.CashOnDelivery.toString())){
+                double lnOrderAmnt = requireActivity().getIntent().getDoubleExtra("nSubTotal", 0.0);
+                double lnShippFeex = requireActivity().getIntent().getDoubleExtra("nShipFeex", 0.0);
+                double lnTotal = lnOrderAmnt + lnShippFeex;
+                binding.lblCodAmount.setText(CashFormatter.parse(String.valueOf(lnTotal)));
+                binding.lblPayAmount.setText("To complete your purchase please deposit ₱" + lnTotal + " to " + payMeth + " account shown below.");
                 binding.cardviewPaymentInfo.setVisibility(View.VISIBLE);
-                binding.cardviewCod.setVisibility(View.GONE);
+                binding.linearCod.setVisibility(View.GONE);
                 mViewModel.CheckPaymentMethods(new OnTransactionsCallback() {
                 @Override
                 public void onLoading() {
@@ -132,9 +110,44 @@ public class Fragment_PaymentInfo extends Fragment {
                     poDialogx.show();
                 }
             });
-            } else {
-                binding.cardviewPaymentInfo.setVisibility(View.GONE);
-                binding.cardviewCod.setVisibility(View.VISIBLE);
+            } else if(psPayment.equalsIgnoreCase(PaymentMethod.CashOnDelivery.toString())){
+                binding.lblSendThru.setVisibility(View.GONE);
+                mViewModel.payOrder(mViewModel.getTransactionNumber(), mViewModel.getPaymentMethod().getValue(),
+                    "", new OnTransactionsCallback() {
+                        @Override
+                        public void onLoading() {
+                            poLoading = new Dialog_Loading(requireActivity());
+                            poLoading.initDialog("Pay Order", "Payment Processing. Please wait.");
+                            poLoading.show();
+                        }
+
+                        @Override
+                        public void onSuccess(String fsMessage) {
+                            poLoading.dismiss();
+                            binding.cardviewPaymentInfo.setVisibility(View.GONE);
+                            binding.linearCod.setVisibility(View.VISIBLE);
+                            binding.btnConfrm.setText("Continue Shopping");
+                            if(requireActivity().getIntent().hasExtra("nSubTotal")){
+                                double lnOrderAmnt = requireActivity().getIntent().getDoubleExtra("nSubTotal", 0.0);
+                                binding.lblOrderAmount.setText(CashFormatter.parse(String.valueOf(lnOrderAmnt)));
+                            }
+
+                            if(requireActivity().getIntent().hasExtra("nShipFeex")){
+                                double lnOrderAmnt = requireActivity().getIntent().getDoubleExtra("nSubTotal", 0.0);
+                                double lnShippFeex = requireActivity().getIntent().getDoubleExtra("nShipFeex", 0.0);
+                                double lnTotal = lnOrderAmnt + lnShippFeex;
+                                binding.lblCodAmount.setText(CashFormatter.parse(String.valueOf(lnTotal)));
+                            }
+                        }
+
+                        @Override
+                        public void onFailed(String fsMessage) {
+                            poLoading.dismiss();
+                            poDialogx.setButtonText("Okay");
+                            poDialogx.initDialog("Pay Order", fsMessage, () -> poDialogx.dismiss());
+                            poDialogx.show();
+                        }
+                    });
             }
         });
     }

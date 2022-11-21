@@ -42,7 +42,7 @@ public class Activity_PayOrder extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Pay Order");
+        getSupportActionBar().setTitle("Order Payment");
 
         binding.viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), poPages));
 

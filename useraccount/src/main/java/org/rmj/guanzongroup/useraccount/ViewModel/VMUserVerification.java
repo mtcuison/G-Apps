@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
+import org.rmj.g3appdriver.lib.Account.Obj.PhotoDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +45,11 @@ public class VMUserVerification extends AndroidViewModel {
         this.mContext = application;
     }
 
-    public void UploadForVerification(RClientInfo.PhotoDetail foVal, OnSelfieVerificationSubmitCallback callback){
+    public void UploadForVerification(PhotoDetail foVal, OnSelfieVerificationSubmitCallback callback){
         new UploadForVerificationTask(mContext, callback).execute(foVal);
     }
 
-    private static class UploadForVerificationTask extends AsyncTask<RClientInfo.PhotoDetail, Void, Boolean>{
+    private static class UploadForVerificationTask extends AsyncTask<PhotoDetail, Void, Boolean>{
 
         private final OnSelfieVerificationSubmitCallback callback;
         private final ConnectionUtil poConn;
@@ -69,8 +70,8 @@ public class VMUserVerification extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(RClientInfo.PhotoDetail... photoDetails) {
-            RClientInfo.PhotoDetail loDetail = photoDetails[0];
+        protected Boolean doInBackground(PhotoDetail... photoDetails) {
+            PhotoDetail loDetail = photoDetails[0];
             try{
                 if(!poConn.isDeviceConnected()){
                     message = "Unable to connect.";
@@ -187,11 +188,11 @@ public class VMUserVerification extends AndroidViewModel {
         }
     }
 
-    public void UploadIDVerification(List<RClientInfo.PhotoDetail> foVal, JSONObject params, OnIDVerificationSubmitCallback callback){
+    public void UploadIDVerification(List<PhotoDetail> foVal, JSONObject params, OnIDVerificationSubmitCallback callback){
         new UploadIDVerificationTask(mContext, params,callback).execute(foVal);
     }
 
-    private static class UploadIDVerificationTask extends AsyncTask<List<RClientInfo.PhotoDetail>, Integer, Boolean>{
+    private static class UploadIDVerificationTask extends AsyncTask<List<PhotoDetail>, Integer, Boolean>{
 
         private final ConnectionUtil poConn;
         private final JSONObject poParams;
@@ -208,15 +209,15 @@ public class VMUserVerification extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(List<RClientInfo.PhotoDetail>... lists) {
-            List<RClientInfo.PhotoDetail> loDetail = lists[0];
+        protected Boolean doInBackground(List<PhotoDetail>... lists) {
+            List<PhotoDetail> loDetail = lists[0];
             try{
                 if(!poConn.isDeviceConnected()){
                     message = "Unable to connect.";
                     return false;
                 } else {
                     for(int x = 0; x < loDetail.size(); x++){
-                        RClientInfo.PhotoDetail loPhoto = loDetail.get(x);
+                        PhotoDetail loPhoto = loDetail.get(x);
                         Log.d(TAG, "Uploading ID Capture. " + x);
                         boolean isSuccess = poClient.UploadVerificationImage(loPhoto);
                         if(isSuccess){

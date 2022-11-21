@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.guanzonapp.Activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -31,7 +32,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.guanzongroup.com.creditapp.Activity_LoanProductList;
+import org.guanzongroup.com.creditapp.Activities.Activity_LoanProductList;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
@@ -49,11 +50,11 @@ import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
 import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_DocumentScanner;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_ProfileVerification;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_LoanIntroduction;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_MeansInfo;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 
 import java.util.Objects;
 
@@ -242,8 +243,37 @@ public class Activity_Dashboard extends AppCompatActivity {
         });
 
         navigationView.getMenu().findItem(R.id.nav_applyLoan).setOnMenuItemClickListener(menuItem -> {
-            Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanProductList.class);
-            startActivity(intent);
+            mViewModel.ValidateUserVerification(new VMHome.OnValidateVerifiedUser() {
+                @Override
+                public void OnValidate(String title, String message) {
+                    poLoading.initDialog(title, message);
+                    poLoading.show();
+                }
+
+                @Override
+                public void OnAccountVerified() {
+                    poLoading.dismiss();
+                    Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanProductList.class);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void OnAccountNotVerified() {
+                    poLoading.dismiss();
+//                    Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanIntroduction.class);
+                    Intent intent = new Intent(Activity_Dashboard.this, Activity_MeansInfo.class);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void OnFailed(String message) {
+                    poLoading.dismiss();
+                    poDialog.setButtonText("Okay");
+                    poDialog.initDialog("Gaunzon App", message, () -> poDialog.dismiss());
+                    poDialog.show();
+
+                }
+            });
             return false;
         });
 

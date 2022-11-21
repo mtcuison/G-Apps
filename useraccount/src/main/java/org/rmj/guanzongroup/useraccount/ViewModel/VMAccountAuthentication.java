@@ -131,7 +131,6 @@ public class VMAccountAuthentication extends AndroidViewModel {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-//            setCallBack(s, loCallbck);
             switch (cResult){
                 case '0':
                     loCallbck.onFailed(psMssage);

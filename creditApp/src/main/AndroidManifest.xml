@@ -4,11 +4,20 @@
 
     <application>
         <activity
-            android:name=".Activity_Sample"
+            android:name=".Activities.Activity_LoanPreview"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_PersonalInfo"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_LoanTerm"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_Sample"
             android:exported="true"
             android:screenOrientation="userPortrait" />
         <activity
-            android:name=".Activity_LoanProductList"
+            android:name=".Activities.Activity_LoanProductList"
             android:exported="true"
             android:screenOrientation="userPortrait" />
     </application>
