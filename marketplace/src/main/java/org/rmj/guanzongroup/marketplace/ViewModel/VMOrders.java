@@ -43,18 +43,6 @@ public class VMOrders extends AndroidViewModel {
         return poStatus;
     }
 
-    public LiveData<List<EOrderMaster>> GetMasterOrderHistory(String fsVal){
-        return poORder.GetMasterOrderHistory(fsVal);
-    }
-
-    public LiveData<List<EOrderMaster>> GetMasterOrderHistory(){
-        return poORder.GetMasterOrderHistory();
-    }
-
-    public LiveData<List<EOrderDetail>> GetOrderDetailInfo(String fsVal){
-        return poORder.GetOrderDetailInfo(fsVal);
-    }
-
     public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(){
         return poORder.GetOrderHistoryList();
     }
@@ -65,10 +53,6 @@ public class VMOrders extends AndroidViewModel {
 
     public LiveData<List<DOrderMaster.OrderHistory>> GetToPayOrderList(){
         return poORder.GetToPayOrderList();
-    }
-
-    public LiveData<List<DOrderDetail.OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal){
-        return poORder.GetOrderHistoryDetail(fsVal);
     }
 
     public void ImportOrdersTask(){

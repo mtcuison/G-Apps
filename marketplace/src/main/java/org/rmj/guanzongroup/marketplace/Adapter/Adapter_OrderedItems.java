@@ -80,7 +80,6 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
     public static class OrderItemsViewHolder extends RecyclerView.ViewHolder {
 
         public TextView lblBrandNm,
-                lblItmDisc,
                 lblItmPrce,
                 lblItmQtyx,
                 lblReviewd;
@@ -91,7 +90,6 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
         public OrderItemsViewHolder(@NonNull View itemView) {
             super(itemView);
             lblBrandNm = itemView.findViewById(R.id.lbl_brandName);
-            lblItmDisc = itemView.findViewById(R.id.lbl_itemDiscount);
             lblItmPrce = itemView.findViewById(R.id.lbl_itemPrice);
             lblItmQtyx = itemView.findViewById(R.id.lbl_itemQuantity);
             lblReviewd = itemView.findViewById(R.id.lbl_reviewed);

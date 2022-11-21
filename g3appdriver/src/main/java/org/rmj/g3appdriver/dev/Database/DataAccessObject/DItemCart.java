@@ -78,6 +78,17 @@ public interface DItemCart {
             "AND cCheckOut = '1'")
     LiveData<Double> GetSelectedItemCartTotalPrice();
 
+
+    @Query("SELECT IFNULL(SUM(b.nUnitPrce * a.nQuantity), 0) " +
+            "AS CART_TOTAL " +
+            "FROM MarketPlace_Cart a " +
+            "LEFT JOIN Product_Inventory b " +
+            "ON a.sListIDxx = b.sListngID  " +
+            "WHERE a.sUserIDxx = (" +
+            "SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND cCheckOut = '1'")
+    Double GetPlacedOrderTotalPrice();
+
     @Query("SELECT IFNULL(COUNT (a.sListIDxx), 0) FROM MARKETPLACE_CART a " +
             "LEFT JOIN Product_Inventory b " +
             "ON a.sListIDxx = b.sListngID " +

@@ -95,6 +95,7 @@ public interface DOrderDetail {
         public String sStockIDx;
         public String xModelNme;
         public String nUnitPrce;
+        public String nDiscount;
         public String nQuantity;
         public String cReviewed;
     }

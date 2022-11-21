@@ -44,9 +44,17 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
         DOrderMaster.OrderHistory loMaster = poMaster.get(position);
         holder.lblOrderNo.setText(loMaster.sTransNox);
         holder.lblOrderSt.setText(GetOrderStatus(loMaster));
-        holder.lblOrderTl.setText(CashFormatter.parse(loMaster.nTranTotl));
         holder.lblBrandNm.setText(loMaster.xModelNme + "\n " + loMaster.xBrandNme);
         holder.lblItmDisc.setText(GetDiscount(loMaster.nDiscount));
+
+        double lnTrantotl = Double.parseDouble(loMaster.nTranTotl);
+        double lnProcPaym = Double.parseDouble(loMaster.nProcPaym);
+        double lnDiscount = Double.parseDouble(loMaster.nDiscount);
+        double lnFreightx = Double.parseDouble(loMaster.nFreightx);
+        double lnSubTotal = lnTrantotl - (lnTrantotl * lnDiscount);
+
+        double lnTotalxx = lnSubTotal + lnFreightx;
+        holder.lblOrderTl.setText(CashFormatter.parse(String.valueOf(lnTotalxx)));
         holder.lblItmPrce.setText(CashFormatter.parse(loMaster.nUnitPrce));
         holder.lblItmQtyx.setText("Quantity: "+ loMaster.nQuantity);
         holder.setImage(loMaster.sImagesxx);

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.etc.CashFormatter;
@@ -227,21 +228,25 @@ public class Activity_PlaceOrder extends AppCompatActivity {
             }
 
             @Override
-            public void onSuccess(String fsMessage) {
+            public void onSuccess(String result) {
                 poLoading.dismiss();
-                Intent loIntent = new Intent(Activity_PlaceOrder.this, Activity_PayOrder.class);
-                loIntent.putExtra("sTransNox", fsMessage);
-                loIntent.putExtra("nSubTotal", nSubTotl);
-                loIntent.putExtra("nShipFeex", nShipFee);
-                Log.d(TAG, "Arguments: " + fsMessage);
-                Log.d(TAG, "SubTotal: " + nSubTotl);
-                Log.d(TAG, "Shipping Fee: " + nShipFee);
-                startActivity(loIntent);
-                finish();
+                try{
+                    JSONObject loResult = new JSONObject(result);
+                    Intent loIntent = new Intent(Activity_PlaceOrder.this, Activity_PayOrder.class);
+                    loIntent.putExtra("sTransNox", loResult.getString("sTransNox"));
+                    loIntent.putExtra("nSubTotal", loResult.getString("nTrantotl"));
+                    loIntent.putExtra("nShipFeex", nShipFee);
+                    Log.d(TAG, "Arguments: " + result);
+                    Log.d(TAG, "SubTotal: " + loResult.getString("nTrantotl"));
+                    Log.d(TAG, "Shipping Fee: " + nShipFee);
+                    startActivity(loIntent);
+                    finish();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
             @Override
-
             public void onFailed(String fsMessage) {
                 poLoading.dismiss();
                 poDialogx.setButtonText("Okay");

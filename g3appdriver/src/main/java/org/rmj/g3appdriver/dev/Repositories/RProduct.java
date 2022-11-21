@@ -459,5 +459,4 @@ public class RProduct {
             return false;
         }
     }
-
 }

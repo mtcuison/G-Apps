@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -15,11 +16,13 @@ import android.view.ViewGroup;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderMaster;
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_TextInput;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_PayOrder;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMPayOrder;
 import org.rmj.guanzongroup.marketplace.databinding.FragmentPaymentInfoBinding;
@@ -34,12 +37,14 @@ public class Fragment_PaymentInfo extends Fragment {
     private Dialog_SingleButton poDialogx;
 
     private String psPayment;
+    private String TransNox;
 
     public Fragment_PaymentInfo() { }
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPayOrder.class);
+        TransNox = Activity_PayOrder.getInstance().getTransNox();
         binding = FragmentPaymentInfoBinding.inflate(inflater, container, false);
         poDialogx = new Dialog_SingleButton(requireActivity());
         displayPaymentInfo();
@@ -72,11 +77,9 @@ public class Fragment_PaymentInfo extends Fragment {
             binding.txtPayTyp.setText(payMeth.toString());
             psPayment = payMeth.toString();
             if(!psPayment.equalsIgnoreCase(PaymentMethod.CashOnDelivery.toString())){
-                double lnOrderAmnt = requireActivity().getIntent().getDoubleExtra("nSubTotal", 0.0);
-                double lnShippFeex = requireActivity().getIntent().getDoubleExtra("nShipFeex", 0.0);
-                double lnTotal = lnOrderAmnt + lnShippFeex;
-                binding.lblCodAmount.setText(CashFormatter.parse(String.valueOf(lnTotal)));
-                binding.lblPayAmount.setText("To complete your purchase please deposit ₱" + lnTotal + " to " + payMeth + " account shown below.");
+                double lnOrderAmnt = Activity_PayOrder.getInstance().getOrderAmount();
+                binding.lblCodAmount.setText(CashFormatter.parse(String.valueOf(lnOrderAmnt)));
+                binding.lblPayAmount.setText("To complete your purchase please deposit ₱" + lnOrderAmnt + " to " + payMeth + " account shown below.");
                 binding.cardviewPaymentInfo.setVisibility(View.VISIBLE);
                 binding.linearCod.setVisibility(View.GONE);
                 mViewModel.CheckPaymentMethods(new OnTransactionsCallback() {
@@ -117,7 +120,8 @@ public class Fragment_PaymentInfo extends Fragment {
             });
             } else if(psPayment.equalsIgnoreCase(PaymentMethod.CashOnDelivery.toString())){
                 binding.lblSendThru.setVisibility(View.GONE);
-                mViewModel.payOrder(mViewModel.getTransactionNumber(), mViewModel.getPaymentMethod().getValue(),
+
+                mViewModel.payOrder(TransNox, mViewModel.getPaymentMethod().getValue(),
                     "", new OnTransactionsCallback() {
                         @Override
                         public void onLoading() {
@@ -133,15 +137,9 @@ public class Fragment_PaymentInfo extends Fragment {
                             binding.linearCod.setVisibility(View.VISIBLE);
                             binding.btnConfrm.setText("Continue Shopping");
                             if(requireActivity().getIntent().hasExtra("nSubTotal")){
-                                double lnOrderAmnt = requireActivity().getIntent().getDoubleExtra("nSubTotal", 0.0);
+                                double lnOrderAmnt = Activity_PayOrder.getInstance().getOrderAmount();
                                 binding.lblOrderAmount.setText(CashFormatter.parse(String.valueOf(lnOrderAmnt)));
-                            }
-
-                            if(requireActivity().getIntent().hasExtra("nShipFeex")){
-                                double lnOrderAmnt = requireActivity().getIntent().getDoubleExtra("nSubTotal", 0.0);
-                                double lnShippFeex = requireActivity().getIntent().getDoubleExtra("nShipFeex", 0.0);
-                                double lnTotal = lnOrderAmnt + lnShippFeex;
-                                binding.lblCodAmount.setText(CashFormatter.parse(String.valueOf(lnTotal)));
+                                binding.lblCodAmount.setText(CashFormatter.parse(String.valueOf(lnOrderAmnt)));
                             }
                         }
 
@@ -165,7 +163,7 @@ public class Fragment_PaymentInfo extends Fragment {
                 if(!fsInputx.isEmpty()) {
                     String lsRefNoxx = fsInputx;
                     dialog.dismiss();
-                    mViewModel.payOrder(mViewModel.getTransactionNumber(),
+                    mViewModel.payOrder(TransNox,
                             mViewModel.getPaymentMethod().getValue(),
                             lsRefNoxx, new OnTransactionsCallback() {
                                 @Override

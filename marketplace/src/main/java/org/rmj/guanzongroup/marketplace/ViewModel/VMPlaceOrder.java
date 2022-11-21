@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
@@ -128,7 +129,7 @@ public class VMPlaceOrder extends AndroidViewModel {
 
     }
 
-    private static class PlaceOrderTask extends AsyncTask<List<DItemCart.oMarketplaceCartItem>, Void, Boolean> {
+    private static class PlaceOrderTask extends AsyncTask<List<DItemCart.oMarketplaceCartItem>, Void, String> {
 
         private final ConnectionUtil loConnect;
         private final ROrder loItmCart;
@@ -144,25 +145,32 @@ public class VMPlaceOrder extends AndroidViewModel {
         }
 
         @Override
-        protected Boolean doInBackground(List<DItemCart.oMarketplaceCartItem>... lists) {
+        protected String doInBackground(List<DItemCart.oMarketplaceCartItem>... lists) {
             try {
                 List<DItemCart.oMarketplaceCartItem> loProdcts = lists[0];
-                if(loConnect.isDeviceConnected()) {
-                    if(loItmCart.PlaceOrder(loProdcts, fcDirectxx)) {
-                        lsMessage = loItmCart.getTransNox();
-                        return true;
-                    } else {
-                        lsMessage = loItmCart.getMessage();
-                        return false;
-                    }
-                } else {
-                    lsMessage = AppConstants.SERVER_NO_RESPONSE();
-                    return false;
+                if(!loConnect.isDeviceConnected()) {
+                    lsMessage = "Unable to connect";
+                    return null;
                 }
+
+                double lnTotalPrce = loItmCart.GetPlacedOrderTotalPrice();
+
+                String result = loItmCart.PlaceOrder(loProdcts, fcDirectxx);
+                if(result == null) {
+                    lsMessage = loItmCart.getMessage();
+                    return null;
+                }
+
+                loItmCart.ImportPurchases();
+
+                JSONObject loResult = new JSONObject();
+                loResult.put("sTransNox", result);
+                loResult.put("nTrantotl", lnTotalPrce);
+                return loResult.toString();
             } catch (Exception e) {
                 e.printStackTrace();
                 lsMessage = e.getMessage();
-                return false;
+                return null;
             }
         }
 
@@ -173,12 +181,12 @@ public class VMPlaceOrder extends AndroidViewModel {
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if(aBoolean) {
-                loCallBck.onSuccess(lsMessage);
-            } else {
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if(result == null) {
                 loCallBck.onFailed(lsMessage);
+            } else {
+                loCallBck.onSuccess(result);
             }
         }
     }

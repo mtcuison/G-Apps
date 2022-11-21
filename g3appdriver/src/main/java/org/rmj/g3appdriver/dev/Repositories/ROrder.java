@@ -39,7 +39,6 @@ public class ROrder {
 
     private JSONObject data;
     private String message;
-    private String TransNox;
 
     public ROrder(Context context){
         this.mContext = context;
@@ -55,10 +54,6 @@ public class ROrder {
 
     public String getMessage() {
         return message;
-    }
-
-    public String getTransNox() {
-        return TransNox;
     }
 
     public boolean AddUpdateCart(String fsLstngID, int fnQuantity){
@@ -238,7 +233,7 @@ public class ROrder {
         }
     }
 
-    public boolean PlaceOrder(List<DItemCart.oMarketplaceCartItem> foItemLst, boolean fcDirect){
+    public String PlaceOrder(List<DItemCart.oMarketplaceCartItem> foItemLst, boolean fcDirect){
         try {
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             JSONArray jaDetail = new JSONArray();
@@ -265,27 +260,26 @@ public class ROrder {
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
                 message = "Unable to retrieve server response.";
-                return false;
-            } else {
-                Log.d(TAG, "Server Response : " + lsResponse);
-                JSONObject loResponse = new JSONObject(lsResponse);
-                String lsResult = loResponse.getString("result");
-                if(!lsResult.equalsIgnoreCase("success")){
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    message = loError.getString("message");
-                    return false;
-                } else {
-                    for(int x = 0; x < foItemLst.size(); x++){
-                        poCartDao.DeleteCartItem(foItemLst.get(x).sListIDxx);
-                    }
-                    TransNox = loResponse.getString("sTransNox");
-                    return true;
-                }
+                return null;
             }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(!lsResult.equalsIgnoreCase("success")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return null;
+            }
+
+            for(int x = 0; x < foItemLst.size(); x++){
+                poCartDao.DeleteCartItem(foItemLst.get(x).sListIDxx);
+            }
+
+            return loResponse.getString("sTransNox");
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 
@@ -472,6 +466,10 @@ public class ROrder {
 
     public LiveData<Double> GetSelectedItemCartTotalPrice(){
         return poCartDao.GetSelectedItemCartTotalPrice();
+    }
+
+    public Double GetPlacedOrderTotalPrice(){
+        return poCartDao.GetPlacedOrderTotalPrice();
     }
 
     public LiveData<Integer> GetSelectedItemCartTotalCount(){

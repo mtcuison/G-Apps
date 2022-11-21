@@ -46,7 +46,9 @@ public interface DOrderMaster {
     @Query("SELECT a.sTransNox, " +
             "a.cTranStat, " +
             "a.nTranTotl, " +
+            "a.nFreightx, " +
             "a.nAmtPaidx, " +
+            "a.nDiscount, " +
             "CASE WHEN a.nProcPaym = '0.00' THEN a.nTranTotl ELSE a.nProcPaym END nProcPaym, " +
             "a.sTermCode, " +
             "b.nEntryNox, " +
@@ -69,17 +71,18 @@ public interface DOrderMaster {
             "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetOrderHistoryList();
 
-    @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
-            "WHERE sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
-            "AND sTermCode == '' " +
-            "OR cPaymType == '2' " +
-            "AND sTermCode = 'C0W2011' " +
-            "AND nTranTotl > (SELECT " +
+    @Query("SELECT COUNT(a.sTransNox) FROM MarketPlace_Order_Master a " +
+            "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND a.sTermCode == '' " +
+            "AND a.cTranStat == '0' " +
+            "OR a.cPaymType == '2' " +
+            "AND a.sTermCode = 'C0W2011' " +
+            "AND a.nTranTotl > (SELECT " +
             "CASE WHEN nProcPaym = '0.00' " +
             "THEN nTranTotl " +
             "ELSE nProcPaym " +
-            "END nProcPaym FROM MarketPlace_Order_Master WHERE cPaymType = '2' AND sTermCode = 'C0W2011' AND cTranStat = '0') " +
-            "AND cTranStat == '0'")
+            "END nProcPaym FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox AND  cPaymType = '2' AND sTermCode = 'C0W2011' AND cTranStat = '0') " +
+            "AND a.cTranStat == '0'")
     LiveData<Integer> GetToPayOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
@@ -109,7 +112,9 @@ public interface DOrderMaster {
     @Query("SELECT a.sTransNox, " +
             "a.cTranStat, " +
             "a.nTranTotl, " +
+            "a.nFreightx, " +
             "a.nAmtPaidx, " +
+            "a.nDiscount, " +
             "CASE WHEN a.nProcPaym = '0.00' THEN a.nTranTotl ELSE a.nProcPaym END nProcPaym, " +
             "a.sTermCode, " +
             "b.nEntryNox, " +
@@ -135,7 +140,9 @@ public interface DOrderMaster {
     @Query("SELECT a.sTransNox, " +
             "a.cTranStat, " +
             "a.nTranTotl, " +
+            "a.nFreightx, " +
             "a.nAmtPaidx, " +
+            "a.nDiscount, " +
             "CASE WHEN a.nProcPaym = '0.00' THEN a.nTranTotl ELSE a.nProcPaym END nProcPaym, " +
             "a.sTermCode, " +
             "b.nEntryNox, " +
@@ -156,12 +163,13 @@ public interface DOrderMaster {
             "ON b.sStockIDx = c.sStockIDx " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.sTermCode == '' " +
+            "AND a.cTranStat == '0' " +
             "OR a.cPaymType == '2' " +
             "AND a.nTranTotl > (SELECT " +
             "CASE WHEN nProcPaym = '0.00' " +
             "THEN nTranTotl " +
             "ELSE nProcPaym " +
-            "END nProcPaym FROM MarketPlace_Order_Master WHERE cPaymType = '2' AND sTermCode = 'C0W2011' AND cTranStat = '0') " +
+            "END nProcPaym FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox AND cPaymType = '2' AND sTermCode = 'C0W2011' AND cTranStat = '0') " +
             "AND a.sTermCode = 'C0W2011' " +
             "AND a.cTranStat == '0' " +
             "GROUP BY a.sTransNox " +
@@ -173,13 +181,15 @@ public interface DOrderMaster {
             " IFNULL(a.dExpected, ''), dExpected," +
             " a.sReferNox," +
             " a.nTranTotl," +
+            " a.nFreightx," +
+            " a.nDiscount," +
             " CASE WHEN a.nProcPaym = '0.00' THEN a.nTranTotl ELSE a.nProcPaym END nProcPaym," +
             "(SELECT "+
             "CASE WHEN sTermCode = '' THEN 1 "+
-            "ELSE 0 END cUnPaidxx FROM MarketPlace_Order_Master) cUnPaidxx, "+
+            "ELSE 0 END cUnPaidxx FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox) cUnPaidxx, "+
             "(SELECT CASE "+
-            "WHEN nTranTotl > (SELECT CASE nProcPaym WHEN '0.00' THEN nTranTotl ELSE nProcPaym END cNeedPaym FROM MarketPlace_Order_Master) "+
-            "THEN 1 ELSE 0 END cNeedPaym FROM MarketPlace_Order_Master) cNeedPaym, "+
+            "WHEN nTranTotl > (SELECT CASE nProcPaym WHEN '0.00' THEN nTranTotl ELSE nProcPaym END cNeedPaym FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox) "+
+            "THEN 1 ELSE 0 END cNeedPaym FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox) cNeedPaym, "+
             " a.nAmtPaidx," +
             " a.sTermCode," +
             " a.cTranStat," +
@@ -198,11 +208,14 @@ public interface DOrderMaster {
             " WHERE a.sTransNox =:fsVal")
     LiveData<DetailedOrderHistory> GetDetailOrderHistory(String fsVal);
 
+
+
     //POJO use for list
     class OrderHistory{
         public String sTransNox;
         public String cTranStat;
         public String nTranTotl;
+        public String nFreightx;
         public String nAmtPaidx;
         public String nProcPaym;
         public String sTermCode;
@@ -225,6 +238,8 @@ public interface DOrderMaster {
         public String dExpected;
         public String sReferNox;
         public String nTranTotl;
+        public String nDiscount;
+        public String nFreightx;
         public String nProcPaym;
         public String cUnPaidxx;
         public String cNeedPaym;

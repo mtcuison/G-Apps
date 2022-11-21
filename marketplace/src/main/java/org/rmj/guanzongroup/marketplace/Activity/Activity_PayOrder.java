@@ -26,19 +26,32 @@ public class Activity_PayOrder extends AppCompatActivity {
     private ActivityPayOrderBinding binding;
     private VMPayOrder mViewModel;
 
+    private String TransNox;
+
+    private double pnOrderAmnt;
+
     private Fragment[] poPages = new Fragment[] {
             new Fragment_PaymentSelection(),
             new Fragment_PaymentInfo()
     };
 
+    public String getTransNox(){
+        return TransNox;
+    }
+
+    public double getOrderAmount(){
+        return pnOrderAmnt;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = Activity_PayOrder.this;
+        TransNox = getIntent().getStringExtra("sTransNox");
+        pnOrderAmnt = Double.parseDouble(getIntent().getStringExtra("nSubTotal"));
+        mViewModel = new ViewModelProvider(Activity_PayOrder.this).get(VMPayOrder.class);
         binding = ActivityPayOrderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        instance = Activity_PayOrder.this;
-        mViewModel = new ViewModelProvider(Activity_PayOrder.this).get(VMPayOrder.class);
 
         setSupportActionBar(binding.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -64,7 +77,6 @@ public class Activity_PayOrder extends AppCompatActivity {
 
     private void setExtra() {
         if(getIntent().hasExtra("sTransNox")) {
-            mViewModel.setTransactionNumber(Objects.requireNonNull(getIntent().getStringExtra("sTransNox")));
             if(getIntent().hasExtra("oPayMethd")) {
                 mViewModel.setPaymentMethod((PaymentMethod) Objects.requireNonNull(
                         getIntent().getSerializableExtra("oPayMethd")

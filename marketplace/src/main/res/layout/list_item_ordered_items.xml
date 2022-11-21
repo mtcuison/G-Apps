@@ -30,23 +30,17 @@
                 android:layout_height="wrap_content"
                 android:text="Samsung"/>
 
-            <TextView
-                android:id="@+id/lbl_itemDiscount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Discount -5%"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:id="@+id/lbl_itemPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".7"
-                    android:text="Php. 25,000.00"/>
+                    android:layout_weight=".7"/>
 
                 <TextView
                     android:id="@+id/lbl_itemQuantity"
