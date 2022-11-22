@@ -135,7 +135,7 @@ public class Activity_SearchItem extends AppCompatActivity {
                 if(products.size() > 0) {
                     Adapter_ProductList loAdapter = new Adapter_ProductList(products, listingId -> {
                         Intent loIntent = new Intent(this, Activity_ProductOverview.class);
-                        loIntent.putExtra("sListingId", listingId);
+                        loIntent.putExtra("sListngId", listingId);
                         startActivity(loIntent);
                     });
                     mBinding.rvSuggest.setLayoutManager(new GridLayoutManager(this,
@@ -168,7 +168,7 @@ public class Activity_SearchItem extends AppCompatActivity {
                             mBinding.textView.setVisibility(View.GONE);
                             loAdapter = new Adapter_ProductList(oProducts, fsListIdx -> {
                                 Intent loIntent = new Intent(Activity_SearchItem.this, Activity_ProductOverview.class);
-                                loIntent.putExtra("sListingId", fsListIdx);
+                                loIntent.putExtra("sListngId", fsListIdx);
                                 startActivity(loIntent);
                             });
                             mBinding.recyclrVw.setAdapter(loAdapter);

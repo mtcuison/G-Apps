@@ -165,7 +165,7 @@ public class VMPlaceOrder extends AndroidViewModel {
 
                 JSONObject loResult = new JSONObject();
                 loResult.put("sTransNox", result);
-                loResult.put("nTrantotl", lnTotalPrce);
+                loResult.put("nTrantotl", lnTotalPrce + 100);
                 return loResult.toString();
             } catch (Exception e) {
                 e.printStackTrace();

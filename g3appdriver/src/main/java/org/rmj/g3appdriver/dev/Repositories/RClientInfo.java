@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import org.rmj.apprdiver.util.WebFile;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmailInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EMobileInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
@@ -100,6 +102,14 @@ public class RClientInfo {
 
     public LiveData<DClientInfo.ClientDetail> GetClientDetailForPreview(){
         return poDao.GetClientDetailForPreview();
+    }
+
+    public EEmailInfo GetEmailInfo(String args){
+        return poDao.GetEmailInfo(args);
+    }
+
+    public EMobileInfo GetMobileInfo(String args){
+        return poDao.GetMobileInfo(args);
     }
 
     public String getClientId() {

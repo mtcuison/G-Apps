@@ -8,6 +8,8 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmailInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EMobileInfo;
 
 import java.util.List;
 
@@ -136,6 +138,12 @@ public interface DClientInfo {
             "a.cVerified FROM Client_Profile_Info a " +
             "LEFT JOIN Town_Info b ON a.sBirthPlc = b.sTownIDxx LEFT JOIN Province_Info c ON b.sProvIDxx = c.sProvIDxx")
     LiveData<ClientDetail> GetClientDetailForPreview();
+
+    @Query("SELECT * FROM Client_Email_Info WHERE sEmailAdd =:args")
+    EEmailInfo GetEmailInfo(String args);
+
+    @Query("SELECT * FROM App_User_Mobile WHERE sMobileNo =:args")
+    EMobileInfo GetMobileInfo(String args);
 
     class ClientBSAddress{
         public String sHouseNo1;

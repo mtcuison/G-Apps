@@ -234,7 +234,7 @@ public class Activity_PlaceOrder extends AppCompatActivity {
                     JSONObject loResult = new JSONObject(result);
                     Intent loIntent = new Intent(Activity_PlaceOrder.this, Activity_PayOrder.class);
                     loIntent.putExtra("sTransNox", loResult.getString("sTransNox"));
-                    loIntent.putExtra("nSubTotal", loResult.getString("nTrantotl"));
+                    loIntent.putExtra("nSubTotal", Double.parseDouble(loResult.getString("nTrantotl")));
                     loIntent.putExtra("nShipFeex", nShipFee);
                     Log.d(TAG, "Arguments: " + result);
                     Log.d(TAG, "SubTotal: " + loResult.getString("nTrantotl"));

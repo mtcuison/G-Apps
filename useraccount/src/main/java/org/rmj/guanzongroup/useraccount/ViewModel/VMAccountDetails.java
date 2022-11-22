@@ -15,6 +15,8 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmailInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EMobileInfo;
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
@@ -521,5 +523,63 @@ public class VMAccountDetails extends AndroidViewModel {
         void onLoading();
         void onSuccess(String fsMessage);
         void onFailed(String fsMessage);
+    }
+
+    public interface OnRetrieveEmailInfo{
+        void OnRetrieve(EEmailInfo args);
+    }
+
+    public interface OnRetrieveMobileInfo{
+        void OnRetrieve(EMobileInfo args);
+    }
+
+    public void GetEmailInfo(String args, OnRetrieveEmailInfo listener){
+        new GetEmailTask(listener).execute(args);
+    }
+
+    public void GetMobileInfo(String args, OnRetrieveMobileInfo listener){
+        new GetMobileTask(listener).execute(args);
+    }
+
+    private class GetEmailTask extends AsyncTask<String, Void, EEmailInfo>{
+
+        private final OnRetrieveEmailInfo mListener;
+
+        public GetEmailTask(OnRetrieveEmailInfo mListener) {
+            this.mListener = mListener;
+        }
+
+        @Override
+        protected EEmailInfo doInBackground(String... strings) {
+            EEmailInfo loResult = poClientx.GetEmailInfo(strings[0]);
+            return loResult;
+        }
+
+        @Override
+        protected void onPostExecute(EEmailInfo eEmailInfo) {
+            super.onPostExecute(eEmailInfo);
+            mListener.OnRetrieve(eEmailInfo);
+        }
+    }
+
+    private class GetMobileTask extends AsyncTask<String, Void, EMobileInfo>{
+
+        private final OnRetrieveMobileInfo mListener;
+
+        public GetMobileTask(OnRetrieveMobileInfo mListener) {
+            this.mListener = mListener;
+        }
+
+        @Override
+        protected EMobileInfo doInBackground(String... strings) {
+            EMobileInfo loResult = poClientx.GetMobileInfo(strings[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(EMobileInfo eMobileInfo) {
+            super.onPostExecute(eMobileInfo);
+            mListener.OnRetrieve(eMobileInfo);
+        }
     }
 }

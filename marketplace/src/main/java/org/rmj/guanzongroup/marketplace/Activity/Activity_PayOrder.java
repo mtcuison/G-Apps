@@ -48,7 +48,7 @@ public class Activity_PayOrder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         instance = Activity_PayOrder.this;
         TransNox = getIntent().getStringExtra("sTransNox");
-        pnOrderAmnt = Double.parseDouble(getIntent().getStringExtra("nSubTotal"));
+        pnOrderAmnt = getIntent().getDoubleExtra("nSubTotal", 0.00);
         mViewModel = new ViewModelProvider(Activity_PayOrder.this).get(VMPayOrder.class);
         binding = ActivityPayOrderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

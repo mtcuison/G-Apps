@@ -130,10 +130,12 @@ public class Fragment_FindUs extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch(tab.getPosition()) {
                     case 0:
+//                        imgHeader.setImageResource(R.mipmap.ic_motorcycle_banner);
                         initMCBranches();
                         recyclerView.setAdapter(poAdapter);
                         break;
                     case 1:
+//                        imgHeader.setImageResource(R.mipmap.ic_mobitek_banner);
                         initMPBranches();
                         recyclerView.setAdapter(poAdapter);
                         break;

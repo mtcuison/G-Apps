@@ -183,13 +183,22 @@ public interface DOrderMaster {
             " a.nTranTotl," +
             " a.nFreightx," +
             " a.nDiscount," +
-            " CASE WHEN a.nProcPaym = '0.00' THEN a.nTranTotl ELSE a.nProcPaym END nProcPaym," +
+            " CASE WHEN a.nProcPaym = '0.00' " +
+            "THEN a.nTranTotl " +
+            "ELSE a.nProcPaym " +
+            "END nProcPaym," +
             "(SELECT "+
-            "CASE WHEN sTermCode = '' THEN 1 "+
-            "ELSE 0 END cUnPaidxx FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox) cUnPaidxx, "+
+            "CASE WHEN sTermCode = '' " +
+            "THEN 1 "+
+            "ELSE 0 END cUnPaidxx FROM MarketPlace_Order_Master " +
+            "WHERE sTransNox = a.sTransNox) cUnPaidxx, "+
             "(SELECT CASE "+
-            "WHEN nTranTotl > (SELECT CASE nProcPaym WHEN '0.00' THEN nTranTotl ELSE nProcPaym END cNeedPaym FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox) "+
-            "THEN 1 ELSE 0 END cNeedPaym FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox) cNeedPaym, "+
+            "WHEN nTranTotl > (SELECT CASE nProcPaym WHEN '0.00' " +
+            "THEN nTranTotl " +
+            "ELSE nProcPaym END cNeedPaym FROM MarketPlace_Order_Master " +
+            "WHERE sTransNox = a.sTransNox) "+
+            "THEN 1 ELSE 0 END cNeedPaym FROM MarketPlace_Order_Master " +
+            "WHERE sTransNox = a.sTransNox) cNeedPaym, "+
             " a.nAmtPaidx," +
             " a.sTermCode," +
             " a.cTranStat," +
@@ -250,4 +259,5 @@ public interface DOrderMaster {
         public String sAddressx;
         public String sMobileNo;
     }
+
 }

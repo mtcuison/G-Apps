@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 
 import com.kofigyan.stateprogressbar.StateProgressBar;
 
+import org.rmj.g3appdriver.dev.Database.Entities.EEmailInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EMobileInfo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.Adapter.Adapter_AccountDetails;
@@ -76,41 +79,57 @@ public class Activity_AccountDetails extends AppCompatActivity {
 
     private void setAdapter() {
         try {
-            mViewModel.GetClientDetailForPreview().observe(this, eClientInfo -> {
+            mViewModel.GetClientDetailForPreview().observe(this, clientInfo -> {
                 try {
                     TextView lblUserNm = findViewById(R.id.lbl_username);
-                    lblUserNm.setText(eClientInfo.sUserName);
+                    lblUserNm.setText(clientInfo.sUserName);
+
+                    if(clientInfo.cVerified.equalsIgnoreCase("1")) {
+                        Drawable img = Activity_AccountDetails.this.getResources().getDrawable(R.drawable.ic_baseline_verified_user_24);
+                        img.setBounds(0, 0, 60, 60);
+                        lblUserNm.setCompoundDrawables(null, null, img, null);
+                    }
 
                     TextView lblUserID = findViewById(R.id.lbl_appID);
-                    lblUserID.setText(eClientInfo.sUserIDxx);
+                    lblUserID.setText(clientInfo.sUserIDxx);
 
                     TextView lblFullNm = findViewById(R.id.lbl_fullName);
-                    String lsFullNme = eClientInfo.sLastName + ", " + eClientInfo.sFrstName;
-                    if(!eClientInfo.sMiddName.trim().isEmpty()){
-                        lsFullNme = lsFullNme + " " + eClientInfo.sMiddName;
+                    String lsFullNme = clientInfo.sLastName + ", " + clientInfo.sFrstName;
+                    if(!clientInfo.sMiddName.trim().isEmpty()){
+                        lsFullNme = lsFullNme + " " + clientInfo.sMiddName;
                     }
-                    if(!eClientInfo.sSuffixNm.trim().isEmpty()){
-                        lsFullNme = lsFullNme + ", " + eClientInfo.sSuffixNm;
+                    if(!clientInfo.sSuffixNm.trim().isEmpty()){
+                        lsFullNme = lsFullNme + ", " + clientInfo.sSuffixNm;
                     }
                     lblFullNm.setText(lsFullNme);
 
                     TextView lblGender = findViewById(R.id.lbl_gender);
-                    String lsGenderx = mViewModel.getGenderList().get(Integer.parseInt(eClientInfo.cGenderCd));
+                    String lsGenderx = mViewModel.getGenderList().get(Integer.parseInt(clientInfo.cGenderCd));
                     lblGender.setText(lsGenderx);
 
                     TextView lblCvilSt = findViewById(R.id.lbl_civilStatus);
-                    String lsCivilSt = mViewModel.getCivilStatusList().get(Integer.parseInt(eClientInfo.cCvilStat));
+                    String lsCivilSt = mViewModel.getCivilStatusList().get(Integer.parseInt(clientInfo.cCvilStat));
                     lblCvilSt.setText(lsCivilSt);
 
                     TextView lblBirthP = findViewById(R.id.lbl_birthPlace);
-                    lblBirthP.setText(eClientInfo.sBirthPlc);
+                    lblBirthP.setText(clientInfo.sBirthPlc);
 
                     TextView lblBirthD = findViewById(R.id.lbl_birthDate);
-                    String lsBirthDt = mViewModel.getDate(eClientInfo.dBirthDte);
+                    String lsBirthDt = mViewModel.getDate(clientInfo.dBirthDte);
                     lblBirthD.setText(lsBirthDt);
 
                     TextView lblEmailx = findViewById(R.id.lbl_email);
-                    lblEmailx.setText(eClientInfo.sEmailAdd);
+                    lblEmailx.setText(clientInfo.sEmailAdd);
+                    mViewModel.GetEmailInfo(clientInfo.sEmailAdd, args -> {
+                        if(args != null){
+                            if(args.getIsVerifd() == 1){
+                                Drawable img = Activity_AccountDetails.this.getResources().getDrawable(R.drawable.ic_baseline_verified_24);
+                                img.setBounds(0, 0, 60, 60);
+                                lblEmailx.setCompoundDrawables(null, null, img, null);
+                            }
+                        }
+                    });
+
                     findViewById(R.id.lbl_editEmail).setOnClickListener(v -> {
                         Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
                         loIntent.putExtra("sUpdatexx", 0);
@@ -118,7 +137,20 @@ public class Activity_AccountDetails extends AppCompatActivity {
                     });
 
                     TextView lblMobile = findViewById(R.id.lbl_mobile);
-                    lblMobile.setText(eClientInfo.sMobileNo);
+                    lblMobile.setText(clientInfo.sMobileNo);
+                    mViewModel.GetMobileInfo(clientInfo.sMobileNo, new VMAccountDetails.OnRetrieveMobileInfo() {
+                        @Override
+                        public void OnRetrieve(EMobileInfo args) {
+                            if(args != null){
+                                if(args.getVerified().equalsIgnoreCase("1")){
+                                    Drawable img = Activity_AccountDetails.this.getResources().getDrawable(R.drawable.ic_baseline_verified_24);
+                                    img.setBounds(0, 0, 60, 60);
+                                    lblMobile.setCompoundDrawables(null, null, img, null);
+                                }
+                            }
+                        }
+                    });
+
                     findViewById(R.id.lbl_editMobileNo).setOnClickListener(v -> {
                         Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_AccountUpdate.class);
                         loIntent.putExtra("sUpdatexx", 1);
@@ -131,7 +163,7 @@ public class Activity_AccountDetails extends AppCompatActivity {
                         startActivity(loIntent);
                     });
 
-//                    if(!eClientInfo.cVerified.equalsIgnoreCase("1")){
+//                    if(!clientInfo.cVerified.equalsIgnoreCase("1")){
 //                        findViewById(R.id.btnVerify).setVisibility(View.VISIBLE);
 //                    }
 
