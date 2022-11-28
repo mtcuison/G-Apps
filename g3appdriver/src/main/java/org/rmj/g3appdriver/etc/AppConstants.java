@@ -170,7 +170,7 @@ public class AppConstants {
             case "C001002":
                 return "Cash On Delivery";
             default:
-                return "Online Payment (GCash or PAYMaya)";
+                return "Online Payment (GCash or Maya)";
         }
     }
 }

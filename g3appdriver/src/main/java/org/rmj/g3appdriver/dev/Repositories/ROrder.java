@@ -508,8 +508,8 @@ public class ROrder {
                     param.put("sTermCode", "COD"); //payment term : PayMaya
                     param.put("sReferNox", fsReferNo);
                     break;
-                case PayMaya:
-                    param.put("sTermCode", "PAYMAYA");//payment term : PayMaya
+                case Maya:
+                    param.put("sTermCode", "MAYA");//payment term : PayMaya
                     param.put("sReferNox", fsReferNo);
                     break;
                 default:
