@@ -2,6 +2,7 @@ package org.rmj.g3appdriver.lib.Account;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -34,9 +35,9 @@ public class AccountAuthentication {
     public interface OnLoginCallback{
         void OnSuccessLogin(String message);
         void OnFailedLogin(String message);
+        void OnAccountVerification(String args, String args1);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void LoginAccount(LoginCredentials credentials, OnLoginCallback callback) throws Exception{
          if (!credentials.isDataValid()) {
             callback.OnFailedLogin(credentials.getMessage());
@@ -51,18 +52,14 @@ public class AccountAuthentication {
                     AccountInfo loInfo = new AccountInfo(mContext);
                     loInfo.setUserID(loResponse.getString("sUserIDxx"));
                     loInfo.setFullName(loResponse.getString("sUserName"));
-                    loInfo.setEmailAdd(loResponse.getString("sEmailAdd"));
+//                    loInfo.setEmailAdd(loResponse.getString("sEmailAdd"));
                     loInfo.setLoginStatus(true);
 
                     EClientInfo loClient = new EClientInfo();
 
-                    loClient.setLastName("");
-                    loClient.setFrstName("");
-                    loClient.setMiddName("");
-                    loClient.setSuffixNm("");
                     loClient.setDateMmbr(loResponse.getString("dCreatedx"));
-                    loClient.setLoginxxx(new AppConstants().GCARD_DATE_TIME);
                     loClient.setEmailAdd(loResponse.getString("sEmailAdd"));
+                    loClient.setUserName(loResponse.getString("sUserName"));
                     loClient.setMobileNo(loResponse.getString("sMobileNo"));
                     loClient.setUserIDxx(loResponse.getString("sUserIDxx"));
                     poClient.insert(loClient);
@@ -70,7 +67,14 @@ public class AccountAuthentication {
                 } else {
                     JSONObject loError = loResponse.getJSONObject("error");
                     String lsMessage = loError.getString("message");
-                    callback.OnFailedLogin(lsMessage);
+                    String lsCode = loError.getString("code");
+                    if(lsCode.equalsIgnoreCase("40003")){
+                        String lsOtp = loResponse.getString("otp");
+                        String lsVfy = loResponse.getString("verify");
+                        callback.OnAccountVerification(lsOtp, lsVfy);
+                    } else {
+                        callback.OnFailedLogin(lsMessage);
+                    }
                 }
             }
         }
@@ -134,6 +138,7 @@ public class AccountAuthentication {
         private String sPassword = "";
         private String sPasswrd2 = "";
         private String sMobileNo = "";
+        private String cAgreeTnC = "";
 
         private String message;
 
@@ -184,6 +189,14 @@ public class AccountAuthentication {
             this.sPasswrd2 = sPasswrd2;
         }
 
+        public String getcAgreeTnC() {
+            return cAgreeTnC;
+        }
+
+        public void setcAgreeTnC(String cAgreeTnC) {
+            this.cAgreeTnC = cAgreeTnC;
+        }
+
         public boolean isDataValid(){
             if(sUserName.isEmpty()){
                 message = "Please enter username";
@@ -212,6 +225,9 @@ public class AccountAuthentication {
             } else if(!sPassword.equals(sPasswrd2)){
                 message = "Passwords does not match";
                 return false;
+            } else if(!cAgreeTnC.equalsIgnoreCase("1")){
+                message = "Please indicate that you have agree to the Terms & Conditions and Privacy Policy";
+                return false;
             } else {
                 return true;
             }
@@ -223,11 +239,11 @@ public class AccountAuthentication {
             params.put("mail", sEmailAdd);
             params.put("pswd", sPassword);
             params.put("mobile", sMobileNo);
+            params.put("cAgreeTnC", cAgreeTnC);
             return params.toString();
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void RegisterAccount(AccountCredentials credentials, OnCreateAccountCallback callback) throws Exception{
         if(!credentials.isDataValid()){
             callback.OnFailedRegister(credentials.getMessage());
@@ -237,6 +253,7 @@ public class AccountAuthentication {
             if(lsResponse == null){
                 callback.OnFailedRegister("Server no response.");
             } else {
+                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
@@ -255,7 +272,6 @@ public class AccountAuthentication {
         void OnFailedRetrieve(String message);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void RetrievePassword(String email, OnRetrievePasswordCallback callback) throws Exception{
         if(email.isEmpty()){
             callback.OnFailedRetrieve("Please enter email.");

@@ -16,14 +16,22 @@ public class EProducts {
     private String BriefDsc;
     @ColumnInfo(name = "sDescript")
     private String Descript;
+    @ColumnInfo(name = "sStockIDx")
+    private String StockIDx;
     @ColumnInfo(name = "xBarCodex")
     private String BarCodex;
     @ColumnInfo(name = "xDescript")
     private String Descrptx;
+    @ColumnInfo(name = "nRatingxx")
+    private String Ratingxx;
     @ColumnInfo(name = "xBrandNme")
     private String BrandNme;
+    @ColumnInfo(name = "sModelIDx")
+    private String ModelIDx;
     @ColumnInfo(name = "xModelNme")
     private String ModelNme;
+    @ColumnInfo(name = "sImagesxx")
+    private String Imagesxx;
     @ColumnInfo(name = "xColorNme")
     private String ColorNme;
     @ColumnInfo(name = "xCategrNm")
@@ -42,8 +50,12 @@ public class EProducts {
     private String ListStrt;
     @ColumnInfo(name = "dListEndx")
     private String ListEndx;
+    @ColumnInfo(name = "cAllwCrdt")
+    private String AllwCrdt;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
+    @ColumnInfo(name = "dTimeStmp")
+    private String TimeStmp;
 
     public EProducts() {
 
@@ -184,5 +196,53 @@ public class EProducts {
 
     public void setTranStat(String tranStat) {
         TranStat = tranStat;
+    }
+
+    public String getTimeStmp() {
+        return TimeStmp;
+    }
+
+    public void setTimeStmp(String timeStmp) {
+        TimeStmp = timeStmp;
+    }
+
+    public String getImagesxx() {
+        return Imagesxx;
+    }
+
+    public void setImagesxx(String imagesxx) {
+        Imagesxx = imagesxx;
+    }
+
+    public String getRatingxx() {
+        return Ratingxx;
+    }
+
+    public void setRatingxx(String ratingxx) {
+        Ratingxx = ratingxx;
+    }
+
+    public String getStockIDx() {
+        return StockIDx;
+    }
+
+    public void setStockIDx(String stockIDx) {
+        StockIDx = stockIDx;
+    }
+
+    public String getAllwCrdt() {
+        return AllwCrdt;
+    }
+
+    public void setAllwCrdt(String allwCrdt) {
+        AllwCrdt = allwCrdt;
+    }
+
+    public String getModelIDx() {
+        return ModelIDx;
+    }
+
+    public void setModelIDx(String modelIDx) {
+        ModelIDx = modelIDx;
     }
 }

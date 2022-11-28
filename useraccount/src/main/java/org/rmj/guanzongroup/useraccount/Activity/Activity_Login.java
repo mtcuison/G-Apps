@@ -1,10 +1,13 @@
 package org.rmj.guanzongroup.useraccount.Activity;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,17 +43,44 @@ public class Activity_Login extends AppCompatActivity {
     private TextInputEditText tieEmail, tieMobile, tiePassword;
     private MaterialButton btnLogin;
 
+    public boolean isClicked = false;
+
+    private static final int VERIFY = 111;
+
+    private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if(result.getResultCode() == VERIFY) {
+                    Intent loIntent = result.getData();
+                    if (loIntent != null) {
+                        if(loIntent.getStringExtra("result").equalsIgnoreCase("success")){
+                            acccountLogin();
+                        }
+                    } else {
+                        Toast.makeText(Activity_Login.this, "No data result receive.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+    );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         mViewModel = new ViewModelProvider(Activity_Login.this).get(VMAccountAuthentication.class);
+        setContentView(R.layout.activity_login);
         initViews();
         setUpToolbar();
         setTabLayout();
         setClickLinkListeners();
 
-        btnLogin.setOnClickListener(v -> acccountLogin());
+        btnLogin.setOnClickListener(v -> {
+            if(!isClicked) {
+                isClicked = true;
+                acccountLogin();
+            } else {
+                Toast.makeText(Activity_Login.this, "Please wait...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -106,18 +136,17 @@ public class Activity_Login extends AppCompatActivity {
     }
 
     private void acccountLogin() {
-        String lsEmailxx = Objects.requireNonNull(tieEmail.getText().toString().trim());
+        String lsEmailxx = Objects.requireNonNull(Objects.requireNonNull(tieEmail.getText()).toString().trim());
         String lsMobilex = "09171870011";
-        String lsPasswrd = Objects.requireNonNull(tiePassword.getText().toString().trim());
+        String lsPasswrd = Objects.requireNonNull(Objects.requireNonNull(tiePassword.getText()).toString().trim());
         LoginInfoModel infoModel = new LoginInfoModel(LogType.EMAIL, lsEmailxx, lsPasswrd);
         if(infoModel.isDataNotEmpty()) {
             AccountAuthentication.LoginCredentials loCrednts = new AccountAuthentication.LoginCredentials(
                     infoModel.getLogUser(),
                     infoModel.getPassword(),
-                    lsMobilex
-            );
+                    lsMobilex);
             try {
-                mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
+                mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthenticationCallback() {
                     @Override
                     public void onLoad() {
                         poLoading = new Dialog_Loading(Activity_Login.this);
@@ -127,21 +156,36 @@ public class Activity_Login extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(String fsMessage) {
+                        Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                        intent.putExtra("args", "auth");
+                        sendBroadcast(intent);
                         poLoading.dismiss();
-                        poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Log In", fsMessage, dialog -> {
-                            dialog.dismiss();
-                            finish();
-                        });
-                        poDialogx.show();
+                        isClicked = false;
+                        finish();
                     }
 
                     @Override
                     public void onFailed(String fsMessage) {
                         poLoading.dismiss();
                         poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Log in Failed", fsMessage, dialog -> dialog.dismiss());
+                        poDialogx.initDialog("Log in Failed", fsMessage, () -> {
+                            isClicked = false;
+                            poDialogx.dismiss();
+                        });
                         poDialogx.show();
+                    }
+
+                    @Override
+                    public void onVerifiy(String args1, String args2) {
+                        poLoading.dismiss();
+                        Log.d("Activation OTP", args1);
+                        Intent loIntent = new Intent(Activity_Login.this, Activity_AccountVerification.class);
+                        loIntent.putExtra("otp", args1);
+                        loIntent.putExtra("verify", args2);
+                        loIntent.putExtra("email", lsEmailxx);
+                        loIntent.putExtra("passw", lsPasswrd);
+                        isClicked = false;
+                        poArl.launch(loIntent);
                     }
                 });
             } catch (Exception e) {
@@ -149,7 +193,10 @@ public class Activity_Login extends AppCompatActivity {
             }
         } else {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Log in Failed", infoModel.getMessage(), dialog -> dialog.dismiss());
+            poDialogx.initDialog("Log in Failed", infoModel.getMessage(), () -> {
+                isClicked = false;
+                poDialogx.dismiss();
+            });
             poDialogx.show();
         }
     }

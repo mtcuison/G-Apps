@@ -27,6 +27,7 @@ import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RAddressMobile {
     private static final String TAG = RAddressMobile.class.getSimpleName();
@@ -86,6 +87,10 @@ public class RAddressMobile {
 
     public LiveData<String> ParseTownID(String fsValue){
         return poDao.GetTownProvName(fsValue);
+    }
+
+    public LiveData<String> GetFullAddressName(String fsBrgyID){
+        return poDao.GetFullAddressName(fsBrgyID);
     }
 
     public ArrayList<String> getBarangayForInput(List<EBarangayInfo> foList){
@@ -308,7 +313,7 @@ public class RAddressMobile {
     public boolean AddShipAddress(EAddressInfo foValue){
         try{
             EClientInfo loClient = GGC_GuanzonAppDB.getInstance(mContext).EClientDao().GetUserInfo();
-            String fsTransNo = GenerateNewAddressID();
+            String fsTransNo = String.valueOf(ThreadLocalRandom.current().nextInt());
             if(!fsTransNo.isEmpty()) {
                 foValue.setTransNox(fsTransNo);
             } else {
@@ -318,7 +323,7 @@ public class RAddressMobile {
 
             //Save new Address Update.
             DMobileAddressInfo loDao = GGC_GuanzonAppDB.getInstance(mContext).mobAddDao();
-            foValue.setSourceCD("MCpl");
+            foValue.setSourceCD("MPlc");
             foValue.setSourceNo(loClient.getClientID());
             loDao.SaveAddress(foValue);
             Log.d(TAG, "New address info has been save successfully.");
@@ -326,21 +331,21 @@ public class RAddressMobile {
             JSONObject param = new JSONObject();
             param.put("sTransNox", foValue.getTransNox());
             param.put("sClientID", foValue.getClientID());
-            param.put("cReqstCDe", foValue.getReqstCDe());
-            param.put("cAddrssTp", foValue.getAddrssTp());
+            param.put("cReqstCDe", foValue.getReqstCDe()); // 0-> Change, 1->Update, 2-> New
+            param.put("cAddrssTp", foValue.getAddrssTp()); // 0-> Present, 1-> Permanent
             param.put("sHouseNox", foValue.getHouseNox());
             param.put("sAddressx", foValue.getAddressx());
             param.put("sTownIDxx", foValue.getTownIDxx());
             param.put("sBrgyIDxx", foValue.getBrgyIDxx());
-            param.put("cPrimaryx", foValue.getPrimaryx());
-            param.put("nLatitude", "");
-            param.put("nLongitud", "");
+            param.put("cPrimaryx", foValue.getPrimaryx()); //0-> false, 1-> true
+            param.put("nLatitude", "0.0");
+            param.put("nLongitud", "0.0");
             param.put("sRemarksx", foValue.getRemarksx());
             param.put("sSourceCD", foValue.getSourceCD());
             param.put("sSourceNo", foValue.getSourceNo());
 
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
-            String lsAddress = loApis.getImportCountriesAPI();
+            String lsAddress = loApis.getAddressUpdateRequestAPI();
             String lsResponse = WebClient.httpsPostJSon(lsAddress, param.toString(), new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
                 message = "Server no response";
@@ -371,9 +376,9 @@ public class RAddressMobile {
     public boolean AddContactInfo(EMobileInfo foValue){
         try{
             EClientInfo loClient = GGC_GuanzonAppDB.getInstance(mContext).EClientDao().GetUserInfo();
-            String fsTransNo = GenerateNewContactID();
+            String fsTransNo = String.valueOf(ThreadLocalRandom.current().nextInt());
             if(!fsTransNo.isEmpty()) {
-                foValue.setTransNox(fsTransNo);
+//                foValue.setTransNox(fsTransNo);
             } else {
                 message = "Unable to generate local id for new address. " + getMessage();
                 return false;
@@ -381,28 +386,29 @@ public class RAddressMobile {
 
             //Save new Address Update.
             DMobileAddressInfo loDao = GGC_GuanzonAppDB.getInstance(mContext).mobAddDao();
-            foValue.setSourceCD("MCpl");
-            foValue.setSourceNo(loClient.getClientID());
+//            foValue.setSourceCD("MPlc");
+//            foValue.setSourceNo(loClient.getClientID());
             loDao.SaveMobile(foValue);
             Log.d(TAG, "New contact info has been save successfully.");
 
             JSONObject param = new JSONObject();
-            param.put("sTransNox", foValue.getTransNox());
-            param.put("sClientID", foValue.getClientID());
-            param.put("cReqstCDe", foValue.getReqstCDe());
+//            param.put("sTransNox", foValue.getTransNox());
+//            param.put("sClientID", foValue.getClientID());
+//            param.put("cReqstCDe", foValue.getReqstCDe());
             param.put("sMobileNo", foValue.getMobileNo());
-            param.put("cPrimaryx", foValue.getPrimaryx());
-            param.put("sRemarksx", foValue.getRemarksx());
-            param.put("sSourceCD", foValue.getSourceCD());
-            param.put("sSourceNo", foValue.getSourceNo());
+//            param.put("cPrimaryx", foValue.getPrimaryx());
+//            param.put("sRemarksx", foValue.getRemarksx());
+//            param.put("sSourceCD", foValue.getSourceCD());
+//            param.put("sSourceNo", foValue.getSourceNo());
 
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
-            String lsAddress = loApis.getImportCountriesAPI();
+            String lsAddress = loApis.getMobileUpdateRequestAPI();
             String lsResponse = WebClient.httpsPostJSon(lsAddress, param.toString(), new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
                 message = "Server no response";
                 return false;
             } else {
+                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if(!lsResult.equalsIgnoreCase("success")){
@@ -413,7 +419,7 @@ public class RAddressMobile {
                 } else {
                     Log.d(TAG, "New contact info has been uploaded successfully.");
                     String lsTransNo = loResponse.getString("sTransNox");
-                    loDao.UpdateNewContactID(foValue.getTransNox(),lsTransNo);
+//                    loDao.UpdateNewContactID(foValue.getTransNox(),lsTransNo);
                     Log.d(TAG, "New contact info has been updated successfully.");
 
                     return true;
@@ -486,14 +492,14 @@ public class RAddressMobile {
             Log.d(TAG, "New contact info has been save successfully.");
 
             JSONObject param = new JSONObject();
-            param.put("sTransNox", foValue.getTransNox());
-            param.put("sClientID", foValue.getClientID());
-            param.put("cReqstCDe", foValue.getReqstCDe());
+//            param.put("sTransNox", foValue.getTransNox());
+//            param.put("sClientID", foValue.getClientID());
+//            param.put("cReqstCDe", foValue.getReqstCDe());
             param.put("sMobileNo", foValue.getMobileNo());
-            param.put("cPrimaryx", foValue.getPrimaryx());
-            param.put("sRemarksx", foValue.getRemarksx());
-            param.put("sSourceCD", foValue.getSourceCD());
-            param.put("sSourceNo", foValue.getSourceNo());
+//            param.put("cPrimaryx", foValue.getPrimaryx());
+//            param.put("sRemarksx", foValue.getRemarksx());
+//            param.put("sSourceCD", foValue.getSourceCD());
+//            param.put("sSourceNo", foValue.getSourceNo());
 
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             String lsAddress = loApis.getImportCountriesAPI();
@@ -512,11 +518,33 @@ public class RAddressMobile {
                 } else {
                     Log.d(TAG, "New contact info has been uploaded successfully.");
                     String lsTransNo = loResponse.getString("sTransNox");
-                    loDao.UpdateNewContactID(foValue.getTransNox(),lsTransNo);
+//                    loDao.UpdateNewContactID(foValue.getTransNox(),lsTransNo);
                     Log.d(TAG, "New contact info has been updated successfully.");
                     return true;
                 }
             }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean CheckAddressParameters(){
+        try{
+            if(poDao.CheckProvinceInfo() == 0){
+                ImportProvinceList();
+            }
+            if(poDao.CheckTownInfo() == 0){
+                ImportTownList();
+            }
+            if(poDao.CheckBarangayInfo() == 0){
+                ImportBarangayList();
+            }
+            if(poDao.CheckCountryInfo() == 0){
+                ImportCountryList();
+            }
+            return true;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

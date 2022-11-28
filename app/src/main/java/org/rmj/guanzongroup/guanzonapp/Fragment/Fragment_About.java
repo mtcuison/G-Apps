@@ -1,65 +1,47 @@
 package org.rmj.guanzongroup.guanzonapp.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonapp.Activity.Activity_TermsAndConditions;
+import org.rmj.guanzongroup.guanzonapp.databinding.FragmentAboutBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Fragment_About#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Fragment_About extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentAboutBinding mBinding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public Fragment_About() { }
 
-    public Fragment_About() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment_About.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Fragment_About newInstance(String param1, String param2) {
-        Fragment_About fragment = new Fragment_About();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mBinding = FragmentAboutBinding.inflate(inflater, container, false);
+        return mBinding.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Intent loIntent = new Intent(requireActivity(), Activity_TermsAndConditions.class);
+        mBinding.lnkTermsC.setOnClickListener(v -> {
+            loIntent.putExtra("cTermsDsp", 0);
+            startActivity(loIntent);
+        });
+        mBinding.lnkPrivcy.setOnClickListener(v -> {
+            loIntent.putExtra("cTermsDsp", 1);
+            startActivity(loIntent);
+        });
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_about, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
+        mBinding = null;
     }
+
 }

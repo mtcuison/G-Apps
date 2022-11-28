@@ -58,19 +58,20 @@ public class Dialog_Loading {
     }
 
     public void show() {
-        if(!isShown) {
+        if(!poDialogx.isShowing()) {
             poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
-            poDialogx.show();
-            isShown = true;
+        } else {
+            poDialogx.dismiss();
+            poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
         }
+        poDialogx.show();
+        isShown = true;
     }
 
     public void dismiss(){
-        if(poDialogx != null && poDialogx.isShowing()){
-            poDialogx.dismiss();
-            isShown = false;
-        }
+        poDialogx.dismiss();
+        isShown = false;
     }
-
 }

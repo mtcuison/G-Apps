@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.guanzongroup.com.creditapp">
+
+    <application>
+        <activity
+            android:name=".Activities.Activity_ApplicantInfo"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Activities.Activity_ItemPreview"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity> <!-- <activity -->
+        <!-- android:name=".Activities.Activity_LoanPreview" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".Activities.Activity_PersonalInfo" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".Activities.Activity_LoanTerm"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activity_LoanPreview"
+            android:exported="true"
+            android:screenOrientation="userPortrait" />
+        <activity
+            android:name=".Activities.Activity_LoanProductList"
+            android:exported="true"
+            android:screenOrientation="userPortrait" />
+    </application>
+
+</manifest>

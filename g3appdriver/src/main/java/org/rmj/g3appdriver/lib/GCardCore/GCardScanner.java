@@ -2,14 +2,10 @@ package org.rmj.g3appdriver.lib.GCardCore;
 
 import android.content.Context;
 
-import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
+import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.Repositories.RGCardTransactionLedger;
-import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
-import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
-import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
-import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
-import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.Telephony;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 
@@ -75,7 +71,7 @@ public class GCardScanner {
     }
 
     private boolean SaveGCardTransaction() throws Exception{
-        RGcardApp loGcard = new RGcardApp(mContext);
+        DGcardApp loGcard = GGC_GuanzonAppDB.getInstance(mContext).EGcardAppDao();
         String lsMobile = new Telephony(mContext).getMobilNumbers();
         String lsUserID = new AccountInfo(mContext).getUserID();
         String lsCardNm = loGcard.getCardNo();

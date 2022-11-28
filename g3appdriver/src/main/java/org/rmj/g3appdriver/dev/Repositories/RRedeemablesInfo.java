@@ -64,6 +64,16 @@ public class RRedeemablesInfo implements DRedeemablesInfo {
     }
 
     @Override
+    public LiveData<List<Double>> GetRedeemablePointsFilter() {
+        return redeemDao.GetRedeemablePointsFilter();
+    }
+
+    @Override
+    public LiveData<List<ERedeemablesInfo>> getRedeemablesList(String fsVal) {
+        return redeemDao.getRedeemablesList(fsVal);
+    }
+
+    @Override
     public LiveData<List<TransactionOrder>> getTransactionOrderList(String GCardNox) {
         return redeemDao.getTransactionOrderList(GCardNox);
     }

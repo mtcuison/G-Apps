@@ -5,11 +5,11 @@
         android:id="@+id/item_search"
         android:title="Search"
         android:icon="@drawable/ic_baseline_search_24"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom|collapseActionView"/>
     <item
-        android:id="@+id/item_gcardScan"
-        android:title="Scan"
-        android:icon="@drawable/ic_baseline_qr_code_scanner_24"
+        android:id="@+id/item_notifications"
+        android:title="Notifications"
+        android:icon="@drawable/ic_baseline_notifications_24"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/item_cart"

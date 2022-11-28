@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/GuanzonMarketplace.Theme"
+    tools:context=".Activity.Activity_Purchases">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_purchases"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/AppToolbar"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <TextView
+        android:id="@+id/lblNoOrderInfo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:fontFamily="@font/roboto"
+        android:text="@string/lblNoOrderInfo"
+        android:textColor="@color/font_light"
+        android:textSize="14sp"/>
+
+<!--    android:visibility="gone"-->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        style="@style/FragmentTheme">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <LinearLayout
+                android:id="@+id/linear_OrderNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Order No."
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="18sp"
+                    android:textColor="@color/font_regular"
+                    android:layout_weight=".75"/>
+
+                <TextView
+                    android:id="@+id/lbl_orderID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="MX012345213"
+                    android:textSize="18sp"
+                    android:textColor="@color/font_regular"
+                    android:layout_weight=".25"/>
+
+            </LinearLayout>
+
+            <com.kofigyan.stateprogressbar.StateProgressBar
+                android:id="@+id/your_state_progress_bar_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:spb_maxStateNumber="four"
+                android:visibility="gone"
+                app:spb_stateBackgroundColor="#BDBDBD"
+                app:spb_stateForegroundColor="@color/guanzon_digital_light_orange"
+                app:spb_stateNumberBackgroundColor="#808080"
+                app:spb_stateNumberForegroundColor="#eeeeee"
+                app:spb_currentStateDescriptionColor="@color/guanzon_digital_light_orange"
+                app:spb_stateDescriptionColor="#808080"
+                app:spb_animateToCurrentProgressState="true"
+                app:spb_checkStateCompleted="true"
+                android:layout_marginVertical="30dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_cancellation_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                android:visibility="gone"
+                app:cardPreventCornerOverlap="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="15dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Cancelled By:"
+                            android:fontFamily="@font/roboto"
+                            android:textColor="@color/guanzon_digital_light_orange"
+                            android:layout_weight="1.3"/>
+
+                        <TextView
+                            android:id="@+id/lbl_userCancel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textColor="@color/font_light"
+                            android:gravity="end"
+                            android:layout_weight=".7"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Cancellation Date:"
+                            android:fontFamily="@font/roboto"
+                            android:textColor="@color/guanzon_digital_light_orange"
+                            android:layout_weight="1.2"/>
+
+                        <TextView
+                            android:id="@+id/lbl_cancellationDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textColor="@color/font_light"
+                            android:gravity="end"
+                            android:layout_weight=".8"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Remarks:"
+                            android:fontFamily="@font/roboto"
+                            android:textColor="@color/guanzon_digital_light_orange"
+                            android:layout_weight="1.5"/>
+
+                        <TextView
+                            android:id="@+id/lbl_cancellationRemarks"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textColor="@color/font_light"
+                            android:gravity="end"
+                            android:layout_weight=".5"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                app:cardPreventCornerOverlap="true"
+                android:layout_marginVertical="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/lbl_trackNoLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tracking No."
+                            android:fontFamily="@font/roboto"
+                            android:textColor="@color/guanzon_digital_light_orange"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/lbl_trackNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textColor="@color/font_light"
+                            android:gravity="end"
+                            android:layout_weight="1"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@color/guanzon_digital_light_grey"
+                        android:layout_height="1dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/linear_shipAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:paddingHorizontal="15dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Delivery Address"
+                            android:textSize="16sp"
+                            android:drawablePadding="5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textColor="@color/font_regular"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            app:drawableLeftCompat="@drawable/ic_baseline_map_24" />
+
+                        <TextView
+                            android:id="@+id/lbl_clientNm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"
+                            android:textColor="@color/font_light"
+                            android:layout_marginTop="8dp"/>
+
+                        <TextView
+                            android:id="@+id/lbl_shipAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"
+                            android:textColor="@color/font_light"/>
+
+                        <TextView
+                            android:id="@+id/lbl_mobileNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"
+                            android:textColor="@color/font_light"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@color/guanzon_digital_light_grey"
+                        android:layout_height="1dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:paddingHorizontal="15dp"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Payment Method"
+                            android:textSize="16sp"
+                            android:textColor="@color/font_regular"
+                            android:fontFamily="@font/roboto_medium"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"/>
+
+                        <TextView
+                            android:id="@+id/lbl_paymnt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"
+                            android:textColor="@color/font_light"
+                            android:layout_marginTop="8dp"/>
+
+                        <TextView
+                            android:id="@+id/lbl_datePlace"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"
+                            android:textColor="@color/font_light"/>
+
+                        <TextView
+                            android:id="@+id/lbl_deliveryDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="14sp"
+                            android:textColor="@color/font_light"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_cancel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:text="Cancel"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Items"
+                android:gravity="bottom"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="16sp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_Orders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_receipt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/layout_subtotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto"
+                        android:text="Sub-total:"
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/txt_sub_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="₱0.00"
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"
+                        android:layout_gravity="right"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_shipping_fee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_subtotal"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto"
+                        android:text="Shipping Fee "
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/txt_shipping_fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="₱0.00"
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"
+                        android:layout_gravity="right"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_other_fee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_shipping_fee"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto"
+                        android:text="Other Fees: "
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/txt_other_fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="₱0.00"
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"
+                        android:layout_gravity="right"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_discount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_other_fee"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto"
+                        android:text="Discount: "
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/txt_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="₱0.00"
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"
+                        android:layout_gravity="right"/>
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/dividerx"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.4dp"
+                    android:background="@color/font_light"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_discount"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <LinearLayout
+                    android:id="@+id/layout_total_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_discount"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto"
+                        android:text="Total: "
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/txt_total_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="₱0.00"
+                        android:textColor="@color/font_light"
+                        android:textSize="16sp"
+                        android:layout_gravity="right"/>
+
+                </LinearLayout>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/lbl_AmountPaid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="15sp"
+                android:layout_marginTop="30dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_Pay"
+                style="@style/ButtonStyle.Orange.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Proceed to Pay"
+                android:layout_marginHorizontal="10dp"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

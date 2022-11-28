@@ -1,129 +1,115 @@
 package org.rmj.guanzongroup.marketplace.Fragment;
 
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_QRCode;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
+
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductList;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_Categories;
+import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ImageSlider;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
+import org.rmj.guanzongroup.marketplace.Model.HomeImageSliderModel;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 
-import java.util.Objects;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class Fragment_Home extends Fragment {
+    private static final String TAG = Fragment_Home.class.getSimpleName();
 
     private VMHome mViewModel;
     private Adapter_ProductList poAdapter;
     private RecyclerView poRvProds, poRvCateg;
-    private CardView gcardPane;
-    private TextView txtCardNo, txtGcrdPt;
+    private SliderView poSliderx;
+    private final List<DProduct.oProduct> poList = new ArrayList<>();
 
     public Fragment_Home() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMHome.class);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initViews(view);
+        displayData();
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMHome.class);
-        displayData();
-    }
-
     private void initViews(View v) {
-        gcardPane = v.findViewById(R.id.gCard_panel);
-        txtCardNo = v.findViewById(R.id.txt_card_number);
-        txtGcrdPt = v.findViewById(R.id.txt_gcard_points);
+        poSliderx = v.findViewById(R.id.imgSlider);
+        poSliderx.setIndicatorAnimation(IndicatorAnimationType.WORM);
+        poSliderx.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        poSliderx.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+        poSliderx.setIndicatorSelectedColor(Color.WHITE);
+        poSliderx.setIndicatorUnselectedColor(Color.GRAY);
+        poSliderx.setScrollTimeInSec(5);
+        poSliderx.startAutoCycle();
+
         poRvProds = v.findViewById(R.id.rv_products);
-        poRvCateg = v.findViewById(R.id.rv_categories);
         poRvProds.setLayoutManager(new GridLayoutManager(requireActivity(),
                 2, RecyclerView.VERTICAL, false));
-        poRvCateg.setLayoutManager(new LinearLayoutManager(requireActivity()));
         poRvProds.setHasFixedSize(true);
+
+        poRvCateg = v.findViewById(R.id.rv_categories);
+        poRvCateg.setLayoutManager(new GridLayoutManager(requireActivity(),
+                2, RecyclerView.HORIZONTAL, false));
         poRvCateg.setHasFixedSize(true);
     }
 
     private void displayData() {
-        initGcardPanel();
+        setSliderImages();
         setCategoryAdapter();
         setProductAdapter();
     }
 
-    private void initGcardPanel() {
-        mViewModel.getActiveGcard().observe(getViewLifecycleOwner(), eGcardApp -> {
+    private void setCategoryAdapter() {
+        mViewModel.GetBrandNames().observe(getViewLifecycleOwner(), strings -> {
             try {
-                if(eGcardApp == null) {
-                    gcardPane.setVisibility(View.GONE);
-                } else {
-                    gcardPane.setVisibility(View.VISIBLE);
-                    txtCardNo.setText(Objects.requireNonNull(eGcardApp.getCardNmbr()));
-                    txtGcrdPt.setText(Objects.requireNonNull(eGcardApp.getAvlPoint()));
-
-                    gcardPane.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mViewModel.ViewGCardQrCode(new VMHome.OnViewGCardQrCode() {
-                                @Override
-                                public void OnView(Bitmap foVal) {
-                                    //TODO : Create Dialog that will iew QrCode
-                                    if(foVal == null){
-                                        Toast.makeText(requireActivity(), "Failed generating Qr-Code", Toast.LENGTH_SHORT).show();
-                                    } else {
-
-                                        Dialog_QRCode dialog_qrCode = new Dialog_QRCode(requireActivity());
-                                        dialog_qrCode.initDialog("GCard QR Code", foVal, new Dialog_QRCode.QrCodeCallback() {
-                                            @Override
-                                            public void onRefresh(AlertDialog foDialogx) {
-
-                                            }
-                                        });
-                                        dialog_qrCode.show();
-                                    }
-                                }
-                            });
-                        }
-                    });
-                }
-            } catch (Exception e) {
+                final Adapter_Categories loAdapter = new Adapter_Categories(strings, args -> {
+                    Intent loIntent = new Intent(requireActivity(), Activity_ProductList.class);
+                    loIntent.putExtra("xBrandNme", args);
+                    startActivity(loIntent);
+                });
+                loAdapter.notifyDataSetChanged();
+                poRvCateg.setAdapter(loAdapter);
+            } catch (Exception e){
                 e.printStackTrace();
             }
         });
-    }
-
-    private void setCategoryAdapter() {
-
     }
 
     private void setProductAdapter() {
         mViewModel.getProductList(0).observe(getViewLifecycleOwner(), products -> {
             try {
                 if(products.size() > 0) {
-                    poAdapter = new Adapter_ProductList(products, listingId -> {
+                    poList.clear();
+                    poList.addAll(products);
+                    poAdapter = new Adapter_ProductList(poList, listingId -> {
                         Intent loIntent = new Intent(requireActivity(), Activity_ProductOverview.class);
-                        loIntent.putExtra("sListingId", listingId);
+                        loIntent.putExtra("sListngId", listingId);
+                        Log.d(TAG, "Passed parameter: " + listingId);
                         startActivity(loIntent);
                     });
                     poRvProds.setAdapter(poAdapter);
@@ -133,6 +119,56 @@ public class Fragment_Home extends Fragment {
                 e.printStackTrace();
             }
         });
+
+        poRvProds.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
+                int totalItemCount = layoutManager.getItemCount();
+                int lastVisible = layoutManager.findLastVisibleItemPosition();
+
+                boolean endHasBeenReached = lastVisible + 5 >= totalItemCount;
+                if (totalItemCount > 0 && endHasBeenReached) {
+                    mViewModel.getProductList(totalItemCount).observe(getViewLifecycleOwner(), products -> {
+                        try {
+                            if(products.size() > 0) {
+                                poList.addAll(products);
+                                poAdapter.notifyDataSetChanged();
+                                Log.d(TAG, "New items added");
+                            }
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            }
+        });
     }
 
+    private void setSliderImages() {
+        List<HomeImageSliderModel> loSliders = new ArrayList<>();
+        mViewModel.GetPromoLinkList().observe(getViewLifecycleOwner(), ePromos -> {
+            try {
+                for (int x = 0; x < ePromos.size(); x++) {
+                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getImageSld()));
+                }
+
+                Adapter_ImageSlider adapter = new Adapter_ImageSlider(loSliders, args -> {
+                    try{
+                        Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                        intent.putExtra("url_link", ePromos.get(args).getPromoUrl());
+                        intent.putExtra("browser_args", "1");
+                        intent.putExtra("args", "promo");
+                        requireActivity().sendBroadcast(intent);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+                poSliderx.setSliderAdapter(adapter);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+    }
 }

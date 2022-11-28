@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    tools:context=".Fragment.Fragment_About">
+
+    <LinearLayout
+        android:id="@+id/linear_compProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/guanzon_digital_dark_grey"
+            android:padding="17dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/Company_Profile"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:fontFamily="@font/roboto"
+                android:layout_marginTop="5dp"
+                android:text="@string/CP_Paragraph_1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:fontFamily="@font/roboto"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/CP_Paragraph_2"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="17dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/CP_Paragraph_3"
+                android:textColor="@color/font_regular"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="18dp"
+                android:typeface="serif" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/guanzon_digital_light_orange"
+                android:layout_marginBottom="25dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:text="@string/CP_Paragraph_4"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/CP_Paragraph_5"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/CP_Paragraph_6"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/CP_Paragraph_7"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/CP_Paragraph_8"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/Corporate_Mission"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/font_regular"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/CM_Paragraph"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/Corporate_Vision"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/font_regular"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/CV_Paragraph"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/Mission_Statement"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/font_regular"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/MS_Paragraph"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/MS_Paragraph1"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/MS_Paragraph2"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/MS_Paragraph3"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/MS_Paragraph4"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/MS_Paragraph5"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/Corporate_Philosophy"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/font_regular"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/CP_Paragraph"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/font_regular"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="17dp"
+            android:background="@color/guanzon_digital_dark_grey">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/Our_Milestones"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph1"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph2"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph3"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph4"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph5"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph6"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph7"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph8"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph9"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph10"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph11"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph12"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph13"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph14"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph15"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="@string/OM_Paragraph16"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/roboto"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/OM_Paragraph17"/>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

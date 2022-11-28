@@ -17,12 +17,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/font_light"
-            android:src="@drawable/sample_image"
+            android:src="@drawable/image_placeholder"
+            android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             app:layout_constraintBottom_toTopOf="@id/layout_details"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgPromox"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintDimensionRatio="8:1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img_product"
+            app:layout_constraintRight_toRightOf="parent"
+            android:visibility="gone"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_details"
@@ -44,7 +56,6 @@
                 android:textSize="12sp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:lines="2"
                 android:layout_margin="0dp"
                 android:paddingHorizontal="5dp"
                 android:paddingVertical="10dp"

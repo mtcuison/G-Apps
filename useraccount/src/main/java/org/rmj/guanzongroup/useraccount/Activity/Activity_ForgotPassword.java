@@ -39,6 +39,8 @@ public class Activity_ForgotPassword extends AppCompatActivity {
     private TextInputEditText tieEmail, tieMobile;
     private MaterialButton btnResend;
 
+    public boolean isClicked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,14 @@ public class Activity_ForgotPassword extends AppCompatActivity {
         setUpToolbar();
         setTabLayout();
 
-        btnResend.setOnClickListener(v -> retrievePassword());
+        btnResend.setOnClickListener(v -> {
+            if(!isClicked) {
+                isClicked = true;
+                retrievePassword();
+            } else {
+                Toast.makeText(Activity_ForgotPassword.this, "Please wait...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -108,8 +117,9 @@ public class Activity_ForgotPassword extends AppCompatActivity {
                         poLoading.dismiss();
                         poDialogx = new Dialog_SingleButton(Activity_ForgotPassword.this);
                         poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Forgot Password", fsMessage, dialog -> {
-                            dialog.dismiss();
+                        poDialogx.initDialog("Forgot Password", fsMessage, () -> {
+                            isClicked = false;
+                            poDialogx.dismiss();
                             finish();
                         });
                         poDialogx.show();
@@ -120,20 +130,23 @@ public class Activity_ForgotPassword extends AppCompatActivity {
                         poLoading.dismiss();
                         poDialogx = new Dialog_SingleButton(Activity_ForgotPassword.this);
                         poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Retrieving Password Failed", fsMessage, dialog -> {
-                            dialog.dismiss();
+                        poDialogx.initDialog("Retrieving Password Failed", fsMessage, () -> {
+                            isClicked = false;
+                            poDialogx.dismiss();
                         });
                         poDialogx.show();
                     }
                 });
             } catch (Exception e) {
                 e.printStackTrace();
+                isClicked = false;
             }
         } else {
             poDialogx = new Dialog_SingleButton(Activity_ForgotPassword.this);
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Retrieving Password Failed", infoModel.getMessage(), dialog -> {
-                dialog.dismiss();
+            poDialogx.initDialog("Retrieving Password Failed", infoModel.getMessage(), () -> {
+                isClicked = false;
+                poDialogx.dismiss();
             });
             poDialogx.show();
         }

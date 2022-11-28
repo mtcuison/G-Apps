@@ -15,7 +15,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.SecUtil;
 import org.rmj.g3appdriver.etc.Telephony;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
@@ -28,12 +28,12 @@ import java.util.Map;
 public class HttpHeaders {
 
     private final Telephony poTlphony;
-    private final AppConfigPreference poConfigx;
+    private final GuanzonAppConfig poConfigx;
     private final AccountInfo poAccount;
 
     public HttpHeaders(Context context){
         this.poTlphony = new Telephony(context);
-        this.poConfigx = new AppConfigPreference(context);
+        this.poConfigx = new GuanzonAppConfig(context);
         this.poAccount = new AccountInfo(context);
     }
 
@@ -49,15 +49,17 @@ public class HttpHeaders {
         String lsUserIDx = poAccount.getUserID();
         String lsClientx = poAccount.getClientID();
         String lsLogNoxx = "";
-//        String lsTokenxx = poConfigx.getAppToken();
-        String lsTokenxx = "c6mOUp7sSzimo_IGMqD-1Y:APA91bG_xsUb2n6S4AlKXjI4uKuQpWBdx7wec9HuYlRiHaRLcuBNCZHPL20sxwsjQ_LPozaanRgl100RMj2pYwo_uj-M3r3xqu1b9t6ozMaNslZEQVIslEblgH-I5IU4oQjwYRJPammH";
-//        String lsProduct = poConfigx.ProducID();
+        String lsTokenxx = poConfigx.getAppToken();
         String lsProduct = "GuanzonApp";
         String lsDevcIDx = poTlphony.getDeviceID();
         String lsDateTme = SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss");
         String lsDevcMdl = Build.MODEL;
 //        String lsMobileN = poConfigx.getMobileNo();
         String lsMobileN = "09270359402";
+
+        if(lsTokenxx.isEmpty()){
+            lsTokenxx = "fI3zDqZDSqq71gpLK_zZye:APA91bHyFYFkvmYMAi5DxmxriXzZOsIlk2TtFacdzv4PcQIw23fxHR80TRtpAluFEIuNLXcon0Ee6nP1R9LQq7WA256viZdfjA9pOSrlxW-qZKGI763d54H5d5OPgpkj6oc79e2Ejq1h";
+        }
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json");

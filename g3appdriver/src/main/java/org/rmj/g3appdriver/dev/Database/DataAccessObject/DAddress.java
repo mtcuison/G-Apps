@@ -44,6 +44,15 @@ public interface DAddress {
             "WHERE a.sTownIDxx =:fsTownID")
     LiveData<String> GetTownProvName(String fsTownID);
 
+    @Query("SELECT a.sBrgyName || ', ' || b.sTownName || ', ' || c.sProvName " +
+            "FROM Barangay_Info a " +
+            "LEFT JOIN Town_Info b " +
+            "ON a.sTownIDxx = b.sTownIDxx " +
+            "LEFT JOIN Province_Info c " +
+            "ON b.sProvIDxx = c.sProvIDxx " +
+            "WHERE a.sBrgyIDxx=:fsBrgyID")
+    LiveData<String> GetFullAddressName(String fsBrgyID);
+
     @Query("SELECT " +
             "a.sTownIDxx AS sTownID, " +
             "a.sTownName AS sTownNm, " +
@@ -53,9 +62,27 @@ public interface DAddress {
             "ON a.sProvIDxx = b.sProvIDxx")
     LiveData<List<oTownObj>> GetTownList();
 
+    @Query("SELECT sBrgyName FROM Barangay_Info WHERE sBrgyIDxx =:args")
+    String GetBarangayName(String args);
+
+    @Query("SELECT a.sTownName || ', ' || b.sProvName FROM Town_Info a LEFT JOIN Province_Info b ON a.sProvIDxx = b.sProvIDxx WHERE sTownIDxx =:args")
+    String GetTownProvinceName(String args);
+
     class oTownObj{
         public String sTownID;
         public String sTownNm;
         public String sProvNm;
     }
+
+    @Query("SELECT COUNT(sBrgyIDxx) FROM Barangay_Info")
+    int CheckBarangayInfo();
+
+    @Query("SELECT COUNT(sTownIDxx) FROM Town_Info")
+    int CheckTownInfo();
+
+    @Query("SELECT COUNT(sProvIDxx) FROM Province_Info")
+    int CheckProvinceInfo();
+
+    @Query("SELECT COUNT(sCntryCde) FROM Country_Info")
+    int CheckCountryInfo();
 }

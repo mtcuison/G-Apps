@@ -53,7 +53,7 @@ public class Fragment_MyGcardBaseContainer extends Fragment {
 
     private void setViewPager(View view) {
         ViewPager loViewPgr = view.findViewById(R.id.vp_gcard);
-        loViewPgr.setAdapter(new FragmentAdapter(getFragmentManager(), getGcardFragment()));
+        loViewPgr.setAdapter(new FragmentAdapter(getChildFragmentManager(), getGcardFragment()));
     }
 
     private Fragment getGcardFragment(){

@@ -22,6 +22,12 @@ public class EBranchInfo {
     @ColumnInfo(name = "sAddressx")
     private String Addressx;
 
+    @ColumnInfo(name = "nLatitude")
+    private double Latitude = 0.0;
+
+    @ColumnInfo(name = "nLongtude")
+    private double Longtude = 0.0;
+
     @ColumnInfo(name = "sContactx")
     private String Contactx;
 
@@ -110,5 +116,21 @@ public class EBranchInfo {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
+    }
+
+    public double getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        Latitude = latitude;
+    }
+
+    public double getLongtude() {
+        return Longtude;
+    }
+
+    public void setLongtude(double longtude) {
+        Longtude = longtude;
     }
 }

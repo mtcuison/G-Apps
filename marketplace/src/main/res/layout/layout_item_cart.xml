@@ -25,6 +25,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"/>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,34 +55,35 @@
                     android:id="@+id/lblProdNme"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/font_regular"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
                     android:ellipsize="end"
-                    android:maxLines="1"
+                    android:fontFamily="@font/roboto"
                     android:lines="1"
-                    android:text="Product Name"/>
+                    android:maxLines="1"
+                    android:text="Product Name"
+                    android:textColor="@color/font_regular"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/lblProdPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/guanzon_digital_light_orange"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="5dp"
-                    android:text="Price"/>
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Price"
+                    android:textColor="@color/guanzon_digital_light_orange"
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="24dp"
-                    android:orientation="horizontal"
                     android:layout_weight="1"
-                    android:visibility="visible"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -102,10 +109,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="Loading quantity"
-                            android:textSize="12sp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
+                            android:cursorVisible="false"
+                            android:inputType="number"
+                            android:maxLength="3"
+                            android:maxLines="1"
+                            android:text="1"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>

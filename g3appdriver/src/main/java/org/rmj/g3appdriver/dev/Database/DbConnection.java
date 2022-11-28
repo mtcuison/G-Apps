@@ -19,7 +19,6 @@ import org.rmj.appdriver.base.GConnection;
 import org.rmj.appdriver.base.GProperty;
 import org.rmj.appdriver.crypt.GCryptFactory;
 import org.rmj.appdriver.iface.iGCrypt;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
 
 import java.io.InputStream;
 
@@ -31,7 +30,8 @@ public class DbConnection {
             InputStream inputStream = context.getAssets().open("GhostRiderXP.properties");
 
             //initialize GProperty
-            GProperty loProperty = new GProperty(inputStream, new AppConfigPreference(context).ProducID());
+
+            GProperty loProperty = new GProperty(inputStream, "GuanzonApp");
             if (loProperty.loadConfig()){
                 Log.d(TAG, "Config File was loaded.");
 

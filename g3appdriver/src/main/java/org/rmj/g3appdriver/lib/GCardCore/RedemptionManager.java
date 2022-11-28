@@ -9,8 +9,9 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
-import org.rmj.g3appdriver.dev.Repositories.RRedeemItemInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGcardApp;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
+import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.Repositories.RRedeemablesInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
@@ -38,21 +39,19 @@ public class RedemptionManager implements iGCardSystem{
     private static final String TAG = RedemptionManager.class.getSimpleName();
 
     private final Context mContext;
-    private final RGcardApp poGcard;
-    private final RRedeemItemInfo poRedeem;
+    private final DRedeemItemInfo poRedeem;
+    private final DGcardApp poGcard;
     private final HttpHeaders poHeaders;
     private final RRedeemablesInfo poRedeemables;
-    private final RRedeemItemInfo poCart;
     private final GuanzonAppConfig poConfig;
     private final ServerAPIs poAPI;
 
     public RedemptionManager(Context context) {
         this.mContext = context;
-        this.poGcard = new RGcardApp(mContext);
-        this.poRedeem = new RRedeemItemInfo(mContext);
+        this.poGcard = GGC_GuanzonAppDB.getInstance(mContext).EGcardAppDao();
+        this.poRedeem = GGC_GuanzonAppDB.getInstance(mContext).ERedeemItemDao();
         this.poHeaders = new HttpHeaders(mContext);
         this.poRedeemables = new RRedeemablesInfo(mContext);
-        this.poCart = new RRedeemItemInfo(mContext);
         this.poConfig = new GuanzonAppConfig(mContext);
         this.poAPI = new ServerAPIs(poConfig.getTestCase());
     }
@@ -65,6 +64,81 @@ public class RedemptionManager implements iGCardSystem{
     @Override
     public LiveData<List<EGcardApp>> GetGCardList() {
         return null;
+    }
+
+    @Override
+    public void updateGCardActiveStatus(String GCardNmbr) {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public List<EGcardApp> hasGcard() {
+        return null;
+    }
+
+    @Override
+    public LiveData<EGcardApp> hasNoGcard() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EGcardApp>> hasUnCheckGCard() {
+        return null;
+    }
+
+    @Override
+    public List<EGcardApp> hasActiveGcard() {
+        return null;
+    }
+
+    @Override
+    public List<EGcardApp> hasMultipleGCard() {
+        return null;
+    }
+
+    @Override
+    public LiveData<EGcardApp> getGCardInfo() {
+        return null;
+    }
+
+    @Override
+    public List<EGcardApp> getAllGCard() {
+        return null;
+    }
+
+    @Override
+    public void updateAvailablePoints(String fsGcardNo, String fsNewPts) {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public LiveData<String> getActiveGcardNo() {
+        return null;
+    }
+
+    @Override
+    public LiveData<String> getActiveGcardAvlPoints() {
+        return null;
+    }
+
+    @Override
+    public double getRemainingActiveCardPoints() {
+        return 0;
+    }
+
+    @Override
+    public double getAvailableGcardPoints() {
+        return 0;
+    }
+
+    @Override
+    public double getRedeemItemPoints() {
+        return 0;
+    }
+
+    @Override
+    public void updateGCardDeactiveStatus() {
+        throw new NullPointerException();
     }
 
     @Override
@@ -105,21 +179,26 @@ public class RedemptionManager implements iGCardSystem{
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void DownloadRedeemables(GCardSystem.GCardSystemCallback callback) throws Exception {
-        JSONObject params = new JSONObject();
-        String lsResponse = WebClient.httpsPostJSon(poAPI.getImportRedeemItemsAPI(), params.toString(), poHeaders.getHeaders());
-        if(lsResponse == null){
-            callback.OnFailed("Server no response.");
-        } else {
-            JSONObject loResponse = new JSONObject(lsResponse);
-            String lsResult = loResponse.getString("result");
-            if(lsResult.equalsIgnoreCase("success")){
-                callback.OnSuccess(loResponse.toString());
-                SaveRedeemables(loResponse);
+        int lnRedeem = poRedeemables.GetRedeemablesCount();
+        if(lnRedeem == 0) {
+            JSONObject params = new JSONObject();
+            String lsResponse = WebClient.httpsPostJSon(poAPI.getImportRedeemItemsAPI(), params.toString(), poHeaders.getHeaders());
+            if (lsResponse == null) {
+                callback.OnFailed("Server no response.");
             } else {
-                JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
-                callback.OnFailed(lsMessage);
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                if (lsResult.equalsIgnoreCase("success")) {
+                    callback.OnSuccess(loResponse.toString());
+                    SaveRedeemables(loResponse);
+                } else {
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    String lsMessage = loError.getString("message");
+                    callback.OnFailed(lsMessage);
+                }
             }
+        } else {
+            callback.OnFailed("Redeemables already exist");
         }
     }
 
@@ -144,8 +223,18 @@ public class RedemptionManager implements iGCardSystem{
     }
 
     @Override
+    public LiveData<List<Double>> GetRedeemablePointsFilter() {
+        return poRedeemables.GetRedeemablePointsFilter();
+    }
+
+    @Override
     public LiveData<List<ERedeemablesInfo>> GetRedeemablesList() {
         return poRedeemables.getRedeemablesList();
+    }
+
+    @Override
+    public LiveData<List<ERedeemablesInfo>> GetRedeemablesList(String fsVal) {
+        return poRedeemables.getRedeemablesList(fsVal);
     }
 
     @Override
@@ -156,7 +245,7 @@ public class RedemptionManager implements iGCardSystem{
             loItem.setGCardNox(poGcard.getCardNox());
             loItem.setPromoIDx(item.getPromoIDx());
             loItem.setItemQtyx(item.getItemQtyx());
-            loItem.setPointsxx(item.getTotalItemPoints());
+            loItem.setPointsxx(item.getPoints());
             loItem.setOrderedx(new AppConstants().GCARD_DATE_TIME);
             loItem.setTranStat("0");
             loItem.setPlacOrdr("0");
@@ -164,7 +253,7 @@ public class RedemptionManager implements iGCardSystem{
             String lsTransNox = item.getTransNox();
             String lsPromoIDx = item.getPromoIDx();
             if(poRedeem.getRedeemableIfExist(lsTransNox, lsPromoIDx).size() > 0) {
-                poRedeem.UpdateExistingItemOnCart(lsTransNox, lsPromoIDx, item.getItemQtyx(), item.getTotalItemPoints());
+                poRedeem.UpdateExistingItemOnCart(lsTransNox, lsPromoIDx, item.getItemQtyx());
             } else {
                 poRedeem.insert(loItem);
             }
@@ -178,16 +267,36 @@ public class RedemptionManager implements iGCardSystem{
     public void UpdateCartItem(CartItem item, GCardSystem.GCardSystemCallback callback) throws Exception {
         String lsTransNox = item.getTransNox();
         String lsPromoIDx = item.getPromoIDx();
-        poRedeem.UpdateExistingItemOnCart(lsTransNox, lsPromoIDx, item.getItemQtyx(), item.getTotalItemPoints());
+        poRedeem.UpdateExistingItemOnCart(lsTransNox, lsPromoIDx, item.getItemQtyx());
     }
 
     @Override
-    public LiveData<List<ERedeemItemInfo>> GetCartItems() {
-        return poCart.getCartItems();
+    public LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems() {
+        return poRedeem.GetGCardCartItemList();
     }
 
     @Override
-    public void PlaceOrder(List<ERedeemItemInfo> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
+    public List<EBranchInfo> GetMCBranchesForRedemption() {
+        return poRedeem.GetMCBranchesForRedemption();
+    }
+
+    @Override
+    public LiveData<Integer> GetGcardCartItemCount() {
+        return poRedeem.GetGcardCartItemCount();
+    }
+
+    @Override
+    public LiveData<Double> GetGCardCartItemTotalPoints() {
+        return poRedeem.GetGCardCartItenTotalPoints();
+    }
+
+    @Override
+    public void DeleteItemCart(String fsVal) {
+        poRedeem.removeItemFromCart(fsVal);
+    }
+
+    @Override
+    public void PlaceOrder(List<DRedeemItemInfo.GCardCartItem> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONArray items = new JSONArray();
         JSONObject params = new JSONObject();
         JSONObject details;
@@ -196,8 +305,8 @@ public class RedemptionManager implements iGCardSystem{
         } else {
             for(int x = 0; x < redeemables.size(); x++){
                 details = new JSONObject();
-                details.put("promoidx", redeemables.get(x).getPromoIDx());
-                details.put("itemqtyx", redeemables.get(x).getItemQtyx());
+                details.put("promoidx", redeemables.get(x).sTransNox);
+                details.put("itemqtyx", redeemables.get(x).nItemQtyx);
                 items.put(details);
             }
 
@@ -334,6 +443,11 @@ public class RedemptionManager implements iGCardSystem{
     }
 
     @Override
+    public EPromo CheckPromo() {
+        return null;
+    }
+
+    @Override
     public void DownloadNewsEvents(GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }
@@ -345,6 +459,11 @@ public class RedemptionManager implements iGCardSystem{
 
     @Override
     public LiveData<List<EEvents>> GetNewsEvents() {
+        return null;
+    }
+
+    @Override
+    public EEvents CheckEvents() {
         return null;
     }
 

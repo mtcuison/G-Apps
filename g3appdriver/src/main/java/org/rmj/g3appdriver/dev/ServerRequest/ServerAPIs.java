@@ -8,9 +8,10 @@ import static org.rmj.g3appdriver.dev.ServerRequest.APILocation.SECURITY;
 
 public class ServerAPIs {
 
-    private final boolean isTestUnit;
+    private boolean isTestUnit;
 
     private static final String SIGN_IN = SECURITY + "signin.php";
+    private static final String RESEND_OTP = SECURITY + "send_otp.php";
     private static final String REGISTRATION = SECURITY + "signup.php";
     private static final String RETRIEVE_PASSWORD = SECURITY + "forgotpswd.php";
 
@@ -39,34 +40,59 @@ public class ServerAPIs {
     private static final String IMPORT_PROVINCE = "integsys/param/download_province.php";
     private static final String IMPORT_COUNTRIES = "integsys/param/download_country.php";
 
-    private static final String REGISTER_ACCOUNT = "integsys/marketplace/add_new_client.php";
+    private static final String RETRIEVE_PROFILE_PICTURE = "";
+    private static final String RETRIEVE_VERIFIED_ID = "";
+//    private static final String REGISTER_ACCOUNT = "integsys/marketplace/add_new_client.php";
+    private static final String REGISTER_ACCOUNT = "integsys/marketplace/complete_account_detail.php";
+    private static final String SUBMIT_SELFIE_VERIFICATION = "integsys/marketplace/submit_selfie_verification.php";
+    private static final String SUBMIT_ID_VERIFICATION = "integsys/marketplace/submit_id_verification.php";
     private static final String IMPORT_ACCOUNT_INFO = "integsys/marketplace/get_client_info.php";
+    private static final String IMPORT_VALID_ID_CODE = "integsys/marketplace/import_valid_id_code.php";
+//    private static final String IMPORT_ACCOUNT_INFO = "integsys/marketplace/import_client_detail.php";
     private static final String UPDATE_ACCOUNT_INFO = "integsys/marketplace/update_client_info.php";
     private static final String UPDATE_MOBILE_NO = "integsys/marketplace/request_mobile_update.php";
+    private static final String IMPORT_MOBILE_NO = "integsys/marketplace/import_client_mobile.php";
     private static final String UPDATE_ADDRESS = "integsys/marketplace/request_address_update.php";
-    private static final String URL_UPDATE_ADDRESS = "integsys/dcp/request_address_update.php";
-    private static final String URL_UPDATE_MOBILE = "integsys/dcp/request_mobile_update.php";
+    private static final String URL_UPDATE_ADDRESS = "integsys/marketplace/update_client_address.php";
+    private static final String URL_UPDATE_MOBILE = "integsys/marketplace/update_client_mobile.php";
+    private static final String URL_UPDATE_EMAIL = "integsys/marketplace/update_client_email.php";
+    private static final String IMPORT_EMAILS = "integsys/marketplace/import_client_email.php";
     private static final String IMPORT_PAYMENT_METHODS = "";
     private static final String UPDATE_PAYMENT_METHOD = "";
     private static final String IMPORT_SHIPPING_INFO = "";
     private static final String IMPORT_TOP_SELLING_ITEMS = "";
     private static final String IMPORT_PROMO_ITEMS = "integsys/marketplace/download_item_list.php";
+    private static final String IMPORT_PRICE_LIST = "integsys/marketplace/download_pricelist.php";
     private static final String IMPORT_SEARCH_RESULTS = "";
     private static final String IMPORT_PRODUCT_INFO = "";
     private static final String ADD_TO_CART_ITEM = "integsys/marketplace/add_to_cart.php";
     private static final String UPDATE_CART_ITEM = "integsys/marketplace/remove_to_cart.php";
     private static final String IMPORT_CART_ITEMS = "integsys/marketplace/download_cart.php";
     private static final String MKTPL_PLACE_ORDER = "integsys/marketplace/place_order.php";
-    private static final String IMPORT_PLACED_ORDERS = "";
+    private static final String MKTPL_CANCEL_ORDER = "integsys/marketplace/cancel_order.php";
+    private static final String IMPORT_MKTPL_CANCELLATIONS = "integsys/marketplace/import_cancellation_detail.php";
+    private static final String MKTPL_ORDER_PAYMENT = "integsys/marketplace/place_order_payment.php";
+    private static final String IMPORT_PURCHASES = "integsys/marketplace/download_purchases.php";
     private static final String IMPORT_RETRIEVE_SHIPPING_ADDRESS = "";
     private static final String UPDATE_SHIPPING_ADDRESS = "";
+    private static final String REQUEST_ADDRESS_UPDATE = "integsys/marketplace/request_address_update.php";
+    private static final String REQUEST_MOBILE_UPDATE = "integsys/marketplace/request_mobile_update.php";
     private static final String IMPORT_DEFAULT_PAYMENT_METHOD = "";
     private static final String UPDATE_DEFAULT_PAYMENT_METHOD = "";
     private static final String IMPORT_SHIPPING_STATUS = "";
     private static final String IMPORT_ORDER_SUMMARY = "";
-    private static final String IMPORT_REVIEWS = "";
-    private static final String IMPORT_QUESTIONS_AND_ANSWERS = "";
+    private static final String IMPORT_BANK_ACC = "integsys/marketplace/download_bank_account.php";
+    private static final String IMPORT_REVIEWS = "integsys/marketplace/import_product_reviews.php";
+    private static final String IMPORT_INQUIRIES = "integsys/marketplace/import_product_inquiries.php";
+    private static final String SUBMIT_REVIEW = "integsys/marketplace/submit_product_review.php";
+    private static final String SUBMIT_INQUIRY = "integsys/marketplace/submit_product_inquiry.php";
 
+    private static final String SUBMIT_MEANS_INFO = "integsys/gocas/mp_submit_means_info.php";
+    private static final String SUBMIT_OTHER_INFO = "integsys/gocas/mp_submit_other_info.php";
+    private static final String GET_OTHER_APPLICATION_INFO = "integsys/gocas/mp_get_other_application_info.php";
+    private static final String SUBMIT_LOAN_APPLICATION = "integsys/gocas/mp_submit_credit_app.php";
+
+    private static final String IMPORT_NOTIFICATIONS = "integsys/notification/request_previous_notifications.php";
     private static final String SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/notification/send_response.php";
     private static final String SEND_REQUEST = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
     private static final String CHECK_UPDATE_URL = "https://restgk.guanzongroup.com.ph/gcard/ms/version_checker.php";
@@ -332,11 +358,11 @@ public class ServerAPIs {
         return LIVE + IMPORT_CART_ITEMS;
     }
 
-    public String getImportPlacedOrders() {
+    public String getImportPurchasesAPI() {
         if(isTestUnit){
-            return LOCAL + IMPORT_PLACED_ORDERS;
+            return LOCAL + IMPORT_PURCHASES;
         }
-        return LIVE + IMPORT_PLACED_ORDERS;
+        return LIVE + IMPORT_PURCHASES;
     }
 
     public String getImportRetrieveShippingAddress() {
@@ -390,9 +416,9 @@ public class ServerAPIs {
 
     public String getQuestionsAndAnswersAPI() {
         if(isTestUnit){
-            return LOCAL + IMPORT_QUESTIONS_AND_ANSWERS;
+            return LOCAL + IMPORT_INQUIRIES;
         }
-        return LIVE + IMPORT_QUESTIONS_AND_ANSWERS;
+        return LIVE + IMPORT_INQUIRIES;
     }
 
     public String getUpdateMobileNo() {
@@ -402,7 +428,7 @@ public class ServerAPIs {
         return LIVE + UPDATE_MOBILE_NO;
     }
 
-    public String getUpdateAddress() {
+    public String getUpdateAddressAPI() {
         if(isTestUnit){
             return LOCAL + UPDATE_ADDRESS;
         }
@@ -451,6 +477,13 @@ public class ServerAPIs {
         return LIVE + URL_UPDATE_MOBILE;
     }
 
+    public String getEmailUpdateAPI(){
+        if(isTestUnit){
+            return LOCAL + URL_UPDATE_EMAIL;
+        }
+        return LIVE + URL_UPDATE_EMAIL;
+    }
+
     public String getAddToCartAPI(){
         if(isTestUnit){
             return LOCAL + ADD_TO_CART_ITEM;
@@ -464,4 +497,163 @@ public class ServerAPIs {
         }
         return LIVE + MKTPL_PLACE_ORDER;
     }
+
+    public String getOrderPaymentAPI(){
+        if(isTestUnit){
+            return LOCAL + MKTPL_ORDER_PAYMENT;
+        }
+        return LIVE + MKTPL_ORDER_PAYMENT;
+    }
+
+    public String getImportNotificationsAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_NOTIFICATIONS;
+        }
+        return LIVE + IMPORT_NOTIFICATIONS;
+    }
+
+    public String getAddressUpdateRequestAPI(){
+        if(isTestUnit){
+            return LOCAL + REQUEST_ADDRESS_UPDATE;
+        }
+        return LIVE + REQUEST_ADDRESS_UPDATE;
+    }
+
+    public String getMobileUpdateRequestAPI(){
+        if(isTestUnit){
+            return LOCAL + REQUEST_MOBILE_UPDATE;
+        }
+        return LIVE + REQUEST_MOBILE_UPDATE;
+    }
+
+    public String getSubmitInquiryAPI(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_INQUIRY;
+        }
+        return LIVE + SUBMIT_INQUIRY;
+    }
+
+    public String getSubmitReviewAPI(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_REVIEW;
+        }
+        return LIVE + SUBMIT_REVIEW;
+    }
+
+    public String getSendOtpAPI(){
+        if(isTestUnit){
+            return LOCAL + RESEND_OTP;
+        }
+        return LIVE + RESEND_OTP;
+    }
+
+    public String getCancelMarketplaceOrderAPI(){
+        if(isTestUnit){
+            return LOCAL + MKTPL_CANCEL_ORDER;
+        }
+        return LIVE + MKTPL_CANCEL_ORDER;
+    }
+
+    public String getDownloadBankAccountAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_BANK_ACC;
+        }
+        return LIVE + IMPORT_BANK_ACC;
+    }
+
+    public String getDownloadCancellationsAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_MKTPL_CANCELLATIONS;
+        }
+        return LIVE + IMPORT_MKTPL_CANCELLATIONS;
+    }
+
+    public String getRetrieveProfilePictureAPI(){
+        if(isTestUnit){
+            return LOCAL + RETRIEVE_PROFILE_PICTURE;
+        }
+        return LIVE + RETRIEVE_PROFILE_PICTURE;
+    }
+
+    public String getRetrieveVerifiedIDAPI(){
+        if(isTestUnit){
+            return LOCAL + RETRIEVE_VERIFIED_ID;
+        }
+        return LIVE + RETRIEVE_VERIFIED_ID;
+    }
+
+    public String getImportEmailsAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_EMAILS;
+        }
+        return LIVE + IMPORT_EMAILS;
+    }
+
+    public String getImportMobileNoAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_MOBILE_NO;
+        }
+        return LIVE + IMPORT_MOBILE_NO;
+    }
+
+
+    public String getSubmitSelfieVerificationAPI(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_SELFIE_VERIFICATION;
+        }
+        return LIVE + SUBMIT_SELFIE_VERIFICATION;
+    }
+
+    public String getSubmitIdVerificationAPI(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_ID_VERIFICATION;
+        }
+        return LIVE + SUBMIT_ID_VERIFICATION;
+    }
+
+    public String getImportValidIdCodeAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_VALID_ID_CODE;
+        }
+        return LIVE + IMPORT_VALID_ID_CODE;
+    }
+
+    public String getSubmitMeansInfo(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_MEANS_INFO;
+        }
+        return LIVE + SUBMIT_MEANS_INFO;
+    }
+
+    public String getSubmitOtherInfo(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_OTHER_INFO;
+        }
+        return LIVE + SUBMIT_OTHER_INFO;
+    }
+
+    public String getOtherApplicationInfo(){
+        if(isTestUnit){
+            return LOCAL + GET_OTHER_APPLICATION_INFO;
+        }
+        return LIVE + GET_OTHER_APPLICATION_INFO;
+    }
+
+    public String getSubmitLoanApplication(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_LOAN_APPLICATION;
+        }
+        return LIVE + SUBMIT_LOAN_APPLICATION;
+    }
+
+    public String getDownloadPriceListAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_PRICE_LIST;
+        }
+        return LIVE + IMPORT_PRICE_LIST;
+    }
+
+
+
+
 }

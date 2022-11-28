@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.rmj.guanzongroup.guanzonapp"
-    android:targetSandboxVersion="1"
-    tools:targetApi="o">
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -31,19 +30,27 @@
         android:theme="@style/GuanzonMarketplace.Theme"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".Activity.Activity_Browser"
+            android:name="org.rmj.guanzongroup.notifications.Activity.Activity_Browser"
+            android:screenOrientation="userPortrait"
             android:exported="false" />
         <activity
             android:name=".Activity.Activity_TermsAndConditions"
+            android:screenOrientation="userPortrait"
             android:exported="false" />
+
+        <activity android:name="org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart"
+            android:screenOrientation="userPortrait"
+            android:exported="false"/>
         <activity
             android:name="org.rmj.guanzongroup.useraccount.Activity.Activity_AccountDetails"
+            android:screenOrientation="userPortrait"
             android:exported="false"
             android:theme="@style/GuanzonMarketplace.Theme" />
         <activity
             android:name=".Activity.Activity_SplashScreen"
+            android:screenOrientation="userPortrait"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,9 +59,15 @@
         </activity>
         <activity
             android:name=".Activity.Activity_Dashboard"
+            android:screenOrientation="userPortrait"
             android:exported="true"
+            android:launchMode="singleTop"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/GuanzonMarketplace.Theme" />
+            android:theme="@style/GuanzonMarketplace.Theme">
+
+            <meta-data android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
+        </activity>
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
@@ -64,7 +77,8 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
@@ -73,11 +87,30 @@
         <service
             android:name=".Service.GMessagingService"
             android:exported="false"
-            tools:ignore="InnerclassSeparator">
+            android:enabled="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".Service.DashboardActionReceiver"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="InnerclassSeparator">
+            <intent-filter>
+                <action android:name="android.intent.action.SUCCESS_LOGIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
     </application>
+
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
 
 </manifest>

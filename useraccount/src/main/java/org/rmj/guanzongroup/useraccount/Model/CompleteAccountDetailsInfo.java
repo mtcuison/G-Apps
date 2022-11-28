@@ -64,15 +64,7 @@ public class CompleteAccountDetailsInfo {
     }
 
     public String getBirthDate() {
-        try {
-            SimpleDateFormat userFormat = new SimpleDateFormat("MM/dd/yyyy");
-            SimpleDateFormat tableFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String lsFormatted = tableFormat.format(userFormat.parse(sBirthDte));
-            return lsFormatted;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "";
+        return sBirthDte;
     }
 
     public void setBirthDate(String sBirthDte) {
@@ -152,37 +144,34 @@ public class CompleteAccountDetailsInfo {
     }
 
     public boolean isDataValid() {
-        if(sLastName.isEmpty()) {
+        if(sLastName.trim().isEmpty()) {
             sMessagex = "Please enter Last Name";
             return false;
-        } else if(sFirstNme.isEmpty()) {
+        } else if(sFirstNme.trim().isEmpty()) {
             sMessagex = "Please enter First Name";
             return false;
-        } else if(sBirthDte.isEmpty()) {
+        } else if(sMiddName.trim().isEmpty()) {
+            sMessagex = "Please enter Middle Name";
+            return false;
+        } else if(sBirthDte.trim().isEmpty()) {
             sMessagex = "Please enter Birth Date";
             return false;
-        } else if(sBirthPlc.isEmpty()) {
+        } else if(sBirthPlc.trim().isEmpty()) {
             sMessagex = "Please enter Birth Place";
             return false;
-        } else if(sGenderxx.isEmpty()) {
+        } else if(sGenderxx.trim().isEmpty()) {
             sMessagex = "Please select a Gender";
             return false;
-        } else if(sCivilStx.isEmpty()) {
+        } else if(sCivilStx.trim().isEmpty()) {
             sMessagex = "Please select a Civil Status";
             return false;
-        } else if(sCitizenx.isEmpty()) {
-            sMessagex = "Please enter Citizenship";
-            return false;
-        } else if(sHouseNox.isEmpty()) {
-            sMessagex = "Please enter House Number";
-            return false;
-        } else if(sAddressx.isEmpty()) {
+        } else if(sAddressx.trim().isEmpty()) {
             sMessagex = "Please enter Street Address";
             return false;
-        } else if(sTownCity.isEmpty()) {
+        } else if(sTownCity.trim().isEmpty()) {
             sMessagex = "Please enter Town or City Address";
             return false;
-        } else if(sBarangay.isEmpty()) {
+        } else if(sBarangay.trim().isEmpty()) {
             sMessagex = "Please enter Barangay Address";
             return false;
         } else {
@@ -202,10 +191,14 @@ public class CompleteAccountDetailsInfo {
             poClientx.setCvilStat(getCivilStat());
             poClientx.setCitizenx(getCitizenship());
             poClientx.setTaxIDNox(getTaxIdNumber());
-            poClientx.setHouseNox(getHouseNumber());
-            poClientx.setAddressx(getAddress());
-            poClientx.setTownIDxx(getTownCity());
-            poClientx.setBrgyIDxx(getBarangay());
+            poClientx.setHouseNo1(getHouseNumber());
+            poClientx.setAddress1(getAddress());
+            poClientx.setTownIDx1(getTownCity());
+            poClientx.setBrgyIDx1(getBarangay());
+            poClientx.setHouseNo2(getHouseNumber());
+            poClientx.setAddress2(getAddress());
+            poClientx.setTownIDx2(getTownCity());
+            poClientx.setBrgyIDx2(getBarangay());
             return poClientx;
         } else {
             return null;

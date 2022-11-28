@@ -20,9 +20,9 @@
             android:title="@string/menu_events" />
 
         <item
-            android:id="@+id/nav_notifications"
-            android:icon="@drawable/ic_baseline_notifications_24"
-            android:title="@string/menu_notifications" />
+            android:id="@+id/nav_item_cart"
+            android:icon="@drawable/ic_baseline_shopping_cart_24"
+            android:title="@string/menu_item_cart" />
 
         <item
             android:id="@+id/nav_purchases"
@@ -30,14 +30,14 @@
             android:title="@string/menu_purchases" />
 
         <item
+            android:id="@+id/nav_applyLoan"
+            android:icon="@drawable/ic_baseline_loan_24"
+            android:title="@string/menu_apply_loan" />
+
+        <item
             android:id="@+id/nav_wishlist"
             android:icon="@drawable/ic_baseline_heart_24"
             android:title="@string/menu_wishlist" />
-
-        <item
-            android:id="@+id/nav_item_cart"
-            android:icon="@drawable/ic_baseline_shopping_cart_24"
-            android:title="@string/menu_item_cart" />
 
         <item android:title="@string/menu_subtitle_gcard">
             <menu>
@@ -47,13 +47,18 @@
                     android:title="@string/menu_my_gcard" />
 
                 <item
+                    android:id="@+id/nav_scan_qrcode"
+                    android:icon="@drawable/ic_baseline_qr_code_scanner_24"
+                    android:title="@string/menu_scan_gcard" />
+
+                <item
                     android:id="@+id/nav_redeemables"
                     android:icon="@drawable/ic_baseline_gift_24"
                     android:title="@string/menu_redeemables" />
 
                 <item
                     android:id="@+id/nav_gcard_orders"
-                    android:icon="@drawable/ic_menu_slideshow"
+                    android:icon="@drawable/ic_baseline_package_24"
                     android:title="@string/menu_gcard_orders" />
 
                 <item
@@ -91,7 +96,13 @@
                     android:id="@+id/nav_about"
                     android:icon="@drawable/ic_baseline_info_24"
                     android:title="@string/menu_about" />
+
+                <item
+                    android:id="@+id/nav_logout"
+                    android:icon="@drawable/ic_baseline_exit_to_app_24"
+                    android:title="@string/menu_logout" />
             </menu>
+
         </item>
 
     </group>

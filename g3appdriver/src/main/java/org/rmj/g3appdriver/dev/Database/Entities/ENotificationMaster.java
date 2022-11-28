@@ -22,33 +22,33 @@ public class ENotificationMaster {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "sTransNox")
-    private String TransNox;
+    private String TransNox = "";
     @ColumnInfo(name = "sMesgIDxx")
-    private String MesgIDxx;
+    private String MesgIDxx = "";
     @ColumnInfo(name = "sParentxx")
-    private String Parentxx;
+    private String Parentxx = "";
     @ColumnInfo(name = "dCreatedx")
-    private String Createdx;
+    private String Createdx = "";
     @ColumnInfo(name = "sAppSrcex")
-    private String AppSrcex;
+    private String AppSrcex = "";
     @ColumnInfo(name = "sCreatrID")
-    private String CreatrID;
+    private String CreatrID = "";
     @ColumnInfo(name = "sCreatrNm")
-    private String CreatrNm;
+    private String CreatrNm = "";
     @ColumnInfo(name = "sMsgTitle")
-    private String MsgTitle;
+    private String MsgTitle = "";
     @ColumnInfo(name = "sMessagex")
-    private String Messagex;
+    private String Messagex = "";
     @ColumnInfo(name = "sURLxxxxx")
-    private String URLxxxxx;
+    private String URLxxxxx = "";
     @ColumnInfo(name = "sDataSndx")
-    private String DataSndx;
+    private String DataSndx = "";
     @ColumnInfo(name = "sMsgTypex")
-    private String MsgTypex;
+    private String MsgTypex = "";
     @ColumnInfo(name = "cSentxxxx")
-    private String Sentcxxx;
+    private String Sentcxxx = "";
     @ColumnInfo(name = "dSentxxxx")
-    private String Sentdxxx;
+    private String Sentdxxx = "";
 
     public ENotificationMaster() {
     }

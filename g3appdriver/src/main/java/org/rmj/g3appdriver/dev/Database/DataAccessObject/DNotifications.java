@@ -33,8 +33,17 @@ public interface DNotifications {
     @Insert
     void insert(ENotificationRecipient notificationRecipient);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insert(ENotificationUser notificationUser);
+
+    @Query("SELECT * FROM Notification_Info_Master WHERE sMesgIDxx=:fsVal")
+    ENotificationMaster CheckIfMasterExist(String fsVal);
+
+    @Query("SELECT * FROM Notification_Info_Recepient WHERE sTransNox=:fsVal")
+    ENotificationRecipient CheckIfRecipientExist(String fsVal);
+
+    @Query("SELECT * FROM Notification_User WHERE sUserIDxx=:fsVal")
+    ENotificationUser CheckIfUserExist(String fsVal);
 
     @Update
     void update(ENotificationMaster notificationMaster);
@@ -45,12 +54,27 @@ public interface DNotifications {
     @Update
     void update(ENotificationUser notificationUser);
 
+    @Query("UPDATE Notification_Info_Recepient SET cMesgStat =:status WHERE sTransNox =:MessageID")
+    void updateNotificationStatusFromOtherDevice(String MessageID, String status);
+
+    @Query("SELECT COUNT(*) FROM Notification_Info_Master WHERE sMesgIDxx=:TransNox")
+    int CheckNotificationIfExist(String TransNox);
+
     @Query("UPDATE Notification_Info_Recepient SET " +
-            "dLastUpdt =:DateTime, " +
+            "dLastUpdt =:fsArgs, " +
+            "dReceived =:fsArgs, " +
             "cMesgStat = '2', " +
-            "cStatSent = '0' " +
+            "cStatSent = '1' " +
             "WHERE sTransNox =:MessageID")
-    void updateRecipientRecievedStatus(String MessageID, String DateTime);
+    void updateRecipientReceivedStatus(String MessageID, String fsArgs);
+
+    @Query("UPDATE Notification_Info_Recepient SET " +
+            "dLastUpdt =:fsArgs, " +
+            "dReadxxxx =:fsArgs, " +
+            "cMesgStat = '3', " +
+            "cStatSent = '1' " +
+            "WHERE sTransNox =:MessageID")
+    void updateReadReceivedStatus(String MessageID, String fsArgs);
 
     @Query("SELECT a.sMesgIDxx AS MesgIDxx," +
             "a.sAppSrcex AS AppSrcex," +
@@ -60,14 +84,31 @@ public interface DNotifications {
             "a.sCreatrNm AS CreatrNm," +
             "b.cMesgStat AS MesgStat," +
             "a.sMsgTitle AS MsgTitle," +
-            "a.sMsgTypex AS MsgTypex " +
+            "a.sMsgTypex AS MsgTypex, " +
+            "a.sDataSndx AS DataInfo " +
             "FROM Notification_Info_Master a " +
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.cMesgStat <> '5' " +
-            "AND a.sMsgTypex <> '00000' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Info_Master)")
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "ORDER BY b.dReceived DESC")
     LiveData<List<ClientNotificationInfo>> getClientNotificationList();
+
+    @Query("SELECT a.sMesgIDxx AS MesgIDxx," +
+            "a.sAppSrcex AS AppSrcex," +
+            "b.dReceived AS Received," +
+            "a.sMessagex AS Messagex," +
+            "a.sCreatrID AS CreatrID," +
+            "a.sCreatrNm AS CreatrNm," +
+            "b.cMesgStat AS MesgStat," +
+            "a.sMsgTitle AS MsgTitle," +
+            "a.sMsgTypex AS MsgTypex, " +
+            "a.sDataSndx AS DataInfo " +
+            "FROM Notification_Info_Master a " +
+            "LEFT JOIN Notification_Info_Recepient b " +
+            "ON a.sMesgIDxx = b.sTransNox " +
+            "WHERE a.sMesgIDxx =:fsMesgID")
+    LiveData<ClientNotificationInfo> GetNotificationInfo(String fsMesgID);
 
     @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
             "a.sMsgTitle AS MsgTitle, " +
@@ -80,7 +121,7 @@ public interface DNotifications {
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.cMesgStat <> '5' " +
             "AND a.sMsgTypex == '00000' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master)")
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<List<UserNotificationInfo>> getUserMessageList();
 
     @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
@@ -94,7 +135,7 @@ public interface DNotifications {
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.cMesgStat <> '5' " +
             "AND a.sMsgTypex == '00000' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master) " +
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.sCreatrID=:SenderID")
     LiveData<List<UserNotificationInfo>> getUserMessageListFromSender(String SenderID);
 
@@ -110,7 +151,7 @@ public interface DNotifications {
             "WHERE b.cMesgStat <> '5'" +
             "AND a.sMsgTypex == '00000' " +
             "AND a.sMsgTypex == '00000' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master) " +
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "GROUP BY a.sCreatrID")
     LiveData<List<UserNotificationInfo>> getUserMessageListGroupByUser();
 
@@ -118,15 +159,14 @@ public interface DNotifications {
             "LEFT JOIN Notification_Info_Master b " +
             "ON a.sTransNox = b.sMesgIDxx " +
             "WHERE a.cMesgStat = '2' AND a.sRecpntID = (" +
-            "SELECT sUserIDxx FROM User_Info_Master) " +
-            "AND b.sMsgTypex == '00000'")
+            "SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<Integer> getUnreadMessagesCount();
 
     @Query("SELECT COUNT(*) FROM Notification_Info_Recepient a " +
             "LEFT JOIN Notification_Info_Master b " +
             "ON a.sTransNox = b.sMesgIDxx " +
             "WHERE a.cMesgStat = '2' AND a.sRecpntID = (" +
-            "SELECT sUserIDxx FROM User_Info_Master) " +
+            "SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND b.sMsgTypex <> '00000'")
     LiveData<Integer> getUnreadNotificationsCount();
 
@@ -141,7 +181,7 @@ public interface DNotifications {
             "ON a.sMesgIDxx = b.sTransNox " +
             "WHERE b.cMesgStat <> '5' " +
             "AND a.sMsgTypex <> '00000' " +
-            "AND b.sRecpntID = (SELECT sUserIDxx FROM User_Info_Master)")
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<List<UserNotificationInfo>> getUserNotificationList();
 
     @Query("SELECT a.sMesgIDxx FROM Notification_Info_Master a " +
@@ -168,6 +208,33 @@ public interface DNotifications {
             "AND cMesgStat == '2'")
     void updateMessageReadStatus(String SenderID, String DateTime);
 
+    @Query("SELECT COUNT(*) FROM Notification_Info_Master a " +
+            "LEFT JOIN Notification_Info_Recepient b " +
+            "ON a.sMesgIDxx = b.sTransNox " +
+            "WHERE b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND cMesgStat = '2'")
+    int GetNotificationCount();
+
+    @Query("SELECT COUNT(*) FROM Notification_Info_Master")
+    int GetNotificationCountForID();
+
+    @Query("SELECT a.sMesgIDxx, " +
+            "b.dReceived, " +
+            "a.sMessagex, " +
+            "a.sCreatrID, " +
+            "a.sCreatrNm, " +
+            "b.sRecpntID, " +
+            "b.cMesgStat, " +
+            "a.sDataSndx " +
+            "FROM Notification_Info_Master a " +
+            "LEFT JOIN Notification_Info_Recepient b " +
+            "ON a.sMesgIDxx = b.sTransNox " +
+            "WHERE b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND a.sMsgTypex = '00000' " +
+            "AND a.sCreatrID IS NULL " +
+            "OR a.sCreatrID = ''")
+    LiveData<List<RegularMessage>> GetRegularMessagesSystemNotif();
+
     class ClientNotificationInfo{
         public String MesgIDxx;
         public String AppSrcex;
@@ -176,6 +243,7 @@ public interface DNotifications {
         public String CreatrID;
         public String CreatrNm;
         public String MesgStat;
+        public String DataInfo;
         public String MsgTitle;
         public String MsgTypex;
     }
@@ -188,6 +256,18 @@ public interface DNotifications {
         public String Messagex;
         public String Received;
     }
+
+    class RegularMessage{
+        public String sMesgIDxx;
+        public String dReceived;
+        public String sMessagex;
+        public String sRecpntID;
+        public String sCreatrID;
+        public String sCreatrNm;
+        public String cMesgStat;
+        public String sDataSndx;
+    }
+
 }
 
 

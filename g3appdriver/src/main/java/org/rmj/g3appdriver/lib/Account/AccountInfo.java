@@ -22,14 +22,13 @@ public class AccountInfo {
     private static final String CITIZENSHIP = "sCitizenx";
     private static final String BIRTHDATE = "sBirthDte";
     private static final String BIRTHPLACE = "sBirthPlc";
-    private static final String EMAILADD = "sEmailAdd";
-    private static final String MOBILENO = "sMobileNo";
-    private static final String TAXID = "sTaxIdxxx";
     private static final String HOUSENO = "sHouseNox";
     private static final String ADDRESS = "sAddressx";
     private static final String BARANGAY = "sBrgyName";
     private static final String TOWN = "sTownName";
     private static final String PROVINCE = "sProvName";
+
+    private static final String VERIFIED_STATUS = "cVerified";
 
     private static final String SESSION_ACTIVE = "cLoggedin";
 
@@ -93,23 +92,8 @@ public class AccountInfo {
         editor.commit();
     }
 
-    public void setTaxId(String taxId){
-        editor.putString(TAXID, taxId);
-        editor.commit();
-    }
-
-    public void setEmailAdd(String emailAdd){
-        editor.putString(EMAILADD, emailAdd);
-        editor.commit();
-    }
-
     public void setCitizenship(String citizenship){
         editor.putString(CITIZENSHIP, citizenship);
-        editor.commit();
-    }
-
-    public void setMobileNo(String mobileNo){
-        editor.putString(MOBILENO, mobileNo);
         editor.commit();
     }
 
@@ -140,6 +124,17 @@ public class AccountInfo {
 
     public void setLoginStatus(boolean status){
         editor.putBoolean(SESSION_ACTIVE, status);
+        editor.commit();
+    }
+
+    /**
+     *
+     * @param fnVal set 0 for not verified or not completed account,
+     *              2 for completed account not verified,
+     *              1 for verified account.
+     */
+    public void setVerifiedStatus(int fnVal){
+        editor.putInt(VERIFIED_STATUS, fnVal);
         editor.commit();
     }
 
@@ -191,18 +186,6 @@ public class AccountInfo {
         return pref.getString(CITIZENSHIP, "");
     }
 
-    public String getTaxId() {
-        return pref.getString(TAXID, "");
-    }
-
-    public String getEmailAdd() {
-        return pref.getString(EMAILADD, "");
-    }
-
-    public String getMobileNo() {
-        return pref.getString(MOBILENO, "");
-    }
-
     public String getHouseNo(){
         return pref.getString(HOUSENO, "");
     }
@@ -227,4 +210,48 @@ public class AccountInfo {
         return  pref.getBoolean(SESSION_ACTIVE,false);
     }
 
+    public int getVerificationStatus(){
+        return pref.getInt(VERIFIED_STATUS, 0);
+    }
+
+    public void LogoutUser(){
+        editor.putString(USERID, "");
+        editor.commit();
+        editor.putString(CLIENTID, "");
+        editor.commit();
+        editor.putString(FULLNAME, "");
+        editor.commit();
+        editor.putString(LASTNAME, "");
+        editor.commit();
+        editor.putString(FIRSTNAME, "");
+        editor.commit();
+        editor.putString(MIDDLENAME, "");
+        editor.commit();
+        editor.putString(SUFFIX, "");
+        editor.commit();
+        editor.putString(GENDER, "");
+        editor.commit();
+        editor.putString(CIVILSTATUS, "");
+        editor.commit();
+        editor.putString(CITIZENSHIP, "");
+        editor.commit();
+        editor.putString(BIRTHDATE, "");
+        editor.commit();
+        editor.putString(BIRTHPLACE, "");
+        editor.commit();
+        editor.putString(HOUSENO, "");
+        editor.commit();
+        editor.putString(ADDRESS, "");
+        editor.commit();
+        editor.putString(BARANGAY, "");
+        editor.commit();
+        editor.putString(TOWN, "");
+        editor.commit();
+        editor.putString(PROVINCE, "");
+        editor.commit();
+        editor.putInt(VERIFIED_STATUS, 0);
+        editor.commit();
+        editor.putBoolean(SESSION_ACTIVE, false);
+        editor.commit();
+    }
 }

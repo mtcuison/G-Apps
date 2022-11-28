@@ -11,16 +11,17 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEvents;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPromo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
-import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
-import org.rmj.g3appdriver.dev.Repositories.RBranchInfo;
-import org.rmj.g3appdriver.dev.Repositories.REvents;
-import org.rmj.g3appdriver.dev.Repositories.RPromo;
+import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
@@ -37,18 +38,18 @@ public class SystemExtras implements iGCardSystem{
 
     private final Context mContext;
 
-    private final RBranchInfo poBranch;
-    private final RPromo poPromo;
-    private final REvents poEvents;
+    private final DBranchInfo poBranch;
+    private final DPromo poPromo;
+    private final DEvents poEvents;
     private final HttpHeaders poHeaders;
     private final GuanzonAppConfig poConfig;
     private final ServerAPIs poAPI;
 
     public SystemExtras(Context context) {
         this.mContext = context;
-        this.poBranch = new RBranchInfo(mContext);
-        this.poPromo = new RPromo(mContext);
-        this.poEvents = new REvents(mContext);
+        this.poBranch = GGC_GuanzonAppDB.getInstance(mContext).EBranchDao();
+        this.poPromo = GGC_GuanzonAppDB.getInstance(mContext).EPromoDao();
+        this.poEvents = GGC_GuanzonAppDB.getInstance(mContext).EventDao();
         this.poHeaders = new HttpHeaders(mContext);
         this.poConfig = new GuanzonAppConfig(mContext);
         this.poAPI = new ServerAPIs(poConfig.getTestCase());
@@ -62,6 +63,81 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public LiveData<List<EGcardApp>> GetGCardList() {
         return null;
+    }
+
+    @Override
+    public void updateGCardActiveStatus(String GCardNmbr) {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public List<EGcardApp> hasGcard() {
+        return null;
+    }
+
+    @Override
+    public LiveData<EGcardApp> hasNoGcard() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EGcardApp>> hasUnCheckGCard() {
+        return null;
+    }
+
+    @Override
+    public List<EGcardApp> hasActiveGcard() {
+        return null;
+    }
+
+    @Override
+    public List<EGcardApp> hasMultipleGCard() {
+        return null;
+    }
+
+    @Override
+    public LiveData<EGcardApp> getGCardInfo() {
+        return null;
+    }
+
+    @Override
+    public List<EGcardApp> getAllGCard() {
+        return null;
+    }
+
+    @Override
+    public void updateAvailablePoints(String fsGcardNo, String fsNewPts) {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public LiveData<String> getActiveGcardNo() {
+        return null;
+    }
+
+    @Override
+    public LiveData<String> getActiveGcardAvlPoints() {
+        return null;
+    }
+
+    @Override
+    public double getRemainingActiveCardPoints() {
+        return 0;
+    }
+
+    @Override
+    public double getAvailableGcardPoints() {
+        return 0;
+    }
+
+    @Override
+    public double getRedeemItemPoints() {
+        return 0;
+    }
+
+    @Override
+    public void updateGCardDeactiveStatus() {
+        throw new NullPointerException();
     }
 
     @Override
@@ -110,7 +186,17 @@ public class SystemExtras implements iGCardSystem{
     }
 
     @Override
+    public LiveData<List<Double>> GetRedeemablePointsFilter() {
+        return null;
+    }
+
+    @Override
     public LiveData<List<ERedeemablesInfo>> GetRedeemablesList() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<ERedeemablesInfo>> GetRedeemablesList(String fsVal) {
         return null;
     }
 
@@ -125,12 +211,32 @@ public class SystemExtras implements iGCardSystem{
     }
 
     @Override
-    public LiveData<List<ERedeemItemInfo>> GetCartItems() {
+    public LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems() {
         return null;
     }
 
     @Override
-    public void PlaceOrder(List<ERedeemItemInfo> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
+    public List<EBranchInfo> GetMCBranchesForRedemption() {
+        return null;
+    }
+
+    @Override
+    public LiveData<Integer> GetGcardCartItemCount() {
+        return null;
+    }
+
+    @Override
+    public LiveData<Double> GetGCardCartItemTotalPoints() {
+        return null;
+    }
+
+    @Override
+    public void DeleteItemCart(String fsVal) {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public void PlaceOrder(List<DRedeemItemInfo.GCardCartItem> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }
 
@@ -189,7 +295,6 @@ public class SystemExtras implements iGCardSystem{
         throw new NullPointerException();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void DownloadBranchesList(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
@@ -229,6 +334,14 @@ public class SystemExtras implements iGCardSystem{
                     info.setBranchNm(loJson.getString("sBranchNm"));
                     info.setDescript(loJson.getString("sDescript"));
                     info.setAddressx(loJson.getString("sAddressx"));
+                    if(loJson.has("nLatitude") &&
+                    loJson.has("nLongtude") &&
+                    !loJson.getString("nLatitude").isEmpty() &&
+                    !loJson.getString("nLongtude").isEmpty()) {
+                        info.setLatitude(Double.parseDouble(loJson.getString("nLatitude")));
+                        info.setLongtude(Double.parseDouble(loJson.getString("nLongtude")));
+                    }
+
 //                    info.setContactx(loJson.getString("sContactx"));
                     info.setTelNumbr(loJson.getString("sTelNumbr"));
                     info.setEmailAdd(loJson.getString("sEMailAdd"));
@@ -266,7 +379,6 @@ public class SystemExtras implements iGCardSystem{
         return poBranch.getMotorBranches();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void DownloadPromotions(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
@@ -299,19 +411,40 @@ public class SystemExtras implements iGCardSystem{
             if(loPromo == null) {
                 //check the records from API, if record status is not equal to 1, record is inactive, do not insert
 //                if(!"1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
-//                    // insert saving method inside...
+                    // insert saving method inside...
+                    EPromo info = new EPromo();
+                    info.setTransNox(loJson.getString("sTransNox"));
+                    info.setDivision(loJson.getInt("cDivision"));
+                    info.setTransact(loJson.getString("dTransact"));
+                    info.setImageUrl(loJson.getString("sImageURL"));
+                    info.setImageSld(loJson.getString("sImageNme"));
+                    info.setPromoUrl(loJson.getString("sPromoURL"));
+                    info.setCaptionx(loJson.getString("sCaptionx"));
+                    info.setDateFrom(loJson.getString("dDateFrom"));
+                    info.setDateThru(loJson.getString("dDateThru"));
+//                    info.setRecdStat(loJson.getString("cRecdStat"));
+//                    info.setTimeStmp(loJson.getString("dTimeStmp"));
+                    poPromo.insert(info);
+                    Log.d(TAG, "New record save!");
 //                }
-                EPromo info = new EPromo();
-                info.setTransNox(loJson.getString("sTransNox"));
-                info.setTransact(loJson.getString("dTransact"));
-                info.setImageUrl(loJson.getString("sImageURL"));
-                info.setPromoUrl(loJson.getString("sPromoURL"));
-                info.setCaptionx(loJson.getString("sCaptionx"));
-                info.setDateFrom(loJson.getString("dDateFrom"));
-                info.setDateThru(loJson.getString("dDateThru"));
-                poPromo.insert(info);
-            } else {
-
+//            } else {
+//                Date ldDate1 = SQLUtil.toDate(loPromo.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+//                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+//
+//                if(!ldDate1.equals(ldDate2)){
+//                    poPromo.UpdatePromoInfo(loJson.getString("dTransact"),
+//                            loJson.getString("dDateFrom"),
+//                            loJson.getString("dDateThru"),
+//                            loJson.getString("sCaptionx"),
+//                            loJson.getString("sImageURL"),
+//                            loJson.getString("cRecdStat"),
+//                            loJson.getString("sImageNme"),
+//                            loJson.getString("dTimeStmp"),
+//                            loJson.getString("sPromoUrl"),
+//                            loJson.getString("cDivision"),
+//                            loJson.getString("sTransNox"));
+//                    Log.d(TAG, "A record has been updated!");
+//                }
             }
         }
     }
@@ -321,7 +454,11 @@ public class SystemExtras implements iGCardSystem{
         return poPromo.getAllPromo();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public EPromo CheckPromo() {
+        return poPromo.CheckPromo();
+    }
+
     @Override
     public void DownloadNewsEvents(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
@@ -358,7 +495,7 @@ public class SystemExtras implements iGCardSystem{
             info.setEventURL(loJson.getString("sEventURL"));
             info.setImageURL(loJson.getString("sImageURL"));
             info.setNotified("0");
-            info.setModified(AppConstants.DATE_MODIFIED);
+            info.setModified(new AppConstants().DATE_MODIFIED);
             info.setDirectoryFolder("Events");
             poEvents.insert(info);
         }
@@ -366,6 +503,12 @@ public class SystemExtras implements iGCardSystem{
 
     @Override
     public LiveData<List<EEvents>> GetNewsEvents() {
-        return null;
+        return poEvents.getAllEvents();
     }
+
+    @Override
+    public EEvents CheckEvents() {
+        return poEvents.CheckEvent();
+    }
+
 }

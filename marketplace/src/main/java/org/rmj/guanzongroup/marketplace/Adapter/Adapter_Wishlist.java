@@ -6,6 +6,7 @@ import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class Adapter_Wishlist extends RecyclerView.Adapter<Adapter_Wishlist.Orde
     @Override
     public void onBindViewHolder(@NonNull OrderHolder holder, int position) {
         WishListModel loWist = poWish.get(position);
+        holder.lsItemIdx = "1010";
         holder.lblItemName.setText(loWist.getWishName());
         holder.lblItemPrice.setText("₱ " + loWist.getWishPrice());
         holder.lblItemPercent.setText(" - " + loWist.getWishPercent() + "%");
@@ -55,11 +57,13 @@ public class Adapter_Wishlist extends RecyclerView.Adapter<Adapter_Wishlist.Orde
 
     public static class OrderHolder extends RecyclerView.ViewHolder{
 
+        public String lsItemIdx;
         public TextView lblItemName;
         public TextView lblItemPrice;
         public TextView lblItemPriceDrop;
         public TextView lblItemPercent;
         public ImageView imgItem;
+        public ImageButton imgRemove, imgAddCart;
 
         public OrderHolder(@NonNull View itemView, OnCartAction foCallBck) {
             super(itemView);
@@ -68,7 +72,16 @@ public class Adapter_Wishlist extends RecyclerView.Adapter<Adapter_Wishlist.Orde
             lblItemPriceDrop = itemView.findViewById(R.id.lblWishProdPrice1);
             lblItemPercent = itemView.findViewById(R.id.lblWishPercent);
             imgItem = itemView.findViewById(R.id.imgWishProduct);
+            imgRemove = itemView.findViewById(R.id.removeItem);
+            imgAddCart = itemView.findViewById(R.id.addToCart);
 
+            imgAddCart.setOnClickListener(v -> {
+                foCallBck.onAddToCart(lsItemIdx, lblItemName.getText().toString(), lblItemPrice.getText().toString());
+            });
+
+            imgRemove.setOnClickListener(v -> {
+                foCallBck.onRemoveToCart(lsItemIdx);
+            });
 
 //            lblStActv.setOnClickListener(v -> {
 //                foCallBck.onActivate(txtCardNo.getText().toString().trim());
@@ -82,7 +95,8 @@ public class Adapter_Wishlist extends RecyclerView.Adapter<Adapter_Wishlist.Orde
     }
 
     public interface OnCartAction {
-        void onClickAction(String val);
+        void onAddToCart(String fsListIdx, String fsItemNme, String fsItemPrc);
+        void onRemoveToCart(String fsListIdx);
     }
 
 }

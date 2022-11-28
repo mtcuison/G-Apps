@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -24,11 +26,15 @@ import org.rmj.guanzongroup.useraccount.Model.CompleteAccountDetailsInfo;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountDetails;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 public class Activity_CompleteAccountDetails extends AppCompatActivity {
+    private static final String TAG = Activity_CompleteAccountDetails.class.getSimpleName();
 
     private VMAccountDetails mViewModel;
     private CompleteAccountDetailsInfo poDataMdl;
@@ -38,10 +44,13 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     private Dialog_DoubleButton poDblDiag;
     private TextInputEditText txtLastNm, txtFirstN, txtMidNme, txtSuffix, txtBdatex, txtTaxNox,
             txtHouseN, txtStreet;
-    private AutoCompleteTextView txtBplace, txtGender, txtCivilS, txtCtizen, txtTownCt, txtBarngy;
+    private AutoCompleteTextView txtBplace, txtGender, txtCivilS,
+            txtCtizen,
+            txtTownCt,
+            txtBarngy;
     private MaterialButton btnSaveDt;
 
-    private List<DAddress.oTownObj> poTownCty = new ArrayList<>();
+    private String psBDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +87,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         poDialogx = new Dialog_SingleButton(Activity_CompleteAccountDetails.this);
         poDblDiag = new Dialog_DoubleButton(Activity_CompleteAccountDetails.this);
-        txtLastNm = findViewById(R.id.tie_lastname);
+        txtLastNm = findViewById(R.id.tie_accountUpdate);
         txtFirstN = findViewById(R.id.tie_firstname);
         txtMidNme = findViewById(R.id.tie_middname);
         txtSuffix = findViewById(R.id.tie_suffix);
@@ -117,8 +126,12 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                 public void onSuccess(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Account Details", fsMessage, dialog -> {
-                        dialog.dismiss();
+                    poDialogx.initDialog("Account Details", fsMessage, () -> {
+                        poDialogx.dismiss();
+                        Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                        intent.putExtra("args", "auth");
+                        sendBroadcast(intent);
+                        poLoading.dismiss();
                         finish();
                     });
                     poDialogx.show();
@@ -128,36 +141,52 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Account Details", fsMessage, dialog -> {
-                        dialog.dismiss();
-                    });
+                    poDialogx.initDialog("Account Details", fsMessage, () -> poDialogx.dismiss());
                     poDialogx.show();
                 }
             });
         } else {
             poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Account Details", poDataMdl.getMessage(), dialog -> {
-                dialog.dismiss();
-            });
+            poDialogx.initDialog("Account Details", poDataMdl.getMessage(), () -> poDialogx.dismiss());
             poDialogx.show();
         }
 
     }
 
     private void setInfoModelValues() {
-        poDataMdl.setLastName(Objects.requireNonNull(txtLastNm.getText().toString().trim()));
-        poDataMdl.setFirstName(Objects.requireNonNull(txtFirstN.getText().toString().trim()));
-        poDataMdl.setMiddName(Objects.requireNonNull(txtMidNme.getText().toString().trim()));
-        poDataMdl.setSuffixName(Objects.requireNonNull(txtSuffix.getText().toString().trim()));
-        poDataMdl.setBirthDate(Objects.requireNonNull(txtBdatex.getText().toString().trim()));
-        poDataMdl.setTaxIdNumber(Objects.requireNonNull(txtTaxNox.getText().toString().trim()));
-        poDataMdl.setHouseNumber(Objects.requireNonNull(txtHouseN.getText().toString().trim()));
-        poDataMdl.setAddress(Objects.requireNonNull(txtStreet.getText().toString().trim()));
+        poDataMdl.setLastName(Objects.requireNonNull(Objects.requireNonNull(txtLastNm.getText()).toString().trim()));
+        poDataMdl.setFirstName(Objects.requireNonNull(Objects.requireNonNull(txtFirstN.getText()).toString().trim()));
+        poDataMdl.setMiddName(Objects.requireNonNull(Objects.requireNonNull(txtMidNme.getText()).toString().trim()));
+        poDataMdl.setSuffixName(Objects.requireNonNull(Objects.requireNonNull(txtSuffix.getText()).toString().trim()));
+        poDataMdl.setBirthDate(psBDate);
+        poDataMdl.setTaxIdNumber(Objects.requireNonNull(Objects.requireNonNull(txtTaxNox.getText()).toString().trim()));
+        poDataMdl.setHouseNumber(Objects.requireNonNull(Objects.requireNonNull(txtHouseN.getText()).toString().trim()));
+        poDataMdl.setAddress(Objects.requireNonNull(Objects.requireNonNull(txtStreet.getText()).toString().trim()));
     }
 
     private void setInputOptions() {
         /** Date Auto Formatter */
-        txtBdatex.addTextChangedListener(new InputFieldController.OnDateSetListener(txtBdatex));
+        txtBdatex.setOnClickListener(v ->  {
+            final Calendar newCalendar = Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+            final DatePickerDialog StartTime = new DatePickerDialog(Activity_CompleteAccountDetails.this,
+                    android.R.style.Theme_Holo_Dialog,  (view131, year, monthOfYear, dayOfMonth) -> {
+                try {
+                    Calendar newDate = Calendar.getInstance();
+                    newDate.set(year, monthOfYear, dayOfMonth);
+                    String lsDate = dateFormatter.format(newDate.getTime());
+                    txtBdatex.setText(lsDate);
+                    Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
+                    lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
+                    Log.d(TAG, "Save formatted time: " + lsDate);
+                    psBDate = lsDate;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            StartTime.getDatePicker().setMaxDate(new Date().getTime());
+            StartTime.show();
+        });
 
         /** AutoCompleteTextviews */
 
@@ -245,14 +274,11 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                                         )
                                 );
 
-                                txtBarngy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                        for(int x = 0; x < brgys.size(); x++){
-                                            if(brgys.get(x).getBrgyName().equalsIgnoreCase(txtBarngy.getText().toString().trim())){
-                                                poDataMdl.setBarangay(brgys.get(x).getBrgyIDxx());
-                                                break;
-                                            }
+                                txtBarngy.setOnItemClickListener((adapterView1, view1, i1, l1) -> {
+                                    for(int x1 = 0; x1 < brgys.size(); x1++){
+                                        if(brgys.get(x1).getBrgyName().equalsIgnoreCase(txtBarngy.getText().toString().trim())){
+                                            poDataMdl.setBarangay(brgys.get(x1).getBrgyIDxx());
+                                            break;
                                         }
                                     }
                                 });
@@ -291,6 +317,8 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
             @Override
             public void onConfirm(AlertDialog dialog) {
                 dialog.dismiss();
+                Intent loIntent = new Intent();
+                loIntent.putExtra("result", "cancelled");
                 finish();
             }
 
@@ -301,5 +329,5 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         });
         poDblDiag.show();
     }
-
 }
+

@@ -34,12 +34,17 @@ public interface DRedeemablesInfo {
     @Query("SELECT COUNT(sPromoIDx) FROM Redeem_Item WHERE sGcardNox =:GCardNox AND cTranStat != 0 GROUP BY sReferNox")
     LiveData<Integer> getOrdersCount(String GCardNox);
 
-
     @Query("SELECT * FROM Redeem_Item WHERE sGcardNox =:GCardNox AND cTranStat != 0 GROUP BY sReferNox")
     LiveData<List<ERedeemItemInfo>> getOrdersList(String GCardNox);
 
-    @Query("SELECT * FROM Redeemables")
+    @Query("SELECT * FROM Redeemables WHERE strftime('%Y-%m-%d','now') BETWEEN dDateFrom AND IFNULL(dDateThru, strftime('%Y-%m-%d','now'))")
     LiveData<List<ERedeemablesInfo>> getRedeemablesList();
+
+    @Query("SELECT nPointsxx AS Filter FROM Redeemables WHERE strftime('%Y-%m-%d','now') BETWEEN dDateFrom AND IFNULL(dDateThru, strftime('%Y-%m-%d','now')) GROUP BY nPointsxx")
+    LiveData<List<Double>> GetRedeemablePointsFilter();
+
+    @Query("SELECT * FROM Redeemables WHERE nPointsxx =:fsVal AND strftime('%Y-%m-%d','now') BETWEEN dDateFrom AND IFNULL(dDateThru, strftime('%Y-%m-%d','now'))")
+    LiveData<List<ERedeemablesInfo>> getRedeemablesList(String fsVal);
 
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT c.sReferNox, c.dOrderedx, b.sBranchNm, b.sAddressx, SUM(c.nPointsxx) as TotAmnt " +

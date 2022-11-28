@@ -100,8 +100,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\User\Pictures\Mobile App Icon.png" />
-                                                <entry key="scalingPercent" value="60" />
+                                                <entry key="imagePath" value="C:\Users\User\Pictures" />
+                                                <entry key="scalingPercent" value="50" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -131,6 +131,11 @@
                                       </entry>
                                     </map>
                                   </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="backgroundAssetType" value="COLOR" />
+                                    </map>
+                                  </option>
                                 </PersistentState>
                               </value>
                             </entry>
@@ -157,8 +162,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\User\Pictures\Mobile App Icon.png" />
-                                                <entry key="paddingPercent" value="-5" />
+                                                <entry key="imagePath" value="C:\Users\User\Pictures\Mobile App Assets -  revised\Brand Categories 100px\xiaomi.png" />
+                                                <entry key="paddingPercent" value="10" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -192,7 +197,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\User\Pictures\Mobile App Icon.png" />
+                                      <entry key="iconShape" value="NONE" />
+                                      <entry key="imageAsset" value="C:\Users\User\Pictures\Mobile App Assets -  revised\Brand Categories 100px\xiaomi.png" />
+                                      <entry key="outputName" value="ic_xiaomi_logo" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -265,17 +272,46 @@
                                 <PersistentState>
                                   <option name="children">
                                     <map>
+                                      <entry key="backgroundImage">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="imagePath" value="C:\Users\User\Pictures\Saved Pictures\guanzon_mobitek.png" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="foregroundImage">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="imagePath" value="C:\Users\User\Pictures\Saved Pictures\guanzon_motors.png" />
+                                                <entry key="scalingPercent" value="107" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
                                       <entry key="foregroundText">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="text" value="" />
                                               </map>
                                             </option>
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="outputName" value="ic_motorcycle_banner" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -337,6 +373,11 @@
                             </entry>
                           </map>
                         </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="TV_BANNER" />
+                          </map>
+                        </option>
                       </PersistentState>
                     </value>
                   </entry>
@@ -360,7 +401,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/qr_code/baseline_qr_code_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/verified_user/baseline_verified_user_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -370,10 +411,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="color" value="242424" />
-                            <entry key="outputName" value="ic_plus" />
-                            <entry key="sourceFile" value="C:\Users\User\Desktop\Marketplace Sample Image\plus.svg" />
+                            <entry key="color" value="f47422" />
+                            <entry key="outputName" value="ic_baseline_verified_user_24" />
+                            <entry key="sourceFile" value="C:\Users\User\Downloads\loan-application-icon.svg" />
                           </map>
                         </option>
                       </PersistentState>

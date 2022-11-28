@@ -6,10 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
+import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
+import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 import org.rmj.guanzongroup.marketplace.Model.ItemCartModel;
 
 import java.util.ArrayList;
@@ -20,12 +22,15 @@ public class VMItemCart extends AndroidViewModel {
 
     private final MutableLiveData<List<ItemCartModel>> poItemCart = new MutableLiveData<>();
     private final RClientInfo poClientx;
+    private final iGCardSystem poGCard;
 
     public VMItemCart(@NonNull Application application) {
         super(application);
         this.poClientx = new RClientInfo(application);
         generateData();
+        this.poGCard = new GCardSystem(application).getInstance(GCardSystem.CoreFunctions.GCARD);
     }
+
     private void generateData(){
         ArrayList<ItemCartModel> list = new ArrayList<>();
         ItemCartModel model = new ItemCartModel();
@@ -51,10 +56,15 @@ public class VMItemCart extends AndroidViewModel {
         poItemCart.setValue(list);
 
     }
+
     public LiveData<EClientInfo> getClientInfo() {
         return poClientx.getClientInfo();
     }
     public LiveData<List<ItemCartModel>> getData() {
         return poItemCart;
+    }
+
+    public LiveData<EGcardApp> GetActiveGCard(){
+        return poGCard.getGCardInfo();
     }
 }

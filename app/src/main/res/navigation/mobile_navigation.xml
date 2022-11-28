@@ -8,12 +8,12 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="org.rmj.guanzongroup.marketplace.Fragment.Fragment_Home"
-        android:label="@string/lblMarketplace"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_promos"
-        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_EventsPromos"
+        android:name="org.rmj.guanzongroup.notifications.Fragment.Fragment_EventsPromos"
         android:label="@string/lblPromos"
         tools:layout="@layout/fragment_home">
 
@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/nav_events"
-        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_EventsPromos"
+        android:name="org.rmj.guanzongroup.notifications.Fragment.Fragment_EventsPromos"
         android:label="@string/lblEvents"
         tools:layout="@layout/fragment_home">
 
@@ -34,12 +34,6 @@
             android:defaultValue="2"/>
 
     </fragment>
-
-    <fragment
-        android:id="@+id/nav_notifications"
-        android:name="org.rmj.guanzongroup.notifications.Fragment.Fragment_Notifications"
-        android:label="@string/menu_notifications"
-        tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/nav_purchases"
@@ -54,16 +48,10 @@
         tools:layout="@layout/fragment_wishlist" />
 
     <fragment
-        android:id="@+id/nav_item_cart"
-        android:name="org.rmj.guanzongroup.marketplace.Fragment.Fragment_ItemCart"
-        android:label="@string/menu_item_cart"
-        tools:layout="@layout/fragment_item_cart" />
-
-    <fragment
         android:id="@+id/nav_my_gcard"
         android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcardBaseContainer"
         android:label="@string/menu_my_gcard"
-        tools:layout="@layout/fragment_my_gcard_base_container" >
+        tools:layout="@layout/fragment_my_gcard" >
         <argument android:name="gcardInstance"
             app:argType="integer"
             android:defaultValue="1"/>
@@ -73,7 +61,7 @@
         android:id="@+id/nav_redeemables"
         android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcardBaseContainer"
         android:label="@string/menu_redeemables"
-        tools:layout="@layout/fragment_my_gcard_base_container">>
+        tools:layout="@layout/fragment_redeemables">
         <argument android:name="gcardInstance"
             app:argType="integer"
             android:defaultValue="2"/>
@@ -83,7 +71,7 @@
         android:id="@+id/nav_gcard_orders"
         android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcardBaseContainer"
         android:label="@string/menu_gcard_orders"
-        tools:layout="@layout/fragment_my_gcard_base_container" >
+        tools:layout="@layout/fragment_gcard_orders" >
         <argument android:name="gcardInstance"
             app:argType="integer"
             android:defaultValue="3"/>
@@ -130,4 +118,29 @@
         android:name="org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_CustomerService"
         android:label="@string/menu_customer_service"
         tools:layout="@layout/fragment_customer_service" />
+
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_About"
+        android:label="@string/menu_about"
+        tools:layout="@layout/fragment_about" >
+
+        <action
+            android:id="@+id/action_nav_about_to_nav_comp_profile"
+            app:destination="@id/nav_comp_profile">
+
+            <argument
+                android:name="args_about"
+                android:defaultValue="0"
+                app:argType="integer" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_comp_profile"
+        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_CompanyProfile"
+        android:label="@string/menu_about"
+        tools:layout="@layout/fragment_company_profile"/>
+
 </navigation>

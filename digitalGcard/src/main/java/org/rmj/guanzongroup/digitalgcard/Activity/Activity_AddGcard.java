@@ -1,6 +1,9 @@
 package org.rmj.guanzongroup.digitalgcard.Activity;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,8 +14,8 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -22,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
+import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -41,18 +45,50 @@ public class Activity_AddGcard extends AppCompatActivity {
     private TextInputEditText txtBdatex, txtGcardN;
     private MaterialButton btnAddCrd, btnScanGc;
 
+    private static final int SCAN_GCARD = 1;
+
+    public boolean isClicked = false;
+
+    private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if(result.getResultCode() == SCAN_GCARD) {
+                    Intent loIntent = result.getData();
+                    if (loIntent != null) {
+//                        Toast.makeText(Activity_AddGcard.this, loIntent.getStringExtra("result"), Toast.LENGTH_LONG).show();
+                        String lsArgs = loIntent.getStringExtra("result");
+                        addScannedGcard(lsArgs);
+                    } else {
+                        Toast.makeText(Activity_AddGcard.this, "No data result receive.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+    );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_gcard);
         mViewModel = new ViewModelProvider(Activity_AddGcard.this).get(VMGCardSystem.class);
-        mViewModel.setInstance(GCardSystem.CoreFunctions.GCARD);
+        mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
         initViews();
         setUpToolbar();
 
         txtBdatex.setOnClickListener(v -> datePicker());
-        btnAddCrd.setOnClickListener(v -> addGcard());
+        btnAddCrd.setOnClickListener(v -> {
+            if(!isClicked) {
+                isClicked = true;
+                addGcard();
+            }  else {
+                Toast.makeText(Activity_AddGcard.this, "Please wait...", Toast.LENGTH_SHORT).show();
+            }
+        });
         btnScanGc.setOnClickListener(v -> scanGcard());
+
+        if(getIntent().hasExtra("args")){
+            String lsArgs = getIntent().getStringExtra("args");
+            addScannedGcard(lsArgs);
+        }
     }
 
     @Override
@@ -68,6 +104,38 @@ public class Activity_AddGcard extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == SCAN_GCARD){
+            iGCardSystem loGcard = new GCardSystem(Activity_AddGcard.this).getInstance(GCardSystem.CoreFunctions.GCARD);
+            try {
+                String lsVal = Objects.requireNonNull(data).getStringExtra("data");
+                loGcard.ParseQrCode(lsVal, new GCardSystem.ParseQrCodeCallback() {
+                    @Override
+                    public void ApplicationResult(String args) {
+                        //TODO : Add call GCardSystem>AddGCardQrCode()
+                    }
+
+                    @Override
+                    public void TransactionResult(String args) {
+                        Toast.makeText(Activity_AddGcard.this, args, Toast.LENGTH_LONG).show();
+                        //TODO: Create dialog that will display the PIN. After closing the dialog, call GCardSystem>DownloadTransactions()
+                        // Display message that transaction won't affect immediately on GCard Ledger.
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+                        //TODO: Display error message dialog
+                        Toast.makeText(Activity_AddGcard.this, message, Toast.LENGTH_LONG).show();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(Activity_AddGcard.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
     // Initialize this first before anything else.
     private void initViews() {
@@ -104,8 +172,9 @@ public class Activity_AddGcard extends AppCompatActivity {
                     public void onSuccess(String fsMessage) {
                         poLoading.dismiss();
                         poDialog.setButtonText("Okay");
-                        poDialog.initDialog("Add GCard", "GCard Successfully Added.", dialog -> {
-                            dialog.dismiss();
+                        poDialog.initDialog("Add GCard", "GCard Successfully Added.", () -> {
+                            isClicked = false;
+                            poDialog.dismiss();
                             finish();
                         });
                         poDialog.show();
@@ -127,11 +196,13 @@ public class Activity_AddGcard extends AppCompatActivity {
                                                 @Override
                                                 public void onConfirm(AlertDialog dialog) {
                                                     confirmAddGcard(loGcard);
+                                                    isClicked = false;
                                                     dialog.dismiss();
                                                 }
 
                                                 @Override
                                                 public void onCancel(AlertDialog dialog) {
+                                                    isClicked = false;
                                                     dialog.dismiss();
                                                 }
                                             });
@@ -142,7 +213,10 @@ public class Activity_AddGcard extends AppCompatActivity {
                             }
                         } else {
                             poDialog.setButtonText("Okay");
-                            poDialog.initDialog("Add GCard Failed", fsMessage, dialog -> dialog.dismiss());
+                            poDialog.initDialog("Add GCard Failed", fsMessage, () -> {
+                                isClicked = false;
+                                poDialog.dismiss();
+                            });
                             poDialog.show();
                         }
                     }
@@ -157,9 +231,65 @@ public class Activity_AddGcard extends AppCompatActivity {
             }
         } else {
             poDialog.setButtonText("Okay");
-            poDialog.initDialog("Add GCard Failed", loGcard.getMessage(), dialog -> dialog.dismiss());
+            poDialog.initDialog("Add GCard Failed", loGcard.getMessage(), () -> {
+                isClicked = false;
+                poDialog.dismiss();
+            });
             poDialog.show();
         }
+    }
+
+    private void addScannedGcard(String args){
+        mViewModel.addScannedGcard(args, new VMGCardSystem.GcardTransactionCallback() {
+            @Override
+            public void onLoad() {
+                poLoading = new Dialog_Loading(Activity_AddGcard.this);
+                poLoading.initDialog("Adding GCard", "Please wait for a while.");
+                poLoading.show();
+            }
+
+            @Override
+            public void onSuccess(String fsMessage) {
+                poLoading.dismiss();
+                poDialog.setButtonText("Okay");
+                poDialog.initDialog("Add GCard", "GCard Successfully Added.", () -> {
+                    poDialog.dismiss();
+                    finish();
+                });
+                poDialog.show();
+            }
+
+            @Override
+            public void onFailed(String fsMessage) {
+                poLoading.dismiss();
+                if(isJSONValid(fsMessage)) {
+                    String lsErrCode = "";
+                    try {
+                        JSONObject loJson = new JSONObject(fsMessage);
+                        lsErrCode = loJson.getString("code");
+                        if("CNF".equalsIgnoreCase(lsErrCode)) {
+                            poDialog.setButtonText("Okay");
+                            poDialog.initDialog("Add GCard", "GCard is already registered to other account. Please add GCard number manually and confirm to register the GCard on your account.", () -> {
+                                poDialog.dismiss();
+                                finish();
+                            });
+                            poDialog.show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    poDialog.setButtonText("Okay");
+                    poDialog.initDialog("Add GCard Failed", fsMessage, () -> poDialog.dismiss());
+                    poDialog.show();
+                }
+            }
+
+            @Override
+            public void onQrGenerate(Bitmap foBitmap) {
+
+            }
+        });
     }
 
     private void confirmAddGcard(GcardCredentials foGcard) {
@@ -176,8 +306,8 @@ public class Activity_AddGcard extends AppCompatActivity {
                 public void onSuccess(String fsMessage) {
                     poLoading.dismiss();
                     poDialog.setButtonText("Okay");
-                    poDialog.initDialog("Add GCard", "GCard Successfully Added.", dialog -> {
-                        dialog.dismiss();
+                    poDialog.initDialog("Add GCard", "GCard Successfully Added.", () -> {
+                        poDialog.dismiss();
                         finish();
                     });
                     poDialog.show();
@@ -187,7 +317,7 @@ public class Activity_AddGcard extends AppCompatActivity {
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
                     poDialog.setButtonText("Okay");
-                    poDialog.initDialog("Add GCard Failed", fsMessage, dialog -> dialog.dismiss());
+                    poDialog.initDialog("Add GCard Failed", fsMessage, () -> poDialog.dismiss());
                     poDialog.show();
                 }
 
@@ -203,7 +333,7 @@ public class Activity_AddGcard extends AppCompatActivity {
 
     private void scanGcard() {
         Intent loIntent = new Intent(Activity_AddGcard.this, Activity_QrCodeScanner.class);
-        startActivity(loIntent);
+        poArl.launch(loIntent);
     }
 
     private void datePicker() {
@@ -234,5 +364,4 @@ public class Activity_AddGcard extends AppCompatActivity {
         }
         return true;
     }
-
 }

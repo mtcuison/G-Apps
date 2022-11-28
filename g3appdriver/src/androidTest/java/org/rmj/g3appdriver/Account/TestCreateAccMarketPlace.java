@@ -60,6 +60,10 @@ public class TestCreateAccMarketPlace {
                     public void OnFailedLogin(String message) {
                         isSucccess = false;
                     }
+                    @Override
+                    public void OnAccountVerification(String args, String args1) {
+
+                    }
                 });
         assertTrue(isSucccess);
     }
@@ -93,10 +97,10 @@ public class TestCreateAccMarketPlace {
         poUserInfo.setCitizenx("");
         poUserInfo.setBirthDte("1996-11-26");
         poUserInfo.setBirthPlc("0346");
-        poUserInfo.setHouseNox("231");
-        poUserInfo.setAddressx("Sitio Tawi-Tawi");
-        poUserInfo.setTownIDxx("0346");
-        poUserInfo.setBrgyIDxx("1100170");
+        poUserInfo.setHouseNo1("231");
+        poUserInfo.setAddress1("Sitio Tawi-Tawi");
+        poUserInfo.setTownIDx1("0346");
+        poUserInfo.setBrgyIDx1("1100170");
         poUserInfo.setTaxIDNox("");
 
         isSucccess = poClient.CompleteClientInfo(poUserInfo);

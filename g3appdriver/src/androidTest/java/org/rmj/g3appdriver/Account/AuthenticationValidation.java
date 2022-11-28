@@ -88,6 +88,10 @@ public class AuthenticationValidation {
             public void OnFailedLogin(String message) {
                 isSucccess = false;
             }
+            @Override
+            public void OnAccountVerification(String args, String args1) {
+
+            }
         });
 
         assertTrue(isSucccess);
@@ -106,6 +110,10 @@ public class AuthenticationValidation {
             public void OnFailedLogin(String fsMessage) {
                 isSucccess = false;
                 message = fsMessage;
+            }
+            @Override
+            public void OnAccountVerification(String args, String args1) {
+
             }
         });
 
@@ -126,6 +134,10 @@ public class AuthenticationValidation {
             public void OnFailedLogin(String fsMessage) {
                 isSucccess = false;
             }
+            @Override
+            public void OnAccountVerification(String args, String args1) {
+
+            }
         });
 
         assertTrue(isSucccess);
@@ -135,14 +147,14 @@ public class AuthenticationValidation {
     public void test09SessionManageAfterLoginTest() throws Exception{
         AccountInfo loSession = new AccountInfo(mContext);
         String lsUserIDx = loSession.getUserID();
-        String lsEmailxx = loSession.getEmailAdd();
+//        String lsEmailxx = loSession.getEmailAdd();
         String lsUserNme = loSession.getFullName();
-        String lsMobilex = loSession.getMobileNo();
+//        String lsMobilex = loSession.getMobileNo();
 
         assertEquals("GAP0190554", lsUserIDx);
-        assertEquals("garciamike8748@gmail.com", lsEmailxx);
+//        assertEquals("garciamike8748@gmail.com", lsEmailxx);
         assertEquals("Doe, Garcia Michael ", lsUserNme);
-        assertEquals("09270359402", lsMobilex);
+//        assertEquals("09270359402", lsMobilex);
     }
 
     @Test
@@ -158,6 +170,10 @@ public class AuthenticationValidation {
             public void OnFailedLogin(String fsMessage) {
                 isSucccess = false;
                 message = fsMessage;
+            }
+            @Override
+            public void OnAccountVerification(String args, String args1) {
+
             }
         });
 

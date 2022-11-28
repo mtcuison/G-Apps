@@ -3,22 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:overScrollMode="never"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="org.rmj.guanzongroup.marketplace.Fragment.Fragment_Home"
-    >
+    tools:context="org.rmj.guanzongroup.marketplace.Fragment.Fragment_Home">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/fill_carousel"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:background="@color/font_light"
+        <com.smarteist.autoimageslider.SliderView
+            android:id="@+id/imgSlider"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:sliderAnimationDuration="600"
+            app:sliderAutoCycleDirection="back_and_forth"
+            app:sliderAutoCycleEnabled="true"
+            app:sliderIndicatorAnimationDuration="600"
+            app:sliderIndicatorGravity="center_horizontal|bottom"
+            app:sliderIndicatorMargin="15dp"
+            app:sliderIndicatorOrientation="horizontal"
+            app:sliderIndicatorPadding="3dp"
+            app:sliderIndicatorRadius="2dp"
+            app:sliderIndicatorSelectedColor="#5A5A5A"
+            app:sliderIndicatorUnselectedColor="#FFF"
+            app:sliderScrollTimeInSec="1"
+            app:sliderStartAutoCycle="true"
+            app:layout_constraintDimensionRatio="4:3"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent" />
 
         <LinearLayout
             android:id="@+id/layout_content"
@@ -26,83 +39,43 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fill_carousel"
+            app:layout_constraintTop_toBottomOf="@id/imgSlider"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginHorizontal="17dp"
             android:layout_marginVertical="10dp">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/gCard_panel"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:layout_marginLeft="8dp"
+                android:text="@string/lblBrands"
+                android:fontFamily="@font/roboto_light"
+                android:textSize="18sp"
+                android:textColor="@color/font_regular"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="2dp"
-                app:cardUseCompatPadding="true"
-                style="@style/GcardInfoStyle.Inactive">
+                android:gravity="center_horizontal">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="15dp">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_categories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-                    <TextView
-                        android:id="@+id/lblGcardNo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@string/lblGcardNumber"
-                        android:textColor="@color/font_regular"
-                        android:textSize="12sp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/txt_card_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto"
-                        android:text="123456789"
-                        android:textColor="@color/font_regular"
-                        android:textSize="16sp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-
-                    <TextView
-                        android:id="@+id/lblGcardPoints"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@string/lblTotalPoints"
-                        android:textColor="@color/font_regular"
-                        android:textSize="12sp"
-                        app:layout_constraintLeft_toRightOf="@id/lblGcardNo"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/img_qrCode"/>
-
-                    <TextView
-                        android:id="@+id/txt_gcard_points"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto"
-                        android:text="123456789"
-                        android:textColor="@color/font_regular"
-                        android:textSize="16sp"
-                        app:layout_constraintLeft_toLeftOf="@id/lblGcardPoints"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-
-                    <ImageView
-                        android:id="@+id/img_qrCode"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:src="@drawable/ic_baseline_qr_code_45"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:layout_marginLeft="8dp"
+                android:text="@string/lblNewProducts"
+                android:fontFamily="@font/roboto_light"
+                android:textSize="18sp"
+                android:textColor="@color/font_regular"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_products"
@@ -110,11 +83,22 @@
                 android:layout_height="wrap_content"
                 android:overScrollMode="never"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_categories"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"/>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginVertical="20dp"-->
+<!--                android:layout_marginLeft="8dp"-->
+<!--                android:text="@string/lblCategories"-->
+<!--                android:fontFamily="@font/roboto_light"-->
+<!--                android:textSize="18sp"-->
+<!--                android:textColor="@color/font_regular"/>-->
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/rv_categories"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:overScrollMode="never"-->
+<!--                android:visibility="gone"/>-->
 
         </LinearLayout>
 

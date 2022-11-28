@@ -20,6 +20,7 @@ import com.google.android.material.button.MaterialButton;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_UserInfo;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_AddGcard;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_ManageGcard;
 import org.rmj.guanzongroup.digitalgcard.R;
@@ -31,6 +32,7 @@ import java.util.Objects;
 public class Fragment_MyGcard extends Fragment {
 
     private VMGCardSystem mViewModel;
+    private View view;
     private ConstraintLayout vAddGcard, vMyGcardx;
     private TextView txtManage, txtUserNm, txtCardNo, txtPoints;
     private MaterialButton btnAddCrd;
@@ -38,32 +40,27 @@ public class Fragment_MyGcard extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_gcard, container, false);
-        initViews(view);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
-        mViewModel.setInstance(GCardSystem.CoreFunctions.GCARD);
+        view = inflater.inflate(R.layout.fragment_my_gcard, container, false);
+        initViews();
+        mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
         if(!new AccountInfo(requireActivity()).getLoginStatus()) {
             Intent loIntent = new Intent(requireActivity(), Activity_Login.class);
             startActivity(loIntent);
         } else {
             initMyGcard();
         }
+        return view;
     }
 
-    private void initViews(View v) {
-        vAddGcard = v.findViewById(R.id.layout_add_gcard);
-        vMyGcardx = v.findViewById(R.id.layout_my_gcard);
-        txtManage = v.findViewById(R.id.lblManageGcard);
-        txtUserNm = v.findViewById(R.id.lbl_gcard_user);
-        txtCardNo = v.findViewById(R.id.lbl_card_number);
-        txtPoints = v.findViewById(R.id.lbl_gcard_points);
-        btnAddCrd = v.findViewById(R.id.btnAddGcard);
+    private void initViews() {
+        vAddGcard = view.findViewById(R.id.layout_add_gcard);
+        vMyGcardx = view.findViewById(R.id.layout_my_gcard);
+        txtManage = view.findViewById(R.id.lblManageGcard);
+        txtUserNm = view.findViewById(R.id.lbl_gcard_user);
+        txtCardNo = view.findViewById(R.id.lbl_card_number);
+        txtPoints = view.findViewById(R.id.lbl_gcard_points);
+        btnAddCrd = view.findViewById(R.id.btnAddGcard);
     }
 
     private void initMyGcard() {
@@ -83,6 +80,18 @@ public class Fragment_MyGcard extends Fragment {
                     txtManage.setOnClickListener(v -> {
                         Intent loIntent = new Intent(requireActivity(), Activity_ManageGcard.class);
                         startActivity(loIntent);
+                    });
+
+                    view.findViewById(R.id.cvGcard).setOnClickListener(v -> {
+                        mViewModel.ViewGCardQrCode(bitmap -> {
+                            try{
+                                final Dialog_UserInfo loDialog = new Dialog_UserInfo(requireActivity());
+                                loDialog.initDialog(eGcardApp, bitmap);
+                                loDialog.show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
                     });
                 }
             } catch (Exception e) {

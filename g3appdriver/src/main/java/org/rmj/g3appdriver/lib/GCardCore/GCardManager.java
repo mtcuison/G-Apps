@@ -9,17 +9,18 @@ import androidx.lifecycle.LiveData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGcardApp;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.EMCSerialRegistration;
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
-import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EServiceInfo;
+import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.Repositories.RGCardTransactionLedger;
-import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
 import org.rmj.g3appdriver.dev.Repositories.RMCSerialRegistration;
 import org.rmj.g3appdriver.dev.Repositories.RServiceInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
@@ -41,7 +42,7 @@ public class GCardManager implements iGCardSystem{
 
     private final HttpHeaders poHeaders;
     private final CodeGenerator poCode;
-    private final RGcardApp poGCard;
+    private final DGcardApp poGCard;
     private final AccountInfo poSession;
     private final Telephony poDevicex;
     private final RServiceInfo poService;
@@ -54,7 +55,7 @@ public class GCardManager implements iGCardSystem{
         this.mContext = context;
         this.poHeaders = new HttpHeaders(mContext);
         this.poCode = new CodeGenerator();
-        this.poGCard = new RGcardApp(mContext);
+        this.poGCard = GGC_GuanzonAppDB.getInstance(mContext).EGcardAppDao();
         this.poSession = new AccountInfo(mContext);
         this.poDevicex = new Telephony(mContext);
         this.poService = new RServiceInfo(mContext);
@@ -94,6 +95,81 @@ public class GCardManager implements iGCardSystem{
     @Override
     public LiveData<List<EGcardApp>> GetGCardList() {
         return poGCard.getAllGCardInfo();
+    }
+
+    @Override
+    public void updateGCardActiveStatus(String GCardNmbr) {
+        poGCard.updateGCardActiveStatus(GCardNmbr);
+    }
+
+    @Override
+    public List<EGcardApp> hasGcard() {
+        return poGCard.hasGcard();
+    }
+
+    @Override
+    public LiveData<EGcardApp> hasNoGcard() {
+        return poGCard.hasNoGcard();
+    }
+
+    @Override
+    public LiveData<List<EGcardApp>> hasUnCheckGCard() {
+        return poGCard.hasUnCheckGCard();
+    }
+
+    @Override
+    public List<EGcardApp> hasActiveGcard() {
+        return poGCard.hasActiveGcard();
+    }
+
+    @Override
+    public List<EGcardApp> hasMultipleGCard() {
+        return poGCard.hasMultipleGCard();
+    }
+
+    @Override
+    public LiveData<EGcardApp> getGCardInfo() {
+        return poGCard.getGCardInfo();
+    }
+
+    @Override
+    public List<EGcardApp> getAllGCard() {
+        return poGCard.getAllGCard();
+    }
+
+    @Override
+    public void updateAvailablePoints(String fsGcardNo, String fsNewPts) {
+        poGCard.updateAvailablePoints(fsGcardNo, fsNewPts);
+    }
+
+    @Override
+    public LiveData<String> getActiveGcardNo() {
+        return null;
+    }
+
+    @Override
+    public LiveData<String> getActiveGcardAvlPoints() {
+        return poGCard.getActiveGcardAvlPoints();
+    }
+
+    @Override
+    public double getRemainingActiveCardPoints() {
+        return 0;
+    }
+
+    @Override
+    public double getAvailableGcardPoints() {
+        return 0;
+    }
+
+    @Override
+    public double getRedeemItemPoints() {
+        return 0;
+    }
+
+    @Override
+    public void updateGCardDeactiveStatus() {
+        poGCard.updateGCardDeactiveStatus();
     }
 
     @Override
@@ -227,9 +303,15 @@ public class GCardManager implements iGCardSystem{
         String lsMobileNo = new Telephony(mContext).getMobilNumbers();
         String lsUserIDxx = new AccountInfo(mContext).getUserID();
         String lsGcardNox = poGCard.getCardNo();
-        if(!poCode.isCodeValid()){
+        if(poConfig.getTestCase() && lsMobileNo.isEmpty()){
+            lsMobileNo = "09171870011";
+        }
+        if(poGCard.getCardNox() == null){
+            callback.OnFailed("No Gcard number detected");
+        } else if(!poCode.isCodeValid()){
             callback.OnFailed("Invalid Qr Code");
-        } else if (poCode.isQrCodeTransaction()){
+        } else
+            if (poCode.isQrCodeTransaction()){
             if(lsUserIDxx.isEmpty()){
                 callback.OnFailed("No user account detected. Please make sure you login account before proceeding.");
             } else if(lsMobileNo.isEmpty()){
@@ -263,7 +345,17 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
+    public LiveData<List<Double>> GetRedeemablePointsFilter() {
+        return null;
+    }
+
+    @Override
     public LiveData<List<ERedeemablesInfo>> GetRedeemablesList() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<ERedeemablesInfo>> GetRedeemablesList(String fsVal) {
         return null;
     }
 
@@ -278,12 +370,32 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
-    public LiveData<List<ERedeemItemInfo>> GetCartItems() {
+    public LiveData<List<DRedeemItemInfo.GCardCartItem>> GetCartItems() {
         return null;
     }
 
     @Override
-    public void PlaceOrder(List<ERedeemItemInfo> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
+    public List<EBranchInfo> GetMCBranchesForRedemption() {
+        return null;
+    }
+
+    @Override
+    public LiveData<Integer> GetGcardCartItemCount() {
+        return null;
+    }
+
+    @Override
+    public LiveData<Double> GetGCardCartItemTotalPoints() {
+        return null;
+    }
+
+    @Override
+    public void DeleteItemCart(String fsVal) {
+        throw new NullPointerException();
+    }
+
+    @Override
+    public void PlaceOrder(List<DRedeemItemInfo.GCardCartItem> redeemables, String BranchCD, GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }
 
@@ -291,7 +403,6 @@ public class GCardManager implements iGCardSystem{
     public Bitmap GenerateGCardOrderQrCode(String BatchNox) throws Exception {
         return null;
     }
-
 
     @Override
     public void DownloadTransactions(GCardSystem.GCardSystemCallback callback) {
@@ -314,6 +425,7 @@ public class GCardManager implements iGCardSystem{
                     } else {
                         JSONObject loError = loResponse.getJSONObject("error");
                         String lsMessage = loError.getString("message");
+                        callback.OnFailed(lsMessage);
                     }
                 }
             }
@@ -321,7 +433,6 @@ public class GCardManager implements iGCardSystem{
             e.printStackTrace();
             callback.OnFailed("Failed downloading transactions. " + e.getMessage());
         }
-        callback.OnSuccess("");
     }
 
     @Override
@@ -338,7 +449,7 @@ public class GCardManager implements iGCardSystem{
             EGCardTransactionLedger info = new EGCardTransactionLedger();
             info.setGCardNox(loJson.getString("sGCardNox"));
             info.setTransact(loJson.getString("dTransact"));
-            info.setSourceDs( Import_Type[x]);
+            info.setSourceDs(Import_Type[x]);
             info.setReferNox(loJson.getString("sReferNox"));
             info.setTranType(loJson.getString("sTranType"));
             info.setSourceNo(loJson.getString("sSourceNo"));
@@ -491,6 +602,11 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
+    public EPromo CheckPromo() {
+        return null;
+    }
+
+    @Override
     public void DownloadNewsEvents(GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }
@@ -502,6 +618,11 @@ public class GCardManager implements iGCardSystem{
 
     @Override
     public LiveData<List<EEvents>> GetNewsEvents() {
+        return null;
+    }
+
+    @Override
+    public EEvents CheckEvents() {
         return null;
     }
 

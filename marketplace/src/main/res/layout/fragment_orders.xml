@@ -7,31 +7,30 @@
     tools:context=".Fragment.Fragment_Orders"
     android:orientation="vertical">
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_orders"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="center_horizontal"
+        app:tabTextColor="@color/font_light"
+        app:tabSelectedTextColor="@color/guanzon_digital_light_orange"
+        app:tabIndicatorColor="@color/guanzon_digital_light_orange"
+        app:tabIndicatorHeight="3dp"
+        app:tabMode="scrollable"/>
+
     <TextView
-        android:id="@+id/lbl_no_orders"
+        android:id="@+id/txtNoList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fontFamily="@font/roboto"
-        android:text="@string/lblNoOrdersAvailable"
         android:textColor="@color/font_light"
-        android:textSize="16sp"
-        android:layout_margin="0dp"
+        android:textSize="14sp"
         android:gravity="center"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_orders"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_Orders"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:theme="@style/FragmentTheme">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="wrap_content"
+        android:scrollbars="none"/>
 
 </LinearLayout>

@@ -15,9 +15,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
-import org.rmj.g3appdriver.dev.Repositories.RGcardApp;
+import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.oLoadStat;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
@@ -33,6 +34,7 @@ public class VMSplashScreen extends AndroidViewModel {
 
     private final String[] laPermissions =  new String[]{
         Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_PHONE_NUMBERS,
         Manifest.permission.INTERNET,
         Manifest.permission.ACCESS_NETWORK_STATE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -41,10 +43,8 @@ public class VMSplashScreen extends AndroidViewModel {
         Manifest.permission.GET_ACCOUNTS,
         Manifest.permission.CAMERA,
         Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.REQUEST_INSTALL_PACKAGES};
+        Manifest.permission.ACCESS_COARSE_LOCATION,};
 
-    private final MutableLiveData<Boolean> poIsGranted = new MutableLiveData<>();
     private final MutableLiveData<oLoadStat> poLoadStat = new MutableLiveData<>();
 
     public VMSplashScreen(@NonNull Application application) {
@@ -60,11 +60,12 @@ public class VMSplashScreen extends AndroidViewModel {
     public void setupApp(){
         GuanzonAppConfig loConfig = new GuanzonAppConfig(mContext);
         loConfig.setTestCase(true);
+        loConfig.setProductID("GuanzonApp");
+        loConfig.setClientID(AppConstants.APP_CLIENT);
         loConfig.setIfPermissionsGranted(hasPermissions(mContext, laPermissions));
         poLoadStat.setValue(new oLoadStat(
                 loConfig.IsPermissionsGranted(),
-                new AccountInfo(mContext).getLoginStatus(),
-                !new AccountInfo(mContext).getClientID().isEmpty()));
+                new AccountInfo(mContext).getLoginStatus()));
     }
 
     public void setPermissionsGranted(boolean val){
@@ -76,10 +77,6 @@ public class VMSplashScreen extends AndroidViewModel {
 
     public String[] GetPermissions(){
         return laPermissions;
-    }
-
-    public LiveData<Boolean> CheckIfPermissionsGranted(){
-        return poIsGranted;
     }
 
     public LiveData<oLoadStat> GetLoadStatus(){
@@ -132,31 +129,41 @@ public class VMSplashScreen extends AndroidViewModel {
         @Override
         protected String doInBackground(String... strings) {
             try {
-//                importAddresses();
+                GuanzonAppConfig loConfig = new GuanzonAppConfig(mContext);
+                if(loConfig.isAppFirstLaunch()){
+                    RAddressMobile loAddress = new RAddressMobile(mContext);
+                    loAddress.ImportBarangayList();
+                    pause();
+                    loAddress.ImportTownList();
+                    pause();
+                    loAddress.ImportProvinceList();
+                    pause();
+                    loAddress.ImportCountryList();
+                }
+                pause();
                 //TODO : Revise importing data to improve speed on splash screen...
                 //Import Dashboard products only if possible,
                 // import other important must be imported before the operation of usage...
                 if (new RProduct(mContext).ImportProductList()) {
                     Log.d(TAG, "Product Sales imported successfully...");
                 }
-
                 pause();
                 iGCardSystem loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
-//                loGcard.DownloadBranchesList(poCallback);
-//                Log.d(TAG, "Branches imported successfully...");
-//                pause();
-//                loGcard.DownloadPromotions(poCallback);
-//                Log.d(TAG, "Promotions imported successfully...");
-//                pause();
+                loGcard.DownloadBranchesList(poCallback);
+                pause();
+                loGcard.DownloadPromotions(poCallback);
+                pause();
 //                loGcard.DownloadNewsEvents(poCallback);
 //                Log.d(TAG, "News events imported successfully...");
 //                pause();
 
                 if (new AccountInfo(mContext).getLoginStatus()) {
+                    RNotificationInfo loNotif = new RNotificationInfo(mContext);
+                    loNotif.ImportClientNotifications(0);
+                    pause();
                     loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
                     loGcard.DownloadGcardNumbers(poCallback);
-                    loGcard.DownloadRedeemables(poCallback);
-                    if(new RGcardApp(mContext).hasActiveGcard().size() > 0){
+                    if(loGcard.hasActiveGcard().size() > 0){
                         pause();
                         loGcard.DownloadMCServiceInfo(poCallback);
                         pause();
@@ -165,8 +172,10 @@ public class VMSplashScreen extends AndroidViewModel {
                     } else {
                         Log.e(TAG, "No gcard registered on this account.");
                     }
+                    loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
+                    loGcard.DownloadRedeemables(poCallback);
 
-                    if(!new AccountInfo(mContext).getClientID().isEmpty()){
+                    if(new AccountInfo(mContext).getVerificationStatus() > 0){
                         if(new ROrder(mContext).ImportMarketPlaceItemCart()){
                             Log.d(TAG, "Marketplace cart items imported successfully...");
                         }
@@ -188,26 +197,6 @@ public class VMSplashScreen extends AndroidViewModel {
             listener.OnFinished("Finished!");
         }
 
-//        private void importAddresses() {
-//            RAddressMobile poAddress = new RAddressMobile(mContext);
-//            if(poAddress.ImportCountryList()) {
-//                Log.d(TAG, "Country data imported successfully...");
-//                pause();
-//            }
-//            if(poAddress.ImportProvinceList()) {
-//                Log.d(TAG, "Province data imported successfully...");
-//                pause();
-//            }
-//            if(poAddress.ImportTownList()) {
-//                Log.d(TAG, "Town and City data imported successfully...");
-//                pause();
-//            }
-//            if(poAddress.ImportBarangayList()) {
-//                Log.d(TAG, "Barangay data Sales imported successfully...");
-//                pause();
-//            }
-//        }
-
         private void pause() {
             try {
                 Thread.sleep(500);
@@ -215,6 +204,6 @@ public class VMSplashScreen extends AndroidViewModel {
                 e.printStackTrace();
             }
         }
-
     }
+
 }
