@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -30,6 +31,7 @@ import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 import java.util.List;
 
 public class VMHome extends AndroidViewModel {
+    private static final String TAG =VMHome.class.getSimpleName();
 
     private final RClientInfo poClient;
     private final RAddressMobile poAddress;
@@ -358,6 +360,23 @@ public class VMHome extends AndroidViewModel {
         }
     }
 
+
+    public void ImportOrdersTask(){
+        new ImportOrdersTask().execute();
+    }
+
+    private class ImportOrdersTask extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            ConnectionUtil loConnect = new ConnectionUtil(mContext);
+            if(loConnect.isDeviceConnected()) {
+                Log.d(TAG, "Importing purchase info.");
+                poOrder.ImportPurchases();
+            }
+            return null;
+        }
+    }
 
     public void ValidateUserVerification(OnValidateVerifiedUser listener){
         new ValidateVerifiedTask(listener).execute();

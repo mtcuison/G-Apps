@@ -8,6 +8,9 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -58,8 +61,8 @@ public class Activity_WriteProductReview extends AppCompatActivity {
     }
 
     private void getExtra() {
-        if(getIntent().hasExtra("sListingId")) {
-            psItemIdx = getIntent().getStringExtra("sListingId");
+        if(getIntent().hasExtra("sListngId")) {
+            psItemIdx = getIntent().getStringExtra("sListngId");
             psOrderID = getIntent().getStringExtra("sTransNox");
         } else {
             poDialogx.setButtonText("Okay");
@@ -74,10 +77,12 @@ public class Activity_WriteProductReview extends AppCompatActivity {
     private void setProductDetails() {
         mViewModel.getProductInfo(psItemIdx).observe(Activity_WriteProductReview.this, eProduct -> {
             try {
-                // mBinding.imgProdct.setImageBitmap(Objects.requireNonNull());
+                JSONArray laJson = new JSONArray(eProduct.getImagesxx());
+                String sampleImg = laJson.getJSONObject(0).getString("sImageURL");
+                Picasso.get().load(sampleImg).into(mBinding.imgProdct);
                 mBinding.txtProdNm.setText(Objects.requireNonNull(eProduct.getModelNme()));
                 mBinding.txtPricex.setText(Objects.requireNonNull(eProduct.getUnitPrce()));
-            } catch (NullPointerException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
