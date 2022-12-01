@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderDetail;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderMaster;
@@ -23,6 +24,7 @@ import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 
+import java.util.Date;
 import java.util.List;
 
 public class ROrder {
@@ -37,7 +39,6 @@ public class ROrder {
 
     private JSONObject data;
     private String message;
-    private String TransNox;
 
     public ROrder(Context context){
         this.mContext = context;
@@ -53,10 +54,6 @@ public class ROrder {
 
     public String getMessage() {
         return message;
-    }
-
-    public String getTransNox() {
-        return TransNox;
     }
 
     public boolean AddUpdateCart(String fsLstngID, int fnQuantity){
@@ -236,7 +233,7 @@ public class ROrder {
         }
     }
 
-    public boolean PlaceOrder(List<DItemCart.oMarketplaceCartItem> foItemLst, boolean fcDirect){
+    public String PlaceOrder(List<DItemCart.oMarketplaceCartItem> foItemLst, boolean fcDirect){
         try {
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             JSONArray jaDetail = new JSONArray();
@@ -263,27 +260,26 @@ public class ROrder {
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
                 message = "Unable to retrieve server response.";
-                return false;
-            } else {
-                Log.d(TAG, "Server Response : " + lsResponse);
-                JSONObject loResponse = new JSONObject(lsResponse);
-                String lsResult = loResponse.getString("result");
-                if(!lsResult.equalsIgnoreCase("success")){
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    message = loError.getString("message");
-                    return false;
-                } else {
-                    for(int x = 0; x < foItemLst.size(); x++){
-                        poCartDao.DeleteCartItem(foItemLst.get(x).sListIDxx);
-                    }
-                    TransNox = loResponse.getString("sTransNox");
-                    return true;
-                }
+                return null;
             }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(!lsResult.equalsIgnoreCase("success")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return null;
+            }
+
+            for(int x = 0; x < foItemLst.size(); x++){
+                poCartDao.DeleteCartItem(foItemLst.get(x).sListIDxx);
+            }
+
+            return loResponse.getString("sTransNox");
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 
@@ -464,24 +460,32 @@ public class ROrder {
         }
     }
 
-    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetItemCartList() {
+    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetItemCartList(){
         return poCartDao.GetCartItemsList();
     }
 
-    public LiveData<Double> GetSelectedItemCartTotalPrice() {
+    public LiveData<Double> GetSelectedItemCartTotalPrice(){
         return poCartDao.GetSelectedItemCartTotalPrice();
     }
 
-    public LiveData<Integer> GetSelectedItemCartTotalCount() {
+    public Double GetPlacedOrderTotalPrice(){
+        return poCartDao.GetPlacedOrderTotalPrice();
+    }
+
+    public LiveData<Integer> GetSelectedItemCartTotalCount(){
         return poCartDao.GetSelectedItemCartTotalCount();
     }
 
-    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCheckoutItems(boolean cBuyNowxx) {
-        if (!cBuyNowxx) {
+    public LiveData<List<DItemCart.oMarketplaceCartItem>> GetCheckoutItems(boolean cBuyNowxx){
+        if(!cBuyNowxx) {
             return poCartDao.GetItemsForCheckOut();
         } else {
             return poCartDao.GetBuyNowItem();
         }
+    }
+
+    public LiveData<String> GetOrderAmount(String args){
+        return poMaster.GetOrderAmount(args);
     }
 
     public boolean PayOrder(String fsTransno, PaymentMethod foTypexx, String fsReferNo){
@@ -504,8 +508,8 @@ public class ROrder {
                     param.put("sTermCode", "COD"); //payment term : PayMaya
                     param.put("sReferNox", fsReferNo);
                     break;
-                case PayMaya:
-                    param.put("sTermCode", "PAYMAYA");//payment term : PayMaya
+                case Maya:
+                    param.put("sTermCode", "MAYA");//payment term : PayMaya
                     param.put("sReferNox", fsReferNo);
                     break;
                 default:
@@ -592,7 +596,6 @@ public class ROrder {
                 message = "Unable to retrieve server response.";
                 return false;
             } else {
-                Log.d(TAG, lsResponse);
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
                 if (!lsResult.equalsIgnoreCase("success")) {
@@ -604,40 +607,97 @@ public class ROrder {
                     JSONArray jaDetail = loResponse.getJSONArray("detail");
                     for(int x = 0; x < jaMaster.length(); x++){
                         JSONObject joMaster = jaMaster.getJSONObject(x);
-                        EOrderMaster oMaster = new EOrderMaster();
-                        oMaster.setTransNox(joMaster.getString("sTransNox"));
-                        oMaster.setTransact(joMaster.getString("dTransact"));
-                        oMaster.setExpected(joMaster.getString("dExpected"));
-                        oMaster.setClientID(joMaster.getString("sClientID"));
-                        oMaster.setAppUsrID(joMaster.getString("sAppUsrID"));
-                        oMaster.setTranTotl(joMaster.getString("nTranTotl"));
-                        oMaster.setDiscount(joMaster.getString("nDiscount"));
-                        oMaster.setFreightx(joMaster.getString("nFreightx"));
-                        oMaster.setTermCode(joMaster.getString("sTermCode"));
-                        oMaster.setTranStat(joMaster.getString("cTranStat"));
-                        oMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
 
-                        loMaster.SaveOrderMaster(oMaster);
+                        EOrderMaster loclMaster = poMaster.CheckOrderMasterIfExist(joMaster.getString("sTransNox"));
+
+                        if(loclMaster == null) {
+
+                            EOrderMaster oMaster = new EOrderMaster();
+                            oMaster.setTransNox(joMaster.getString("sTransNox"));
+                            oMaster.setTransact(joMaster.getString("dTransact"));
+                            oMaster.setExpected(joMaster.getString("dExpected"));
+                            oMaster.setClientID(joMaster.getString("sClientID"));
+                            oMaster.setAppUsrID(joMaster.getString("sAppUsrID"));
+                            oMaster.setTranTotl(joMaster.getString("nTranTotl"));
+                            oMaster.setDiscount(joMaster.getString("nDiscount"));
+                            oMaster.setFreightx(joMaster.getString("nFreightx"));
+                            oMaster.setAmtPaidx(joMaster.getString("nAmtPaidx"));
+                            oMaster.setProcPaym(joMaster.getString("nProcPaym"));
+                            oMaster.setTermCode(joMaster.getString("sTermCode"));
+                            oMaster.setPaymType(joMaster.getString("cPaymType"));
+                            oMaster.setTranStat(joMaster.getString("cTranStat"));
+                            oMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
+                            loMaster.SaveOrderMaster(oMaster);
+                            Log.d(TAG, "Order master save!. Transaction No. : " + oMaster.getTransNox());
+                        } else {
+                            Date ldDate1 = SQLUtil.toDate(loclMaster.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                            Date ldDate2 = SQLUtil.toDate((String) joMaster.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                            if (!ldDate1.equals(ldDate2)) {
+                                loclMaster.setTransact(joMaster.getString("dTransact"));
+                                loclMaster.setExpected(joMaster.getString("dExpected"));
+                                loclMaster.setClientID(joMaster.getString("sClientID"));
+                                loclMaster.setAppUsrID(joMaster.getString("sAppUsrID"));
+                                loclMaster.setTranTotl(joMaster.getString("nTranTotl"));
+                                loclMaster.setDiscount(joMaster.getString("nDiscount"));
+                                loclMaster.setFreightx(joMaster.getString("nFreightx"));
+                                loclMaster.setAmtPaidx(joMaster.getString("nAmtPaidx"));
+                                loclMaster.setTermCode(joMaster.getString("sTermCode"));
+                                loclMaster.setTranStat(joMaster.getString("cTranStat"));
+                                loclMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
+                                poMaster.UpdateMaster(loclMaster);
+                                Log.d(TAG, "Order master updated!. Transaction No. : " + loclMaster.getTransNox());
+                            }
+                        }
                     }
 
-                    for(int i = 0; i <jaDetail.length(); i++) {
+                    for(int i = 0; i <jaDetail.length(); i++){
                         JSONObject joDetail = jaDetail.getJSONObject(i);
-                        EOrderDetail oDetail = new EOrderDetail();
-                        oDetail.setTransNox(joDetail.getString("sTransNox"));
-                        oDetail.setEntryNox(joDetail.getString("nEntryNox"));
-                        oDetail.setQuantity(joDetail.getString("nQuantity"));
-                        oDetail.setUnitPrce(joDetail.getString("nUnitPrce"));
-                        oDetail.setDiscount(joDetail.getString("nDiscount"));
-                        oDetail.setAddDiscx(joDetail.getString("nAddDiscx"));
-                        oDetail.setStockIDx(joDetail.getString("sStockIDx"));
+
+                        EOrderDetail loclDetail = poDetail.GetOrderDetail(
+                                joDetail.getString("sTransNox"),
+                                joDetail.getString("nEntryNox"));
+
+                        if(loclDetail == null) {
+
+                            EOrderDetail oDetail = new EOrderDetail();
+                            oDetail.setTransNox(joDetail.getString("sTransNox"));
+                            oDetail.setEntryNox(joDetail.getString("nEntryNox"));
+                            oDetail.setQuantity(joDetail.getString("nQuantity"));
+                            oDetail.setUnitPrce(joDetail.getString("nUnitPrce"));
+                            oDetail.setDiscount(joDetail.getString("nDiscount"));
+                            oDetail.setAddDiscx(joDetail.getString("nAddDiscx"));
+                            oDetail.setStockIDx(joDetail.getString("sStockIDx"));
+                            oDetail.setReferNox(joDetail.getString("sReferNox"));
 //                        oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
 //                        oDetail.setCancelld(joDetail.getString("nCancelld"));
 //                        oDetail.setReferNox(joDetail.getString("sReferNox"));
-                        oDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
-                        oDetail.setReviewed(joDetail.getString("cReviewed"));
-                        oDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
+                            oDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
+                            oDetail.setReviewed(joDetail.getString("cReviewed"));
+                            oDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
 
-                        loDetail.SaveDetailOrder(oDetail);
+                            loDetail.SaveDetailOrder(oDetail);
+                            Log.d(TAG, "Order detail saved!. Transaction No. : " + oDetail.getTransNox());
+                        } else {
+                            Date ldDate1 = SQLUtil.toDate(loclDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                            Date ldDate2 = SQLUtil.toDate((String) joDetail.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                            if (!ldDate1.equals(ldDate2)) {
+                                loclDetail.setTransNox(joDetail.getString("sTransNox"));
+                                loclDetail.setEntryNox(joDetail.getString("nEntryNox"));
+                                loclDetail.setQuantity(joDetail.getString("nQuantity"));
+                                loclDetail.setUnitPrce(joDetail.getString("nUnitPrce"));
+                                loclDetail.setDiscount(joDetail.getString("nDiscount"));
+                                loclDetail.setAddDiscx(joDetail.getString("nAddDiscx"));
+                                loclDetail.setStockIDx(joDetail.getString("sStockIDx"));
+//                        oDetail.setIssuedxx(joDetail.getString("nIssuedxx"));
+//                        oDetail.setCancelld(joDetail.getString("nCancelld"));
+//                        oDetail.setReferNox(joDetail.getString("sReferNox"));
+                                loclDetail.setNotesxxx(joDetail.getString("sNotesxxx"));
+                                loclDetail.setReviewed(joDetail.getString("cReviewed"));
+                                loclDetail.setTimeStmp(joDetail.getString("dTimeStmp"));
+                                loDetail.UpdateDetail(loclDetail);
+                                Log.d(TAG, "Order detail updated!. Transaction No. : " + loclDetail.getTransNox());
+                            }
+                        }
                     }
                     return true;
                 }
@@ -683,7 +743,7 @@ public class ROrder {
 
     public LiveData<Integer> GetToPayOrders(){
         DOrderMaster loMaster = GGC_GuanzonAppDB.getInstance(mContext).orderMasterDao();
-        return loMaster.GetToPayOrders();
+        return loMaster.GetOrdersCount();
     }
 
     public LiveData<EOrderMaster> GetOrderMasterInfo(String fsVal){
@@ -702,28 +762,28 @@ public class ROrder {
         return poMaster.GetMasterOrderHistory();
     }
 
-    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList() {
+    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(){
         return poMaster.GetOrderHistoryList();
     }
 
-    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(String fsVal) {
+    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(String fsVal){
         return poMaster.GetOrderHistoryList(fsVal);
     }
 
 
-    public LiveData<List<DOrderMaster.OrderHistory>> GetToPayOrderList() {
+    public LiveData<List<DOrderMaster.OrderHistory>> GetToPayOrderList(){
         return poMaster.GetToPayOrderList();
     }
 
-    public LiveData<List<DOrderDetail.OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal) {
+    public LiveData<List<DOrderDetail.OrderHistoryDetail>> GetOrderHistoryDetail(String fsVal){
         return poDetail.GetOrderHistoryDetail(fsVal);
     }
 
-    public LiveData<List<DOrderDetail.OrderedItemsInfo>> GetOrderedItems(String fsVal) {
+    public LiveData<List<DOrderDetail.OrderedItemsInfo>> GetOrderedItems(String fsVal){
         return poDetail.GetOrderedItems(fsVal);
     }
 
-    public LiveData<Integer> GetToPayOrdersCount() {
+    public LiveData<Integer> GetToPayOrdersCount(){
         return poMaster.GetToPayOrdersCount();
     }
     public LiveData<Integer> GetProcessingOrdersCount(){
@@ -773,14 +833,14 @@ public class ROrder {
                     return true;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return false;
         }
     }
 
-    public boolean SelectAll(boolean isSelected) {
+    public boolean SelectAll(boolean isSelected){
         try {
             if (isSelected) {
                 poCartDao.UpdateSelectAllCheckOut();
@@ -788,18 +848,18 @@ public class ROrder {
                 poCartDao.UpdateUnselectAllCheckOut();
             }
             return true;
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return false;
         }
     }
 
-    public boolean DeleteAll() {
-        try {
+    public boolean DeleteAll(){
+        try{
             poCartDao.DeleteAllSelected();
             return true;
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
             return false;

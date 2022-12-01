@@ -13,6 +13,8 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -31,17 +33,21 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ImageFileHandler;
 import org.rmj.g3appdriver.lib.Account.Obj.UserIdentification;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.guanzongroup.useraccount.Activity.Activity_DocumentScan;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_ProfileVerification;
+import org.rmj.guanzongroup.useraccount.Etc.DocScanner;
 import org.rmj.guanzongroup.useraccount.Etc.IDDetail;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.OnSubmitIDPictureListener;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMID2Verification;
 
+import java.io.FileInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -80,14 +86,35 @@ public class Fragment_ID2 extends Fragment {
         @Override
         public void onActivityResult(ActivityResult result) {
             try {
-                if(result.getResultCode() == Activity.RESULT_OK)
-                    if(cFront){
-                        String psPath = poDetail.getsFrntPath();
-                        imageFront.setImageBitmap(ImageFileHandler.getImagePreview(psPath));
+                if(result.getResultCode() == Activity.RESULT_OK) {
+                    Intent loIntent = result.getData();
+                    String lsFileNme = loIntent.getStringExtra("sImageInf");
+                    FileInputStream loStream = requireActivity().openFileInput(lsFileNme);
+                    Bitmap bmp = BitmapFactory.decodeStream(loStream);
+                    loStream.close();
+
+                    if (cFront) {
+                        String lsFileNm = mViewModel.getUserID() + "-" + poDetail.getsIDCodexx() + "-" + AppConstants.DOC_FILE_VALID_ID + "_Front.jpg";
+                        poDetail.setsFrontImg(lsFileNm);
+                        String lsResult = DocScanner.saveBitmap2SD(bmp, lsFileNm);
+                        if(lsResult == null){
+
+                        } else {
+                            imageFront.setImageBitmap(bmp);
+                            poDetail.setsFrntPath(lsResult);
+                        }
                     } else {
-                        String psPath = poDetail.getsBackPath();
-                        imageBack.setImageBitmap(ImageFileHandler.getImagePreview(psPath));
+                        String lsFileNm = mViewModel.getUserID() + "-" + poDetail.getsIDCodexx() + "-" + AppConstants.DOC_FILE_VALID_ID + "_Back.jpg";
+                        poDetail.setsBackImgx(lsFileNm);
+                        String lsResult = DocScanner.saveBitmap2SD(bmp, lsFileNm);
+                        if(lsResult == null){
+
+                        } else {
+                            imageBack.setImageBitmap(bmp);
+                            poDetail.setsBackPath(lsResult);
+                        }
                     }
+                }
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -126,29 +153,37 @@ public class Fragment_ID2 extends Fragment {
             try {
                 for (int x = 0; x < loList.size(); x++) {
                     if (spnIDType.getText().toString().trim().equalsIgnoreCase(loList.get(x).getIDName())) {
-                        poDetail.setsIDCodexx(loList.get(x).getIDCode());
-                        poDetail.setcHasExpre(loList.get(x).hasExpiry());
-                        poDetail.setcHasExpre(loList.get(x).hasExpiry());
 
-                        if(loList.get(x).hasExpiry().equalsIgnoreCase("1")){
-                            view.findViewById(R.id.til_expryDte1).setVisibility(View.VISIBLE);
+                        //Check if selected ID is already selected as the first id
+                        String lsIDCode1 = Activity_IDVerification.getInstance().getsIDCodexx();
+                        if(loList.get(x).getIDCode().equalsIgnoreCase(lsIDCode1)){
+                            spnIDType.setText("");
+                            Toast.makeText(requireActivity(), "Please select other valid ID type.", Toast.LENGTH_SHORT).show();
                         } else {
-                            view.findViewById(R.id.til_expryDte1).setVisibility(View.GONE);
-                        }
+                            poDetail.setsIDCodexx(loList.get(x).getIDCode());
+                            poDetail.setcHasExpre(loList.get(x).hasExpiry());
+                            poDetail.setcHasExpre(loList.get(x).hasExpiry());
 
-                        view.findViewById(R.id.textview).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.img_frontID).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.btnCaptureFront).setVisibility(View.VISIBLE);
+                            if (loList.get(x).hasExpiry().equalsIgnoreCase("1")) {
+                                view.findViewById(R.id.til_expryDte1).setVisibility(View.VISIBLE);
+                            } else {
+                                view.findViewById(R.id.til_expryDte1).setVisibility(View.GONE);
+                            }
 
-                        poDetail.setcHasBackx(loList.get(x).hasBack());
-                        if(loList.get(x).hasBack().equalsIgnoreCase("1")){
-                            view.findViewById(R.id.textview1).setVisibility(View.VISIBLE);
-                            view.findViewById(R.id.img_backID).setVisibility(View.VISIBLE);
-                            view.findViewById(R.id.btnCaptureBack).setVisibility(View.VISIBLE);
-                        } else {
-                            view.findViewById(R.id.textview1).setVisibility(View.GONE);
-                            view.findViewById(R.id.img_backID).setVisibility(View.GONE);
-                            view.findViewById(R.id.btnCaptureBack).setVisibility(View.GONE);
+                            view.findViewById(R.id.textview).setVisibility(View.VISIBLE);
+                            view.findViewById(R.id.img_frontID).setVisibility(View.VISIBLE);
+                            view.findViewById(R.id.btnCaptureFront).setVisibility(View.VISIBLE);
+
+                            poDetail.setcHasBackx(loList.get(x).hasBack());
+                            if (loList.get(x).hasBack().equalsIgnoreCase("1")) {
+                                view.findViewById(R.id.textview1).setVisibility(View.VISIBLE);
+                                view.findViewById(R.id.img_backID).setVisibility(View.VISIBLE);
+                                view.findViewById(R.id.btnCaptureBack).setVisibility(View.VISIBLE);
+                            } else {
+                                view.findViewById(R.id.textview1).setVisibility(View.GONE);
+                                view.findViewById(R.id.img_backID).setVisibility(View.GONE);
+                                view.findViewById(R.id.btnCaptureBack).setVisibility(View.GONE);
+                            }
                         }
                         break;
                     }
@@ -239,19 +274,20 @@ public class Fragment_ID2 extends Fragment {
 
 
     private void InitializeCamera(boolean cFront){
-        if(cFront) {
-            ImageFileHandler.InitializeMainCamera(requireActivity(), (intent, path, fileName) -> {
-                poDetail.setsFrntPath(path);
-                poDetail.setsFrontImg(fileName);
-                poCamera.launch(intent);
-            });
-        } else {
-            ImageFileHandler.InitializeMainCamera(requireActivity(), (intent, path, fileName) -> {
-                poDetail.setsBackPath(path);
-                poDetail.setsBackImgx(fileName);
-                poCamera.launch(intent);
-            });
-        }
+        Intent loIntent = new Intent(requireActivity(), Activity_DocumentScan.class);
+        poCamera.launch(loIntent);
+//        if(cFront) {
+//            ImageFileHandler.InitializeMainCamera(requireActivity(), (intent, path, fileName) -> {
+//                poDetail.setsFrntPath(path);
+//                poDetail.setsFrontImg(fileName);
+//            });
+//        } else {
+//            ImageFileHandler.InitializeMainCamera(requireActivity(), (intent, path, fileName) -> {
+//                poDetail.setsBackPath(path);
+//                poDetail.setsBackImgx(fileName);
+//                poCamera.launch(intent);
+//            });
+//        }
     }
 
     private void SubmitImage(){

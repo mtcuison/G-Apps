@@ -123,11 +123,10 @@ public class Activity_ProfileVerification extends AppCompatActivity {
                         poDialogx.initDialog("Account Details", message, () -> {
                             poDialogx.dismiss();
 //                            Intent loIntent = new Intent(Activity_ProfileVerification.this, Activity_IDVerification.class);
-                            Intent loIntent = new Intent(Activity_ProfileVerification.this, Activity_MeansInfo.class);
-                            loIntent.putExtra("cSkippedx", false);
-                            startActivity(loIntent);
-                            finish();
-                            finish();
+//                            Intent loIntent = new Intent(Activity_ProfileVerification.this, Activity_MeansInfo.class);
+//                            loIntent.putExtra("cSkippedx", false);
+//                            startActivity(loIntent);
+//                            finish();
                         });
                         poDialogx.show();
                     }

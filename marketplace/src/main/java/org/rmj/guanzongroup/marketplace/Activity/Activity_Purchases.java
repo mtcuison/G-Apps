@@ -20,6 +20,7 @@ import com.google.android.material.button.MaterialButton;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.g3appdriver.etc.DateTimeFormatter;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -46,7 +47,12 @@ public class Activity_Purchases extends AppCompatActivity {
             lblDlvyDate,
             lblCancelUs,
             lblCancelRm,
-            lblCancelDt;
+            lblCancelDt,
+            lblAmountPd,
+            txtSubTot,
+            txtShipFe,
+            txtOthFee,
+            txtTotalx;
 
     private CardView cvCanclDetl;
     private MaterialButton btnCancel;
@@ -85,6 +91,11 @@ public class Activity_Purchases extends AppCompatActivity {
         lblCancelUs = findViewById(R.id.lbl_userCancel);
         lblCancelRm = findViewById(R.id.lbl_cancellationRemarks);
         lblCancelDt = findViewById(R.id.lbl_cancellationDate);
+        lblAmountPd = findViewById(R.id.lbl_AmountPaid);
+        txtSubTot = findViewById(R.id.txt_sub_total);
+        txtShipFe = findViewById(R.id.txt_shipping_fee);
+        txtOthFee = findViewById(R.id.txt_other_fee);
+        txtTotalx = findViewById(R.id.txt_total_price);
         cvCanclDetl = findViewById(R.id.cv_cancellation_detail);
         btnCancel = findViewById(R.id.btn_cancel);
         LinearLayoutManager loManager = new LinearLayoutManager(Activity_Purchases.this);
@@ -101,15 +112,21 @@ public class Activity_Purchases extends AppCompatActivity {
                     findViewById(R.id.lblNoOrderInfo).setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.scrollView).setVisibility(View.VISIBLE);
-                    if (foOrder.sTermCode.equalsIgnoreCase("C001002")) {
+                    if(foOrder.sTermCode.isEmpty()){
+                        lblAmountPd.setText("Unpaid order will be automatically cancelled within 24 hours.");
+                        btnPay.setVisibility(View.VISIBLE);
+                    } else if(foOrder.sTermCode.equalsIgnoreCase("C001002")){ //COW2011 termcode for COD
+                        lblAmountPd.setText("");
+                        lblPaymntxx.setText(AppConstants.parseTermCode(foOrder.sTermCode));
+                    } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011")){ //COW2011 termcode for online payment
+//                        double lnTotal = Double.parseDouble(foOrder.nTranTotl);
+//                        double lnAmntx = Double.parseDouble(foOrder.nProcPaym);
 
-                    } else if (foOrder.nAmtPaidx != null) {
-                        double lnTotal = Double.parseDouble(foOrder.nTranTotl);
-                        double lnAmntx = Double.parseDouble(foOrder.nAmtPaidx);
-
-                        if (lnTotal > lnAmntx) {
+                        if(foOrder.cNeedPaym.equalsIgnoreCase("1")){
+                            lblAmountPd.setText("Amount Paid: " + CashFormatter.parse(foOrder.nProcPaym) + "\n\n Online payment takes time to process and may not take effect immediately in order preview.");
                             btnPay.setVisibility(View.VISIBLE);
                         } else {
+                            lblAmountPd.setText("");
                             btnPay.setVisibility(View.GONE);
                         }
                     }
@@ -121,6 +138,9 @@ public class Activity_Purchases extends AppCompatActivity {
                     } else {
                         toolbar.setTitle("Cancellation Detail");
                         btnCancel.setVisibility(View.GONE);
+                        btnPay.setVisibility(View.GONE);
+                        findViewById(R.id.linear_shipAddress).setVisibility(View.GONE);
+                        findViewById(R.id.lbl_trackNoLabel).setVisibility(View.GONE);
                         mViewModel.CheckCancellationDetail(foOrder.sTransNox, new VMOrders.OnCheckCancellationCallback() {
                             @Override
                             public void OnCheck(String dTransact, String sClientNm, String sRemarksx) {
@@ -136,6 +156,15 @@ public class Activity_Purchases extends AppCompatActivity {
                             }
                         });
                     }
+
+                    double lnTrantotl = Double.parseDouble(foOrder.nTranTotl);
+                    double lnProcPaym = Double.parseDouble(foOrder.nProcPaym);
+                    double lnDiscount = Double.parseDouble(foOrder.nDiscount);
+                    double lnFreightx = Double.parseDouble(foOrder.nFreightx);
+                    double lnSubTotal = lnTrantotl - (lnTrantotl * lnDiscount);
+
+                    double lnTotalxx = lnSubTotal + lnFreightx;
+
                     lblOrderID.setText(foOrder.sTransNox);
                     lblTrackNox.setText("");
                     lblAddressx.setText(foOrder.sAddressx);
@@ -144,9 +173,24 @@ public class Activity_Purchases extends AppCompatActivity {
                     lblPaymntxx.setText(AppConstants.parseTermCode(foOrder.sTermCode));
                     lblDatePlcd.setText("Place on : " + DateTimeFormatter.ParseDateFullyDetailed(foOrder.dTransact));
                     lblDlvyDate.setText("Get By : " + DateTimeFormatter.ParseDateForList(foOrder.dExpected));
+                    txtSubTot.setText(CashFormatter.parse(foOrder.nTranTotl));
+                    txtShipFe.setText(CashFormatter.parse(foOrder.nFreightx));
+                    txtOthFee.setText("");
+                    txtTotalx.setText(CashFormatter.parse(String.valueOf(lnTotalxx)));
+
                     btnPay.setOnClickListener(v -> {
                         Intent loIntent = new Intent(Activity_Purchases.this, Activity_PayOrder.class);
                         loIntent.putExtra("sTransNox", foOrder.sTransNox);
+
+                        if(foOrder.sTermCode.isEmpty()){
+                            loIntent.putExtra("nSubTotal", lnTotalxx);
+                        } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011")){ //COW2011 termcode for online payment
+                            if(foOrder.cNeedPaym.equalsIgnoreCase("1")){
+                                double lnTotal = Math.abs(lnTotalxx - lnProcPaym);
+
+                                loIntent.putExtra("nSubTotal", lnTotal);
+                            }
+                        }
                         startActivity(loIntent);
                     });
 

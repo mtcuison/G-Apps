@@ -47,6 +47,7 @@ public class VMSearchItem extends AndroidViewModel {
     }
 
     public interface OnSearchCallback{
+        void OnSearch();
         void OnSearchFinish();
     }
 
@@ -56,6 +57,12 @@ public class VMSearchItem extends AndroidViewModel {
 
         public ProductSearchTask(OnSearchCallback poCallback) {
             this.poCallback = poCallback;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            poCallback.OnSearch();
         }
 
         @Override

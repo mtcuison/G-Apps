@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:theme="@style/GuanzonMarketplace.Theme"
     tools:context=".Activity.Activity_ProductList">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -23,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:iconifiedByDefault="false"
+            app:queryHint="Search..."
             android:background="@drawable/searchview_bg"
             android:layout_margin="10dp" />
 
@@ -38,6 +40,20 @@
         android:visibility="gone"
         android:text="No item found for keyword 'Xiaomi'"
         android:textSize="15dp"/>
+
+    <LinearLayout
+        android:id="@+id/lnLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_products"

@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import org.rmj.apprdiver.util.WebFile;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EEmailInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EMobileInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
@@ -81,8 +83,33 @@ public class RClientInfo {
         return poDao.GetClientInfo();
     }
 
+    public boolean HasCompleteInfo(){
+        try{
+            EClientInfo loClient = poDao.GetClientCompleteDetail();
+
+            if(loClient == null){
+                message = "Client incomplete detail";
+                return false;
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
     public LiveData<DClientInfo.ClientDetail> GetClientDetailForPreview(){
         return poDao.GetClientDetailForPreview();
+    }
+
+    public EEmailInfo GetEmailInfo(String args){
+        return poDao.GetEmailInfo(args);
+    }
+
+    public EMobileInfo GetMobileInfo(String args){
+        return poDao.GetMobileInfo(args);
     }
 
     public String getClientId() {

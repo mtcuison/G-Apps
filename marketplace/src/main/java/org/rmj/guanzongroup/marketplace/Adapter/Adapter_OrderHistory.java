@@ -43,10 +43,18 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
     public void onBindViewHolder(@NonNull ViewHolderItem holder, int position) {
         DOrderMaster.OrderHistory loMaster = poMaster.get(position);
         holder.lblOrderNo.setText(loMaster.sTransNox);
-        holder.lblOrderSt.setText(GetOrderStatus(loMaster.cTranStat));
-        holder.lblOrderTl.setText(CashFormatter.parse(loMaster.nTranTotl));
+        holder.lblOrderSt.setText(GetOrderStatus(loMaster));
         holder.lblBrandNm.setText(loMaster.xModelNme + "\n " + loMaster.xBrandNme);
         holder.lblItmDisc.setText(GetDiscount(loMaster.nDiscount));
+
+        double lnTrantotl = Double.parseDouble(loMaster.nTranTotl);
+        double lnProcPaym = Double.parseDouble(loMaster.nProcPaym);
+        double lnDiscount = Double.parseDouble(loMaster.nDiscount);
+        double lnFreightx = Double.parseDouble(loMaster.nFreightx);
+        double lnSubTotal = lnTrantotl - (lnTrantotl * lnDiscount);
+
+        double lnTotalxx = lnSubTotal + lnFreightx;
+        holder.lblOrderTl.setText(CashFormatter.parse(String.valueOf(lnTotalxx)));
         holder.lblItmPrce.setText(CashFormatter.parse(loMaster.nUnitPrce));
         holder.lblItmQtyx.setText("Quantity: "+ loMaster.nQuantity);
         holder.setImage(loMaster.sImagesxx);
@@ -93,9 +101,17 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
         }
     }
 
-    private String GetOrderStatus(String fsVal){
-        switch (fsVal){
+    private String GetOrderStatus(DOrderMaster.OrderHistory fsVal){
+        switch (fsVal.cTranStat){
             case "0":
+                if(fsVal.sTermCode.isEmpty()){
+                    return "To Pay";
+                }
+                if(fsVal.sTermCode.equalsIgnoreCase("C0W2011")){
+                    if(Double.parseDouble(fsVal.nTranTotl) > Double.parseDouble(fsVal.nProcPaym)) {
+                        return "To Pay";
+                    }
+                }
                 return "Processing";
             case "1":
                 return "Verified";
@@ -119,4 +135,5 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
             return fsVal;
         }
     }
+
 }

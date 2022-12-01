@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 
@@ -15,6 +16,9 @@ public interface DProduct {
 
     @Insert
     void SaveProductInfo(EProducts foValue);
+
+    @Update
+    void UpdateProductInfo(EProducts foVal);
 
     @Query("SELECT * FROM Product_Inventory LIMIT 10 OFFSET:nIndex")
     LiveData<List<EProducts>> GetProductList(int nIndex);
@@ -177,7 +181,6 @@ public interface DProduct {
             "GROUP BY nUnitPrce")
     LiveData<List<String>> GetPriceFilterForBrand(String fsArgs);
 
-
     @Query("SELECT sListngID AS sProdctID, " +
             "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
             "nUnitPrce AS sPricexxx," +
@@ -192,11 +195,44 @@ public interface DProduct {
             "ORDER BY nUnitPrce ASC")
     LiveData<List<oProduct>> GetProductsOnBrand(String fsArgs, String fsArgs1);
 
+    @Query("SELECT sListngID AS sProdctID, " +
+            "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
+            "nUnitPrce AS sPricexxx, " +
+            "sImagesxx, " +
+            "nSoldQtyx AS sUntsSold, " +
+            "xBrandNme, " +
+            "sModelIDx " +
+            "FROM Product_Inventory " +
+            "WHERE strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
+            "AND cAllwCrdt = '1' " +
+            "AND nQtyOnHnd > 0 " +
+            "AND cTranStat = '1' " +
+            "ORDER BY dListStrt DESC")
+    LiveData<List<oProduct>> GetProductsForLoanApplication();
+
+    @Query("SELECT sListngID AS sProdctID, " +
+            "xBrandNme|| ' ' ||xModelNme  AS sProdctNm, " +
+            "nUnitPrce AS sPricexxx, " +
+            "sImagesxx, " +
+            "nSoldQtyx AS sUntsSold, " +
+            "xBrandNme, " +
+            "sModelIDx " +
+            "FROM Product_Inventory " +
+            "WHERE sProdctNm LIKE '%' || :fsVal || '%' " +
+            "AND strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dListStrt AND dListEndx " +
+            "AND cAllwCrdt = '1' " +
+            "AND nQtyOnHnd > 0 " +
+            "AND cTranStat = '1' " +
+            "ORDER BY dListStrt DESC")
+    LiveData<List<oProduct>> SearchLoanProducts(String fsVal);
+
     class oProduct{
         public String sProdctID;
         public String sProdctNm;
         public String sPricexxx;
         public String sUntsSold;
         public String sImagesxx;
+        public String xBrandNme;
+        public String sModelIDx;
     }
 }

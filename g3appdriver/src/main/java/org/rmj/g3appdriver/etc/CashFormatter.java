@@ -12,4 +12,15 @@ public class CashFormatter {
         }
     }
 
+    public static String parseDiscount(String args){
+        try{
+            double lnDiscount = Double.parseDouble(args);
+            double lnTotal = lnDiscount * 100;
+            return lnTotal + "%";
+        } catch (Exception e){
+            e.printStackTrace();
+            return "";
+        }
+    }
+
 }

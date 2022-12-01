@@ -37,6 +37,16 @@ public class Activity_IDVerification extends AppCompatActivity {
     private Dialog_SingleButton poDialogx;
     private Dialog_Loading poLoad;
 
+    private String sIDCodexx = "";
+
+    public String getsIDCodexx() {
+        return sIDCodexx;
+    }
+
+    public void setsIDCodexx(String sIDCodexx) {
+        this.sIDCodexx = sIDCodexx;
+    }
+
     public List<UserIdentification> getIDList(){
         return poList;
     }
@@ -63,7 +73,7 @@ public class Activity_IDVerification extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         viewPager = findViewById(R.id.viewpager);
-
+        viewPager.setOffscreenPageLimit(1);
         mViewModel.ImportIDTypes(new OnImportIDTypeListener() {
             @Override
             public void OnImportIDType(String title, String message) {

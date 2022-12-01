@@ -37,7 +37,7 @@
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:contentDescription="@string/nav_header_desc"
-            android:src="@drawable/sample_user_img_profile"/>
+            android:src="@mipmap/ic_launcher"/>
 
     </androidx.cardview.widget.CardView>
 

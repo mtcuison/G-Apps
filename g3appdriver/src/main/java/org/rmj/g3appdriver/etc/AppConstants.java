@@ -22,6 +22,8 @@ public class AppConstants {
 
     public static String MainFolder = "/GuanzonApps/";
 
+    public static final String SUB_FOLDER_CREDIT_APP = "/CreditApp";
+
     public static String ALL_DATA_SENT() throws Exception{
         JSONObject loJson = new JSONObject();
         loJson.put("result", "success");
@@ -119,11 +121,6 @@ public class AppConstants {
             "Change"
     };
 
-    public static final int CAPTURE_FRONT_1 = 1;
-    public static final int CAPTURE_BACK_1 = 2;
-    public static final int CAPTURE_FRONT_2 = 3;
-    public static final int CAPTURE_BACK_2 = 4;
-
     public static String[] ValidIDList = new String[]{
             "Philippine Passport from Department of Foreign Affairs",
             "SSS ID or SSS UMID Card (SSS)",
@@ -158,18 +155,22 @@ public class AppConstants {
             "PSA Birth Certificate",
             "Others"};
 
-    public static String parseTermCode(String fsVal) {
-        switch (fsVal) {
+    public static String parseTermCode(String fsVal){
+        switch (fsVal){
+            case "":
+                return "Order is not paid yet";
             case "C001018":
-                return "3 Months";
+                return "3 Months Installment";
             case "C001019":
-                return "6 Months";
+                return "6 Months Installment";
             case "C001023":
-                return "9 Months";
+                return "9 Months Installment";
             case "C001020":
-                return "12 Months";
-            default:
+                return "12 Months Installment";
+            case "C001002":
                 return "Cash On Delivery";
+            default:
+                return "Online Payment (GCash or Maya)";
         }
     }
 }

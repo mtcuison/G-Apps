@@ -26,6 +26,8 @@ public class EProducts {
     private String Ratingxx;
     @ColumnInfo(name = "xBrandNme")
     private String BrandNme;
+    @ColumnInfo(name = "sModelIDx")
+    private String ModelIDx;
     @ColumnInfo(name = "xModelNme")
     private String ModelNme;
     @ColumnInfo(name = "sImagesxx")
@@ -48,6 +50,8 @@ public class EProducts {
     private String ListStrt;
     @ColumnInfo(name = "dListEndx")
     private String ListEndx;
+    @ColumnInfo(name = "cAllwCrdt")
+    private String AllwCrdt;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
     @ColumnInfo(name = "dTimeStmp")
@@ -224,5 +228,21 @@ public class EProducts {
 
     public void setStockIDx(String stockIDx) {
         StockIDx = stockIDx;
+    }
+
+    public String getAllwCrdt() {
+        return AllwCrdt;
+    }
+
+    public void setAllwCrdt(String allwCrdt) {
+        AllwCrdt = allwCrdt;
+    }
+
+    public String getModelIDx() {
+        return ModelIDx;
+    }
+
+    public void setModelIDx(String modelIDx) {
+        ModelIDx = modelIDx;
     }
 }

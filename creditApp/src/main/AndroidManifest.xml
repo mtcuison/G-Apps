@@ -4,16 +4,29 @@
 
     <application>
         <activity
-            android:name=".Activities.Activity_LoanPreview"
-            android:exported="false" />
+            android:name=".Activities.Activity_ApplicantInfo"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
-            android:name=".Activities.Activity_PersonalInfo"
-            android:exported="false" />
+            android:name=".Activities.Activity_ItemPreview"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity> <!-- <activity -->
+        <!-- android:name=".Activities.Activity_LoanPreview" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".Activities.Activity_PersonalInfo" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".Activities.Activity_LoanTerm"
             android:exported="false" />
         <activity
-            android:name=".Activities.Activity_Sample"
+            android:name=".Activities.Activity_LoanPreview"
             android:exported="true"
             android:screenOrientation="userPortrait" />
         <activity

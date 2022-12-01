@@ -15,7 +15,8 @@ public interface DPromo {
     @Insert
     void insert(EPromo ePromo);
 
-    @Query("SELECT * FROM Promo_Link_Info")
+    @Query("SELECT * FROM Promo_Link_Info " +
+            "WHERE strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dDateFrom AND dDateThru")
     LiveData<List<EPromo>> getAllPromo();
 
     @Query("SELECT * FROM Promo_Link_Info")
@@ -24,7 +25,8 @@ public interface DPromo {
     @Query("UPDATE App_Event_Info SET cNotified = '1', dModified =:date WHERE sTransNox =:transNox ")
     void updateReadPromo(String date, String transNox);
 
-    @Query("SELECT COUNT(*) FROM Promo_Link_Info WHERE cNotified = '0'")
+    @Query("SELECT COUNT(*) FROM Promo_Link_Info WHERE cNotified = '0' " +
+            "AND strftime('%Y-%m-%d %H:%H:%S', datetime('now', 'localtime'))  BETWEEN dDateFrom AND dDateThru")
     LiveData<Integer> getPromoCount();
 
     @Query("SELECT EXISTS(SELECT * FROM Promo_Link_Info WHERE sTransNox =:TransNox AND cNotified = '1')")

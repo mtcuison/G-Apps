@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Guanzon App</string>
+    <string name="app_name">Guanzon Connect</string>
     <string name="title_activity_dashboard">Activity_Dashboard</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

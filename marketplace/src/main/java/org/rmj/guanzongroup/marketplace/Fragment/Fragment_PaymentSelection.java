@@ -2,14 +2,12 @@ package org.rmj.guanzongroup.marketplace.Fragment;
 
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -61,7 +59,7 @@ public class Fragment_PaymentSelection extends Fragment {
                 binding.rdGcashxx.setChecked(false);
                 binding.rdPayMaya.setChecked(true);
                 binding.rdCashOnD.setChecked(false);
-                poPayMeth = PaymentMethod.PayMaya;
+                poPayMeth = PaymentMethod.Maya;
             }
         });
         binding.rdCashOnD.setOnCheckedChangeListener((buttonView, isChecked) -> {

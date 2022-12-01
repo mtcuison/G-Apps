@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.guanzongroup.digitalgcard.Adapter.Adapter_Advertisement;
@@ -51,6 +52,16 @@ public class Activity_SearchItem extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
+            }
+        });
+        ImageView clearButton = mBinding.searchview.findViewById(androidx.appcompat.R.id.search_close_btn);
+        clearButton.setOnClickListener(v -> {
+            if(mBinding.searchview.getQuery().length() == 0) {
+                mBinding.searchview.setIconified(true);
+            } else {
+                // Do your task here
+                mBinding.searchview.setQuery("", false);
+                finish();
             }
         });
         mBinding.recyclrVw.setLayoutManager(new GridLayoutManager(Activity_SearchItem.this,
@@ -124,7 +135,7 @@ public class Activity_SearchItem extends AppCompatActivity {
                 if(products.size() > 0) {
                     Adapter_ProductList loAdapter = new Adapter_ProductList(products, listingId -> {
                         Intent loIntent = new Intent(this, Activity_ProductOverview.class);
-                        loIntent.putExtra("sListingId", listingId);
+                        loIntent.putExtra("sListngId", listingId);
                         startActivity(loIntent);
                     });
                     mBinding.rvSuggest.setLayoutManager(new GridLayoutManager(this,
@@ -142,28 +153,37 @@ public class Activity_SearchItem extends AppCompatActivity {
     private void displayResult(String fsQueryxx) {
         mBinding.lnAdvetse.setVisibility(View.GONE);
         mBinding.recyclrVw.setVisibility(View.VISIBLE);
-        mViewModel.RequestProductSearch(fsQueryxx, () -> {
-            mViewModel.GetSearchProductList(fsQueryxx).observe(Activity_SearchItem.this, oProducts -> {
-                try{
-                    if(oProducts.size() > 0) {
-                        mBinding.textView.setVisibility(View.GONE);
-                        loAdapter = new Adapter_ProductList(oProducts, fsListIdx -> {
-                            Intent loIntent = new Intent(Activity_SearchItem.this, Activity_ProductOverview.class);
-                            loIntent.putExtra("sListingId", fsListIdx);
-                            startActivity(loIntent);
-                        });
-                        mBinding.recyclrVw.setAdapter(loAdapter);
-                        loAdapter.notifyDataSetChanged();
-                    } else {
-                        mBinding.textView.setText("No item found for keyword '" + fsQueryxx + "'");
-                        mBinding.textView.setVisibility(View.VISIBLE);
-                        mBinding.lnAdvetse.setVisibility(View.VISIBLE);
-                        mBinding.recyclrVw.setVisibility(View.GONE);
+        mViewModel.RequestProductSearch(fsQueryxx, new VMSearchItem.OnSearchCallback() {
+            @Override
+            public void OnSearch() {
+                mBinding.lnLoading.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void OnSearchFinish() {
+                mBinding.lnLoading.setVisibility(View.GONE);
+                mViewModel.GetSearchProductList(fsQueryxx).observe(Activity_SearchItem.this, oProducts -> {
+                    try{
+                        if(oProducts.size() > 0) {
+                            mBinding.textView.setVisibility(View.GONE);
+                            loAdapter = new Adapter_ProductList(oProducts, fsListIdx -> {
+                                Intent loIntent = new Intent(Activity_SearchItem.this, Activity_ProductOverview.class);
+                                loIntent.putExtra("sListngId", fsListIdx);
+                                startActivity(loIntent);
+                            });
+                            mBinding.recyclrVw.setAdapter(loAdapter);
+                            loAdapter.notifyDataSetChanged();
+                        } else {
+                            mBinding.textView.setText("No item found for keyword '" + fsQueryxx + "'");
+                            mBinding.textView.setVisibility(View.VISIBLE);
+                            mBinding.lnAdvetse.setVisibility(View.VISIBLE);
+                            mBinding.recyclrVw.setVisibility(View.GONE);
+                        }
+                    } catch (Exception e){
+                        e.printStackTrace();
                     }
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            });
+                });
+            }
         });
     }
 }

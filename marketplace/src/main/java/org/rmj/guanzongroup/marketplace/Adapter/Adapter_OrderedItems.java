@@ -58,7 +58,7 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
         holder.lblItmPrce.setText(CashFormatter.parse(loMaster.nUnitPrce));
         holder.lblItmQtyx.setText("Quantity: "+loMaster.nQuantity);
         holder.setImage(loMaster.sImagesxx);
-        holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sStockIDx));
+        holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sListIDxx));
         holder.btnReview.setOnClickListener(v -> {
             mlistener1.OnClick(loMaster.sListIDxx);
         });
@@ -80,7 +80,6 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
     public static class OrderItemsViewHolder extends RecyclerView.ViewHolder {
 
         public TextView lblBrandNm,
-                lblItmDisc,
                 lblItmPrce,
                 lblItmQtyx,
                 lblReviewd;
@@ -91,7 +90,6 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
         public OrderItemsViewHolder(@NonNull View itemView) {
             super(itemView);
             lblBrandNm = itemView.findViewById(R.id.lbl_brandName);
-            lblItmDisc = itemView.findViewById(R.id.lbl_itemDiscount);
             lblItmPrce = itemView.findViewById(R.id.lbl_itemPrice);
             lblItmQtyx = itemView.findViewById(R.id.lbl_itemQuantity);
             lblReviewd = itemView.findViewById(R.id.lbl_reviewed);

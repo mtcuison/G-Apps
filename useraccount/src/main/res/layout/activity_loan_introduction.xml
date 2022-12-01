@@ -129,31 +129,29 @@
             android:text="@string/lblGetPin"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linear_tnc"
+    <TextView
+        android:id="@+id/lbl_termsAndConditions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Click here to read Apply Loan Terms and Conditions"
+        android:paddingStart="5dp"
+        android:paddingVertical="10dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/guanzon_digital_dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_otp"
-        android:layout_marginTop="15dp"
-        android:orientation="vertical">
+        app:layout_constraintTop_toBottomOf="@+id/linear_otp"/>
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="I Agree to terms and conditions"/>
-
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="I Agree to terms and conditions"/>
-
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="I Agree to terms and conditions"/>
-
-    </LinearLayout>
+    <CheckBox
+        android:id="@+id/cb_termsAndConditions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I Agree to Apply Loan Terms and Conditions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_termsAndConditions" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_continue"

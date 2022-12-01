@@ -110,6 +110,7 @@ public class Adapter_EventsPromos extends RecyclerView.Adapter<RecyclerView.View
         TextView lblDuration;
         ImageView imgPromo;
         LinearLayout promoContent;
+
         public ViewHolderItem(Context mcontext,@NonNull View itemView, Adapter_EventsPromos.OnEventPromoClickListener listener) {
             super(itemView);
 //            this.lblCaption = itemView.findViewById(R.id.lblPromoEvents);

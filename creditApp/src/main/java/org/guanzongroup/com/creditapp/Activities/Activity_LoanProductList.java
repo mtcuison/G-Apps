@@ -2,6 +2,7 @@ package org.guanzongroup.com.creditapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -9,15 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.guanzongroup.com.creditapp.Adapter.Adapter_LoanProductList;
-import org.guanzongroup.com.creditapp.Obj.MpCreditApp;
 import org.guanzongroup.com.creditapp.R;
 import org.guanzongroup.com.creditapp.ViewModel.VMLoanProductList;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
 
 import java.util.Objects;
 
@@ -26,11 +33,12 @@ public class Activity_LoanProductList extends AppCompatActivity {
     private VMLoanProductList mViewModel;
 
     private Toolbar toolbar;
+    private SearchView txtSearch;
     private RecyclerView recyclerView;
+    private LinearLayout lnLoading;
+    private TextView lblNoItem;
     private Dialog_Loading poLoad;
     private Dialog_SingleButton poDialog;
-
-    private MpCreditApp poCredApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,57 +54,79 @@ public class Activity_LoanProductList extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        txtSearch = findViewById(R.id.txtSearch);
+        lnLoading = findViewById(R.id.lnLoading);
+        lblNoItem = findViewById(R.id.textView);
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new GridLayoutManager(Activity_LoanProductList.this, 2, RecyclerView.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
 
-        mViewModel.ValidateUserVerification(new VMLoanProductList.OnValidateVerifiedUser() {
-            @Override
-            public void OnValidate(String title, String message) {
-                poLoad.initDialog(title, message);
-                poLoad.show();
-            }
+        InitializeProductList();
 
+        txtSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void OnAccountVerified() {
-                poLoad.dismiss();
-                InitializeProductList();
-            }
+            public boolean onQueryTextSubmit(String query) {
+                mViewModel.SearchItem(query, new VMLoanProductList.OnSearchCallback() {
+                    @Override
+                    public void OnSearch() {
+                        lnLoading.setVisibility(View.VISIBLE);
+                    }
 
-            @Override
-            public void OnAccountNotVerified() {
-                poLoad.dismiss();
-                startActivity(new Intent(Activity_LoanProductList.this, Activity_IDVerification.class));
-                finish();
-            }
+                    @Override
+                    public void OnSearchFinish() {
+                        lnLoading.setVisibility(View.GONE);
+                        mViewModel.searchLoanProduct(query).observe(Activity_LoanProductList.this, products -> {
+                            try{
+                                if(products.size() > 0){
+                                    lblNoItem.setVisibility(View.GONE);
+                                    Adapter_LoanProductList loAdapter = new Adapter_LoanProductList(products, new Adapter_LoanProductList.OnItemClick() {
+                                        @Override
+                                        public void onClick(String fsListIdx) {
+                                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_ItemPreview.class);
+                                            loIntent.putExtra("sListngID", fsListIdx);
+                                            startActivity(loIntent);
+                                            finish();
+                                        }
 
-            @Override
-            public void OnFailed(String message) {
-                poLoad.dismiss();
-                poDialog.setButtonText("Okay");
-                poDialog.initDialog("Guanzon App", message, () -> {
-                    poDialog.dismiss();
+                                        @Override
+                                        public void onApplyLoanClick(String fsListIdx, String BrandNme, String ModelID) {
+                                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_LoanTerm.class);
+                                            loIntent.putExtra("sListngID", fsListIdx);
+                                            loIntent.putExtra("sUnitAppl", BrandNme);
+                                            loIntent.putExtra("sModelIDx", ModelID);
+                                            startActivity(loIntent);
+                                            finish();
+                                        }
+                                    });
+                                    recyclerView.setAdapter(loAdapter);
+                                } else {
+                                    lblNoItem.setVisibility(View.VISIBLE);
+                                    lblNoItem.setText("No item found for keyword '" + query + "'");
+                                }
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        });
+                    }
                 });
-                poDialog.show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
-
-//        mViewModel.getCreditAppData().observe(Activity_LoanProductList.this, mpCreditApp -> {
-//            try {
-//                poCredApp = mpCreditApp;
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        });
-
-//        findViewById(R.id._lbl).setOnClickListener(v -> {
-//            try {
-//                mViewModel.setData(poCredApp);
-//                mViewModel.StartActivity(Activity_Sample.class);
-//            } catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        });
+        ImageView clearButton = txtSearch.findViewById(androidx.appcompat.R.id.search_close_btn);
+        clearButton.setOnClickListener(v -> {
+            if(txtSearch.getQuery().length() == 0) {
+                txtSearch.setIconified(true);
+            } else {
+                // Do your task here
+                txtSearch.setQuery("", false);
+                InitializeProductList();
+            }
+        });
     }
 
     @Override
@@ -108,11 +138,27 @@ public class Activity_LoanProductList extends AppCompatActivity {
     }
 
     private void InitializeProductList(){
-        mViewModel.getProductList(0).observe(Activity_LoanProductList.this, products -> {
+        mViewModel.getProductList().observe(Activity_LoanProductList.this, products -> {
             try{
                 if(products.size() > 0){
-                    Adapter_LoanProductList loAdapter = new Adapter_LoanProductList(products, fsListIdx -> {
+                    Adapter_LoanProductList loAdapter = new Adapter_LoanProductList(products, new Adapter_LoanProductList.OnItemClick() {
+                        @Override
+                        public void onClick(String fsListIdx) {
+                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_ItemPreview.class);
+                            loIntent.putExtra("sListngID", fsListIdx);
+                            startActivity(loIntent);
+                            finish();
+                        }
 
+                        @Override
+                        public void onApplyLoanClick(String fsListIdx, String BrandNme, String ModelID) {
+                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_LoanTerm.class);
+                            loIntent.putExtra("sListngID", fsListIdx);
+                            loIntent.putExtra("sUnitAppl", BrandNme);
+                            loIntent.putExtra("sModelIDx", ModelID);
+                            startActivity(loIntent);
+                            finish();
+                        }
                     });
                     recyclerView.setAdapter(loAdapter);
                 }

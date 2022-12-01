@@ -13,7 +13,6 @@ import com.squareup.picasso.Picasso;
 
 import org.guanzongroup.com.creditapp.R;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.etc.CashFormatter;
 
@@ -22,10 +21,12 @@ import java.util.List;
 public class Adapter_LoanProductList extends RecyclerView.Adapter<Adapter_LoanProductList.ViewHolderItem> {
 
     private final List<DProduct.oProduct> poProdcts;
+    private List<DProduct.oProduct> poFilter;
     private final OnItemClick poCallBck;
 
     public Adapter_LoanProductList(List<DProduct.oProduct> foProdcts, OnItemClick foCallBck) {
         this.poProdcts = foProdcts;
+        this.poFilter = poProdcts;
         this.poCallBck = foCallBck;
     }
 
@@ -41,8 +42,11 @@ public class Adapter_LoanProductList extends RecyclerView.Adapter<Adapter_LoanPr
         try {
             DProduct.oProduct loProduct = poProdcts.get(position);
             holder.sListIdxx = loProduct.sProdctID;
+            holder.BrandNme = loProduct.xBrandNme;
+            holder.ModelIDx = loProduct.sModelIDx;
             holder.txtProdNm.setText(loProduct.sProdctNm);
             holder.setImage(loProduct.sImagesxx);
+            holder.txtPricex.setText(CashFormatter.parse(loProduct.sPricexxx));
             // TODO: Set product image url ~> Picasso.get().load(stringUrl).into(holder.imgProdct);
             // TODO: Display promo banner if there is any (8:1 aspect ratio)
 //            boolean isThereAPromoForThisItem = true;
@@ -62,21 +66,27 @@ public class Adapter_LoanProductList extends RecyclerView.Adapter<Adapter_LoanPr
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder {
 
-        public String sListIdxx = "";
+        public String sListIdxx = "", BrandNme = "", ModelIDx = "";
         public ImageView imgProdct, imgPromox;
-        public TextView txtProdNm;
+        public TextView txtProdNm, txtPricex, btnAppLoan;
 
         public ViewHolderItem(@NonNull View itemView, OnItemClick foCallBck) {
             super(itemView);
             imgProdct = itemView.findViewById(R.id.img_product);
             imgPromox = itemView.findViewById(R.id.imgPromox);
             txtProdNm = itemView.findViewById(R.id.txt_product_name);
+            txtPricex = itemView.findViewById(R.id.txt_product_price);
+            btnAppLoan = itemView.findViewById(R.id.btnAppLoan);
 
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     foCallBck.onClick(sListIdxx);
                 }
+            });
+
+            btnAppLoan.setOnClickListener(view -> {
+                foCallBck.onApplyLoanClick(sListIdxx, BrandNme, ModelIDx);
             });
         }
 
@@ -94,5 +104,6 @@ public class Adapter_LoanProductList extends RecyclerView.Adapter<Adapter_LoanPr
 
     public interface OnItemClick {
         void onClick(String fsListIdx);
+        void onApplyLoanClick(String fsListIdx, String BrandNme, String StockID);
     }
 }

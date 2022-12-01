@@ -62,6 +62,7 @@ public class ServerAPIs {
     private static final String IMPORT_SHIPPING_INFO = "";
     private static final String IMPORT_TOP_SELLING_ITEMS = "";
     private static final String IMPORT_PROMO_ITEMS = "integsys/marketplace/download_item_list.php";
+    private static final String IMPORT_PRICE_LIST = "integsys/marketplace/download_pricelist.php";
     private static final String IMPORT_SEARCH_RESULTS = "";
     private static final String IMPORT_PRODUCT_INFO = "";
     private static final String ADD_TO_CART_ITEM = "integsys/marketplace/add_to_cart.php";
@@ -85,6 +86,11 @@ public class ServerAPIs {
     private static final String IMPORT_INQUIRIES = "integsys/marketplace/import_product_inquiries.php";
     private static final String SUBMIT_REVIEW = "integsys/marketplace/submit_product_review.php";
     private static final String SUBMIT_INQUIRY = "integsys/marketplace/submit_product_inquiry.php";
+
+    private static final String SUBMIT_MEANS_INFO = "integsys/gocas/mp_submit_means_info.php";
+    private static final String SUBMIT_OTHER_INFO = "integsys/gocas/mp_submit_other_info.php";
+    private static final String GET_OTHER_APPLICATION_INFO = "integsys/gocas/mp_get_other_application_info.php";
+    private static final String SUBMIT_LOAN_APPLICATION = "integsys/gocas/mp_submit_credit_app.php";
 
     private static final String IMPORT_NOTIFICATIONS = "integsys/notification/request_previous_notifications.php";
     private static final String SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/notification/send_response.php";
@@ -611,4 +617,43 @@ public class ServerAPIs {
         }
         return LIVE + IMPORT_VALID_ID_CODE;
     }
+
+    public String getSubmitMeansInfo(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_MEANS_INFO;
+        }
+        return LIVE + SUBMIT_MEANS_INFO;
+    }
+
+    public String getSubmitOtherInfo(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_OTHER_INFO;
+        }
+        return LIVE + SUBMIT_OTHER_INFO;
+    }
+
+    public String getOtherApplicationInfo(){
+        if(isTestUnit){
+            return LOCAL + GET_OTHER_APPLICATION_INFO;
+        }
+        return LIVE + GET_OTHER_APPLICATION_INFO;
+    }
+
+    public String getSubmitLoanApplication(){
+        if(isTestUnit){
+            return LOCAL + SUBMIT_LOAN_APPLICATION;
+        }
+        return LIVE + SUBMIT_LOAN_APPLICATION;
+    }
+
+    public String getDownloadPriceListAPI(){
+        if(isTestUnit){
+            return LOCAL + IMPORT_PRICE_LIST;
+        }
+        return LIVE + IMPORT_PRICE_LIST;
+    }
+
+
+
+
 }

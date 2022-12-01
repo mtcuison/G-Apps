@@ -410,7 +410,7 @@ public class SystemExtras implements iGCardSystem{
             EPromo loPromo = poPromo.getPromoInfoIfExist(loJson.getString("sTransNox"));
             if(loPromo == null) {
                 //check the records from API, if record status is not equal to 1, record is inactive, do not insert
-                if(!"1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
+//                if(!"1".equalsIgnoreCase(loJson.getString("cRecdStat"))){
                     // insert saving method inside...
                     EPromo info = new EPromo();
                     info.setTransNox(loJson.getString("sTransNox"));
@@ -422,29 +422,29 @@ public class SystemExtras implements iGCardSystem{
                     info.setCaptionx(loJson.getString("sCaptionx"));
                     info.setDateFrom(loJson.getString("dDateFrom"));
                     info.setDateThru(loJson.getString("dDateThru"));
-                    info.setRecdStat(loJson.getString("cRecdStat"));
-                    info.setTimeStmp(loJson.getString("dTimeStmp"));
+//                    info.setRecdStat(loJson.getString("cRecdStat"));
+//                    info.setTimeStmp(loJson.getString("dTimeStmp"));
                     poPromo.insert(info);
                     Log.d(TAG, "New record save!");
-                }
-            } else {
-                Date ldDate1 = SQLUtil.toDate(loPromo.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
-                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-
-                if(!ldDate1.equals(ldDate2)){
-                    poPromo.UpdatePromoInfo(loJson.getString("dTransact"),
-                            loJson.getString("dDateFrom"),
-                            loJson.getString("dDateThru"),
-                            loJson.getString("sCaptionx"),
-                            loJson.getString("sImageURL"),
-                            loJson.getString("cRecdStat"),
-                            loJson.getString("sImageNme"),
-                            loJson.getString("dTimeStmp"),
-                            loJson.getString("sPromoUrl"),
-                            loJson.getString("cDivision"),
-                            loJson.getString("sTransNox"));
-                    Log.d(TAG, "A record has been updated!");
-                }
+//                }
+//            } else {
+//                Date ldDate1 = SQLUtil.toDate(loPromo.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+//                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+//
+//                if(!ldDate1.equals(ldDate2)){
+//                    poPromo.UpdatePromoInfo(loJson.getString("dTransact"),
+//                            loJson.getString("dDateFrom"),
+//                            loJson.getString("dDateThru"),
+//                            loJson.getString("sCaptionx"),
+//                            loJson.getString("sImageURL"),
+//                            loJson.getString("cRecdStat"),
+//                            loJson.getString("sImageNme"),
+//                            loJson.getString("dTimeStmp"),
+//                            loJson.getString("sPromoUrl"),
+//                            loJson.getString("cDivision"),
+//                            loJson.getString("sTransNox"));
+//                    Log.d(TAG, "A record has been updated!");
+//                }
             }
         }
     }
@@ -510,4 +510,5 @@ public class SystemExtras implements iGCardSystem{
     public EEvents CheckEvents() {
         return poEvents.CheckEvent();
     }
+
 }

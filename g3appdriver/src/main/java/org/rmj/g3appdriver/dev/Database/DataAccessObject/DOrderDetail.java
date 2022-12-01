@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EOrderDetail;
 
@@ -13,8 +14,14 @@ import java.util.List;
 @Dao
 public interface DOrderDetail {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void SaveDetailOrder(EOrderDetail foVal);
+
+    @Update
+    void UpdateDetail(EOrderDetail foVal);
+
+    @Query("SELECT * FROM MarketPlace_Order_Detail WHERE sTransNox =:fsVal AND nEntryNox=:fsVal1")
+    EOrderDetail GetOrderDetail(String fsVal, String fsVal1);
 
     @Query("SELECT * FROM MarketPlace_Order_Detail WHERE sTransNox =:fsTransNo")
     LiveData<List<EOrderDetail>> GetOrderDetail(String fsTransNo);
@@ -63,7 +70,9 @@ public interface DOrderDetail {
             "b.cReviewed " +
             "FROM Product_Inventory a " +
             "LEFT JOIN MarketPlace_Order_Detail b " +
-            "ON a.sStockIDx = b.sStockIDx WHERE b.sTransNox =:fsVal")
+            "ON a.sListngID = b.sReferNox " +
+            "WHERE b.sTransNox =:fsVal " +
+            "AND a.cTranStat == '1'")
     LiveData<List<OrderedItemsInfo>> GetOrderedItems(String fsVal);
 
     class OrderHistoryDetail{
@@ -86,6 +95,7 @@ public interface DOrderDetail {
         public String sStockIDx;
         public String xModelNme;
         public String nUnitPrce;
+        public String nDiscount;
         public String nQuantity;
         public String cReviewed;
     }

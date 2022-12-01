@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.Toast;
 
 import org.rmj.guanzongroup.useraccount.R;
 
@@ -25,10 +27,18 @@ public class Activity_LoanIntroduction extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        CheckBox cbTNC = findViewById(R.id.cb_termsAndConditions);
+
         findViewById(R.id.btn_continue).setOnClickListener(v -> {
-            startActivity(new Intent(Activity_LoanIntroduction.this, Activity_IDVerification.class));
-            finish();
+            if(!cbTNC.isChecked()) {
+                Toast.makeText(Activity_LoanIntroduction.this, "Terms and Conditions agreement required to proceed", Toast.LENGTH_SHORT).show();
+            } else {
+                startActivity(new Intent(Activity_LoanIntroduction.this, Activity_IDVerification.class));
+                finish();
+            }
         });
+
+        findViewById(R.id.lbl_termsAndConditions).setOnClickListener(view -> startActivity(new Intent(Activity_LoanIntroduction.this, Activity_LoanTermsAndConditions.class)));
     }
 
     @Override

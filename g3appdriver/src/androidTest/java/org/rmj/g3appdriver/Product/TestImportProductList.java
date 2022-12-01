@@ -40,7 +40,6 @@ public class TestImportProductList {
     public void setUp() throws Exception {
         mContext = ApplicationProvider.getApplicationContext();
         poProdct = new RProduct(mContext);
-        new GuanzonAppConfig(mContext).setTestCase(true);
     }
 
     @Test

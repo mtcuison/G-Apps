@@ -66,8 +66,8 @@ public class Activity_Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         mViewModel = new ViewModelProvider(Activity_Login.this).get(VMAccountAuthentication.class);
+        setContentView(R.layout.activity_login);
         initViews();
         setUpToolbar();
         setTabLayout();

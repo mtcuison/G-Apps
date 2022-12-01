@@ -35,7 +35,6 @@ public class VMSplashScreen extends AndroidViewModel {
     private final String[] laPermissions =  new String[]{
         Manifest.permission.MANAGE_EXTERNAL_STORAGE,
         Manifest.permission.READ_PHONE_NUMBERS,
-        Manifest.permission.REQUEST_INSTALL_PACKAGES,
         Manifest.permission.INTERNET,
         Manifest.permission.ACCESS_NETWORK_STATE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -46,7 +45,6 @@ public class VMSplashScreen extends AndroidViewModel {
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION,};
 
-    private final MutableLiveData<Boolean> poIsGranted = new MutableLiveData<>();
     private final MutableLiveData<oLoadStat> poLoadStat = new MutableLiveData<>();
 
     public VMSplashScreen(@NonNull Application application) {
@@ -61,8 +59,8 @@ public class VMSplashScreen extends AndroidViewModel {
 
     public void setupApp(){
         GuanzonAppConfig loConfig = new GuanzonAppConfig(mContext);
-        loConfig.setProductID("GuanzonApp");
         loConfig.setTestCase(true);
+        loConfig.setProductID("GuanzonApp");
         loConfig.setClientID(AppConstants.APP_CLIENT);
         loConfig.setIfPermissionsGranted(hasPermissions(mContext, laPermissions));
         poLoadStat.setValue(new oLoadStat(
@@ -79,10 +77,6 @@ public class VMSplashScreen extends AndroidViewModel {
 
     public String[] GetPermissions(){
         return laPermissions;
-    }
-
-    public LiveData<Boolean> CheckIfPermissionsGranted(){
-        return poIsGranted;
     }
 
     public LiveData<oLoadStat> GetLoadStatus(){
@@ -156,14 +150,12 @@ public class VMSplashScreen extends AndroidViewModel {
                 pause();
                 iGCardSystem loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
                 loGcard.DownloadBranchesList(poCallback);
-                Log.d(TAG, "Branches imported successfully...");
                 pause();
                 loGcard.DownloadPromotions(poCallback);
-                Log.d(TAG, "Promotions imported successfully...");
                 pause();
-                loGcard.DownloadNewsEvents(poCallback);
-                Log.d(TAG, "News events imported successfully...");
-                pause();
+//                loGcard.DownloadNewsEvents(poCallback);
+//                Log.d(TAG, "News events imported successfully...");
+//                pause();
 
                 if (new AccountInfo(mContext).getLoginStatus()) {
                     RNotificationInfo loNotif = new RNotificationInfo(mContext);
@@ -212,6 +204,6 @@ public class VMSplashScreen extends AndroidViewModel {
                 e.printStackTrace();
             }
         }
-
     }
+
 }

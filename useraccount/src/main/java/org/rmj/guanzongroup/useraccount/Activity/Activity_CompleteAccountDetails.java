@@ -169,7 +169,8 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         txtBdatex.setOnClickListener(v ->  {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-            final DatePickerDialog StartTime = new DatePickerDialog(this, (view131, year, monthOfYear, dayOfMonth) -> {
+            final DatePickerDialog StartTime = new DatePickerDialog(Activity_CompleteAccountDetails.this,
+                    android.R.style.Theme_Holo_Dialog,  (view131, year, monthOfYear, dayOfMonth) -> {
                 try {
                     Calendar newDate = Calendar.getInstance();
                     newDate.set(year, monthOfYear, dayOfMonth);

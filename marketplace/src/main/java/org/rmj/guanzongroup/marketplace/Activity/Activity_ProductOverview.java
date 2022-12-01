@@ -404,6 +404,7 @@ public class Activity_ProductOverview extends AppCompatActivity {
                 Intent loIntent = new Intent(Activity_ProductOverview.this,
                         Activity_CompleteAccountDetails.class);
                 startActivity(loIntent);
+                isClick = false;
             } else {
                 final BottomDialog_AddToCart dialog = new BottomDialog_AddToCart(psProduct, psAvlQtyx, psPricexx);
                 dialog.setDialogCallback(new BottomDialog_AddToCart.OnAddToCart() {
@@ -456,39 +457,45 @@ public class Activity_ProductOverview extends AppCompatActivity {
     }
 
     private void buyNow() {
-        if(isLoggedIn()) {
-            if(poAccount.getVerificationStatus() == 0) {
-                Intent loIntent = new Intent(Activity_ProductOverview.this,
-                        Activity_CompleteAccountDetails.class);
-                startActivity(loIntent);
-            } else {
-                mViewModel.buyNow(psItemIdx, 1, new OnTransactionsCallback() {
-                    @Override
-                    public void onLoading() {
-                        poLoading = new Dialog_Loading(Activity_ProductOverview.this);
-                        poLoading.initDialog("Marketplace", "Order processing. Please wait.");
-                        poLoading.show();
-                    }
+        if(!isClick) {
+            if (isLoggedIn()) {
+                if (poAccount.getVerificationStatus() == 0) {
+                    Intent loIntent = new Intent(Activity_ProductOverview.this,
+                            Activity_CompleteAccountDetails.class);
+                    startActivity(loIntent);
+                    isClick = false;
+                } else {
+                    mViewModel.buyNow(psItemIdx, 1, new OnTransactionsCallback() {
+                        @Override
+                        public void onLoading() {
+                            poLoading = new Dialog_Loading(Activity_ProductOverview.this);
+                            poLoading.initDialog("Marketplace", "Order processing. Please wait.");
+                            poLoading.show();
+                        }
 
-                    @Override
-                    public void onSuccess(String fsMessage) {
-                        poLoading.dismiss();
-                        Intent loIntent = new Intent(Activity_ProductOverview.this,
-                                Activity_PlaceOrder.class);
-                        loIntent.putExtra("cBuyNowxx", true);
-                        startActivity(loIntent);
-                    }
+                        @Override
+                        public void onSuccess(String fsMessage) {
+                            isClick = false;
+                            poLoading.dismiss();
+                            Intent loIntent = new Intent(Activity_ProductOverview.this,
+                                    Activity_PlaceOrder.class);
+                            loIntent.putExtra("cBuyNowxx", true);
+                            startActivity(loIntent);
+                        }
 
-                    @Override
-                    public void onFailed(String fsMessage) {
-                        poLoading.dismiss();
-                        poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
-                        poDialogx.show();
-                    }
-                });
+                        @Override
+                        public void onFailed(String fsMessage) {
+                            isClick = false;
+                            poLoading.dismiss();
+                            poDialogx.setButtonText("Okay");
+                            poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
+                            poDialogx.show();
+                        }
+                    });
+                }
             }
-
+        } else {
+            Toast.makeText(Activity_ProductOverview.this, "Please wait...", Toast.LENGTH_SHORT).show();
         }
     }
 
