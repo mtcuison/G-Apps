@@ -8,7 +8,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 21
-        versionName "GuanzonApp v2.0.20"
+        versionName "Build Version 2.2.01"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true

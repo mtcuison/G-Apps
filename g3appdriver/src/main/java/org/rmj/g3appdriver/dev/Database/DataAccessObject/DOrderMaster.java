@@ -75,13 +75,12 @@ public interface DOrderMaster {
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.sTermCode == '' " +
             "AND a.cTranStat == '0' " +
-            "OR a.cPaymType == '2' " +
-            "AND a.sTermCode = 'C0W2011' " +
+            "OR a.sTermCode = 'C0W2011' " +
             "AND a.nTranTotl > (SELECT " +
             "CASE WHEN nProcPaym = '0.00' " +
             "THEN nTranTotl " +
             "ELSE nProcPaym " +
-            "END nProcPaym FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox AND  cPaymType = '2' AND sTermCode = 'C0W2011' AND cTranStat = '0') " +
+            "END nProcPaym FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox) " +
             "AND a.cTranStat == '0'")
     LiveData<Integer> GetToPayOrdersCount();
 
@@ -132,14 +131,7 @@ public interface DOrderMaster {
             "LEFT JOIN MarketPlace_Order_Detail b " +
             "ON a.sTransNox = b.sTransNox " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
-            "AND a.sTermCode != '' " +
             "AND a.cTranStat=:fsVal " +
-            "OR a.cPaymType == '2' " +
-            "AND a.nTranTotl <= (SELECT " +
-                    "CASE WHEN nProcPaym = '0.00' " +
-                    "THEN nTranTotl " +
-                    "ELSE nProcPaym " +
-                    "END nProcPaym FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox AND cPaymType = '2' AND sTermCode = 'C0W2011' AND cTranStat = '0') " +
             "GROUP BY a.sTransNox " +
             "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetOrderHistoryList(String fsVal);
@@ -171,12 +163,11 @@ public interface DOrderMaster {
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.sTermCode == '' " +
             "AND a.cTranStat == '0' " +
-            "OR a.cPaymType == '2' " +
-            "AND a.nTranTotl > (SELECT " +
+            "OR a.nTranTotl > (SELECT " +
             "CASE WHEN nProcPaym = '0.00' " +
             "THEN nTranTotl " +
             "ELSE nProcPaym " +
-            "END nProcPaym FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox AND cPaymType = '2' AND sTermCode = 'C0W2011' AND cTranStat = '0') " +
+            "END nProcPaym FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox) " +
             "AND a.sTermCode = 'C0W2011' " +
             "AND a.cTranStat == '0' " +
             "GROUP BY a.sTransNox " +

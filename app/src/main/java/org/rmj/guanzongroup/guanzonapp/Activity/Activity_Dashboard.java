@@ -215,6 +215,14 @@ public class Activity_Dashboard extends AppCompatActivity {
             }
         });
 
+        navigationView.getMenu().findItem(R.id.nav_purchases).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+                mViewModel.ImportOrdersTask();
+                return false;
+            }
+        });
+
         navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(menuItem -> {
             Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_Dashboard.this);
             loDialog.setButtonText("YES", "NO");
