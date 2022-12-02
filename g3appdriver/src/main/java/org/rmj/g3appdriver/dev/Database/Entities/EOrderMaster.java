@@ -27,19 +27,19 @@ public class EOrderMaster {
     @ColumnInfo(name = "sRemarksx")
     private String Remarksx;
     @ColumnInfo(name = "nTranTotl")
-    private String TranTotl;
+    private Double TranTotl = 0.00;
     @ColumnInfo(name = "nVATRatex")
-    private String VATRatex;
+    private Double VATRatex = 0.00;
     @ColumnInfo(name = "nDiscount")
-    private String Discount;
+    private Double Discount = 0.00;
     @ColumnInfo(name = "nAddDiscx")
-    private String AddDiscx;
+    private Double AddDiscx = 0.00;
     @ColumnInfo(name = "nFreightx")
-    private String Freightx;
+    private Double Freightx = 0.00;
     @ColumnInfo(name = "nProcPaym")
-    private String ProcPaym;
+    private Double ProcPaym = 0.00;
     @ColumnInfo(name = "nAmtPaidx")
-    private String AmtPaidx;
+    private Double AmtPaidx = 0.00;
     @ColumnInfo(name = "dDueDatex")
     private String DueDatex;
     @ColumnInfo(name = "sTermCode")
@@ -117,51 +117,51 @@ public class EOrderMaster {
         Remarksx = remarksx;
     }
 
-    public String getTranTotl() {
+    public double getTranTotl() {
         return TranTotl;
     }
 
-    public void setTranTotl(String tranTotl) {
+    public void setTranTotl(double tranTotl) {
         TranTotl = tranTotl;
     }
 
-    public String getVATRatex() {
+    public double getVATRatex() {
         return VATRatex;
     }
 
-    public void setVATRatex(String VATRatex) {
+    public void setVATRatex(double VATRatex) {
         this.VATRatex = VATRatex;
     }
 
-    public String getDiscount() {
+    public double getDiscount() {
         return Discount;
     }
 
-    public void setDiscount(String discount) {
+    public void setDiscount(double discount) {
         Discount = discount;
     }
 
-    public String getAddDiscx() {
+    public double getAddDiscx() {
         return AddDiscx;
     }
 
-    public void setAddDiscx(String addDiscx) {
+    public void setAddDiscx(double addDiscx) {
         AddDiscx = addDiscx;
     }
 
-    public String getFreightx() {
+    public double getFreightx() {
         return Freightx;
     }
 
-    public void setFreightx(String freightx) {
+    public void setFreightx(double freightx) {
         Freightx = freightx;
     }
 
-    public String getAmtPaidx() {
+    public double getAmtPaidx() {
         return AmtPaidx;
     }
 
-    public void setAmtPaidx(String amtPaidx) {
+    public void setAmtPaidx(double amtPaidx) {
         AmtPaidx = amtPaidx;
     }
 
@@ -229,11 +229,11 @@ public class EOrderMaster {
         AppUsrID = appUsrID;
     }
 
-    public String getProcPaym() {
+    public double getProcPaym() {
         return ProcPaym;
     }
 
-    public void setProcPaym(String procPaym) {
+    public void setProcPaym(double procPaym) {
         ProcPaym = procPaym;
     }
 
