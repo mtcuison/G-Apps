@@ -17,9 +17,9 @@ public class EItemCart {
     private String BuyNowxx = "0";
 
     @ColumnInfo(name = "nQuantity")
-    private String Quantity;
+    private Integer Quantity = 0;
     @ColumnInfo(name = "nAvlQtyxx")
-    private String AvlQtyxx;
+    private Integer AvlQtyxx = 0;
     @ColumnInfo(name = "dCreatedx")
     private String Createdx;
     @ColumnInfo(name = "cTranStat")
@@ -50,19 +50,19 @@ public class EItemCart {
         ListIDxx = listIDxx;
     }
 
-    public String getQuantity() {
+    public int getQuantity() {
         return Quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(int quantity) {
         Quantity = quantity;
     }
 
-    public String getAvlQtyxx() {
+    public int getAvlQtyxx() {
         return AvlQtyxx;
     }
 
-    public void setAvlQtyxx(String avlQtyxx) {
+    public void setAvlQtyxx(int avlQtyxx) {
         AvlQtyxx = avlQtyxx;
     }
 

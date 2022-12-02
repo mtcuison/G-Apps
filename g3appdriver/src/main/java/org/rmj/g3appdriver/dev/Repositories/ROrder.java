@@ -331,16 +331,16 @@ public class ROrder {
             EItemCart loItem = new EItemCart();
             loItem.setUserIDxx(new AccountInfo(mContext).getUserID());
             loItem.setListIDxx(fsLstngID);
-            loItem.setQuantity(String.valueOf(fnQuantity));
+            loItem.setQuantity(fnQuantity);
             loItem.setTranStat("0");
-            loItem.setAvlQtyxx("");
+//            loItem.setAvlQtyxx("");
             loItem.setCreatedx(new AppConstants().DATE_MODIFIED);
             loItem.setTimeStmp(new AppConstants().DATE_MODIFIED);
             if(poCartDao.CheckIFItemExist(fsLstngID) == null){
                 poCartDao.SaveItemInfo(loItem);
                 Log.d(TAG, "");
             } else {
-                int lnQty = Integer.parseInt(poCartDao.CheckIFItemExist(fsLstngID).getQuantity());
+                int lnQty = poCartDao.CheckIFItemExist(fsLstngID).getQuantity();
                 lnQty = lnQty + fnQuantity;
                 poCartDao.UpdateItem(fsLstngID, lnQty);
             }
@@ -357,9 +357,9 @@ public class ROrder {
             EItemCart loItem = new EItemCart();
             loItem.setUserIDxx(new AccountInfo(mContext).getUserID());
             loItem.setListIDxx(fsLstngID);
-            loItem.setQuantity(String.valueOf(fnQuantity));
+            loItem.setQuantity(fnQuantity);
             loItem.setTranStat("0");
-            loItem.setAvlQtyxx("");
+//            loItem.setAvlQtyxx();
             loItem.setCreatedx(new AppConstants().DATE_MODIFIED);
             loItem.setTimeStmp(new AppConstants().DATE_MODIFIED);
             if(poCartDao.CheckIFItemExist(fsLstngID) == null){
@@ -403,8 +403,8 @@ public class ROrder {
                         JSONObject loJson = jaDetail.getJSONObject(x);
                         loDetail.setUserIDxx(loJson.getString("sUserIDxx"));
                         loDetail.setListIDxx(loJson.getString("sListngID"));
-                        loDetail.setQuantity(loJson.getString("nQuantity"));
-                        loDetail.setAvlQtyxx(loJson.getString("nAvlQtyxx"));
+                        loDetail.setQuantity(loJson.getInt("nQuantity"));
+                        loDetail.setAvlQtyxx(loJson.getInt("nAvlQtyxx"));
                         loDetail.setCreatedx(loJson.getString("dCreatedx"));
                         loDetail.setTranStat(loJson.getString("cTranStat"));
                         loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
@@ -433,10 +433,10 @@ public class ROrder {
             EItemCart loItem = new EItemCart();
             loItem.setUserIDxx(new AccountInfo(mContext).getUserID());
             loItem.setListIDxx(fsLstngID);
-            loItem.setQuantity(String.valueOf(fnQuantity));
+            loItem.setQuantity(fnQuantity);
             loItem.setBuyNowxx("1");
             loItem.setCheckOut("1");
-            loItem.setAvlQtyxx("");
+//            loItem.setAvlQtyxx("");
             loItem.setCreatedx(new AppConstants().DATE_MODIFIED);
             loItem.setTimeStmp(new AppConstants().DATE_MODIFIED);
             poCartDao.CancelBuyNowItem();
