@@ -123,7 +123,7 @@ public class Activity_Purchases extends AppCompatActivity {
 //                        double lnAmntx = Double.parseDouble(foOrder.nProcPaym);
 
                         if(foOrder.cNeedPaym.equalsIgnoreCase("1")){
-                            lblAmountPd.setText("Amount Paid: " + CashFormatter.parse(foOrder.nProcPaym) + "\n\n Online payment takes time to process and may not take effect immediately in order preview.");
+                            lblAmountPd.setText("Amount Paid: " + CashFormatter.parse(String.valueOf(foOrder.nProcPaym)) + "\n\n Online payment takes time to process and may not take effect immediately in order preview.");
                             btnPay.setVisibility(View.VISIBLE);
                         } else {
                             lblAmountPd.setText("");
@@ -157,10 +157,10 @@ public class Activity_Purchases extends AppCompatActivity {
                         });
                     }
 
-                    double lnTrantotl = Double.parseDouble(foOrder.nTranTotl);
-                    double lnProcPaym = Double.parseDouble(foOrder.nProcPaym);
-                    double lnDiscount = Double.parseDouble(foOrder.nDiscount);
-                    double lnFreightx = Double.parseDouble(foOrder.nFreightx);
+                    double lnTrantotl = foOrder.nTranTotl;
+                    double lnProcPaym = foOrder.nProcPaym;
+                    double lnDiscount = foOrder.nDiscount;
+                    double lnFreightx = foOrder.nFreightx;
                     double lnSubTotal = lnTrantotl - (lnTrantotl * lnDiscount);
 
                     double lnTotalxx = lnSubTotal + lnFreightx;
@@ -173,8 +173,8 @@ public class Activity_Purchases extends AppCompatActivity {
                     lblPaymntxx.setText(AppConstants.parseTermCode(foOrder.sTermCode));
                     lblDatePlcd.setText("Place on : " + DateTimeFormatter.ParseDateFullyDetailed(foOrder.dTransact));
                     lblDlvyDate.setText("Get By : " + DateTimeFormatter.ParseDateForList(foOrder.dExpected));
-                    txtSubTot.setText(CashFormatter.parse(foOrder.nTranTotl));
-                    txtShipFe.setText(CashFormatter.parse(foOrder.nFreightx));
+                    txtSubTot.setText(CashFormatter.parse(String.valueOf(foOrder.nTranTotl)));
+                    txtShipFe.setText(CashFormatter.parse(String.valueOf(foOrder.nFreightx)));
                     txtOthFee.setText("");
                     txtTotalx.setText(CashFormatter.parse(String.valueOf(lnTotalxx)));
 

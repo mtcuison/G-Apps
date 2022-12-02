@@ -44,18 +44,22 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
         DOrderMaster.OrderHistory loMaster = poMaster.get(position);
         holder.lblOrderNo.setText(loMaster.sTransNox);
         holder.lblOrderSt.setText(GetOrderStatus(loMaster));
-        holder.lblBrandNm.setText(loMaster.xModelNme + "\n " + loMaster.xBrandNme);
-        holder.lblItmDisc.setText(GetDiscount(loMaster.nDiscount));
 
-        double lnTrantotl = Double.parseDouble(loMaster.nTranTotl);
-        double lnProcPaym = Double.parseDouble(loMaster.nProcPaym);
-        double lnDiscount = Double.parseDouble(loMaster.nDiscount);
-        double lnFreightx = Double.parseDouble(loMaster.nFreightx);
+        if(loMaster.nDiscount != 0.00) {
+            holder.lblItmDisc.setText(loMaster.nDiscount + " %");
+        } else {
+            holder.lblItmDisc.setText("");
+        }
+
+        double lnTrantotl = loMaster.nTranTotl;
+        double lnProcPaym = loMaster.nProcPaym;
+        double lnDiscount = loMaster.nDiscount;
+        double lnFreightx = loMaster.nFreightx;
         double lnSubTotal = lnTrantotl - (lnTrantotl * lnDiscount);
 
         double lnTotalxx = lnSubTotal + lnFreightx;
         holder.lblOrderTl.setText(CashFormatter.parse(String.valueOf(lnTotalxx)));
-        holder.lblItmPrce.setText(CashFormatter.parse(loMaster.nUnitPrce));
+        holder.lblItmPrce.setText(CashFormatter.parse(String.valueOf(loMaster.nUnitPrce)));
         holder.lblItmQtyx.setText("Quantity: "+ loMaster.nQuantity);
         holder.setImage(loMaster.sImagesxx);
         holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sTransNox, loMaster.cTranStat));
@@ -108,7 +112,7 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
                     return "To Pay";
                 }
                 if(fsVal.sTermCode.equalsIgnoreCase("C0W2011")){
-                    if(Double.parseDouble(fsVal.nTranTotl) > Double.parseDouble(fsVal.nProcPaym)) {
+                    if(fsVal.nTranTotl > fsVal.nProcPaym) {
                         return "To Pay";
                     }
                 }
@@ -123,17 +127,4 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
                 return "Delivered";
         }
     }
-
-    private String GetDiscount(String fsVal){
-        try {
-            if (fsVal.equalsIgnoreCase("0.00"))
-                return "";
-            else
-                return fsVal;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return fsVal;
-        }
-    }
-
 }
