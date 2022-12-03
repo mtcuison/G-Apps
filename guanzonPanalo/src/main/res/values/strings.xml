@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="guanzon_panalo">Guanzon Panalo</string>
+    <string name="Congratulation_You_Won">Congratulation! \n You Won</string>
+    <string name="claim">Claim</string>
+    <string name="sorry_no_rewards">Sorry! \n There\'s no rewards yet</string>
+    <string name="monthly_payment_rebate">Monthly Payment Rebate</string>
+    <string name="close">Close</string>
+    <string name="pop_up_dialog_promotion">Pop-up dialog for Guanzon Panalo promotion</string>
+    <string name="Present_QR_Code_Text">Please present this QR-Code when you\'re paying Monthly Payment</string>
+    <string name="rewards_claimed">Rewards Claimed</string>
+    <string name="None_Guanzon_Panalo_Prize">Note: Please be aware that all Guanzon panalo prizes could only be use if your account is updated.</string>
+    <string name="Guanzon_Panalo_TermsAndPolicy">Tap Here to know more about out Guanzon Panalo Terms and Poliicy.</string>
+    <string name="txt_claim_prize">Please claim your prize</string>
+</resources>
