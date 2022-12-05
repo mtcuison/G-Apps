@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:theme="@style/GuanzonPanalo.Theme"
+    app:cardCornerRadius="25dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_corner_box2"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lbl_dialogTitle"
+            style="@style/TextStyleLabel.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/guanzon_panalo"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/lbl_dialogHeader2"
+            style="@style/TextStyleLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/rewards_claimed"
+            android:textSize="16sp" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/custom_box"
+            android:baselineAligned="true"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rclyView_rewardsClaimed"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            style="@style/TextStyleLabelNormal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="@string/None_Guanzon_Panalo_Prize"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/txt_Terms_and_Policy"
+            style="@style/TextStyleLabelNormal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/Guanzon_Panalo_TermsAndPolicy"
+            android:textSize="11sp" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_dialogClose"
+            style="@style/ButtonStyle.Light.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/close"
+            app:cornerRadius="35dp"
+            app:rippleColor="#FF9800" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
