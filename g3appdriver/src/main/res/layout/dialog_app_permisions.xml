@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true"
+    app:cardCornerRadius="10dp"
+    app:cardMaxElevation="5dp"
+    app:cardElevation="30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/white"
+        android:layout_margin="15dp"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:id="@+id/lbl_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="App Permisions"
+            android:textSize="20sp"
+            android:textColor="@color/font_regular"
+            android:fontFamily="@font/roboto_bold"/>
+
+        <TextView
+            android:id="@+id/lbl_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To use all features of this app. Guanzon App needs access to:"
+            android:textSize="18sp"
+            android:textColor="@color/font_regular"
+            android:paddingVertical="10dp"
+            android:fontFamily="@font/roboto"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/lbl_contacts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contacts"
+            android:textSize="18sp"
+            android:drawableLeft="@drawable/ic_baseline_contacts_24"
+            android:drawablePadding="5dp"
+            android:textColor="@color/font_regular"
+            android:paddingVertical="5dp"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <TextView
+            android:id="@+id/lbl_camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Camera"
+            android:drawableLeft="@drawable/ic_baseline_photo_camera_24"
+            android:drawablePadding="5dp"
+            android:textSize="18sp"
+            android:textColor="@color/font_regular"
+            android:paddingVertical="5dp"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <TextView
+            android:id="@+id/lbl_storage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Storage"
+            android:drawableLeft="@drawable/ic_baseline_storage_24"
+            android:drawablePadding="5dp"
+            android:textSize="18sp"
+            android:textColor="@color/font_regular"
+            android:paddingVertical="5dp"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <TextView
+            android:id="@+id/lbl_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:drawableLeft="@drawable/ic_baseline_location_24"
+            android:drawablePadding="5dp"
+            android:textSize="18sp"
+            android:textColor="@color/font_regular"
+            android:paddingVertical="5dp"
+            android:fontFamily="@font/roboto_regular"/>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Okay"
+            style="@style/ButtonStyle.Orange.Small"
+            android:paddingHorizontal="0dp"
+            android:layout_marginTop="20dp"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
