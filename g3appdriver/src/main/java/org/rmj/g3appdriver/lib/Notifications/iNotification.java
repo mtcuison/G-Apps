@@ -10,9 +10,11 @@ import java.util.List;
 
 public interface iNotification {
 
+    boolean ImportNotifications();
+
     String Save(RemoteMessage foVal);
 
-    boolean SendResponse(String val);
+    boolean SendResponse(String mesgID, NOTIFICATION_STATUS status);
 
     boolean CreateNotification(String title, String message);
 
