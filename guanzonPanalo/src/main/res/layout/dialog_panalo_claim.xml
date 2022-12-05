@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginHorizontal="20dp"
-    android:gravity="center"
     android:orientation="vertical"
     android:theme="@style/GuanzonPanalo.Theme"
     app:cardCornerRadius="25dp"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,73 +26,16 @@
             android:text="@string/guanzon_panalo" />
 
         <TextView
+            android:id="@+id/lbl_dialogHeader2"
             style="@style/TextStyleLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/Congratulation_You_Won"
             android:textSize="16sp" />
 
-        <!--        <androidx.cardview.widget.CardView-->
-        <!--            android:id="@+id/cv_MonthlyRebates"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginHorizontal="5dp"-->
-        <!--            android:orientation="vertical"-->
-        <!--            app:cardCornerRadius="25dp"-->
-        <!--            app:cardPreventCornerOverlap="true"-->
-        <!--            app:cardUseCompatPadding="true">-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:background="#D8D8D8"-->
-        <!--                android:orientation="vertical"-->
-        <!--                -->
-        <!--                android:paddingLeft="15dp">-->
-
-        <!--                <TextView-->
-        <!--                    android:id="@+id/lbl_MonthlyRebates"-->
-        <!--                    style="@style/TextStyleLabel"-->
-        <!--                    android:layout_width="match_parent"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:gravity="start"-->
-        <!--                    android:text="@string/monthly_payment_rebate"-->
-        <!--                    android:textSize="12sp"-->
-        <!--                    android:textStyle="bold" />-->
-
-        <!--                <TextView-->
-        <!--                    android:id="@+id/lbl_dialogMessage"-->
-        <!--                    style="@style/TextStyleLabel"-->
-        <!--                    android:layout_width="match_parent"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:gravity="start"-->
-        <!--                    android:paddingTop="10dp"-->
-        <!--                    android:paddingBottom="10dp"-->
-        <!--                    android:text="Php. 100.00"-->
-        <!--                    android:textColor="#000000"-->
-        <!--                    android:textSize="18sp"-->
-        <!--                    android:textStyle="bold" />-->
-
-        <!--                <TextView-->
-        <!--                    android:id="@+id/lbl_validityDates"-->
-        <!--                    style="@style/TextStyleLabelNormal"-->
-        <!--                    android:layout_width="match_parent"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:gravity="end"-->
-        <!--                    android:padding="5dp"-->
-        <!--                    android:paddingTop="5dp"-->
-        <!--                    android:paddingEnd="10dp"-->
-        <!--                    android:text="Validity: January 1,2023, March 31, 2023"-->
-        <!--                    android:textColor="@color/font_heavy"-->
-        <!--                    android:textSize="11sp" />-->
-
-        <!--            </LinearLayout>-->
-
-        <!--        </androidx.cardview.widget.CardView>-->
-
 
         <LinearLayout
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_corner_box"
@@ -106,10 +47,10 @@
                 style="@style/TextStyleLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:gravity="start"
                 android:text="@string/monthly_payment_rebate"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/lbl_rebatesAmount"
@@ -117,28 +58,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:padding="5dp"
                 android:text="Php. 100.00"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/lbl_validityDates"
-                style="@style/TextStyleLabelNormal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:padding="5dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="10dp"
+                android:padding="10dp"
                 android:text="Validity: January 1,2023, March 31, 2023"
                 android:textColor="@color/font_heavy"
                 android:textSize="11sp" />
 
         </LinearLayout>
-
 
         <TextView
             style="@style/TextStyleLabelNormal"

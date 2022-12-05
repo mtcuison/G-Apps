@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginHorizontal="20dp"
     android:orientation="vertical"
     android:theme="@style/GuanzonPanalo.Theme"
     app:cardCornerRadius="25dp"
@@ -28,13 +27,14 @@
             android:text="@string/guanzon_panalo" />
 
         <ImageView
-            android:id="@+id/lbl_no_reward_logo"
+            android:id="@+id/img_no_reward_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
             tools:src="@drawable/dialog_panalo_no_reward_logo" />
 
         <TextView
+            android:id="@+id/lbl_NoRewardYet"
             style="@style/TextStyleLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_dialogClaim"
+            android:id="@+id/btn_dialogClose"
             style="@style/ButtonStyle.Light.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

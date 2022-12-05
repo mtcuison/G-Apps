@@ -3,8 +3,10 @@
     <string name="guanzon_panalo">Guanzon Panalo</string>
     <string name="Congratulation_You_Won">Congratulation! \n You Won</string>
     <string name="claim">Claim</string>
+    <string name="Use_Now">Use Now</string>
     <string name="sorry_no_rewards">Sorry! \n There\'s no rewards yet</string>
     <string name="monthly_payment_rebate">Monthly Payment Rebate</string>
+    <string name="Quantity">Qty:0</string>
     <string name="close">Close</string>
     <string name="pop_up_dialog_promotion">Pop-up dialog for Guanzon Panalo promotion</string>
     <string name="Present_QR_Code_Text">Please present this QR-Code when you\'re paying Monthly Payment</string>
