@@ -16,8 +16,6 @@ public interface iNotification {
 
     boolean SendResponse(String mesgID, NOTIFICATION_STATUS status);
 
-    boolean CreateNotification(String title, String message);
-
     LiveData<ENotificationMaster> GetNotificationMasterDetail(String fsVal);
 
     LiveData<List<ENotificationMaster>> GetNotificationList();

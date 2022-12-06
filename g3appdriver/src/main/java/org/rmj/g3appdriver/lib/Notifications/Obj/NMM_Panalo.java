@@ -163,34 +163,6 @@ public class NMM_Panalo implements iNotification {
     }
 
     @Override
-    public boolean CreateNotification(String title, String message) {
-        try{
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                int importance = NotificationManager.IMPORTANCE_DEFAULT;
-                NotificationChannel channel = new NotificationChannel(NotificationID, CHANNEL_NAME, importance);
-                channel.setDescription(CHANNEL_DESC);
-                // Register the channel with the system; you can't change the importance
-                // or other notification behaviors after this
-                NotificationManager notificationManager = instance.getSystemService(NotificationManager.class);
-                notificationManager.createNotificationChannel(channel);
-            }
-
-            new Notification.Builder(instance)
-                    .setContentIntent(notifyPendingIntent)
-                    .setPriority(Notification.PRIORITY_HIGH)
-                    .setAutoCancel(true)
-                    .setSmallIcon(R.drawable.ic_guanzon_logo)
-                    .setContentTitle(title)
-                    .setContentText(message)
-            return true;
-        } catch (Exception e){
-            e.printStackTrace();
-            this.message = e.getMessage();
-            return false;
-        }
-    }
-
-    @Override
     public LiveData<ENotificationMaster> GetNotificationMasterDetail(String fsVal) {
         return null;
     }

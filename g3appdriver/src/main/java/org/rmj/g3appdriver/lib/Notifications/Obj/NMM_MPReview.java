@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
+import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.iNotification;
 
 import java.util.List;
@@ -24,6 +25,11 @@ public class NMM_MPReview implements iNotification {
     }
 
     @Override
+    public boolean ImportNotifications() {
+        return false;
+    }
+
+    @Override
     public String Save(RemoteMessage foVal) {
         try{
 
@@ -36,25 +42,13 @@ public class NMM_MPReview implements iNotification {
     }
 
     @Override
-    public boolean SendResponse(String val) {
+    public boolean SendResponse(String mesgID, NOTIFICATION_STATUS status) {
         try{
 
             return true;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
-        }
-    }
-
-    @Override
-    public boolean CreateNotification(String title, String message) {
-        try{
-
-            return true;
-        } catch (Exception e){
-            e.printStackTrace();
-            this.message = e.getMessage();
             return false;
         }
     }

@@ -44,4 +44,5 @@ dependencies {
     // Project Implementations
     implementation project(':digitalGcard')
     implementation project(':marketplace')
+    implementation project(':guanzonPanalo')
 }
