@@ -5,6 +5,7 @@
         android:id="@+id/item_search"
         android:title="Search"
         android:icon="@drawable/ic_baseline_search_24"
+        android:visible="false"
         app:showAsAction="ifRoom|collapseActionView"/>
     <item
         android:id="@+id/item_notifications"
@@ -14,6 +15,7 @@
     <item
         android:id="@+id/item_cart"
         android:title="Cart"
+        android:visible="false"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
         app:showAsAction="ifRoom"/>
 </menu>

@@ -36,8 +36,8 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:4.5.1'
     testImplementation 'org.robolectric:robolectric:4.8.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
-
     implementation project(':g3appdriver')
+
     implementation project(':useraccount')
     // Image Slider Dependencies
     implementation 'com.github.smarteist:autoimageslider:1.4.0'

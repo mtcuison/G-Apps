@@ -61,6 +61,14 @@ public interface DNotifications {
     int CheckNotificationIfExist(String TransNox);
 
     @Query("UPDATE Notification_Info_Recepient SET " +
+            "dLastUpdt =:dateTime, " +
+            "dReceived =:dateTime, " +
+            "cMesgStat =:Status, " +
+            "cStatSent = '1' " +
+            "WHERE sTransNox =:MessageID")
+    void UpdateSentResponseStatus(String MessageID, String Status, String dateTime);
+
+    @Query("UPDATE Notification_Info_Recepient SET " +
             "dLastUpdt =:fsArgs, " +
             "dReceived =:fsArgs, " +
             "cMesgStat = '2', " +
@@ -267,7 +275,6 @@ public interface DNotifications {
         public String cMesgStat;
         public String sDataSndx;
     }
-
 }
 
 

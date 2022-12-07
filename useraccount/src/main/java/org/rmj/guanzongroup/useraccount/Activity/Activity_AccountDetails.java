@@ -16,7 +16,8 @@ import android.widget.TextView;
 
 import com.kofigyan.stateprogressbar.StateProgressBar;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EEmailInfo;
+import org.rmj.g3appdriver.dev.Database.Entities
+        .EEmailInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EMobileInfo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;

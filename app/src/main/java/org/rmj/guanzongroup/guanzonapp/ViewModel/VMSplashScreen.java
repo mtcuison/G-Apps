@@ -59,7 +59,6 @@ public class VMSplashScreen extends AndroidViewModel {
 
     public void setupApp(){
         GuanzonAppConfig loConfig = new GuanzonAppConfig(mContext);
-        loConfig.setTestCase(true);
         loConfig.setProductID("GuanzonApp");
         loConfig.setClientID(AppConstants.APP_CLIENT);
         loConfig.setIfPermissionsGranted(hasPermissions(mContext, laPermissions));
