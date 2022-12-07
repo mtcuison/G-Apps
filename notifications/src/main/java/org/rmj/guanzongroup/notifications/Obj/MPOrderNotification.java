@@ -16,20 +16,20 @@ import org.rmj.guanzongroup.notifications.R;
 
 import java.util.Date;
 
-public class PanaloNotification implements iNotificationUI {
-    private static final String TAG = PanaloNotification.class.getSimpleName();
+public class MPOrderNotification implements iNotificationUI {
+    private static final String TAG = MPOrderNotification.class.getSimpleName();
 
     private final Context mContext;
     private final RemoteMessage poMessage;
     private final NotificationManager loManager;
     private final RemoteMessageParser poParser;
 
-    public static final String NotificationID = "org.rmj.guanconnect.guanzonpanalo";
-    private static final String CHANNEL_NAME = "Guanzon Panalo";
+    public static final String NotificationID = "org.rmj.guanconnect.mporderstatus";
+    private static final String CHANNEL_NAME = "Marketplace Order Status";
     private static final String CHANNEL_DESC = "Guanzon connect rewards notification for panalo participants.";
 
-    public PanaloNotification(Context context, RemoteMessage message) {
-        this.mContext = context;
+    public MPOrderNotification(Context mContext, RemoteMessage message) {
+        this.mContext = mContext;
         this.poMessage = message;
         this.loManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         this.poParser = new RemoteMessageParser(poMessage);
@@ -75,5 +75,6 @@ public class PanaloNotification implements iNotificationUI {
         } catch (Exception e){
             e.printStackTrace();
         }
+
     }
 }

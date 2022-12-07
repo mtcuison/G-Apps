@@ -1,12 +1,6 @@
 package org.rmj.g3appdriver.lib.Notifications.Obj;
 
-import static org.rmj.g3appdriver.lib.Notifications.Constants.NotificationID;
-
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.os.Build;
 
 import androidx.lifecycle.LiveData;
 
@@ -39,9 +33,6 @@ public class NMM_Panalo implements iNotification {
 
     private final DNotifications poDao;
     private final HttpHeaders poHeaders;
-
-    private static final String CHANNEL_NAME = "Guanzon Panalo";
-    private static final String CHANNEL_DESC = "Guanzon connect rewards for mc customers.";
 
     private String message;
 
