@@ -49,6 +49,7 @@
         <activity
             android:name=".Activity.Activity_SplashScreen"
             android:screenOrientation="userPortrait"
+            android:launchMode="singleTask"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>

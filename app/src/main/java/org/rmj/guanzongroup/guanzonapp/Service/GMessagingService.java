@@ -33,10 +33,6 @@ public class GMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
-//        poNotif = new RNotificationInfo(GMessagingService.this);
-//        poNotif.SaveNotification(message);
-//        poNotif.SendReceiveResponse(poNotif.getMessageID());
-//        GNotifBuilder.createFirebaseNotification(GMessagingService.this, message, 1).show();
         Log.e(TAG, "Message received!");
         iNotification loSys = new NMM(GMessagingService.this).getInstance(message);
         String lsResult = loSys.Save(message);
