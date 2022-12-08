@@ -51,7 +51,5 @@ public class Fragment_PanaloDashboard extends Fragment {
         txt_GCardPnt = view.findViewById(R.id.txt_GcardPoints);
 
         fab_Scan = view.findViewById(R.id.fab_Scan);
-
     }
-
 }

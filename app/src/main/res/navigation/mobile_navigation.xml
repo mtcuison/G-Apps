@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_PreRelease"
+        android:name="org.rmj.guanzongroup.panalo.Fragment.Fragment_PanaloDashboard"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_pre_release" />
+        tools:layout="@layout/fragment_panalo_dashboard" />
 
     <fragment
         android:id="@+id/nav_promos"

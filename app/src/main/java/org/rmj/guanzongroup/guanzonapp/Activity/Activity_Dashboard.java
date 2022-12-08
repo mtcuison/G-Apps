@@ -46,10 +46,13 @@ import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.Service.DashboardActionReceiver;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductReview;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_Purchases;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
+import org.rmj.guanzongroup.notifications.Activity.Activity_GuanzonPanalo;
 import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_AccountVerification;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
@@ -301,38 +304,81 @@ public class Activity_Dashboard extends AppCompatActivity {
 
         setUpHeader(navigationView);
 
-        mViewModel.CheckPromotions(new VMHome.OnCheckPromotions() {
-            @Override
-            public void OnCheckPromos(String args1, String args2) {
-                Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
-                loDialog.initDialog(args2, (dialog) -> {
-                    Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
-                    intent.putExtra("url_link", args1);
-                    intent.putExtra("args", "1");
-                    startActivity(intent);
-                    dialog.dismiss();
-                });
-                loDialog.show();
+        Intent loIntent = null;
+        if(getIntent().hasExtra("notification")){
+            String lsArgs = getIntent().getStringExtra("notification");
+            switch (lsArgs){
+                case "regular":
+                    loIntent = new Intent(Activity_Dashboard.this, Activity_NotificationList.class);
+                    break;
+//                case "cs":
+//                    loIntent = new Intent(Activity_Dashboard.this, Activity_Purchases.class);
+//                    break;
+//                case "event":
+//                    loIntent = new Intent(Activity_Dashboard.this, Activity_ProductReview.class);
+//                    break;
+                case "mp_order":
+                    String lsOrderIDx = getIntent().getStringExtra("sOrderIDx");
+                    loIntent = new Intent(Activity_Dashboard.this, Activity_Purchases.class);
+                    loIntent.putExtra("sOrderIDx", lsOrderIDx);
+                    break;
+                case "panalo":
+                    String lsPanaloxx = getIntent().getStringExtra("panalo");
+                    String lsReferNox = getIntent().getStringExtra("sReferNox");
+                    loIntent = new Intent(Activity_Dashboard.this, Activity_GuanzonPanalo.class);
+                    loIntent.putExtra("panalo", lsPanaloxx);
+                    loIntent.putExtra("sReferNox", lsReferNox);
+                    break;
+                case "promo":
+                    String lsArgument = getIntent().getStringExtra("args");
+                    String lsUrlLinkx = getIntent().getStringExtra("url_link");
+                    loIntent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
+                    loIntent.putExtra("args", lsArgument);
+                    loIntent.putExtra("url_link", lsUrlLinkx);
+                    break;
+                case "review":
+                    String lsListngID = getIntent().getStringExtra("sListngId");
+                    String lnEntryNox = getIntent().getStringExtra("nEntryNox");
+                    loIntent = new Intent(Activity_Dashboard.this, Activity_ProductReview.class);
+                    loIntent.putExtra("sListngId", lsListngID);
+                    loIntent.putExtra("nEntryNox", lnEntryNox);
+                    break;
             }
+            startActivity(loIntent);
+        } else {
+            mViewModel.CheckPromotions(new VMHome.OnCheckPromotions() {
+                @Override
+                public void OnCheckPromos(String args1, String args2) {
+                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
+                    loDialog.initDialog(args2, (dialog) -> {
+                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
+                        intent.putExtra("url_link", args1);
+                        intent.putExtra("args", "1");
+                        startActivity(intent);
+                        dialog.dismiss();
+                    });
+                    loDialog.show();
+                }
 
-            @Override
-            public void OnCheckEvents(String args1, String args2) {
-                Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
-                loDialog.initDialog(args1, (dialog) -> {
-                    Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
-                    intent.putExtra("url_link", args2);
-                    intent.putExtra("args", "0");
-                    startActivity(intent);
-                    dialog.dismiss();
-                });
-                loDialog.show();
-            }
+                @Override
+                public void OnCheckEvents(String args1, String args2) {
+                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
+                    loDialog.initDialog(args1, (dialog) -> {
+                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
+                        intent.putExtra("url_link", args2);
+                        intent.putExtra("args", "0");
+                        startActivity(intent);
+                        dialog.dismiss();
+                    });
+                    loDialog.show();
+                }
 
-            @Override
-            public void NoPromos() {
+                @Override
+                public void NoPromos() {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     @Override

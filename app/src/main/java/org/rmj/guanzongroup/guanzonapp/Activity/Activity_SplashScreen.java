@@ -16,6 +16,11 @@ import android.util.Log;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.Service.GMessagingService;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMSplashScreen;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductReview;
+import org.rmj.guanzongroup.marketplace.Activity.Activity_Purchases;
+import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
+import org.rmj.guanzongroup.notifications.Activity.Activity_GuanzonPanalo;
+import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
 
 public class Activity_SplashScreen extends AppCompatActivity {
     private static final String TAG = Activity_SplashScreen.class.getSimpleName();
@@ -51,7 +56,47 @@ public class Activity_SplashScreen extends AppCompatActivity {
 
                     @Override
                     public void OnFinished(String args) {
-                        startActivity(new Intent(Activity_SplashScreen.this, Activity_Dashboard.class));
+                        Intent loIntent = new Intent(Activity_SplashScreen.this, Activity_Dashboard.class);
+                        if(getIntent().hasExtra("notification")){
+                            String lsArgs = getIntent().getStringExtra("notification");
+                            switch (lsArgs){
+                                case "regular":
+                                    break;
+//                                case "cs":
+//                                    loIntent = new Intent(Activity_SplashScreen.this, Activity_Purchases.class);
+//                                    break;
+//                                case "event":
+//                                    loIntent = new Intent(Activity_SplashScreen.this, Activity_ProductReview.class);
+//                                    break;
+                                case "mp_order":
+                                    String lsOrderIDx = getIntent().getStringExtra("sOrderIDx");
+                                    loIntent.putExtra("notification", "mp_order");
+                                    loIntent.putExtra("sOrderIDx", lsOrderIDx);
+                                    break;
+                                case "panalo":
+                                    String lsPanaloxx = getIntent().getStringExtra("panalo");
+                                    String lsReferNox = getIntent().getStringExtra("sReferNox");
+                                    loIntent.putExtra("notification", "panalo");
+                                    loIntent.putExtra("panalo", lsPanaloxx);
+                                    loIntent.putExtra("sReferNox", lsReferNox);
+                                    break;
+                                case "promo":
+                                    String lsArgument = getIntent().getStringExtra("args");
+                                    String lsUrlLinkx = getIntent().getStringExtra("url_link");
+                                    loIntent.putExtra("notification", "promo");
+                                    loIntent.putExtra("args", lsArgument);
+                                    loIntent.putExtra("url_link", lsUrlLinkx);
+                                    break;
+                                case "review":
+                                    String lsListngID = getIntent().getStringExtra("sListngId");
+                                    String lnEntryNox = getIntent().getStringExtra("nEntryNox");
+                                    loIntent.putExtra("notification", "review");
+                                    loIntent.putExtra("sListngId", lsListngID);
+                                    loIntent.putExtra("nEntryNox", lnEntryNox);
+                                    break;
+                            }
+                        }
+                        startActivity(loIntent);
                         finish();
                     }
                 });

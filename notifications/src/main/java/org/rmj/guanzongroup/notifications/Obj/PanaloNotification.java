@@ -1,27 +1,29 @@
 package org.rmj.guanzongroup.notifications.Obj;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
+
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.guanzongroup.notifications.Etc.iNotificationUI;
 import org.rmj.guanzongroup.notifications.R;
-
-import java.util.Date;
 
 public class PanaloNotification implements iNotificationUI {
     private static final String TAG = PanaloNotification.class.getSimpleName();
 
     private final Context mContext;
     private final RemoteMessage poMessage;
-    private final NotificationManager loManager;
+    private NotificationManager loManager;
     private final RemoteMessageParser poParser;
 
     public static final String NotificationID = "org.rmj.guanconnect.guanzonpanalo";
@@ -31,14 +33,29 @@ public class PanaloNotification implements iNotificationUI {
     public PanaloNotification(Context context, RemoteMessage message) {
         this.mContext = context;
         this.poMessage = message;
-        this.loManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         this.poParser = new RemoteMessageParser(poMessage);
     }
 
     @Override
     public void CreateNotification() {
         try{
-            Intent loIntent = new Intent();
+            // this portion of code generates random channel id for notifications needed to show separately
+//            int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+
+            int lnChannelID = 123;
+
+            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.guanzonapp.Activity.Activity_SplashScreen"));
+
+            String lsDataxx = poParser.getValueOf("infox");
+            JSONObject loJson = new JSONObject(lsDataxx);
+            JSONObject loPromo = loJson.getJSONObject("data");
+            String lsUrlLinkx = loPromo.getString("sReferNox");
+            String lsImageUrl = loPromo.getString("sImageUrl");
+
+            loIntent.putExtra("notification", "promo");
+            loIntent.putExtra("args", "1");
+            loIntent.putExtra("url_link", lsUrlLinkx);
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 int importance = NotificationManager.IMPORTANCE_DEFAULT;
                 NotificationChannel channel = new NotificationChannel(NotificationID, CHANNEL_NAME, importance);
@@ -61,17 +78,53 @@ public class PanaloNotification implements iNotificationUI {
             String lsTitlexx = poParser.getDataValueOf("title");
             String lsMessage = poParser.getDataValueOf("message");
 
-            Notification.Builder loBuilder = new Notification.Builder(mContext)
-                    .setContentIntent(notifyPendingIntent)
-                    .setPriority(Notification.PRIORITY_HIGH)
-                    .setAutoCancel(true)
-                    .setSmallIcon(R.drawable.ic_guanzon_logo)
-                    .setContentTitle(lsTitlexx)
-                    .setContentText(lsMessage);
+            //Retrieve a resource drawable and convert it to bitmap.
+            //retrieving a resource drawable in panalo notification must be base on
+            //which type of panalo notification must be displayed
+            //Panalo Notifications
+            // 1. WIN
+            // 2. CLAIM
+            // 3. REDEEMED
+            // 4. WARNING
 
-            int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+            String lsPanaloTp = loJson.getString("panalo");
 
-            loManager.notify(lnChannelID, loBuilder.build());
+            Bitmap icon;
+
+            switch (lsPanaloTp){
+                case "reward":
+                    icon = BitmapFactory.decodeResource(mContext.getResources(),
+                            R.drawable.sample_listing_product);
+                    break;
+                case "claim":
+                    icon = BitmapFactory.decodeResource(mContext.getResources(),
+                            R.drawable.sample_listing_product);
+                    break;
+                case "redeemed":
+                    icon = BitmapFactory.decodeResource(mContext.getResources(),
+                            R.drawable.sample_listing_product);
+                    break;
+                default:
+                    icon = BitmapFactory.decodeResource(mContext.getResources(),
+                            R.drawable.sample_listing_product);
+                    break;
+            }
+
+            NotificationCompat.Builder notification =
+                    new NotificationCompat.Builder(mContext, String.valueOf(lnChannelID))
+                        .setContentIntent(notifyPendingIntent)
+                        .setAutoCancel(true)
+                        .setChannelId(NotificationID)
+                        .setLargeIcon(icon)
+                        .setStyle(new NotificationCompat.BigPictureStyle()
+                            .bigPicture(icon)
+                            .bigLargeIcon(null))
+                        .setSmallIcon(R.drawable.ic_guanzon_logo)
+                        .setContentTitle(lsTitlexx)
+                        .setContentText(lsMessage);
+
+            loManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            loManager.notify(lnChannelID, notification.build());
         } catch (Exception e){
             e.printStackTrace();
         }
