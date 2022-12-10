@@ -20,4 +20,6 @@
     <string name="points_100">Points: 100</string>
     <string name="coming_soon">\t\t\t\tComing soon…\t\t\t\t\t\t\t\t\t\t</string>
     <string name="txt_CardNumber">M011000000000</string>
+    <string name="my_gcard">My GCard</string>
+    <string name="panalo">Panalo</string>
 </resources>

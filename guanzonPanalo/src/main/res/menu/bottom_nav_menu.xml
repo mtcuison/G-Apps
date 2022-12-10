@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_MyGcard"
+        android:title="@string/my_gcard" />
+
+    <item
+        android:id="@+id/placeholder"
+        android:title=""
+        android:enabled="false" />
+
+    <item
+        android:id="@+id/nav_Panalo"
+        android:title="@string/panalo" />
+</menu>
