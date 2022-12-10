@@ -22,6 +22,18 @@ public class EBranchInfo {
     @ColumnInfo(name = "sAddressx")
     private String Addressx;
 
+    @ColumnInfo(name = "sTownIDxx")
+    private String TownIDxx;
+
+    @ColumnInfo(name = "sProvIDxx")
+    private String ProvIDxx;
+
+    @ColumnInfo(name = "sTownName")
+    private String TownName;
+
+    @ColumnInfo(name = "sProvName")
+    private String ProvName;
+
     @ColumnInfo(name = "nLatitude")
     private double Latitude = 0.0;
 
@@ -132,5 +144,37 @@ public class EBranchInfo {
 
     public void setLongtude(double longtude) {
         Longtude = longtude;
+    }
+
+    public String getTownIDxx() {
+        return TownIDxx;
+    }
+
+    public void setTownIDxx(String townIDxx) {
+        TownIDxx = townIDxx;
+    }
+
+    public String getProvIDxx() {
+        return ProvIDxx;
+    }
+
+    public void setProvIDxx(String provIDxx) {
+        ProvIDxx = provIDxx;
+    }
+
+    public String getTownName() {
+        return TownName;
+    }
+
+    public void setTownName(String townName) {
+        TownName = townName;
+    }
+
+    public String getProvName() {
+        return ProvName;
+    }
+
+    public void setProvName(String provName) {
+        ProvName = provName;
     }
 }

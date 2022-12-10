@@ -11,157 +11,157 @@ public class EGuanzonPanalo {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "sPanaloQC")
-    private String sPanaloQC;
+    private String PanaloQC;
     @ColumnInfo(name = "dTransact")
-    private String dTransact;
+    private String Transact;
     @ColumnInfo(name = "sUserIDxx")
-    private String sUserIDxx;
+    private String UserIDxx;
     @ColumnInfo(name = "sPanaloCD")
-    private String sPanaloCD;
+    private String PanaloCD;
     @ColumnInfo(name = "sPanaloDs")
-    private String sPanaloDs;
+    private String PanaloDs;
     @ColumnInfo(name = "sAcctNmbr")
-    private String sAcctNmbr;
+    private String AcctNmbr;
     @ColumnInfo(name = "nAmountxx")
-    private Double nAmountxx = 0.0;
+    private Double Amountxx = 0.0;
     @ColumnInfo(name = "sItemCode")
-    private String sItemCode;
+    private String ItemCode;
     @ColumnInfo(name = "sItemDesc")
-    private String sItemDesc;
+    private String ItemDesc;
     @ColumnInfo(name = "nItemQtyx")
-    private Integer nItemQtyx = 0;
+    private Integer ItemQtyx = 0;
     @ColumnInfo(name = "nRedeemxx")
-    private Double nRedeemxx = 0.0;
+    private Double Redeemxx = 0.0;
     @ColumnInfo(name = "dExpiryDt")
-    private String dExpiryDt;
+    private String ExpiryDt;
     @ColumnInfo(name = "sBranchNm")
-    private String sBranchNm;
+    private String BranchNm;
     @ColumnInfo(name = "dRedeemxx")
-    private String dRedeemxx;
+    private String Redeemed;
     @ColumnInfo(name = "cTranStat")
-    private String cTranStat;
+    private String TranStat;
 
     public EGuanzonPanalo() {
     }
 
     @NonNull
-    public String getsPanaloQC() {
-        return sPanaloQC;
+    public String getPanaloQC() {
+        return PanaloQC;
     }
 
-    public void setsPanaloQC(@NonNull String sPanaloQC) {
-        this.sPanaloQC = sPanaloQC;
+    public void setPanaloQC(@NonNull String panaloQC) {
+        PanaloQC = panaloQC;
     }
 
-    public String getdTransact() {
-        return dTransact;
+    public String getTransact() {
+        return Transact;
     }
 
-    public void setdTransact(String dTransact) {
-        this.dTransact = dTransact;
+    public void setTransact(String transact) {
+        Transact = transact;
     }
 
-    public String getsUserIDxx() {
-        return sUserIDxx;
+    public String getUserIDxx() {
+        return UserIDxx;
     }
 
-    public void setsUserIDxx(String sUserIDxx) {
-        this.sUserIDxx = sUserIDxx;
+    public void setUserIDxx(String userIDxx) {
+        UserIDxx = userIDxx;
     }
 
-    public String getsPanaloCD() {
-        return sPanaloCD;
+    public String getPanaloCD() {
+        return PanaloCD;
     }
 
-    public void setsPanaloCD(String sPanaloCD) {
-        this.sPanaloCD = sPanaloCD;
+    public void setPanaloCD(String panaloCD) {
+        PanaloCD = panaloCD;
     }
 
-    public String getsPanaloDs() {
-        return sPanaloDs;
+    public String getPanaloDs() {
+        return PanaloDs;
     }
 
-    public void setsPanaloDs(String sPanaloDs) {
-        this.sPanaloDs = sPanaloDs;
+    public void setPanaloDs(String panaloDs) {
+        PanaloDs = panaloDs;
     }
 
-    public String getsAcctNmbr() {
-        return sAcctNmbr;
+    public String getAcctNmbr() {
+        return AcctNmbr;
     }
 
-    public void setsAcctNmbr(String sAcctNmbr) {
-        this.sAcctNmbr = sAcctNmbr;
+    public void setAcctNmbr(String acctNmbr) {
+        AcctNmbr = acctNmbr;
     }
 
-    public Double getnAmountxx() {
-        return nAmountxx;
+    public Double getAmountxx() {
+        return Amountxx;
     }
 
-    public void setnAmountxx(Double nAmountxx) {
-        this.nAmountxx = nAmountxx;
+    public void setAmountxx(Double amountxx) {
+        Amountxx = amountxx;
     }
 
-    public String getsItemCode() {
-        return sItemCode;
+    public String getItemCode() {
+        return ItemCode;
     }
 
-    public void setsItemCode(String sItemCode) {
-        this.sItemCode = sItemCode;
+    public void setItemCode(String itemCode) {
+        ItemCode = itemCode;
     }
 
-    public String getsItemDesc() {
-        return sItemDesc;
+    public String getItemDesc() {
+        return ItemDesc;
     }
 
-    public void setsItemDesc(String sItemDesc) {
-        this.sItemDesc = sItemDesc;
+    public void setItemDesc(String itemDesc) {
+        ItemDesc = itemDesc;
     }
 
-    public Integer getnItemQtyx() {
-        return nItemQtyx;
+    public Integer getItemQtyx() {
+        return ItemQtyx;
     }
 
-    public void setnItemQtyx(Integer nItemQtyx) {
-        this.nItemQtyx = nItemQtyx;
+    public void setItemQtyx(Integer itemQtyx) {
+        ItemQtyx = itemQtyx;
     }
 
-    public Double getnRedeemxx() {
-        return nRedeemxx;
+    public Double getRedeemxx() {
+        return Redeemxx;
     }
 
-    public void setnRedeemxx(Double nRedeemxx) {
-        this.nRedeemxx = nRedeemxx;
+    public void setRedeemxx(Double redeemxx) {
+        Redeemxx = redeemxx;
     }
 
-    public String getdExpiryDt() {
-        return dExpiryDt;
+    public String getExpiryDt() {
+        return ExpiryDt;
     }
 
-    public void setdExpiryDt(String dExpiryDt) {
-        this.dExpiryDt = dExpiryDt;
+    public void setExpiryDt(String expiryDt) {
+        ExpiryDt = expiryDt;
     }
 
-    public String getsBranchNm() {
-        return sBranchNm;
+    public String getBranchNm() {
+        return BranchNm;
     }
 
-    public void setsBranchNm(String sBranchNm) {
-        this.sBranchNm = sBranchNm;
+    public void setBranchNm(String branchNm) {
+        BranchNm = branchNm;
     }
 
-    public String getdRedeemxx() {
-        return dRedeemxx;
+    public String getRedeemed() {
+        return Redeemed;
     }
 
-    public void setdRedeemxx(String dRedeemxx) {
-        this.dRedeemxx = dRedeemxx;
+    public void setRedeemed(String redeemed) {
+        Redeemed = redeemed;
     }
 
-    public String getcTranStat() {
-        return cTranStat;
+    public String getTranStat() {
+        return TranStat;
     }
 
-    public void setcTranStat(String cTranStat) {
-        this.cTranStat = cTranStat;
+    public void setTranStat(String tranStat) {
+        TranStat = tranStat;
     }
 }

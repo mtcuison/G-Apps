@@ -15,8 +15,6 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
-import com.google.firebase.messaging.RemoteMessage;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
@@ -28,9 +26,7 @@ import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
-import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
-import org.rmj.g3appdriver.etc.RemoteMessageParser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -53,10 +49,6 @@ public class RNotificationInfo {
 
     public String getMessage(){
         return message;
-    }
-
-    public String getMessageID(){
-        return psMesgIDx;
     }
 
     public boolean ImportClientNotifications(int fnVal){
@@ -138,140 +130,6 @@ public class RNotificationInfo {
         }
     }
 
-    public boolean SaveNotification(RemoteMessage foVal){
-        try{
-            RemoteMessageParser loParser = new RemoteMessageParser(foVal);
-            psMesgIDx = loParser.getValueOf("transno");
-            if(poDao.CheckNotificationIfExist(psMesgIDx) >= 1){
-                String lsStatus = loParser.getValueOf("status");
-                poDao.updateNotificationStatusFromOtherDevice(psMesgIDx, lsStatus);
-            } else {
-                ENotificationMaster loMaster = new ENotificationMaster();
-                loMaster.setTransNox(CreateUniqueID());
-                loMaster.setMesgIDxx(loParser.getValueOf("transno"));
-                loMaster.setParentxx(loParser.getValueOf("parent"));
-                loMaster.setCreatedx(loParser.getValueOf("stamp"));
-                loMaster.setAppSrcex(loParser.getValueOf("appsrce"));
-                loMaster.setCreatrID(loParser.getValueOf("srceid"));
-                loMaster.setCreatrNm(loParser.getValueOf("srcenm"));
-                loMaster.setDataSndx(loParser.getValueOf("infox"));
-                loMaster.setMsgTitle(loParser.getDataValueOf("title"));
-                loMaster.setMessagex(loParser.getDataValueOf("message"));
-                loMaster.setMsgTypex(loParser.getValueOf("msgmon"));
-
-                ENotificationRecipient loRecpnt = new ENotificationRecipient();
-                loRecpnt.setTransNox(loParser.getValueOf("transno"));
-                loRecpnt.setAppRcptx(loParser.getValueOf("apprcpt"));
-                loRecpnt.setRecpntID(loParser.getValueOf("rcptid"));
-                loRecpnt.setRecpntNm(loParser.getValueOf("rcptnm"));
-                loRecpnt.setMesgStat(loParser.getValueOf("status"));
-                loRecpnt.setReceived(new AppConstants().DATE_MODIFIED);
-                loRecpnt.setTimeStmp(new AppConstants().DATE_MODIFIED);
-
-                ENotificationUser loUser = new ENotificationUser();
-                loUser.setUserIDxx(loParser.getValueOf("srceid"));
-                loUser.setUserName(loParser.getValueOf("srcenm"));
-
-                poDao.insert(loMaster);
-                poDao.insert(loRecpnt);
-                if(poDao.CheckIfUserExist(loParser.getValueOf("srceid")) == null){
-                    poDao.insert(loUser);
-                }
-            }
-            return false;
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return false;
-        }
-    }
-
-    public boolean SendReceiveResponse(String lsMessageID){
-        try{
-            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
-
-            JSONObject params = new JSONObject();
-            params.put("transno", lsMessageID);
-            params.put("status", "2");
-            params.put("stamp", new AppConstants().DATE_MODIFIED);
-            params.put("infox", "");
-
-            String lsResponse = WebClient.httpsPostJSon(
-                    loApis.getSendResponseAPI(),
-                    params.toString(),
-                    new HttpHeaders(mContext).getHeaders());
-            if(lsResponse == null){
-                message = "Server no response while sending response.";
-                return false;
-            } else {
-                JSONObject loResponse = new JSONObject(lsResponse);
-                String lsResult = loResponse.getString("result");
-                if (!lsResult.equalsIgnoreCase("success")) {
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    message = loError.getString("message");
-                    return false;
-                } else {
-                    poDao.updateRecipientReceivedStatus(lsMessageID ,new AppConstants().DATE_MODIFIED);
-                    return true;
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return false;
-        }
-    }
-
-    public boolean SendReadResponse(String lsMessageID){
-        try{
-            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
-
-            JSONObject params = new JSONObject();
-            params.put("transno", lsMessageID);
-            params.put("status", "3");
-            params.put("stamp", new AppConstants().DATE_MODIFIED);
-            params.put("infox", "");
-
-            String lsResponse = WebClient.httpsPostJSon(
-                    loApis.getSendResponseAPI(),
-                    params.toString(),
-                    new HttpHeaders(mContext).getHeaders());
-            if(lsResponse == null){
-                message = "Server no response while sending response.";
-                return false;
-            } else {
-                JSONObject loResponse = new JSONObject(lsResponse);
-                String lsResult = loResponse.getString("result");
-                if (!lsResult.equalsIgnoreCase("success")) {
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    message = loError.getString("message");
-                    return false;
-                } else {
-                    poDao.updateReadReceivedStatus(lsMessageID ,new AppConstants().DATE_MODIFIED);
-                    return true;
-                }
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return false;
-        }
-    }
-
-    public boolean ParseMessageInfo(RemoteMessage foVal){
-        try{
-            RemoteMessageParser loParser = new RemoteMessageParser(foVal);
-            psMesgIDx = loParser.getValueOf("transno");
-            String lsValue = loParser.getValueOf("infox");
-
-            return true;
-        } catch (Exception e){
-            e.printStackTrace();
-            message = e.getMessage();
-            return false;
-        }
-    }
-
     public LiveData<Integer> GetUnreadMessagesCount(){
         return poDao.getUnreadMessagesCount();
     }
@@ -304,13 +162,5 @@ public class RNotificationInfo {
             e.printStackTrace();
         }
         return lsUniqIDx;
-    }
-
-    private void SaveRecipient(ENotificationRecipient foVal){
-        try{
-
-        } catch (Exception e){
-            e.printStackTrace();
-        }
     }
 }

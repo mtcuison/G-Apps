@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.guanzongroup.notifications.Obj.CustomerServiceNotification;
 import org.rmj.guanzongroup.notifications.Obj.EventNotification;
@@ -24,8 +25,8 @@ public class NotificationUI {
         this.mContext = context;
     }
 
-    public iNotificationUI getInstance(RemoteMessage foVal){
-        String lsSysMon = new RemoteMessageParser(foVal).getValueOf("msgmon");
+    public iNotificationUI getInstance(ENotificationMaster foVal){
+        String lsSysMon = foVal.getMsgTypex();
         switch (lsSysMon){
                 case "00000":
                     Log.d(TAG, "Regular message");

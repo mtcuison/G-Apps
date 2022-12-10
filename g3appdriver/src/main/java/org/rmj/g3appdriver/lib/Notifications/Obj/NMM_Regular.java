@@ -97,7 +97,7 @@ public class NMM_Regular implements iNotification {
     }
 
     @Override
-    public boolean SendResponse(String mesgID, NOTIFICATION_STATUS status) {
+    public ENotificationMaster SendResponse(String mesgID, NOTIFICATION_STATUS status) {
         try{
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(instance).getTestCase());
 
@@ -133,7 +133,7 @@ public class NMM_Regular implements iNotification {
                     poHeaders.getHeaders());
             if(lsResponse == null){
                 message = "Server no response while sending response.";
-                return false;
+                return null;
             }
 
             JSONObject loResponse = new JSONObject(lsResponse);
@@ -141,15 +141,15 @@ public class NMM_Regular implements iNotification {
             if (!lsResult.equalsIgnoreCase("success")) {
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = loError.getString("message");
-                return false;
+                return null;
             }
 
             poDao.UpdateSentResponseStatus(mesgID, lsTranStat, new AppConstants().DATE_MODIFIED);
-            return true;
+            return poDao.CheckIfMasterExist(mesgID);
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 
