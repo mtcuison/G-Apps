@@ -7,13 +7,17 @@ import androidx.lifecycle.LiveData;
 
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
+import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
+import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.RemoteMessageParser;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.iNotification;
@@ -94,14 +98,60 @@ public class NMM_Promotions implements iNotification {
     }
 
     @Override
-    public boolean SendResponse(String mesgID, NOTIFICATION_STATUS status) {
+    public ENotificationMaster SendResponse(String mesgID, NOTIFICATION_STATUS status) {
         try{
 
-            return true;
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(instance).getTestCase());
+
+            String lsTranStat = "";
+
+            switch (status){
+                case OPEN:
+                    lsTranStat = "0";
+                    break;
+                case DELIVERED:
+                    lsTranStat = "1";
+                    break;
+                case RECEIVED:
+                    lsTranStat = "2";
+                    break;
+                case READ:
+                    lsTranStat = "3";
+                    break;
+                case DELETED:
+                    lsTranStat = "4";
+                    break;
+            }
+
+            JSONObject params = new JSONObject();
+            params.put("transno", mesgID);
+            params.put("status", lsTranStat);
+            params.put("stamp", new AppConstants().DATE_MODIFIED);
+            params.put("infox", "");
+
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getSendResponseAPI(),
+                    params.toString(),
+                    poHeaders.getHeaders());
+            if(lsResponse == null){
+                message = "Server no response while sending response.";
+                return null;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if (!lsResult.equalsIgnoreCase("success")) {
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return null;
+            }
+
+            poDao.UpdateSentResponseStatus(mesgID, lsTranStat, new AppConstants().DATE_MODIFIED);
+            return poDao.CheckIfMasterExist(mesgID);
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

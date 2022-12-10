@@ -52,6 +52,9 @@ public class NMM_Panalo implements iNotification {
         try{
             RemoteMessageParser loParser = new RemoteMessageParser(foVal);
             String lsMesgIDx = loParser.getValueOf("transno");
+            String lsUserIDx = poDao.GetUserID();
+            String lsRecpntx = loParser.getValueOf("rcptid");
+
             if(poDao.CheckNotificationIfExist(lsMesgIDx) >= 1){
                 String lsStatus = loParser.getValueOf("status");
                 poDao.updateNotificationStatusFromOtherDevice(lsMesgIDx, lsStatus);
@@ -88,6 +91,12 @@ public class NMM_Panalo implements iNotification {
                     poDao.insert(loUser);
                 }
             }
+
+            if(!lsUserIDx.equalsIgnoreCase(lsRecpntx)){
+                message = "User is not the recipient of notification";
+                return null;
+            }
+
             return lsMesgIDx;
         } catch (Exception e){
             e.printStackTrace();
@@ -97,7 +106,7 @@ public class NMM_Panalo implements iNotification {
     }
 
     @Override
-    public boolean SendResponse(String mesgID, NOTIFICATION_STATUS status) {
+    public ENotificationMaster SendResponse(String mesgID, NOTIFICATION_STATUS status) {
         try{
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(instance).getTestCase());
 
@@ -133,7 +142,7 @@ public class NMM_Panalo implements iNotification {
                     poHeaders.getHeaders());
             if(lsResponse == null){
                 message = "Server no response while sending response.";
-                return false;
+                return null;
             }
 
             JSONObject loResponse = new JSONObject(lsResponse);
@@ -141,15 +150,15 @@ public class NMM_Panalo implements iNotification {
             if (!lsResult.equalsIgnoreCase("success")) {
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = loError.getString("message");
-                return false;
+                return null;
             }
 
             poDao.UpdateSentResponseStatus(mesgID, lsTranStat, new AppConstants().DATE_MODIFIED);
-            return true;
+            return poDao.CheckIfMasterExist(mesgID);
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();
-            return false;
+            return null;
         }
     }
 

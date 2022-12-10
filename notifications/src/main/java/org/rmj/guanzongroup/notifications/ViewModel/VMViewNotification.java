@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.notifications.ViewModel;
 import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -10,6 +11,9 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
+import org.rmj.g3appdriver.lib.Notifications.NMM;
+import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
+import org.rmj.g3appdriver.lib.Notifications.iNotification;
 
 public class VMViewNotification extends AndroidViewModel {
     private static final String TAG = VMViewNotification.class.getSimpleName();
@@ -26,13 +30,14 @@ public class VMViewNotification extends AndroidViewModel {
         return poNotif.GetNotificationInfo(fsMesgID);
     }
 
-    public void SendReadResponse(String fsVal){
-        new SendReadTask(instance).execute(fsVal);
+    public void SendReadResponse(String args, String args1){
+        new SendReadTask(instance).execute(args, args1);
     }
 
-    private static class SendReadTask extends AsyncTask<String, Void, String>{
+    private static class SendReadTask extends AsyncTask<String, Void, Boolean>{
 
         private final Context mContext;
+        private iNotification loSys;
 
         private boolean isSuccess = false;
         private String message;
@@ -42,14 +47,25 @@ public class VMViewNotification extends AndroidViewModel {
         }
 
         @Override
-        protected String doInBackground(String... strings) {
-            String fsVal = strings[0];
-            RNotificationInfo loNotif = new RNotificationInfo(mContext);
-            isSuccess = loNotif.SendReadResponse(fsVal);
-            if(!isSuccess){
-                message = loNotif.getMessage();
+        protected Boolean doInBackground(String... strings) {
+            String lsMesgID = strings[0];
+            String lsMesgTP = strings[1];
+            this.loSys = new NMM(mContext).getInstance(lsMesgTP);
+            if(loSys.SendResponse(lsMesgID, NOTIFICATION_STATUS.READ) == null){
+                message = loSys.getMessage();
+                return false;
             }
-            return null;
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                Log.e(TAG, message);
+            } else {
+                Log.d(TAG, "Response sent!");
+            }
         }
     }
 }

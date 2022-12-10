@@ -14,7 +14,7 @@ public interface iNotification {
 
     String Save(RemoteMessage foVal);
 
-    boolean SendResponse(String mesgID, NOTIFICATION_STATUS status);
+    ENotificationMaster SendResponse(String mesgID, NOTIFICATION_STATUS status);
 
     LiveData<ENotificationMaster> GetNotificationMasterDetail(String fsVal);
 

@@ -22,6 +22,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.guanzongroup.notifications.Etc.iNotificationUI;
 import org.rmj.guanzongroup.notifications.R;
@@ -35,18 +36,16 @@ public class PromoNotification implements iNotificationUI {
     private static final String TAG = PromoNotification.class.getSimpleName();
 
     private final Context mContext;
-    private final RemoteMessage poMessage;
+    private final ENotificationMaster poMessage;
     private NotificationManager loManager;
-    private final RemoteMessageParser poParser;
 
     public static final String NotificationID = "org.rmj.guanconnect.guanzonpromos";
     private static final String CHANNEL_NAME = "Guanzon Promotions";
     private static final String CHANNEL_DESC = "Notify Guanzon connect users for Guanzon mobitek, motorcycle, and other promotions";
 
-    public PromoNotification(Context mContext, RemoteMessage message) {
+    public PromoNotification(Context mContext, ENotificationMaster message) {
         this.mContext = mContext;
         this.poMessage = message;
-        this.poParser = new RemoteMessageParser(poMessage);
     }
 
     @Override
@@ -57,7 +56,7 @@ public class PromoNotification implements iNotificationUI {
 
             Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.guanzonapp.Activity.Activity_SplashScreen"));
 
-            String lsDataxx = poParser.getValueOf("infox");
+            String lsDataxx = poMessage.getDataSndx();
             JSONObject loJson = new JSONObject(lsDataxx);
             JSONObject loPromo = loJson.getJSONObject("data");
             String lsUrlLinkx = loPromo.getString("sPromoUrl");
@@ -91,8 +90,8 @@ public class PromoNotification implements iNotificationUI {
                         mContext, 0, loIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             }
 
-            String lsTitlexx = poParser.getDataValueOf("title");
-            String lsMessage = poParser.getDataValueOf("message");
+            String lsTitlexx = poMessage.getMsgTitle();
+            String lsMessage = poMessage.getMessagex();
 
             Glide.with(mContext)
                     .asBitmap()

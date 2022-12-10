@@ -23,8 +23,7 @@ public class NMM {
         this.mContext = mContext;
     }
 
-    public iNotification getInstance(RemoteMessage foVal){
-        String lsSysMon = new RemoteMessageParser(foVal).getValueOf("msgmon");
+    public iNotification getInstance(String lsSysMon){
         switch (lsSysMon){
             case "00000":
                 return new NMM_Regular(mContext);

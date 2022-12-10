@@ -36,6 +36,9 @@ public interface DNotifications {
     @Insert
     void insert(ENotificationUser notificationUser);
 
+    @Query("SELECT sUserIDxx FROM Client_Profile_Info")
+    String GetUserID();
+
     @Query("SELECT * FROM Notification_Info_Master WHERE sMesgIDxx=:fsVal")
     ENotificationMaster CheckIfMasterExist(String fsVal);
 

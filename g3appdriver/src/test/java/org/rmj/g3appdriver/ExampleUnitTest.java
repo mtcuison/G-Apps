@@ -22,8 +22,8 @@ public class ExampleUnitTest {
 
     private static boolean isSuccess = false;
 
-//    @Test
-    public void test01SenderNotification() throws Exception{
+    @Test
+    public void test01SenderNotification() throws Exception {
         String sURL = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
         Calendar calendar = Calendar.getInstance();
         //Create the header section needed by the API
@@ -34,30 +34,30 @@ public class ExampleUnitTest {
         headers.put("g-api-id", "GuanzonApp");
         headers.put("g-api-imei", "356060072281722");
         headers.put("g-api-key", SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss"));
-        headers.put("g-api-hash", org.apache.commons.codec.digest.DigestUtils.md5Hex((String)headers.get("g-api-imei") + (String)headers.get("g-api-key")));
+        headers.put("g-api-hash", org.apache.commons.codec.digest.DigestUtils.md5Hex((String) headers.get("g-api-imei") + (String) headers.get("g-api-key")));
         headers.put("g-api-user", "GAP0190001");
         headers.put("g-api-mobile", "09171870011");
         headers.put("g-api-token", "cPYKpB-pPYM:APA91bE82C4lKZduL9B2WA1Ygd0znWEUl9rM7pflSlpYLQJq4Nl9l5W4tWinyy5RCLNTSs3bX3JjOVhYnmCpe7zM98cENXt5tIHwW_2P8Q3BXI7gYtEMTJN5JxirOjNTzxWHkWDEafza");
 
         JSONArray rcpts = new JSONArray();
         JSONObject rcpt = new JSONObject();
-        rcpt.put("app", "GuanzonApp");
+        rcpt.put("app", "gRider");
         rcpt.put("user", "GAP021002961");
         rcpts.add(rcpt);
 
         //Create the parameters needed by the API
         JSONObject param = new JSONObject();
-        param.put("type", "00008");
+        param.put("type", "00000");
         param.put("parent", null);
-        param.put("title", "Guanzon Panalo");
-        param.put("message", "Congratulations!");
+        param.put("title", "Guanzon Circle V2");
+        param.put("message", "Guanzon Circle version 2.12 is already up.");
         param.put("rcpt", rcpts);
 
         JSONParser oParser = new JSONParser();
         JSONObject json_obj = null;
 
         String response = WebClient.httpsPostJSon(sURL, param.toJSONString(), (HashMap<String, String>) headers);
-        if(response == null){
+        if (response == null) {
             System.out.println("HTTP Error detected: " + System.getProperty("store.error.info"));
         }
         //json_obj = (JSONObject) oParser.parse(response);
@@ -68,7 +68,7 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void test02SendPanaloNotification() throws Exception{
+    public void test02SendPanaloNotification() throws Exception {
         String sURL = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
         Calendar calendar = Calendar.getInstance();
         //Create the header section needed by the API
@@ -79,7 +79,7 @@ public class ExampleUnitTest {
         headers.put("g-api-id", "GuanzonApp");
         headers.put("g-api-imei", "356060072281722");
         headers.put("g-api-key", SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss"));
-        headers.put("g-api-hash", org.apache.commons.codec.digest.DigestUtils.md5Hex((String)headers.get("g-api-imei") + (String)headers.get("g-api-key")));
+        headers.put("g-api-hash", org.apache.commons.codec.digest.DigestUtils.md5Hex((String) headers.get("g-api-imei") + (String) headers.get("g-api-key")));
         headers.put("g-api-user", "GAP0190001");
         headers.put("g-api-mobile", "09171870011");
         headers.put("g-api-token", "cPYKpB-pPYM:APA91bE82C4lKZduL9B2WA1Ygd0znWEUl9rM7pflSlpYLQJq4Nl9l5W4tWinyy5RCLNTSs3bX3JjOVhYnmCpe7zM98cENXt5tIHwW_2P8Q3BXI7gYtEMTJN5JxirOjNTzxWHkWDEafza");
@@ -100,7 +100,7 @@ public class ExampleUnitTest {
         param.put("infox", CreatePanaloNotification());
 
         String response = WebClient.httpsPostJSon(sURL, param.toJSONString(), (HashMap<String, String>) headers);
-        if(response == null){
+        if (response == null) {
             System.out.println("HTTP Error detected: " + System.getProperty("store.error.info"));
         }
 
@@ -109,7 +109,7 @@ public class ExampleUnitTest {
     }
 
 
-    private static String CreatePanaloNotification(){
+    private static String CreatePanaloNotification() {
         JSONObject loPanalo = new JSONObject();
 
         loPanalo.put("panalo", "reward");
@@ -128,7 +128,7 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void test03SendPromoNotification() throws Exception{
+    public void test03SendPromoNotification() throws Exception {
         String sURL = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
         Calendar calendar = Calendar.getInstance();
         //Create the header section needed by the API
@@ -139,7 +139,7 @@ public class ExampleUnitTest {
         headers.put("g-api-id", "GuanzonApp");
         headers.put("g-api-imei", "356060072281722");
         headers.put("g-api-key", SQLUtil.dateFormat(calendar.getTime(), "yyyyMMddHHmmss"));
-        headers.put("g-api-hash", org.apache.commons.codec.digest.DigestUtils.md5Hex((String)headers.get("g-api-imei") + (String)headers.get("g-api-key")));
+        headers.put("g-api-hash", org.apache.commons.codec.digest.DigestUtils.md5Hex((String) headers.get("g-api-imei") + (String) headers.get("g-api-key")));
         headers.put("g-api-user", "GAP0190001");
         headers.put("g-api-mobile", "09171870011");
         headers.put("g-api-token", "cPYKpB-pPYM:APA91bE82C4lKZduL9B2WA1Ygd0znWEUl9rM7pflSlpYLQJq4Nl9l5W4tWinyy5RCLNTSs3bX3JjOVhYnmCpe7zM98cENXt5tIHwW_2P8Q3BXI7gYtEMTJN5JxirOjNTzxWHkWDEafza");
@@ -167,7 +167,7 @@ public class ExampleUnitTest {
         param.put("infox", CreatePromoNotification());
 
         String response = WebClient.httpsPostJSon(sURL, param.toJSONString(), (HashMap<String, String>) headers);
-        if(response == null){
+        if (response == null) {
             System.out.println("HTTP Error detected: " + System.getProperty("store.error.info"));
         }
 
@@ -175,7 +175,7 @@ public class ExampleUnitTest {
         assertTrue(isSuccess);
     }
 
-    private static String CreatePromoNotification(){
+    private static String CreatePromoNotification() {
         JSONObject loPromo = new JSONObject();
 
         loPromo.put("module", "00001");
@@ -189,3 +189,19 @@ public class ExampleUnitTest {
         return loPromo.toJSONString();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
