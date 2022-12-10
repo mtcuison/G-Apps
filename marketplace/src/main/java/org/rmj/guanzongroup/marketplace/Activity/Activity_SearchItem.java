@@ -15,8 +15,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
-import org.rmj.guanzongroup.digitalgcard.Adapter.Adapter_Advertisement;
-import org.rmj.guanzongroup.digitalgcard.Model.AdvertisementInfo;
+//import org.rmj.guanzongroup.digitalgcard.Adapter.Adapter_Advertisement;
+//import org.rmj.guanzongroup.digitalgcard.Model.AdvertisementInfo;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMSearchItem;
 import org.rmj.guanzongroup.marketplace.databinding.ActivitySearchItemBinding;
@@ -96,22 +96,22 @@ public class Activity_SearchItem extends AppCompatActivity {
     private void showPromos() {
         mBinding.recyclrVw.setVisibility(View.GONE);
         mBinding.lnAdvetse.setVisibility(View.VISIBLE);
-        List<AdvertisementInfo> loList = new ArrayList<>();
+//        List<AdvertisementInfo> loList = new ArrayList<>();
         mViewModel.GetPromoList().observe(Activity_SearchItem.this, ePromos -> {
             try{
                 for(int x = 0; x < ePromos.size(); x++){
                     EPromo loPromo = ePromos.get(x);
                     if(loPromo.getDivision() == 0){
-                        AdvertisementInfo loAds = new AdvertisementInfo();
-                        loAds.setImageUrl(loPromo.getImageSld());
-                        loAds.setPromoId(loPromo.getTransNox());
-                        loList.add(loAds);
+//                        AdvertisementInfo loAds = new AdvertisementInfo();
+//                        loAds.setImageUrl(loPromo.getImageSld());
+//                        loAds.setPromoId(loPromo.getTransNox());
+//                        loList.add(loAds);
                     }
 
                 }
-                Adapter_Advertisement loAdapter = new Adapter_Advertisement(loList, loList.size(), fsId -> {
+//                Adapter_Advertisement loAdapter = new Adapter_Advertisement(loList, loList.size(), fsId -> {
 
-                });
+//                });
                 mBinding.rvAdvrtse.setAdapter(loAdapter);
                 mBinding.rvAdvrtse.setLayoutManager(new LinearLayoutManager(Activity_SearchItem.this));
                 loAdapter.notifyDataSetChanged();

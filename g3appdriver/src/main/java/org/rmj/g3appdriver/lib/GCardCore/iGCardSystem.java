@@ -32,7 +32,7 @@ public interface iGCardSystem {
     List<EGcardApp> getAllGCard();
     void updateAvailablePoints(String fsGcardNo, String fsNewPts);
     LiveData<String> getActiveGcardNo();
-    LiveData<String> getActiveGcardAvlPoints();
+    LiveData<Double> getActiveGcardAvlPoints();
     double getRemainingActiveCardPoints();
     double getAvailableGcardPoints();
     double getRedeemItemPoints();

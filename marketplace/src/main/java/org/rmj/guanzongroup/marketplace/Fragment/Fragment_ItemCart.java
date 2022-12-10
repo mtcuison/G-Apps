@@ -41,35 +41,28 @@ public class Fragment_ItemCart extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMItemCart.class);
         View v = inflater.inflate(R.layout.fragment_item_cart, container, false);
         initWidgets(v);
+        mViewModel.GetActiveGCard().observe(requireActivity(), eGcardApp -> {
+            try {
+                adapter.addFragment(new Fragment_MPItemCart());
+                adapter.addTitle("MarketPlace");
+//                if (eGcardApp != null) {
+//                        adapter.addFragment(new Fragment_GCardItemCart());
+//                    adapter.addTitle("GCard");
+//                }
+                viewPager.setAdapter(adapter);
+                tabLayout.setupWithViewPager(viewPager);
+                adapter.notifyDataSetChanged();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
         setupTabLayoutListener();
         return v;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMItemCart.class);
-        mViewModel.GetActiveGCard().observe(requireActivity(), new Observer<EGcardApp>() {
-            @Override
-            public void onChanged(EGcardApp eGcardApp) {
-                try {
-                    adapter.addFragment(new Fragment_MPItemCart());
-                    adapter.addTitle("MarketPlace");
-                    if (eGcardApp != null) {
-//                        adapter.addFragment(new Fragment_GCardItemCart());
-                        adapter.addTitle("GCard");
-                    }
-                    viewPager.setAdapter(adapter);
-                    tabLayout.setupWithViewPager(viewPager);
-                    adapter.notifyDataSetChanged();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
     private void initWidgets(View view){
         tabLayout = view.findViewById(R.id.tabLayout_item_cart_fragment_indicator);
         viewPager = view.findViewById(R.id.viewpager_fragment_item_cart);

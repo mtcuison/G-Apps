@@ -50,7 +50,7 @@ dependencies {
 
     // Project Implementations
     implementation project(':useraccount')
-    implementation project(':digitalGcard')
+//    implementation project(':digitalGcard')
 
     // Image Slider Dependencies
     implementation 'com.github.smarteist:autoimageslider:1.4.0'

@@ -1,18 +1,15 @@
-package org.rmj.guanzongroup.digitalgcard.Fragment;
+package org.rmj.guanzongroup.digitalgcard.Activity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -21,56 +18,59 @@ import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_UserInfo;
-import org.rmj.guanzongroup.digitalgcard.Activity.Activity_AddGcard;
-import org.rmj.guanzongroup.digitalgcard.Activity.Activity_ManageGcard;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 
 import java.util.Objects;
 
-public class Fragment_MyGcard extends Fragment {
+public class Activity_MyGCard extends AppCompatActivity {
 
     private VMGCardSystem mViewModel;
-    private View view;
+
+    private Toolbar toolbar;
     private ConstraintLayout vAddGcard, vMyGcardx;
     private TextView txtManage, txtUserNm, txtCardNo, txtPoints;
     private MaterialButton btnAddCrd;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
-        view = inflater.inflate(R.layout.fragment_my_gcard, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(Activity_MyGCard.this).get(VMGCardSystem.class);
+        setContentView(R.layout.activity_my_gcard);
         mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
-        if(!new AccountInfo(requireActivity()).getLoginStatus()) {
-            Intent loIntent = new Intent(requireActivity(), Activity_Login.class);
+        if(!new AccountInfo(Activity_MyGCard.this).getLoginStatus()) {
+            Intent loIntent = new Intent(Activity_MyGCard.this, Activity_Login.class);
             startActivity(loIntent);
+            finish();
         } else {
             initViews();
             initMyGcard();
         }
-        return view;
     }
 
     private void initViews() {
-        vAddGcard = view.findViewById(R.id.layout_add_gcard);
-        vMyGcardx = view.findViewById(R.id.layout_my_gcard);
-        txtManage = view.findViewById(R.id.lblManageGcard);
-        txtUserNm = view.findViewById(R.id.lbl_gcard_user);
-        txtCardNo = view.findViewById(R.id.lbl_card_number);
-        txtPoints = view.findViewById(R.id.lbl_gcard_points);
-        btnAddCrd = view.findViewById(R.id.btnAddGcard);
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("My GCard");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        vAddGcard = findViewById(R.id.layout_add_gcard);
+        vMyGcardx = findViewById(R.id.layout_my_gcard);
+        txtManage = findViewById(R.id.lblManageGcard);
+        txtUserNm = findViewById(R.id.lbl_gcard_user);
+        txtCardNo = findViewById(R.id.lbl_card_number);
+        txtPoints = findViewById(R.id.lbl_gcard_points);
+        btnAddCrd = findViewById(R.id.btnAddGcard);
     }
 
     private void initMyGcard() {
-        mViewModel.getActiveGcard().observe(getViewLifecycleOwner(), eGcardApp -> {
+        mViewModel.getActiveGcard().observe(Activity_MyGCard.this, eGcardApp -> {
             try {
                 if(eGcardApp == null) {
                     vAddGcard.setVisibility(View.VISIBLE);
                     vMyGcardx.setVisibility(View.GONE);
                     btnAddCrd.setOnClickListener(v -> {
-                        Intent loIntent = new Intent(requireActivity(), Activity_AddGcard.class);
+                        Intent loIntent = new Intent(Activity_MyGCard.this, Activity_AddGcard.class);
                         startActivity(loIntent);
                     });
                 } else {
@@ -78,14 +78,14 @@ public class Fragment_MyGcard extends Fragment {
                     vMyGcardx.setVisibility(View.VISIBLE);
                     displayGcardInfo(eGcardApp);
                     txtManage.setOnClickListener(v -> {
-                        Intent loIntent = new Intent(requireActivity(), Activity_ManageGcard.class);
+                        Intent loIntent = new Intent(Activity_MyGCard.this, Activity_ManageGcard.class);
                         startActivity(loIntent);
                     });
 
-                    view.findViewById(R.id.cvGcard).setOnClickListener(v -> {
+                    findViewById(R.id.cvGcard).setOnClickListener(v -> {
                         mViewModel.ViewGCardQrCode(bitmap -> {
                             try{
-                                final Dialog_UserInfo loDialog = new Dialog_UserInfo(requireActivity());
+                                final Dialog_UserInfo loDialog = new Dialog_UserInfo(Activity_MyGCard.this);
                                 loDialog.initDialog(eGcardApp, bitmap);
                                 loDialog.show();
                             } catch (Exception e) {
@@ -106,4 +106,11 @@ public class Fragment_MyGcard extends Fragment {
         txtPoints.setText(String.valueOf(foGcardxx.getAvlPoint()));
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

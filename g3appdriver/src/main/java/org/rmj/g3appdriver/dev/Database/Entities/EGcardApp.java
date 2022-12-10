@@ -30,10 +30,10 @@ public class EGcardApp {
     private String CardType;
 
     @ColumnInfo(name = "sTotPoint")
-    private String TotPoint;
+    private Double TotPoint;
 
     @ColumnInfo(name = "sAvlPoint")
-    private String AvlPoint;
+    private Double AvlPoint;
 
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
@@ -99,19 +99,19 @@ public class EGcardApp {
         CardType = cardType;
     }
 
-    public String getTotPoint() {
+    public double getTotPoint() {
         return TotPoint;
     }
 
-    public void setTotPoint(String totPoint) {
+    public void setTotPoint(double totPoint) {
         TotPoint = totPoint;
     }
 
-    public String getAvlPoint() {
+    public double getAvlPoint() {
         return AvlPoint;
     }
 
-    public void setAvlPoint(String avlPoint) {
+    public void setAvlPoint(double avlPoint) {
         AvlPoint = avlPoint;
     }
 

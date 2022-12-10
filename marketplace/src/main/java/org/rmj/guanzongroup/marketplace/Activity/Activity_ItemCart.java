@@ -15,9 +15,9 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
-import org.rmj.guanzongroup.marketplace.Fragment.Fragment_GCardItemCart;
-import org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_Redeemables;
-import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
+//import org.rmj.guanzongroup.marketplace.Fragment.Fragment_GCardItemCart;
+//import org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_Redeemables;
+//import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 import org.rmj.guanzongroup.marketplace.Adapter.ActivityFragmentAdapter;
 import org.rmj.guanzongroup.marketplace.Fragment.Fragment_MPItemCart;
 import org.rmj.guanzongroup.marketplace.R;
@@ -25,7 +25,7 @@ import org.rmj.guanzongroup.marketplace.R;
 import java.util.Objects;
 
 public class Activity_ItemCart extends AppCompatActivity {
-    private VMGCardSystem mViewModel;
+//    private VMGCardSystem mViewModel;
     private ViewPager viewPager;
     private View view;
     private TabLayout tabLayout;
@@ -37,58 +37,58 @@ public class Activity_ItemCart extends AppCompatActivity {
         setContentView(R.layout.activity_item_cart);
         initWidgets();
         setupTabLayoutListener();
-        mViewModel = new ViewModelProvider(Activity_ItemCart.this).get(VMGCardSystem.class);
+//        mViewModel = new ViewModelProvider(Activity_ItemCart.this).get(VMGCardSystem.class);
         if(getIntent().getStringExtra("args").equalsIgnoreCase("1")){
             getSupportActionBar().setTitle("Item Cart");
-            mViewModel.getActiveGcard().observe(this, eGcardApp -> {
-                try {
-                    adapter.clear();
-                    adapter.addFragment(new Fragment_MPItemCart());
-                    adapter.addTitle("MarketPlace");
-
-                    mViewModel.GetMarketplaceItemCartCount().observe(Activity_ItemCart.this, count -> {
-                        try{
-                            if(count > 0) {
-                                Objects.requireNonNull(tabLayout.getTabAt(0)).getOrCreateBadge().setNumber(count);
-                            } else {
-                                Objects.requireNonNull(tabLayout.getTabAt(0)).removeBadge();
-                            }
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
-
-                    if (eGcardApp != null) {
-                        adapter.addFragment(new Fragment_GCardItemCart());
-                        adapter.addTitle("GCard");
-                        tabLayout.setVisibility(View.VISIBLE);
-
-                        mViewModel.GetGcardCartItemCount().observe(Activity_ItemCart.this, count -> {
-                            try{
-                                if(count > 0) {
-                                    Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge().setNumber(count);
-                                } else {
-                                    Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
-                                }
-                            } catch (Exception e){
-                                e.printStackTrace();
-                            }
-                        });
-
-                    } else {
-                        tabLayout.setVisibility(View.GONE);
-                    }
-                    viewPager.setAdapter(adapter);
-                    tabLayout.setupWithViewPager(viewPager);
-                    adapter.notifyDataSetChanged();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+//            mViewModel.getActiveGcard().observe(this, eGcardApp -> {
+//                try {
+//                    adapter.clear();
+//                    adapter.addFragment(new Fragment_MPItemCart());
+//                    adapter.addTitle("MarketPlace");
+//
+//                    mViewModel.GetMarketplaceItemCartCount().observe(Activity_ItemCart.this, count -> {
+//                        try{
+//                            if(count > 0) {
+//                                Objects.requireNonNull(tabLayout.getTabAt(0)).getOrCreateBadge().setNumber(count);
+//                            } else {
+//                                Objects.requireNonNull(tabLayout.getTabAt(0)).removeBadge();
+//                            }
+//                        } catch (Exception e){
+//                            e.printStackTrace();
+//                        }
+//                    });
+//
+//                    if (eGcardApp != null) {
+//                        adapter.addFragment(new Fragment_GCardItemCart());
+//                        adapter.addTitle("GCard");
+//                        tabLayout.setVisibility(View.VISIBLE);
+//
+//                        mViewModel.GetGcardCartItemCount().observe(Activity_ItemCart.this, count -> {
+//                            try{
+//                                if(count > 0) {
+//                                    Objects.requireNonNull(tabLayout.getTabAt(1)).getOrCreateBadge().setNumber(count);
+//                                } else {
+//                                    Objects.requireNonNull(tabLayout.getTabAt(1)).removeBadge();
+//                                }
+//                            } catch (Exception e){
+//                                e.printStackTrace();
+//                            }
+//                        });
+//
+//                    } else {
+//                        tabLayout.setVisibility(View.GONE);
+//                    }
+//                    viewPager.setAdapter(adapter);
+//                    tabLayout.setupWithViewPager(viewPager);
+//                    adapter.notifyDataSetChanged();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            });
         }else {
             getSupportActionBar().setTitle("Redeemables");
             adapter.clear();
-            adapter.addFragment(new Fragment_Redeemables());
+//            adapter.addFragment(new Fragment_Redeemables());
             viewPager.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             tabLayout.setVisibility(View.GONE);

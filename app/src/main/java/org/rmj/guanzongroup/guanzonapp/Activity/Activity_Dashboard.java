@@ -40,6 +40,8 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_UserInfo;
+import org.rmj.guanzongroup.digitalgcard.Activity.Activity_MyGCard;
+import org.rmj.guanzongroup.digitalgcard.Activity.Activity_Orders;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.digitalgcard.Dialogs.Dialog_TransactionPIN;
 import org.rmj.guanzongroup.guanzonapp.R;
@@ -123,10 +125,8 @@ public class Activity_Dashboard extends AppCompatActivity {
                 R.id.nav_purchases,
                 R.id.nav_wishlist,
                 R.id.nav_item_cart,
-                R.id.nav_my_gcard,
                 R.id.nav_scan_qrcode,
                 R.id.nav_redeemables,
-                R.id.nav_gcard_orders,
                 R.id.nav_gcard_transactions,
                 R.id.nav_pre_termination,
                 R.id.nav_account_settings,
@@ -224,6 +224,16 @@ public class Activity_Dashboard extends AppCompatActivity {
                 mViewModel.ImportOrdersTask();
                 return false;
             }
+        });
+
+        navigationView.getMenu().findItem(R.id.nav_gcard_orders).setOnMenuItemClickListener(item -> {
+            startActivity(new Intent(Activity_Dashboard.this, Activity_Orders.class));
+            return false;
+        });
+
+        navigationView.getMenu().findItem(R.id.nav_my_gcard).setOnMenuItemClickListener(item -> {
+            startActivity(new Intent(Activity_Dashboard.this, Activity_MyGCard.class));
+            return false;
         });
 
         navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(menuItem -> {
@@ -477,14 +487,19 @@ public class Activity_Dashboard extends AppCompatActivity {
             try {
                 Menu nav_Menu = navigationView.getMenu();
                 if(eClientinfo != null) {
-                    String lsFullNme;
-                    if (eClientinfo.getLastName() == null && eClientinfo.getFrstName() == null){
-                        lsFullNme = eClientinfo.getUserName();
-                    } else if(eClientinfo.getLastName().isEmpty() && eClientinfo.getFrstName().isEmpty()){
-                        lsFullNme = eClientinfo.getUserName();
-                    } else {
-                        lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
-                    }
+                    String lsFullNme = eClientinfo.getUserName();
+
+                    //This portion of code has been disabled to avoid displaying
+                    // the full name of user on navigation header
+
+//                    if (eClientinfo.getLastName() == null && eClientinfo.getFrstName() == null){
+//                        lsFullNme = eClientinfo.getUserName();
+//                    } else if(eClientinfo.getLastName().isEmpty() && eClientinfo.getFrstName().isEmpty()){
+//                        lsFullNme = eClientinfo.getUserName();
+//                    } else {
+//                        lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
+//                    }
+
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
                     txtFullNm.setText(Objects.requireNonNull(lsFullNme));
@@ -494,6 +509,7 @@ public class Activity_Dashboard extends AppCompatActivity {
 //                    nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
 //                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
 //                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_scan_qrcode).setVisible(true);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(true);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(true);
                 } else {
@@ -508,6 +524,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                         Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
                         startActivity(loIntent);
                     });
+                    nav_Menu.findItem(R.id.nav_scan_qrcode).setVisible(false);
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
                     nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
                     nav_Menu.findItem(R.id.nav_applyLoan).setVisible(false);
@@ -527,6 +544,11 @@ public class Activity_Dashboard extends AppCompatActivity {
                     String lsGcardPt = "Points: " + gcard.getAvlPoint();
                     txtGcardN.setText(gcard.getCardNmbr());
                     txtGcardP.setText(lsGcardPt);
+
+
+                    lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+                    navigationView.getMenu().findItem(R.id.nav_purchases).setActionView(lblBadge);
+                    lblBadge.setText(GetBadgeValue(gcard.getAvlPoint()));
                 } else {
                     lnGcardxx.setVisibility(View.GONE);
                 }
@@ -551,7 +573,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         });
     }
 
-    private String GetBadgeValue(int val){
+    private String GetBadgeValue(double val){
         if(val > 0){
             lblBadge.setVisibility(View.VISIBLE);
             return String.valueOf(val);

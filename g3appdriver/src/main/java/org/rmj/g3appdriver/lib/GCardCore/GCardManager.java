@@ -148,7 +148,7 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
-    public LiveData<String> getActiveGcardAvlPoints() {
+    public LiveData<Double> getActiveGcardAvlPoints() {
         return poGCard.getActiveGcardAvlPoints();
     }
 
@@ -242,8 +242,8 @@ public class GCardManager implements iGCardSystem{
             loGCard.setNmOnCard(detail.getString("sNmOnCard"));
             loGCard.setMemberxx(detail.getString("dMemberxx"));
             loGCard.setCardType(detail.getString("cCardType"));
-            loGCard.setAvlPoint(detail.getString("nAvlPoint"));
-            loGCard.setTotPoint(detail.getString("nTotPoint"));
+            loGCard.setAvlPoint(Double.parseDouble(detail.getString("nAvlPoint")));
+            loGCard.setTotPoint(Double.parseDouble(detail.getString("nTotPoint")));
             loGCard.setTranStat(detail.getString("cCardStat"));
             loGCard.setActvStat("0");
             loGCard.setNotified("1");
@@ -259,8 +259,8 @@ public class GCardManager implements iGCardSystem{
                 loGCard.setNmOnCard(loJson.getString("sNmOnCard"));
                 loGCard.setMemberxx(loJson.getString("dMemberxx"));
                 loGCard.setCardType(loJson.getString("cCardType"));
-                loGCard.setAvlPoint(loJson.getString("nAvlPoint"));
-                loGCard.setTotPoint(loJson.getString("nTotPoint"));
+                loGCard.setAvlPoint(Double.parseDouble(loJson.getString("nAvlPoint")));
+                loGCard.setTotPoint(Double.parseDouble(loJson.getString("nTotPoint")));
                 loGCard.setTranStat(loJson.getString("cCardStat"));
                 loGCard.setActvStat("0");
                 loGCard.setNotified("1");

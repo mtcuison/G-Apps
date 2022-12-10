@@ -40,8 +40,8 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
         String item = list.get(position);
         holder.psItem = item;
         try {
-            Picasso.get().load(getImageUrl(item))
-                    .error(org.rmj.guanzongroup.digitalgcard.R.drawable.ic_no_image_available).into(holder.imgCategx);
+//            Picasso.get().load(getImageUrl(item))
+//                    .error(org.rmj.guanzongroup.digitalgcard.R.drawable.ic_no_image_available).into(holder.imgCategx);
         } catch (Exception e) {
             e.printStackTrace();
         }

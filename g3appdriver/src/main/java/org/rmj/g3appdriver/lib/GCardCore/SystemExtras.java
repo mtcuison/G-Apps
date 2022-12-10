@@ -116,7 +116,7 @@ public class SystemExtras implements iGCardSystem{
     }
 
     @Override
-    public LiveData<String> getActiveGcardAvlPoints() {
+    public LiveData<Double> getActiveGcardAvlPoints() {
         return null;
     }
 

@@ -36,7 +36,7 @@ public class Adapter_GcardOrders extends RecyclerView.Adapter<Adapter_GcardOrder
         EGcardApp loGcard = poGcard.get(position);
         holder.txtUserNm.setText(loGcard.getNmOnCard());
         holder.txtCardNo.setText(loGcard.getCardNmbr());
-        holder.txtPoints.setText(loGcard.getTotPoint());
+        holder.txtPoints.setText(String.valueOf(loGcard.getTotPoint()));
     }
 
     @Override

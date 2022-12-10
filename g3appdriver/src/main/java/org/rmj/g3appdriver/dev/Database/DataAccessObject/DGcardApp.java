@@ -79,7 +79,7 @@ public interface DGcardApp {
     LiveData<String> getActiveGcardNo();
 
     @Query("SELECT sAvlPoint FROM GCard_App_Master WHERE cActvStat ='1'")
-    LiveData<String> getActiveGcardAvlPoints();
+    LiveData<Double> getActiveGcardAvlPoints();
 
     @Query("SELECT (SELECT sAvlPoint FROM GCard_App_Master WHERE cActvStat = '1') - " +
             "(SELECT nPointsxx FROM Redeem_Item WHERE sGCardNox = " +

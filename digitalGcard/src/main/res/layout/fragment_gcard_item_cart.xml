@@ -91,7 +91,4 @@
             style="@style/ButtonStyle.Orange.Medium"/>
 
     </LinearLayout>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
