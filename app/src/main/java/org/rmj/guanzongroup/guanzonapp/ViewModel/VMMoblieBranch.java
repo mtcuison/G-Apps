@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Fragment;
+package org.rmj.guanzongroup.guanzonapp.ViewModel;
 
 import androidx.lifecycle.ViewModel;
 
