@@ -21,8 +21,6 @@ import android.widget.TextView;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMMotorcycleBranch;
 
-import java.util.Objects;
-
 public class Fragment_Motorcycle extends Fragment {
 
     private VMMotorcycleBranch mViewModel;
