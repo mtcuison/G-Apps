@@ -6,6 +6,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ETownInfo;
 
 import java.util.List;
 
@@ -26,6 +28,12 @@ public interface DBranchInfo {
 
     @Query("SELECT * FROM BranchInfo WHERE sBranchCd=:BranchCde")
     EBranchInfo getBranchIfExist(String BranchCde);
+
+    @Query("SELECT * FROM Town_Info WHERE sTownIDxx =:args")
+    LiveData<List<ETownInfo>> GetTownList(String args);
+
+    @Query("SELECT * FROM Province_Info")
+    LiveData<List<EProvinceInfo>> GetProvinceList();
 
     @Query("SELECT * FROM BranchInfo WHERE sBranchCd LIKE 'C%' AND sProvIDxx =:Province")
     LiveData<List<EBranchInfo>> GetMCBranches(String Province);
