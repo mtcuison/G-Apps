@@ -13,9 +13,7 @@ import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
-import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
-import org.rmj.g3appdriver.lib.Notifications.model.PanaloReward;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +42,6 @@ public class GPanalo {
     public String getMessage() {
         return message;
     }
-
-
 
     public LiveData<EPanaloReward> GetPanaloNotice(){
         return poDao.GetPanaloRewardNotice();

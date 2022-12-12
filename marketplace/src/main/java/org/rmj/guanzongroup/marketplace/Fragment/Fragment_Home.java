@@ -7,12 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,13 +21,12 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductList;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_Categories;
-import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ImageSlider;
+import org.rmj.g3appdriver.lib.Promotions.Adapter_ImageSlider;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
-import org.rmj.guanzongroup.marketplace.Model.HomeImageSliderModel;
+import org.rmj.g3appdriver.lib.Promotions.model.HomeImageSliderModel;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 

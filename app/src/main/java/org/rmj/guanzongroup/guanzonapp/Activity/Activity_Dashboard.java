@@ -104,8 +104,8 @@ public class Activity_Dashboard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         mViewModel = new ViewModelProvider(Activity_Dashboard.this).get(VMHome.class);
+        binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarActivityDashboard.toolbar);
         poLoading = new Dialog_Loading(Activity_Dashboard.this);
@@ -136,7 +136,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                 .setOpenableLayout(drawer)
                 .build();
 
-        //Disable Pre-Termination page untill project is develop...
+        //Disable Pre-Termination page until project is develop...
         navigationView.getMenu().findItem(R.id.nav_wishlist).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_pre_termination).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_customer_service).setVisible(false);

@@ -23,7 +23,7 @@ public class DialogPanaloWin implements iDialog {
     private AlertDialog poDialog;
 
     private TextView txt_MnthRebate, txt_AmountRebate, txt_Validitydate, txt_GPHeader, txt_GPHeader2;
-    private MaterialButton btn_Claim;
+    private MaterialButton btn_Close;
 
 
     public DialogPanaloWin(Context mContext) {
@@ -33,7 +33,7 @@ public class DialogPanaloWin implements iDialog {
 
 
     @Override
-    public void initDialog(Object foVal) {
+    public void initDialog(Object foVal, PanaloDialogClickListener listener) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_panalo_win, null, false);
         poBuilder.setView(view).setCancelable(false);
         poDialog = poBuilder.create();
@@ -45,8 +45,9 @@ public class DialogPanaloWin implements iDialog {
         txt_AmountRebate = view.findViewById(R.id.lbl_rebatesAmount);
         txt_Validitydate = view.findViewById(R.id.lbl_validityDates);
 
-        btn_Claim = view.findViewById(R.id.btn_dialogClose);
+        btn_Close = view.findViewById(R.id.btn_dialogClose);
 
+        btn_Close.setOnClickListener(v -> listener.OnClose(poDialog));
     }
 
     @Override

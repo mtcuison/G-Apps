@@ -92,6 +92,14 @@
             app:cornerRadius="35dp"
             app:rippleColor="#FF9800" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_dialogClose"
+            style="@style/ButtonStyle.Light.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/close"
+            app:cornerRadius="35dp"
+            app:rippleColor="#FF9800" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

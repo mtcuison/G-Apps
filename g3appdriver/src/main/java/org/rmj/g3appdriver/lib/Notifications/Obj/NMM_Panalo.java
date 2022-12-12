@@ -11,6 +11,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
+import org.rmj.g3appdriver.dev.Database.Entities.EPanaloReward;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.ServerRequest.HttpHeaders;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
@@ -90,6 +91,17 @@ public class NMM_Panalo implements iNotification {
                 if(poDao.CheckIfUserExist(loParser.getValueOf("srceid")) == null){
                     poDao.insert(loUser);
                 }
+
+                JSONObject loData = new JSONObject(loMaster.getDataSndx());
+                JSONObject loDetail = loData.getJSONObject("data");
+                String lsReferNox = loDetail.getString("sReferNox");
+                String lcTranStat = loDetail.getString("cTranStat");
+
+                EPanaloReward loReward = new EPanaloReward();
+                loReward.setPanaloCD(lsReferNox);
+                loReward.setTranStat(lcTranStat);
+                loReward.setModified(new AppConstants().DATE_MODIFIED);
+                loReward.setTimeStmp(new AppConstants().DATE_MODIFIED);
             }
 
             if(!lsUserIDx.equalsIgnoreCase(lsRecpntx)){

@@ -1,7 +1,9 @@
 package org.rmj.guanzongroup.panalo.Dialog;
 
+import android.app.AlertDialog;
+
 public interface PanaloDialogClickListener {
-    void OnClose();
+    void OnClose(AlertDialog dialog);
     void OnClaim();
     void OnClickRedeem(String args);
 }

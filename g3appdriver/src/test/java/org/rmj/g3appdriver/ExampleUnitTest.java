@@ -121,6 +121,7 @@ public class ExampleUnitTest {
 
         //Pass the reference no on which rewards must be claim by the user.
         loPnlDetail.put("sReferNox", "MX01123456789");
+        loPnlDetail.put("cTranStat", "1");
 
         loPanalo.put("data", loPnlDetail);
 

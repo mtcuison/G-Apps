@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_MyGcard"
-        android:title="@string/my_gcard" />
+        android:id="@+id/nav_Panalo"
+        android:title="@string/panalo" />
 
     <item
         android:id="@+id/placeholder"
@@ -11,6 +11,6 @@
         android:enabled="false" />
 
     <item
-        android:id="@+id/nav_Panalo"
-        android:title="@string/panalo" />
+        android:id="@+id/nav_MyGcard"
+        android:title="@string/my_gcard" />
 </menu>
