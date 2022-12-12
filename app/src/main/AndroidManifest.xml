@@ -46,8 +46,9 @@
             android:screenOrientation="userPortrait"
             android:exported="false"
             android:theme="@style/GuanzonMarketplace.Theme" />
+
         <activity
-            android:name=".Activity.Activity_SplashScreen"
+            android:name="org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList"
             android:screenOrientation="userPortrait"
             android:launchMode="singleTask"
             android:exported="true"
