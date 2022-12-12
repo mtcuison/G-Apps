@@ -46,6 +46,26 @@ public class RBranchInfo implements DBranchInfo {
     }
 
     @Override
+    public LiveData<List<EBranchInfo>> GetMCBranches(String Province) {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EBranchInfo>> GetMCBranches(String Province, String Town) {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EBranchInfo>> GetMPBranches(String Province) {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EBranchInfo>> GetMPBranches(String Province, String Town) {
+        return null;
+    }
+
+    @Override
     public void UpdateBranchInfo(String BranchCd,
                                  String BranchNm,
                                  String Descript,
