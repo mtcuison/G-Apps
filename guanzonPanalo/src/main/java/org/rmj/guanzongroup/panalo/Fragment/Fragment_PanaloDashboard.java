@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.panalo.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,17 +37,15 @@ import org.rmj.guanzongroup.panalo.R;
 import org.rmj.guanzongroup.panalo.ViewModel.VMPanaloDashboard;
 
 public class Fragment_PanaloDashboard extends Fragment {
+    private static final String TAG = Fragment_PanaloDashboard.class.getSimpleName();
 
     private VMPanaloDashboard mViewModel;
     private View view;
+    private BottomNavigationView botNav;
     private ViewPager viewPager;
-    private TabLayout tabLayout;
-    private LinearLayout layout_GCard, layout_GPanalo, layout_GGanado;
-    private TextView txt_GCardNo, txt_GCardNm, txt_GCardPnt;
     private FloatingActionButton fab_Scan;
 
     private static final int GCARD_APPLICATION = 1;
-
 
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialog;
@@ -79,55 +78,46 @@ public class Fragment_PanaloDashboard extends Fragment {
         view = inflater.inflate(R.layout.fragment_panalo_dashboard, container, false);
         initViews();
 
-        viewPager.setAdapter(new PanaloFragmentAdapter(getChildFragmentManager()));
-        tabLayout.setupWithViewPager(viewPager);
-
-        fab_Scan.setOnClickListener(new View.OnClickListener() {
+        setupPages();
+        botNav.setBackground(null);
+        botNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Intent loIntent = new Intent(requireActivity(), Activity_QrCodeScanner.class);
-                poArl.launch(loIntent);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.nav_home) {
+                    viewPager.setCurrentItem(0);
+                    Log.d(TAG, "Home Selected.");
+                } else if(item.getItemId() == R.id.nav_MyGcard){
+                    viewPager.setCurrentItem(1);
+                    Log.d(TAG, "My G-Card Selected.");
+                } else if(item.getItemId() == R.id.nav_Panalo) {
+                    viewPager.setCurrentItem(2);
+                    Log.d(TAG, "Guanzon Panalo Selected.");
+                } else if(item.getItemId() == R.id.nav_rewards) {
+                    viewPager.setCurrentItem(3);
+                    Log.d(TAG, "Panalo Rewards Selected.");
+                }
+                return true;
             }
+        });
+
+        fab_Scan.setOnClickListener(v -> {
+            Intent loIntent = new Intent(requireActivity(), Activity_QrCodeScanner.class);
+            poArl.launch(loIntent);
         });
         return view;
     }
 
 
     private void initViews() {
-        txt_GCardNo = view.findViewById(R.id.txt_GcardNumber);
-        txt_GCardNm = view.findViewById(R.id.txt_GcardName);
-        txt_GCardPnt = view.findViewById(R.id.txt_GcardPoints);
         viewPager = view.findViewById(R.id.viewpager);
-        tabLayout = view.findViewById(R.id.tab_layout);
-
+        botNav = view.findViewById(R.id.bottom_navigation);
         fab_Scan = view.findViewById(R.id.fab_Scan);
     }
 
-    private static class PanaloFragmentAdapter extends FragmentStatePagerAdapter{
-
-        private final Fragment[] loFragments = new Fragment[]{new Fragment_MyGcard(), new Fragment_Panalo(), new Fragment_PanaloRewards()};
-        private final String[] lsTitles = new String[]{"My GCard", "Panalo", "Rewards"};
-
-        public PanaloFragmentAdapter(@NonNull FragmentManager fm) {
-            super(fm);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return loFragments[position];
-        }
-
-        @Override
-        public int getCount() {
-            return loFragments.length;
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return lsTitles[position];
-        }
+    private void setupPages(){
+        Fragment[] loFragments = new Fragment[]{new Fragment_Panalo(), new Fragment_MyGcard(), new Fragment_PanaloRewards()};
+        FragmentAdapter loAdapter = new FragmentAdapter(getChildFragmentManager(), loFragments);
+        viewPager.setAdapter(loAdapter);
     }
 
     public void ParseQrCode(String fsVal){

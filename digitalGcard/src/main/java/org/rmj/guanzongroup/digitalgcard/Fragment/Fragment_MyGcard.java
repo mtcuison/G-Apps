@@ -18,14 +18,12 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
-import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_UserInfo;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_AddGcard;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_ManageGcard;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 
 import java.util.Objects;
 
@@ -44,12 +42,7 @@ public class Fragment_MyGcard extends Fragment {
         view = inflater.inflate(R.layout.fragment_my_gcard, container, false);
         initViews();
         mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
-        if(!new AccountInfo(requireActivity()).getLoginStatus()) {
-            Intent loIntent = new Intent(requireActivity(), Activity_Login.class);
-            startActivity(loIntent);
-        } else {
-            initMyGcard();
-        }
+        initMyGcard();
         return view;
     }
 
@@ -81,6 +74,8 @@ public class Fragment_MyGcard extends Fragment {
                         Intent loIntent = new Intent(requireActivity(), Activity_ManageGcard.class);
                         startActivity(loIntent);
                     });
+
+
 
                     view.findViewById(R.id.cvGcard).setOnClickListener(v -> {
                         mViewModel.ViewGCardQrCode(bitmap -> {
