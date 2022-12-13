@@ -15,14 +15,16 @@ import org.rmj.g3appdriver.lib.Branch.iBranch;
 
 import java.util.List;
 
-public class VMMotorcycleBranch extends AndroidViewModel {
+public class VMMobileBranch extends AndroidViewModel {
 
     private final iBranch poSys;
 
-    public VMMotorcycleBranch(@NonNull Application application) {
+    public VMMobileBranch(@NonNull Application application) {
         super(application);
-        poSys = new Branches(application).InitBranch(GBRANCHES.MOTORCYCLE);
+        poSys = new Branches(application).InitBranch(GBRANCHES.MOBILE_PHONE);
+
     }
+
 
     public LiveData<List<EBranchInfo>> getBranchList() {
         return poSys.GetBranchList();
@@ -32,7 +34,7 @@ public class VMMotorcycleBranch extends AndroidViewModel {
         return poSys.GetTownList(args);
     }
 
-    public LiveData<List<EProvinceInfo>> getProvinceList() {
+    public LiveData<List<EProvinceInfo>> getProvinceInfo() {
         return poSys.GetProvinceList();
     }
 

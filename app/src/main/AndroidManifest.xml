@@ -47,12 +47,14 @@
             android:exported="false"
             android:theme="@style/GuanzonMarketplace.Theme" />
 
+<!--        .Activity.Activity_SplashScreen-->
         <activity
             android:name=".Activity.Activity_SplashScreen"
             android:screenOrientation="userPortrait"
             android:launchMode="singleTask"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
