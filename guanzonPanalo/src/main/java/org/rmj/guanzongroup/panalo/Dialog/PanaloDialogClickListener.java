@@ -5,5 +5,4 @@ import android.app.AlertDialog;
 public interface PanaloDialogClickListener {
     void OnClose(AlertDialog dialog);
     void OnClaim();
-    void OnClickRedeem(String args);
 }

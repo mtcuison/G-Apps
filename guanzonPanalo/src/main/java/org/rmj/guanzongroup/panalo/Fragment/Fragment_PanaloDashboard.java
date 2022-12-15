@@ -115,7 +115,7 @@ public class Fragment_PanaloDashboard extends Fragment {
     }
 
     private void setupPages(){
-        Fragment[] loFragments = new Fragment[]{new Fragment_Panalo(), new Fragment_MyGcard(), new Fragment_PanaloRewards()};
+        Fragment[] loFragments = new Fragment[]{new Fragment_PanaloHome(), new Fragment_MyGcard(), new Fragment_Panalo(), new Fragment_PanaloRewards()};
         FragmentAdapter loAdapter = new FragmentAdapter(getChildFragmentManager(), loFragments);
         viewPager.setAdapter(loAdapter);
     }

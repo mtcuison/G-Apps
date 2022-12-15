@@ -50,10 +50,8 @@ public class DialogPanaloRedeem implements iDialog {
 
     @Override
     public void show() {
-
         poDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         poDialog.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
         poDialog.show();
-
     }
 }
