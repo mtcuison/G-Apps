@@ -195,6 +195,33 @@ public interface DNotifications {
             "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<List<UserNotificationInfo>> getUserNotificationList();
 
+    @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
+            "a.sMsgTitle AS MsgTitle, " +
+            "a.sCreatrID AS CreatrID, " +
+            "a.sCreatrNm AS CreatrNm, " +
+            "a.sMessagex AS Messagex, " +
+            "b.dReceived AS Received " +
+            "FROM Notification_Info_Master a " +
+            "LEFT JOIN Notification_Info_Recepient b " +
+            "ON a.sMesgIDxx = b.sTransNox " +
+            "WHERE b.cMesgStat <> '5' " +
+            "AND a.sMsgTypex == '00003' " +
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info)")
+    LiveData<List<UserNotificationInfo>> getPromotionsNotifications();
+    @Query("SELECT a.sMesgIDxx AS MesgIDxx, " +
+            "a.sMsgTitle AS MsgTitle, " +
+            "a.sCreatrID AS CreatrID, " +
+            "a.sCreatrNm AS CreatrNm, " +
+            "a.sMessagex AS Messagex, " +
+            "b.dReceived AS Received " +
+            "FROM Notification_Info_Master a " +
+            "LEFT JOIN Notification_Info_Recepient b " +
+            "ON a.sMesgIDxx = b.sTransNox " +
+            "WHERE b.cMesgStat <> '5' " +
+            "AND a.sMsgTypex == '00008' " +
+            "AND b.sRecpntID = (SELECT sUserIDxx FROM Client_Profile_Info)")
+    LiveData<List<UserNotificationInfo>> getPanaloNotifications();
+
     @Query("SELECT a.sMesgIDxx FROM Notification_Info_Master a " +
             "LEFT JOIN Notification_Info_Recepient b " +
             "ON a.sMesgIDxx = b.sTransNox WHERE a.sCreatrID =:SenderID " +

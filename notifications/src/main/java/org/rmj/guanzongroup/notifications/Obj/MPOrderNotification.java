@@ -8,10 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import com.google.firebase.messaging.RemoteMessage;
-
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.guanzongroup.notifications.Etc.iNotificationUI;
 import org.rmj.guanzongroup.notifications.R;
 

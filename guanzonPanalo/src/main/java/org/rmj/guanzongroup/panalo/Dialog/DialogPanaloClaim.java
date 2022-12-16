@@ -23,7 +23,7 @@ public class DialogPanaloClaim implements iDialog {
     private AlertDialog poDialog;
 
     private TextView txt_MnthRebate, txt_AmountRebate, txt_Validitydate, txt_GPHeader, txt_GPHeader2;
-    private MaterialButton btn_Claim;
+    private MaterialButton btn_Claim, btn_Close;
 
 
     public DialogPanaloClaim(Context mContext) {
@@ -31,9 +31,8 @@ public class DialogPanaloClaim implements iDialog {
         this.poBuilder = new AlertDialog.Builder(mContext);
     }
 
-
     @Override
-    public void initDialog(Object foVal) {
+    public void initDialog(Object foVal, PanaloDialogClickListener listener) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_panalo_claim, null, false);
         poBuilder.setView(view).setCancelable(false);
         poDialog = poBuilder.create();
@@ -46,8 +45,17 @@ public class DialogPanaloClaim implements iDialog {
         txt_AmountRebate = view.findViewById(R.id.lbl_rebatesAmount);
         txt_Validitydate = view.findViewById(R.id.lbl_validityDates);
 
+        btn_Close = view.findViewById(R.id.btn_dialogClose);
         btn_Claim = view.findViewById(R.id.btn_dialogClaim);
 
+        btn_Claim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.OnClaim();
+            }
+        });
+
+        btn_Close.setOnClickListener(v -> listener.OnClose(poDialog));
     }
 
     @Override

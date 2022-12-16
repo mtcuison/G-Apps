@@ -32,11 +32,10 @@ public class DialogPanaloRewards implements iDialog {
     }
 
     @Override
-    public void initDialog(Object foVal) {
+    public void initDialog(Object foVal, PanaloDialogClickListener listener) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_panalo_rewards, null, false);
         poBuilder.setView(view).setCancelable(false);
         poDialog = poBuilder.create();
-
 
         txt_GPHeader = view.findViewById(R.id.lbl_dialogTitle);
         txt_GPHeader2 = view.findViewById(R.id.lbl_dialogHeader2);
@@ -46,7 +45,7 @@ public class DialogPanaloRewards implements iDialog {
 
         btn_Close = view.findViewById(R.id.btn_dialogClose);
 
-
+        btn_Close.setOnClickListener(v -> listener.OnClose(poDialog));
     }
 
     @Override

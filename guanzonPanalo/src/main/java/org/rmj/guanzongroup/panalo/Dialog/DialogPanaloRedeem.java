@@ -33,7 +33,7 @@ public class DialogPanaloRedeem implements iDialog {
     }
 
     @Override
-    public void initDialog(Object foVal) {
+    public void initDialog(Object foVal, PanaloDialogClickListener listener) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_panalo_redeem, null, false);
         poBuilders.setView(view).setCancelable(false);
         poDialog = poBuilders.create();
@@ -45,14 +45,13 @@ public class DialogPanaloRedeem implements iDialog {
 
         button = view.findViewById(R.id.btn_dialogClose);
 
+        button.setOnClickListener(v -> listener.OnClose(poDialog));
     }
 
     @Override
     public void show() {
-
         poDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         poDialog.getWindow().getAttributes().windowAnimations = org.rmj.g3appdriver.R.style.PopupAnimation;
         poDialog.show();
-
     }
 }

@@ -2,15 +2,32 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/nav_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/menu_home" />
+
+    <item
         android:id="@+id/nav_MyGcard"
-        android:title="@string/my_gcard" />
+        android:enabled="true"
+        android:title="@string/my_gcard"
+        android:icon="@drawable/ic_baseline_credit_card_24" />
 
     <item
         android:id="@+id/placeholder"
         android:title=""
-        android:enabled="false" />
+        android:enabled="false"/>
 
     <item
         android:id="@+id/nav_Panalo"
-        android:title="@string/panalo" />
+        android:enabled="true"
+        android:title="@string/panalo"
+        android:icon="@drawable/ic_baseline_loan_24" />
+
+    <item
+        android:id="@+id/nav_rewards"
+        android:enabled="true"
+        android:title="@string/rewards"
+        android:icon="@drawable/ic_baseline_card_giftcard_24" />
+
 </menu>

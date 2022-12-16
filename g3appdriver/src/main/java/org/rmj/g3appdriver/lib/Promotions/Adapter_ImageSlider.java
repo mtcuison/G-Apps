@@ -1,17 +1,15 @@
-package org.rmj.guanzongroup.marketplace.Adapter;
+package org.rmj.g3appdriver.lib.Promotions;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
-import org.rmj.guanzongroup.marketplace.Model.HomeImageSliderModel;
-import org.rmj.guanzongroup.marketplace.R;
+import org.rmj.g3appdriver.R;
+import org.rmj.g3appdriver.lib.Promotions.model.HomeImageSliderModel;
 
 import java.util.ArrayList;
 import java.util.List;

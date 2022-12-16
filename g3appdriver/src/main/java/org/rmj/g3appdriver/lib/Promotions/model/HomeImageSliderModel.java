@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.marketplace.Model;
+package org.rmj.g3appdriver.lib.Promotions.model;
 
 public class HomeImageSliderModel {
 

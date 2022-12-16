@@ -30,7 +30,7 @@ public class DialogPanaloPromo implements iDialog {
 
 
     @Override
-    public void initDialog(Object foVal) {
+    public void initDialog(Object foVal, PanaloDialogClickListener listener) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_panalo_promo, null, false);
         poBuilder.setView(view).setCancelable(false);
         poDialog = poBuilder.create();
@@ -39,6 +39,7 @@ public class DialogPanaloPromo implements iDialog {
 
         btn_close = view.findViewById(R.id.btn_dialog_X);
 
+        btn_close.setOnClickListener(v -> listener.OnClose(poDialog));
     }
 
     @Override

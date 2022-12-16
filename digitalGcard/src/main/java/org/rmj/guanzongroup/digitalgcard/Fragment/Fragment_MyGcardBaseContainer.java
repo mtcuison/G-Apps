@@ -30,17 +30,9 @@ public class Fragment_MyGcardBaseContainer extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
         View view = inflater.inflate(R.layout.fragment_my_gcard_base_container, container, false);
         setViewPager(view);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
-
-        // TODO: Use the ViewModel
         if(getArguments() != null){
             int lnArgs = getArguments().getInt("gcardInstance");
             if(lnArgs == 1){
@@ -49,6 +41,7 @@ public class Fragment_MyGcardBaseContainer extends Fragment {
 
             }
         }
+        return view;
     }
 
     private void setViewPager(View view) {

@@ -32,13 +32,13 @@ public class Activity_SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         setContentView(R.layout.activity_splash_screen);
         splashScreen.setKeepOnScreenCondition(() -> true );
         if (!isMyServiceRunning(GMessagingService.class)) {
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
         }
-        mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
         mViewModel.setupApp();
 
         mViewModel.GetLoadStatus().observe(Activity_SplashScreen.this, oLoadStat -> {

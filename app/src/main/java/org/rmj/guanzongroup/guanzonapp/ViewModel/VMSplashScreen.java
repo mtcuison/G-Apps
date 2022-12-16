@@ -33,6 +33,7 @@ public class VMSplashScreen extends AndroidViewModel {
     private final Context mContext;
 
     private final String[] laPermissions =  new String[]{
+        Manifest.permission.POST_NOTIFICATIONS,
         Manifest.permission.MANAGE_EXTERNAL_STORAGE,
         Manifest.permission.READ_PHONE_NUMBERS,
         Manifest.permission.INTERNET,
