@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,6 +64,7 @@ public class Activity_AccountUpdate extends AppCompatActivity {
                 case 0:
                     findViewById(R.id.constraint_updateAccount).setVisibility(View.VISIBLE);
                     lblUpdate.setText("Enter Email Address");
+                    tieUpdate.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
                     btnSubmit.setOnClickListener(v -> {
                         if(!isClicked){
                             isClicked = true;
@@ -103,6 +105,7 @@ public class Activity_AccountUpdate extends AppCompatActivity {
                 case 1:
                     findViewById(R.id.constraint_updateAccount).setVisibility(View.VISIBLE);
                     lblUpdate.setText("Enter Mobile No");
+                    tieUpdate.setInputType(InputType.TYPE_CLASS_PHONE);
                     tieUpdate.setFilters(new InputFilter[] {new InputFilter.LengthFilter(11)});
                     btnSubmit.setOnClickListener(v -> {
                         if(!isClicked){

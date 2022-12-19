@@ -427,7 +427,7 @@ public class VMAccountDetails extends AndroidViewModel {
                 if(lsMobileNo.trim().isEmpty()){
                     message = "Please enter mobile no.";
                     return false;
-                } else if(lsMobileNo.substring(0, 2).equalsIgnoreCase("09")){
+                } else if(!lsMobileNo.substring(0, 2).equalsIgnoreCase("09")){
                     message = "Mobile number must start with '09'";
                     return false;
                 } else if(lsMobileNo.length() != 11) {
