@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,43 +9,105 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        app:tabIndicatorGravity="stretch"
-        app:tabMaxWidth="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_header"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        app:tabIndicatorColor="?attr/colorAccent"
-        app:tabSelectedTextColor="@android:color/white"
-        app:tabTextColor="?attr/colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"/>
+        app:tabIconTint="@color/tab_select_indicator_dashboard"
+        app:tabIndicatorColor="@color/guanzon_digital_orange"
+        app:tabIndicator="@color/guanzon_digital_orange"
+        app:tabIndicatorHeight="3dp"
+        app:tabIndicatorAnimationDuration="1"
+        app:tabIndicatorGravity="bottom"
+        app:tabIndicatorFullWidth="true"
+        app:tabTextColor="@color/black"
+        app:tabMaxWidth="0dp"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"/>
 
     <ImageView
         android:id="@+id/img_header"
         android:layout_width="match_parent"
-        android:layout_height="120dp" />
+        android:layout_height="wrap_content"
+        android:src="@drawable/guanzon_motors"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_searchBranch"
+    <LinearLayout
+        android:id="@+id/linear_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        style="@style/TextInputStyle">
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tie_searchBranch"
-            android:layout_width="match_parent"
-            android:focusedByDefault="false"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Search Branch Name"
-            android:inputType="textCapWords" />
+            android:layout_weight="1.7"
+            android:id="@+id/til_searchBranch"
+            style="@style/TextInputStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tie_searchBranch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusedByDefault="false"
+                android:hint="Search"
+                android:inputType="textCapWords"
+                android:drawablePadding="5dp"
+                android:drawableTint="@color/guanzon_digital_orange"
+                android:drawableStart="@drawable/ic_baseline_search_24"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:layout_weight=".3"
+            android:src="@drawable/ic_filter_list"
+            android:background="@color/white"
+            android:layout_margin="5dp"/>
+    </LinearLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilTownProvince"
+        style="@style/TextInputStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_search">
+
+        <AutoCompleteTextView
+            android:id="@+id/tieTownProvince"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusedByDefault="false"
+            android:inputType="textCapWords"
+            style="@style/AutoCompleteStyleTheme" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5dp"/>
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilTownProvince" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
