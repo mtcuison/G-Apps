@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.panalo.Fragment;
+package org.rmj.guanzongroup.guanzonapp.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -16,15 +14,12 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.tabs.TabLayout;
 
 import org.rmj.g3appdriver.etc.FragmentAdapter;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
@@ -33,7 +28,10 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.digitalgcard.Dialogs.Dialog_TransactionPIN;
 import org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcard;
-import org.rmj.guanzongroup.panalo.R;
+import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.panalo.Fragment.Fragment_Panalo;
+import org.rmj.guanzongroup.panalo.Fragment.Fragment_PanaloHome;
+import org.rmj.guanzongroup.panalo.Fragment.Fragment_PanaloRewards;
 import org.rmj.guanzongroup.panalo.ViewModel.VMPanaloDashboard;
 
 public class Fragment_PanaloDashboard extends Fragment {

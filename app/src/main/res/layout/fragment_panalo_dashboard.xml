@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/GuanzonPanalo.Theme"
-    tools:context=".Fragment.Fragment_PanaloDashboard">
+    tools:context="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_PanaloDashboard">
 
     <org.rmj.g3appdriver.etc.NonSwipeableViewPager
         android:id="@+id/viewpager"
