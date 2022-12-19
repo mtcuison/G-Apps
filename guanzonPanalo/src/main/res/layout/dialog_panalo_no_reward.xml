@@ -22,9 +22,9 @@
         <TextView
             android:id="@+id/lbl_dialogTitle"
             style="@style/TextStyleLabel.Title"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/guanzon_panalo" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,9 +51,9 @@
         <TextView
             android:id="@+id/lbl_NoRewardYet"
             style="@style/TextStyleLabel"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_margin="15dp"
             android:text="@string/sorry_no_rewards"
             android:textSize="18sp" />
