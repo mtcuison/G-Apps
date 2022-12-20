@@ -12,6 +12,5 @@ public interface iBranch {
     LiveData<List<EBranchInfo>> GetBranchList();
     LiveData<List<ETownInfo>> GetTownList(String args);
     LiveData<List<EProvinceInfo>> GetProvinceList();
-    LiveData<List<EBranchInfo>> GetBranchList(String Province);
-    LiveData<List<EBranchInfo>> GetBranchList(String Province, String Town);
+    LiveData<List<EBranchInfo>> GetBranchList(String Town);
 }

@@ -41,12 +41,8 @@ public class MCBranch implements iBranch {
     }
 
     @Override
-    public LiveData<List<EBranchInfo>> GetBranchList(String Province) {
-        return poDao.GetMCBranches(Province);
+    public LiveData<List<EBranchInfo>> GetBranchList(String Town) {
+        return null;
     }
 
-    @Override
-    public LiveData<List<EBranchInfo>> GetBranchList(String Province, String Town) {
-        return poDao.GetMCBranches(Province, Town);
-    }
 }

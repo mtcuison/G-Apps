@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.panalo.Dialog;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.rmj.g3appdriver.lib.GCardCore.CodeGenerator;
+import org.rmj.g3appdriver.lib.Panalo.PanaloRewards;
 import org.rmj.guanzongroup.panalo.R;
 
 public class DialogPanaloRedeem implements iDialog {
@@ -34,6 +37,18 @@ public class DialogPanaloRedeem implements iDialog {
 
     @Override
     public void initDialog(Object foVal, PanaloDialogClickListener listener) {
+        PanaloRewards loReward = (PanaloRewards) foVal;
+        Bitmap loBmp = null;
+        switch (loReward.getPanaloCD()){
+            case "0001":
+                loBmp = new CodeGenerator().GeneratePanaloOtherRedemptionQC(loReward);
+                break;
+            case "0002":
+                loBmp = new CodeGenerator().GeneratePanaloRebateRedemptionQC(loReward);
+                break;
+            default:
+                break;
+        }
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_panalo_redeem, null, false);
         poBuilders.setView(view).setCancelable(false);
         poDialog = poBuilders.create();
@@ -42,6 +57,7 @@ public class DialogPanaloRedeem implements iDialog {
         txt_GPHeader2 = view.findViewById(R.id.lbl_dialogHeader2);
 
         img_QRCode = view.findViewById(R.id.img_QRCode);
+        img_QRCode.setImageBitmap(loBmp);
 
         button = view.findViewById(R.id.btn_dialogClose);
 

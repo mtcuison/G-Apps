@@ -29,13 +29,13 @@ import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.digitalgcard.Dialogs.Dialog_TransactionPIN;
 import org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcard;
 import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.notifications.Fragment.Fragment_Promotion;
 import org.rmj.guanzongroup.panalo.Fragment.Fragment_Panalo;
 import org.rmj.guanzongroup.panalo.Fragment.Fragment_PanaloHome;
-import org.rmj.guanzongroup.panalo.Fragment.Fragment_PanaloRewards;
 import org.rmj.guanzongroup.panalo.ViewModel.VMPanaloDashboard;
 
-public class Fragment_PanaloDashboard extends Fragment {
-    private static final String TAG = Fragment_PanaloDashboard.class.getSimpleName();
+public class Fragment_Dashboard extends Fragment {
+    private static final String TAG = Fragment_Dashboard.class.getSimpleName();
 
     private VMPanaloDashboard mViewModel;
     private View view;
@@ -63,8 +63,8 @@ public class Fragment_PanaloDashboard extends Fragment {
             }
     );
 
-    public static Fragment_PanaloDashboard newInstance() {
-        return new Fragment_PanaloDashboard();
+    public static Fragment_Dashboard newInstance() {
+        return new Fragment_Dashboard();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class Fragment_PanaloDashboard extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPanaloDashboard.class);
         poLoading = new Dialog_Loading(requireActivity());
         poDialog = new Dialog_SingleButton(requireActivity());
-        view = inflater.inflate(R.layout.fragment_panalo_dashboard, container, false);
+        view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         initViews();
 
         setupPages();
@@ -92,7 +92,7 @@ public class Fragment_PanaloDashboard extends Fragment {
                     Log.d(TAG, "Guanzon Panalo Selected.");
                 } else if(item.getItemId() == R.id.nav_rewards) {
                     viewPager.setCurrentItem(3);
-                    Log.d(TAG, "Panalo Rewards Selected.");
+                    Log.d(TAG, "Find Us.");
                 }
                 return true;
             }
@@ -113,7 +113,7 @@ public class Fragment_PanaloDashboard extends Fragment {
     }
 
     private void setupPages(){
-        Fragment[] loFragments = new Fragment[]{new Fragment_PanaloHome(), new Fragment_MyGcard(), new Fragment_Panalo(), new Fragment_PanaloRewards()};
+        Fragment[] loFragments = new Fragment[]{new Fragment_PanaloHome(), new Fragment_Promotion(), new Fragment_MyGcard(), new Fragment_Panalo()};
         FragmentAdapter loAdapter = new FragmentAdapter(getChildFragmentManager(), loFragments);
         viewPager.setAdapter(loAdapter);
     }

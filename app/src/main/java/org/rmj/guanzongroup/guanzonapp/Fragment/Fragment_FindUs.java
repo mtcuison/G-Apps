@@ -2,9 +2,11 @@ package org.rmj.guanzongroup.guanzonapp.Fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +17,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -32,9 +36,11 @@ public class Fragment_FindUs extends Fragment {
     private VMBranchDetails mViewModel;
     private Adapter_BranchList poAdapter;
     private TabLayout tabLayout;
-    private ImageView imgHeader;
+    private AppCompatImageView imgHeader;
+    private ImageButton btnFilter;
     private RecyclerView recyclerView;
     private TextInputEditText txtSearch;
+    private AutoCompleteTextView txtFilter;
 
     private Adapter_BranchList.OnBranchClickListener mListener;
     private List<EBranchInfo> poMcBranch;
@@ -45,8 +51,8 @@ public class Fragment_FindUs extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_find_us, container, false);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMBranchDetails.class);
+        View view = inflater.inflate(R.layout.fragment_find_us, container, false);
         initViews(view);
         mViewModel.DownloadBranches();
         mViewModel.getMotorBranches().observe(getViewLifecycleOwner(), motorBranches -> {
@@ -54,7 +60,6 @@ public class Fragment_FindUs extends Fragment {
                 poMcBranch = motorBranches;
                 poAdapter = new Adapter_BranchList(motorBranches, mListener);
                 recyclerView.setAdapter(poAdapter);
-                poAdapter.notifyDataSetChanged();
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -90,6 +95,8 @@ public class Fragment_FindUs extends Fragment {
     private void initViews(View v) {
         tabLayout = v.findViewById(R.id.tab_layout);
         txtSearch = v.findViewById(R.id.tie_searchBranch);
+        btnFilter = v.findViewById(R.id.btnFilter);
+        txtFilter = v.findViewById(R.id.tieTownProvince);
         tabLayout.addTab(tabLayout.newTab().setText("Motorcycle"));
         tabLayout.addTab(tabLayout.newTab().setText("Mobile Phones"));
         recyclerView = v.findViewById(R.id.recyclerView);
@@ -128,14 +135,19 @@ public class Fragment_FindUs extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                Bitmap bmpHeader;
                 switch(tab.getPosition()) {
                     case 0:
-//                        imgHeader.setImageResource(R.mipmap.ic_motorcycle_banner);
+                        bmpHeader = BitmapFactory.decodeResource(requireActivity().getResources(),
+                                R.drawable.guanzon_motors);
+                        imgHeader.setImageBitmap(bmpHeader);
                         initMCBranches();
                         recyclerView.setAdapter(poAdapter);
                         break;
                     case 1:
-//                        imgHeader.setImageResource(R.mipmap.ic_mobitek_banner);
+                        bmpHeader = BitmapFactory.decodeResource(requireActivity().getResources(),
+                                R.drawable.guanzon_mobitek);
+                        imgHeader.setImageBitmap(bmpHeader);
                         initMPBranches();
                         recyclerView.setAdapter(poAdapter);
                         break;
@@ -172,10 +184,5 @@ public class Fragment_FindUs extends Fragment {
         } catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    private void setHeaderImage(Bitmap poImage) {
-        /** set image here **/
-        imgHeader.setImageBitmap(poImage);
     }
 }

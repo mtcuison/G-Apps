@@ -25,9 +25,6 @@ public class EBranchInfo {
     @ColumnInfo(name = "sTownIDxx")
     private String TownIDxx;
 
-    @ColumnInfo(name = "sProvIDxx")
-    private String ProvIDxx;
-
     @ColumnInfo(name = "sTownName")
     private String TownName;
 
@@ -152,14 +149,6 @@ public class EBranchInfo {
 
     public void setTownIDxx(String townIDxx) {
         TownIDxx = townIDxx;
-    }
-
-    public String getProvIDxx() {
-        return ProvIDxx;
-    }
-
-    public void setProvIDxx(String provIDxx) {
-        ProvIDxx = provIDxx;
     }
 
     public String getTownName() {

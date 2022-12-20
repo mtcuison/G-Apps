@@ -12,12 +12,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.tabs.TabLayout;
 import com.smarteist.autoimageslider.SliderView;
 
+import org.rmj.g3appdriver.lib.GCardCore.CodeGenerator;
 import org.rmj.g3appdriver.lib.Panalo.PanaloRewards;
 import org.rmj.guanzongroup.panalo.Adapter.AdapterPanaloRewards;
 import org.rmj.guanzongroup.panalo.Dialog.DialogPanaloRedeem;
@@ -37,8 +40,11 @@ public class Fragment_Panalo extends Fragment {
     private CardView cvPanalo;
     private CardView cvGanado;
 
-    private CardView cvRebate, cvToken;
-    private RecyclerView rcRebate, rcToken;
+    private TabLayout tabLayout;
+    private CardView cvRebate;
+    private RecyclerView rcRewards;
+
+    private VMPanalo.OnImportPanaloRewards poListener;
 
     public static Fragment_Panalo newInstance() {
         return new Fragment_Panalo();
@@ -50,88 +56,81 @@ public class Fragment_Panalo extends Fragment {
         mViewModel = new ViewModelProvider(this).get(VMPanalo.class);
         View view = inflater.inflate(R.layout.fragment_panalo, container, false);
 
+        tabLayout = view.findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Rewards Earn"));
+        tabLayout.addTab(tabLayout.newTab().setText("Redeemed"));
         cvRebate = view.findViewById(R.id.cv_rebate);
-        cvToken = view.findViewById(R.id.cv_token);
-
-        rcRebate = view.findViewById(R.id.recyclerView_rebates);
-        rcToken = view.findViewById(R.id.recyclerView_token);
-
-        LinearLayoutManager loManager;
-
-        loManager = new LinearLayoutManager(requireActivity());
+        rcRewards = view.findViewById(R.id.recyclerView_rebates);
+        LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
         loManager.setOrientation(RecyclerView.VERTICAL);
-        rcRebate.setLayoutManager(loManager);
+        rcRewards.setLayoutManager(loManager);
 
-        loManager = new LinearLayoutManager(requireActivity());
-        loManager.setOrientation(RecyclerView.VERTICAL);
-        rcToken.setLayoutManager(loManager);
+        poListener = new VMPanalo.OnImportPanaloRewards() {
+            @Override
+            public void OnImport() {
 
-        List<PanaloRewards> loRewards;
+            }
 
-        loRewards = new ArrayList<>();
-        PanaloRewards loReward;
-        loReward = new PanaloRewards();
-        loReward.setsRewardTp("Monthly Payment Rebate");
-        loReward.setsRewardNm("Php. 100.00");
-        loReward.setsAmountxx(100.00);
-        loReward.setsReferNox("MX01220001");
-        loReward.setsQuantity(3);
-        loReward.setsValidFrm("2023-01-01");
-        loReward.setsValidThr("2023-03-30");
-        loRewards.add(loReward);
+            @Override
+            public void OnSuccess(List<PanaloRewards> rewards) {
+                rcRewards.setAdapter(new AdapterPanaloRewards(rewards, args -> {
+                    DialogPanaloRedeem loRedeem = new DialogPanaloRedeem(requireActivity());
+                    loRedeem.initDialog(args, new PanaloDialogClickListener() {
+                        @Override
+                        public void OnClose(AlertDialog dialog) {
+                            dialog.dismiss();
+                        }
 
-        loReward = new PanaloRewards();
-        loReward.setsRewardTp("Monthly Payment Rebate");
-        loReward.setsRewardNm("Php. 50.00");
-        loReward.setsAmountxx(50.00);
-        loReward.setsReferNox("MX01220002");
-        loReward.setsQuantity(3);
-        loReward.setsValidFrm("2023-01-01");
-        loReward.setsValidThr("2023-03-30");
-        loRewards.add(loReward);
+                        @Override
+                        public void OnClaim() {
 
-        rcRebate.setAdapter(new AdapterPanaloRewards(loRewards, args -> {
-            DialogPanaloRedeem loRedeem = new DialogPanaloRedeem(requireActivity());
-            loRedeem.initDialog(args, new PanaloDialogClickListener() {
-                @Override
-                public void OnClose(AlertDialog dialog) {
-                    dialog.dismiss();
+                        }
+                    });
+                    loRedeem.show();
+                }));
+            }
+
+            @Override
+            public void OnFailed(String message) {
+
+            }
+        };
+
+        ImportForRewardsForClaiming();
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()){
+                    case 0:
+                        ImportForRewardsForClaiming();
+                        break;
+                    default:
+                        ImportRedeemRewards();
+                        break;
                 }
+            }
 
-                @Override
-                public void OnClaim() {
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
-                }
-            });
-            loRedeem.show();
-        }));
+            }
 
-        loRewards = new ArrayList<>();
-        loReward = new PanaloRewards();
-        loReward.setsRewardTp("Guanzon Token");
-        loReward.setsRewardNm("Guanzon Connect Shirt");
-        loReward.setsAmountxx(0.0);
-        loReward.setsReferNox("MX01220003");
-        loReward.setsQuantity(1);
-        loReward.setsValidFrm("2023-01-01");
-        loReward.setsValidThr("2023-01-37");
-        loRewards.add(loReward);
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
-        rcToken.setAdapter(new AdapterPanaloRewards(loRewards, args -> {
-            DialogPanaloRedeem loRedeem = new DialogPanaloRedeem(requireActivity());
-            loRedeem.initDialog(args, new PanaloDialogClickListener() {
-                @Override
-                public void OnClose(AlertDialog dialog) {
-                    dialog.dismiss();
-                }
-
-                @Override
-                public void OnClaim() {
-
-                }
-            });
-            loRedeem.show();
-        }));
+            }
+        });
         return view;
+    }
+
+    private void ImportForRewardsForClaiming(){
+        Log.d(TAG, "Importing rewards for claiming");
+        mViewModel.ImportPanaloRewards("0", poListener);
+    }
+
+    private void ImportRedeemRewards(){
+        Log.d(TAG, "Importing redeemed rewards");
+        mViewModel.ImportPanaloRewards("1", poListener);
     }
 }
