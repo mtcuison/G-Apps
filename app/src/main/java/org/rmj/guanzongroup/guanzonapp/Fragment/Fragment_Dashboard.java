@@ -78,24 +78,21 @@ public class Fragment_Dashboard extends Fragment {
 
         setupPages();
         botNav.setBackground(null);
-        botNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.nav_home) {
-                    viewPager.setCurrentItem(0);
-                    Log.d(TAG, "Home Selected.");
-                } else if(item.getItemId() == R.id.nav_MyGcard){
-                    viewPager.setCurrentItem(1);
-                    Log.d(TAG, "My G-Card Selected.");
-                } else if(item.getItemId() == R.id.nav_Panalo) {
-                    viewPager.setCurrentItem(2);
-                    Log.d(TAG, "Guanzon Panalo Selected.");
-                } else if(item.getItemId() == R.id.nav_rewards) {
-                    viewPager.setCurrentItem(3);
-                    Log.d(TAG, "Find Us.");
-                }
-                return true;
+        botNav.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_home) {
+                viewPager.setCurrentItem(0);
+                Log.d(TAG, "Home Selected.");
+            } else if(item.getItemId() == R.id.nav_MyGcard){
+                viewPager.setCurrentItem(1);
+                Log.d(TAG, "Promotions Selected.");
+            } else if(item.getItemId() == R.id.nav_Panalo) {
+                viewPager.setCurrentItem(2);
+                Log.d(TAG, "My G-Card Selected.");
+            } else if(item.getItemId() == R.id.nav_rewards) {
+                viewPager.setCurrentItem(3);
+                Log.d(TAG, "Guanzon Panalo Selected.");
             }
+            return true;
         });
 
         fab_Scan.setOnClickListener(v -> {

@@ -69,6 +69,11 @@ public class VMPanalo extends AndroidViewModel {
         @Override
         protected List<PanaloRewards> doInBackground(String... strings) {
             try{
+                if(!poConn.isDeviceConnected()){
+                    message = "Unable to connect";
+                    return null;
+                }
+
                 List<PanaloRewards> loRewards = poSys.GetRewards(strings[0]);
                 if(loRewards == null){
                     message = poSys.getMessage();

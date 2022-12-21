@@ -68,11 +68,14 @@ public class Fragment_Panalo extends Fragment {
         poListener = new VMPanalo.OnImportPanaloRewards() {
             @Override
             public void OnImport() {
-
+                view.findViewById(R.id.cv_rebate).setVisibility(View.GONE);
+                view.findViewById(R.id.linear_loading).setVisibility(View.VISIBLE);
             }
 
             @Override
             public void OnSuccess(List<PanaloRewards> rewards) {
+                view.findViewById(R.id.cv_rebate).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.linear_loading).setVisibility(View.GONE);
                 rcRewards.setAdapter(new AdapterPanaloRewards(rewards, args -> {
                     DialogPanaloRedeem loRedeem = new DialogPanaloRedeem(requireActivity());
                     loRedeem.initDialog(args, new PanaloDialogClickListener() {
@@ -92,7 +95,8 @@ public class Fragment_Panalo extends Fragment {
 
             @Override
             public void OnFailed(String message) {
-
+                view.findViewById(R.id.cv_rebate).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.linear_loading).setVisibility(View.GONE);
             }
         };
 
