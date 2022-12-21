@@ -14,22 +14,27 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.tabs.TabLayout;
+
 import org.rmj.guanzongroup.notifications.Activity.Activity_ViewNotification;
 import org.rmj.guanzongroup.notifications.Adapter.Adapter_Notifications;
 import org.rmj.guanzongroup.notifications.R;
 import org.rmj.guanzongroup.notifications.ViewModel.VMNotifications;
 
 public class Fragment_Notifications extends Fragment {
+
     private VMNotifications mViewModel;
+
+    private TabLayout tabLayout;
     private TextView noNotif;
     private RecyclerView recyclerView;
     private Adapter_Notifications adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMNotifications.class);
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
         initViews(view);
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMNotifications.class);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
@@ -52,7 +57,10 @@ public class Fragment_Notifications extends Fragment {
     }
 
     private void initViews(View v) {
+        tabLayout = v.findViewById(R.id.tab_layout);
         noNotif = v.findViewById(R.id.lbl_no_notifications);
         recyclerView = v.findViewById(R.id.recycler_view_notifications);
+        tabLayout.addTab(tabLayout.newTab().setText("Messages"));
+        tabLayout.addTab(tabLayout.newTab().setText("Panalo"));
     }
 }

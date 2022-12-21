@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.marketplace.Fragment;
+package org.rmj.guanzongroup.guanzonapp.Fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,13 +21,13 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
+import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductList;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_Categories;
 import org.rmj.g3appdriver.lib.Promotions.Adapter_ImageSlider;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
 import org.rmj.g3appdriver.lib.Promotions.model.HomeImageSliderModel;
-import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 
 import java.util.ArrayList;

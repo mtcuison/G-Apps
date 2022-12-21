@@ -35,18 +35,4 @@
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_Scan"
-        style="@style/ButtonStyle_Floating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:backgroundTint="@color/guanzon_digital_light_grey"
-        android:src="@drawable/scanner"
-        app:borderWidth="1dp"
-        app:fabSize="auto"
-        app:tint="@color/guanzon_digital_light_orange"
-        tools:ignore="ContentDescription"
-        app:layout_anchor="@id/bottomAppBar"/>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
