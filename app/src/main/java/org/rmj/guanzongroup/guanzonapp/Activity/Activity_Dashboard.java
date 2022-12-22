@@ -137,13 +137,13 @@ public class Activity_Dashboard extends AppCompatActivity {
                 .build();
 
         //Disable Pre-Termination page until project is develop...
+        navigationView.getMenu().findItem(R.id.nav_events).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_wishlist).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_pre_termination).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_customer_service).setVisible(false);
 
-        navigationView.getMenu().findItem(R.id.nav_events).setVisible(false);
-        navigationView.getMenu().findItem(R.id.nav_purchases).setVisible(false);
-        navigationView.getMenu().findItem(R.id.nav_wishlist).setVisible(false);
+//        navigationView.getMenu().findItem(R.id.nav_purchases).setVisible(false);
+        navigationView.getMenu().findItem(R.id.nav_promos).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_item_cart).setVisible(false);
 
         mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, eGcardApp -> {
@@ -391,17 +391,17 @@ public class Activity_Dashboard extends AppCompatActivity {
 
             //This area of code has been commented to avoid users from accessing
             // the marketplace cart while the marketplace has not yet fully develop yet.
-//            try {
-//                if(eClientinfo != null){
-//                    menu.findItem(R.id.item_notifications).setVisible(true);
+            try {
+                if(eClientinfo != null){
+                    menu.findItem(R.id.item_notifications).setVisible(true);
 //                    menu.findItem(R.id.item_cart).setVisible(true);
-//                } else {
-//                    menu.findItem(R.id.item_notifications).setVisible(false);
+                } else {
+                    menu.findItem(R.id.item_notifications).setVisible(false);
 //                    menu.findItem(R.id.item_cart).setVisible(false);
-//                }
-//            } catch(Exception e) {
-//                e.printStackTrace();
-//            }
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
         });
         return true;
     }
@@ -491,9 +491,9 @@ public class Activity_Dashboard extends AppCompatActivity {
 
                     //Pre release of Guanzon Connect Marketplace Project requires this field to be commented
                     // in order to hide the preview of marketplace items
-//                    nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
 //                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
 //                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(true);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(true);
                 } else {
