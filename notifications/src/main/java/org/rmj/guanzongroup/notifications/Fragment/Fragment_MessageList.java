@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import org.rmj.guanzongroup.notifications.R;
 import org.rmj.guanzongroup.notifications.ViewModel.VMMessageList;
 
+
 public class Fragment_MessageList extends Fragment {
 
     private VMMessageList mViewModel;

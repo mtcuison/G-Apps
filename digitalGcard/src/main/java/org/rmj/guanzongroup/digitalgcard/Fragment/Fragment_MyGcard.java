@@ -59,14 +59,14 @@ public class Fragment_MyGcard extends Fragment {
     private void initMyGcard() {
         mViewModel.getActiveGcard().observe(getViewLifecycleOwner(), eGcardApp -> {
             try {
-//                if(eGcardApp == null) {
-//                    vAddGcard.setVisibility(View.VISIBLE);
-//                    vMyGcardx.setVisibility(View.GONE);
-//                    btnAddCrd.setOnClickListener(v -> {
-//                        Intent loIntent = new Intent(requireActivity(), Activity_AddGcard.class);
-//                        startActivity(loIntent);
-//                    });
-//                } else {
+                if(eGcardApp == null) {
+                    vAddGcard.setVisibility(View.VISIBLE);
+                    vMyGcardx.setVisibility(View.GONE);
+                    btnAddCrd.setOnClickListener(v -> {
+                        Intent loIntent = new Intent(requireActivity(), Activity_AddGcard.class);
+                        startActivity(loIntent);
+                    });
+                } else {
                     vAddGcard.setVisibility(View.GONE);
                     vMyGcardx.setVisibility(View.VISIBLE);
                     displayGcardInfo(eGcardApp);
@@ -88,7 +88,7 @@ public class Fragment_MyGcard extends Fragment {
                             }
                         });
                     });
-//                }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
