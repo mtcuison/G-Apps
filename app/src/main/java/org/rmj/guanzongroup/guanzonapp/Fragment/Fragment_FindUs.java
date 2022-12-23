@@ -176,7 +176,7 @@ public class Fragment_FindUs extends Fragment {
             e.printStackTrace();
         }
     }
-
+ 
     private void initMPBranches() {
         try {
             poAdapter = new Adapter_BranchList(poMpBranch, mListener);
