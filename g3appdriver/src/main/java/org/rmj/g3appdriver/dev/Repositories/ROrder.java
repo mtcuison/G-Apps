@@ -626,6 +626,7 @@ public class ROrder {
                             oMaster.setTermCode(joMaster.getString("sTermCode"));
                             oMaster.setPaymType(joMaster.getString("cPaymType"));
                             oMaster.setTranStat(joMaster.getString("cTranStat"));
+                            oMaster.setPaymPstd(joMaster.getString("cPaymPstd"));
                             oMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
                             loMaster.SaveOrderMaster(oMaster);
                             Log.d(TAG, "Order master save!. Transaction No. : " + oMaster.getTransNox());
