@@ -103,7 +103,6 @@ public class Fragment_FindUs extends Fragment {
         LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
         loManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(loManager);
-        recyclerView.setHasFixedSize(true);
         imgHeader = v.findViewById(R.id.img_header);
         mListener = args -> {
             try{
