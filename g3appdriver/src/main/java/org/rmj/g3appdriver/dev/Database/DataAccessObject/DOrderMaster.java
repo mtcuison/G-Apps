@@ -49,8 +49,9 @@ public interface DOrderMaster {
             "a.nFreightx, " +
             "a.nAmtPaidx, " +
             "a.nDiscount, " +
-            "CASE WHEN a.nProcPaym = '0.00' THEN a.nTranTotl ELSE a.nProcPaym END nProcPaym, " +
+            "a.nProcPaym, " +
             "a.sTermCode, " +
+            "a.cPaymPstd, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
             "b.nUnitPrce, " +
@@ -76,12 +77,9 @@ public interface DOrderMaster {
             "AND a.sTermCode == '' " +
             "AND a.cTranStat == '0' " +
             "OR a.sTermCode = 'C0W2011' " +
-            "AND a.nTranTotl > (SELECT " +
-            "CASE WHEN nProcPaym = '0.00' " +
-            "THEN nTranTotl " +
-            "ELSE nProcPaym " +
-            "END nProcPaym FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox) " +
-            "AND a.cTranStat == '0'")
+            "AND a.cTranStat == '0' " +
+            "AND a.cPaymPstd == '1' " +
+            "AND a.nTranTotl > a.nProcPaym")
     LiveData<Integer> GetToPayOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
@@ -114,8 +112,9 @@ public interface DOrderMaster {
             "a.nFreightx, " +
             "a.nAmtPaidx, " +
             "a.nDiscount, " +
-            "CASE WHEN a.nProcPaym = '0.00' THEN a.nTranTotl ELSE a.nProcPaym END nProcPaym, " +
+            "a.nProcPaym, " +
             "a.sTermCode, " +
+            "a.cPaymPstd, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
             "b.nUnitPrce, " +
@@ -142,8 +141,9 @@ public interface DOrderMaster {
             "a.nFreightx, " +
             "a.nAmtPaidx, " +
             "a.nDiscount, " +
-            "CASE WHEN a.nProcPaym = '0.00' THEN a.nTranTotl ELSE a.nProcPaym END nProcPaym, " +
+            "a.nProcPaym, " +
             "a.sTermCode, " +
+            "a.cPaymPstd, " +
             "b.nEntryNox, " +
             "b.nQuantity, " +
             "b.nUnitPrce, " +
@@ -163,13 +163,10 @@ public interface DOrderMaster {
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.sTermCode == '' " +
             "AND a.cTranStat == '0' " +
-            "OR a.nTranTotl > (SELECT " +
-            "CASE WHEN nProcPaym = '0.00' " +
-            "THEN nTranTotl " +
-            "ELSE nProcPaym " +
-            "END nProcPaym FROM MarketPlace_Order_Master WHERE sTransNox = a.sTransNox) " +
-            "AND a.sTermCode = 'C0W2011' " +
+            "OR a.sTermCode = 'C0W2011' " +
+            "AND a.cPaymPstd = '1' " +
             "AND a.cTranStat == '0' " +
+            "AND a.nTranTotl > a.nProcPaym " +
             "GROUP BY a.sTransNox " +
             "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetToPayOrderList();
@@ -181,22 +178,8 @@ public interface DOrderMaster {
             " a.nTranTotl," +
             " a.nFreightx," +
             " a.nDiscount," +
-            " CASE WHEN a.nProcPaym = '0.00' " +
-            "THEN a.nTranTotl " +
-            "ELSE a.nProcPaym " +
-            "END nProcPaym," +
-            "(SELECT "+
-            "CASE WHEN sTermCode = '' " +
-            "THEN 1 "+
-            "ELSE 0 END cUnPaidxx FROM MarketPlace_Order_Master " +
-            "WHERE sTransNox = a.sTransNox) cUnPaidxx, "+
-            "(SELECT CASE "+
-            "WHEN nTranTotl > (SELECT CASE nProcPaym WHEN '0.00' " +
-            "THEN nTranTotl " +
-            "ELSE nProcPaym END cNeedPaym FROM MarketPlace_Order_Master " +
-            "WHERE sTransNox = a.sTransNox) "+
-            "THEN 1 ELSE 0 END cNeedPaym FROM MarketPlace_Order_Master " +
-            "WHERE sTransNox = a.sTransNox) cNeedPaym, "+
+            " a.cPaymPstd," +
+            " a.nProcPaym,"+
             " a.nAmtPaidx," +
             " a.sTermCode," +
             " a.cTranStat," +
@@ -230,6 +213,7 @@ public interface DOrderMaster {
         public int nQuantity;
         public double nUnitPrce;
         public double nDiscount;
+        public String cPaymPstd;
         public String sBriefDsc;
         public String xBarCodex;
         public String sImagesxx;
@@ -248,11 +232,10 @@ public interface DOrderMaster {
         public double nDiscount;
         public double nFreightx;
         public double nProcPaym;
-        public String cUnPaidxx;
-        public String cNeedPaym;
         public double nAmtPaidx;
         public String sTermCode;
         public String cTranStat;
+        public String cPaymPstd;
         public String sUserName;
         public String sAddressx;
         public String sMobileNo;
