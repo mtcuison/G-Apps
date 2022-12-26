@@ -35,15 +35,9 @@ public class Dialog_UserInfo {
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
 
-        TextView lblClientN = view.findViewById(R.id.lbl_client_name);
-        TextView lblGcardNo = view.findViewById(R.id.lbl_gcard_no);
-        TextView lblGcardPt = view.findViewById(R.id.lbl_points);
         ImageView poQrImage= view.findViewById(R.id.img_qrCode);
         Button button = view.findViewById(R.id.button);
 
-        lblClientN.setText(Objects.requireNonNull(new AccountInfo(poContext).getFullName()));
-        lblGcardNo.setText(Objects.requireNonNull(foGcardxx.getCardNmbr()));
-        lblGcardPt.setText("Points: " + Objects.requireNonNull(foGcardxx.getAvlPoint()));
         poQrImage.setImageBitmap(foQrCodex);
 
         button.setOnClickListener(v -> {

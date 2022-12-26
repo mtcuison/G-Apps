@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -31,6 +32,7 @@ public class Fragment_MyGcard extends Fragment {
 
     private VMGCardSystem mViewModel;
     private View view;
+    private ImageView imgGcard;
     private ConstraintLayout vAddGcard, vMyGcardx;
     private TextView txtManage, txtUserNm, txtCardNo, txtPoints;
     private MaterialButton btnAddCrd;
@@ -43,12 +45,14 @@ public class Fragment_MyGcard extends Fragment {
         initViews();
         mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
         initMyGcard();
+
         return view;
     }
 
     private void initViews() {
         vAddGcard = view.findViewById(R.id.layout_add_gcard);
         vMyGcardx = view.findViewById(R.id.layout_my_gcard);
+        imgGcard = view.findViewById(R.id.imageView3);
         txtManage = view.findViewById(R.id.lblManageGcard);
         txtUserNm = view.findViewById(R.id.lbl_gcard_user);
         txtCardNo = view.findViewById(R.id.lbl_card_number);
@@ -74,8 +78,6 @@ public class Fragment_MyGcard extends Fragment {
                         Intent loIntent = new Intent(requireActivity(), Activity_ManageGcard.class);
                         startActivity(loIntent);
                     });
-
-
 
                     view.findViewById(R.id.cvGcard).setOnClickListener(v -> {
                         mViewModel.ViewGCardQrCode(bitmap -> {
