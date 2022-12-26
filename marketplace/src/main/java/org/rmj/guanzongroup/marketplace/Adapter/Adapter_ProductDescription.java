@@ -34,7 +34,7 @@ public class Adapter_ProductDescription extends RecyclerView.Adapter<Adapter_Pro
     public void onBindViewHolder(ViewHolderItem holder, int position) {
         try {
             JSONObject loJson = poItmDesc.getJSONObject(position);
-            holder.txtDescrp.setText(Objects.requireNonNull(loJson.getString("sDescript")));
+            holder.txtDescrp.setText("• " + Objects.requireNonNull(loJson.getString("sDescript")));
 
         } catch (JSONException e) {
             e.printStackTrace();

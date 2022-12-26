@@ -50,6 +50,8 @@ public class EOrderMaster {
     private String SourceCd;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
+    @ColumnInfo(name = "cPaymPstd")
+    private String PaymPstd;
     @ColumnInfo(name = "cPaymType")
     private String PaymType;
     @ColumnInfo(name = "dModified")
@@ -243,5 +245,13 @@ public class EOrderMaster {
 
     public void setPaymType(String paymType) {
         PaymType = paymType;
+    }
+
+    public String getPaymPstd() {
+        return PaymPstd;
+    }
+
+    public void setPaymPstd(String paymPstd) {
+        PaymPstd = paymPstd;
     }
 }
