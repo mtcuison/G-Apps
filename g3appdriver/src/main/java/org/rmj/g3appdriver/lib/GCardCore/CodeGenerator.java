@@ -62,15 +62,16 @@ public class CodeGenerator {
 
     public Bitmap GeneratePanaloRebateRedemptionQC(PanaloRewards rewards){
         Bitmap bitmap = null;
-        String UnEncryptedString = rewards.getPanaloQC() + "»" +
-                rewards.getPanaloCD() + "»" +
-                rewards.getAcctNmbr() + "»" +
-                rewards.getAmountxx() + "»" +
-                rewards.getExpiryDt() + "»" +
-                rewards.getDeviceID() + "»" +
-                rewards.getUserIDxx() + "»" +
-                rewards.getItemQtyx() + "»" +
-                rewards.getRedeemxx() + "»" +
+        String UnEncryptedString =
+                rewards.getPanaloQC() + ";" +
+                rewards.getPanaloCD() + ";" +
+                rewards.getAcctNmbr() + ";" +
+                rewards.getAmountxx() + ";" +
+                rewards.getExpiryDt() + ";" +
+                rewards.getDeviceID() + ";" +
+                rewards.getUserIDxx() + ";" +
+                rewards.getItemQtyx() + ";" +
+                rewards.getRedeemxx() + ";" +
                 new AppConstants().DATE_MODIFIED;
         String EncryptedCode = poEncrypt.Encrypt(UnEncryptedString, EncryptionKEY);
         try {
@@ -85,15 +86,15 @@ public class CodeGenerator {
 
     public Bitmap GeneratePanaloOtherRedemptionQC(PanaloRewards rewards){
         Bitmap bitmap = null;
-        String UnEncryptedString = rewards.getPanaloQC() + "»" +
-                rewards.getPanaloCD() + "»" +
-                rewards.getAcctNmbr() + "»" +
-                rewards.getItemCode() + "»" +
-                rewards.getItemQtyx() + "»" +
-                rewards.getAmountxx() + "»" +
-                rewards.getExpiryDt() + "»" +
-                rewards.getDeviceID() + "»" +
-                rewards.getUserIDxx() + "»" +
+        String UnEncryptedString =
+                rewards.getPanaloQC() + ";" +
+                rewards.getPanaloCD() + ";" +
+                rewards.getItemCode() + ";" +
+                rewards.getItemQtyx() + ";" +
+                rewards.getAmountxx() + ";" +
+                rewards.getExpiryDt() + ";" +
+                rewards.getDeviceID() + ";" +
+                rewards.getUserIDxx() + ";" +
                 new AppConstants().DATE_MODIFIED;
         String EncryptedCode = poEncrypt.Encrypt(UnEncryptedString, EncryptionKEY);
         try {

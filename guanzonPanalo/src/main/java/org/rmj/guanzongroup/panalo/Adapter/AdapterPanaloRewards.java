@@ -43,7 +43,15 @@ public class AdapterPanaloRewards extends RecyclerView.Adapter<AdapterPanaloRewa
             holder.lblType.setText(loReward.getPanaloDs());
             holder.lblName.setText(loReward.getItemDesc());
             holder.lblQtyx.setText("Qty: " + loReward.getItemQtyx());
-            holder.lblVldt.setText("Validity: " + loReward.getTranStat() + " - " + loReward.getExpiryDt());
+            holder.lblVldt.setText("Valid until : " + loReward.getExpiryDt());
+
+            if(loReward.getTranStat().equalsIgnoreCase("1")){
+                holder.btnRedeem.setText("Claimed");
+                holder.btnRedeem.setEnabled(false);
+            } else {
+                holder.btnRedeem.setText("Use Now");
+                holder.btnRedeem.setEnabled(true);
+            }
 
             holder.btnRedeem.setOnClickListener(v -> mListener.OnUse(loReward));
         } catch (Exception e){

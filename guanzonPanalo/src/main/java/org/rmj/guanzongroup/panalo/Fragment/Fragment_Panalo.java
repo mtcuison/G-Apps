@@ -102,7 +102,7 @@ public class Fragment_Panalo extends Fragment {
 
             @Override
             public void OnFailed(String message) {
-                view.findViewById(R.id.cv_rebate).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.cv_rebate).setVisibility(View.GONE);
                 view.findViewById(R.id.linear_loading).setVisibility(View.GONE);
                 view.findViewById(R.id.lbl_NoRewardYet).setVisibility(View.VISIBLE);
             }

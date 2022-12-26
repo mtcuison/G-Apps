@@ -56,6 +56,8 @@ public class DialogPanaloRedeem implements iDialog {
         txt_GPHeader = view.findViewById(R.id.lbl_dialogTitle);
         txt_GPHeader2 = view.findViewById(R.id.lbl_dialogHeader2);
 
+        txt_GPHeader2.setText(loReward.getPanaloDs());
+
         img_QRCode = view.findViewById(R.id.img_QRCode);
         img_QRCode.setImageBitmap(loBmp);
 
