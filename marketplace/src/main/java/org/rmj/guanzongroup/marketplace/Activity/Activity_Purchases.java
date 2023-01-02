@@ -118,8 +118,7 @@ public class Activity_Purchases extends AppCompatActivity {
                     } else if(foOrder.sTermCode.equalsIgnoreCase("C001002")){ //COW2011 termcode for COD
                         lblAmountPd.setText("");
                         lblPaymntxx.setText(AppConstants.parseTermCode(foOrder.sTermCode));
-                    } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011") &&
-                        foOrder.cPaymPstd.equalsIgnoreCase("1")){ //COW2011 termcode for online payment
+                    } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011")){ //COW2011 termcode for online payment
 //                        double lnTotal = Double.parseDouble(foOrder.nTranTotl);
 //                        double lnAmntx = Double.parseDouble(foOrder.nProcPaym);
 
@@ -130,9 +129,21 @@ public class Activity_Purchases extends AppCompatActivity {
                             lblAmountPd.setText("");
                             btnPay.setVisibility(View.GONE);
                         }
-                    } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011") &&
-                            foOrder.cPaymPstd.equalsIgnoreCase("0")){
-                        lblAmountPd.setText("Processing Payment");
+
+                        if(foOrder.cPaymPstd.equalsIgnoreCase("0")){
+                            lblAmountPd.setText("Processing Payment");
+                        } else if(foOrder.cPaymPstd.equalsIgnoreCase("1")) {
+                            if(foOrder.nTranTotl > foOrder.nProcPaym){
+                                lblAmountPd.setText("Amount Paid: " + CashFormatter.parse(String.valueOf(foOrder.nProcPaym)) + "\n\n Online payment takes time to process and may not take effect immediately in order preview.");
+                                btnPay.setVisibility(View.VISIBLE);
+                            } else {
+                                lblAmountPd.setText("");
+                                btnPay.setVisibility(View.GONE);
+                            }
+                        } else if(foOrder.cPaymPstd.equalsIgnoreCase("3")) {
+                            btnPay.setVisibility(View.VISIBLE);
+                        }
+
                     }
 
                     if (!foOrder.cTranStat.equalsIgnoreCase("3")) {
