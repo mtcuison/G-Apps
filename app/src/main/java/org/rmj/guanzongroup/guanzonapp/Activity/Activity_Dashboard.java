@@ -80,8 +80,6 @@ public class Activity_Dashboard extends AppCompatActivity {
     private TextView lblBadge;
     private static final int GCARD_APPLICATION = 1;
 
-    private EGcardApp poGcardNo;
-
     private final DashboardActionReceiver poLogRcv = new DashboardActionReceiver();
 
     private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
@@ -503,6 +501,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                         startActivity(loIntent);
                     });
 
+
                     txtLoginx.setOnClickListener(v -> {
                         Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
                         startActivity(loIntent);
@@ -516,20 +515,6 @@ public class Activity_Dashboard extends AppCompatActivity {
             } catch(Exception e) {
                 e.printStackTrace();
             }
-        });
-
-        headerLayout.setOnClickListener(v -> {
-            mViewModel.ViewGCardQrCode(bitmap -> {
-                try{
-                    if(poGcardNo != null) {
-                        final Dialog_UserInfo loDialog = new Dialog_UserInfo(this);
-                        loDialog.initDialog(poGcardNo, bitmap);
-                        loDialog.show();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
         });
     }
 

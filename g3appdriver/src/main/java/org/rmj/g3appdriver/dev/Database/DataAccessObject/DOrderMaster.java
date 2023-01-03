@@ -78,7 +78,7 @@ public interface DOrderMaster {
             "AND a.cTranStat == '0' " +
             "OR a.sTermCode = 'C0W2011' " +
             "AND a.cTranStat == '0' " +
-            "AND a.cPaymPstd == '1' " +
+            "AND a.cPaymPstd <> '0' " +
             "AND a.nTranTotl > a.nProcPaym")
     LiveData<Integer> GetToPayOrdersCount();
 
@@ -164,7 +164,7 @@ public interface DOrderMaster {
             "AND a.sTermCode == '' " +
             "AND a.cTranStat == '0' " +
             "OR a.sTermCode = 'C0W2011' " +
-            "AND a.cPaymPstd = '1' " +
+            "AND a.cPaymPstd <> '0' " +
             "AND a.cTranStat == '0' " +
             "AND a.nTranTotl > a.nProcPaym " +
             "GROUP BY a.sTransNox " +
@@ -210,6 +210,8 @@ public interface DOrderMaster {
         public double nProcPaym;
         public String sTermCode;
         public int nEntryNox;
+
+
         public int nQuantity;
         public double nUnitPrce;
         public double nDiscount;
