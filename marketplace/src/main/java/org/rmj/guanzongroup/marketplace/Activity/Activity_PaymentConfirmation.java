@@ -1,12 +1,15 @@
 package org.rmj.guanzongroup.marketplace.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +35,7 @@ public class Activity_PaymentConfirmation extends AppCompatActivity {
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
 
+    private Toolbar toolbar;
     private MaterialButton btnConfrm;
     private TextView txtPayTyp, txtAccNme, txtMobile, lblCodAmount, lblPayAmount, lblSendThru, lblOrderAmount;
     private CardView cardviewPaymentInfo;
@@ -243,6 +247,9 @@ public class Activity_PaymentConfirmation extends AppCompatActivity {
     }
 
     private void setupWidgets(){
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         btnConfrm = findViewById(R.id.btnConfrm);
         txtPayTyp = findViewById(R.id.txtPayTyp);
         txtAccNme = findViewById(R.id.txtAccNme);
@@ -256,7 +263,19 @@ public class Activity_PaymentConfirmation extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            returnPrevious();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onBackPressed() {
+        returnPrevious();
+    }
+
+    private void returnPrevious(){
         if(PayMthod.equalsIgnoreCase(PaymentMethod.CashOnDelivery.toString())){
             InitCashOnDelivery();
             Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");

@@ -40,8 +40,6 @@ public class Activity_PayOrder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         instance = Activity_PayOrder.this;
         setExtra();
-//        TransNox = getIntent().getStringExtra("sTransNox");
-//        OrdrAmnt = getIntent().getDoubleExtra("nSubTotal", 0.00);
         binding = ActivityPayOrderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setupWidgets();
