@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,18 +18,22 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.guanzongroup.guanzonapp.Adapter.Adapter_BranchList;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMBranchDetails;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_FindUs extends Fragment {
@@ -41,6 +46,7 @@ public class Fragment_FindUs extends Fragment {
     private RecyclerView recyclerView;
     private TextInputEditText txtSearch;
     private AutoCompleteTextView txtFilter;
+    private TextInputLayout tilFilter;
 
     private Adapter_BranchList.OnBranchClickListener mListener;
     private List<EBranchInfo> poMcBranch;
@@ -89,6 +95,43 @@ public class Fragment_FindUs extends Fragment {
             }
         });
         setTabLayout();
+
+        mViewModel.GetTownList().observe(getViewLifecycleOwner(), towns -> {
+            try{
+                ArrayList<String> loList = new ArrayList<>();
+                for(int x = 0; x < towns.size(); x++){
+                    String lsTownNm = towns.get(x).sTownNm;
+                    String lsProvNm = towns.get(x).sProvNm;
+                    loList.add(lsTownNm + ", " + lsProvNm);
+                }
+                txtFilter.setAdapter(new ArrayAdapter<>(requireActivity(),
+                        android.R.layout.simple_list_item_1,
+                        loList.toArray(new String[0])));
+
+                txtFilter.setOnClickListener(v -> {
+                    String lsInput = txtFilter.getText().toString();
+                    for(int x = 0; x < towns.size(); x++){
+                        if(loList.get(x).equalsIgnoreCase(lsInput)){
+
+                        }
+                    }
+                });
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        btnFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(tilFilter.getVisibility() == View.VISIBLE) {
+                    tilFilter.setVisibility(View.GONE);
+                } else {
+                    tilFilter.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         return view;
     }
 
@@ -97,6 +140,7 @@ public class Fragment_FindUs extends Fragment {
         txtSearch = v.findViewById(R.id.tie_searchBranch);
         btnFilter = v.findViewById(R.id.btnFilter);
         txtFilter = v.findViewById(R.id.tieTownProvince);
+        tilFilter = v.findViewById(R.id.tilTownProvince);
         tabLayout.addTab(tabLayout.newTab().setText("Motorcycle"));
         tabLayout.addTab(tabLayout.newTab().setText("Mobile Phones"));
         recyclerView = v.findViewById(R.id.recyclerView);

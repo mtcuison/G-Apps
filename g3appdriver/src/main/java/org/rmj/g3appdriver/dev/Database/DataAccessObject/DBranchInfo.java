@@ -20,10 +20,14 @@ public interface DBranchInfo {
     @Query("SELECT * FROM BranchInfo")
     LiveData<List<EBranchInfo>> getAllBranchs();
 
-    @Query("SELECT * FROM BranchInfo WHERE sBranchCd LIKE 'M%'")
+    @Query("SELECT * FROM BranchInfo " +
+            "WHERE sBranchCd LIKE 'M%' " +
+            "ORDER BY sTownIDxx = (SELECT sTownIDxx FROM Client_Profile_Info), sTownIDxx DESC")
     LiveData<List<EBranchInfo>> getMotorBranches();
 
-    @Query("SELECT * FROM BranchInfo WHERE sBranchCd LIKE 'C%'")
+    @Query("SELECT * FROM BranchInfo " +
+            "WHERE sBranchCd LIKE 'C%' " +
+            "ORDER BY sTownIDxx = (SELECT sTownIDxx FROM Client_Profile_Info), sTownIDxx DESC")
     LiveData<List<EBranchInfo>> getMobileBranches();
 
     @Query("SELECT * FROM BranchInfo WHERE sBranchCd=:BranchCde")

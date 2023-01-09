@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.Fragment_PaymentInfo"
+    tools:context=".Activity.Activity_PaymentConfirmation"
+    android:theme="@style/GuanzonMarketplace.Theme"
     style="@style/FragmentTheme">
 
     <TextView
@@ -37,6 +38,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         app:cardCornerRadius="10dp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtPayTyp"
         app:layout_constraintRight_toRightOf="parent"
@@ -114,6 +116,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtPayTyp"
         app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
         android:layout_marginTop="20dp">
 
         <androidx.cardview.widget.CardView
@@ -154,6 +157,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Order Reference No. 1010101010"
+                    android:visibility="gone"
                     android:textColor="@color/font_regular"
                     android:gravity="center"
                     android:layout_marginTop="20dp" />

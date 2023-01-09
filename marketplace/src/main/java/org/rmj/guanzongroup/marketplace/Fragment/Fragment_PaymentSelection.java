@@ -34,7 +34,7 @@ public class Fragment_PaymentSelection extends Fragment {
         binding.btnSelect.setOnClickListener(v -> {
             if(isMethodSelected()) {
                 mViewModel.setPaymentMethod(poPayMeth);
-                Activity_PayOrder.getInstance().moveToPageNumber(1);
+//                Activity_PayOrder.getInstance().moveToPageNumber(1);
             }
         });
         binding.crdGcashx.setOnClickListener(v -> {
