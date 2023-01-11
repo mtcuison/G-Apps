@@ -196,6 +196,7 @@ public class Activity_Purchases extends AppCompatActivity {
                     btnPay.setOnClickListener(v -> {
                         Intent loIntent = new Intent(Activity_Purchases.this, Activity_PayOrder.class);
                         loIntent.putExtra("sTransNox", foOrder.sTransNox);
+                        loIntent.putExtra("cPaymentx", 1);
 
                         if(foOrder.sTermCode.isEmpty()){
                             loIntent.putExtra("nSubTotal", lnTotalxx);

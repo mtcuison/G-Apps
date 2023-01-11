@@ -50,7 +50,7 @@ public class Fragment_MPItemCart extends Fragment {
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
     private Dialog_DoubleButton poMessage;
-    private MaterialButton btnCheckOut, btnShopNow;
+    private MaterialButton btnCheckOut;
     private ImageButton btnDelete;
     private TextView lblGrandTotal, lblTotalCount;
     private CheckBox cbSelectAll;
@@ -256,13 +256,6 @@ public class Fragment_MPItemCart extends Fragment {
                 }
             });
         });
-
-        btnShopNow.setOnClickListener(v1 -> {
-            Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
-            intent.putExtra("args", "dashboard");
-            requireActivity().sendBroadcast(intent);
-            requireActivity().finish();
-        });
         return v;
     }
 
@@ -277,7 +270,6 @@ public class Fragment_MPItemCart extends Fragment {
         lblGrandTotal = view.findViewById(R.id.lblMPGrandTotal);
         lblTotalCount = view.findViewById(R.id.lblMpTotalItems);
         btnCheckOut = view.findViewById(R.id.btnMPCheckOut);
-        btnShopNow = view.findViewById(R.id.btnMPShopNow);
         cbSelectAll = view.findViewById(R.id.cbSelectAll);
         btnDelete = view.findViewById(R.id.btnRemoveAll);
         cvSelectAll = view.findViewById(R.id.cvSelectAll);

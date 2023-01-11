@@ -22,12 +22,12 @@ public interface DBranchInfo {
 
     @Query("SELECT * FROM BranchInfo " +
             "WHERE sBranchCd LIKE 'M%' " +
-            "ORDER BY sTownIDxx = (SELECT sTownIDxx FROM Client_Profile_Info), sTownIDxx DESC")
+            "ORDER BY sTownIDxx = (SELECT sTownIDx1 FROM Client_Profile_Info) DESC, sBranchCd ASC")
     LiveData<List<EBranchInfo>> getMotorBranches();
 
     @Query("SELECT * FROM BranchInfo " +
             "WHERE sBranchCd LIKE 'C%' " +
-            "ORDER BY sTownIDxx = (SELECT sTownIDxx FROM Client_Profile_Info), sTownIDxx DESC")
+            "ORDER BY sTownIDxx = (SELECT sTownIDx1 FROM Client_Profile_Info) DESC, sBranchCd ASC")
     LiveData<List<EBranchInfo>> getMobileBranches();
 
     @Query("SELECT * FROM BranchInfo WHERE sBranchCd=:BranchCde")
@@ -53,10 +53,6 @@ public interface DBranchInfo {
             "sTelNumbr =:TelNumbr, " +
             "sEmailAdd =:EmailAdd " +
             "WHERE sBranchCd =:BranchCd")
-
-
-
-
 
     void UpdateBranchInfo(String BranchCd,
                             String BranchNm,

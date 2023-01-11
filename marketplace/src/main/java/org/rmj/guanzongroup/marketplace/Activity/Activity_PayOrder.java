@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RadioButton;
 
 import org.rmj.g3appdriver.etc.PaymentMethod;
@@ -29,11 +30,7 @@ public class Activity_PayOrder extends AppCompatActivity {
     private String TransNox;
     private String PayMthod;
     private double OrdrAmnt;
-
-    private Fragment[] poPages = new Fragment[] {
-            new Fragment_PaymentSelection(),
-            new Fragment_PaymentInfo()
-    };
+    private int Paymentx = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +102,10 @@ public class Activity_PayOrder extends AppCompatActivity {
                 PayMthod = PaymentMethod.CashOnDelivery.toString();
             }
         });
+
+        if(Paymentx == 1) {
+            binding.crdCashOD.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -127,6 +128,9 @@ public class Activity_PayOrder extends AppCompatActivity {
         }
         if(getIntent().hasExtra("oPayMethd")) {
             PayMthod = getIntent().getStringExtra("oPayMethd");
+        }
+        if(getIntent().hasExtra("cPaymentx")){
+            Paymentx = getIntent().getIntExtra("cPaymentx", 0);
         }
     }
 

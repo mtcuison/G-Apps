@@ -40,20 +40,14 @@
                     android:layout_height="350dp"
                     android:orientation="vertical"
                     android:gravity="center_horizontal|center|center_vertical" >
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:text="You have no items in your shopping cart."
                         android:textSize="16sp"/>
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnMPShopNow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="17dp"
-                        android:text="Shop Now"
-                        style="@style/ButtonStyle.Orange.Medium"/>
+
                 </LinearLayout>
 
             </LinearLayout>
