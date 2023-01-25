@@ -220,7 +220,7 @@ public class Fragment_MPItemCart extends Fragment {
                 @Override
                 public void onConfirm(AlertDialog dialog) {
                     dialog.dismiss();
-                    mViewModel.DeleteAllSelected();
+                    DeleteAllItemOnCart();
                 }
 
                 @Override
@@ -307,5 +307,28 @@ public class Fragment_MPItemCart extends Fragment {
         } else {
             cbSelectAll.setChecked(false);
         }
+    }
+
+    private void DeleteAllItemOnCart(){
+        mViewModel.DeleteAllSelected(new OnTransactionsCallback() {
+            @Override
+            public void onLoading() {
+                poLoading.initDialog("Item Cart", "Removing items. Please wait.");
+                poLoading.show();
+            }
+
+            @Override
+            public void onSuccess(String fsMessage) {
+                poLoading.dismiss();
+            }
+
+            @Override
+            public void onFailed(String fsMessage) {
+                poLoading.dismiss();
+                poDialogx.setButtonText("Okay");
+                poDialogx.initDialog("Item Cart", fsMessage, () -> poDialogx.dismiss());
+                poDialogx.show();
+            }
+        });
     }
 }

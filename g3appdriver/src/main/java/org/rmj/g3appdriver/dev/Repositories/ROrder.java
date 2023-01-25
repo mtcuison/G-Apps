@@ -858,7 +858,17 @@ public class ROrder {
 
     public boolean DeleteAll(){
         try{
-            poCartDao.DeleteAllSelected();
+            List<EItemCart> loList = poCartDao.GetAllItemCart();
+            for (int x = 0; x < loList.size(); x++){
+                EItemCart loItem = loList.get(x);
+                if(!RemoveCartItem(loItem.getListIDxx())){
+                    Log.e(TAG, message);
+                } else {
+                    Log.d(TAG, "Item " + loItem.getListIDxx() + " has been removed from item cart successfully.");
+                    poCartDao.DeleteCartItem(loItem.getListIDxx());
+                }
+                Thread.sleep(1000);
+            }
             return true;
         } catch (Exception e){
             e.printStackTrace();

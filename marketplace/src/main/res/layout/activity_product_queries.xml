@@ -237,6 +237,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="50"
+                android:digits="@string/free_text_restriction"
                 android:inputType="textCapWords"
                 android:imeOptions="actionNext"
                 android:nextFocusForward="@id/tie_firstname" />
