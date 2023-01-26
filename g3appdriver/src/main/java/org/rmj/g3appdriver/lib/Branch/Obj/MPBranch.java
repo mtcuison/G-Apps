@@ -41,12 +41,7 @@ public class MPBranch implements iBranch {
     }
 
     @Override
-    public LiveData<List<EBranchInfo>> GetBranchList(String Province) {
-        return poDao.GetMPBranches(Province);
-    }
-
-    @Override
-    public LiveData<List<EBranchInfo>> GetBranchList(String Province, String Town) {
-        return poDao.GetMPBranches(Province, Town);
+    public LiveData<List<EBranchInfo>> GetBranchList(String Town) {
+        return poDao.GetMPBranches(Town);
     }
 }

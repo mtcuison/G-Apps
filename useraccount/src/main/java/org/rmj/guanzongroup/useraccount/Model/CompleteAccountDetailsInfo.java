@@ -165,9 +165,6 @@ public class CompleteAccountDetailsInfo {
         } else if(sCivilStx.trim().isEmpty()) {
             sMessagex = "Please select a Civil Status";
             return false;
-        } else if(sAddressx.trim().isEmpty()) {
-            sMessagex = "Please enter Street Address";
-            return false;
         } else if(sTownCity.trim().isEmpty()) {
             sMessagex = "Please enter Town or City Address";
             return false;

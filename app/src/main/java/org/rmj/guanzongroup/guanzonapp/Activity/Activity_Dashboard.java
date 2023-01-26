@@ -80,8 +80,6 @@ public class Activity_Dashboard extends AppCompatActivity {
     private TextView lblBadge;
     private static final int GCARD_APPLICATION = 1;
 
-    private EGcardApp poGcardNo;
-
     private final DashboardActionReceiver poLogRcv = new DashboardActionReceiver();
 
     private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
@@ -137,13 +135,13 @@ public class Activity_Dashboard extends AppCompatActivity {
                 .build();
 
         //Disable Pre-Termination page until project is develop...
+        navigationView.getMenu().findItem(R.id.nav_events).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_wishlist).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_pre_termination).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_customer_service).setVisible(false);
 
-        navigationView.getMenu().findItem(R.id.nav_events).setVisible(false);
-        navigationView.getMenu().findItem(R.id.nav_purchases).setVisible(false);
-        navigationView.getMenu().findItem(R.id.nav_wishlist).setVisible(false);
+//        navigationView.getMenu().findItem(R.id.nav_purchases).setVisible(false);
+        navigationView.getMenu().findItem(R.id.nav_promos).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_item_cart).setVisible(false);
 
         mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, eGcardApp -> {
@@ -391,17 +389,17 @@ public class Activity_Dashboard extends AppCompatActivity {
 
             //This area of code has been commented to avoid users from accessing
             // the marketplace cart while the marketplace has not yet fully develop yet.
-//            try {
-//                if(eClientinfo != null){
-//                    menu.findItem(R.id.item_notifications).setVisible(true);
+            try {
+                if(eClientinfo != null){
+                    menu.findItem(R.id.item_notifications).setVisible(true);
 //                    menu.findItem(R.id.item_cart).setVisible(true);
-//                } else {
-//                    menu.findItem(R.id.item_notifications).setVisible(false);
+                } else {
+                    menu.findItem(R.id.item_notifications).setVisible(false);
 //                    menu.findItem(R.id.item_cart).setVisible(false);
-//                }
-//            } catch(Exception e) {
-//                e.printStackTrace();
-//            }
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
         });
         return true;
     }
@@ -466,9 +464,6 @@ public class Activity_Dashboard extends AppCompatActivity {
     private void setUpHeader(NavigationView foNavigxx) {
         View headerLayout = foNavigxx.getHeaderView(0);
         LinearLayout lnAuthxxx = headerLayout.findViewById(R.id.ln_authenticate);
-        LinearLayout lnGcardxx = headerLayout.findViewById(R.id.ln_gcard_info);
-        TextView txtGcardN = headerLayout.findViewById(R.id.lblGcardNo);
-        TextView txtGcardP = headerLayout.findViewById(R.id.lblGcardPts);
         TextView txtSignUp = headerLayout.findViewById(R.id.lbl_Signup);
         TextView txtLoginx = headerLayout.findViewById(R.id.lbl_Login);
         TextView txtFullNm = headerLayout.findViewById(R.id.lbl_UserFullName);
@@ -477,23 +472,25 @@ public class Activity_Dashboard extends AppCompatActivity {
             try {
                 Menu nav_Menu = navigationView.getMenu();
                 if(eClientinfo != null) {
-                    String lsFullNme;
-                    if (eClientinfo.getLastName() == null && eClientinfo.getFrstName() == null){
-                        lsFullNme = eClientinfo.getUserName();
-                    } else if(eClientinfo.getLastName().isEmpty() && eClientinfo.getFrstName().isEmpty()){
-                        lsFullNme = eClientinfo.getUserName();
-                    } else {
-                        lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
-                    }
+                    String lsFullNme = eClientinfo.getUserName();
+
+                    //This portion of code has been disabled in order not to display the actual name of user on dashboard
+//                    if (eClientinfo.getLastName() == null && eClientinfo.getFrstName() == null){
+//                        lsFullNme = eClientinfo.getUserName();
+//                    } else if(eClientinfo.getLastName().isEmpty() && eClientinfo.getFrstName().isEmpty()){
+//                        lsFullNme = eClientinfo.getUserName();
+//                    } else {
+//                        lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
+//                    }
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
                     txtFullNm.setText(Objects.requireNonNull(lsFullNme));
 
                     //Pre release of Guanzon Connect Marketplace Project requires this field to be commented
                     // in order to hide the preview of marketplace items
-//                    nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
 //                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
 //                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(true);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(true);
                 } else {
@@ -503,6 +500,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                         Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SignUp.class);
                         startActivity(loIntent);
                     });
+
 
                     txtLoginx.setOnClickListener(v -> {
                         Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
@@ -517,37 +515,6 @@ public class Activity_Dashboard extends AppCompatActivity {
             } catch(Exception e) {
                 e.printStackTrace();
             }
-        });
-
-        mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, gcard -> {
-            try {
-                poGcardNo = gcard;
-                if(gcard != null) {
-                    lnGcardxx.setVisibility(View.VISIBLE);
-                    String lsGcardPt = "Points: " + gcard.getAvlPoint();
-                    txtGcardN.setText(gcard.getCardNmbr());
-                    txtGcardP.setText(lsGcardPt);
-                } else {
-                    lnGcardxx.setVisibility(View.GONE);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                lnGcardxx.setVisibility(View.GONE);
-            }
-        });
-
-        headerLayout.setOnClickListener(v -> {
-            mViewModel.ViewGCardQrCode(bitmap -> {
-                try{
-                    if(poGcardNo != null) {
-                        final Dialog_UserInfo loDialog = new Dialog_UserInfo(this);
-                        loDialog.initDialog(poGcardNo, bitmap);
-                        loDialog.show();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
         });
     }
 

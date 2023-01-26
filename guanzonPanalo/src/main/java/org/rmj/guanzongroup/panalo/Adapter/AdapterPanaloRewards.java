@@ -40,10 +40,18 @@ public class AdapterPanaloRewards extends RecyclerView.Adapter<AdapterPanaloRewa
     public void onBindViewHolder(@NonNull RewardsViewHolder holder, int position) {
         try{
             PanaloRewards loReward = poRewards.get(position);
-            holder.lblType.setText(loReward.getsRewardTp());
-            holder.lblName.setText(loReward.getsRewardNm());
-            holder.lblQtyx.setText("Qty: " + loReward.getsQuantity());
-            holder.lblVldt.setText("Validity: " + loReward.getsValidFrm() + " - " + loReward.getsValidThr());
+            holder.lblType.setText(loReward.getPanaloDs());
+            holder.lblName.setText(loReward.getItemDesc());
+            holder.lblQtyx.setText("Qty: " + loReward.getItemQtyx());
+            holder.lblVldt.setText("Valid until : " + loReward.getExpiryDt());
+
+            if(loReward.getTranStat().equalsIgnoreCase("1")){
+                holder.btnRedeem.setText("Claimed");
+                holder.btnRedeem.setEnabled(false);
+            } else {
+                holder.btnRedeem.setText("Use Now");
+                holder.btnRedeem.setEnabled(true);
+            }
 
             holder.btnRedeem.setOnClickListener(v -> mListener.OnUse(loReward));
         } catch (Exception e){

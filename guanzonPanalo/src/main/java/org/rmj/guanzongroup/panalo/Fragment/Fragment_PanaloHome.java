@@ -37,6 +37,7 @@ public class Fragment_PanaloHome extends Fragment {
     private VMPanaloHome mViewModel;
 
     private SliderView poSliderx;
+    private CardView cvGCardx;
     private CardView cvPanalo;
     private CardView cvGanado;
 
@@ -67,6 +68,7 @@ public class Fragment_PanaloHome extends Fragment {
         poSliderx.setScrollTimeInSec(5);
         poSliderx.startAutoCycle();
 
+        cvGCardx = v.findViewById(R.id.cv_gcardPane);
         cvPanalo = v.findViewById(R.id.cv_panaloBanner);
         cvGanado = v.findViewById(R.id.cv_ganadoBanner);
     }
@@ -98,6 +100,13 @@ public class Fragment_PanaloHome extends Fragment {
     }
 
     private void setupPanaloBanner(){
+        cvGCardx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         mViewModel.GetPanaloNotice().observe(getViewLifecycleOwner(), ePanaloReward -> {
             try{
                 View.OnClickListener listener;

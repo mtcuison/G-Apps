@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Fragment;
+package org.rmj.guanzongroup.notifications.Fragment;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -12,27 +12,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.guanzongroup.guanzonapp.R;
-import org.rmj.guanzongroup.guanzonapp.ViewModel.VMPreRelease;
+import org.rmj.guanzongroup.notifications.R;
+import org.rmj.guanzongroup.notifications.ViewModel.VMMessageList;
 
-public class Fragment_PreRelease extends Fragment {
 
-    private VMPreRelease mViewModel;
+public class Fragment_MessageList extends Fragment {
 
-    public static Fragment_PreRelease newInstance() {
-        return new Fragment_PreRelease();
+    private VMMessageList mViewModel;
+
+    public static Fragment_MessageList newInstance() {
+        return new Fragment_MessageList();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_pre_release, container, false);
+        return inflater.inflate(R.layout.fragment_message_list, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMPreRelease.class);
+        mViewModel = new ViewModelProvider(this).get(VMMessageList.class);
         // TODO: Use the ViewModel
     }
 

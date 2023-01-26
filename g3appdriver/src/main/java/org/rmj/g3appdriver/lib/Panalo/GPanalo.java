@@ -107,14 +107,13 @@ public class GPanalo {
         }
     }
 
-    public List<JSONObject> GetRewards(String args){
+    public List<PanaloRewards> GetRewards(String args){
         try{
-
             JSONObject params = new JSONObject();
-            params.put("sReferNox", args);
+            params.put("transtat", args);
 
             String lsResponse = WebClient.httpsPostJSon(
-                    poApis.getSendResponseAPI(),
+                    poApis.getUserPanaloRewardsAPI(),
                     params.toString(),
                     poHeaders.getHeaders());
             if(lsResponse == null){
@@ -132,9 +131,29 @@ public class GPanalo {
 
             JSONArray laJson = loResponse.getJSONArray("payload");
 
-            List<JSONObject> loRewards = new ArrayList<>();
+            List<PanaloRewards> loRewards = new ArrayList<>();
             for(int x = 0; x < laJson.length(); x++){
-                loRewards.add(laJson.getJSONObject(x));
+                JSONObject joReward = laJson.getJSONObject(x);
+                PanaloRewards loReward = new PanaloRewards();
+                loReward.setPanaloQC(joReward.getString("sPanaloQC"));
+                loReward.setTransact(joReward.getString("dTransact"));
+                loReward.setUserIDxx(joReward.getString("sUserIDxx"));
+                loReward.setPanaloCD(joReward.getString("sPanaloCD"));
+                loReward.setPanaloDs(joReward.getString("sPanaloDs"));
+                loReward.setAcctNmbr(joReward.getString("sAcctNmbr"));
+                loReward.setAmountxx(joReward.getDouble("nAmountxx"));
+                loReward.setDeviceID(joReward.getString("sDeviceID"));
+                loReward.setExpiryDt(joReward.getString("dExpiryDt"));
+                loReward.setItemCode(joReward.getString("sItemCode"));
+                loReward.setItemDesc(joReward.getString("sItemDesc"));
+                loReward.setItemQtyx(joReward.getInt("nItemQtyx"));
+                loReward.setRedeemxx(joReward.getInt("nRedeemxx"));
+                loReward.setTranStat(joReward.getString("cTranStat"));
+                loReward.setTimeStmp(joReward.getString("dTimeStmp"));
+                loReward.setRedeemDt(joReward.getString("dRedeemxx"));
+                loReward.setBranchNm(joReward.getString("sBranchNm"));
+                loReward.setSourceNm(joReward.getString("sSourceNm"));
+                loRewards.add(loReward);
             }
 
             return loRewards;

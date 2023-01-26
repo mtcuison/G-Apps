@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/menu_home" />
+
+    <item
+        android:id="@+id/nav_promos"
+        android:title="@string/menu_promos"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_promo_24"/>
+
+    <item
+        android:id="@+id/nav_Panalo"
+        android:enabled="true"
+        android:title="@string/panalo"
+        android:icon="@drawable/ic_baseline_card_giftcard_24" />
+
+    <item
+        android:id="@+id/nav_MpItemCart"
+        android:enabled="true"
+        android:title="@string/menu_item_cart"
+        android:icon="@drawable/ic_baseline_shopping_cart_24" />
+
+    <item
+        android:id="@+id/nav_MyGcard"
+        android:enabled="true"
+        android:title="@string/my_gcard"
+        android:icon="@drawable/ic_baseline_credit_card_24" />
+
+</menu>

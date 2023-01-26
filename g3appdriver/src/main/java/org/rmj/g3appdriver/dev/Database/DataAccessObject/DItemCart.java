@@ -59,8 +59,8 @@ public interface DItemCart {
     @Query("UPDATE MarketPlace_Cart SET cCheckOut = '0'")
     void UpdateUnselectAllCheckOut();
 
-    @Query("DELETE FROM MarketPlace_Cart WHERE cCheckOut = '1'")
-    void DeleteAllSelected();
+    @Query("SELECT * FROM MarketPlace_Cart")
+    List<EItemCart> GetAllItemCart();
 
     @Query("UPDATE MarketPlace_Cart SET cCheckOut = '0' WHERE sListIDxx =:fsListID")
     void RemoveForCheckOut(String fsListID);

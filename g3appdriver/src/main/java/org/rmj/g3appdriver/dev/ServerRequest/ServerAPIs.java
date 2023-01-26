@@ -92,6 +92,8 @@ public class ServerAPIs {
     private static final String GET_OTHER_APPLICATION_INFO = "integsys/gocas/mp_get_other_application_info.php";
     private static final String SUBMIT_LOAN_APPLICATION = "integsys/gocas/mp_submit_credit_app.php";
 
+    private static final String GET_PANALO_REWARDS = "gconnect/upload/getUserPanalo.php";
+
     private static final String IMPORT_NOTIFICATIONS = "integsys/notification/request_previous_notifications.php";
     private static final String SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/notification/send_response.php";
     private static final String SEND_REQUEST = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
@@ -653,7 +655,12 @@ public class ServerAPIs {
         return LIVE + IMPORT_PRICE_LIST;
     }
 
-
+    public String getUserPanaloRewardsAPI(){
+        if(isTestUnit){
+            return LOCAL + GET_PANALO_REWARDS;
+        }
+        return LIVE + GET_PANALO_REWARDS;
+    }
 
 
 }

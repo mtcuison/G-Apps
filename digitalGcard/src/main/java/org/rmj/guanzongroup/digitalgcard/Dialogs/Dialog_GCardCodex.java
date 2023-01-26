@@ -38,6 +38,7 @@ public class Dialog_GCardCodex {
     private ImageView imgQRCode;
     private TextView lblGCardNo;
     private MaterialButton btnClose;
+
     public Dialog_GCardCodex(Context context) {
         this.context = context;
     }
