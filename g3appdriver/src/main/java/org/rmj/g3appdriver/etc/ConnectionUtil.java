@@ -52,7 +52,7 @@ public class ConnectionUtil {
         {
             String lsAddress;
             if(new GuanzonAppConfig(context).getTestCase()){
-                lsAddress = "http://192.168.10.141";
+                lsAddress = "http://192.168.10.15";
             } else {
                 lsAddress = "https://restgk.guanzongroup.com.ph";
             }

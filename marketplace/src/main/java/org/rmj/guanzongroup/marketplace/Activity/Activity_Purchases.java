@@ -196,15 +196,16 @@ public class Activity_Purchases extends AppCompatActivity {
                     btnPay.setOnClickListener(v -> {
                         Intent loIntent = new Intent(Activity_Purchases.this, Activity_PayOrder.class);
                         loIntent.putExtra("sTransNox", foOrder.sTransNox);
-                        loIntent.putExtra("cPaymentx", 1);
 
                         if(foOrder.sTermCode.isEmpty()){
                             loIntent.putExtra("nSubTotal", lnTotalxx);
+                            loIntent.putExtra("cPaymentx", 0);
                         } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011")
                         && foOrder.cPaymPstd.equalsIgnoreCase("1")){ //COW2011 termcode for online payment
                             if(foOrder.nTranTotl > foOrder.nProcPaym){
                                 double lnTotal = Math.abs(lnTotalxx - lnProcPaym);
 
+                                loIntent.putExtra("cPaymentx", 1);
                                 loIntent.putExtra("nSubTotal", lnTotal);
                             }
                         }
