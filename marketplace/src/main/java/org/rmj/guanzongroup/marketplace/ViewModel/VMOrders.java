@@ -13,7 +13,6 @@ import androidx.lifecycle.MutableLiveData;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderDetail;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderMaster;
-import org.rmj.g3appdriver.dev.Database.Entities.EOrderDetail;
 import org.rmj.g3appdriver.dev.Database.Entities.EOrderMaster;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
@@ -47,8 +46,24 @@ public class VMOrders extends AndroidViewModel {
         return poORder.GetOrderHistoryList();
     }
 
-    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(String fsVal){
-        return poORder.GetOrderHistoryList(fsVal);
+    public LiveData<List<DOrderMaster.OrderHistory>> GetProcessingOrdersList(){
+        return poORder.GetProcessingOrdersList();
+    }
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetToShipOrderList(){
+        return poORder.GetToShipOrdersList();
+    }
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetShippedOrderList(){
+        return poORder.GetShippedOrderList();
+    }
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetCancelledOrderList(){
+        return poORder.GetCancelledOrdersList();
+    }
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetDeliveredOrderList(){
+        return poORder.GetDeliveredOrdersList();
     }
 
     public LiveData<List<DOrderMaster.OrderHistory>> GetToPayOrderList(){

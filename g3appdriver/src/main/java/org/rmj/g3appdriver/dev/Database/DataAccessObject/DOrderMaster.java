@@ -139,26 +139,26 @@ public interface DOrderMaster {
             "LEFT JOIN MarketPlace_Order_Detail b " +
             "ON a.sTransNox = b.sTransNox " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
-            "AND a.cTranStat=:fsVal " +
+            "AND a.cTranStat == '0' " +
             "AND a.cPaymType == '1' " +
             "OR a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
-            "AND a.cTranStat=:fsVal " +
+            "AND a.cTranStat == '0' " +
             "AND a.cPaymType == '2' " +
             "AND a.cPaymPstd == '1' " +
             "AND a.nTranTotl <= a.nProcPaym " +
             "OR a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
-            "AND a.cTranStat=:fsVal " +
+            "AND a.cTranStat == '0' " +
             "AND a.cPaymType == '2' " +
             "AND a.cPaymPstd == '0' " +
             "AND a.nTranTotl <= a.nProcPaym " +
             "OR a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
-            "AND a.cTranStat=:fsVal " +
+            "AND a.cTranStat == '0' " +
             "AND a.cPaymType == '2' " +
             "AND a.cPaymPstd == '1' " +
             "AND a.nTranTotl > a.nProcPaym " +
             "GROUP BY a.sTransNox " +
             "ORDER BY a.dTimeStmp DESC")
-    LiveData<List<OrderHistory>> GetOrderHistoryList(String fsVal);
+    LiveData<List<OrderHistory>> GetProcessingOrderList();
 
     @Query("SELECT a.sTransNox, " +
             "a.cTranStat, " +
@@ -195,6 +195,131 @@ public interface DOrderMaster {
             "GROUP BY a.sTransNox " +
             "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetToPayOrderList();
+
+    @Query("SELECT a.sTransNox, " +
+            "a.cTranStat, " +
+            "a.nTranTotl, " +
+            "a.nFreightx, " +
+            "a.nAmtPaidx, " +
+            "a.nDiscount, " +
+            "a.nProcPaym, " +
+            "a.sTermCode, " +
+            "a.cPaymPstd, " +
+            "b.nEntryNox, " +
+            "b.nQuantity, " +
+            "b.nUnitPrce, " +
+            "b.nDiscount, " +
+            "c.sBriefDsc, " +
+            "c.xBarCodex, " +
+            "c.sImagesxx, " +
+            "c.xBrandNme, " +
+            "c.xModelNme, " +
+            "c.xColorNme, " +
+            "c.xCategrNm " +
+            "FROM MarketPlace_Order_Master a " +
+            "LEFT JOIN MarketPlace_Order_Detail b " +
+            "ON a.sTransNox = b.sTransNox " +
+            "LEFT JOIN Product_Inventory c " +
+            "ON b.sStockIDx = c.sStockIDx " +
+            "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info)" +
+            "AND a.cTranStat == '1'" +
+            "GROUP BY a.sTransNox " +
+            "ORDER BY a.dTimeStmp DESC")
+    LiveData<List<OrderHistory>> GetToShipOrdersList();
+
+    @Query("SELECT a.sTransNox, " +
+            "a.cTranStat, " +
+            "a.nTranTotl, " +
+            "a.nFreightx, " +
+            "a.nAmtPaidx, " +
+            "a.nDiscount, " +
+            "a.nProcPaym, " +
+            "a.sTermCode, " +
+            "a.cPaymPstd, " +
+            "b.nEntryNox, " +
+            "b.nQuantity, " +
+            "b.nUnitPrce, " +
+            "b.nDiscount, " +
+            "c.sBriefDsc, " +
+            "c.xBarCodex, " +
+            "c.sImagesxx, " +
+            "c.xBrandNme, " +
+            "c.xModelNme, " +
+            "c.xColorNme, " +
+            "c.xCategrNm " +
+            "FROM MarketPlace_Order_Master a " +
+            "LEFT JOIN MarketPlace_Order_Detail b " +
+            "ON a.sTransNox = b.sTransNox " +
+            "LEFT JOIN Product_Inventory c " +
+            "ON b.sStockIDx = c.sStockIDx " +
+            "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info)" +
+            "AND a.dWaybillx <> '' " +
+            "AND a.sWaybilNo <> ''" +
+            "GROUP BY a.sTransNox " +
+            "ORDER BY a.dTimeStmp DESC")
+    LiveData<List<OrderHistory>> GetShippedOrdersList();
+
+    @Query("SELECT a.sTransNox, " +
+            "a.cTranStat, " +
+            "a.nTranTotl, " +
+            "a.nFreightx, " +
+            "a.nAmtPaidx, " +
+            "a.nDiscount, " +
+            "a.nProcPaym, " +
+            "a.sTermCode, " +
+            "a.cPaymPstd, " +
+            "b.nEntryNox, " +
+            "b.nQuantity, " +
+            "b.nUnitPrce, " +
+            "b.nDiscount, " +
+            "c.sBriefDsc, " +
+            "c.xBarCodex, " +
+            "c.sImagesxx, " +
+            "c.xBrandNme, " +
+            "c.xModelNme, " +
+            "c.xColorNme, " +
+            "c.xCategrNm " +
+            "FROM MarketPlace_Order_Master a " +
+            "LEFT JOIN MarketPlace_Order_Detail b " +
+            "ON a.sTransNox = b.sTransNox " +
+            "LEFT JOIN Product_Inventory c " +
+            "ON b.sStockIDx = c.sStockIDx " +
+            "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info)" +
+            "AND a.cTranStat == '3' " +
+            "GROUP BY a.sTransNox " +
+            "ORDER BY a.dTimeStmp DESC")
+    LiveData<List<OrderHistory>> GetCancelledOrdersList();
+
+    @Query("SELECT a.sTransNox, " +
+            "a.cTranStat, " +
+            "a.nTranTotl, " +
+            "a.nFreightx, " +
+            "a.nAmtPaidx, " +
+            "a.nDiscount, " +
+            "a.nProcPaym, " +
+            "a.sTermCode, " +
+            "a.cPaymPstd, " +
+            "b.nEntryNox, " +
+            "b.nQuantity, " +
+            "b.nUnitPrce, " +
+            "b.nDiscount, " +
+            "c.sBriefDsc, " +
+            "c.xBarCodex, " +
+            "c.sImagesxx, " +
+            "c.xBrandNme, " +
+            "c.xModelNme, " +
+            "c.xColorNme, " +
+            "c.xCategrNm " +
+            "FROM MarketPlace_Order_Master a " +
+            "LEFT JOIN MarketPlace_Order_Detail b " +
+            "ON a.sTransNox = b.sTransNox " +
+            "LEFT JOIN Product_Inventory c " +
+            "ON b.sStockIDx = c.sStockIDx " +
+            "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info)" +
+            "AND a.cTranStat == '2'" +
+            "GROUP BY a.sTransNox " +
+            "ORDER BY a.dTimeStmp DESC")
+    LiveData<List<OrderHistory>> GetDeliveredOrdersList();
 
     @Query("SELECT a.sTransNox," +
             " a.dTransact," +

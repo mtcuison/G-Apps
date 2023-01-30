@@ -622,6 +622,10 @@ public class ROrder {
                             oMaster.setDiscount(joMaster.getDouble("nDiscount"));
                             oMaster.setFreightx(joMaster.getDouble("nFreightx"));
                             oMaster.setAmtPaidx(joMaster.getDouble("nAmtPaidx"));
+                            oMaster.setWaybillx(joMaster.getString("dWaybillx"));
+                            oMaster.setWaybilNo(joMaster.getString("sWaybilNo"));
+                            oMaster.setPickedUp(joMaster.getString("dPickedUp"));
+                            oMaster.setBatchNox(joMaster.getString("sBatchNox"));
                             oMaster.setProcPaym(joMaster.getDouble("nProcPaym"));
                             oMaster.setTermCode(joMaster.getString("sTermCode"));
                             oMaster.setPaymType(joMaster.getString("cPaymType"));
@@ -767,10 +771,25 @@ public class ROrder {
         return poMaster.GetOrderHistoryList();
     }
 
-    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(String fsVal){
-        return poMaster.GetOrderHistoryList(fsVal);
+    public LiveData<List<DOrderMaster.OrderHistory>> GetProcessingOrdersList(){
+        return poMaster.GetProcessingOrderList();
     }
 
+    public LiveData<List<DOrderMaster.OrderHistory>> GetToShipOrdersList(){
+        return poMaster.GetToShipOrdersList();
+    }
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetCancelledOrdersList(){
+        return poMaster.GetCancelledOrdersList();
+    }
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetDeliveredOrdersList(){
+        return poMaster.GetDeliveredOrdersList();
+    }
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetShippedOrderList(){
+        return poMaster.GetShippedOrdersList();
+    }
 
     public LiveData<List<DOrderMaster.OrderHistory>> GetToPayOrderList(){
         return poMaster.GetToPayOrderList();

@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.marketplace.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -18,11 +19,13 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderMaster;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_Purchases;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_OrderHistory;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMOrders;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Fragment_Orders extends Fragment {
@@ -127,8 +130,21 @@ public class Fragment_Orders extends Fragment {
                             txtNoList.setText("No order history.");
                         }
                     });
-                } else if(!s.equalsIgnoreCase("ToPay")){
-                    mViewModel.GetOrderHistoryList(s).observe(getViewLifecycleOwner(), eOrderMasters -> {
+                } else if(s.equalsIgnoreCase("ToPay")){
+                    mViewModel.GetToPayOrderList().observe(getViewLifecycleOwner(), orderHistories -> {
+                        if(orderHistories.size() > 0) {
+                            txtNoList.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            loAdapter = new Adapter_OrderHistory(orderHistories, loListener);
+                        } else {
+                            txtNoList.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                            txtNoList.setText("No available " + sLabel + " orders.");
+                        }
+                        recyclerView.setAdapter(loAdapter);
+                    });
+                } else if(s.equalsIgnoreCase("0")){
+                    mViewModel.GetOrderHistoryList().observe(getViewLifecycleOwner(), eOrderMasters -> {
                         if(eOrderMasters.size() > 0) {
                             txtNoList.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
@@ -140,12 +156,25 @@ public class Fragment_Orders extends Fragment {
                         }
                         recyclerView.setAdapter(loAdapter);
                     });
-                } else {
-                    mViewModel.GetToPayOrderList().observe(getViewLifecycleOwner(), orderHistories -> {
-                        if(orderHistories.size() > 0) {
+                } else if(s.equalsIgnoreCase("1")){
+                    mViewModel.GetToShipOrderList().observe(getViewLifecycleOwner(), eOrderMasters -> {
+                        if(eOrderMasters.size() > 0) {
                             txtNoList.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
-                            loAdapter = new Adapter_OrderHistory(orderHistories, loListener);
+                            loAdapter = new Adapter_OrderHistory(eOrderMasters, loListener);
+                        } else {
+                            txtNoList.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                            txtNoList.setText("No available " + sLabel + " orders.");
+                        }
+                        recyclerView.setAdapter(loAdapter);
+                    });
+                } else if(s.equalsIgnoreCase("3")){
+                    mViewModel.GetCancelledOrderList().observe(getViewLifecycleOwner(), eOrderMasters -> {
+                        if(eOrderMasters.size() > 0) {
+                            txtNoList.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            loAdapter = new Adapter_OrderHistory(eOrderMasters, loListener);
                         } else {
                             txtNoList.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);
