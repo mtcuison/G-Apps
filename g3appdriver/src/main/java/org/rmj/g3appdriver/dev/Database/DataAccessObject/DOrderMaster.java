@@ -85,7 +85,16 @@ public interface DOrderMaster {
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
             "WHERE cTranStat = '0' " +
             "AND sAppUsrID = (" +
-            "SELECT sUserIDxx FROM Client_Profile_Info)")
+            "SELECT sUserIDxx FROM Client_Profile_Info)" +
+            "AND cTranStat= '0' " +
+            "AND cPaymType == '1'" +
+            "OR cTranStat= '0' " +
+            "AND cPaymType == '2' " +
+            "AND cPaymPstd == '1' " +
+            "OR cTranStat= '0' " +
+            "AND cPaymType == '2' " +
+            "AND cPaymPstd == '0' " +
+            "AND nTranTotl <= nProcPaym")
     LiveData<Integer> GetProcessingOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
@@ -131,6 +140,22 @@ public interface DOrderMaster {
             "ON a.sTransNox = b.sTransNox " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.cTranStat=:fsVal " +
+            "AND a.cPaymType == '1' " +
+            "OR a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND a.cTranStat=:fsVal " +
+            "AND a.cPaymType == '2' " +
+            "AND a.cPaymPstd == '1' " +
+            "AND a.nTranTotl <= a.nProcPaym " +
+            "OR a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND a.cTranStat=:fsVal " +
+            "AND a.cPaymType == '2' " +
+            "AND a.cPaymPstd == '0' " +
+            "AND a.nTranTotl <= a.nProcPaym " +
+            "OR a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND a.cTranStat=:fsVal " +
+            "AND a.cPaymType == '2' " +
+            "AND a.cPaymPstd == '1' " +
+            "AND a.nTranTotl > a.nProcPaym " +
             "GROUP BY a.sTransNox " +
             "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetOrderHistoryList(String fsVal);
@@ -238,9 +263,9 @@ public interface DOrderMaster {
         public String sTermCode;
         public String cTranStat;
         public String cPaymPstd;
+
         public String sUserName;
         public String sAddressx;
         public String sMobileNo;
     }
-
 }
