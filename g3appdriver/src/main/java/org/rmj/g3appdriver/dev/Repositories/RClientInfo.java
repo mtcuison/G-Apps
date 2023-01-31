@@ -159,6 +159,19 @@ public class RClientInfo {
 //                    loDetail.setImagePth(loResponse.getString("sImagePth"));
 //                    loDetail.setImgeDate(loResponse.getString("dImgeDate"));
                     loDetail.setRecdStat(1);
+                    String lsClient = loDetail.getClientID();
+                    if(lsClient.isEmpty()){
+                        if(loDetail.getLastName().isEmpty() &&
+                                loDetail.getFrstName().isEmpty() &&
+                                loDetail.getBirthDte().isEmpty() &&
+                                loDetail.getBirthPlc().isEmpty()) {
+                            loDetail.setVerified(0);
+                        } else {
+                            loDetail.setVerified(2);
+                        }
+                    } else {
+                        loDetail.setVerified(1);
+                    }
                     poDao.update(loDetail);
                     AccountInfo loAcc = new AccountInfo(mContext);
                     loAcc.setClientID(loResponse.getString("sClientID"));
@@ -175,7 +188,7 @@ public class RClientInfo {
                     loAcc.setTownName(loResponse.getString("sTownIDx1"));
                     loAcc.setBarangay(loResponse.getString("sBrgyIDx1"));
 
-                    String lsClient = loAcc.getClientID();
+                    lsClient = loAcc.getClientID();
                     String lsLastNm = loAcc.getLastName();
                     String lsFrstNm = loAcc.getFirstName();
                     String lsBirthD = loAcc.getBirthdate();
