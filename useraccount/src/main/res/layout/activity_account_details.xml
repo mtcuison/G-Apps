@@ -106,16 +106,34 @@
                 android:visibility="gone"
                 android:text="@string/lblVerifyAccount"
                 style="@style/ButtonStyle.Orange.Medium"/>
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/lbl_Personal_Info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Personal Information"
+            android:textColor="@color/font_regular"
+            android:paddingHorizontal="19dp"
+            android:paddingVertical="17dp"
+            android:textSize="16sp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Personal Information"
-                android:textColor="@color/font_regular"
-                android:paddingHorizontal="19dp"
-                android:paddingVertical="17dp"
-                android:textSize="16sp"/>
+    <TextView
+        android:id="@+id/lbl_Info_verify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lbl_Personal_Info"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="ⓘ Personal Information is not yet verified"
+        android:textColor="@color/guanzon_digital_red" />
+
+
+</RelativeLayout>
+
 
             <View
                 android:layout_width="match_parent"
@@ -286,8 +304,11 @@
                     android:gravity="right"/>
 
             </LinearLayout>
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/lbl_Acct_Info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
@@ -296,7 +317,18 @@
                 android:textSize="16sp"
                 android:paddingHorizontal="19dp"
                 android:paddingVertical="17dp"/>
+            <TextView
+                android:id="@+id/lbl_Acct_verify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_Acct_Info"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:text="ⓘ Account Information is not yet verified"
+                android:textColor="@color/guanzon_digital_red" />
 
+</RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.4dp"
