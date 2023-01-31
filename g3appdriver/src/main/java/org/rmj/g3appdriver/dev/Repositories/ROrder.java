@@ -74,6 +74,12 @@ public class ROrder {
             } else if(ValidateItemQuantity(fsLstngID, fnQuantity)) {
                 Thread.sleep(1000);
 
+                EItemCart loItem = poCartDao.CheckIFItemExist(fsLstngID);
+                if(loItem != null){
+                    int lnQty = poCartDao.CheckIFItemExist(fsLstngID).getQuantity();
+                    fnQuantity = lnQty + fnQuantity;
+                }
+
                 ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
                 JSONObject params = new JSONObject();
                 params.put("sListngID", fsLstngID);
@@ -340,9 +346,9 @@ public class ROrder {
                 poCartDao.SaveItemInfo(loItem);
                 Log.d(TAG, "");
             } else {
-                int lnQty = poCartDao.CheckIFItemExist(fsLstngID).getQuantity();
-                lnQty = lnQty + fnQuantity;
-                poCartDao.UpdateItem(fsLstngID, lnQty);
+//                int lnQty = poCartDao.CheckIFItemExist(fsLstngID).getQuantity();
+//                lnQty = lnQty + fnQuantity;
+                poCartDao.UpdateItem(fsLstngID, fnQuantity);
             }
             return true;
         } catch (Exception e){
