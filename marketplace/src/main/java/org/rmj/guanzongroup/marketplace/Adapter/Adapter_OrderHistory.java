@@ -58,6 +58,7 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
         double lnSubTotal = lnTrantotl - (lnTrantotl * lnDiscount);
 
         double lnTotalxx = lnSubTotal + lnFreightx;
+        holder.lblBrandNm.setText(loMaster.xModelNme);
         holder.lblOrderTl.setText(CashFormatter.parse(String.valueOf(lnTotalxx)));
         holder.lblItmPrce.setText(CashFormatter.parse(String.valueOf(loMaster.nUnitPrce)));
         holder.lblItmQtyx.setText("Quantity: "+ loMaster.nQuantity);
