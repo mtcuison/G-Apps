@@ -316,7 +316,7 @@ public interface DOrderMaster {
             "LEFT JOIN Product_Inventory c " +
             "ON b.sStockIDx = c.sStockIDx " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info)" +
-            "AND a.cTranStat == '2'" +
+            "AND a.cTranStat == '4'" +
             "GROUP BY a.sTransNox " +
             "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetDeliveredOrdersList();
@@ -329,8 +329,12 @@ public interface DOrderMaster {
             " a.nFreightx," +
             " a.nDiscount," +
             " a.cPaymPstd," +
-            " a.nProcPaym,"+
+            " a.nProcPaym," +
             " a.nAmtPaidx," +
+            " a.sWaybilNo," +
+            " a.dWaybillx," +
+            " a.dPickedUp," +
+            " a.sBatchNox," +
             " a.sTermCode," +
             " a.cTranStat," +
             " b.sFrstName || ' ' || b.sMiddName || ' ' || b.sLastName || ' ' || IFNULL(b.sSuffixNm, '') AS sUserName," +
@@ -388,6 +392,10 @@ public interface DOrderMaster {
         public String sTermCode;
         public String cTranStat;
         public String cPaymPstd;
+        public String sWaybilNo;
+        public String dWaybillx;
+        public String dPickedUp;
+        public String sBatchNox;
 
         public String sUserName;
         public String sAddressx;
