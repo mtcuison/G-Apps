@@ -214,5 +214,4 @@ public class Activity_AccountDetails extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 }
