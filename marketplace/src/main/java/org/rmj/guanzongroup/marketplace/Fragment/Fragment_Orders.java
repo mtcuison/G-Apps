@@ -144,7 +144,7 @@ public class Fragment_Orders extends Fragment {
                         recyclerView.setAdapter(loAdapter);
                     });
                 } else if(s.equalsIgnoreCase("0")){
-                    mViewModel.GetOrderHistoryList().observe(getViewLifecycleOwner(), eOrderMasters -> {
+                    mViewModel.GetProcessingOrdersList().observe(getViewLifecycleOwner(), eOrderMasters -> {
                         if(eOrderMasters.size() > 0) {
                             txtNoList.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
@@ -171,6 +171,19 @@ public class Fragment_Orders extends Fragment {
                     });
                 } else if(s.equalsIgnoreCase("3")){
                     mViewModel.GetCancelledOrderList().observe(getViewLifecycleOwner(), eOrderMasters -> {
+                        if(eOrderMasters.size() > 0) {
+                            txtNoList.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            loAdapter = new Adapter_OrderHistory(eOrderMasters, loListener);
+                        } else {
+                            txtNoList.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                            txtNoList.setText("No available " + sLabel + " orders.");
+                        }
+                        recyclerView.setAdapter(loAdapter);
+                    });
+                } else if(s.equalsIgnoreCase("4")){
+                    mViewModel.GetDeliveredOrderList().observe(getViewLifecycleOwner(), eOrderMasters -> {
                         if(eOrderMasters.size() > 0) {
                             txtNoList.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
@@ -249,6 +262,7 @@ public class Fragment_Orders extends Fragment {
                 e.printStackTrace();
             }
         });
+
 
         return view;
     }
