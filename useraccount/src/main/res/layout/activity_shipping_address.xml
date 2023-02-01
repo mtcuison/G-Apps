@@ -18,10 +18,20 @@
             android:theme="@style/AppToolbar"/>
 
     </com.google.android.material.appbar.AppBarLayout>
+    <TextView
+        android:id="@+id/lbl_Address_verify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appToolbar"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="ⓘ Address is not yet verified"
+        android:textColor="@color/guanzon_digital_red" />
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

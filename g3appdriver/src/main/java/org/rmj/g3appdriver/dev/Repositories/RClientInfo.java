@@ -158,7 +158,7 @@ public class RClientInfo {
 //                    loDetail.setImgeStat(loResponse.getString("cImgeStat"));
 //                    loDetail.setImagePth(loResponse.getString("sImagePth"));
 //                    loDetail.setImgeDate(loResponse.getString("dImgeDate"));
-                    loDetail.setRecdStat(1);
+                    loDetail.setVerified(loResponse.getInt("cVerified"));
                     poDao.update(loDetail);
                     AccountInfo loAcc = new AccountInfo(mContext);
                     loAcc.setClientID(loResponse.getString("sClientID"));

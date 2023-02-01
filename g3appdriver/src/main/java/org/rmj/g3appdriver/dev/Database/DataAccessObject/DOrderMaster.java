@@ -85,7 +85,16 @@ public interface DOrderMaster {
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
             "WHERE cTranStat = '0' " +
             "AND sAppUsrID = (" +
-            "SELECT sUserIDxx FROM Client_Profile_Info)")
+            "SELECT sUserIDxx FROM Client_Profile_Info)" +
+            "AND cTranStat= '0' " +
+            "AND cPaymType == '1'" +
+            "OR cTranStat= '0' " +
+            "AND cPaymType == '2' " +
+            "AND cPaymPstd == '1' " +
+            "OR cTranStat= '0' " +
+            "AND cPaymType == '2' " +
+            "AND cPaymPstd == '0' " +
+            "AND nTranTotl <= nProcPaym")
     LiveData<Integer> GetProcessingOrdersCount();
 
     @Query("SELECT COUNT(*) FROM MarketPlace_Order_Master " +
@@ -130,10 +139,26 @@ public interface DOrderMaster {
             "LEFT JOIN MarketPlace_Order_Detail b " +
             "ON a.sTransNox = b.sTransNox " +
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
-            "AND a.cTranStat=:fsVal " +
+            "AND a.cTranStat == '0' " +
+            "AND a.cPaymType == '1' " +
+            "OR a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND a.cTranStat == '0' " +
+            "AND a.cPaymType == '2' " +
+            "AND a.cPaymPstd == '1' " +
+            "AND a.nTranTotl <= a.nProcPaym " +
+            "OR a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND a.cTranStat == '0' " +
+            "AND a.cPaymType == '2' " +
+            "AND a.cPaymPstd == '0' " +
+            "AND a.nTranTotl <= a.nProcPaym " +
+            "OR a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND a.cTranStat == '0' " +
+            "AND a.cPaymType == '2' " +
+            "AND a.cPaymPstd == '1' " +
+            "AND a.nTranTotl > a.nProcPaym " +
             "GROUP BY a.sTransNox " +
             "ORDER BY a.dTimeStmp DESC")
-    LiveData<List<OrderHistory>> GetOrderHistoryList(String fsVal);
+    LiveData<List<OrderHistory>> GetProcessingOrderList();
 
     @Query("SELECT a.sTransNox, " +
             "a.cTranStat, " +
@@ -171,6 +196,131 @@ public interface DOrderMaster {
             "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetToPayOrderList();
 
+    @Query("SELECT a.sTransNox, " +
+            "a.cTranStat, " +
+            "a.nTranTotl, " +
+            "a.nFreightx, " +
+            "a.nAmtPaidx, " +
+            "a.nDiscount, " +
+            "a.nProcPaym, " +
+            "a.sTermCode, " +
+            "a.cPaymPstd, " +
+            "b.nEntryNox, " +
+            "b.nQuantity, " +
+            "b.nUnitPrce, " +
+            "b.nDiscount, " +
+            "c.sBriefDsc, " +
+            "c.xBarCodex, " +
+            "c.sImagesxx, " +
+            "c.xBrandNme, " +
+            "c.xModelNme, " +
+            "c.xColorNme, " +
+            "c.xCategrNm " +
+            "FROM MarketPlace_Order_Master a " +
+            "LEFT JOIN MarketPlace_Order_Detail b " +
+            "ON a.sTransNox = b.sTransNox " +
+            "LEFT JOIN Product_Inventory c " +
+            "ON b.sStockIDx = c.sStockIDx " +
+            "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info)" +
+            "AND a.cTranStat == '1'" +
+            "GROUP BY a.sTransNox " +
+            "ORDER BY a.dTimeStmp DESC")
+    LiveData<List<OrderHistory>> GetToShipOrdersList();
+
+    @Query("SELECT a.sTransNox, " +
+            "a.cTranStat, " +
+            "a.nTranTotl, " +
+            "a.nFreightx, " +
+            "a.nAmtPaidx, " +
+            "a.nDiscount, " +
+            "a.nProcPaym, " +
+            "a.sTermCode, " +
+            "a.cPaymPstd, " +
+            "b.nEntryNox, " +
+            "b.nQuantity, " +
+            "b.nUnitPrce, " +
+            "b.nDiscount, " +
+            "c.sBriefDsc, " +
+            "c.xBarCodex, " +
+            "c.sImagesxx, " +
+            "c.xBrandNme, " +
+            "c.xModelNme, " +
+            "c.xColorNme, " +
+            "c.xCategrNm " +
+            "FROM MarketPlace_Order_Master a " +
+            "LEFT JOIN MarketPlace_Order_Detail b " +
+            "ON a.sTransNox = b.sTransNox " +
+            "LEFT JOIN Product_Inventory c " +
+            "ON b.sStockIDx = c.sStockIDx " +
+            "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info)" +
+            "AND a.dWaybillx <> '' " +
+            "AND a.sWaybilNo <> ''" +
+            "GROUP BY a.sTransNox " +
+            "ORDER BY a.dTimeStmp DESC")
+    LiveData<List<OrderHistory>> GetShippedOrdersList();
+
+    @Query("SELECT a.sTransNox, " +
+            "a.cTranStat, " +
+            "a.nTranTotl, " +
+            "a.nFreightx, " +
+            "a.nAmtPaidx, " +
+            "a.nDiscount, " +
+            "a.nProcPaym, " +
+            "a.sTermCode, " +
+            "a.cPaymPstd, " +
+            "b.nEntryNox, " +
+            "b.nQuantity, " +
+            "b.nUnitPrce, " +
+            "b.nDiscount, " +
+            "c.sBriefDsc, " +
+            "c.xBarCodex, " +
+            "c.sImagesxx, " +
+            "c.xBrandNme, " +
+            "c.xModelNme, " +
+            "c.xColorNme, " +
+            "c.xCategrNm " +
+            "FROM MarketPlace_Order_Master a " +
+            "LEFT JOIN MarketPlace_Order_Detail b " +
+            "ON a.sTransNox = b.sTransNox " +
+            "LEFT JOIN Product_Inventory c " +
+            "ON b.sStockIDx = c.sStockIDx " +
+            "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info)" +
+            "AND a.cTranStat == '3' " +
+            "GROUP BY a.sTransNox " +
+            "ORDER BY a.dTimeStmp DESC")
+    LiveData<List<OrderHistory>> GetCancelledOrdersList();
+
+    @Query("SELECT a.sTransNox, " +
+            "a.cTranStat, " +
+            "a.nTranTotl, " +
+            "a.nFreightx, " +
+            "a.nAmtPaidx, " +
+            "a.nDiscount, " +
+            "a.nProcPaym, " +
+            "a.sTermCode, " +
+            "a.cPaymPstd, " +
+            "b.nEntryNox, " +
+            "b.nQuantity, " +
+            "b.nUnitPrce, " +
+            "b.nDiscount, " +
+            "c.sBriefDsc, " +
+            "c.xBarCodex, " +
+            "c.sImagesxx, " +
+            "c.xBrandNme, " +
+            "c.xModelNme, " +
+            "c.xColorNme, " +
+            "c.xCategrNm " +
+            "FROM MarketPlace_Order_Master a " +
+            "LEFT JOIN MarketPlace_Order_Detail b " +
+            "ON a.sTransNox = b.sTransNox " +
+            "LEFT JOIN Product_Inventory c " +
+            "ON b.sStockIDx = c.sStockIDx " +
+            "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info)" +
+            "AND a.cTranStat == '4'" +
+            "GROUP BY a.sTransNox " +
+            "ORDER BY a.dTimeStmp DESC")
+    LiveData<List<OrderHistory>> GetDeliveredOrdersList();
+
     @Query("SELECT a.sTransNox," +
             " a.dTransact," +
             " IFNULL(a.dExpected, ''), dExpected," +
@@ -179,8 +329,12 @@ public interface DOrderMaster {
             " a.nFreightx," +
             " a.nDiscount," +
             " a.cPaymPstd," +
-            " a.nProcPaym,"+
+            " a.nProcPaym," +
             " a.nAmtPaidx," +
+            " a.sWaybilNo," +
+            " a.dWaybillx," +
+            " a.dPickedUp," +
+            " a.sBatchNox," +
             " a.sTermCode," +
             " a.cTranStat," +
             " b.sFrstName || ' ' || b.sMiddName || ' ' || b.sLastName || ' ' || IFNULL(b.sSuffixNm, '') AS sUserName," +
@@ -238,9 +392,13 @@ public interface DOrderMaster {
         public String sTermCode;
         public String cTranStat;
         public String cPaymPstd;
+        public String sWaybilNo;
+        public String dWaybillx;
+        public String dPickedUp;
+        public String sBatchNox;
+
         public String sUserName;
         public String sAddressx;
         public String sMobileNo;
     }
-
 }

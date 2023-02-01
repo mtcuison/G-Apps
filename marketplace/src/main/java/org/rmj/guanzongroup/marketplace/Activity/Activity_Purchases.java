@@ -112,6 +112,9 @@ public class Activity_Purchases extends AppCompatActivity {
                     findViewById(R.id.lblNoOrderInfo).setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.scrollView).setVisibility(View.VISIBLE);
+                    if(!foOrder.cTranStat.equals("0")){
+                        btnCancel.setVisibility(View.GONE);
+                    }
                     if(foOrder.sTermCode.isEmpty()){
                         lblAmountPd.setText("Unpaid order will be automatically cancelled within 24 hours.");
                         btnPay.setVisibility(View.VISIBLE);
@@ -131,11 +134,12 @@ public class Activity_Purchases extends AppCompatActivity {
                         }
 
                         if(foOrder.cPaymPstd.equalsIgnoreCase("0")){
-                            lblAmountPd.setText("Processing Payment");
+
                         } else if(foOrder.cPaymPstd.equalsIgnoreCase("1")) {
                             if(foOrder.nTranTotl > foOrder.nProcPaym){
                                 lblAmountPd.setText("Amount Paid: " + CashFormatter.parse(String.valueOf(foOrder.nProcPaym)) + "\n\n Online payment takes time to process and may not take effect immediately in order preview.");
                                 btnPay.setVisibility(View.VISIBLE);
+                                btnCancel.setVisibility(View.GONE);
                             } else {
                                 lblAmountPd.setText("");
                                 btnPay.setVisibility(View.GONE);
@@ -192,6 +196,8 @@ public class Activity_Purchases extends AppCompatActivity {
                     txtShipFe.setText(CashFormatter.parse(String.valueOf(foOrder.nFreightx)));
                     txtOthFee.setText("");
                     txtTotalx.setText(CashFormatter.parse(String.valueOf(lnTotalxx)));
+
+
 
                     btnPay.setOnClickListener(v -> {
                         Intent loIntent = new Intent(Activity_Purchases.this, Activity_PayOrder.class);
