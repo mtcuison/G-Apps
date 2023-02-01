@@ -56,17 +56,16 @@ public class Activity_ShippingAddress extends AppCompatActivity {
     }
 
     public void setFragment(int fnPageNox) {
-        mViewModel.getClientBSAddress().observe(this, clientInfo -> {
+        mViewModel.getClientBSAddress().observe(this, AddressInfo -> {
             TextView lblAddVerify=findViewById(R.id.lbl_Address_verify);
             try {
-                if (clientInfo.cVerified.equalsIgnoreCase("1")){
+                if (AddressInfo.cVerified.equalsIgnoreCase("1")){
                     lblAddVerify.setVisibility(View.GONE);
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
-
 
         FragmentTransaction mFragHold = getSupportFragmentManager().beginTransaction();
         switch (fnPageNox) {
