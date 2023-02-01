@@ -63,6 +63,7 @@ public interface DClientInfo {
     @Query("SELECT " +
             "a.sHouseNo1, " +
             "a.sAddress1, " +
+            "a.cVerified, " +
             "(SELECT " +
             "sBrgyName " +
             "FROM Barangay_Info " +
@@ -156,6 +157,7 @@ public interface DClientInfo {
         public String sBrgyNme2;
         public String sTownNme2;
         public String sProvNme2;
+        public String cVerified;
     }
 
     class oAddressUpdate{
