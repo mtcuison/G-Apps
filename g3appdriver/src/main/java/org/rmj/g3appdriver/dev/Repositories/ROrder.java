@@ -652,8 +652,15 @@ public class ROrder {
                                 loclMaster.setDiscount(joMaster.getDouble("nDiscount"));
                                 loclMaster.setFreightx(joMaster.getDouble("nFreightx"));
                                 loclMaster.setAmtPaidx(joMaster.getDouble("nAmtPaidx"));
+                                loclMaster.setWaybillx(joMaster.getString("dWaybillx"));
+                                loclMaster.setWaybilNo(joMaster.getString("sWaybilNo"));
+                                loclMaster.setPickedUp(joMaster.getString("dPickedUp"));
+                                loclMaster.setBatchNox(joMaster.getString("sBatchNox"));
+                                loclMaster.setProcPaym(joMaster.getDouble("nProcPaym"));
                                 loclMaster.setTermCode(joMaster.getString("sTermCode"));
+                                loclMaster.setPaymType(joMaster.getString("cPaymType"));
                                 loclMaster.setTranStat(joMaster.getString("cTranStat"));
+                                loclMaster.setPaymPstd(joMaster.getString("cPaymPstd"));
                                 loclMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
                                 poMaster.UpdateMaster(loclMaster);
                                 Log.d(TAG, "Order master updated!. Transaction No. : " + loclMaster.getTransNox());
