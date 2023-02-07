@@ -150,12 +150,6 @@ public interface DOrderMaster {
             "AND a.cTranStat == '0' " +
             "AND a.cPaymType == '2' " +
             "AND a.cPaymPstd == '0' " +
-            "AND a.nTranTotl <= a.nProcPaym " +
-            "OR a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
-            "AND a.cTranStat == '0' " +
-            "AND a.cPaymType == '2' " +
-            "AND a.cPaymPstd == '1' " +
-            "AND a.nTranTotl > a.nProcPaym " +
             "GROUP BY a.sTransNox " +
             "ORDER BY a.dTimeStmp DESC")
     LiveData<List<OrderHistory>> GetProcessingOrderList();
@@ -188,8 +182,9 @@ public interface DOrderMaster {
             "WHERE a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
             "AND a.sTermCode == '' " +
             "AND a.cTranStat == '0' " +
-            "OR a.sTermCode = 'C0W2011' " +
-            "AND a.cPaymPstd <> '0' " +
+            "OR a.sAppUsrID = (SELECT sUserIDxx FROM Client_Profile_Info) " +
+            "AND a.cPaymType = '2' " +
+            "AND a.cPaymPstd == '1' " +
             "AND a.cTranStat == '0' " +
             "AND a.nTranTotl > a.nProcPaym " +
             "GROUP BY a.sTransNox " +

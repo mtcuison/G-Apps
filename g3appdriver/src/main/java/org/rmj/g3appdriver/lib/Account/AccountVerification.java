@@ -58,7 +58,7 @@ public class AccountVerification {
             JSONObject params = new JSONObject();
             params.put("sMobileNo", fsVal);
 
-            String lsAddress = "";
+            String lsAddress = poApi.getUpdateClientMobileAPI();
             String lsResponse = WebClient.httpsPostJSon(
                     lsAddress,
                     params.toString(),

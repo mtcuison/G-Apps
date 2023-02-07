@@ -51,6 +51,7 @@ public class ServerAPIs {
 //    private static final String IMPORT_ACCOUNT_INFO = "integsys/marketplace/import_client_detail.php";
     private static final String UPDATE_ACCOUNT_INFO = "integsys/marketplace/update_client_info.php";
     private static final String UPDATE_MOBILE_NO = "integsys/marketplace/request_mobile_update.php";
+    private static final String UPDATE_CLIENT_MOBILE_NO = "integsys/marketplace/update_client_mobile.php";
     private static final String IMPORT_MOBILE_NO = "integsys/marketplace/import_client_mobile.php";
     private static final String UPDATE_ADDRESS = "integsys/marketplace/request_address_update.php";
     private static final String URL_UPDATE_ADDRESS = "integsys/marketplace/update_client_address.php";
@@ -662,5 +663,10 @@ public class ServerAPIs {
         return LIVE + GET_PANALO_REWARDS;
     }
 
-
+    public String getUpdateClientMobileAPI(){
+        if(isTestUnit){
+            return LOCAL + UPDATE_CLIENT_MOBILE_NO;
+        }
+        return LIVE + UPDATE_CLIENT_MOBILE_NO;
+    }
 }

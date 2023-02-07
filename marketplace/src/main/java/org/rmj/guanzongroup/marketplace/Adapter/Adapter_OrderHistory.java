@@ -115,14 +115,15 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
 
                 if(fsVal.sTermCode.equalsIgnoreCase("C0W2011")) {
                     if(fsVal.cPaymPstd.equalsIgnoreCase("0")) {
-                        if (fsVal.nTranTotl > fsVal.nProcPaym) {
-                            return "To Pay";
-                        }
+//                        if (fsVal.nTranTotl > fsVal.nProcPaym) {
+//                            return "To Pay";
+//                        }
 
                         return "Processing Payment";
                     } else if(fsVal.cPaymPstd.equalsIgnoreCase("1")){
                         if (fsVal.nTranTotl > fsVal.nProcPaym) {
-                            return "Processing Payment";
+                            return "To Pay";
+//                            return "Processing Payment";
                         }
                     } else if(fsVal.cPaymPstd.equalsIgnoreCase("3")){
                         return "To Pay";
