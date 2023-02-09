@@ -35,7 +35,7 @@
         <item
             android:id="@+id/nav_applyLoan"
             android:icon="@drawable/ic_baseline_loan_24"
-            android:visible="false"
+            android:visible="true"
             android:title="@string/menu_apply_loan" />
 
         <item

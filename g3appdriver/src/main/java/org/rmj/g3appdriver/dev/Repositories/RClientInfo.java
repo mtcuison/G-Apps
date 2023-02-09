@@ -337,7 +337,7 @@ public class RClientInfo {
 
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             String lsResponse = WebClient.httpsPostJSon(
-                    loApis.getEmailUpdateAPI(),
+                    loApis.getChangePasswordAPI(),
                     param.toString(),
                     new HttpHeaders(mContext).getHeaders());
             if(lsResponse == null){
@@ -376,18 +376,17 @@ public class RClientInfo {
             if(lsResponse == null){
                 message = "Unable to retrieve server response.";
                 return false;
-            } else {
-                JSONObject loResponse = new JSONObject(lsResponse);
-                String lsResult = loResponse.getString("result");
-                if(!lsResult.equalsIgnoreCase("success")){
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    message = loError.getString("message");
-                    return false;
-                } else {
-                    poJson = loResponse;
-                    return true;
-                }
             }
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(!lsResult.equalsIgnoreCase("success")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            poJson = loResponse;
+            return true;
         } catch (Exception e){
             e.printStackTrace();
             message = e.getMessage();

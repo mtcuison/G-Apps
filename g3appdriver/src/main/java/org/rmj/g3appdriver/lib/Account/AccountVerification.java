@@ -86,6 +86,71 @@ public class AccountVerification {
         }
     }
 
+    public boolean VerifyMobileNo(String mobileNo, String otp){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("sMobileNo", mobileNo);
+            params.put("sOTPasswd", otp);
+
+            String lsAddress = poApi.getVerifyClientMobileAPI();
+            String lsResponse = WebClient.httpsPostJSon(
+                    lsAddress,
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = "Server no response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean VerifyEmailAddress(String email, String otp){
+        try{
+            JSONObject param = new JSONObject();
+            param.put("sEmailAdd", email);
+            param.put("sOTPasswd", otp);
+
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getVerifyEmailUpdateAPI(),
+                    param.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(!lsResult.equalsIgnoreCase("success")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = loError.getString("message");
+                return false;
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
+
     public List<UserIdentification> ImportIDCode(){
         try {
             String lsResponse = WebClient.httpsPostJSon(

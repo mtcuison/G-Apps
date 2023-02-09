@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.API;
+package org.rmj.g3appdriver.Account;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -17,14 +17,15 @@ import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
+import org.rmj.g3appdriver.lib.Account.AccountVerification;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class UpdateClientMobile {
-    private static final String TAG = UpdateClientMobile.class.getSimpleName();
+public class UpdateVerificationTest {
+    private static final String TAG = UpdateVerificationTest.class.getSimpleName();
     private Context mContext;
 
-    private RClientInfo poClient;
+    private AccountVerification poClient;
 
     private static boolean isSuccess = false;
 
@@ -32,10 +33,10 @@ public class UpdateClientMobile {
     public void setUp() throws Exception {
         mContext = ApplicationProvider.getApplicationContext();
         new GuanzonAppConfig(mContext).setTestCase(true);
-        poClient = new RClientInfo(mContext);
+        poClient = new AccountVerification(mContext);
 
         AccountAuthentication loAuth = new AccountAuthentication(mContext);
-        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "123456", "09260375777"), new AccountAuthentication.OnLoginCallback() {
+        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "123456", "09270359402"), new AccountAuthentication.OnLoginCallback() {
             @Override
             public void OnSuccessLogin(String message) {
                 Log.e(TAG, message);
@@ -51,13 +52,12 @@ public class UpdateClientMobile {
 
             }
         });
+    }
 
+    @Test
+    public void test01VerifyEmail() throws Exception{
         Thread.sleep(1000);
-    }
-
-    @Test
-    public void test01UpdateClientMobile(){
-        isSuccess = poClient.UpdateMobileNo("09270359402");
+        isSuccess = poClient.VerifyEmailAddress("mikegarcia8748@gmail.com", "486254");
         if(!isSuccess){
             Log.e(TAG, poClient.getMessage());
         }
@@ -66,31 +66,13 @@ public class UpdateClientMobile {
     }
 
     @Test
-    public void test02UpdateClientEmail(){
-        isSuccess = poClient.UpdateEmailAddress("mikegarcia8748@gmail.com");
+    public void test01VerifyMobileNo() throws Exception{
+        Thread.sleep(1000);
+        isSuccess = poClient.VerifyMobileNo("09270359402", "088407");
         if(!isSuccess){
             Log.e(TAG, poClient.getMessage());
         }
         assertTrue(isSuccess);
 //        assertFalse(isSuccess);
     }
-
-    @Test
-    public void test03ImportClientEmail(){
-        isSuccess = poClient.GetEmails();
-        if(!isSuccess){
-            Log.e(TAG, poClient.getMessage());
-        }
-        assertTrue(isSuccess);
-    }
-
-    @Test
-    public void test04ImportClientMobile(){
-        isSuccess = poClient.GetMobileNos();
-        if(!isSuccess){
-            Log.e(TAG, poClient.getMessage());
-        }
-        assertTrue(isSuccess);
-    }
-
 }

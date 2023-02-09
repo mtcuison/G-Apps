@@ -52,11 +52,13 @@ public class ServerAPIs {
     private static final String UPDATE_ACCOUNT_INFO = "integsys/marketplace/update_client_info.php";
     private static final String UPDATE_MOBILE_NO = "integsys/marketplace/request_mobile_update.php";
     private static final String UPDATE_CLIENT_MOBILE_NO = "integsys/marketplace/update_client_mobile.php";
+    private static final String VERIFY_CLIENT_MOBILE_NO = "integsys/marketplace/verify_client_mobile.php";
     private static final String IMPORT_MOBILE_NO = "integsys/marketplace/import_client_mobile.php";
     private static final String UPDATE_ADDRESS = "integsys/marketplace/request_address_update.php";
     private static final String URL_UPDATE_ADDRESS = "integsys/marketplace/update_client_address.php";
     private static final String URL_UPDATE_MOBILE = "integsys/marketplace/update_client_mobile.php";
     private static final String URL_UPDATE_EMAIL = "integsys/marketplace/update_client_email.php";
+    private static final String VERIFY_UPDATE_EMAIL = "integsys/marketplace/verify_client_email.php";
     private static final String IMPORT_EMAILS = "integsys/marketplace/import_client_email.php";
     private static final String IMPORT_PAYMENT_METHODS = "";
     private static final String UPDATE_PAYMENT_METHOD = "";
@@ -486,6 +488,12 @@ public class ServerAPIs {
         }
         return LIVE + URL_UPDATE_EMAIL;
     }
+    public String getVerifyEmailUpdateAPI(){
+        if(isTestUnit){
+            return LOCAL + VERIFY_UPDATE_EMAIL;
+        }
+        return LIVE + VERIFY_UPDATE_EMAIL;
+    }
 
     public String getAddToCartAPI(){
         if(isTestUnit){
@@ -668,5 +676,12 @@ public class ServerAPIs {
             return LOCAL + UPDATE_CLIENT_MOBILE_NO;
         }
         return LIVE + UPDATE_CLIENT_MOBILE_NO;
+    }
+
+    public String getVerifyClientMobileAPI(){
+        if(isTestUnit){
+            return LOCAL + VERIFY_CLIENT_MOBILE_NO;
+        }
+        return LIVE + VERIFY_CLIENT_MOBILE_NO;
     }
 }
