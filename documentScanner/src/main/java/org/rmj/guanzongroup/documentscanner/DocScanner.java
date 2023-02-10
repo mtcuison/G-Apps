@@ -1,30 +1,20 @@
-package org.rmj.guanzongroup.useraccount.Etc;
+package org.rmj.guanzongroup.documentscanner;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
-import androidx.activity.ComponentActivity;
 import androidx.appcompat.app.AppCompatActivity;
-
-//import com.websitebeaver.documentscanner.DocumentScanner;
-
-import com.websitebeaver.documentscanner.DocumentScanner;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class DocScanner {
     private static final String TAG = DocScanner.class.getSimpleName();
 
-    private final ComponentActivity instance;
+    private final AppCompatActivity instance;
 
     public interface OnScanDocumentListener{
         void OnScanned(Bitmap bitmap);
@@ -32,7 +22,7 @@ public class DocScanner {
         void OnCancelled();
     }
 
-    public DocScanner(ComponentActivity activity) {
+    public DocScanner(AppCompatActivity activity) {
         this.instance = activity;
     }
 
@@ -72,7 +62,6 @@ public class DocScanner {
 
         poScan.startScan();
     }
-
     public static String saveBitmap2SD(Bitmap bitmap, String fsFileName) {
         String sdStatus = Environment.getExternalStorageState();
         if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { //Check sd whether usable.

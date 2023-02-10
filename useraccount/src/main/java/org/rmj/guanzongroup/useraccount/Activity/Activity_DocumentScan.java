@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
-import org.rmj.guanzongroup.useraccount.Etc.DocScanner;
+import org.rmj.guanzongroup.documentscanner.DocScanner;
 import org.rmj.guanzongroup.useraccount.R;
 
 import java.io.ByteArrayOutputStream;
