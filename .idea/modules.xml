@@ -4,10 +4,22 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/G-Apps.iml" filepath="$PROJECT_DIR$/.idea/modules/G-Apps.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/G-Apps.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/G-Apps.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/G-Apps.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/G-Apps.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/G-Apps.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/G-Apps.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/G-Apps.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/G-Apps.app.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/commons-codec-1.11/G-Apps.commons-codec-1.11.iml" filepath="$PROJECT_DIR$/.idea/modules/commons-codec-1.11/G-Apps.commons-codec-1.11.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3appdriver/G-Apps.g3appdriver.iml" filepath="$PROJECT_DIR$/.idea/modules/g3appdriver/G-Apps.g3appdriver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3appdriver/G-Apps.g3appdriver.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/g3appdriver/G-Apps.g3appdriver.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3appdriver/G-Apps.g3appdriver.main.iml" filepath="$PROJECT_DIR$/.idea/modules/g3appdriver/G-Apps.g3appdriver.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3appdriver/G-Apps.g3appdriver.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/g3appdriver/G-Apps.g3appdriver.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3logindriver/G-Apps.g3logindriver.iml" filepath="$PROJECT_DIR$/.idea/modules/g3logindriver/G-Apps.g3logindriver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3logindriver/G-Apps.g3logindriver.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/g3logindriver/G-Apps.g3logindriver.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3logindriver/G-Apps.g3logindriver.main.iml" filepath="$PROJECT_DIR$/.idea/modules/g3logindriver/G-Apps.g3logindriver.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3logindriver/G-Apps.g3logindriver.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/g3logindriver/G-Apps.g3logindriver.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3msg_notifylib/G-Apps.g3msg_notifylib.iml" filepath="$PROJECT_DIR$/.idea/modules/g3msg_notifylib/G-Apps.g3msg_notifylib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3msg_notifylib/G-Apps.g3msg_notifylib.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/g3msg_notifylib/G-Apps.g3msg_notifylib.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3msg_notifylib/G-Apps.g3msg_notifylib.main.iml" filepath="$PROJECT_DIR$/.idea/modules/g3msg_notifylib/G-Apps.g3msg_notifylib.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/g3msg_notifylib/G-Apps.g3msg_notifylib.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/g3msg_notifylib/G-Apps.g3msg_notifylib.unitTest.iml" />
     </modules>
   </component>
 </project>

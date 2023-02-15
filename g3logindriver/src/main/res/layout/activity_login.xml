@@ -36,7 +36,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/profile_guanzon_logo"
-                android:tint="@color/colorAccentLight"/>
+                app:tint="@color/colorAccentLight" />
 
         </LinearLayout>
 
