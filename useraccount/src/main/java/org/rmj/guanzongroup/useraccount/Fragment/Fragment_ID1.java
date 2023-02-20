@@ -1,5 +1,9 @@
 package org.rmj.guanzongroup.useraccount.Fragment;
 
+import static org.rmj.guanzongroup.documentscanner.constants.ScanConstants.IDCodexx;
+import static org.rmj.guanzongroup.documentscanner.constants.ScanConstants.UserIDxx;
+import static org.rmj.guanzongroup.documentscanner.constants.ScanConstants.IDFacexx;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -35,6 +39,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ImageFileHandler;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.Account.Obj.UserIdentification;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -140,6 +145,7 @@ public class Fragment_ID1 extends Fragment {
         imageFront = view.findViewById(R.id.img_frontID);
         imageBack = view.findViewById(R.id.img_backID);
 
+        UserIDxx = new AccountInfo(requireActivity()).getUserID();
         List<UserIdentification> loList = Activity_IDVerification.getInstance().getIDList();
 
         ArrayList<String> lsIDList = new ArrayList<>();
@@ -152,6 +158,7 @@ public class Fragment_ID1 extends Fragment {
             try {
                 for (int x = 0; x < loList.size(); x++) {
                     if (spnIDType.getText().toString().trim().equalsIgnoreCase(loList.get(x).getIDName())) {
+                        IDCodexx = loList.get(x).getIDCode();
                         poDetail.setsIDCodexx(loList.get(x).getIDCode());
                         poDetail.setcHasExpre(loList.get(x).hasExpiry());
                         poDetail.setcHasExpre(loList.get(x).hasExpiry());
@@ -225,6 +232,7 @@ public class Fragment_ID1 extends Fragment {
                 poRequest.launch(Manifest.permission.CAMERA);
             } else if(!poDetail.getsIDCodexx().trim().isEmpty()) {
                 cFront = true;
+                IDFacexx = "Front";
                 InitializeCamera(true);
             } else {
                 Toast.makeText(requireActivity(), "Please select valid ID 1 first", Toast.LENGTH_SHORT).show();
@@ -236,6 +244,7 @@ public class Fragment_ID1 extends Fragment {
                 poRequest.launch(Manifest.permission.CAMERA);
             } else if(!poDetail.getsIDCodexx().trim().isEmpty()) {
                 cFront = false;
+                IDFacexx = "Back";
                 InitializeCamera(false);
             } else {
                 Toast.makeText(requireActivity(), "Please select valid ID 1 first", Toast.LENGTH_SHORT).show();
