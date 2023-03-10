@@ -14,15 +14,7 @@
     <string name="None_Guanzon_Panalo_Prize">Note: Please be aware that all Guanzon panalo prizes could only be use if your account is updated.</string>
     <string name="Guanzon_Panalo_TermsAndPolicy">Tap Here to know more about out Guanzon Panalo Terms and Poliicy.</string>
     <string name="txt_claim_prize">Please claim your prize</string>
-    <string name="guanzon_panalo_n_ganado">Guanzon Panalo \n Ganado</string>
-    <string name="guanzon_panalo_nbanner">Guanzon Panalo \nBanner</string>
-    <string name="name_of_gcard">Name of GCard</string>
-    <string name="points_100">Points: 100</string>
-    <string name="coming_soon">\t\t\t\tComing soon…\t\t\t\t\t\t\t\t\t\t</string>
-    <string name="txt_CardNumber">M011000000000</string>
     <string name="my_gcard">My GCard</string>
     <string name="panalo">Panalo</string>
-    <string name="rewards">Rewards</string>
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>
