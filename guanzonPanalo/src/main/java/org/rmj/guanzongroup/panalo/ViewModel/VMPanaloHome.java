@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.panalo.Fragment;
+package org.rmj.guanzongroup.panalo.ViewModel;
 
 import android.app.Application;
 

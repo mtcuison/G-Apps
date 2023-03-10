@@ -27,6 +27,7 @@ import org.rmj.guanzongroup.panalo.Dialog.PanaloDialog;
 import org.rmj.guanzongroup.panalo.Dialog.PanaloDialogClickListener;
 import org.rmj.guanzongroup.panalo.Dialog.iDialog;
 import org.rmj.guanzongroup.panalo.R;
+import org.rmj.guanzongroup.panalo.ViewModel.VMPanaloHome;
 
 import java.util.ArrayList;
 import java.util.List;

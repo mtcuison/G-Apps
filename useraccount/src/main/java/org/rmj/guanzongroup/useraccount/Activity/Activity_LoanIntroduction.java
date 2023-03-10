@@ -15,7 +15,10 @@ import org.rmj.guanzongroup.useraccount.R;
 
 import java.util.Objects;
 
+
 public class Activity_LoanIntroduction extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
