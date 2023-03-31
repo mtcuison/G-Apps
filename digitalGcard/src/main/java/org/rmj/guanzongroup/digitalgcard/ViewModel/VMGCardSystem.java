@@ -301,8 +301,26 @@ public class VMGCardSystem extends AndroidViewModel {
                         @Override
                         public void OnSuccess(String args) {
                             try {
-                                JSONObject loDetail = new JSONObject(args);
-                                mGcardSys.SaveGCardInfo(loDetail);
+                                Thread.sleep(1000);
+                                mGcardSys.DownloadGcardNumbers(new GCardSystem.GCardSystemCallback() {
+                                    @Override
+                                    public void OnSuccess(String args) {
+                                        try {
+                                            JSONObject loDetail = new JSONObject(args);
+                                            mGcardSys.SaveGCardInfo(loDetail);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        lsResult[0] = parse(FAILED, message);
+                                    }
+                                });
+
+                                Thread.sleep(1000);
                                 mGcardSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
                                     @Override
                                     public void OnSuccess(String args) {

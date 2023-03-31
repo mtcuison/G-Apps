@@ -176,7 +176,8 @@ public class GCardManager implements iGCardSystem{
     public void AddGCardQrCode(String GCardNumber, GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
         params.put("secureno", poCode.generateSecureNo(GCardNumber));
-        String lsResponse = WebClient.httpsPostJSon(poAPI.getAddNewGCardAPI(), params.toString(), poHeaders.getHeaders());
+        String lsAddress = poAPI.getAddNewGCardAPI();
+        String lsResponse = WebClient.httpsPostJSon(lsAddress, params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("No server response.");
         } else {
