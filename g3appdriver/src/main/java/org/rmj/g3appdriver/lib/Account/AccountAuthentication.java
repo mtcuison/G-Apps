@@ -53,6 +53,7 @@ public class AccountAuthentication {
                     loInfo.setUserID(loResponse.getString("sUserIDxx"));
                     loInfo.setFullName(loResponse.getString("sUserName"));
 //                    loInfo.setEmailAdd(loResponse.getString("sEmailAdd"));
+                    loInfo.setMobileNo(credentials.sMobileNo);
                     loInfo.setLoginStatus(true);
 
                     EClientInfo loClient = new EClientInfo();

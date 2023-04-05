@@ -89,7 +89,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                     Intent loIntent = result.getData();
                     if (loIntent != null) {
 //                        Toast.makeText(Activity_Dashboard.this, loIntent.getStringExtra("result"), Toast.LENGTH_LONG).show();
-                        String lsArgs = loIntent.getStringExtra("args");
+                        String lsArgs = loIntent.getStringExtra("result");
                         ParseQrCode(lsArgs);
                     } else {
                         Toast.makeText(Activity_Dashboard.this, "No data result receive.", Toast.LENGTH_LONG).show();

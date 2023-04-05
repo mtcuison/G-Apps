@@ -301,7 +301,7 @@ public class GCardManager implements iGCardSystem{
     @Override
     public void ParseQrCode(String val, GCardSystem.ParseQrCodeCallback callback) throws Exception {
         poCode.setEncryptedQrCode(val);
-        String lsMobileNo = new Telephony(mContext).getMobilNumbers();
+        String lsMobileNo = new AccountInfo(mContext).getMobileNo();
         String lsUserIDxx = new AccountInfo(mContext).getUserID();
         String lsGcardNox = poGCard.getCardNo();
         if(poConfig.getTestCase() && lsMobileNo.isEmpty()){
