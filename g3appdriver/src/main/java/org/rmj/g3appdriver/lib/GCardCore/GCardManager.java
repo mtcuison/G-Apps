@@ -311,9 +311,10 @@ public class GCardManager implements iGCardSystem{
             callback.OnFailed("No Gcard number detected");
         } else if(!poCode.isCodeValid()){
             callback.OnFailed("Invalid Qr Code");
-        } else
-            if (poCode.isQrCodeTransaction()){
-            if(lsUserIDxx.isEmpty()){
+        } else if (poCode.isQrCodeTransaction()){
+            if(poCode.isTransactionVoid()){
+                callback.TransactionResult(poCode.getTransactionPIN());
+            } else if(lsUserIDxx.isEmpty()){
                 callback.OnFailed("No user account detected. Please make sure you login account before proceeding.");
             } else if(lsMobileNo.isEmpty()){
                 callback.OnFailed("Unable to retrieve device mobile no. Please make sure your device has mobile no.");
@@ -474,7 +475,6 @@ public class GCardManager implements iGCardSystem{
         return poLedger.getRedemptionTransactionsList();
     }
 
-
     @Override
     public void DownloadMCServiceInfo(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
@@ -490,11 +490,11 @@ public class GCardManager implements iGCardSystem{
             if (lsResult.equalsIgnoreCase("success")) {
                 callback.OnSuccess(loResponse.toString());
             } else {
+            }
                 JSONObject loError = loResponse.getJSONObject("error");
                 String lsMessage = loError.getString("message");
                 callback.OnFailed(lsMessage);
             }
-        }
     }
 
 

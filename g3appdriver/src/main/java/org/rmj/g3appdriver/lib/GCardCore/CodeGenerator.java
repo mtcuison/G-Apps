@@ -317,10 +317,14 @@ public class CodeGenerator {
         String mobileNo = getMobileNumber();
         String user = getUserID();
 
-        if(getSourceCD().equalsIgnoreCase("PREORDER")){
+        String lsSourceCD = getTransSource();
+
+        if(lsSourceCD.equalsIgnoreCase("PREORDER") ||
+            lsSourceCD.equalsIgnoreCase("REDEMPTION") ||
+            lsSourceCD.equalsIgnoreCase("ONLINE") ||
+            lsSourceCD.equalsIgnoreCase("OFFLINE")){
             return gcard.equalsIgnoreCase(GCardNumber) &&
-                    mobileNo.equalsIgnoreCase(MobileNo) &&
-                    user.equalsIgnoreCase(UserID);
+                    mobileNo.equalsIgnoreCase(MobileNo);
         } else {
             return mobileNo.equalsIgnoreCase(MobileNo);
         }
