@@ -6,7 +6,8 @@
         <activity
             android:name=".Activities.Activity_MessageView"
             android:theme="@style/NotificationLibraryMaterialTheme"
-            tools:ignore="InnerclassSeparator" />
+            tools:ignore="InnerclassSeparator"
+            android:exported="true"/>
     </application>
 
 </manifest>

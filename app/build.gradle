@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     defaultConfig {
         applicationId "org.rmj.guanzongroup.guanzonapp"
         minSdkVersion 16
-        targetSdkVersion 30
-        versionCode 20
-        versionName "1.0.20"
+        targetSdkVersion 33
+        versionCode 22
+        versionName "1.0.22"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true

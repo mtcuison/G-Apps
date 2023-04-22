@@ -28,48 +28,48 @@
         tools:ignore="AllowBackup">
         <activity android:name=".Activities.Activity_Account"
             android:screenOrientation="userPortrait"
-            tools:ignore="InnerclassSeparator,LockedOrientationActivity" />
+            android:exported="false"/>
         <activity
             android:name=".Activities.Activity_Transactions"
             android:screenOrientation="userPortrait"
-            tools:ignore="InnerclassSeparator,LockedOrientationActivity" />
+            android:exported="false"/>
         <activity
             android:name=".Activities.Activity_ItemCart"
             android:screenOrientation="userPortrait"
-            tools:ignore="InnerclassSeparator,LockedOrientationActivity" />
+            android:exported="false"/>
         <activity
             android:name=".Activities.Activity_AppBrowser"
             android:screenOrientation="userPortrait"
-            tools:ignore="InnerclassSeparator,LockedOrientationActivity" />
+            android:exported="false"/>
         <activity
             android:name=".Activities.Activity_LoadScreen"
             android:screenOrientation="userPortrait"
-            tools:ignore="InnerclassSeparator,LockedOrientationActivity" />
+            android:exported="false"/>
         <activity
             android:name=".Activities.Activity_Service"
             android:screenOrientation="userPortrait"
-            tools:ignore="InnerclassSeparator,LockedOrientationActivity" />
+            android:exported="false"/>
         <activity
             android:name=".Activities.Activity_Orders"
             android:screenOrientation="userPortrait"
-            tools:ignore="InnerclassSeparator,LockedOrientationActivity" />
+            android:exported="false"/>
         <activity
             android:name=".Activities.Activity_QrCodeScanner"
             android:screenOrientation="userPortrait"
-            tools:ignore="InnerclassSeparator,LockedOrientationActivity" />
+            android:exported="false"/>
 
         <activity
             android:name=".Activities.Activity_Redeemables"
             android:screenOrientation="userPortrait"
-            tools:ignore="InnerclassSeparator,LockedOrientationActivity"/>
+            android:exported="false"/>
         <activity
             android:name=".Activities.Activity_DashBoard"
             android:screenOrientation="userPortrait"
-            tools:ignore="InnerclassSeparator,LockedOrientationActivity" />
+            android:exported="false"/>
         <activity
             android:name=".Activities.Activity_SplashScreen"
             android:screenOrientation="userPortrait"
-            tools:ignore="InnerclassSeparator,LockedOrientationActivity">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

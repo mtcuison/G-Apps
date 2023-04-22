@@ -7,16 +7,19 @@
             android:name=".Activity_RequestPassword"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/LoginMaterialTheme"
-            android:screenOrientation="userPortrait"/>
+            android:screenOrientation="userPortrait"
+            android:exported="true"/>
         <activity android:name=".Activity_CreateAccount"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/LoginMaterialTheme"
-            android:screenOrientation="userPortrait"/>
+            android:screenOrientation="userPortrait"
+            android:exported="true"/>
         <activity
             android:name=".Activity_Login"
             android:theme="@style/LoginMaterialTheme"
             android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="userPortrait"/>
+            android:screenOrientation="userPortrait"
+            android:exported="true"/>
     </application>
 
 </manifest>

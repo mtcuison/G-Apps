@@ -23,7 +23,7 @@
     </string>
 
     <string name="permission_message">
-        Please allow all permissions requested by Guanzon App in order to use the app properly.
+        Guanzon App collects your mobile number for Digital GCard transactions. We keep this information secure and do not share it with third parties. By granting permission, you consent to the collection and use of your mobile number for these transactions.
     </string>
 
     <string name="failed_update_points">
