@@ -176,7 +176,6 @@ public class RedemptionManager implements iGCardSystem{
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void DownloadRedeemables(GCardSystem.GCardSystemCallback callback) throws Exception {
         int lnRedeem = poRedeemables.GetRedeemablesCount();

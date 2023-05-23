@@ -142,6 +142,8 @@ public class GCardManager implements iGCardSystem{
         poGCard.updateAvailablePoints(fsGcardNo, fsNewPts);
     }
 
+
+
     @Override
     public LiveData<String> getActiveGcardNo() {
         return null;

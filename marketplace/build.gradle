@@ -46,7 +46,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.kofigyan.stateprogressbar:stateprogressbar:1.0.0'
-    implementation project(':g3appdriver')
+    implementation project(':appdriver')
 
     // Project Implementations
     implementation project(':useraccount')

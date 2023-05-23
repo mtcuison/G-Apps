@@ -27,7 +27,7 @@ android {
 }
 
 dependencies {
-    implementation project(':g3appdriver')
+    implementation project(':appdriver')
 
     // Project Implementations
 
