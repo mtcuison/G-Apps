@@ -4,34 +4,35 @@
     <application>
         <activity
             android:name=".Activities.Activity_ApplicantInfo"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/GhostRiderMaterialTheme">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".Activities.Activity_ItemPreview"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/GhostRiderMaterialTheme">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-        </activity> <!-- <activity -->
-        <!-- android:name=".Activities.Activity_LoanPreview" -->
-        <!-- android:exported="false" /> -->
-        <!-- <activity -->
-        <!-- android:name=".Activities.Activity_PersonalInfo" -->
-        <!-- android:exported="false" /> -->
+        </activity>
+
         <activity
             android:name=".Activities.Activity_LoanTerm"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/GhostRiderMaterialTheme"/>
         <activity
             android:name=".Activities.Activity_LoanPreview"
             android:exported="true"
-            android:screenOrientation="userPortrait" />
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme" />
         <activity
             android:name=".Activities.Activity_LoanProductList"
             android:exported="true"
-            android:screenOrientation="userPortrait" />
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme" />
     </application>
 
 </manifest>

@@ -23,12 +23,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
-import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
-import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 
@@ -40,8 +36,8 @@ public class Activity_AddGcard extends AppCompatActivity {
 
     private VMGCardSystem mViewModel;
     private Toolbar toolbar;
-    private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialog;
+    private LoadDialog poLoading;
+    private MessageBox poDialog;
     private TextInputEditText txtBdatex, txtGcardN;
     private MaterialButton btnAddCrd, btnScanGc;
 

@@ -5,17 +5,18 @@
         <activity
             android:name=".Activity.Activity_QrCodeScanner"
             android:screenOrientation="userPortrait"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/GhostRiderMaterialTheme" />
         <activity
             android:name=".Activity.Activity_AddGcard"
             android:screenOrientation="userPortrait"
             android:exported="true"
-            android:theme="@style/GuanzonMarketplace.Theme" />
+            android:theme="@style/GhostRiderMaterialTheme" />
         <activity
             android:name=".Activity.Activity_ManageGcard"
             android:screenOrientation="userPortrait"
             android:exported="true"
-            android:theme="@style/GuanzonMarketplace.Theme" />
+            android:theme="@style/GhostRiderMaterialTheme" />
     </application>
 
 </manifest>

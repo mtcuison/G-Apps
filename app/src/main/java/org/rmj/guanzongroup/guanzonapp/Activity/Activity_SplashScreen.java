@@ -1,5 +1,7 @@
 package org.rmj.guanzongroup.guanzonapp.Activity;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -16,11 +18,6 @@ import android.util.Log;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.Service.GMessagingService;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMSplashScreen;
-import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductReview;
-import org.rmj.guanzongroup.marketplace.Activity.Activity_Purchases;
-import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
-import org.rmj.guanzongroup.notifications.Activity.Activity_GuanzonPanalo;
-import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
 
 public class Activity_SplashScreen extends AppCompatActivity {
     private static final String TAG = Activity_SplashScreen.class.getSimpleName();
@@ -28,6 +25,8 @@ public class Activity_SplashScreen extends AppCompatActivity {
     private VMSplashScreen mViewModel;
 
     private static final int REQUEST_PERMISSION = 1;
+
+    private ActivityResultLauncher<String[]> poRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,10 @@ public class Activity_SplashScreen extends AppCompatActivity {
         if (!isMyServiceRunning(GMessagingService.class)) {
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
         }
-        mViewModel.setupApp();
+
+        poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+            InitializeAppData();
+        });
 
         mViewModel.GetLoadStatus().observe(Activity_SplashScreen.this, oLoadStat -> {
             if(!oLoadStat.getPermissionGranted()){
@@ -48,7 +50,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
                         mViewModel.GetPermissions(),
                         REQUEST_PERMISSION);
             } else {
-                mViewModel.InitializeData(new VMSplashScreen.OnInitializeData() {
+                mViewModel.InitializeData(new VMSplashScreen.OnInitializCallback() {
                     @Override
                     public void OnLoad(String args) {
                         Log.d(TAG, "Loading Marketplace...");
@@ -102,6 +104,10 @@ public class Activity_SplashScreen extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private void InitializeAppData(){
+
     }
 
     @Override

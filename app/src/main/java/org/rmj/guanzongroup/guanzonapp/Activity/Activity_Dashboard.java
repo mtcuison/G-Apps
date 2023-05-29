@@ -33,19 +33,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.guanzongroup.com.creditapp.Activities.Activity_LoanProductList;
-import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
-import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_UserInfo;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.digitalgcard.Dialogs.Dialog_TransactionPIN;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.Service.DashboardActionReceiver;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
-import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductReview;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_Purchases;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
@@ -54,12 +48,9 @@ import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
 import org.rmj.guanzongroup.notifications.Activity.Activity_GuanzonPanalo;
 import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_AccountVerification;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_LoanIntroduction;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
-//import org.rmj.guanzongroup.useraccount.Activity.Activity_MeansInfo;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 
 import java.util.Objects;
@@ -72,8 +63,8 @@ public class Activity_Dashboard extends AppCompatActivity {
     private VMHome mViewModel;
     private LayoutInflater loInflate;
 
-    private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialog;
+    private LoadDialog poLoading;
+    private MessageBox poDialog;
 
     private Toolbar toolbar;
     private BadgeDrawable loBadge;
@@ -106,8 +97,8 @@ public class Activity_Dashboard extends AppCompatActivity {
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarActivityDashboard.toolbar);
-        poLoading = new Dialog_Loading(Activity_Dashboard.this);
-        poDialog = new Dialog_SingleButton(Activity_Dashboard.this);
+        poLoading = new LoadDialog(Activity_Dashboard.this);
+        poDialog = new MessageBox(Activity_Dashboard.this);
         DrawerLayout drawer = binding.drawerLayout;
         navigationView = binding.navView;
 
@@ -176,9 +167,9 @@ public class Activity_Dashboard extends AppCompatActivity {
                 if(count > 0) {
                     loBadge = BadgeDrawable.create(Activity_Dashboard.this);
                     loBadge.setNumber(count);
-                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
+//                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
                 } else {
-                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
+//                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
                     supportInvalidateOptionsMenu();
                 }
             } catch (Exception e){
@@ -225,24 +216,18 @@ public class Activity_Dashboard extends AppCompatActivity {
         });
 
         navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(menuItem -> {
-            Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_Dashboard.this);
-            loDialog.setButtonText("YES", "NO");
-            loDialog.initDialog("Confirm Logout", "Do you want to log out?", new Dialog_DoubleButton.OnDialogConfirmation() {
-                @Override
-                public void onConfirm(AlertDialog dialog) {
-                    mViewModel.LogoutUserSession(() -> {
-                        Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Dashboard.class);
-                        startActivity(loIntent);
-                    });
-                    dialog.dismiss();
-                }
-
-                @Override
-                public void onCancel(AlertDialog dialog) {
-                    dialog.dismiss();
-                }
+            poDialog.initDialog();
+            poDialog.setTitle("Confirm Logout");
+            poDialog.setMessage("Do you want to log out?");
+            poDialog.setPositiveButton("YES", (view, dialog) -> {
+                mViewModel.LogoutUserSession(() -> {
+                    Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Dashboard.class);
+                    startActivity(loIntent);
+                });
+                dialog.dismiss();
             });
-            loDialog.show();
+            poDialog.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
+            poDialog.show();
             return false;
         });
 
@@ -263,7 +248,7 @@ public class Activity_Dashboard extends AppCompatActivity {
             mViewModel.ValidateUserVerification(new VMHome.OnValidateVerifiedUser() {
                 @Override
                 public void OnValidate(String title, String message) {
-                    poLoading.initDialog(title, message);
+                    poLoading.initDialog(title, message, false);
                     poLoading.show();
                 }
 
@@ -291,8 +276,15 @@ public class Activity_Dashboard extends AppCompatActivity {
                 @Override
                 public void OnFailed(String message) {
                     poLoading.dismiss();
-                    poDialog.setButtonText("Okay");
-                    poDialog.initDialog("Gaunzon App", message, () -> poDialog.dismiss());
+                    poDialog.initDialog();
+                    poDialog.setTitle("Gaunzon App");
+                    poDialog.setMessage(message);
+                    poDialog.setPositiveButton("Okay", new MessageBox.DialogButton() {
+                        @Override
+                        public void OnButtonClick(View view, AlertDialog dialog) {
+                            dialog.dismiss();
+                        }
+                    });
                     poDialog.show();
 
                 }
@@ -554,7 +546,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         mViewModel.AddNewGCard(fsVal, new VMHome.OnActionCallback() {
             @Override
             public void OnLoad() {
-                poLoading.initDialog("Digital GCard", "Adding GCard. Please wait...");
+                poLoading.initDialog("Digital GCard", "Adding GCard. Please wait...", false);
                 poLoading.show();
             }
 

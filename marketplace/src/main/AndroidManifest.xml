@@ -11,6 +11,7 @@
         tools:replace="allowBackup, label">
         <activity
             android:name=".Activity.Activity_PaymentConfirmation"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -19,38 +20,47 @@
         <activity
             android:name=".Activity.Activity_LoanApplication"
             android:exported="false"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_ProductList"
             android:exported="false"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_Purchases"
             android:exported="false"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_WriteProductReview"
             android:exported="false"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_PayOrder"
             android:exported="false"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_ProductReview"
             android:exported="false"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_ProductQueries"
             android:exported="false"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_ProductOverview"
             android:exported="false"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_SearchItem"
             android:exported="false"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:launchMode="singleTop"
             android:screenOrientation="userPortrait">
 
@@ -63,6 +73,7 @@
         <activity
             android:name=".Activity.Activity_PlaceOrder"
             android:exported="true"
+            android:theme="@style/GhostRiderMaterialTheme"
             android:screenOrientation="userPortrait" />
     </application>
 
