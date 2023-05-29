@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="3dp"
-    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -32,7 +31,6 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:text="Perez Boulevard, Dagupan City 2400"
-            android:textColor="@color/font_regular"
             android:textSize="16sp"
             android:ellipsize="end"
             android:layout_marginTop="5dp"

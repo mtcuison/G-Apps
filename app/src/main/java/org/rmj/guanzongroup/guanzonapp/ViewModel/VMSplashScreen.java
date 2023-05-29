@@ -1,29 +1,38 @@
 package org.rmj.guanzongroup.guanzonapp.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.Manifest;
 import android.app.Application;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 
+import org.rmj.g3appdriver.GConnect.GCard.DigitalGcard.GCard;
+import org.rmj.g3appdriver.GConnect.GCard.DigitalGcard.GCardLedger;
+import org.rmj.g3appdriver.GConnect.GCard.Redemption.GCardItems;
+import org.rmj.g3appdriver.GConnect.GCard.Service.MCService;
+import org.rmj.g3appdriver.GConnect.Marketplace.Product.MpProducts;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.lib.Etc.Barangay;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.lib.Etc.Country;
+import org.rmj.g3appdriver.lib.Etc.Province;
+import org.rmj.g3appdriver.lib.Etc.Town;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnLoadApplicationListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 import org.rmj.guanzongroup.guanzonapp.BuildConfig;
-
-import java.util.Objects;
 
 public class VMSplashScreen extends AndroidViewModel {
     private static final String TAG = VMSplashScreen.class.getSimpleName();
 
     private final Application instance;
+
+    private final AppConfigPreference poConfig;
+    private final ConnectionUtil poConn;
+
+    private String message;
 
     private final String[] laPermissions =  new String[]{
         Manifest.permission.POST_NOTIFICATIONS,
@@ -42,31 +51,109 @@ public class VMSplashScreen extends AndroidViewModel {
     public VMSplashScreen(@NonNull Application application) {
         super(application);
         this.instance = application;
-        AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
-        loConfig.setProductID("GuanzonApp");
-        loConfig.setUpdateLocally(false);
-        loConfig.setTestCase(true);
-        loConfig.setPackageName(BuildConfig.APPLICATION_ID);
-        loConfig.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, "");
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poConn = new ConnectionUtil(instance);
+        poConfig.setProductID("GuanzonApp");
+        poConfig.setUpdateLocally(false);
+        poConfig.setTestCase(true);
+        poConfig.setPackageName(BuildConfig.APPLICATION_ID);
+        poConfig.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, "");
     }
 
-    public interface OnInitializCallback {
+    public interface OnInitializeCallback {
         void OnLoad(String args);
+
+        void OnProgress(int progress);
         void OnFinished(String args);
     }
 
-    public void InitializeData(OnInitializCallback callback){
-        TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
+    public void InitializeData(OnInitializeCallback callback){
+        TaskExecutor loLoadApp = new TaskExecutor();
+        loLoadApp.setOnLoadApplicationListener(new OnLoadApplicationListener() {
             @Override
-            public Object DoInBackground(Object args) {
+            public Object DoInBackground() {
+                try{
+                    new Town(instance).ImportTown();
+                    loLoadApp.publishProgress(1);
+                    pause();
+
+                    new Province(instance).ImportProvince();
+                    loLoadApp.publishProgress(2);
+                    pause();
+
+                    new Country(instance).ImportCountry();
+                    loLoadApp.publishProgress(3);
+                    pause();
+
+                    new Barangay(instance).ImportBarangay();
+                    loLoadApp.publishProgress(4);
+                    pause();
+
+                    new Branch(instance).ImportBranches();
+                    loLoadApp.publishProgress(5);
+                    pause();
+
+                    new MpProducts(instance).ImportMPProducts();
+                    loLoadApp.publishProgress(6);
+                    pause();
+
+                    new GCard(instance).ImportGcard();
+                    loLoadApp.publishProgress(8);
+                    pause();
+
+                    //Add importing promotions
+                    loLoadApp.publishProgress(9);
+                    pause();
+
+                    new GCardLedger(instance).ImportOfflineTransactions();
+                    loLoadApp.publishProgress(10);
+                    pause();
+
+                    new GCardLedger(instance).ImportOnlineTransactions();
+                    loLoadApp.publishProgress(11);
+                    pause();
+
+                    new GCardLedger(instance).ImportPreOrderTransactions();
+                    loLoadApp.publishProgress(12);
+                    pause();
+
+                    new GCardLedger(instance).ImportRedemptionTransaction();
+                    loLoadApp.publishProgress(13);
+                    pause();
+
+                    new GCardItems(instance).ImportRedeemable();
+                    loLoadApp.publishProgress(14);
+                    pause();
+
+                    new MCService(instance).ImportServiceInfo();
+                    loLoadApp.publishProgress(14);
+                    pause();
+                } catch (Exception e){
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return 0;
+                }
                 return null;
             }
 
             @Override
+            public void OnProgress(int progress) {
+                callback.OnProgress(progress);
+            }
+
+            @Override
             public void OnPostExecute(Object object) {
-                callback.OnFinished("");
+                callback.OnFinished("Initialization Completed");
             }
         });
+    }
+
+    private void pause() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 //    private static class InitDataTask extends AsyncTask<String, Void, String>{
