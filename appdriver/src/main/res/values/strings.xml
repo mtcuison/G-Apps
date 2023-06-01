@@ -54,4 +54,149 @@
     <string name="peso_sign">₱</string>
 
     <string name="summary_settings_dMode">Use by developers and implementors for testing phase. Only MIS-SEG are able to use this mode.</string>
+
+    <string name="title_activity_dashboard">Activity_Dashboard</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_promos">Promos</string>
+    <string name="menu_events">Events</string>
+    <string name="menu_purchases">My Orders</string>
+    <string name="menu_wishlist">Wishlist</string>
+    <string name="menu_apply_loan">Apply For A Loan</string>
+    <string name="menu_item_cart">Item Cart</string>
+    <string name="menu_my_gcard">My Gcard</string>
+    <string name="menu_scan_gcard">Scan GCard</string>
+    <string name="menu_redeemables">Redeemables</string>
+    <string name="menu_gcard_orders">Orders</string>
+    <string name="menu_gcard_transactions">Gcard Transactions</string>
+    <string name="menu_pre_termination">Pre Termination</string>
+    <string name="menu_account_settings">Account Settings</string>
+    <string name="menu_find_us">Find Us</string>
+    <string name="menu_customer_service">Customer Service</string>
+    <string name="menu_about">About</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_subtitle_gcard">GCard</string>
+    <string name="menu_subtitle_system">System</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="lblPromos">Promos</string>
+    <string name="lblEvents">Events</string>
+    <string name="lblProductDescription">Product Description</string>
+    <string name="lblProductSpecs">Specifications</string>
+    <string name="lblReviewsAndRatings">Reviews and Ratings</string>
+    <string name="lblAskedQuestions">Asked Questions</string>
+    <string name="lblOtherLikes">Other Products you May Like:</string>
+    <string name="lblEditPersonalInfo">Edit Personal Information</string>
+    <string name="lblEditAccountInfo">Edit Account Information</string>
+    <string name="lblEditPresentAddress">Edit Present Address</string>
+    <string name="lblShippingAddress">Shipping Address</string>
+    <string name="lblPaymentMethod">Payment Method</string>
+    <string name="lblItemOrders">Item Orders:</string>
+    <string name="lblActiveGcard">Active GCard</string>
+    <string name="lblOtherGcard">Other GCard</string>
+    <string name="lblManageGcard">Manage GCard</string>
+    <string name="lblAddGcard">Add GCard</string>
+    <string name="lblScanGcard">Scan GCard</string>
+    <string name="lblOr">or</string>
+    <string name="lblGcardNumber">GCard Number</string>
+    <string name="lblChange">Change</string>
+    <string name="lblClose">Close</string>
+    <string name="lblEmailAddress">Email Address</string>
+    <string name="lblMobileNumber">Mobile Number</string>
+    <string name="lblPassword">Password</string>
+    <string name="lblForgotPass">Forgot Password?</string>
+    <string name="lblRetypePass">Re-type Password</string>
+    <string name="lblCreateAccount">Create Account</string>
+    <string name="lblAskQuestion">Ask a Question</string>
+    <string name="lblSeeMoreReviews">See More Reviews</string>
+    <string name="lblProductsYouMayLike">Products You May Like</string>
+    <string name="lblUsername">Username</string>
+    <string name="lblLastname">Last Name</string>
+    <string name="lblFirstname">First Name</string>
+    <string name="lblMiddname">Middle Name</string>
+    <string name="lblMaidenName">Mother\'s Maiden Name</string>
+    <string name="lblSuffix">Suffix</string>
+    <string name="lblBirthdate">Birth Date</string>
+    <string name="lblBirthplace">Birth Place</string>
+    <string name="lblGender">Gender</string>
+    <string name="lblCivilStat">Civil Status</string>
+    <string name="lblCitizenship">Citizenship</string>
+    <string name="lblTaxId">Tax ID No.</string>
+    <string name="lblAddress">Address</string>
+    <string name="lblBillingAdd">Billing Address</string>
+    <string name="lblShipAddrss">Shipping Address</string>
+    <string name="lblHouseNo">House No.</string>
+    <string name="lblStreet">Street</string>
+    <string name="lblTownCity">Town/City</string>
+    <string name="lblBarangay">Barangay</string>
+    <string name="lblScheduleService">Schedule Service Date</string>
+    <string name="lblNewProducts">New Products</string>
+    <string name="lblBrands">Choose Your Brand</string>
+    <string name="lblBuyNow">Buy Now</string>
+    <string name="lblAddtoCart">Add to Cart</string>
+    <string name="lblPlaceOrder">Place Order</string>
+    <string name="lblPayOrder">Pay Order</string>
+    <string name="lblAddShipping">Add Shipping Address</string>
+    <string name="lblSave">Save</string>
+    <string name="lblApplyLoan">Apply Loan</string>
+    <string name="lblTakePicture">Take Picture</string>
+    <string name="lblUpdate">Update</string>
+    <string name="lblLogin">Log In</string>
+    <string name="lblSignup">Sign Up</string>
+    <string name="lblResendPassword">Re-send Password</string>
+    <string name="lblPrivacyPolicy">Privacy Policy</string>
+    <string name="lblNext">Next</string>
+    <string name="lblBack">Back</string>
+    <string name="lblConfirm">Confirm</string>
+    <string name="lblCancel">Cancel</string>
+    <string name="lblAgree">I Agree</string>
+    <string name="lblNotSet">Not Set</string>
+    <string name="lblSelectID">Select Valid ID</string>
+    <string name="lblValidID1">Valid ID 1</string>
+    <string name="lblValidID2">Valid ID 2</string>
+    <string name="lblFrontID">Front ID</string>
+    <string name="lblIDNo">ID Number</string>
+    <string name="lblBackID">Back ID</string>
+    <string name="lblSpecifyID">Please Specify ID</string>
+    <string name="lblContinue">Continue Loan Application</string>
+    <string name="lblGetPin">Send OTP</string>
+    <string name="lblVerifyAccount">Verify Account Request</string>
+
+    <string name="lblInfoPassword">Please provide a password for your account.</string>
+    <string name="lblCompleteInfo">Please provide the complete details.</string>
+    <string name="lblTermsConditions"> in Terms and Conditions</string>
+    <string name="lblNoAskedQuestions">No current questions asked for this product.</string>
+    <string name="lblNoOrderInfo">Order info not found.</string>
+    <string name="lblNoReviewsAndRatings">No current reviews and ratings for this product.</string>
+    <string name="lblNoGcardAvailable">No GCard Available.</string>
+    <string name="lblNoGcardTransactions">No GCard Transactions Available.</string>
+    <string name="lblNoNotifications">No Notifications Available.</string>
+    <string name="lblNoWishlist">No Wishlist Available.</string>
+    <string name="lblNoOrdersAvailable">No Orders Available.</string>
+    <string name="lblNoRedeemablesList">No Redeemable Items Available.</string>
+    <string name="lblNoProductListings">No Product Listings Available.</string>
+    <string name="lblHigligth">Highlighted Question</string>
+    <string name="lblHigligthRev">Highlighted Review</string>
+    <string name="lblSellerResp">Seller Response</string>
+    <string name="lblSelectPaymentMethod">Please select a payment method for your order.</string>
+
+    <string name="descServiceDate">Your next service date:</string>
+
+    <string name="hintReviewProduct">Write product review here…</string>
+    <string name="hintProductInquiry">Enter your question(s) here…</string>
+    <string name="hintReply">Enter your message here…</string>
+    <string name="hintExpiryDate">Enter expiration date here…</string>
+
+    <string name="mock_fullname">Juan Sison Dela Cruz</string>
+    <string name="mock_mc_name">Yamaha Aerox 155</string>
+    <string name="mock_date">January 1, 2022</string>
+
+    <string name="lbl_imageUpload">Uploading Images. Please wait…</string>
+
+    <string name="selfie_verification_notice">Please take a picture of yourself or select photo from your gallery.</string>
+
+    <string name="id_verification_notice">Please check the following before submitting for verification: \n \n 1. Valid government ID must be unexpired. \n 2. All four corners are showing. \n 3. Text is clear. \n 4. Avoid shadows or reflections.</string>
+
+    <string name="password_guide">A password is said to be strong if it satisfies the following criteria: \n \n It contains at least one lowercase English character. \n It contains at least one uppercase English character. \n It contains at least one special character. The special characters are: !@#$%^&amp;*()-+ \n Its length is at least 8. \n It contains at least one digit.</string>
 </resources>

@@ -35,6 +35,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.guanzongroup.com.creditapp.Activities.Activity_LoanProductList;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.digitalgcard.Dialogs.Dialog_TransactionPIN;
 import org.rmj.guanzongroup.guanzonapp.R;
@@ -521,6 +523,22 @@ public class Activity_Dashboard extends AppCompatActivity {
     }
 
     public void ParseQrCode(String fsVal){
+        TaskExecutor.Execute(fsVal, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+
+            }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                return null;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+
+            }
+        });
         mViewModel.ParseQrCode(fsVal, new GCardSystem.ParseQrCodeCallback() {
             @Override
             public void ApplicationResult(String args) {

@@ -114,6 +114,35 @@ public class GCard {
         }
     }
 
+    public boolean AddGCard(String fsVal){
+        try{
+            JSONObject params = new JSONObject();
+            params.put("secureno", CodeGenerator.generateSecureNo(fsVal));
+            String lsResponse = WebClient.sendRequest(
+                    poApi.getAddNewGCardAPI(),
+                    params.toString(),
+                    poHeaders.getHeaders());
+            if(lsResponse == null){
+                message = SERVER_NO_RESPONSE;
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = getErrorMessage(loError);
+                return false;
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return false;
+        }
+    }
+
     /**
      *
      * @param Gcard pass gcard credential object for

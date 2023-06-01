@@ -2,7 +2,6 @@ package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -11,39 +10,37 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
-import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
-import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
-import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
-import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
-import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
-import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
-import org.rmj.g3appdriver.dev.Repositories.ROrder;
-import org.rmj.g3appdriver.dev.Repositories.RProduct;
-import org.rmj.g3appdriver.etc.ConnectionUtil;
-import org.rmj.g3appdriver.etc.FilterType;
-import org.rmj.g3appdriver.etc.GuanzonAppConfig;
-import org.rmj.g3appdriver.lib.Account.AccountInfo;
-import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
-import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+import org.rmj.g3appdriver.GConnect.Account.ClientMaster;
+import org.rmj.g3appdriver.GConnect.GCard.DigitalGcard.GCard;
+import org.rmj.g3appdriver.GConnect.Marketplace.Cart.MpCart;
+import org.rmj.g3appdriver.GConnect.Marketplace.Order.MpOrder;
+import org.rmj.g3appdriver.GConnect.Marketplace.Product.MpProducts;
+import org.rmj.g3appdriver.GConnect.room.Entities.EClientInfo;
+import org.rmj.g3appdriver.GConnect.room.Entities.EGcardApp;
+import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
 public class VMHome extends AndroidViewModel {
     private static final String TAG =VMHome.class.getSimpleName();
-
-    private final RClientInfo poClient;
-    private final RAddressMobile poAddress;
-    private final RProduct poProduct;
-    private final ROrder poOrder;
+    private final ClientMaster poClient;
+//    private final RAddressMobile poAddress;
+    private final MpProducts poProduct;
+    private final MpOrder poOrder;
+    private final MpCart poCart;
     private final ConnectionUtil poConn;
-    private final RNotificationInfo poNotif;
-    private iGCardSystem poSystem;
-    private Context mContext;
+    private final GCard poGcard;
+//    private final RNotificationInfo poNotif;
+//    private iGCardSystem poSystem;
+
+    private String message;
 
     public interface OnViewGCardQrCode{
-        void OnView(Bitmap foVal);
+        void OnCreateBitmap(Bitmap foVal);
+        void OnFailed(String message);
     }
 
     public interface OnValidateVerifiedUser{
@@ -54,31 +51,45 @@ public class VMHome extends AndroidViewModel {
         void OnFailed(String message);
     }
 
+    public interface OnActionCallback{
+        void OnLoad();
+        void OnSuccess(String args);
+        void OnFailed(String args);
+    }
+
+    public interface OnParseQrCodeCallback{
+        void OnParse();
+        void OnNewGCard();
+        void OnTransactionPoints(String args);
+        void OnFailed(String message);
+    }
+
+    public interface OnCheckPromotions {
+        void OnCheckPromos(String args1, String args2);
+        void OnCheckEvents(String args1, String args2);
+        void NoPromos();
+    }
+
     public VMHome(@NonNull Application application) {
         super(application);
-        this.mContext = application;
-        this.poClient = new RClientInfo(application);
-        this.poProduct = new RProduct(application);
-        this.poAddress = new RAddressMobile(application);
-        this.poOrder = new ROrder(application);
+        this.poClient = new ClientMaster(application);
+        this.poProduct = new MpProducts(application);
+//        this.poAddress = new RAddressMobile(application);
+        this.poOrder = new MpOrder(application);
         this.poConn = new ConnectionUtil(application);
-        this.poNotif = new RNotificationInfo(application);
-        this.poSystem = new GCardSystem(application).getInstance(GCardSystem.CoreFunctions.GCARD);
-        new GuanzonAppConfig(application).setFirstLaunch(false);
+        this.poGcard = new GCard(application);
+        this.poCart = new MpCart(application);
+//        this.poNotif = new RNotificationInfo(application);
+//        this.poSystem = new GCardSystem(application).getInstance(GCardSystem.CoreFunctions.GCARD);
+//        new GuanzonAppConfig(application).setFirstLaunch(false);
     }
 
     public LiveData<EClientInfo> getClientInfo() {
-        return poClient.getClientInfo();
-    }
-
-    public LiveData<EGcardApp> getActiveGcard() {
-        this.poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
-        return poSystem.hasNoGcard();
+        return poClient.GetClientDetail();
     }
 
     public LiveData<EGcardApp> GetActiveGCard(){
-        this.poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
-        return poSystem.getGCardInfo();
+        return poGcard.GetActiveGCardInfo();
     }
 
     public LiveData<List<DProduct.oProduct>> getProductList(int fnIndex) {
@@ -90,7 +101,7 @@ public class VMHome extends AndroidViewModel {
     }
 
     public LiveData<Integer> GetCartItemCount(){
-        return poOrder.GetCartItemCount();
+        return poCart.GetCartItemCount();
     }
 
     public LiveData<Integer> GetToPayOrders(){
@@ -98,34 +109,28 @@ public class VMHome extends AndroidViewModel {
     }
 
     public void ViewGCardQrCode(OnViewGCardQrCode callback){
-        new CreateGCardQrCodeTask(callback).execute();
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private class CreateGCardQrCodeTask extends AsyncTask<String, Void, Bitmap>{
-        private final OnViewGCardQrCode callback;
-
-        public CreateGCardQrCodeTask(OnViewGCardQrCode callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            try {
-                poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
-                return poSystem.GenerateGCardQrCode();
-            } catch (Exception e) {
-                e.printStackTrace();
+        TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                Bitmap loResult = poGcard.GenerateGCardQrCode();
+                if(loResult == null){
+                    message = poGcard.getMessage();
+                    return null;
+                }
+                return loResult;
             }
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(Bitmap s) {
-//            callback.OnView(s);
-            super.onPostExecute(s);
-            callback.OnView(s);
-        }
+            @Override
+            public void OnPostExecute(Object object) {
+                Bitmap loResult = (Bitmap) object;
+                if(loResult == null){
+                    callback.OnCreateBitmap(loResult);
+                    return;
+                }
+
+                callback.OnFailed(message);
+            }
+        });
     }
 
     public interface OnLogoutListener{
@@ -158,144 +163,99 @@ public class VMHome extends AndroidViewModel {
         }
     }
 
-    public interface OnActionCallback{
-        void OnLoad();
-        void OnSuccess(String args);
-        void OnFailed(String args);
-    }
-
     public void AddNewGCard(String fsVal, OnActionCallback callback){
-        new AddNewGCardTask(callback).execute(fsVal);
-    }
+        TaskExecutor.Execute(fsVal, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnLoad();
+            }
 
-    private class AddNewGCardTask extends AsyncTask<String, Void, Boolean>{
-        private final OnActionCallback callback;
-
-        private boolean isSuccess = false;
-        private String message = "";
-
-        public AddNewGCardTask(OnActionCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnLoad();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            try {
-                ConnectionUtil loConn = new ConnectionUtil(mContext);
-                if(loConn.isDeviceConnected()) {
-                    poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
-                    poSystem.AddGCardQrCode(strings[0], new GCardSystem.GCardSystemCallback() {
-                        @Override
-                        public void OnSuccess(String args) {
-                            isSuccess = true;
-                            message = args;
-                        }
-
-                        @Override
-                        public void OnFailed(String fsMsg) {
-                            isSuccess = false;
-                            message = fsMsg;
-                        }
-                    });
-                } else {
-                    isSuccess = false;
-                    message = "Unable to connect";
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
+                    return false;
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                isSuccess = false;
-                message = e.getMessage();
-            }
-            return isSuccess;
-        }
 
-        @Override
-        protected void onPostExecute(Boolean s) {
-            super.onPostExecute(s);
-            if(s){
-                callback.OnSuccess(message);
-            } else {
-                callback.OnFailed(message);
-            }
-        }
-    }
+                if(!poGcard.AddGCard((String)args)){
+                    message = poGcard.getMessage();
+                    return false;
+                }
 
-    public void ParseQrCode(String fsArgs, GCardSystem.ParseQrCodeCallback callback){
-        new ParseQrCodeTask(callback).execute(fsArgs);
-    }
-
-    private class ParseQrCodeTask extends AsyncTask<String, Void, Boolean>{
-
-        private final GCardSystem.ParseQrCodeCallback callback;
-
-        private char cResult;
-        private String message;
-
-        public ParseQrCodeTask(GCardSystem.ParseQrCodeCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            try{
-                poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
-                poSystem.ParseQrCode(strings[0], new GCardSystem.ParseQrCodeCallback() {
-                    @Override
-                    public void ApplicationResult(String args) {
-                        cResult = '0';
-                        message = args;
-                    }
-
-                    @Override
-                    public void TransactionResult(String args) {
-                        cResult = '1';
-                        message = args;
-                    }
-
-                    @Override
-                    public void OnFailed(String args) {
-                        cResult = '2';
-                        message = args;
-                    }
-                });
                 return true;
-            } catch (Exception e){
-                e.printStackTrace();
-                message = e.getMessage();
-                return false;
             }
-        }
 
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if(aBoolean) {
-                switch (cResult) {
-                    case '0':
-                        callback.ApplicationResult(message);
+            @Override
+            public void OnPostExecute(Object object) {
+                boolean isSuccess = (boolean) object;
+                if(!isSuccess){
+                    callback.OnFailed(message);
+                    return;
+                }
+
+                callback.OnSuccess("Congratulations! Your new GCard has been successfully added.");
+            }
+        });
+    }
+
+    public void ParseQrCode(String fsArgs, OnParseQrCodeCallback callback){
+        final String[] lsPIN = {""};
+        TaskExecutor.Execute(fsArgs, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnParse();
+            }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                GCard.QrCodeType loResult = poGcard.ParseQrCode((String) args);
+
+                if(loResult == null){
+                    message = poGcard.getMessage();
+                    return 0;
+                }
+
+                if(loResult == GCard.QrCodeType.NEW_GCARD){
+                    if(!poConn.isDeviceConnected()){
+                        message = poConn.getMessage();
+                        return 0;
+                    }
+
+                    if(!poGcard.AddGCard((String)args)){
+                        message = poGcard.getMessage();
+                        return 0;
+                    }
+
+                    return 1;
+                }
+
+                if(loResult == GCard.QrCodeType.TRANSACTION){
+                    lsPIN[0] = poGcard.GetTransactionPIN((String) args);
+                    if(lsPIN[0] == null){
+                        message = poGcard.getMessage();
+                        return 0;
+                    }
+                }
+
+                return 2;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                int lnResult = (int) object;
+                switch (lnResult){
+                    case 1:
+                        callback.OnNewGCard();
                         break;
-                    case '1':
-                        callback.TransactionResult(message);
+                    case 2:
+                        callback.OnTransactionPoints(lsPIN[0]);
                         break;
                     default:
                         callback.OnFailed(message);
                         break;
                 }
-            } else {
-                callback.OnFailed(message);
             }
-        }
+        });
     }
 
     public LiveData<List<EPromo>> GetPromoLinkList(){
@@ -304,13 +264,7 @@ public class VMHome extends AndroidViewModel {
     }
 
     public LiveData<List<String>> GetBrandNames(){
-        return poProduct.GetBrandNames();
-    }
-
-    public interface OnCheckPromotions {
-        void OnCheckPromos(String args1, String args2);
-        void OnCheckEvents(String args1, String args2);
-        void NoPromos();
+        return poProduct.GetB();
     }
 
     public void CheckPromotions(OnCheckPromotions listener){
@@ -380,6 +334,8 @@ public class VMHome extends AndroidViewModel {
 
     public void ValidateUserVerification(OnValidateVerifiedUser listener){
         new ValidateVerifiedTask(listener).execute();
+
+
     }
 
     private class ValidateVerifiedTask extends AsyncTask<Void, String, Integer>{
