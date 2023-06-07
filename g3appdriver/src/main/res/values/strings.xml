@@ -12,6 +12,7 @@
     <string name="menu_item_cart">Item Cart</string>
     <string name="menu_my_gcard">My Gcard</string>
     <string name="menu_scan_gcard">Scan GCard</string>
+    <string name="menu_raffle_entry">Raffle Entry</string>
     <string name="menu_redeemables">Redeemables</string>
     <string name="menu_gcard_orders">Orders</string>
     <string name="menu_gcard_transactions">Gcard Transactions</string>
@@ -84,6 +85,7 @@
     <string name="lblPayOrder">Pay Order</string>
     <string name="lblAddShipping">Add Shipping Address</string>
     <string name="lblSave">Save</string>
+    <string name="lblGenerateQrCode">Generate Qr-Code</string>
     <string name="lblApplyLoan">Apply Loan</string>
     <string name="lblTakePicture">Take Picture</string>
     <string name="lblUpdate">Update</string>
@@ -107,6 +109,8 @@
     <string name="lblContinue">Continue Loan Application</string>
     <string name="lblGetPin">Send OTP</string>
     <string name="lblVerifyAccount">Verify Account Request</string>
+    <string name="lblReferenceNo">Reference Number</string>
+    <string name="lblTransaction">Choose Transaction</string>
 
     <string name="lblInfoPassword">Please provide a password for your account.</string>
     <string name="lblCompleteInfo">Please provide the complete details.</string>

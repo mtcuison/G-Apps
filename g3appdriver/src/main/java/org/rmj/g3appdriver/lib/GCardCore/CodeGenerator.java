@@ -1,6 +1,7 @@
 package org.rmj.g3appdriver.lib.GCardCore;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -105,6 +106,17 @@ public class CodeGenerator {
             e.printStackTrace();
         }
         return bitmap;
+    }
+
+    public static Bitmap CreateRaffleEntryQrCode(String Transact, String ReferNo, String UserID, String DateTime) throws Exception{
+        String lsEncrypt = Transact + "»" + ReferNo + "»" + UserID + "»" + DateTime;
+        Log.d("Code Generator", "For encryption: " + lsEncrypt);
+        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+        String lsEncryptd = MySQLAESCrypt.Encrypt(lsEncrypt, EncryptionKEY);
+        Log.d("Code Generator", "Encrypted for Qr-Code: " + lsEncryptd);
+        BitMatrix bitMatrix = new MultiFormatWriter().encode(lsEncryptd, BarcodeFormat.QR_CODE, 700, 700);
+        return barcodeEncoder.createBitmap(bitMatrix);
+
     }
 
     public Bitmap generateGCardCodex(String SOURCE,

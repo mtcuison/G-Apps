@@ -411,9 +411,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_baseline_card_giftcard_24" />
-                            <entry key="sourceFile" value="C:\Users\User\Downloads\loan-application-icon.svg" />
+                            <entry key="outputName" value="ic_raffle_ticket_24" />
+                            <entry key="sourceFile" value="C:\Users\User\Downloads\ticket-star-svgrepo-com (1).svg" />
                           </map>
                         </option>
                       </PersistentState>

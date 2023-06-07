@@ -115,6 +115,10 @@ public class AppConstants {
     public static String CURRENT_DATE_WORD = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).format(new Date());
     public String GCARD_DATE_TIME = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date());
 
+    public static String GetCurrentDateTime(){
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+    }
+
     public static String[] REQUEST_CODE = {
             "New",
             "Update",

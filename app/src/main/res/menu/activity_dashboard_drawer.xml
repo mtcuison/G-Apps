@@ -57,6 +57,11 @@
                     android:title="@string/menu_scan_gcard" />
 
                 <item
+                    android:id="@+id/nav_raffle_entry"
+                    android:icon="@drawable/ic_raffle_ticket_24"
+                    android:title="@string/menu_raffle_entry" />
+
+                <item
                     android:id="@+id/nav_redeemables"
                     android:icon="@drawable/ic_baseline_gift_24"
                     android:title="@string/menu_redeemables" />

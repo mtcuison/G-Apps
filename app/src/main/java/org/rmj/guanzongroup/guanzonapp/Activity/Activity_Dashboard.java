@@ -54,6 +54,8 @@ import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
 import org.rmj.guanzongroup.notifications.Activity.Activity_GuanzonPanalo;
 import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
+import org.rmj.guanzongroup.panalo.Dialog.DialogRaffelEntry;
+import org.rmj.guanzongroup.panalo.Dialog.DialogRaffleEntryQrCode;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_AccountVerification;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
@@ -123,6 +125,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                 R.id.nav_item_cart,
                 R.id.nav_my_gcard,
                 R.id.nav_scan_qrcode,
+                R.id.nav_raffle_entry,
                 R.id.nav_redeemables,
                 R.id.nav_gcard_orders,
                 R.id.nav_gcard_transactions,
@@ -149,11 +152,13 @@ public class Activity_Dashboard extends AppCompatActivity {
                 navigationView = findViewById(R.id.nav_view);
                 Menu nav_Menu = navigationView.getMenu();
                 if (eGcardApp == null) {
+                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(false);
                     nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
                     nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);
                     nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(false);
                     nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
                 } else {
+                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(true);
                     nav_Menu.findItem(R.id.nav_redeemables).setVisible(true);
                     nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(true);
                     nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(true);
@@ -213,6 +218,14 @@ public class Activity_Dashboard extends AppCompatActivity {
                 lblBadge.setText(GetBadgeValue(count));
             } catch (Exception e){
                 e.printStackTrace();
+            }
+        });
+
+        navigationView.getMenu().findItem(R.id.nav_raffle_entry).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+                new DialogRaffelEntry(Activity_Dashboard.this).initDialog((Transact, ReferNo) -> new DialogRaffleEntryQrCode(Activity_Dashboard.this).initDialog(Transact, ReferNo));
+                return false;
             }
         });
 
