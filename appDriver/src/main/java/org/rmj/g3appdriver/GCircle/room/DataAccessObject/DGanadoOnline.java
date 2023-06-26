@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EGanadoOnline;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcBrand;
 import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
 
@@ -24,6 +25,9 @@ public interface DGanadoOnline {
     @Query("SELECT * FROM Ganado_Online WHERE sTransNox =:TransNox")
     EGanadoOnline GetInquiry(String TransNox);
 
+    @Query("SELECT * FROM Ganado_Online ORDER BY dTimeStmp DESC LIMIT 1")
+    EGanadoOnline GetLatestData();
+
     @Query("SELECT COUNT(sTransNox) FROM GANADO_ONLINE")
     int GetRowsCountForID();
 
@@ -33,8 +37,32 @@ public interface DGanadoOnline {
     @Query("SELECT * FROM MC_Brand WHERE sBrandNme IN ('HONDA', 'SUZUKI', 'KAWASAKI', 'YAMAHA')")
     LiveData<List<EMcBrand>> getAllMcBrand();
 
-    @Query("SELECT * FROM Mc_Model WHERE sBrandIDx = :BrandID")
+    @Query("SELECT * FROM Mc_Model WHERE cRecdStat = '1' AND sBrandIDx = :BrandID")
     LiveData<List<EMcModel>> getAllModeFromBrand(String BrandID);
+    @Query("SELECT * FROM Mc_Model WHERE cRecdStat = '1' AND sBrandIDx = :BrandID AND sModelIDx = :ModelID")
+    LiveData<EMcModel> getModeFromBrand(String BrandID, String ModelID);
+
+    @Query("SELECT * FROM MC_Model_Color WHERE sModelIDx =:ModelID")
+    LiveData<List<EMCColor>> GetModelColors(String ModelID);
+
+    @Query("SELECT * FROM Ganado_Online " +
+            "WHERE sReferdBy = (SELECT sUserIDxx FROM User_Info_Master)")
+    LiveData<List<EGanadoOnline>> GetInquiries();
+
+
+    @Query("SELECT " +
+            "a.sModelIDx AS ModelIDx " +
+            ",a.sModelNme AS ModelNme " +
+            ",a.sBrandIDx AS BrandIDx" +
+            ",c.sColorIDx AS ColorIDx" +
+            ",c.sColorNme AS ColorNme " +
+            "FROM MC_MODEL a " +
+            ", MC_Model_Color c " +
+            "   ON a.sModelIDx = c.sModelIDx " +
+            " WHERE a.sModelIDx =:ModelID"+
+            " AND a.sBrandIDx =:BrandID"+
+            " AND c.sColorIDx =:ColorID")
+    McInfo GetMCInfo(String ModelID,String BrandID,String ColorID);
 
     @Query("SELECT  " +
             "a.nSelPrice, " +
@@ -87,5 +115,13 @@ public interface DGanadoOnline {
         public String nEndMrtgg;
         public String nAcctThru;
         public String nFactorRt;
+    }
+    class McInfo{
+        public String ModelIDx;
+        public String ModelNme;
+        public String BrandIDx;
+        public String sBrandNme;
+        public String ColorIDx;
+        public String ColorNme;
     }
 }

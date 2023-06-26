@@ -8,7 +8,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.AddressUpdate;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.AddressUpdate;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DAddressUpdate;
 import org.rmj.g3appdriver.GCircle.room.Entities.EAddressUpdate;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;

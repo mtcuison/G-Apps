@@ -18,13 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.ImageFileHandler;
-import org.rmj.g3appdriver.lib.Account.AccountInfo;
-import org.rmj.g3appdriver.lib.Account.Obj.PhotoDetail;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMUserVerification;
 
@@ -39,21 +33,21 @@ public class Activity_ProfileVerification extends AppCompatActivity {
     private ImageView imageView;
 
     private String psPath, psFleNme;
-    private PhotoDetail poPhoto;
-    private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialogx;
+//    private PhotoDetail poPhoto;
+//    private Dialog_Loading poLoading;
+//    private Dialog_SingleButton poDialogx;
 
     private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if(result != null) {
-            try {
-                if(result.getResultCode() == RESULT_OK) {
-                    imageView.setImageBitmap(ImageFileHandler.getImagePreview(psPath));
-                    initializePhotoDetail();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        if(result != null) {
+//            try {
+//                if(result.getResultCode() == RESULT_OK) {
+//                    imageView.setImageBitmap(ImageFileHandler.getImagePreview(psPath));
+//                    initializePhotoDetail();
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     });
 
     private final ActivityResultLauncher<Intent> poFileChooser = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -85,9 +79,9 @@ public class Activity_ProfileVerification extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(Activity_ProfileVerification.this).get(VMUserVerification.class);
         setContentView(R.layout.activity_profile_verification);
-        poPhoto = new PhotoDetail();
-        poLoading = new Dialog_Loading(Activity_ProfileVerification.this);
-        poDialogx = new Dialog_SingleButton(Activity_ProfileVerification.this);
+//        poPhoto = new PhotoDetail();
+//        poLoading = new Dialog_Loading(Activity_ProfileVerification.this);
+//        poDialogx = new Dialog_SingleButton(Activity_ProfileVerification.this);
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Selfie Verification");
@@ -95,54 +89,54 @@ public class Activity_ProfileVerification extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         imageView = findViewById(R.id.img_profile);
 
-        findViewById(R.id.btn_next).setOnClickListener(v -> ImageFileHandler.InitializeFileManager(intent -> poFileChooser.launch(intent)));
+//        findViewById(R.id.btn_next).setOnClickListener(v -> ImageFileHandler.InitializeFileManager(intent -> poFileChooser.launch(intent)));
 
         findViewById(R.id.btnCapture).setOnClickListener(v -> {
-            ImageFileHandler.InitializeFrontCamera(Activity_ProfileVerification.this, (intent, path, fileName) -> {
-                psPath = path;
-                psFleNme = fileName;
-                poCamera.launch(intent);
-            });
+//            ImageFileHandler.InitializeFrontCamera(Activity_ProfileVerification.this, (intent, path, fileName) -> {
+//                psPath = path;
+//                psFleNme = fileName;
+//                poCamera.launch(intent);
+//            });
         });
 
-        findViewById(R.id.btn_next).setOnClickListener(v -> {
-            if(!poPhoto.isDataValid()){
-                Toast.makeText(Activity_ProfileVerification.this, "Please take a selfie or select from your gallery", Toast.LENGTH_SHORT).show();
-            } else {
-                mViewModel.UploadForVerification(poPhoto, new VMUserVerification.OnSelfieVerificationSubmitCallback() {
-                    @Override
-                    public void OnLoad() {
-                        poLoading.initDialog("Selfie Verification", "Uploading selfie verification. Please wait...");
-                        poLoading.show();
-                    }
-
-                    @Override
-                    public void OnSuccess(String message) {
-                        poLoading.dismiss();
-                        poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Account Details", message, () -> {
-                            poDialogx.dismiss();
-//                            Intent loIntent = new Intent(Activity_ProfileVerification.this, Activity_IDVerification.class);
-//                            Intent loIntent = new Intent(Activity_ProfileVerification.this, Activity_MeansInfo.class);
-//                            loIntent.putExtra("cSkippedx", false);
-//                            startActivity(loIntent);
-//                            finish();
-                        });
-                        poDialogx.show();
-                    }
-
-                    @Override
-                    public void OnFailed(String message) {
-                        poLoading.dismiss();
-                        poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Account Details", message, () -> {
-                            poDialogx.dismiss();
-                        });
-                        poDialogx.show();
-                    }
-                });
-            }
-        });
+//        findViewById(R.id.btn_next).setOnClickListener(v -> {
+//            if(!poPhoto.isDataValid()){
+//                Toast.makeText(Activity_ProfileVerification.this, "Please take a selfie or select from your gallery", Toast.LENGTH_SHORT).show();
+//            } else {
+//                mViewModel.UploadForVerification(poPhoto, new VMUserVerification.OnSelfieVerificationSubmitCallback() {
+//                    @Override
+//                    public void OnLoad() {
+//                        poLoading.initDialog("Selfie Verification", "Uploading selfie verification. Please wait...");
+//                        poLoading.show();
+//                    }
+//
+//                    @Override
+//                    public void OnSuccess(String message) {
+//                        poLoading.dismiss();
+//                        poDialogx.setButtonText("Okay");
+//                        poDialogx.initDialog("Account Details", message, () -> {
+//                            poDialogx.dismiss();
+////                            Intent loIntent = new Intent(Activity_ProfileVerification.this, Activity_IDVerification.class);
+////                            Intent loIntent = new Intent(Activity_ProfileVerification.this, Activity_MeansInfo.class);
+////                            loIntent.putExtra("cSkippedx", false);
+////                            startActivity(loIntent);
+////                            finish();
+//                        });
+//                        poDialogx.show();
+//                    }
+//
+//                    @Override
+//                    public void OnFailed(String message) {
+//                        poLoading.dismiss();
+//                        poDialogx.setButtonText("Okay");
+//                        poDialogx.initDialog("Account Details", message, () -> {
+//                            poDialogx.dismiss();
+//                        });
+//                        poDialogx.show();
+//                    }
+//                });
+//            }
+//        });
     }
 
     @Override
@@ -154,13 +148,13 @@ public class Activity_ProfileVerification extends AppCompatActivity {
     }
 
     private void initializePhotoDetail(){
-        String lsUserID = new AccountInfo(Activity_ProfileVerification.this).getUserID();
-        poPhoto.setCaptured(new AppConstants().DATE_MODIFIED);
-        poPhoto.setFileCode(AppConstants.DOC_FILE_APPLICANT_PHOTO);
-        poPhoto.setSourceCD(AppConstants.SOURCE_CODE);
-        poPhoto.setDtlSrcNo(lsUserID);
-        poPhoto.setSourceNo(lsUserID);
-        poPhoto.setImageNme(psFleNme);
-        poPhoto.setFileLoct(psPath);
+//        String lsUserID = new AccountInfo(Activity_ProfileVerification.this).getUserID();
+//        poPhoto.setCaptured(new AppConstants().DATE_MODIFIED);
+//        poPhoto.setFileCode(AppConstants.DOC_FILE_APPLICANT_PHOTO);
+//        poPhoto.setSourceCD(AppConstants.SOURCE_CODE);
+//        poPhoto.setDtlSrcNo(lsUserID);
+//        poPhoto.setSourceNo(lsUserID);
+//        poPhoto.setImageNme(psFleNme);
+//        poPhoto.setFileLoct(psPath);
     }
 }

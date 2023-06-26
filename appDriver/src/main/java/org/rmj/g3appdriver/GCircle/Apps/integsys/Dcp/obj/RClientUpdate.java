@@ -20,7 +20,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GCircle.Apps.integsys.Dcp.pojo.LoanUnit;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.LoanUnit;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DClientUpdate;
 import org.rmj.g3appdriver.GCircle.room.Entities.EClientUpdate;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;

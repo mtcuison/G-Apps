@@ -7,6 +7,7 @@ import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 import android.app.Application;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -323,7 +324,9 @@ public class GCard {
                 return null;
             }
 
-            if(!loCode.isDeviceValid(lsMobileNo, lsUserIDxx, lsGCardNox)) {
+            if(!loCode.isDeviceValid(lsMobileNo, lsGCardNox)) {
+                Log.d(TAG, "Device Mobile number: " + lsMobileNo);
+                Log.d(TAG, "Current GCard number: " + lsGCardNox);
                 message = "Transaction Confirmation Error. The Provided Mobile Number or Account is Invalid for Transaction Confirmation.";
                 return null;
             }

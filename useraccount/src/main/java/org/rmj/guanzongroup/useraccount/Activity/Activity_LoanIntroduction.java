@@ -18,8 +18,6 @@ import java.util.Objects;
 
 public class Activity_LoanIntroduction extends AppCompatActivity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

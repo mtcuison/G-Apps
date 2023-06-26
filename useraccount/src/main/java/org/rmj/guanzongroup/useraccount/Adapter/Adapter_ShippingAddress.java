@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.guanzongroup.useraccount.R;
 
 import java.util.List;

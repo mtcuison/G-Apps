@@ -16,10 +16,6 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 import org.rmj.guanzongroup.useraccount.Model.SignUpInfoModel;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
@@ -29,8 +25,8 @@ import java.util.Objects;
 public class Fragment_SignUpPassword extends Fragment {
 
     private VMAccountAuthentication mViewModel;
-    private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialogx;
+//    private Dialog_Loading poLoading;
+//    private Dialog_SingleButton poDialogx;
     private SignUpInfoModel poSignUpM;
     private TextView lblTerms;
     private TextInputEditText tiePasswd, tieRetype;
@@ -59,7 +55,7 @@ public class Fragment_SignUpPassword extends Fragment {
     }
 
     private void initViews(View v) {
-        poDialogx = new Dialog_SingleButton(requireActivity());
+//        poDialogx = new Dialog_SingleButton(requireActivity());
         tiePasswd = v.findViewById(R.id.tie_password);
         tieRetype = v.findViewById(R.id.tie_retype);
         lblTerms = v.findViewById(R.id.tvTerms);

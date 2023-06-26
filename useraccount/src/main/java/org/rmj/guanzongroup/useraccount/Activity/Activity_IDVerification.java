@@ -10,11 +10,6 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import org.json.JSONObject;
-import org.rmj.g3appdriver.etc.FragmentAdapter;
-import org.rmj.g3appdriver.lib.Account.Obj.UserIdentification;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.Fragment.Fragment_ID1;
 import org.rmj.guanzongroup.useraccount.Fragment.Fragment_ID2;
 import org.rmj.guanzongroup.useraccount.R;
@@ -32,10 +27,10 @@ public class Activity_IDVerification extends AppCompatActivity {
 
     private ViewPager viewPager;
 
-    private List<UserIdentification> poList = new ArrayList<>();
+//    private List<UserIdentification> poList = new ArrayList<>();
 
-    private Dialog_SingleButton poDialogx;
-    private Dialog_Loading poLoad;
+//    private Dialog_SingleButton poDialogx;
+//    private Dialog_Loading poLoad;
 
     private String sIDCodexx = "";
 
@@ -47,9 +42,9 @@ public class Activity_IDVerification extends AppCompatActivity {
         this.sIDCodexx = sIDCodexx;
     }
 
-    public List<UserIdentification> getIDList(){
-        return poList;
-    }
+//    public List<UserIdentification> getIDList(){
+//        return poList;
+//    }
 
     public Activity_IDVerification() {
 
@@ -65,8 +60,8 @@ public class Activity_IDVerification extends AppCompatActivity {
         instance = this;
         mViewModel = new ViewModelProvider(Activity_IDVerification.this).get(VMIDVerification.class);
         setContentView(R.layout.activity_id_verification);
-        poDialogx = new Dialog_SingleButton(Activity_IDVerification.this);
-        poLoad = new Dialog_Loading(Activity_IDVerification.this);
+//        poDialogx = new Dialog_SingleButton(Activity_IDVerification.this);
+//        poLoad = new Dialog_Loading(Activity_IDVerification.this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("ID Verification");
@@ -74,29 +69,29 @@ public class Activity_IDVerification extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         viewPager = findViewById(R.id.viewpager);
         viewPager.setOffscreenPageLimit(1);
-        mViewModel.ImportIDTypes(new OnImportIDTypeListener() {
-            @Override
-            public void OnImportIDType(String title, String message) {
-                poLoad.initDialog(title, message);
-                poLoad.show();
-            }
-
-            @Override
-            public void OnSuccess(List<UserIdentification> args) {
-                poLoad.dismiss();
-                poList = args;
-
-                viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), new Fragment[]{new Fragment_ID1(), new Fragment_ID2()}));
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                poLoad.dismiss();
-                poDialogx.setButtonText("Okay");
-                poDialogx.initDialog("Loan Application", message, () -> poDialogx.dismiss());
-                poDialogx.show();
-            }
-        });
+//        mViewModel.ImportIDTypes(new OnImportIDTypeListener() {
+//            @Override
+//            public void OnImportIDType(String title, String message) {
+//                poLoad.initDialog(title, message);
+//                poLoad.show();
+//            }
+//
+//            @Override
+//            public void OnSuccess(List<UserIdentification> args) {
+//                poLoad.dismiss();
+//                poList = args;
+//
+//                viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), new Fragment[]{new Fragment_ID1(), new Fragment_ID2()}));
+//            }
+//
+//            @Override
+//            public void OnFailed(String message) {
+//                poLoad.dismiss();
+//                poDialogx.setButtonText("Okay");
+//                poDialogx.initDialog("Loan Application", message, () -> poDialogx.dismiss());
+//                poDialogx.show();
+//            }
+//        });
     }
 
     @Override

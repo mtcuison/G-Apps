@@ -21,9 +21,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.Etc.LogType;
 import org.rmj.guanzongroup.useraccount.Model.LoginInfoModel;
 import org.rmj.guanzongroup.useraccount.R;
@@ -34,8 +31,8 @@ import java.util.Objects;
 public class Activity_Login extends AppCompatActivity {
 
     private VMAccountAuthentication mViewModel;
-    private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialogx;
+//    private Dialog_Loading poLoading;
+//    private Dialog_SingleButton poDialogx;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private TextView lblUser, lblForgot, lblCreate;
@@ -85,13 +82,13 @@ public class Activity_Login extends AppCompatActivity {
     }
 
     private void initMobileNo() {
-        if(mViewModel.GetMobileNo().isEmpty()){
-            tilMobile.setVisibility(View.VISIBLE);
-        } else {
-            tieMobile.setText(mViewModel.GetMobileNo());
-            tilMobile.setVisibility(View.GONE);
-            findViewById(R.id.lblMobileNo).setVisibility(View.GONE);
-        }
+//        if(mViewModel.GetMobileNo().isEmpty()){
+//            tilMobile.setVisibility(View.VISIBLE);
+//        } else {
+//            tieMobile.setText(mViewModel.GetMobileNo());
+//            tilMobile.setVisibility(View.GONE);
+//            findViewById(R.id.lblMobileNo).setVisibility(View.GONE);
+//        }
     }
 
     @Override
@@ -109,7 +106,7 @@ public class Activity_Login extends AppCompatActivity {
 
     // Initialize this first before anything else.
     private void initViews() {
-        poDialogx = new Dialog_SingleButton(Activity_Login.this);
+//        poDialogx = new Dialog_SingleButton(Activity_Login.this);
         toolbar = findViewById(R.id.toolbar);
         tabLayout = findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Email"));
@@ -151,65 +148,65 @@ public class Activity_Login extends AppCompatActivity {
         String lsMobilex = Objects.requireNonNull(tieMobile.getText()).toString().trim();
         String lsPasswrd = Objects.requireNonNull(tiePassword.getText()).toString().trim();
         LoginInfoModel infoModel = new LoginInfoModel(LogType.EMAIL, lsEmailxx, lsPasswrd);
-        if(infoModel.isDataNotEmpty()) {
-            AccountAuthentication.LoginCredentials loCrednts = new AccountAuthentication.LoginCredentials(
-                    infoModel.getLogUser(),
-                    infoModel.getPassword(),
-                    lsMobilex);
-            try {
-                mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthenticationCallback() {
-                    @Override
-                    public void onLoad() {
-                        poLoading = new Dialog_Loading(Activity_Login.this);
-                        poLoading.initDialog("Logging In", "Please wait for a while.");
-                        poLoading.show();
-                    }
-
-                    @Override
-                    public void onSuccess(String fsMessage) {
-                        Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
-                        intent.putExtra("args", "auth");
-                        sendBroadcast(intent);
-                        poLoading.dismiss();
-                        isClicked = false;
-                        finish();
-                    }
-
-                    @Override
-                    public void onFailed(String fsMessage) {
-                        poLoading.dismiss();
-                        poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Log in Failed", fsMessage, () -> {
-                            isClicked = false;
-                            poDialogx.dismiss();
-                        });
-                        poDialogx.show();
-                    }
-
-                    @Override
-                    public void onVerifiy(String args1, String args2) {
-                        poLoading.dismiss();
-                        Log.d("Activation OTP", args1);
-                        Intent loIntent = new Intent(Activity_Login.this, Activity_AccountVerification.class);
-                        loIntent.putExtra("otp", args1);
-                        loIntent.putExtra("verify", args2);
-                        loIntent.putExtra("email", lsEmailxx);
-                        loIntent.putExtra("passw", lsPasswrd);
-                        isClicked = false;
-                        poArl.launch(loIntent);
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Log in Failed", infoModel.getMessage(), () -> {
-                isClicked = false;
-                poDialogx.dismiss();
-            });
-            poDialogx.show();
-        }
+//        if(infoModel.isDataNotEmpty()) {
+//            AccountAuthentication.LoginCredentials loCrednts = new AccountAuthentication.LoginCredentials(
+//                    infoModel.getLogUser(),
+//                    infoModel.getPassword(),
+//                    lsMobilex);
+//            try {
+//                mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthenticationCallback() {
+//                    @Override
+//                    public void onLoad() {
+//                        poLoading = new Dialog_Loading(Activity_Login.this);
+//                        poLoading.initDialog("Logging In", "Please wait for a while.");
+//                        poLoading.show();
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(String fsMessage) {
+//                        Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+//                        intent.putExtra("args", "auth");
+//                        sendBroadcast(intent);
+//                        poLoading.dismiss();
+//                        isClicked = false;
+//                        finish();
+//                    }
+//
+//                    @Override
+//                    public void onFailed(String fsMessage) {
+//                        poLoading.dismiss();
+//                        poDialogx.setButtonText("Okay");
+//                        poDialogx.initDialog("Log in Failed", fsMessage, () -> {
+//                            isClicked = false;
+//                            poDialogx.dismiss();
+//                        });
+//                        poDialogx.show();
+//                    }
+//
+//                    @Override
+//                    public void onVerifiy(String args1, String args2) {
+//                        poLoading.dismiss();
+//                        Log.d("Activation OTP", args1);
+//                        Intent loIntent = new Intent(Activity_Login.this, Activity_AccountVerification.class);
+//                        loIntent.putExtra("otp", args1);
+//                        loIntent.putExtra("verify", args2);
+//                        loIntent.putExtra("email", lsEmailxx);
+//                        loIntent.putExtra("passw", lsPasswrd);
+//                        isClicked = false;
+//                        poArl.launch(loIntent);
+//                    }
+//                });
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            poDialogx.setButtonText("Okay");
+//            poDialogx.initDialog("Log in Failed", infoModel.getMessage(), () -> {
+//                isClicked = false;
+//                poDialogx.dismiss();
+//            });
+//            poDialogx.show();
+//        }
     }
 
     private void setTabLayout(){
@@ -220,12 +217,12 @@ public class Activity_Login extends AppCompatActivity {
                     case 1:
                         tilEmail.setVisibility(View.INVISIBLE);
                         tilMobile.setVisibility(View.VISIBLE);
-                        lblUser.setText(R.string.lblMobileNumber);
+//                        lblUser.setText(R.string.lblMobileNumber);
                         break;
                     default:
                         tilEmail.setVisibility(View.VISIBLE);
                         tilMobile.setVisibility(View.INVISIBLE);
-                        lblUser.setText(R.string.lblEmailAddress);
+//                        lblUser.setText(R.string.lblEmailAddress);
                         break;
                 }
             }

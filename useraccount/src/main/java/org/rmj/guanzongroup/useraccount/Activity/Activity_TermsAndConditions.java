@@ -22,9 +22,9 @@ public class Activity_TermsAndConditions extends AppCompatActivity {
         if(getIntent().hasExtra("cTermsDsp")){
             int cTermsDsp = getIntent().getIntExtra("cTermsDsp", 0);
             if(cTermsDsp == 0){
-                lblTermsAndConditions.setText(Html.fromHtml(getString(R.string.Terms_and_Conditions)));
+//                lblTermsAndConditions.setText(Html.fromHtml(getString(R.string.Terms_and_Conditions)));
             } else {
-                lblTermsAndConditions.setText(Html.fromHtml(getString(R.string.Privacy_Policy)));
+//                lblTermsAndConditions.setText(Html.fromHtml(getString(R.string.Privacy_Policy)));
             }
         }
     }

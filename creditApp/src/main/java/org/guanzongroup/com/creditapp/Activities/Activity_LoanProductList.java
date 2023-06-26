@@ -71,38 +71,38 @@ public class Activity_LoanProductList extends AppCompatActivity {
                     @Override
                     public void OnSearchFinish() {
                         lnLoading.setVisibility(View.GONE);
-                        mViewModel.searchLoanProduct(query).observe(Activity_LoanProductList.this, products -> {
-                            try{
-                                if(products.size() > 0){
-                                    lblNoItem.setVisibility(View.GONE);
-                                    Adapter_LoanProductList loAdapter = new Adapter_LoanProductList(products, new Adapter_LoanProductList.OnItemClick() {
-                                        @Override
-                                        public void onClick(String fsListIdx) {
-                                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_ItemPreview.class);
-                                            loIntent.putExtra("sListngID", fsListIdx);
-                                            startActivity(loIntent);
-                                            finish();
-                                        }
-
-                                        @Override
-                                        public void onApplyLoanClick(String fsListIdx, String BrandNme, String ModelID) {
-                                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_LoanTerm.class);
-                                            loIntent.putExtra("sListngID", fsListIdx);
-                                            loIntent.putExtra("sUnitAppl", BrandNme);
-                                            loIntent.putExtra("sModelIDx", ModelID);
-                                            startActivity(loIntent);
-                                            finish();
-                                        }
-                                    });
-                                    recyclerView.setAdapter(loAdapter);
-                                } else {
-                                    lblNoItem.setVisibility(View.VISIBLE);
-                                    lblNoItem.setText("No item found for keyword '" + query + "'");
-                                }
-                            } catch (Exception e){
-                                e.printStackTrace();
-                            }
-                        });
+//                        mViewModel.searchLoanProduct(query).observe(Activity_LoanProductList.this, products -> {
+//                            try{
+//                                if(products.size() > 0){
+//                                    lblNoItem.setVisibility(View.GONE);
+//                                    Adapter_LoanProductList loAdapter = new Adapter_LoanProductList(products, new Adapter_LoanProductList.OnItemClick() {
+//                                        @Override
+//                                        public void onClick(String fsListIdx) {
+//                                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_ItemPreview.class);
+//                                            loIntent.putExtra("sListngID", fsListIdx);
+//                                            startActivity(loIntent);
+//                                            finish();
+//                                        }
+//
+//                                        @Override
+//                                        public void onApplyLoanClick(String fsListIdx, String BrandNme, String ModelID) {
+//                                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_LoanTerm.class);
+//                                            loIntent.putExtra("sListngID", fsListIdx);
+//                                            loIntent.putExtra("sUnitAppl", BrandNme);
+//                                            loIntent.putExtra("sModelIDx", ModelID);
+//                                            startActivity(loIntent);
+//                                            finish();
+//                                        }
+//                                    });
+//                                    recyclerView.setAdapter(loAdapter);
+//                                } else {
+//                                    lblNoItem.setVisibility(View.VISIBLE);
+//                                    lblNoItem.setText("No item found for keyword '" + query + "'");
+//                                }
+//                            } catch (Exception e){
+//                                e.printStackTrace();
+//                            }
+//                        });
                     }
                 });
                 return false;
@@ -134,33 +134,33 @@ public class Activity_LoanProductList extends AppCompatActivity {
     }
 
     private void InitializeProductList(){
-        mViewModel.getProductList().observe(Activity_LoanProductList.this, products -> {
-            try{
-                if(products.size() > 0){
-                    Adapter_LoanProductList loAdapter = new Adapter_LoanProductList(products, new Adapter_LoanProductList.OnItemClick() {
-                        @Override
-                        public void onClick(String fsListIdx) {
-                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_ItemPreview.class);
-                            loIntent.putExtra("sListngID", fsListIdx);
-                            startActivity(loIntent);
-                            finish();
-                        }
-
-                        @Override
-                        public void onApplyLoanClick(String fsListIdx, String BrandNme, String ModelID) {
-                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_LoanTerm.class);
-                            loIntent.putExtra("sListngID", fsListIdx);
-                            loIntent.putExtra("sUnitAppl", BrandNme);
-                            loIntent.putExtra("sModelIDx", ModelID);
-                            startActivity(loIntent);
-                            finish();
-                        }
-                    });
-                    recyclerView.setAdapter(loAdapter);
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getProductList().observe(Activity_LoanProductList.this, products -> {
+//            try{
+//                if(products.size() > 0){
+//                    Adapter_LoanProductList loAdapter = new Adapter_LoanProductList(products, new Adapter_LoanProductList.OnItemClick() {
+//                        @Override
+//                        public void onClick(String fsListIdx) {
+//                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_ItemPreview.class);
+//                            loIntent.putExtra("sListngID", fsListIdx);
+//                            startActivity(loIntent);
+//                            finish();
+//                        }
+//
+//                        @Override
+//                        public void onApplyLoanClick(String fsListIdx, String BrandNme, String ModelID) {
+//                            Intent loIntent = new Intent(Activity_LoanProductList.this, Activity_LoanTerm.class);
+//                            loIntent.putExtra("sListngID", fsListIdx);
+//                            loIntent.putExtra("sUnitAppl", BrandNme);
+//                            loIntent.putExtra("sModelIDx", ModelID);
+//                            startActivity(loIntent);
+//                            finish();
+//                        }
+//                    });
+//                    recyclerView.setAdapter(loAdapter);
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
     }
 }

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderMaster;
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.guanzongroup.marketplace.R;
 
@@ -20,17 +19,17 @@ import java.util.List;
 
 public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHistory.ViewHolderItem> {
 
-    private final List<DOrderMaster.OrderHistory> poMaster;
-    private final OnOrderHistoryClickListener mListener;
+//    private final List<DOrderMaster.OrderHistory> poMaster;
+//    private final OnOrderHistoryClickListener mListener;
 
-    public interface OnOrderHistoryClickListener{
-        void OnClick(String args, String args1);
-    }
-
-    public Adapter_OrderHistory(List<DOrderMaster.OrderHistory> poMaster, OnOrderHistoryClickListener listener) {
-        this.poMaster = poMaster;
-        this.mListener = listener;
-    }
+//    public interface OnOrderHistoryClickListener{
+//        void OnClick(String args, String args1);
+//    }
+//
+//    public Adapter_OrderHistory(List<DOrderMaster.OrderHistory> poMaster, OnOrderHistoryClickListener listener) {
+//        this.poMaster = poMaster;
+//        this.mListener = listener;
+//    }
 
     @NonNull
     @Override
@@ -41,34 +40,35 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderItem holder, int position) {
-        DOrderMaster.OrderHistory loMaster = poMaster.get(position);
-        holder.lblOrderNo.setText(loMaster.sTransNox);
-        holder.lblOrderSt.setText(GetOrderStatus(loMaster));
-
-        if(loMaster.nDiscount != 0.00) {
-            holder.lblItmDisc.setText(loMaster.nDiscount + " %");
-        } else {
-            holder.lblItmDisc.setText("");
-        }
-
-        double lnTrantotl = loMaster.nTranTotl;
-        double lnProcPaym = loMaster.nProcPaym;
-        double lnDiscount = loMaster.nDiscount;
-        double lnFreightx = loMaster.nFreightx;
-        double lnSubTotal = lnTrantotl - (lnTrantotl * lnDiscount);
-
-        double lnTotalxx = lnSubTotal + lnFreightx;
-        holder.lblBrandNm.setText(loMaster.xModelNme);
-        holder.lblOrderTl.setText(CashFormatter.parse(String.valueOf(lnTotalxx)));
-        holder.lblItmPrce.setText(CashFormatter.parse(String.valueOf(loMaster.nUnitPrce)));
-        holder.lblItmQtyx.setText("Quantity: "+ loMaster.nQuantity);
-        holder.setImage(loMaster.sImagesxx);
-        holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sTransNox, loMaster.cTranStat));
+//        DOrderMaster.OrderHistory loMaster = poMaster.get(position);
+//        holder.lblOrderNo.setText(loMaster.sTransNox);
+//        holder.lblOrderSt.setText(GetOrderStatus(loMaster));
+//
+//        if(loMaster.nDiscount != 0.00) {
+//            holder.lblItmDisc.setText(loMaster.nDiscount + " %");
+//        } else {
+//            holder.lblItmDisc.setText("");
+//        }
+//
+//        double lnTrantotl = loMaster.nTranTotl;
+//        double lnProcPaym = loMaster.nProcPaym;
+//        double lnDiscount = loMaster.nDiscount;
+//        double lnFreightx = loMaster.nFreightx;
+//        double lnSubTotal = lnTrantotl - (lnTrantotl * lnDiscount);
+//
+//        double lnTotalxx = lnSubTotal + lnFreightx;
+//        holder.lblBrandNm.setText(loMaster.xModelNme);
+//        holder.lblOrderTl.setText(CashFormatter.parse(String.valueOf(lnTotalxx)));
+//        holder.lblItmPrce.setText(CashFormatter.parse(String.valueOf(loMaster.nUnitPrce)));
+//        holder.lblItmQtyx.setText("Quantity: "+ loMaster.nQuantity);
+//        holder.setImage(loMaster.sImagesxx);
+//        holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sTransNox, loMaster.cTranStat));
     }
 
     @Override
     public int getItemCount() {
-        return poMaster.size();
+//        return poMaster.size();
+        return 0;
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{
@@ -106,49 +106,49 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
         }
     }
 
-    private String GetOrderStatus(DOrderMaster.OrderHistory fsVal){
-        switch (fsVal.cTranStat){
-            case "0":
-                if(fsVal.sTermCode.isEmpty()){
-                    return "To Pay";
-                }
-
-                if(fsVal.sTermCode.equalsIgnoreCase("C0W2011")) {
-                    if(fsVal.cPaymPstd.equalsIgnoreCase("0")) {
+//    private String GetOrderStatus(DOrderMaster.OrderHistory fsVal){
+//        switch (fsVal.cTranStat){
+//            case "0":
+//                if(fsVal.sTermCode.isEmpty()){
+//                    return "To Pay";
+//                }
+//
+//                if(fsVal.sTermCode.equalsIgnoreCase("C0W2011")) {
+//                    if(fsVal.cPaymPstd.equalsIgnoreCase("0")) {
+////                        if (fsVal.nTranTotl > fsVal.nProcPaym) {
+////                            return "To Pay";
+////                        }
+//
+//                        return "Processing Payment";
+//                    } else if(fsVal.cPaymPstd.equalsIgnoreCase("1")){
 //                        if (fsVal.nTranTotl > fsVal.nProcPaym) {
 //                            return "To Pay";
+////                            return "Processing Payment";
 //                        }
-
-                        return "Processing Payment";
-                    } else if(fsVal.cPaymPstd.equalsIgnoreCase("1")){
-                        if (fsVal.nTranTotl > fsVal.nProcPaym) {
-                            return "To Pay";
-//                            return "Processing Payment";
-                        }
-                    } else if(fsVal.cPaymPstd.equalsIgnoreCase("3")){
-                        return "To Pay";
-                    }
-                }
-//
-//                if(fsVal.sTermCode.equalsIgnoreCase("C0W2011") &&
-//                    fsVal.cPaymPstd.equalsIgnoreCase("1")){
-//                    if(fsVal.nTranTotl > fsVal.nProcPaym) {
+//                    } else if(fsVal.cPaymPstd.equalsIgnoreCase("3")){
 //                        return "To Pay";
 //                    }
 //                }
-//                if(fsVal.sTermCode.equalsIgnoreCase("C0W2011") &&
-//                        fsVal.cPaymPstd.equalsIgnoreCase("0")){
-//                    return "Processing Payment";
-//                }
-                return "Processing";
-            case "1":
-                return "Verified";
-            case "2":
-                return "To Ship";
-            case "3":
-                return "Cancelled";
-            default:
-                return "Delivered";
-        }
-    }
+////
+////                if(fsVal.sTermCode.equalsIgnoreCase("C0W2011") &&
+////                    fsVal.cPaymPstd.equalsIgnoreCase("1")){
+////                    if(fsVal.nTranTotl > fsVal.nProcPaym) {
+////                        return "To Pay";
+////                    }
+////                }
+////                if(fsVal.sTermCode.equalsIgnoreCase("C0W2011") &&
+////                        fsVal.cPaymPstd.equalsIgnoreCase("0")){
+////                    return "Processing Payment";
+////                }
+//                return "Processing";
+//            case "1":
+//                return "Verified";
+//            case "2":
+//                return "To Ship";
+//            case "3":
+//                return "Cancelled";
+//            default:
+//                return "Delivered";
+//        }
+//    }
 }

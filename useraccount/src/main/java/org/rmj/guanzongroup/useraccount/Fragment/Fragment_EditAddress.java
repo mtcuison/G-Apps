@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountDetails;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMShippingAddress;

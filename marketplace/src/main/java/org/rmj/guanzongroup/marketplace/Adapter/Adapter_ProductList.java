@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.guanzongroup.marketplace.R;
 
@@ -21,45 +19,47 @@ import java.util.List;
 
 public class Adapter_ProductList extends RecyclerView.Adapter<Adapter_ProductList.ViewHolderItem> {
 
-    private final List<DProduct.oProduct> poProdcts;
-    private final OnItemClick poCallBck;
-
-    public Adapter_ProductList(List<DProduct.oProduct> foProdcts, OnItemClick foCallBck){
-        this.poProdcts = foProdcts;
-        this.poCallBck = foCallBck;
-    }
+//    private final List<DProduct.oProduct> poProdcts;
+//    private final OnItemClick poCallBck;
+//
+//    public Adapter_ProductList(List<DProduct.oProduct> foProdcts, OnItemClick foCallBck){
+//        this.poProdcts = foProdcts;
+//        this.poCallBck = foCallBck;
+//    }
 
     @NonNull
     @Override
     public ViewHolderItem onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View viewItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_product_list, parent, false);
-        return new ViewHolderItem(viewItem, poCallBck);
+//        View viewItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_product_list, parent, false);
+//        return new ViewHolderItem(viewItem, poCallBck);
+        return null;
     }
 
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
-        try {
-            DProduct.oProduct loProduct = poProdcts.get(position);
-            holder.sListIdxx = loProduct.sProdctID;
-            holder.txtProdNm.setText(loProduct.sProdctNm);
-            holder.txtPricex.setText(CashFormatter.parse(loProduct.sPricexxx));
-            holder.txtSoldxx.setText(loProduct.sUntsSold + " Sold");
-            holder.setImage(loProduct.sImagesxx);
-            // TODO: Set product image url ~> Picasso.get().load(stringUrl).into(holder.imgProdct);
-            // TODO: Display promo banner if there is any (8:1 aspect ratio)
-//            boolean isThereAPromoForThisItem = true;
-//            if(isThereAPromoForThisItem) {
-//                holder.imgPromox.setVisibility(View.VISIBLE);
-//                Picasso.get().load(stringUrl).into(holder.imgPromox);
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            DProduct.oProduct loProduct = poProdcts.get(position);
+//            holder.sListIdxx = loProduct.sProdctID;
+//            holder.txtProdNm.setText(loProduct.sProdctNm);
+//            holder.txtPricex.setText(CashFormatter.parse(loProduct.sPricexxx));
+//            holder.txtSoldxx.setText(loProduct.sUntsSold + " Sold");
+//            holder.setImage(loProduct.sImagesxx);
+//            // TODO: Set product image url ~> Picasso.get().load(stringUrl).into(holder.imgProdct);
+//            // TODO: Display promo banner if there is any (8:1 aspect ratio)
+////            boolean isThereAPromoForThisItem = true;
+////            if(isThereAPromoForThisItem) {
+////                holder.imgPromox.setVisibility(View.VISIBLE);
+////                Picasso.get().load(stringUrl).into(holder.imgPromox);
+////            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
     public int getItemCount() {
-        return poProdcts.size();
+//        return poProdcts.size();
+        return 0;
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{

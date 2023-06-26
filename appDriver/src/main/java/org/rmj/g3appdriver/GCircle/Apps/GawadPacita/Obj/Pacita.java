@@ -54,6 +54,10 @@ public class Pacita {
         return poDao.GetBranchRecords(BranchCD);
     }
 
+    public LiveData<List<DPacita.RecentRecords>> GetRecentRecords(){
+        return poDao.GetRecentRecords();
+    }
+
     /**
      *
      * @return true if the operation for importing pacita rules is successful else false if failed.
@@ -332,7 +336,7 @@ public class Pacita {
      */
     public String InitializePacitaEvaluation(String BranchCD){
         try{
-            EPacitaEvaluation loDetail = poDao.GetEvaluationForInitialization(BranchCD);
+            EPacitaEvaluation loDetail = poDao.GetEvaluationForInitialization(BranchCD, AppConstants.CURRENT_DATE());
 
             if(loDetail == null){
                 return CreateNewEvaluation(BranchCD);

@@ -58,40 +58,40 @@ public class Fragment_MyGcard extends Fragment {
     }
 
     private void initMyGcard() {
-        mViewModel.getActiveGcard().observe(getViewLifecycleOwner(), eGcardApp -> {
-            try {
-                if(eGcardApp == null) {
-                    vAddGcard.setVisibility(View.VISIBLE);
-                    vMyGcardx.setVisibility(View.GONE);
-                    btnAddCrd.setOnClickListener(v -> {
-                        Intent loIntent = new Intent(requireActivity(), Activity_AddGcard.class);
-                        startActivity(loIntent);
-                    });
-                } else {
-                    vAddGcard.setVisibility(View.GONE);
-                    vMyGcardx.setVisibility(View.VISIBLE);
-//                    displayGcardInfo(eGcardApp);
-                    txtManage.setOnClickListener(v -> {
-                        Intent loIntent = new Intent(requireActivity(), Activity_ManageGcard.class);
-                        startActivity(loIntent);
-                    });
-
-                    view.findViewById(R.id.cvGcard).setOnClickListener(v -> {
-                        mViewModel.ViewGCardQrCode(bitmap -> {
-                            try{
-//                                final Dialog_UserInfo loDialog = new Dialog_UserInfo(requireActivity());
-//                                loDialog.initDialog(eGcardApp, bitmap);
-//                                loDialog.show();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-                    });
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getActiveGcard().observe(getViewLifecycleOwner(), eGcardApp -> {
+//            try {
+//                if(eGcardApp == null) {
+//                    vAddGcard.setVisibility(View.VISIBLE);
+//                    vMyGcardx.setVisibility(View.GONE);
+//                    btnAddCrd.setOnClickListener(v -> {
+//                        Intent loIntent = new Intent(requireActivity(), Activity_AddGcard.class);
+//                        startActivity(loIntent);
+//                    });
+//                } else {
+//                    vAddGcard.setVisibility(View.GONE);
+//                    vMyGcardx.setVisibility(View.VISIBLE);
+////                    displayGcardInfo(eGcardApp);
+//                    txtManage.setOnClickListener(v -> {
+//                        Intent loIntent = new Intent(requireActivity(), Activity_ManageGcard.class);
+//                        startActivity(loIntent);
+//                    });
+//
+//                    view.findViewById(R.id.cvGcard).setOnClickListener(v -> {
+////                        mViewModel.ViewGCardQrCode(bitmap -> {
+//                            try{
+////                                final Dialog_UserInfo loDialog = new Dialog_UserInfo(requireActivity());
+////                                loDialog.initDialog(eGcardApp, bitmap);
+////                                loDialog.show();
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+////                        });
+//                    });
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 //
 //    private void displayGcardInfo(EGcardApp foGcardxx) {

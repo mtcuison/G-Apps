@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_BranchSelection;
 import org.rmj.guanzongroup.marketplace.R;
 
@@ -34,13 +32,13 @@ public class Dialog_BranchSelection {
     private TextInputEditText txtSearch;
     private Adapter_BranchSelection adapter;
     private ImageButton btnClose;
-    private Dialog_DoubleButton confimDialog;
-    public Dialog_BranchSelection(Context context){
-        this.mContext = context;
-        this.builder = new AlertDialog.Builder(mContext);
-        this.confimDialog = new Dialog_DoubleButton(mContext);
-
-    }
+//    private Dialog_DoubleButton confimDialog;
+//    public Dialog_BranchSelection(Context context){
+//        this.mContext = context;
+//        this.builder = new AlertDialog.Builder(mContext);
+//        this.confimDialog = new Dialog_DoubleButton(mContext);
+//
+//    }
 
     public void showDialog(){
         dialog.show();
@@ -49,69 +47,69 @@ public class Dialog_BranchSelection {
         dialog.setCancelable(val);
     }
     @SuppressLint("InflateParams")
-    public void createDialog(List<EBranchInfo> branchInfo, onConfirmBranch callback){
-        view = LayoutInflater.from(mContext).inflate(R.layout.dialog_branch_selection, null, false);
-        builder.setView(view)
-                .setCancelable(true);
-
-        dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        recyclerView = view.findViewById(R.id.recycler_view_dialog_branch_selection);
-        txtSearch = view.findViewById(R.id.tie_dialog_branch_selection_search);
-        btnClose = view.findViewById(R.id.btn_branch_selection_close);
-        txtSearch.addTextChangedListener(new searchFilterer());
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        adapter = new Adapter_BranchSelection(branchInfo, new Adapter_BranchSelection.onBranchContentClickListener() {
-            @Override
-            public void onClick(EBranchInfo eBranchInfo) {
-
-                confimDialog.setButtonText("Confirm", "Cancel");
-                confimDialog.initDialog("Branch Selection", "Are you sure you want to select " + eBranchInfo.getBranchNm() + "?", new Dialog_DoubleButton.OnDialogConfirmation() {
-                    @Override
-                    public void onConfirm(AlertDialog dialogS) {
-                        callback.onConfirm(eBranchInfo,dialog);
-                        dialogS.dismiss();
-
-                    }
-
-                    @Override
-                    public void onCancel(AlertDialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                confimDialog.show();
-//                dialog.dismiss();
-            }
-
+//    public void createDialog(List<EBranchInfo> branchInfo, onConfirmBranch callback){
+//        view = LayoutInflater.from(mContext).inflate(R.layout.dialog_branch_selection, null, false);
+//        builder.setView(view)
+//                .setCancelable(true);
+//
+//        dialog = builder.create();
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        recyclerView = view.findViewById(R.id.recycler_view_dialog_branch_selection);
+//        txtSearch = view.findViewById(R.id.tie_dialog_branch_selection_search);
+//        btnClose = view.findViewById(R.id.btn_branch_selection_close);
+//        txtSearch.addTextChangedListener(new searchFilterer());
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+//        layoutManager.setOrientation(RecyclerView.VERTICAL);
+//        adapter = new Adapter_BranchSelection(branchInfo, new Adapter_BranchSelection.onBranchContentClickListener() {
 //            @Override
-//            public void onClick(String BranchCode, String BranchName, String BranchAddress) {
+//            public void onClick(EBranchInfo eBranchInfo) {
+//
 //                confimDialog.setButtonText("Confirm", "Cancel");
-//                confimDialog.initDialog("Branch Selection", "Are you sure you want to select " + BranchName + "?", new Dialog_DoubleButton.OnDialogConfirmation() {
+//                confimDialog.initDialog("Branch Selection", "Are you sure you want to select " + eBranchInfo.getBranchNm() + "?", new Dialog_DoubleButton.OnDialogConfirmation() {
 //                    @Override
-//                    public void onConfirm(AlertDialog dialog) {
-//                        callback.onConfirm();
+//                    public void onConfirm(AlertDialog dialogS) {
+//                        callback.onConfirm(eBranchInfo,dialog);
+//                        dialogS.dismiss();
+//
 //                    }
 //
 //                    @Override
 //                    public void onCancel(AlertDialog dialog) {
-//
+//                        dialog.dismiss();
 //                    }
 //                });
-//                dialog.dismiss();
+//                confimDialog.show();
+////                dialog.dismiss();
 //            }
-        });
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter.notifyDataSetChanged();
-        btnClose.setOnClickListener(v->{
-            dialog.dismiss();
-        });
-    }
+//
+////            @Override
+////            public void onClick(String BranchCode, String BranchName, String BranchAddress) {
+////                confimDialog.setButtonText("Confirm", "Cancel");
+////                confimDialog.initDialog("Branch Selection", "Are you sure you want to select " + BranchName + "?", new Dialog_DoubleButton.OnDialogConfirmation() {
+////                    @Override
+////                    public void onConfirm(AlertDialog dialog) {
+////                        callback.onConfirm();
+////                    }
+////
+////                    @Override
+////                    public void onCancel(AlertDialog dialog) {
+////
+////                    }
+////                });
+////                dialog.dismiss();
+////            }
+//        });
+//        recyclerView.setAdapter(adapter);
+//        recyclerView.setLayoutManager(layoutManager);
+//        adapter.notifyDataSetChanged();
+//        btnClose.setOnClickListener(v->{
+//            dialog.dismiss();
+//        });
+//    }
 
     public interface onConfirmBranch {
-        void onConfirm(EBranchInfo branchInfo, AlertDialog dialog);
+//        void onConfirm(EBranchInfo branchInfo, AlertDialog dialog);
     }
 
     class searchFilterer implements TextWatcher{
@@ -123,7 +121,7 @@ public class Dialog_BranchSelection {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            adapter.getBranchFilter().filter(s.toString());
+//            adapter.getBranchFilter().filter(s.toString());
         }
 
         @Override

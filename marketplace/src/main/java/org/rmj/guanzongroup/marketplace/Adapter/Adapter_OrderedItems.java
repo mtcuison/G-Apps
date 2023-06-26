@@ -13,7 +13,6 @@ import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderDetail;
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.guanzongroup.marketplace.R;
 
@@ -21,9 +20,9 @@ import java.util.List;
 
 public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedItems.OrderItemsViewHolder>{
 
-    private final List<DOrderDetail.OrderedItemsInfo> poList;
-    private final OnOrderedItemClickListener mListener;
-    private final OnItemReviewListener mlistener1;
+//    private final List<DOrderDetail.OrderedItemsInfo> poList;
+//    private final OnOrderedItemClickListener mListener;
+//    private final OnItemReviewListener mlistener1;
     private boolean cFrReview = false;
 
     public interface OnOrderedItemClickListener{
@@ -34,11 +33,11 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
         void OnClick(String args);
     }
 
-    public Adapter_OrderedItems(List<DOrderDetail.OrderedItemsInfo> poList, OnOrderedItemClickListener listener, OnItemReviewListener listener1) {
-        this.mListener = listener;
-        this.mlistener1 = listener1;
-        this.poList = poList;
-    }
+//    public Adapter_OrderedItems(List<DOrderDetail.OrderedItemsInfo> poList, OnOrderedItemClickListener listener, OnItemReviewListener listener1) {
+//        this.mListener = listener;
+//        this.mlistener1 = listener1;
+//        this.poList = poList;
+//    }
 
     public void setForReview(boolean fbVal){
         this.cFrReview = fbVal;
@@ -53,28 +52,29 @@ public class Adapter_OrderedItems extends RecyclerView.Adapter<Adapter_OrderedIt
 
     @Override
     public void onBindViewHolder(@NonNull OrderItemsViewHolder holder, int position) {
-        DOrderDetail.OrderedItemsInfo loMaster = poList.get(position);
-        holder.lblBrandNm.setText(loMaster.xModelNme);
-        holder.lblItmPrce.setText(CashFormatter.parse(loMaster.nUnitPrce));
-        holder.lblItmQtyx.setText("Quantity: "+loMaster.nQuantity);
-        holder.setImage(loMaster.sImagesxx);
-        holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sListIDxx));
-        holder.btnReview.setOnClickListener(v -> {
-           mlistener1.OnClick(loMaster.sListIDxx);
-        });
-
-        if(cFrReview){
-            holder.btnReview.setVisibility(View.VISIBLE);
-        }
-        if(loMaster.cReviewed.equalsIgnoreCase("1")){
-            holder.lblReviewd.setVisibility(View.VISIBLE);
-            holder.btnReview.setVisibility(View.GONE);
-        }
+//        DOrderDetail.OrderedItemsInfo loMaster = poList.get(position);
+//        holder.lblBrandNm.setText(loMaster.xModelNme);
+//        holder.lblItmPrce.setText(CashFormatter.parse(loMaster.nUnitPrce));
+//        holder.lblItmQtyx.setText("Quantity: "+loMaster.nQuantity);
+//        holder.setImage(loMaster.sImagesxx);
+//        holder.itemView.setOnClickListener(v -> mListener.OnClick(loMaster.sListIDxx));
+//        holder.btnReview.setOnClickListener(v -> {
+//           mlistener1.OnClick(loMaster.sListIDxx);
+//        });
+//
+//        if(cFrReview){
+//            holder.btnReview.setVisibility(View.VISIBLE);
+//        }
+//        if(loMaster.cReviewed.equalsIgnoreCase("1")){
+//            holder.lblReviewd.setVisibility(View.VISIBLE);
+//            holder.btnReview.setVisibility(View.GONE);
+//        }
     }
 
     @Override
     public int getItemCount() {
-        return poList.size();
+//        return poList.size();
+        return 0;
     }
 
     public static class OrderItemsViewHolder extends RecyclerView.ViewHolder {

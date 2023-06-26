@@ -7,27 +7,27 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ESearchLog;
 import org.rmj.guanzongroup.marketplace.databinding.AdapterSearchSuggestBinding;
 
 import java.util.List;
 
 public class Adapter_SearchSuggest extends RecyclerView.Adapter<Adapter_SearchSuggest.ItemViewHolder> {
 
-    private AdapterSearchSuggestBinding mBinding;
-
-    private final List<ESearchLog> poList;
-
-    public Adapter_SearchSuggest(List<ESearchLog> foVal){
-        this.poList = foVal;
-    }
+//    private AdapterSearchSuggestBinding mBinding;
+//
+//    private final List<ESearchLog> poList;
+//
+//    public Adapter_SearchSuggest(List<ESearchLog> foVal){
+//        this.poList = foVal;
+//    }
 
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        mBinding = AdapterSearchSuggestBinding.inflate(LayoutInflater.from(parent.getContext()),
-                parent, false);
-        return new ItemViewHolder(mBinding.getRoot(), mBinding);
+//        mBinding = AdapterSearchSuggestBinding.inflate(LayoutInflater.from(parent.getContext()),
+//                parent, false);
+//        return new ItemViewHolder(mBinding.getRoot(), mBinding);
+        return null;
     }
 
     @Override

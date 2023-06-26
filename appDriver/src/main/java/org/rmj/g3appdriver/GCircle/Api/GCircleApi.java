@@ -21,6 +21,7 @@ public class GCircleApi extends WebApi {
     private static final String URL_IMPORT_PROVINCE = "integsys/param/download_province.php";
     private static final String URL_IMPORT_COUNTRY = "integsys/param/download_country.php";
     private static final String URL_IMPORT_MC_MODEL = "integsys/param/download_mc_model.php";
+    private static final String URL_IMPORT_MC_COLOR = "integsys/param/download_mc_model_color.php";
     private static final String URL_IMPORT_MC_MODEL_PRICE = "integsys/param/download_mc_model_price.php";
     private static final String URL_IMPORT_BRAND = "integsys/param/download_brand.php";
     private static final String URL_IMPORT_MC_CATEGORY = "integsys/param/download_mc_category.php";
@@ -60,12 +61,15 @@ public class GCircleApi extends WebApi {
     private static final String URL_BRANCH_REMITTANCE_ACC = "integsys/param/download_branch_bank_account.php";
     private static final String URL_IMPORT_SYS_CONFIG = "integsys/param/download_system_config.php";
     private static final String URL_DOWNLOAD_CREDIT_ONLINE_APP = "integsys/param/download_credit_online_application_list.php";
-    private static final String URL_DOWNLOAD_RELATION = "integsys/param/download_relation.php";
+    private static final String URL_DOWNLOAD_RELATION = "gcircle/params/download_relation.php";
     private static final String URL_UPLOAD_CI_RESULT = "integsys/gocas/upload_ci_result.php";
+
     private static final String URL_SEND_RESPONSE = "nmm/send_response.php";
     private static final String URL_SEND_REQUEST = "nmm/send_request.php";
     private static final String URL_SEND_REQUEST_SYSTEM = "nmm/send_request_system.php";
+
     private static final String URL_KWIKSEARCH = "integsys/paramqry/cash_count_rqst_officer.php";
+    private static final String URL_IMPORT_PAYSLIP = "petmgr/import_payslips.php";
     private static final String URL_SEND_LEAVE_APPLICATION = "petmgr/send_leave_application.php";
     private static final String URL_GET_LEAVE_APPLICATION = "petmgr/get_leave_application.php";
     private static final String URL_CONFIRM_LEAVE_APPLICATION = "petmgr/confirm_leave_application.php";
@@ -93,9 +97,12 @@ public class GCircleApi extends WebApi {
     private static final String CLAIM_PANALO_REWARD = "gconnect/upload/getUserPanalo.php";
     private static final String GET_RAFFLE_PARTICIPANTS = "gconnect/upload/getUserPanalo.php";
 
-    private static final String GET_PACITA_RULES = "gCircle/Pacita/import_pacita_rules.php";
-    private static final String GET_PACITA_EVALUATIONS = "gCircle/Pacita/import_pacita_evaluations.php";
-    private static final String SUBMIT_PACITA_RESULT = "gCircle/Pacita/submit_pacita_result.php";
+    private static final String GET_PACITA_RULES = "gcircle/pacita/import_pacita_rules.php";
+    private static final String GET_PACITA_EVALUATIONS = "gcircle/pacita/import_pacita_evaluations.php";
+    private static final String SUBMIT_PACITA_RESULT = "gcircle/pacita/submit_pacita_result.php";
+
+    private static final String URL_SUBMIT_INQUIRY = "gcircle/ganado/submit_inquiry.php";
+    private static final String URL_DOWNLOAD_INQUIRIES = "gcircle/ganado/import_inquiries.php";
 
     public GCircleApi(Application instance) {
         super(instance);
@@ -207,6 +214,15 @@ public class GCircleApi extends WebApi {
         }
         Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_MC_MODEL);
         return LIVE + URL_IMPORT_MC_MODEL;
+    }
+
+    public String getUrlImportMcModelColor() {
+        if(isUnitTest()){
+            Log.d(TAG, "Initialize api:" + LOCAL + URL_IMPORT_MC_COLOR);
+            return LOCAL + URL_IMPORT_MC_COLOR;
+        }
+        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_MC_COLOR);
+        return LIVE + URL_IMPORT_MC_COLOR;
     }
 
     public String getUrlImportMcModelPrice() {
@@ -551,6 +567,15 @@ public class GCircleApi extends WebApi {
         return LIVE + URL_SEND_LEAVE_APPLICATION;
     }
 
+    public String getImportPayslip() {
+        if(isUnitTest()){
+            Log.d(TAG, "Initialize api:" + LOCAL + URL_IMPORT_PAYSLIP);
+            return LOCAL + URL_IMPORT_PAYSLIP;
+        }
+        Log.d(TAG, "Initialize api:" + LIVE + URL_IMPORT_PAYSLIP);
+        return LIVE + URL_IMPORT_PAYSLIP;
+    }
+
     public String getUrlGetLeaveApplication() {
         if(isUnitTest()){
             Log.d(TAG, "Initialize api:" + LOCAL + URL_GET_LEAVE_APPLICATION);
@@ -809,6 +834,24 @@ public class GCircleApi extends WebApi {
         }
         Log.d(TAG, "Initialize api:" + LIVE + CLAIM_PANALO_REWARD);
         return LIVE + CLAIM_PANALO_REWARD;
+    }
+
+    public String getSubmitInquiry() {
+        if(isUnitTest()) {
+            Log.d(TAG, "Initialize api:" + LOCAL + URL_SUBMIT_INQUIRY);
+            return LOCAL + URL_SUBMIT_INQUIRY;
+        }
+        Log.d(TAG, "Initialize api:" + LIVE + URL_SUBMIT_INQUIRY);
+        return LIVE + URL_SUBMIT_INQUIRY;
+    }
+
+    public String getDownloadInquiries() {
+        if(isUnitTest()) {
+            Log.d(TAG, "Initialize api:" + LOCAL + URL_DOWNLOAD_INQUIRIES);
+            return LOCAL + URL_DOWNLOAD_INQUIRIES;
+        }
+        Log.d(TAG, "Initialize api:" + LIVE + URL_DOWNLOAD_INQUIRIES);
+        return LIVE + URL_DOWNLOAD_INQUIRIES;
     }
 
 }

@@ -13,8 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EOrderDetail;
-import org.rmj.g3appdriver.dev.Database.Entities.EOrderMaster;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMOrderStatus;
 
@@ -37,15 +35,15 @@ public class Fragment_OrderStatus extends Fragment {
         if(getArguments() != null){
             lsOrderIDxx = getArguments().getString("sOrderIDx");
         }
-        mViewModel.GetMasterOrderInfo(lsOrderIDxx).observe(getViewLifecycleOwner(), eOrderMaster -> {
-            try{
-                mViewModel.GetOrderDetailInfo(eOrderMaster.getTransNox()).observe(getViewLifecycleOwner(), eOrderDetails -> {
-
-                });
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.GetMasterOrderInfo(lsOrderIDxx).observe(getViewLifecycleOwner(), eOrderMaster -> {
+//            try{
+//                mViewModel.GetOrderDetailInfo(eOrderMaster.getTransNox()).observe(getViewLifecycleOwner(), eOrderDetails -> {
+//
+//                });
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
         return loView;
     }

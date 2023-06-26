@@ -41,135 +41,135 @@ public class Fragment_Redeemables extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_redeemables, container, false);
         initViews(view);
 //        mViewModel.setmContext(GCardSystem.CoreFunctions.REDEMPTION);
-        mViewModel.downloadRedeemables(new VMGCardSystem.GcardTransactionCallback() {
-            @Override
-            public void onLoad() {
-
-            }
-
-            @Override
-            public void onSuccess(String fsMessage) {
-
-            }
-
-            @Override
-            public void onFailed(String fsMessage) {
-
-            }
-
-            @Override
-            public void onQrGenerate(Bitmap foBitmap) {
-
-            }
-        });
-
-        mViewModel.GetRedeemablePointsFilter().observe(getViewLifecycleOwner(), strings -> {
-            try {
-                tabLayout.addTab(tabLayout.newTab().setText("All"));
-                for(int x = 0; x < strings.size(); x++) {
-                    tabLayout.addTab(tabLayout.newTab().setText(String.valueOf(strings.get(x))));
-                }
-
-                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                        if(tab.getPosition() > 0){
-//                            mViewModel.GetRedeemablePointsFilter(tabLayout.getTabAt(tab.getPosition()).getText().toString()).observe(getViewLifecycleOwner(), new Observer<List<ERedeemablesInfo>>() {
-//                                @Override
-//                                public void onChanged(List<ERedeemablesInfo> eRedeemablesInfos) {
-//                                    try {
-//                                        Log.d("COUNT", String.valueOf(eRedeemablesInfos.size()));
-//                                        if (eRedeemablesInfos.size() > 0) {
-//                                            lbl_no_redeemables.setVisibility(View.GONE);
-//                                        } else {
-//                                            lbl_no_redeemables.setVisibility(View.VISIBLE);
-//                                        }
+//        mViewModel.downloadRedeemables(new VMGCardSystem.GcardTransactionCallback() {
+//            @Override
+//            public void onLoad() {
 //
-//                                        adapter = new Adapter_Redeemables(requireActivity(), eRedeemablesInfos, new Adapter_Redeemables.OnItemClick() {
-//                                            @Override
-//                                            public void onClick(String sPromoCode) {
+//            }
 //
-//                                            }
+//            @Override
+//            public void onSuccess(String fsMessage) {
 //
-//                                            @Override
-//                                            public void addToCart() {
+//            }
 //
-//                                            }
-//                                        });
-//                                        rvRedeemables.setAdapter(adapter);
-//                                        adapter.notifyDataSetChanged();
-//                                    } catch (Exception e){
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            });
-                        } else {
-//                            mViewModel.GetRedeemablesList().observe(getViewLifecycleOwner(), eRedeemablesInfos -> {
-//                                try {
-//                                    Log.d("COUNT", String.valueOf(eRedeemablesInfos.size()));
-//                                    if (eRedeemablesInfos.size() > 0) {
-//                                        lbl_no_redeemables.setVisibility(View.GONE);
-//                                    } else {
-//                                        lbl_no_redeemables.setVisibility(View.VISIBLE);
-//                                    }
+//            @Override
+//            public void onFailed(String fsMessage) {
 //
-//                                    adapter = new Adapter_Redeemables(requireActivity(), eRedeemablesInfos, new Adapter_Redeemables.OnItemClick() {
-//                                        @Override
-//                                        public void onClick(String sPromoCode) {
+//            }
 //
-//                                        }
+//            @Override
+//            public void onQrGenerate(Bitmap foBitmap) {
 //
-//                                        @Override
-//                                        public void addToCart() {
-//
-//                                        }
-//                                    });
-//                                    rvRedeemables.setAdapter(adapter);
-//                                    adapter.notifyDataSetChanged();
-//                                } catch (Exception e){
-//                                    e.printStackTrace();
-//                                }
-//                            });
-                        }
-                    }
+//            }
+//        });
 
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-
-                    }
-                });
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        mViewModel.GetRedeemablesList().observe(getViewLifecycleOwner(), eRedeemablesInfos -> {
-            Log.d("COUNT", String.valueOf(eRedeemablesInfos.size()));
-            if(eRedeemablesInfos.size()>0){
-                lbl_no_redeemables.setVisibility(View.GONE);
-            }else{
-                lbl_no_redeemables.setVisibility(View.VISIBLE);
-            }
-
-//            adapter = new Adapter_Redeemables(requireActivity(),eRedeemablesInfos, new Adapter_Redeemables.OnItemClick() {
-//                @Override
-//                public void onClick(String sPromoCode) {
-//
+//        mViewModel.GetRedeemablePointsFilter().observe(getViewLifecycleOwner(), strings -> {
+//            try {
+//                tabLayout.addTab(tabLayout.newTab().setText("All"));
+//                for(int x = 0; x < strings.size(); x++) {
+//                    tabLayout.addTab(tabLayout.newTab().setText(String.valueOf(strings.get(x))));
 //                }
 //
-//                @Override
-//                public void addToCart() {
+//                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//                    @Override
+//                    public void onTabSelected(TabLayout.Tab tab) {
+//                        if(tab.getPosition() > 0){
+////                            mViewModel.GetRedeemablePointsFilter(tabLayout.getTabAt(tab.getPosition()).getText().toString()).observe(getViewLifecycleOwner(), new Observer<List<ERedeemablesInfo>>() {
+////                                @Override
+////                                public void onChanged(List<ERedeemablesInfo> eRedeemablesInfos) {
+////                                    try {
+////                                        Log.d("COUNT", String.valueOf(eRedeemablesInfos.size()));
+////                                        if (eRedeemablesInfos.size() > 0) {
+////                                            lbl_no_redeemables.setVisibility(View.GONE);
+////                                        } else {
+////                                            lbl_no_redeemables.setVisibility(View.VISIBLE);
+////                                        }
+////
+////                                        adapter = new Adapter_Redeemables(requireActivity(), eRedeemablesInfos, new Adapter_Redeemables.OnItemClick() {
+////                                            @Override
+////                                            public void onClick(String sPromoCode) {
+////
+////                                            }
+////
+////                                            @Override
+////                                            public void addToCart() {
+////
+////                                            }
+////                                        });
+////                                        rvRedeemables.setAdapter(adapter);
+////                                        adapter.notifyDataSetChanged();
+////                                    } catch (Exception e){
+////                                        e.printStackTrace();
+////                                    }
+////                                }
+////                            });
+//                        } else {
+////                            mViewModel.GetRedeemablesList().observe(getViewLifecycleOwner(), eRedeemablesInfos -> {
+////                                try {
+////                                    Log.d("COUNT", String.valueOf(eRedeemablesInfos.size()));
+////                                    if (eRedeemablesInfos.size() > 0) {
+////                                        lbl_no_redeemables.setVisibility(View.GONE);
+////                                    } else {
+////                                        lbl_no_redeemables.setVisibility(View.VISIBLE);
+////                                    }
+////
+////                                    adapter = new Adapter_Redeemables(requireActivity(), eRedeemablesInfos, new Adapter_Redeemables.OnItemClick() {
+////                                        @Override
+////                                        public void onClick(String sPromoCode) {
+////
+////                                        }
+////
+////                                        @Override
+////                                        public void addToCart() {
+////
+////                                        }
+////                                    });
+////                                    rvRedeemables.setAdapter(adapter);
+////                                    adapter.notifyDataSetChanged();
+////                                } catch (Exception e){
+////                                    e.printStackTrace();
+////                                }
+////                            });
+//                        }
+//                    }
 //
-//                }
-//            });
-            rvRedeemables.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-        });
+//                    @Override
+//                    public void onTabUnselected(TabLayout.Tab tab) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onTabReselected(TabLayout.Tab tab) {
+//
+//                    }
+//                });
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
+
+//        mViewModel.GetRedeemablesList().observe(getViewLifecycleOwner(), eRedeemablesInfos -> {
+//            Log.d("COUNT", String.valueOf(eRedeemablesInfos.size()));
+//            if(eRedeemablesInfos.size()>0){
+//                lbl_no_redeemables.setVisibility(View.GONE);
+//            }else{
+//                lbl_no_redeemables.setVisibility(View.VISIBLE);
+//            }
+//
+////            adapter = new Adapter_Redeemables(requireActivity(),eRedeemablesInfos, new Adapter_Redeemables.OnItemClick() {
+////                @Override
+////                public void onClick(String sPromoCode) {
+////
+////                }
+////
+////                @Override
+////                public void addToCart() {
+////
+////                }
+////            });
+//            rvRedeemables.setAdapter(adapter);
+//            adapter.notifyDataSetChanged();
+//        });
         return view;
     }
 

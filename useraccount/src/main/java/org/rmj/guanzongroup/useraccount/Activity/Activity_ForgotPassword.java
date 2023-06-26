@@ -17,9 +17,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.Etc.LogType;
 import org.rmj.guanzongroup.useraccount.Model.ForgotPasswordInfoModel;
 import org.rmj.guanzongroup.useraccount.R;
@@ -31,8 +28,8 @@ public class Activity_ForgotPassword extends AppCompatActivity {
 
     private VMAccountAuthentication mViewModel;
     private Toolbar toolbar;
-    private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialogx;
+//    private Dialog_Loading poLoading;
+//    private Dialog_SingleButton poDialogx;
     private TabLayout tabLayout;
     private TextView lblUser;
     private TextInputLayout tilEmail, tilMobile;
@@ -104,51 +101,51 @@ public class Activity_ForgotPassword extends AppCompatActivity {
         ForgotPasswordInfoModel infoModel = new ForgotPasswordInfoModel(LogType.EMAIL, lsEmailxx);
         if(infoModel.isDataNotEmpty()) {
             try {
-                mViewModel.RetrievePassword(infoModel.getLogUser(), new VMAccountAuthentication.AuthTransactionCallback() {
-                    @Override
-                    public void onLoad() {
-                        poLoading = new Dialog_Loading(Activity_ForgotPassword.this);
-                        poLoading.initDialog("Resending Password", "Please wait while re-sending your password to your email.");
-                        poLoading.show();
-                    }
-
-                    @Override
-                    public void onSuccess(String fsMessage) {
-                        poLoading.dismiss();
-                        poDialogx = new Dialog_SingleButton(Activity_ForgotPassword.this);
-                        poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Forgot Password", fsMessage, () -> {
-                            isClicked = false;
-                            poDialogx.dismiss();
-                            finish();
-                        });
-                        poDialogx.show();
-                    }
-
-                    @Override
-                    public void onFailed(String fsMessage) {
-                        poLoading.dismiss();
-                        poDialogx = new Dialog_SingleButton(Activity_ForgotPassword.this);
-                        poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Retrieving Password Failed", fsMessage, () -> {
-                            isClicked = false;
-                            poDialogx.dismiss();
-                        });
-                        poDialogx.show();
-                    }
-                });
+//                mViewModel.RetrievePassword(infoModel.getLogUser(), new VMAccountAuthentication.AuthTransactionCallback() {
+//                    @Override
+//                    public void onLoad() {
+//                        poLoading = new Dialog_Loading(Activity_ForgotPassword.this);
+//                        poLoading.initDialog("Resending Password", "Please wait while re-sending your password to your email.");
+//                        poLoading.show();
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(String fsMessage) {
+//                        poLoading.dismiss();
+//                        poDialogx = new Dialog_SingleButton(Activity_ForgotPassword.this);
+//                        poDialogx.setButtonText("Okay");
+//                        poDialogx.initDialog("Forgot Password", fsMessage, () -> {
+//                            isClicked = false;
+//                            poDialogx.dismiss();
+//                            finish();
+//                        });
+//                        poDialogx.show();
+//                    }
+//
+//                    @Override
+//                    public void onFailed(String fsMessage) {
+//                        poLoading.dismiss();
+//                        poDialogx = new Dialog_SingleButton(Activity_ForgotPassword.this);
+//                        poDialogx.setButtonText("Okay");
+//                        poDialogx.initDialog("Retrieving Password Failed", fsMessage, () -> {
+//                            isClicked = false;
+//                            poDialogx.dismiss();
+//                        });
+//                        poDialogx.show();
+//                    }
+//                });
             } catch (Exception e) {
                 e.printStackTrace();
                 isClicked = false;
             }
         } else {
-            poDialogx = new Dialog_SingleButton(Activity_ForgotPassword.this);
-            poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Retrieving Password Failed", infoModel.getMessage(), () -> {
-                isClicked = false;
-                poDialogx.dismiss();
-            });
-            poDialogx.show();
+//            poDialogx = new Dialog_SingleButton(Activity_ForgotPassword.this);
+//            poDialogx.setButtonText("Okay");
+//            poDialogx.initDialog("Retrieving Password Failed", infoModel.getMessage(), () -> {
+//                isClicked = false;
+//                poDialogx.dismiss();
+//            });
+//            poDialogx.show();
         }
     }
 
@@ -160,12 +157,12 @@ public class Activity_ForgotPassword extends AppCompatActivity {
                     case 1:
                         tilEmail.setVisibility(View.INVISIBLE);
                         tilMobile.setVisibility(View.VISIBLE);
-                        lblUser.setText(R.string.lblMobileNumber);
+//                        lblUser.setText(R.string.lblMobileNumber);
                         break;
                     default:
                         tilEmail.setVisibility(View.VISIBLE);
                         tilMobile.setVisibility(View.INVISIBLE);
-                        lblUser.setText(R.string.lblEmailAddress);
+//                        lblUser.setText(R.string.lblEmailAddress);
                         break;
                 }
             }

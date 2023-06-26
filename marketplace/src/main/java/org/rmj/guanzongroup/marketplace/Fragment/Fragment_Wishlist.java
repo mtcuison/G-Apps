@@ -18,12 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.rmj.g3appdriver.utils.Dialogs.BottomDialog_AddToCart;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
-import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_Wishlist;
-import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 import org.rmj.guanzongroup.marketplace.Model.WishListModel;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMWishlist;
@@ -39,8 +34,8 @@ public class Fragment_Wishlist extends Fragment {
     private Adapter_Wishlist adapter;
     private List<WishListModel> itemList;
     private RecyclerView recyclerView;
-    private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialogx;
+//    private Dialog_Loading poLoading;
+//    private Dialog_SingleButton poDialogx;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -53,7 +48,7 @@ public class Fragment_Wishlist extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        poDialogx = new Dialog_SingleButton(requireActivity());
+//        poDialogx = new Dialog_SingleButton(requireActivity());
 
     }
 

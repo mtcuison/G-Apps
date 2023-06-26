@@ -17,8 +17,6 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountDetails;
 
@@ -26,8 +24,8 @@ public class Activity_AccountUpdate extends AppCompatActivity {
 
     private VMAccountDetails mViewModel;
 
-    private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialogx;
+//    private Dialog_Loading poLoading;
+//    private Dialog_SingleButton poDialogx;
 
     private Toolbar toolbar;
 
@@ -55,134 +53,134 @@ public class Activity_AccountUpdate extends AppCompatActivity {
         tieNew = findViewById(R.id.tie_newPassword);
         tieNw1 = findViewById(R.id.tie_rtPassword);
 
-        poDialogx = new Dialog_SingleButton(Activity_AccountUpdate.this);
-        poLoading = new Dialog_Loading(Activity_AccountUpdate.this);
+//        poDialogx = new Dialog_SingleButton(Activity_AccountUpdate.this);
+//        poLoading = new Dialog_Loading(Activity_AccountUpdate.this);
 
         if(getIntent().hasExtra("sUpdatexx")){
             switch (getIntent().getIntExtra("sUpdatexx", 0)){
                 case 0:
                     findViewById(R.id.constraint_updateAccount).setVisibility(View.VISIBLE);
                     lblUpdate.setText("Enter Email Address");
-                    btnSubmit.setOnClickListener(v -> {
-                        if(!isClicked){
-                            isClicked = true;
-                            mViewModel.UpdateEmailAdd(tieUpdate.getText().toString().trim(), new VMAccountDetails.OnTransactionCallBack() {
-                                @Override
-                                public void onLoading() {
-                                    poLoading.initDialog("Account Update", "Sending email update request. Please wait...");
-                                    poLoading.show();
-                                }
-
-                                @Override
-                                public void onSuccess(String fsMessage) {
-                                    poLoading.dismiss();
-                                    poDialogx.setButtonText("Okay");
-                                    poDialogx.initDialog("Account Update", fsMessage, () -> {
-                                        isClicked = false;
-                                        poDialogx.dismiss();
-                                    });
-                                    poDialogx.show();
-                                }
-
-                                @Override
-                                public void onFailed(String fsMessage) {
-                                    poLoading.dismiss();
-                                    poDialogx.setButtonText("Okay");
-                                    poDialogx.initDialog("Account Update", fsMessage, () -> {
-                                        isClicked = false;
-                                        poDialogx.dismiss();
-                                    });
-                                    poDialogx.show();
-                                }
-                            });
-                        } else {
-                            Toast.makeText(Activity_AccountUpdate.this, "Please wait...", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+//                    btnSubmit.setOnClickListener(v -> {
+//                        if(!isClicked){
+//                            isClicked = true;
+//                            mViewModel.UpdateEmailAdd(tieUpdate.getText().toString().trim(), new VMAccountDetails.OnTransactionCallBack() {
+//                                @Override
+//                                public void onLoading() {
+//                                    poLoading.initDialog("Account Update", "Sending email update request. Please wait...");
+//                                    poLoading.show();
+//                                }
+//
+//                                @Override
+//                                public void onSuccess(String fsMessage) {
+//                                    poLoading.dismiss();
+//                                    poDialogx.setButtonText("Okay");
+//                                    poDialogx.initDialog("Account Update", fsMessage, () -> {
+//                                        isClicked = false;
+//                                        poDialogx.dismiss();
+//                                    });
+//                                    poDialogx.show();
+//                                }
+//
+//                                @Override
+//                                public void onFailed(String fsMessage) {
+//                                    poLoading.dismiss();
+//                                    poDialogx.setButtonText("Okay");
+//                                    poDialogx.initDialog("Account Update", fsMessage, () -> {
+//                                        isClicked = false;
+//                                        poDialogx.dismiss();
+//                                    });
+//                                    poDialogx.show();
+//                                }
+//                            });
+//                        } else {
+//                            Toast.makeText(Activity_AccountUpdate.this, "Please wait...", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                     break;
                 case 1:
                     findViewById(R.id.constraint_updateAccount).setVisibility(View.VISIBLE);
                     lblUpdate.setText("Enter Mobile No");
                     tieUpdate.setFilters(new InputFilter[] {new InputFilter.LengthFilter(11)});
-                    btnSubmit.setOnClickListener(v -> {
-                        if(!isClicked){
-                            isClicked = true;
-                            mViewModel.UpdateMobileNo(tieUpdate.getText().toString().trim(), new VMAccountDetails.OnTransactionCallBack() {
-                                @Override
-                                public void onLoading() {
-                                    poLoading.initDialog("Account Update", "Sending mobile no update request. Please wait...");
-                                    poLoading.show();
-                                }
-
-                                @Override
-                                public void onSuccess(String fsMessage) {
-                                    poLoading.dismiss();
-                                    poDialogx.setButtonText("Okay");
-                                    poDialogx.initDialog("Account Update", fsMessage, () -> {
-                                        isClicked = false;
-                                        poDialogx.dismiss();
-                                    });
-                                    poDialogx.show();
-                                }
-
-                                @Override
-                                public void onFailed(String fsMessage) {
-                                    poLoading.dismiss();
-                                    poDialogx.setButtonText("Okay");
-                                    poDialogx.initDialog("Account Update", fsMessage, () -> {
-                                        isClicked = false;
-                                        poDialogx.dismiss();
-                                    });
-                                    poDialogx.show();
-                                }
-                            });
-                        } else {
-                            Toast.makeText(Activity_AccountUpdate.this, "Please wait...", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+//                    btnSubmit.setOnClickListener(v -> {
+//                        if(!isClicked){
+//                            isClicked = true;
+//                            mViewModel.UpdateMobileNo(tieUpdate.getText().toString().trim(), new VMAccountDetails.OnTransactionCallBack() {
+//                                @Override
+//                                public void onLoading() {
+//                                    poLoading.initDialog("Account Update", "Sending mobile no update request. Please wait...");
+//                                    poLoading.show();
+//                                }
+//
+//                                @Override
+//                                public void onSuccess(String fsMessage) {
+//                                    poLoading.dismiss();
+//                                    poDialogx.setButtonText("Okay");
+//                                    poDialogx.initDialog("Account Update", fsMessage, () -> {
+//                                        isClicked = false;
+//                                        poDialogx.dismiss();
+//                                    });
+//                                    poDialogx.show();
+//                                }
+//
+//                                @Override
+//                                public void onFailed(String fsMessage) {
+//                                    poLoading.dismiss();
+//                                    poDialogx.setButtonText("Okay");
+//                                    poDialogx.initDialog("Account Update", fsMessage, () -> {
+//                                        isClicked = false;
+//                                        poDialogx.dismiss();
+//                                    });
+//                                    poDialogx.show();
+//                                }
+//                            });
+//                        } else {
+//                            Toast.makeText(Activity_AccountUpdate.this, "Please wait...", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                     break;
                 default:
                     findViewById(R.id.constraint_updatePassword).setVisibility(View.VISIBLE);
                     btnSubmit.setText("Submit");
-                    btnSubmit.setOnClickListener(v -> {
-                        if(!isClicked){
-                            isClicked = true;
-                            String lsOld = tieOld.getText().toString().trim(),
-                            lsNew = tieNew.getText().toString().trim(),
-                            lsNw1 = tieNw1.getText().toString().trim();
-                            mViewModel.UpdatePassword(lsOld, lsNew, lsNw1, new VMAccountDetails.OnTransactionCallBack() {
-                                @Override
-                                public void onLoading() {
-                                    poLoading.initDialog("Account Update", "Sending mobile no update request. Please wait...");
-                                    poLoading.show();
-                                }
-
-                                @Override
-                                public void onSuccess(String fsMessage) {
-                                    poLoading.dismiss();
-                                    poDialogx.setButtonText("Okay");
-                                    poDialogx.initDialog("Account Update", fsMessage, () -> {
-                                        isClicked = false;
-                                        poDialogx.dismiss();
-                                    });
-                                    poDialogx.show();
-                                }
-
-                                @Override
-                                public void onFailed(String fsMessage) {
-                                    poLoading.dismiss();
-                                    poDialogx.setButtonText("Okay");
-                                    poDialogx.initDialog("Account Update", fsMessage, () -> {
-                                        isClicked = false;
-                                        poDialogx.dismiss();
-                                    });
-                                    poDialogx.show();
-                                }
-                            });
-                        } else {
-                            Toast.makeText(Activity_AccountUpdate.this, "Please wait...", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+//                    btnSubmit.setOnClickListener(v -> {
+//                        if(!isClicked){
+//                            isClicked = true;
+//                            String lsOld = tieOld.getText().toString().trim(),
+//                            lsNew = tieNew.getText().toString().trim(),
+//                            lsNw1 = tieNw1.getText().toString().trim();
+//                            mViewModel.UpdatePassword(lsOld, lsNew, lsNw1, new VMAccountDetails.OnTransactionCallBack() {
+//                                @Override
+//                                public void onLoading() {
+//                                    poLoading.initDialog("Account Update", "Sending mobile no update request. Please wait...");
+//                                    poLoading.show();
+//                                }
+//
+//                                @Override
+//                                public void onSuccess(String fsMessage) {
+//                                    poLoading.dismiss();
+//                                    poDialogx.setButtonText("Okay");
+//                                    poDialogx.initDialog("Account Update", fsMessage, () -> {
+//                                        isClicked = false;
+//                                        poDialogx.dismiss();
+//                                    });
+//                                    poDialogx.show();
+//                                }
+//
+//                                @Override
+//                                public void onFailed(String fsMessage) {
+//                                    poLoading.dismiss();
+//                                    poDialogx.setButtonText("Okay");
+//                                    poDialogx.initDialog("Account Update", fsMessage, () -> {
+//                                        isClicked = false;
+//                                        poDialogx.dismiss();
+//                                    });
+//                                    poDialogx.show();
+//                                }
+//                            });
+//                        } else {
+//                            Toast.makeText(Activity_AccountUpdate.this, "Please wait...", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                     break;
             }
         }

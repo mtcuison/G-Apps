@@ -17,12 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.etc.CashFormatter;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_MultiLineInput;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductQueries;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
-import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMProductQueries;
 import org.rmj.guanzongroup.marketplace.databinding.ActivityProductQueriesBinding;
 
@@ -32,8 +28,8 @@ public class Activity_ProductQueries extends AppCompatActivity {
     private final String TAG = Activity_ProductQueries.class.getSimpleName();
     private VMProductQueries mViewModel;
     private ActivityProductQueriesBinding mBinding;
-    private Dialog_SingleButton poDialogx;
-    private Dialog_Loading poLoading;
+//    private Dialog_SingleButton poDialogx;
+//    private Dialog_Loading poLoading;
     private String psItemIdx = "", psEntryNo = "";
 
     @Override
@@ -41,8 +37,8 @@ public class Activity_ProductQueries extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityProductQueriesBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        poDialogx = new Dialog_SingleButton(Activity_ProductQueries.this);
-        poLoading = new Dialog_Loading(Activity_ProductQueries.this);
+//        poDialogx = new Dialog_SingleButton(Activity_ProductQueries.this);
+//        poLoading = new Dialog_Loading(Activity_ProductQueries.this);
         mViewModel = new ViewModelProvider(Activity_ProductQueries.this).get(VMProductQueries.class);
         getExtras();
 
@@ -51,39 +47,39 @@ public class Activity_ProductQueries extends AppCompatActivity {
         getSupportActionBar().setTitle("Asked Questions");
 
         displayData();
-        mBinding.btnSend.setOnClickListener(v -> {
-            if(!mBinding.tieQuestion.getText().toString().trim().isEmpty()) {
-                String lsInput = mBinding.tieQuestion.getText().toString().trim();
-                mViewModel.sendProductInquiry(psItemIdx, lsInput, new OnTransactionsCallback() {
-                    @Override
-                    public void onLoading() {
-                        poLoading.initDialog("Marketplace", "Sending question/inquiry. Please wait.");
-                        poLoading.show();
-                    }
-
-                    @Override
-                    public void onSuccess(String fsMessage) {
-                        mBinding.tieQuestion.setText("");
-                        poLoading.dismiss();
-                        poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
-                        poDialogx.show();
-                    }
-
-                    @Override
-                    public void onFailed(String fsMessage) {
-                        poLoading.dismiss();
-                        poDialogx.setButtonText("Okay");
-                        poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
-                        poDialogx.show();
-                    }
-                });
-            } else {
-                poDialogx.setButtonText("Okay");
-                poDialogx.initDialog("Marketplace", "Please enter your question/inquiry.", () -> poDialogx.dismiss());
-                poDialogx.show();
-            }
-        });
+//        mBinding.btnSend.setOnClickListener(v -> {
+//            if(!mBinding.tieQuestion.getText().toString().trim().isEmpty()) {
+//                String lsInput = mBinding.tieQuestion.getText().toString().trim();
+//                mViewModel.sendProductInquiry(psItemIdx, lsInput, new OnTransactionsCallback() {
+//                    @Override
+//                    public void onLoading() {
+//                        poLoading.initDialog("Marketplace", "Sending question/inquiry. Please wait.");
+//                        poLoading.show();
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(String fsMessage) {
+//                        mBinding.tieQuestion.setText("");
+//                        poLoading.dismiss();
+//                        poDialogx.setButtonText("Okay");
+//                        poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
+//                        poDialogx.show();
+//                    }
+//
+//                    @Override
+//                    public void onFailed(String fsMessage) {
+//                        poLoading.dismiss();
+//                        poDialogx.setButtonText("Okay");
+//                        poDialogx.initDialog("Marketplace", fsMessage, () -> poDialogx.dismiss());
+//                        poDialogx.show();
+//                    }
+//                });
+//            } else {
+//                poDialogx.setButtonText("Okay");
+//                poDialogx.initDialog("Marketplace", "Please enter your question/inquiry.", () -> poDialogx.dismiss());
+//                poDialogx.show();
+//            }
+//        });
     }
 
     @Override
@@ -100,20 +96,20 @@ public class Activity_ProductQueries extends AppCompatActivity {
     }
 
     private void getExtras() {
-        if(getIntent().hasExtra("sListngId")) {
-            psItemIdx = getIntent().getStringExtra("sListngId");
-        } else {
-            poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Marketplace", "Product does not exist.", () -> {
-                poDialogx.dismiss();
-                finish();
-            });
-            poDialogx.show();
-        }
-
-        if(getIntent().hasExtra("nEntryNox")){
-            psEntryNo = getIntent().getStringExtra("nEntryNox");
-        }
+//        if(getIntent().hasExtra("sListngId")) {
+//            psItemIdx = getIntent().getStringExtra("sListngId");
+//        } else {
+//            poDialogx.setButtonText("Okay");
+//            poDialogx.initDialog("Marketplace", "Product does not exist.", () -> {
+//                poDialogx.dismiss();
+//                finish();
+//            });
+//            poDialogx.show();
+//        }
+//
+//        if(getIntent().hasExtra("nEntryNox")){
+//            psEntryNo = getIntent().getStringExtra("nEntryNox");
+//        }
     }
 
     private void displayData() {
@@ -122,69 +118,69 @@ public class Activity_ProductQueries extends AppCompatActivity {
     }
 
     private void showProductInfo() {
-        mViewModel.getProductInfo(psItemIdx).observe(Activity_ProductQueries.this, product -> {
-            try {
-                String lsSoldQty = "Sold: " + product.getSoldQtyx();
-                JSONArray laJson = new JSONArray(product.getImagesxx());
-                String sampleImg = laJson.getJSONObject(0).getString("sImageURL");
-                Picasso.get().load(sampleImg).into(mBinding.imgProdct);
-                mBinding.txtProdNm.setText(product.getModelNme());
-                mBinding.txtSoldQt.setText(lsSoldQty);
-                mBinding.txtPricex.setText(CashFormatter.parse(product.getUnitPrce()));
-            } catch (NullPointerException | JSONException e) {
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getProductInfo(psItemIdx).observe(Activity_ProductQueries.this, product -> {
+//            try {
+//                String lsSoldQty = "Sold: " + product.getSoldQtyx();
+//                JSONArray laJson = new JSONArray(product.getImagesxx());
+//                String sampleImg = laJson.getJSONObject(0).getString("sImageURL");
+//                Picasso.get().load(sampleImg).into(mBinding.imgProdct);
+//                mBinding.txtProdNm.setText(product.getModelNme());
+//                mBinding.txtSoldQt.setText(lsSoldQty);
+//                mBinding.txtPricex.setText(CashFormatter.parse(product.getUnitPrce()));
+//            } catch (NullPointerException | JSONException e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     private void showInquiries() {
-        poLoading.initDialog("Product Inquiries", "Loading product inquiries. Please wait...");
-        poLoading.show();
-        mViewModel.ImportInquiries(psItemIdx, new VMProductQueries.OnInquiryReviewsImportCallback() {
-            @Override
-            public void OnImport(String args) {
-                try {
-                    poLoading.dismiss();
-                    JSONObject loJson = new JSONObject(args);
-                    mBinding.rvQueries.setVisibility(View.VISIBLE);
-                    mBinding.lblNoFaqs.setVisibility(View.GONE);
-                    Adapter_ProductQueries loAdapter = new Adapter_ProductQueries(
-                            getFilteredFaqs(loJson.getJSONArray("detail")),
-                            false);
-                    loAdapter.notifyDataSetChanged();
-                    mBinding.rvQueries.setLayoutManager(new LinearLayoutManager(Activity_ProductQueries.this));
-                    mBinding.rvQueries.setHasFixedSize(true);
-                    mBinding.rvQueries.setAdapter(loAdapter);
-
-                    if(!psEntryNo.isEmpty()){
-                        mBinding.cvHLQuestion.setVisibility(View.VISIBLE);
-                        JSONArray laJson = loJson.getJSONArray("detail");
-                        for(int x = 0; x < laJson.length(); x++){
-                            JSONObject loDetail = laJson.getJSONObject(x);
-                            if(loDetail.getString("nEntryNox").equalsIgnoreCase(psEntryNo)){
-                                mBinding.txtClientName.setText(loDetail.getString("sUserName"));
-                                mBinding.txtDateAsked.setText(loDetail.getString("dCreatedx"));
-                                mBinding.txtQuery.setText(loDetail.getString("sQuestion"));
-                                mBinding.txtResponse.setText(loDetail.getString("sReplyxxx"));
-                                break;
-                            }
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    mBinding.rvQueries.setVisibility(View.GONE);
-                    mBinding.lblNoFaqs.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                Log.e(TAG, message);
-                poLoading.dismiss();
-                mBinding.rvQueries.setVisibility(View.GONE);
-                mBinding.lblNoFaqs.setVisibility(View.VISIBLE);
-            }
-        });
+//        poLoading.initDialog("Product Inquiries", "Loading product inquiries. Please wait...");
+//        poLoading.show();
+//        mViewModel.ImportInquiries(psItemIdx, new VMProductQueries.OnInquiryReviewsImportCallback() {
+//            @Override
+//            public void OnImport(String args) {
+//                try {
+//                    poLoading.dismiss();
+//                    JSONObject loJson = new JSONObject(args);
+//                    mBinding.rvQueries.setVisibility(View.VISIBLE);
+//                    mBinding.lblNoFaqs.setVisibility(View.GONE);
+//                    Adapter_ProductQueries loAdapter = new Adapter_ProductQueries(
+//                            getFilteredFaqs(loJson.getJSONArray("detail")),
+//                            false);
+//                    loAdapter.notifyDataSetChanged();
+//                    mBinding.rvQueries.setLayoutManager(new LinearLayoutManager(Activity_ProductQueries.this));
+//                    mBinding.rvQueries.setHasFixedSize(true);
+//                    mBinding.rvQueries.setAdapter(loAdapter);
+//
+//                    if(!psEntryNo.isEmpty()){
+//                        mBinding.cvHLQuestion.setVisibility(View.VISIBLE);
+//                        JSONArray laJson = loJson.getJSONArray("detail");
+//                        for(int x = 0; x < laJson.length(); x++){
+//                            JSONObject loDetail = laJson.getJSONObject(x);
+//                            if(loDetail.getString("nEntryNox").equalsIgnoreCase(psEntryNo)){
+//                                mBinding.txtClientName.setText(loDetail.getString("sUserName"));
+//                                mBinding.txtDateAsked.setText(loDetail.getString("dCreatedx"));
+//                                mBinding.txtQuery.setText(loDetail.getString("sQuestion"));
+//                                mBinding.txtResponse.setText(loDetail.getString("sReplyxxx"));
+//                                break;
+//                            }
+//                        }
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    mBinding.rvQueries.setVisibility(View.GONE);
+//                    mBinding.lblNoFaqs.setVisibility(View.VISIBLE);
+//                }
+//            }
+//
+//            @Override
+//            public void OnFailed(String message) {
+//                Log.e(TAG, message);
+//                poLoading.dismiss();
+//                mBinding.rvQueries.setVisibility(View.GONE);
+//                mBinding.lblNoFaqs.setVisibility(View.VISIBLE);
+//            }
+//        });
     }
 
     private JSONArray getFilteredFaqs(JSONArray foArray) {

@@ -18,6 +18,8 @@ public class EGanadoOnline {
     private String GanadoTp = "";
     @ColumnInfo(name = "cPaymForm")
     private String PaymForm = "";
+    @ColumnInfo(name = "sClientNm")
+    private String ClientNm = "";
     @ColumnInfo(name = "sClntInfo")
     private String ClntInfo = "";
     @ColumnInfo(name = "sProdInfo")
@@ -46,6 +48,8 @@ public class EGanadoOnline {
     private String LastUpdt = "";
     @ColumnInfo(name = "sBranchCD")
     private String BranchCD = "";
+    @ColumnInfo(name = "dTimeStmp")
+    private String TimeStmp = "";
 
     public EGanadoOnline() {
     }
@@ -81,6 +85,14 @@ public class EGanadoOnline {
 
     public void setPaymForm(String paymForm) {
         PaymForm = paymForm;
+    }
+
+    public String getClientNm() {
+        return ClientNm;
+    }
+
+    public void setClientNm(String clientNm) {
+        ClientNm = clientNm;
     }
 
     public String getClntInfo() {
@@ -193,5 +205,13 @@ public class EGanadoOnline {
 
     public void setBranchCD(String branchCD) {
         BranchCD = branchCD;
+    }
+
+    public String getTimeStmp() {
+        return TimeStmp;
+    }
+
+    public void setTimeStmp(String timeStmp) {
+        TimeStmp = timeStmp;
     }
 }

@@ -45,46 +45,46 @@ public class Fragment_AddressList extends Fragment {
     }
 
     private void setAddressAdapter() {
-        mViewModel.getClientBSAddress().observe(getViewLifecycleOwner(), clientBSAddress -> {
-            try {
-                List<Adapter_ShippingAddress.Address> loClientx = new ArrayList<>();
-                String sHouseNo1 = clientBSAddress.sHouseNo1;
-                String sAddress1 = clientBSAddress.sAddress1;
-                String sBrgyNme1 = clientBSAddress.sBrgyNme1;
-                String sTownNme1 = clientBSAddress.sTownNme1;
-                String sProvNme1 = clientBSAddress.sProvNme1;
-                String sHouseNo2 = clientBSAddress.sHouseNo2;
-                String sAddress2 = clientBSAddress.sAddress2;
-                String sBrgyNme2 = clientBSAddress.sBrgyNme2;
-                String sTownNme2 = clientBSAddress.sTownNme2;
-                String sProvNme2 = clientBSAddress.sProvNme2;
-                loClientx.add(new Adapter_ShippingAddress.Address(false,
-                        sHouseNo1,
-                        sAddress1,
-                        sBrgyNme1,
-                        sTownNme1 + ", " + sProvNme1));
-                loClientx.add(new Adapter_ShippingAddress.Address(true,
-                        sHouseNo2,
-                        sAddress2,
-                        sBrgyNme2,
-                        sTownNme2 + ", " + sProvNme2));
-
-                poAdapter = new Adapter_ShippingAddress(loClientx, position -> {
-                    Intent loIntent = new Intent(requireActivity(), Activity_AddressUpdate.class);
-                    if(position == 0) {
-                        loIntent.putExtra("sAddUpdte", "billing");
-                    } else {
-                        loIntent.putExtra("sAddUpdte", "shipping");
-                    }
-                    startActivity(loIntent);
-                });
-                mBinding.recyclerVw.setLayoutManager(new LinearLayoutManager(requireActivity()));
-                mBinding.recyclerVw.setHasFixedSize(true);
-                mBinding.recyclerVw.setAdapter(poAdapter);
-                poAdapter.notifyDataSetChanged();
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getClientBSAddress().observe(getViewLifecycleOwner(), clientBSAddress -> {
+//            try {
+//                List<Adapter_ShippingAddress.Address> loClientx = new ArrayList<>();
+//                String sHouseNo1 = clientBSAddress.sHouseNo1;
+//                String sAddress1 = clientBSAddress.sAddress1;
+//                String sBrgyNme1 = clientBSAddress.sBrgyNme1;
+//                String sTownNme1 = clientBSAddress.sTownNme1;
+//                String sProvNme1 = clientBSAddress.sProvNme1;
+//                String sHouseNo2 = clientBSAddress.sHouseNo2;
+//                String sAddress2 = clientBSAddress.sAddress2;
+//                String sBrgyNme2 = clientBSAddress.sBrgyNme2;
+//                String sTownNme2 = clientBSAddress.sTownNme2;
+//                String sProvNme2 = clientBSAddress.sProvNme2;
+//                loClientx.add(new Adapter_ShippingAddress.Address(false,
+//                        sHouseNo1,
+//                        sAddress1,
+//                        sBrgyNme1,
+//                        sTownNme1 + ", " + sProvNme1));
+//                loClientx.add(new Adapter_ShippingAddress.Address(true,
+//                        sHouseNo2,
+//                        sAddress2,
+//                        sBrgyNme2,
+//                        sTownNme2 + ", " + sProvNme2));
+//
+//                poAdapter = new Adapter_ShippingAddress(loClientx, position -> {
+//                    Intent loIntent = new Intent(requireActivity(), Activity_AddressUpdate.class);
+//                    if(position == 0) {
+//                        loIntent.putExtra("sAddUpdte", "billing");
+//                    } else {
+//                        loIntent.putExtra("sAddUpdte", "shipping");
+//                    }
+//                    startActivity(loIntent);
+//                });
+//                mBinding.recyclerVw.setLayoutManager(new LinearLayoutManager(requireActivity()));
+//                mBinding.recyclerVw.setHasFixedSize(true);
+//                mBinding.recyclerVw.setAdapter(poAdapter);
+//                poAdapter.notifyDataSetChanged();
+//            } catch (NullPointerException e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 }

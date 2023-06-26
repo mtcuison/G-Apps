@@ -1,12 +1,9 @@
 package org.rmj.guanzongroup.useraccount.Model;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.rmj.g3appdriver.GConnect.room.Entities.EClientInfo;
 
 public class CompleteAccountDetailsInfo {
-    private EClientInfo poClientx;
+    private final EClientInfo poClientx;
     private String sLastName = "";
     private String sFirstNme = "";
     private String sMiddName = "-";

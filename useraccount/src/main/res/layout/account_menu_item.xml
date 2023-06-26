@@ -17,18 +17,20 @@
             android:paddingVertical="15dp"
             android:orientation="horizontal">
 
+<!--            android:textColor="@color/font_regular"-->
             <TextView
                 android:id="@+id/lblMenuHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Header Title"
-                android:textColor="@color/font_regular"
                 android:textSize="16sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
+
+<!--            android:textColor="@color/font_light"-->
             <TextView
                 android:id="@+id/lbl_edit"
                 android:layout_width="wrap_content"
@@ -37,16 +39,16 @@
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/roboto"
                 android:text="Edit"
-                android:textColor="@color/font_light"
                 android:textSize="16sp"
                 app:layout_constraintRight_toRightOf ="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
+
+<!--            android:background="@color/font_light"-->
             <View
                 android:layout_width="0dp"
                 android:layout_height="0.4dp"
-                android:background="@color/font_light"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lblMenuHeader"
                 app:layout_constraintRight_toRightOf="parent"
@@ -62,12 +64,13 @@
             android:paddingVertical="17dp"
             android:background="@color/white">
 
+
+<!--            android:textColor="@color/font_regular"-->
             <TextView
                 android:id="@+id/lblMenuTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/font_regular"
                 android:textSize="16sp"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -75,13 +78,13 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
+<!--            android:text="@string/lblNotSet"-->
+<!--            android:textColor="@color/font_light"-->
             <TextView
                 android:id="@+id/txtData"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@string/lblNotSet"
-                android:textColor="@color/font_light"
                 android:textSize="14sp"
                 app:layout_constraintLeft_toRightOf="@id/lblMenuTitle"
                 app:layout_constraintTop_toTopOf="@id/lblMenuTitle"

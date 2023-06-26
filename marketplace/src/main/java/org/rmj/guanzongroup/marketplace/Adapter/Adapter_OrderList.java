@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.guanzongroup.marketplace.R;
 
@@ -21,12 +20,11 @@ import java.util.List;
 
 public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.ViewHolderItem> {
 
-    private final List<DItemCart.oMarketplaceCartItem> poItemsxx;
+//    private final List<DItemCart.oMarketplaceCartItem> poItemsxx;
 
-
-    public Adapter_OrderList(List<DItemCart.oMarketplaceCartItem> foItemsxx){
-        this.poItemsxx = foItemsxx;
-    }
+//    public Adapter_OrderList(List<DItemCart.oMarketplaceCartItem> foItemsxx){
+//        this.poItemsxx = foItemsxx;
+//    }
 
     @NonNull
     @Override
@@ -37,20 +35,21 @@ public class Adapter_OrderList extends RecyclerView.Adapter<Adapter_OrderList.Vi
 
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
-        try {
-            DItemCart.oMarketplaceCartItem loItemxxx = poItemsxx.get(position);
-            holder.txtProdNm.setText(loItemxxx.xModelNme);
-            holder.txtPricex.setText(CashFormatter.parse(loItemxxx.nUnitPrce));
-            holder.txtItemQt.setText("Qty: " + loItemxxx.nQuantity);
-            holder.setImage(loItemxxx.sImagesxx);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            DItemCart.oMarketplaceCartItem loItemxxx = poItemsxx.get(position);
+//            holder.txtProdNm.setText(loItemxxx.xModelNme);
+//            holder.txtPricex.setText(CashFormatter.parse(loItemxxx.nUnitPrce));
+//            holder.txtItemQt.setText("Qty: " + loItemxxx.nQuantity);
+//            holder.setImage(loItemxxx.sImagesxx);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
     public int getItemCount() {
-        return poItemsxx.size();
+//        return poItemsxx.size();
+        return 0;
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{

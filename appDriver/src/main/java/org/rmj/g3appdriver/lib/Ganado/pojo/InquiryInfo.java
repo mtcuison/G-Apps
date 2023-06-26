@@ -8,7 +8,11 @@ public class InquiryInfo {
     private String sModelIDx = "";
     private String sColorIDx = "";
     private String sTermIDxx = "";
+    private String dTargetxx = "";
     private String nDownPaym = "";
+
+
+    private String nMonthAmr = "";
     private String sRelatnID = "";
 
     private String message;
@@ -89,6 +93,14 @@ public class InquiryInfo {
         this.sTermIDxx = sTermIDxx;
     }
 
+    public String getTargetxx() {
+        return dTargetxx;
+    }
+
+    public void setTargetxx(String dTargetxx) {
+        this.dTargetxx = dTargetxx;
+    }
+
     public String getDownPaym() {
         return nDownPaym;
     }
@@ -97,6 +109,13 @@ public class InquiryInfo {
         this.nDownPaym = nDownPaym;
     }
 
+    public String getnMonthAmr() {
+        return nMonthAmr;
+    }
+
+    public void setMonthAmr(String nMonthAmr) {
+        this.nMonthAmr = nMonthAmr;
+    }
     public String getRelatnID() {
         return sRelatnID;
     }
@@ -126,6 +145,11 @@ public class InquiryInfo {
             return false;
         }
 
+        if(dTargetxx.isEmpty()){
+            message = "Please select the target date for getting the unit.";
+            return false;
+        }
+
         if(cPaymForm.isEmpty()) {
             message = "Please select which type of payment you prefer. Cash or Installment";
             return false;
@@ -142,6 +166,6 @@ public class InquiryInfo {
             }
         }
 
-        return false;
+        return true;
     }
 }

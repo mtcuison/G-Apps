@@ -16,12 +16,6 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
-import org.rmj.g3appdriver.etc.InputFieldController;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMShippingAddress;
 
@@ -38,12 +32,12 @@ public class Activity_AddressUpdate extends AppCompatActivity {
     private AutoCompleteTextView tieBrgy, tieTown;
     private MaterialButton btnUpdate;
 
-    private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialogx;
+//    private Dialog_Loading poLoading;
+//    private Dialog_SingleButton poDialogx;
 
     private VMShippingAddress mViewModel;
 
-    private DClientInfo.oAddressUpdate poAddress = new DClientInfo.oAddressUpdate();
+//    private DClientInfo.oAddressUpdate poAddress = new DClientInfo.oAddressUpdate();
 
     public boolean isClicked = false;
 
@@ -64,53 +58,53 @@ public class Activity_AddressUpdate extends AppCompatActivity {
         tieBrgy = findViewById(R.id.tie_barangay);
         btnUpdate = findViewById(R.id.btnUpdate);
 
-        poDialogx = new Dialog_SingleButton(Activity_AddressUpdate.this);
-        poLoading = new Dialog_Loading(Activity_AddressUpdate.this);
+//        poDialogx = new Dialog_SingleButton(Activity_AddressUpdate.this);
+//        poLoading = new Dialog_Loading(Activity_AddressUpdate.this);
 
-        mViewModel.getTownCityList().observe(Activity_AddressUpdate.this, oTownObjs -> {
-            try {
-                ArrayList<String> lsTownCts = mViewModel.getTownCityForInput(oTownObjs);
-                tieTown.setAdapter(
-                        InputFieldController.getAutoCompleteData(
-                                Activity_AddressUpdate.this, lsTownCts
-                        )
-                );
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getTownCityList().observe(Activity_AddressUpdate.this, oTownObjs -> {
+//            try {
+//                ArrayList<String> lsTownCts = mViewModel.getTownCityForInput(oTownObjs);
+//                tieTown.setAdapter(
+//                        InputFieldController.getAutoCompleteData(
+//                                Activity_AddressUpdate.this, lsTownCts
+//                        )
+//                );
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
 
         tieTown.setOnItemClickListener((adapterView, view, i, l) -> {
-            mViewModel.getTownCityList().observe(this, townObjs -> {
-                try {
-                    for (int x = 0; x < townObjs.size(); x++) {
-                        String lsTownCt = townObjs.get(x).sTownNm + ", " + townObjs.get(x).sProvNm;
-                        if (tieTown.getText().toString().equalsIgnoreCase(lsTownCt)) {
-                            poAddress.sTownIDxx = townObjs.get(x).sTownID;
-                            mViewModel.getBarangayList(townObjs.get(x).sTownID).observe(this, brgys -> {
-                                tieBrgy.setAdapter(
-                                        InputFieldController.getAutoCompleteData(
-                                                Activity_AddressUpdate.this,
-                                                mViewModel.getBarangayForInput(brgys)
-                                        )
-                                );
-
-                                tieBrgy.setOnItemClickListener((adapterView1, view1, i1, l1) -> {
-                                    for(int x1 = 0; x1 < brgys.size(); x1++){
-                                        if(brgys.get(x1).getBrgyName().equalsIgnoreCase(tieBrgy.getText().toString().trim())){
-                                            poAddress.sBrgyIDxx = brgys.get(x1).getBrgyIDxx();
-                                            break;
-                                        }
-                                    }
-                                });
-                            });
-                            break;
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+//            mViewModel.getTownCityList().observe(this, townObjs -> {
+//                try {
+//                    for (int x = 0; x < townObjs.size(); x++) {
+//                        String lsTownCt = townObjs.get(x).sTownNm + ", " + townObjs.get(x).sProvNm;
+//                        if (tieTown.getText().toString().equalsIgnoreCase(lsTownCt)) {
+//                            poAddress.sTownIDxx = townObjs.get(x).sTownID;
+//                            mViewModel.getBarangayList(townObjs.get(x).sTownID).observe(this, brgys -> {
+//                                tieBrgy.setAdapter(
+//                                        InputFieldController.getAutoCompleteData(
+//                                                Activity_AddressUpdate.this,
+//                                                mViewModel.getBarangayForInput(brgys)
+//                                        )
+//                                );
+//
+//                                tieBrgy.setOnItemClickListener((adapterView1, view1, i1, l1) -> {
+//                                    for(int x1 = 0; x1 < brgys.size(); x1++){
+//                                        if(brgys.get(x1).getBrgyName().equalsIgnoreCase(tieBrgy.getText().toString().trim())){
+//                                            poAddress.sBrgyIDxx = brgys.get(x1).getBrgyIDxx();
+//                                            break;
+//                                        }
+//                                    }
+//                                });
+//                            });
+//                            break;
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            });
         });
 
         boolean cIsShipp;
@@ -118,75 +112,75 @@ public class Activity_AddressUpdate extends AppCompatActivity {
             cIsShipp = !getIntent().getStringExtra("sAddUpdte").equalsIgnoreCase("billing");
             if(!cIsShipp){
                 lblType.setText("Billing Address");
-                mViewModel.GetBillingAddressInfoForUpdate().observe(Activity_AddressUpdate.this, oAddressUpdate -> {
-                    try {
-                        tieHouseNo.setText(oAddressUpdate.sHouseNox);
-                        tieAddress.setText(oAddressUpdate.sAddressx);
-                        tieBrgy.setText(oAddressUpdate.sBrgyName);
-                        tieTown.setText(oAddressUpdate.sTownName);
-                        poAddress.sBrgyIDxx = oAddressUpdate.sBrgyIDxx;
-                        poAddress.sTownIDxx = oAddressUpdate.sTownIDxx;
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                });
+//                mViewModel.GetBillingAddressInfoForUpdate().observe(Activity_AddressUpdate.this, oAddressUpdate -> {
+//                    try {
+//                        tieHouseNo.setText(oAddressUpdate.sHouseNox);
+//                        tieAddress.setText(oAddressUpdate.sAddressx);
+//                        tieBrgy.setText(oAddressUpdate.sBrgyName);
+//                        tieTown.setText(oAddressUpdate.sTownName);
+//                        poAddress.sBrgyIDxx = oAddressUpdate.sBrgyIDxx;
+//                        poAddress.sTownIDxx = oAddressUpdate.sTownIDxx;
+//                    } catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//                });
             } else {
                 lblType.setText("Shipping Address");
-                mViewModel.GetShippingAddressInfoForUpdate().observe(Activity_AddressUpdate.this, oAddressUpdate -> {
-                    try {
-                        tieHouseNo.setText(oAddressUpdate.sHouseNox);
-                        tieAddress.setText(oAddressUpdate.sAddressx);
-                        tieBrgy.setText(oAddressUpdate.sBrgyName);
-                        tieTown.setText(oAddressUpdate.sTownName);
-                        poAddress.sBrgyIDxx = oAddressUpdate.sBrgyIDxx;
-                        poAddress.sTownIDxx = oAddressUpdate.sTownIDxx;
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                });
+//                mViewModel.GetShippingAddressInfoForUpdate().observe(Activity_AddressUpdate.this, oAddressUpdate -> {
+//                    try {
+//                        tieHouseNo.setText(oAddressUpdate.sHouseNox);
+//                        tieAddress.setText(oAddressUpdate.sAddressx);
+//                        tieBrgy.setText(oAddressUpdate.sBrgyName);
+//                        tieTown.setText(oAddressUpdate.sTownName);
+//                        poAddress.sBrgyIDxx = oAddressUpdate.sBrgyIDxx;
+//                        poAddress.sTownIDxx = oAddressUpdate.sTownIDxx;
+//                    } catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//                });
             }
             btnUpdate.setOnClickListener(v -> {
-                if(!isClicked) {
-                    isClicked = true;
-                    poAddress.sHouseNox = tieHouseNo.getText().toString().trim();
-                    poAddress.sAddressx = tieHouseNo.getText().toString().trim();
-                    VMShippingAddress.OnTransactionCallBack loCallback = new VMShippingAddress.OnTransactionCallBack() {
-                        @Override
-                        public void onLoading() {
-                            poLoading.initDialog("Address Update", "Sending address update request. Please wait...");
-                            poLoading.show();
-                        }
-
-                        @Override
-                        public void onSuccess(String fsMessage) {
-                            poLoading.dismiss();
-                            poDialogx.setButtonText("Okay");
-                            poDialogx.initDialog("Address Update", fsMessage, () -> {
-                                isClicked = false;
-                                poDialogx.dismiss();
-                            });
-                            poDialogx.show();
-                        }
-
-                        @Override
-                        public void onFailed(String fsMessage) {
-                            poLoading.dismiss();
-                            poDialogx.setButtonText("Okay");
-                            poDialogx.initDialog("Address Update", fsMessage, () -> {
-                                isClicked = false;
-                                poDialogx.dismiss();
-                            });
-                            poDialogx.show();
-                        }
-                    };
-                    if (cIsShipp) {
-                        mViewModel.UpdateShippingAddress(poAddress, loCallback);
-                    } else {
-                        mViewModel.UpdateBillingAddress(poAddress, loCallback);
-                    }
-                } else {
-                    Toast.makeText(Activity_AddressUpdate.this, "Please wait...", Toast.LENGTH_SHORT).show();
-                }
+//                if(!isClicked) {
+//                    isClicked = true;
+//                    poAddress.sHouseNox = tieHouseNo.getText().toString().trim();
+//                    poAddress.sAddressx = tieHouseNo.getText().toString().trim();
+//                    VMShippingAddress.OnTransactionCallBack loCallback = new VMShippingAddress.OnTransactionCallBack() {
+//                        @Override
+//                        public void onLoading() {
+//                            poLoading.initDialog("Address Update", "Sending address update request. Please wait...");
+//                            poLoading.show();
+//                        }
+//
+//                        @Override
+//                        public void onSuccess(String fsMessage) {
+//                            poLoading.dismiss();
+//                            poDialogx.setButtonText("Okay");
+//                            poDialogx.initDialog("Address Update", fsMessage, () -> {
+//                                isClicked = false;
+//                                poDialogx.dismiss();
+//                            });
+//                            poDialogx.show();
+//                        }
+//
+//                        @Override
+//                        public void onFailed(String fsMessage) {
+//                            poLoading.dismiss();
+//                            poDialogx.setButtonText("Okay");
+//                            poDialogx.initDialog("Address Update", fsMessage, () -> {
+//                                isClicked = false;
+//                                poDialogx.dismiss();
+//                            });
+//                            poDialogx.show();
+//                        }
+//                    };
+//                    if (cIsShipp) {
+//                        mViewModel.UpdateShippingAddress(poAddress, loCallback);
+//                    } else {
+//                        mViewModel.UpdateBillingAddress(poAddress, loCallback);
+//                    }
+//                } else {
+//                    Toast.makeText(Activity_AddressUpdate.this, "Please wait...", Toast.LENGTH_SHORT).show();
+//                }
             });
         }
     }

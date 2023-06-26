@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,9 +18,6 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
 
@@ -30,8 +26,8 @@ import java.util.Objects;
 public class Activity_SignUp extends AppCompatActivity {
 
     private VMAccountAuthentication mViewModel;
-    private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialogx;
+//    private Dialog_Loading poLoading;
+//    private Dialog_SingleButton poDialogx;
     private Toolbar toolbar;
     private CheckBox cbAgreexx;
     private TextInputEditText txtUserNm, txtEmailx, txtMobile, txtPasswd, txtRetype;
@@ -42,7 +38,7 @@ public class Activity_SignUp extends AppCompatActivity {
 
     public boolean isClicked = false;
 
-    private AccountAuthentication.AccountCredentials loCrednts;
+//    private AccountAuthentication.AccountCredentials loCrednts;
 
     private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -92,7 +88,7 @@ public class Activity_SignUp extends AppCompatActivity {
 
     // Initialize this first before anything else.
     private void initViews() {
-        poDialogx = new Dialog_SingleButton(Activity_SignUp.this);
+//        poDialogx = new Dialog_SingleButton(Activity_SignUp.this);
         toolbar = findViewById(R.id.toolbar);
         cbAgreexx = findViewById(R.id.cbAgree);
         txtUserNm = findViewById(R.id.tie_username);
@@ -130,95 +126,95 @@ public class Activity_SignUp extends AppCompatActivity {
     }
 
     private void signUp() {
-        loCrednts = new AccountAuthentication.AccountCredentials();
-        loCrednts.setUserName(Objects.requireNonNull(Objects.requireNonNull(txtUserNm.getText()).toString().trim()));
-        loCrednts.setEmailAdd(Objects.requireNonNull(Objects.requireNonNull(txtEmailx.getText()).toString().trim()));
-        loCrednts.setMobileNo(Objects.requireNonNull(Objects.requireNonNull(txtMobile.getText()).toString().trim()));
-        loCrednts.setPassword(Objects.requireNonNull(Objects.requireNonNull(txtPasswd.getText()).toString().trim()));
-        loCrednts.setPasswrd2(Objects.requireNonNull(Objects.requireNonNull(txtRetype.getText()).toString().trim()));
-        loCrednts.setcAgreeTnC((cbAgreexx.isChecked()) ? "1" : "0");
-        try {
-            mViewModel.RegisterAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
-                @Override
-                public void onLoad() {
-                    poLoading = new Dialog_Loading(Activity_SignUp.this);
-                    poLoading.initDialog("Signing Up", "Please wait for a while.");
-                    poLoading.show();
-                }
-
-                @Override
-                public void onSuccess(String fsMessage) {
-                    poLoading.dismiss();
-                    isClicked = false;
-                    LoginAccount();
+//        loCrednts = new AccountAuthentication.AccountCredentials();
+//        loCrednts.setUserName(Objects.requireNonNull(Objects.requireNonNull(txtUserNm.getText()).toString().trim()));
+//        loCrednts.setEmailAdd(Objects.requireNonNull(Objects.requireNonNull(txtEmailx.getText()).toString().trim()));
+//        loCrednts.setMobileNo(Objects.requireNonNull(Objects.requireNonNull(txtMobile.getText()).toString().trim()));
+//        loCrednts.setPassword(Objects.requireNonNull(Objects.requireNonNull(txtPasswd.getText()).toString().trim()));
+//        loCrednts.setPasswrd2(Objects.requireNonNull(Objects.requireNonNull(txtRetype.getText()).toString().trim()));
+//        loCrednts.setcAgreeTnC((cbAgreexx.isChecked()) ? "1" : "0");
+//        try {
+//            mViewModel.RegisterAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
+//                @Override
+//                public void onLoad() {
+//                    poLoading = new Dialog_Loading(Activity_SignUp.this);
+//                    poLoading.initDialog("Signing Up", "Please wait for a while.");
+//                    poLoading.show();
+//                }
+//
+//                @Override
+//                public void onSuccess(String fsMessage) {
+//                    poLoading.dismiss();
+//                    isClicked = false;
+//                    LoginAccount();
+////                    poDialogx.setButtonText("Okay");
+////                    poDialogx.initDialog("Sign Up", fsMessage, dialog -> {
+////                        dialog.dismiss();
+////                        finish();
+////                    });
+////                    poDialogx.show();
+//                }
+//
+//                @Override
+//                public void onFailed(String fsMessage) {
+//                    poLoading.dismiss();
 //                    poDialogx.setButtonText("Okay");
-//                    poDialogx.initDialog("Sign Up", fsMessage, dialog -> {
-//                        dialog.dismiss();
-//                        finish();
+//                    poDialogx.initDialog("Sign Up Failed", fsMessage, () -> {
+//                        isClicked = false;
+//                        poDialogx.dismiss();
 //                    });
 //                    poDialogx.show();
-                }
-
-                @Override
-                public void onFailed(String fsMessage) {
-                    poLoading.dismiss();
-                    poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Sign Up Failed", fsMessage, () -> {
-                        isClicked = false;
-                        poDialogx.dismiss();
-                    });
-                    poDialogx.show();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            isClicked = false;
-        }
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            isClicked = false;
+//        }
     }
 
     //Automatically login account after successfully signing up to request OTP for activation...
     private void LoginAccount(){
-        AccountAuthentication.LoginCredentials loLogin =
-                new AccountAuthentication.LoginCredentials(
-                        loCrednts.getsEmailAdd(),
-                        loCrednts.getsPassword(),
-                        loCrednts.getsMobileNo());
-        mViewModel.LoginAccount(loLogin, new VMAccountAuthentication.AuthenticationCallback() {
-            @Override
-            public void onLoad() {
-                poLoading = new Dialog_Loading(Activity_SignUp.this);
-                poLoading.initDialog("Logging In", "Please wait for a while.");
-                poLoading.show();
-            }
-
-            @Override
-            public void onSuccess(String fsMessage) {
-                Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
-                intent.putExtra("args", "auth");
-                sendBroadcast(intent);
-                poLoading.dismiss();
-                finish();
-            }
-
-            @Override
-            public void onFailed(String fsMessage) {
-                poLoading.dismiss();
-                poDialogx.setButtonText("Okay");
-                poDialogx.initDialog("Logging In", "Unable to sign in your account. Please try again. " + fsMessage, () -> poDialogx.dismiss());
-                poDialogx.show();
-            }
-
-            @Override
-            public void onVerifiy(String args1, String args2) {
-                poLoading.dismiss();
-                Log.d("Activation OTP", args1);
-                Intent loIntent = new Intent(Activity_SignUp.this, Activity_AccountVerification.class);
-                loIntent.putExtra("otp", args1);
-                loIntent.putExtra("verify", args2);
-                loIntent.putExtra("email", loCrednts.getsEmailAdd());
-                loIntent.putExtra("passw", loCrednts.getsPassword());
-                poArl.launch(loIntent);
-            }
-        });
+//        AccountAuthentication.LoginCredentials loLogin =
+//                new AccountAuthentication.LoginCredentials(
+//                        loCrednts.getsEmailAdd(),
+//                        loCrednts.getsPassword(),
+//                        loCrednts.getsMobileNo());
+//        mViewModel.LoginAccount(loLogin, new VMAccountAuthentication.AuthenticationCallback() {
+//            @Override
+//            public void onLoad() {
+//                poLoading = new Dialog_Loading(Activity_SignUp.this);
+//                poLoading.initDialog("Logging In", "Please wait for a while.");
+//                poLoading.show();
+//            }
+//
+//            @Override
+//            public void onSuccess(String fsMessage) {
+//                Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+//                intent.putExtra("args", "auth");
+//                sendBroadcast(intent);
+//                poLoading.dismiss();
+//                finish();
+//            }
+//
+//            @Override
+//            public void onFailed(String fsMessage) {
+//                poLoading.dismiss();
+//                poDialogx.setButtonText("Okay");
+//                poDialogx.initDialog("Logging In", "Unable to sign in your account. Please try again. " + fsMessage, () -> poDialogx.dismiss());
+//                poDialogx.show();
+//            }
+//
+//            @Override
+//            public void onVerifiy(String args1, String args2) {
+//                poLoading.dismiss();
+//                Log.d("Activation OTP", args1);
+//                Intent loIntent = new Intent(Activity_SignUp.this, Activity_AccountVerification.class);
+//                loIntent.putExtra("otp", args1);
+//                loIntent.putExtra("verify", args2);
+//                loIntent.putExtra("email", loCrednts.getsEmailAdd());
+//                loIntent.putExtra("passw", loCrednts.getsPassword());
+//                poArl.launch(loIntent);
+//            }
+//        });
     }
 }

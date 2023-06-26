@@ -21,10 +21,6 @@ import com.kofigyan.stateprogressbar.StateProgressBar;
 
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.CashFormatter;
-import org.rmj.g3appdriver.etc.DateTimeFormatter;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_TextInput;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_OrderedItems;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMOrders;
@@ -57,8 +53,8 @@ public class Activity_Purchases extends AppCompatActivity {
     private CardView cvCanclDetl;
     private MaterialButton btnCancel;
 
-    private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialogx;
+//    private Dialog_Loading poLoading;
+//    private Dialog_SingleButton poDialogx;
 
     private VMOrders mViewModel;
 
@@ -103,190 +99,190 @@ public class Activity_Purchases extends AppCompatActivity {
         recyclerView.setLayoutManager(loManager);
 
         if(getIntent().hasExtra("cReimport")){
-            mViewModel.ImportOrdersTask();
+//            mViewModel.ImportOrdersTask();
         }
 
-        mViewModel.GetDetailOrderHistory(lsOrderIDx).observe(Activity_Purchases.this, foOrder -> {
-            try{
-                if(foOrder == null) {
-                    findViewById(R.id.lblNoOrderInfo).setVisibility(View.VISIBLE);
-                } else {
-                    findViewById(R.id.scrollView).setVisibility(View.VISIBLE);
-                    if(!foOrder.cTranStat.equals("0")){
-                        btnCancel.setVisibility(View.GONE);
-                    }
-                    if(foOrder.sTermCode.isEmpty()){
-                        lblAmountPd.setText("Unpaid order will be automatically cancelled within 24 hours.");
-                        btnPay.setVisibility(View.VISIBLE);
-                    } else if(foOrder.sTermCode.equalsIgnoreCase("C001002")){ //COW2011 termcode for COD
-                        lblAmountPd.setText("");
-                        lblPaymntxx.setText(AppConstants.parseTermCode(foOrder.sTermCode));
-                    } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011")){ //COW2011 termcode for online payment
-//                        double lnTotal = Double.parseDouble(foOrder.nTranTotl);
-//                        double lnAmntx = Double.parseDouble(foOrder.nProcPaym);
-
-                        if(foOrder.nTranTotl > foOrder.nProcPaym){
-                            lblAmountPd.setText("Amount Paid: " + CashFormatter.parse(String.valueOf(foOrder.nProcPaym)) + "\n\n Online payment takes time to process and may not take effect immediately in order preview.");
-                            btnPay.setVisibility(View.VISIBLE);
-                        } else {
-                            lblAmountPd.setText("");
-                            btnPay.setVisibility(View.GONE);
-                        }
-
-                        if(foOrder.cPaymPstd.equalsIgnoreCase("0")){
-
-                        } else if(foOrder.cPaymPstd.equalsIgnoreCase("1")) {
-                            if(foOrder.nTranTotl > foOrder.nProcPaym){
-                                lblAmountPd.setText("Amount Paid: " + CashFormatter.parse(String.valueOf(foOrder.nProcPaym)) + "\n\n Online payment takes time to process and may not take effect immediately in order preview.");
-                                btnPay.setVisibility(View.VISIBLE);
-                                btnCancel.setVisibility(View.GONE);
-                            } else {
-                                lblAmountPd.setText("");
-                                btnPay.setVisibility(View.GONE);
-                            }
-                        } else if(foOrder.cPaymPstd.equalsIgnoreCase("3")) {
-                            btnPay.setVisibility(View.VISIBLE);
-                        }
-
-                    }
-
-                    if (!foOrder.cTranStat.equalsIgnoreCase("3")) {
-                        toolbar.setTitle("Order Detail");
-                        progressBar.setVisibility(View.VISIBLE);
-                        progressBar.setCurrentStateNumber(GetStateNumber(foOrder.cTranStat));
-                    } else {
-                        toolbar.setTitle("Cancellation Detail");
-                        btnCancel.setVisibility(View.GONE);
-                        btnPay.setVisibility(View.GONE);
-                        findViewById(R.id.linear_shipAddress).setVisibility(View.GONE);
-                        findViewById(R.id.lbl_trackNoLabel).setVisibility(View.GONE);
-                        mViewModel.CheckCancellationDetail(foOrder.sTransNox, new VMOrders.OnCheckCancellationCallback() {
-                            @Override
-                            public void OnCheck(String dTransact, String sClientNm, String sRemarksx) {
-                                cvCanclDetl.setVisibility(View.VISIBLE);
-                                lblCancelUs.setText(sClientNm);
-                                lblCancelRm.setText(sRemarksx);
-                                lblCancelDt.setText(getDate(dTransact));
-                            }
-
-                            @Override
-                            public void OnFailed(String message) {
-                                Toast.makeText(Activity_Purchases.this, message, Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-
-                    double lnTrantotl = foOrder.nTranTotl;
-                    double lnProcPaym = foOrder.nProcPaym;
-                    double lnDiscount = foOrder.nDiscount;
-                    double lnFreightx = foOrder.nFreightx;
-                    double lnSubTotal = lnTrantotl - (lnTrantotl * lnDiscount);
-
-                    double lnTotalxx = lnSubTotal + lnFreightx;
-
-                    lblOrderID.setText(foOrder.sTransNox);
-                    lblTrackNox.setText("");
-                    lblAddressx.setText(foOrder.sAddressx);
-                    lblClientNm.setText(foOrder.sUserName);
-                    lblMobileNo.setText(foOrder.sMobileNo);
-                    lblPaymntxx.setText(AppConstants.parseTermCode(foOrder.sTermCode));
-                    lblDatePlcd.setText("Place on : " + DateTimeFormatter.ParseDateFullyDetailed(foOrder.dTransact));
-                    lblDlvyDate.setText("Get By : " + DateTimeFormatter.ParseDateForList(foOrder.dExpected));
-                    txtSubTot.setText(CashFormatter.parse(String.valueOf(foOrder.nTranTotl)));
-                    txtShipFe.setText(CashFormatter.parse(String.valueOf(foOrder.nFreightx)));
-                    txtOthFee.setText("");
-                    txtTotalx.setText(CashFormatter.parse(String.valueOf(lnTotalxx)));
-
-
-
-                    btnPay.setOnClickListener(v -> {
-                        Intent loIntent = new Intent(Activity_Purchases.this, Activity_PayOrder.class);
-                        loIntent.putExtra("sTransNox", foOrder.sTransNox);
-
-                        if(foOrder.sTermCode.isEmpty()){
-                            loIntent.putExtra("nSubTotal", lnTotalxx);
-                            loIntent.putExtra("cPaymentx", 0);
-                        } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011")
-                        && foOrder.cPaymPstd.equalsIgnoreCase("1")){ //COW2011 termcode for online payment
-                            if(foOrder.nTranTotl > foOrder.nProcPaym){
-                                double lnTotal = Math.abs(lnTotalxx - lnProcPaym);
-
-                                loIntent.putExtra("cPaymentx", 1);
-                                loIntent.putExtra("nSubTotal", lnTotal);
-                            }
-                        }
-                        startActivity(loIntent);
-                    });
-
-                    mViewModel.GetOrderedItemsList(lsOrderIDx).observe(Activity_Purchases.this, orderedItemsInfos -> {
-                        try {
-                            Adapter_OrderedItems loAdapter = new Adapter_OrderedItems(orderedItemsInfos, args -> {
-                                Intent loIntent = new Intent(Activity_Purchases.this, Activity_ProductOverview.class);
-                                loIntent.putExtra("sListngId", args);
-                                startActivity(loIntent);
-                            }, args -> {
-                                Intent loIntent = new Intent(Activity_Purchases.this, Activity_WriteProductReview.class);
-                                loIntent.putExtra("sTransNox", foOrder.sTransNox);
-                                loIntent.putExtra("sListngId", args);
-                                startActivity(loIntent);
-                            });
-                            loAdapter.setForReview(foOrder.cTranStat.equalsIgnoreCase("4"));
-                            recyclerView.setAdapter(loAdapter);
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
-                }
-
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-        btnCancel.setOnClickListener(v -> {
-            Dialog_TextInput loDialog = new Dialog_TextInput(Activity_Purchases.this);
-            loDialog.initDialog("Remarks", new Dialog_TextInput.OnDialogConfirmation() {
-                @Override
-                public void onConfirm(String fsInputx, AlertDialog dialog) {
-                    dialog.dismiss();
-                    poLoading = new Dialog_Loading(Activity_Purchases.this);
-                    poDialogx = new Dialog_SingleButton(Activity_Purchases.this);
-                    mViewModel.CancelOrder(lsOrderIDx, fsInputx, new VMOrders.OnCancelCallback() {
-                        @Override
-                        public void OnLoad() {
-                            poLoading.initDialog("Order Cancellation", "Processing order cancellation. Please wait...");
-                            poLoading.show();
-                        }
-
-                        @Override
-                        public void OnSuccess(String args) {
-                            poLoading.dismiss();
-                            poDialogx.setButtonText("Okay");
-                            poDialogx.initDialog("Order Cancellation", args, () -> {
-                                poDialogx.dismiss();
-                                Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
-                                intent.putExtra("args", "purchase");
-                                sendBroadcast(intent);
-                            });
-                            poDialogx.show();
-                        }
-
-                        @Override
-                        public void OnFailed(String message) {
-                            poLoading.dismiss();
-                            poDialogx.setButtonText("Okay");
-                            poDialogx.initDialog("Order Cancellation", message, () -> poDialogx.dismiss());
-                            poDialogx.show();
-                        }
-                    });
-                }
-
-                @Override
-                public void onCancel(AlertDialog dialog) {
-                    dialog.dismiss();
-                }
-            });
-            loDialog.show();
-        });
+//        mViewModel.GetDetailOrderHistory(lsOrderIDx).observe(Activity_Purchases.this, foOrder -> {
+//            try{
+//                if(foOrder == null) {
+//                    findViewById(R.id.lblNoOrderInfo).setVisibility(View.VISIBLE);
+//                } else {
+//                    findViewById(R.id.scrollView).setVisibility(View.VISIBLE);
+//                    if(!foOrder.cTranStat.equals("0")){
+//                        btnCancel.setVisibility(View.GONE);
+//                    }
+//                    if(foOrder.sTermCode.isEmpty()){
+//                        lblAmountPd.setText("Unpaid order will be automatically cancelled within 24 hours.");
+//                        btnPay.setVisibility(View.VISIBLE);
+//                    } else if(foOrder.sTermCode.equalsIgnoreCase("C001002")){ //COW2011 termcode for COD
+//                        lblAmountPd.setText("");
+//                        lblPaymntxx.setText(AppConstants.parseTermCode(foOrder.sTermCode));
+//                    } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011")){ //COW2011 termcode for online payment
+////                        double lnTotal = Double.parseDouble(foOrder.nTranTotl);
+////                        double lnAmntx = Double.parseDouble(foOrder.nProcPaym);
+//
+//                        if(foOrder.nTranTotl > foOrder.nProcPaym){
+//                            lblAmountPd.setText("Amount Paid: " + CashFormatter.parse(String.valueOf(foOrder.nProcPaym)) + "\n\n Online payment takes time to process and may not take effect immediately in order preview.");
+//                            btnPay.setVisibility(View.VISIBLE);
+//                        } else {
+//                            lblAmountPd.setText("");
+//                            btnPay.setVisibility(View.GONE);
+//                        }
+//
+//                        if(foOrder.cPaymPstd.equalsIgnoreCase("0")){
+//
+//                        } else if(foOrder.cPaymPstd.equalsIgnoreCase("1")) {
+//                            if(foOrder.nTranTotl > foOrder.nProcPaym){
+//                                lblAmountPd.setText("Amount Paid: " + CashFormatter.parse(String.valueOf(foOrder.nProcPaym)) + "\n\n Online payment takes time to process and may not take effect immediately in order preview.");
+//                                btnPay.setVisibility(View.VISIBLE);
+//                                btnCancel.setVisibility(View.GONE);
+//                            } else {
+//                                lblAmountPd.setText("");
+//                                btnPay.setVisibility(View.GONE);
+//                            }
+//                        } else if(foOrder.cPaymPstd.equalsIgnoreCase("3")) {
+//                            btnPay.setVisibility(View.VISIBLE);
+//                        }
+//
+//                    }
+//
+//                    if (!foOrder.cTranStat.equalsIgnoreCase("3")) {
+//                        toolbar.setTitle("Order Detail");
+//                        progressBar.setVisibility(View.VISIBLE);
+//                        progressBar.setCurrentStateNumber(GetStateNumber(foOrder.cTranStat));
+//                    } else {
+//                        toolbar.setTitle("Cancellation Detail");
+//                        btnCancel.setVisibility(View.GONE);
+//                        btnPay.setVisibility(View.GONE);
+//                        findViewById(R.id.linear_shipAddress).setVisibility(View.GONE);
+//                        findViewById(R.id.lbl_trackNoLabel).setVisibility(View.GONE);
+//                        mViewModel.CheckCancellationDetail(foOrder.sTransNox, new VMOrders.OnCheckCancellationCallback() {
+//                            @Override
+//                            public void OnCheck(String dTransact, String sClientNm, String sRemarksx) {
+//                                cvCanclDetl.setVisibility(View.VISIBLE);
+//                                lblCancelUs.setText(sClientNm);
+//                                lblCancelRm.setText(sRemarksx);
+//                                lblCancelDt.setText(getDate(dTransact));
+//                            }
+//
+//                            @Override
+//                            public void OnFailed(String message) {
+//                                Toast.makeText(Activity_Purchases.this, message, Toast.LENGTH_LONG).show();
+//                            }
+//                        });
+//                    }
+//
+//                    double lnTrantotl = foOrder.nTranTotl;
+//                    double lnProcPaym = foOrder.nProcPaym;
+//                    double lnDiscount = foOrder.nDiscount;
+//                    double lnFreightx = foOrder.nFreightx;
+//                    double lnSubTotal = lnTrantotl - (lnTrantotl * lnDiscount);
+//
+//                    double lnTotalxx = lnSubTotal + lnFreightx;
+//
+//                    lblOrderID.setText(foOrder.sTransNox);
+//                    lblTrackNox.setText("");
+//                    lblAddressx.setText(foOrder.sAddressx);
+//                    lblClientNm.setText(foOrder.sUserName);
+//                    lblMobileNo.setText(foOrder.sMobileNo);
+//                    lblPaymntxx.setText(AppConstants.parseTermCode(foOrder.sTermCode));
+//                    lblDatePlcd.setText("Place on : " + DateTimeFormatter.ParseDateFullyDetailed(foOrder.dTransact));
+//                    lblDlvyDate.setText("Get By : " + DateTimeFormatter.ParseDateForList(foOrder.dExpected));
+//                    txtSubTot.setText(CashFormatter.parse(String.valueOf(foOrder.nTranTotl)));
+//                    txtShipFe.setText(CashFormatter.parse(String.valueOf(foOrder.nFreightx)));
+//                    txtOthFee.setText("");
+//                    txtTotalx.setText(CashFormatter.parse(String.valueOf(lnTotalxx)));
+//
+//
+//
+//                    btnPay.setOnClickListener(v -> {
+//                        Intent loIntent = new Intent(Activity_Purchases.this, Activity_PayOrder.class);
+//                        loIntent.putExtra("sTransNox", foOrder.sTransNox);
+//
+//                        if(foOrder.sTermCode.isEmpty()){
+//                            loIntent.putExtra("nSubTotal", lnTotalxx);
+//                            loIntent.putExtra("cPaymentx", 0);
+//                        } else if(foOrder.sTermCode.equalsIgnoreCase("C0W2011")
+//                        && foOrder.cPaymPstd.equalsIgnoreCase("1")){ //COW2011 termcode for online payment
+//                            if(foOrder.nTranTotl > foOrder.nProcPaym){
+//                                double lnTotal = Math.abs(lnTotalxx - lnProcPaym);
+//
+//                                loIntent.putExtra("cPaymentx", 1);
+//                                loIntent.putExtra("nSubTotal", lnTotal);
+//                            }
+//                        }
+//                        startActivity(loIntent);
+//                    });
+//
+//                    mViewModel.GetOrderedItemsList(lsOrderIDx).observe(Activity_Purchases.this, orderedItemsInfos -> {
+//                        try {
+//                            Adapter_OrderedItems loAdapter = new Adapter_OrderedItems(orderedItemsInfos, args -> {
+//                                Intent loIntent = new Intent(Activity_Purchases.this, Activity_ProductOverview.class);
+//                                loIntent.putExtra("sListngId", args);
+//                                startActivity(loIntent);
+//                            }, args -> {
+//                                Intent loIntent = new Intent(Activity_Purchases.this, Activity_WriteProductReview.class);
+//                                loIntent.putExtra("sTransNox", foOrder.sTransNox);
+//                                loIntent.putExtra("sListngId", args);
+//                                startActivity(loIntent);
+//                            });
+//                            loAdapter.setForReview(foOrder.cTranStat.equalsIgnoreCase("4"));
+//                            recyclerView.setAdapter(loAdapter);
+//                        } catch (Exception e){
+//                            e.printStackTrace();
+//                        }
+//                    });
+//                }
+//
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
+//        btnCancel.setOnClickListener(v -> {
+//            Dialog_TextInput loDialog = new Dialog_TextInput(Activity_Purchases.this);
+//            loDialog.initDialog("Remarks", new Dialog_TextInput.OnDialogConfirmation() {
+//                @Override
+//                public void onConfirm(String fsInputx, AlertDialog dialog) {
+//                    dialog.dismiss();
+//                    poLoading = new Dialog_Loading(Activity_Purchases.this);
+//                    poDialogx = new Dialog_SingleButton(Activity_Purchases.this);
+//                    mViewModel.CancelOrder(lsOrderIDx, fsInputx, new VMOrders.OnCancelCallback() {
+//                        @Override
+//                        public void OnLoad() {
+//                            poLoading.initDialog("Order Cancellation", "Processing order cancellation. Please wait...");
+//                            poLoading.show();
+//                        }
+//
+//                        @Override
+//                        public void OnSuccess(String args) {
+//                            poLoading.dismiss();
+//                            poDialogx.setButtonText("Okay");
+//                            poDialogx.initDialog("Order Cancellation", args, () -> {
+//                                poDialogx.dismiss();
+//                                Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+//                                intent.putExtra("args", "purchase");
+//                                sendBroadcast(intent);
+//                            });
+//                            poDialogx.show();
+//                        }
+//
+//                        @Override
+//                        public void OnFailed(String message) {
+//                            poLoading.dismiss();
+//                            poDialogx.setButtonText("Okay");
+//                            poDialogx.initDialog("Order Cancellation", message, () -> poDialogx.dismiss());
+//                            poDialogx.show();
+//                        }
+//                    });
+//                }
+//
+//                @Override
+//                public void onCancel(AlertDialog dialog) {
+//                    dialog.dismiss();
+//                }
+//            });
+//            loDialog.show();
+//        });
     }
 
     @Override

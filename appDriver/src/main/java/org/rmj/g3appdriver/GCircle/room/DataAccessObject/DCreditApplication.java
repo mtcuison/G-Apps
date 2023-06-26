@@ -52,6 +52,18 @@ public interface DCreditApplication {
     @Update
     void Update(ELoanTerm loanTerm);
 
+    @Query("SELECT * FROM Credit_Online_Application " +
+            "WHERE sClientNm=:ClientNm " +
+            "AND sBranchCd=:BranchCD " +
+            "AND cUnitAppl=:UnitAppl " +
+            "AND nDownPaym=:DownPaym " +
+            "AND dCreatedx=:dCreated")
+    ECreditApplication CheckIfApplicantExist(String ClientNm,
+                                             String BranchCD,
+                                             String UnitAppl,
+                                             double DownPaym,
+                                             String dCreated);
+
     @Query("SELECT * FROM Installment_Term WHERE nTermCode =:args")
     ELoanTerm GetLoanTerm(int args);
 
@@ -154,6 +166,9 @@ public interface DCreditApplication {
     @Query("Select * From Credit_Applicant_Info WHERE cTranStat = 0 " +
             "GROUP BY sTransNox ")
     LiveData<List<ECreditApplicantInfo>> getAllCreditApp();
+
+    @Query("SELECT sUserIDxx FROM User_Info_Master")
+    String GetUserID();
 
     class ApplicationLog{
         public String sGOCASNox;

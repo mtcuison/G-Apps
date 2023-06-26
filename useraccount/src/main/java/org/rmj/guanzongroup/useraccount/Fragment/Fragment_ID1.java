@@ -38,11 +38,6 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.etc.AppConstants;
-import org.rmj.g3appdriver.etc.ImageFileHandler;
-import org.rmj.g3appdriver.lib.Account.AccountInfo;
-import org.rmj.g3appdriver.lib.Account.Obj.UserIdentification;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.documentscanner.DocScanner;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_DocumentScan;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
@@ -70,8 +65,8 @@ public class Fragment_ID1 extends Fragment {
     private AutoCompleteTextView spnIDType;
     private TextInputEditText txtExpire, txtIDNmbr;
 
-    private Dialog_SingleButton poDialogx;
-    private Dialog_Loading poLoad;
+//    private Dialog_SingleButton poDialogx;
+//    private Dialog_Loading poLoad;
 
     private boolean cFront;
 
@@ -89,39 +84,39 @@ public class Fragment_ID1 extends Fragment {
     private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
-            try {
-                if(result.getResultCode() == Activity.RESULT_OK) {
-                    Intent loIntent = result.getData();
-                    String lsFileNme = loIntent.getStringExtra("sImageInf");
-                    FileInputStream loStream = requireActivity().openFileInput(lsFileNme);
-                    Bitmap bmp = BitmapFactory.decodeStream(loStream);
-                    loStream.close();
-
-                    if (cFront) {
-                        String lsFileNm = mViewModel.getUserID() + "-" + poDetail.getsIDCodexx() + "-" + AppConstants.DOC_FILE_VALID_ID + "_Front.jpg";
-                        poDetail.setsFrontImg(lsFileNm);
-                        String lsResult = DocScanner.saveBitmap2SD(bmp, lsFileNm);
-                        if(lsResult == null){
-
-                        } else {
-                            imageFront.setImageBitmap(bmp);
-                            poDetail.setsFrntPath(lsResult);
-                        }
-                    } else {
-                        String lsFileNm = mViewModel.getUserID() + "-" + poDetail.getsIDCodexx() + "-" + AppConstants.DOC_FILE_VALID_ID + "_Back.jpg";
-                        poDetail.setsBackImgx(lsFileNm);
-                        String lsResult = DocScanner.saveBitmap2SD(bmp, lsFileNm);
-                        if(lsResult == null){
-
-                        } else {
-                            imageBack.setImageBitmap(bmp);
-                            poDetail.setsBackPath(lsResult);
-                        }
-                    }
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+//            try {
+//                if(result.getResultCode() == Activity.RESULT_OK) {
+//                    Intent loIntent = result.getData();
+//                    String lsFileNme = loIntent.getStringExtra("sImageInf");
+//                    FileInputStream loStream = requireActivity().openFileInput(lsFileNme);
+//                    Bitmap bmp = BitmapFactory.decodeStream(loStream);
+//                    loStream.close();
+//
+//                    if (cFront) {
+//                        String lsFileNm = mViewModel.getUserID() + "-" + poDetail.getsIDCodexx() + "-" + AppConstants.DOC_FILE_VALID_ID + "_Front.jpg";
+//                        poDetail.setsFrontImg(lsFileNm);
+//                        String lsResult = DocScanner.saveBitmap2SD(bmp, lsFileNm);
+//                        if(lsResult == null){
+//
+//                        } else {
+//                            imageFront.setImageBitmap(bmp);
+//                            poDetail.setsFrntPath(lsResult);
+//                        }
+//                    } else {
+//                        String lsFileNm = mViewModel.getUserID() + "-" + poDetail.getsIDCodexx() + "-" + AppConstants.DOC_FILE_VALID_ID + "_Back.jpg";
+//                        poDetail.setsBackImgx(lsFileNm);
+//                        String lsResult = DocScanner.saveBitmap2SD(bmp, lsFileNm);
+//                        if(lsResult == null){
+//
+//                        } else {
+//                            imageBack.setImageBitmap(bmp);
+//                            poDetail.setsBackPath(lsResult);
+//                        }
+//                    }
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
         }
     });
 
@@ -134,8 +129,8 @@ public class Fragment_ID1 extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(VMID1Verification.class);
         View view = inflater.inflate(R.layout.fragment_i_d1, container, false);
-        poDialogx = new Dialog_SingleButton(requireActivity());
-        poLoad = new Dialog_Loading(requireActivity());
+//        poDialogx = new Dialog_SingleButton(requireActivity());
+//        poLoad = new Dialog_Loading(requireActivity());
 
         spnIDType = view.findViewById(R.id.tie_validIDNames);
         txtIDNmbr = view.findViewById(R.id.tie_idNox);
@@ -145,55 +140,55 @@ public class Fragment_ID1 extends Fragment {
         imageFront = view.findViewById(R.id.img_frontID);
         imageBack = view.findViewById(R.id.img_backID);
 
-        UserIDxx = new AccountInfo(requireActivity()).getUserID();
-        List<UserIdentification> loList = Activity_IDVerification.getInstance().getIDList();
-
-        ArrayList<String> lsIDList = new ArrayList<>();
-        for (int x = 0; x < loList.size(); x++) {
-            lsIDList.add(loList.get(x).getIDName());
-        }
-
-        spnIDType.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, lsIDList));
-        spnIDType.setOnItemClickListener((parent, view1, position, id) -> {
-            try {
-                for (int x = 0; x < loList.size(); x++) {
-                    if (spnIDType.getText().toString().trim().equalsIgnoreCase(loList.get(x).getIDName())) {
-                        IDCodexx = loList.get(x).getIDCode();
-                        poDetail.setsIDCodexx(loList.get(x).getIDCode());
-                        poDetail.setcHasExpre(loList.get(x).hasExpiry());
-                        poDetail.setcHasExpre(loList.get(x).hasExpiry());
-
-                        if(loList.get(x).hasExpiry().equalsIgnoreCase("1")){
-                            view.findViewById(R.id.til_expryDte1).setVisibility(View.VISIBLE);
-                        } else {
-                            view.findViewById(R.id.til_expryDte1).setVisibility(View.GONE);
-                        }
-
-                        view.findViewById(R.id.textview).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.img_frontID).setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.btnCaptureFront).setVisibility(View.VISIBLE);
-
-                        poDetail.setcHasBackx(loList.get(x).hasBack());
-                        if(loList.get(x).hasBack().equalsIgnoreCase("1")){
-                            view.findViewById(R.id.textview1).setVisibility(View.VISIBLE);
-                            view.findViewById(R.id.img_backID).setVisibility(View.VISIBLE);
-                            view.findViewById(R.id.btnCaptureBack).setVisibility(View.VISIBLE);
-                        } else {
-                            view.findViewById(R.id.textview1).setVisibility(View.GONE);
-                            view.findViewById(R.id.img_backID).setVisibility(View.GONE);
-                            view.findViewById(R.id.btnCaptureBack).setVisibility(View.GONE);
-                        }
-
-                        Activity_IDVerification.getInstance().setsIDCodexx(loList.get(x).getIDCode());
-                        break;
-                    }
-                }
-                imageFront.setImageBitmap(null);
-                imageBack.setImageBitmap(null);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        UserIDxx = new AccountInfo(requireActivity()).getUserID();
+//        List<UserIdentification> loList = Activity_IDVerification.getInstance().getIDList();
+//
+//        ArrayList<String> lsIDList = new ArrayList<>();
+//        for (int x = 0; x < loList.size(); x++) {
+//            lsIDList.add(loList.get(x).getIDName());
+//        }
+//
+//        spnIDType.setAdapter(new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, lsIDList));
+//        spnIDType.setOnItemClickListener((parent, view1, position, id) -> {
+//            try {
+//                for (int x = 0; x < loList.size(); x++) {
+//                    if (spnIDType.getText().toString().trim().equalsIgnoreCase(loList.get(x).getIDName())) {
+//                        IDCodexx = loList.get(x).getIDCode();
+//                        poDetail.setsIDCodexx(loList.get(x).getIDCode());
+//                        poDetail.setcHasExpre(loList.get(x).hasExpiry());
+//                        poDetail.setcHasExpre(loList.get(x).hasExpiry());
+//
+//                        if(loList.get(x).hasExpiry().equalsIgnoreCase("1")){
+//                            view.findViewById(R.id.til_expryDte1).setVisibility(View.VISIBLE);
+//                        } else {
+//                            view.findViewById(R.id.til_expryDte1).setVisibility(View.GONE);
+//                        }
+//
+//                        view.findViewById(R.id.textview).setVisibility(View.VISIBLE);
+//                        view.findViewById(R.id.img_frontID).setVisibility(View.VISIBLE);
+//                        view.findViewById(R.id.btnCaptureFront).setVisibility(View.VISIBLE);
+//
+//                        poDetail.setcHasBackx(loList.get(x).hasBack());
+//                        if(loList.get(x).hasBack().equalsIgnoreCase("1")){
+//                            view.findViewById(R.id.textview1).setVisibility(View.VISIBLE);
+//                            view.findViewById(R.id.img_backID).setVisibility(View.VISIBLE);
+//                            view.findViewById(R.id.btnCaptureBack).setVisibility(View.VISIBLE);
+//                        } else {
+//                            view.findViewById(R.id.textview1).setVisibility(View.GONE);
+//                            view.findViewById(R.id.img_backID).setVisibility(View.GONE);
+//                            view.findViewById(R.id.btnCaptureBack).setVisibility(View.GONE);
+//                        }
+//
+//                        Activity_IDVerification.getInstance().setsIDCodexx(loList.get(x).getIDCode());
+//                        break;
+//                    }
+//                }
+//                imageFront.setImageBitmap(null);
+//                imageBack.setImageBitmap(null);
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
         txtIDNmbr.addTextChangedListener(new TextWatcher() {
             @Override
@@ -292,27 +287,27 @@ public class Fragment_ID1 extends Fragment {
     }
 
     private void SubmitImage(){
-        mViewModel.SubmitIDPicture(poDetail, new OnSubmitIDPictureListener() {
-            @Override
-            public void OnSubmit(String title, String message) {
-                poLoad.initDialog(title, message);
-                poLoad.show();
-            }
-
-            @Override
-            public void OnSuccess(String args) {
-                poLoad.dismiss();
-                Activity_IDVerification.getInstance().moveToNext(1);
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                poLoad.dismiss();
-                poDialogx.setButtonText("Okay");
-                poDialogx.initDialog("ID Verification", message, () -> poDialogx.dismiss());
-                poDialogx.show();
-            }
-        });
+//        mViewModel.SubmitIDPicture(poDetail, new OnSubmitIDPictureListener() {
+//            @Override
+//            public void OnSubmit(String title, String message) {
+//                poLoad.initDialog(title, message);
+//                poLoad.show();
+//            }
+//
+//            @Override
+//            public void OnSuccess(String args) {
+//                poLoad.dismiss();
+//                Activity_IDVerification.getInstance().moveToNext(1);
+//            }
+//
+//            @Override
+//            public void OnFailed(String message) {
+//                poLoad.dismiss();
+//                poDialogx.setButtonText("Okay");
+//                poDialogx.initDialog("ID Verification", message, () -> poDialogx.dismiss());
+//                poDialogx.show();
+//            }
+//        });
     }
 
     public String getDate(String val){

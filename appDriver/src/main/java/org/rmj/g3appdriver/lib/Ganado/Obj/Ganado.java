@@ -7,19 +7,27 @@ import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DGanadoOnline;
 import org.rmj.g3appdriver.GCircle.room.Entities.EGanadoOnline;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERelation;
 import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.Etc.Relation;
 import org.rmj.g3appdriver.lib.Ganado.pojo.ClientInfo;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InquiryInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Ganado {
@@ -28,7 +36,9 @@ public class Ganado {
     private final Application instance;
     private final DGanadoOnline poDao;
     private final EmployeeSession poSession;
+    private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
+    private final Relation poRelate;
 
     private String message;
 
@@ -36,11 +46,17 @@ public class Ganado {
         this.instance = instance;
         this.poDao = GGC_GCircleDB.getInstance(instance).ganadoDao();
         this.poSession = EmployeeSession.getInstance(instance);
+        this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
+        this.poRelate = new Relation(instance);
     }
 
     public String getMessage() {
         return message;
+    }
+
+    public LiveData<List<ERelation>> GetRelations(){
+        return poRelate.GetRelations();
     }
 
     public String CreateInquiry(InquiryInfo loInfo){
@@ -59,22 +75,29 @@ public class Ganado {
             loDetail.setPaymForm(loInfo.getPaymForm());
 
             JSONObject joProdct = new JSONObject();
-            joProdct.put("sInvTypCd", "");
-            joProdct.put("sBrandIDx", "");
-            joProdct.put("sModelIDx", "");
-            joProdct.put("sColorIDx", "");
+            joProdct.put("sBrandIDx", loInfo.getBrandIDx());
+            joProdct.put("sModelIDx", loInfo.getModelIDx());
+            joProdct.put("sColorIDx", loInfo.getColorIDx());
             loDetail.setProdInfo(joProdct.toString());
 
             JSONObject joPayment = new JSONObject();
-            joPayment.put("sTermIDxx", "");
-            joPayment.put("nDownPaym", "");
+            joPayment.put("sTermIDxx", loInfo.getTermIDxx());
+            joPayment.put("nDownPaym", loInfo.getDownPaym());
             loDetail.setPaymInfo(joPayment.toString());
 
-            loDetail.setTargetxx("");
+            JSONArray laJson = new JSONArray();
+
+            JSONObject joInfo = new JSONObject();
+            joInfo.put("", "");
+            laJson.put(joInfo);
+
+            laJson.toString();
+
+            loDetail.setTargetxx(loInfo.getTargetxx());
             loDetail.setFollowUp("");
             loDetail.setRemarksx("");
             loDetail.setReferdBy(poSession.getUserID());
-            loDetail.setRelatnID("");
+            loDetail.setRelatnID(loInfo.getRelatnID());
             loDetail.setCreatedx(AppConstants.DATE_MODIFIED());
             loDetail.setTranStat("0");
             loDetail.setSendStat("");
@@ -120,7 +143,19 @@ public class Ganado {
             joClient.put("sMobileNo", loInfo.getMobileNo());
             joClient.put("sEmailAdd", loInfo.getEmailAdd());
 
+            String lsClient = loInfo.getLastName() + ", " + loInfo.getFrstName();
+
+            if(!loInfo.getMiddName().isEmpty()){
+                lsClient = lsClient + " " + loInfo.getMiddName();
+            }
+
+            if(!loInfo.getSuffixNm().isEmpty()){
+                lsClient = lsClient + " " + loInfo.getSuffixNm();
+            }
+
+            loDetail.setClientNm(lsClient);
             loDetail.setClntInfo(joClient.toString());
+            loDetail.setRelatnID(loInfo.getsReltionx());
             poDao.Update(loDetail);
 
             return true;
@@ -141,17 +176,21 @@ public class Ganado {
             }
 
             JSONObject params = new JSONObject();
-            params.put("dTransact", loDetail.getTransact());
+            params.put("sClientNm", loDetail.getClientNm());
             params.put("cGanadoTp", loDetail.getGanadoTp());
             params.put("cPaymForm", loDetail.getPaymForm());
+            params.put("dCreatedx", loDetail.getCreatedx());
+            params.put("dTargetxx", loDetail.getTargetxx());
+            params.put("sRelatnID", loDetail.getRelatnID());
+            params.put("nlatitude", 1.00);
+            params.put("nLongitud", 2.00);
+
             params.put("sClntInfo", loDetail.getClntInfo());
             params.put("sProdInfo", loDetail.getProdInfo());
             params.put("sPaymInfo", loDetail.getPaymInfo());
-            params.put("sReferdBy", loDetail.getReferdBy());
-            params.put("dCreatedx", loDetail.getCreatedx());
 
             String lsResponse = WebClient.sendRequest(
-                    "",
+                    poApi.getSubmitInquiry(),
                     params.toString(),
                     poHeaders.getHeaders());
 
@@ -160,7 +199,7 @@ public class Ganado {
                 return false;
             }
 
-            JSONObject loResponse = new JSONObject();
+            JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
@@ -179,6 +218,100 @@ public class Ganado {
             message = getLocalMessage(e);
             return false;
         }
+    }
+
+    public boolean ImportInquiries(){
+        try{
+            JSONObject params = new JSONObject();
+            EGanadoOnline loGanado = poDao.GetLatestData();
+
+            if(loGanado != null){
+                params.put("timestamp", loGanado.getTimeStmp());
+            }
+
+            String lsResponse = WebClient.sendRequest(
+                    poApi.getDownloadInquiries(),
+                    params.toString(),
+                    poHeaders.getHeaders());
+
+            if(lsResponse == null){
+                message = SERVER_NO_RESPONSE;
+                return false;
+            }
+
+            JSONObject loResponse = new JSONObject(lsResponse);
+            String lsResult = loResponse.getString("result");
+            if(lsResult.equalsIgnoreCase("error")){
+                JSONObject loError = loResponse.getJSONObject("error");
+                message = getErrorMessage(loError);
+                return false;
+            }
+
+            JSONArray laJson = loResponse.getJSONArray("detail");
+            for(int x = 0; x < laJson.length(); x++){
+                JSONObject loJson = laJson.getJSONObject(x);
+
+                String lsTransNo = loJson.getString("sTransNox");
+
+                EGanadoOnline loDetail = poDao.GetInquiry(lsTransNo);
+
+                if(loDetail == null){
+                    EGanadoOnline loInfo = new EGanadoOnline();
+                    loInfo.setTransNox(loJson.getString("sTransNox"));
+                    loInfo.setTransact(loJson.getString("dTransact"));
+                    loInfo.setGanadoTp(loJson.getString("cGanadoTp"));
+                    loInfo.setPaymForm(loJson.getString("cPaymForm"));
+                    loInfo.setClientNm(loJson.getString("sClientNm"));
+                    loInfo.setClntInfo(loJson.getString("sCltInfox"));
+                    loInfo.setProdInfo(loJson.getString("sPrdctInf"));
+                    loInfo.setPaymInfo(loJson.getString("sPaymInfo"));
+                    loInfo.setTargetxx(loJson.getString("dTargetxx"));
+                    loInfo.setFollowUp(loJson.getString("dFollowUp"));
+                    loInfo.setRemarksx(loJson.getString("sRemarksx"));
+                    loInfo.setReferdBy(loJson.getString("sReferdBy"));
+                    loInfo.setRelatnID(loJson.getString("sRelatnID"));
+                    loInfo.setCreatedx(loJson.getString("dCreatedx"));
+                    loInfo.setTranStat(loJson.getString("cTranStat"));
+                    loInfo.setTimeStmp(loJson.getString("dTimeStmp"));
+                    poDao.Save(loInfo);
+                    Log.d(TAG, "Inquiry record has been saved!");
+                } else {
+
+                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+                    if (!ldDate1.equals(ldDate2)) {
+                        loDetail.setTransNox(loJson.getString("sTransNox"));
+                        loDetail.setTransact(loJson.getString("dTransact"));
+                        loDetail.setGanadoTp(loJson.getString("cGanadoTp"));
+                        loDetail.setPaymForm(loJson.getString("cPaymForm"));
+                        loDetail.setClientNm(loJson.getString("sClientNm"));
+                        loDetail.setClntInfo(loJson.getString("sCltInfox"));
+                        loDetail.setProdInfo(loJson.getString("sPrdctInf"));
+                        loDetail.setPaymInfo(loJson.getString("sPaymInfo"));
+                        loDetail.setTargetxx(loJson.getString("dTargetxx"));
+                        loDetail.setFollowUp(loJson.getString("dFollowUp"));
+                        loDetail.setRemarksx(loJson.getString("sRemarksx"));
+                        loDetail.setReferdBy(loJson.getString("sReferdBy"));
+                        loDetail.setRelatnID(loJson.getString("sRelatnID"));
+                        loDetail.setCreatedx(loJson.getString("dCreatedx"));
+                        loDetail.setTranStat(loJson.getString("cTranStat"));
+                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                        poDao.Update(loDetail);
+                        Log.d(TAG, "Inquiry record has been updated!");
+                    }
+                }
+            }
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return false;
+        }
+    }
+
+    public LiveData<List<EGanadoOnline>> GetInquiries(){
+        return poDao.GetInquiries();
     }
 
     private String CreateUniqueID(){
@@ -200,4 +333,5 @@ public class Ganado {
         Log.d(TAG, lsUniqIDx);
         return lsUniqIDx;
     }
+
 }

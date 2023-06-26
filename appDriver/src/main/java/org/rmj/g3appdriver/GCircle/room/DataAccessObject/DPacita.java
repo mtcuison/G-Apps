@@ -54,8 +54,11 @@ public interface DPacita {
     @Query("SELECT * FROM Pacita_Evaluation WHERE sTransNox=:args")
     EPacitaEvaluation CheckEvaulationRecord(String args);
 
-    @Query("SELECT * FROM Pacita_Evaluation WHERE sBranchCD=:BranchCd ORDER BY dTransact DESC LIMIT 1")
-    EPacitaEvaluation GetEvaluationForInitialization(String BranchCd);
+    @Query("SELECT * FROM Pacita_Evaluation " +
+            "WHERE sBranchCD=:BranchCd " +
+            "AND dTransact =:dTransact " +
+            "ORDER BY dTransact DESC LIMIT 1")
+    EPacitaEvaluation GetEvaluationForInitialization(String BranchCd, String dTransact);
 
     @Query("SELECT * FROM Branch_Info")
     LiveData<List<EBranchInfo>> GetBranchList();
@@ -70,16 +73,34 @@ public interface DPacita {
     String GetUserID();
 
     @Query("SELECT " +
+            "sTransNox, " +
+            "dTransact, " +
+            "nRatingxx " +
+            "FROM Pacita_Evaluation " +
+            "WHERE sBranchCD =:BranchCD " +
+            "ORDER BY dTransact DESC")
+    LiveData<List<BranchRecords>> GetBranchRecords(String BranchCD);
+
+    @Query("SELECT " +
             "a.sTransNox, " +
+            "(SELECT sBranchCD FROM Branch_Info WHERE sBranchCd = a.sBranchCD) AS sBranchCD, " +
+            "(SELECT sBranchNm FROM Branch_Info WHERE sBranchCd = a.sBranchCD) AS sBranchNm, " +
             "a.dTransact, " +
             "a.nRatingxx " +
             "FROM Pacita_Evaluation a " +
-            "WHERE a.sBranchCD =:BranchCD " +
             "ORDER BY a.dTransact DESC")
-    LiveData<List<BranchRecords>> GetBranchRecords(String BranchCD);
+    LiveData<List<RecentRecords>> GetRecentRecords();
 
     class BranchRecords{
         public String sTransNox;
+        public String dTransact;
+        public String nRatingxx;
+    }
+
+    class RecentRecords{
+        public String sTransNox;
+        public String sBranchCD;
+        public String sBranchNm;
         public String dTransact;
         public String nRatingxx;
     }

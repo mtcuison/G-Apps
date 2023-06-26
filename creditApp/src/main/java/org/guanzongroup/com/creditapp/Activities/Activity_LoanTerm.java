@@ -77,7 +77,7 @@ public class Activity_LoanTerm extends AppCompatActivity {
 
         String lsListID = getIntent().getStringExtra("sListngID");
         String lsModlID = getIntent().getStringExtra("sModelIDx");
-        mViewModel.GetProductInfo(lsListID).observe(Activity_LoanTerm.this, product -> {
+//        mViewModel.GetProductInfo(lsListID).observe(Activity_LoanTerm.this, product -> {
 //            try{
 //                JSONArray laJson = new JSONArray(product.getImagesxx());
 //                String sampleImg = laJson.getJSONObject(0).getString("sImageURL");
@@ -120,7 +120,7 @@ public class Activity_LoanTerm extends AppCompatActivity {
 //            } catch (Exception e){
 //                e.printStackTrace();
 //            }
-        });
+//        });
 
         btnNext.setOnClickListener(view -> {
 //            if(poTerm == null){

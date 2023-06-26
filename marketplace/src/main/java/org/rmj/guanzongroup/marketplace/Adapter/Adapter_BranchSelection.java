@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.guanzongroup.marketplace.R;
 
 import java.util.ArrayList;
@@ -21,17 +20,17 @@ import java.util.List;
 
 public class Adapter_BranchSelection extends RecyclerView.Adapter<Adapter_BranchSelection.BranchViewHolder> {
 
-    private List<EBranchInfo> EBranchInfoList;
-    private List<EBranchInfo> filteredSearchBranch;
-    private onBranchContentClickListener onBranchContentClickListener;
-    private BranchFilter branchFilter;
+//    private List<EBranchInfo> EBranchInfoList;
+//    private List<EBranchInfo> filteredSearchBranch;
+//    private onBranchContentClickListener onBranchContentClickListener;
+//    private BranchFilter branchFilter;
 
-    public Adapter_BranchSelection(List<EBranchInfo> EBranchInfos, onBranchContentClickListener listener){
-        this.EBranchInfoList = EBranchInfos;
-        this.onBranchContentClickListener = listener;
-        this.filteredSearchBranch = EBranchInfos;
-        this.branchFilter = new BranchFilter(Adapter_BranchSelection.this);
-    }
+//    public Adapter_BranchSelection(List<EBranchInfo> EBranchInfos, onBranchContentClickListener listener){
+//        this.EBranchInfoList = EBranchInfos;
+//        this.onBranchContentClickListener = listener;
+//        this.filteredSearchBranch = EBranchInfos;
+//        this.branchFilter = new BranchFilter(Adapter_BranchSelection.this);
+//    }
 
     @NonNull
     @Override
@@ -43,31 +42,32 @@ public class Adapter_BranchSelection extends RecyclerView.Adapter<Adapter_Branch
     @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(@NonNull BranchViewHolder holder,int position) {
-        EBranchInfo EBranchInfo = filteredSearchBranch.get(position);
-
-        holder.lblBranchName.setText(EBranchInfo.getBranchNm());
-        holder.lblBranchAdd.setText(EBranchInfo.getAddressx());
-        holder.branchContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBranchContentClickListener.onClick(
-                        EBranchInfo
-//                        filteredSearchBranch.get(position).getBranchCd(),
-//                        filteredSearchBranch.get(position).getBranchNm(),
-//                        filteredSearchBranch.get(position).getAddressx());
-                );
-            }
-        });
+//        EBranchInfo EBranchInfo = filteredSearchBranch.get(position);
+//
+//        holder.lblBranchName.setText(EBranchInfo.getBranchNm());
+//        holder.lblBranchAdd.setText(EBranchInfo.getAddressx());
+//        holder.branchContent.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onBranchContentClickListener.onClick(
+//                        EBranchInfo
+////                        filteredSearchBranch.get(position).getBranchCd(),
+////                        filteredSearchBranch.get(position).getBranchNm(),
+////                        filteredSearchBranch.get(position).getAddressx());
+//                );
+//            }
+//        });
     }
 
     @Override
     public int getItemCount() {
-        return filteredSearchBranch.size();
+//        return filteredSearchBranch.size();
+        return 0;
     }
 
-    public BranchFilter getBranchFilter() {
-        return branchFilter;
-    }
+//    public BranchFilter getBranchFilter() {
+//        return branchFilter;
+//    }
 
     static class BranchViewHolder extends RecyclerView.ViewHolder{
 
@@ -88,41 +88,41 @@ public class Adapter_BranchSelection extends RecyclerView.Adapter<Adapter_Branch
 //        void onClick(String BranchCode, String BranchName, String BranchAddress);
 //    }
 
-    public interface onBranchContentClickListener{
-        void onClick(EBranchInfo eBranchInfo);
-    }
-
-    public class BranchFilter extends Filter{
-        private Adapter_BranchSelection adapter;
-        BranchFilter(Adapter_BranchSelection adapter){
-            super();
-            this.adapter = adapter;
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.N)
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            final FilterResults results = new FilterResults();
-            if(constraint.length() == 0){
-                filteredSearchBranch.addAll(EBranchInfoList);
-            } else {
-                List<EBranchInfo> filteredList = new ArrayList<>();
-               for(EBranchInfo filteredBranches : EBranchInfoList){
-                   if (filteredBranches.getBranchNm().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                       filteredList.add(filteredBranches);
-                   }
-               }
-               filteredSearchBranch = filteredList;
-            }
-            results.values = filteredSearchBranch;
-            results.count = filteredSearchBranch.size();
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            adapter.filteredSearchBranch = (List<EBranchInfo>) results.values;
-            this.adapter.notifyDataSetChanged();
-        }
-    }
+//    public interface onBranchContentClickListener{
+//        void onClick(EBranchInfo eBranchInfo);
+//    }
+//
+//    public class BranchFilter extends Filter{
+//        private Adapter_BranchSelection adapter;
+//        BranchFilter(Adapter_BranchSelection adapter){
+//            super();
+//            this.adapter = adapter;
+//        }
+//
+//        @RequiresApi(api = Build.VERSION_CODES.N)
+//        @Override
+//        protected FilterResults performFiltering(CharSequence constraint) {
+//            final FilterResults results = new FilterResults();
+//            if(constraint.length() == 0){
+//                filteredSearchBranch.addAll(EBranchInfoList);
+//            } else {
+//                List<EBranchInfo> filteredList = new ArrayList<>();
+//               for(EBranchInfo filteredBranches : EBranchInfoList){
+//                   if (filteredBranches.getBranchNm().toLowerCase().contains(constraint.toString().toLowerCase())) {
+//                       filteredList.add(filteredBranches);
+//                   }
+//               }
+//               filteredSearchBranch = filteredList;
+//            }
+//            results.values = filteredSearchBranch;
+//            results.count = filteredSearchBranch.size();
+//            return results;
+//        }
+//
+//        @Override
+//        protected void publishResults(CharSequence constraint, FilterResults results) {
+//            adapter.filteredSearchBranch = (List<EBranchInfo>) results.values;
+//            this.adapter.notifyDataSetChanged();
+//        }
+//    }
 }

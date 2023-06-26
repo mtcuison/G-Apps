@@ -43,11 +43,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_positive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/ButtonStyle.Orange.Small"
                 android:text="Close"
                 android:paddingHorizontal="0dp"/>
 

@@ -18,7 +18,6 @@ import android.widget.ImageButton;
 
 import com.google.android.material.tabs.TabLayout;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.guanzongroup.marketplace.Adapter.ActivityFragmentAdapter;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMItemCart;

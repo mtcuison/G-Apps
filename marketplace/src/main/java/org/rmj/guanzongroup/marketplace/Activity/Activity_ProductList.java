@@ -4,11 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,11 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
-import org.rmj.g3appdriver.dev.Repositories.RProduct;
-import org.rmj.g3appdriver.etc.FilterType;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
 import org.rmj.guanzongroup.marketplace.R;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMProductList;
@@ -33,8 +26,8 @@ public class Activity_ProductList extends AppCompatActivity {
 
     private VMProductList mViewModel;
 
-    private Dialog_Loading poLoad;
-    private Dialog_SingleButton poDialog;
+//    private Dialog_Loading poLoad;
+//    private Dialog_SingleButton poDialog;
 
     private Toolbar toolbar;
     private SearchView searchView;
@@ -48,8 +41,8 @@ public class Activity_ProductList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(Activity_ProductList.this).get(VMProductList.class);
-        poLoad = new Dialog_Loading(Activity_ProductList.this);
-        poDialog = new Dialog_SingleButton(Activity_ProductList.this);
+//        poLoad = new Dialog_Loading(Activity_ProductList.this);
+//        poDialog = new Dialog_SingleButton(Activity_ProductList.this);
         setContentView(R.layout.activity_product_list);
         toolbar = findViewById(R.id.toolbar);
         searchView = findViewById(R.id.searchview);
@@ -66,38 +59,38 @@ public class Activity_ProductList extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mViewModel.SearchItem(query, new VMProductList.OnSearchItemListener() {
-                    @Override
-                    public void OnSearch(String title, String message) {
-                        lnLoading.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void OnSearch() {
-                        lnLoading.setVisibility(View.GONE);
-                        mViewModel.GetProductsOnBrand(query, lsBrandNme).observe(Activity_ProductList.this, oProducts -> {
-                            try{
-                                if(oProducts.size() > 0) {
-                                    recyclerView.setVisibility(View.VISIBLE);
-                                    lblNoItem.setVisibility(View.GONE);
-                                    poAdapter = new Adapter_ProductList(oProducts, listingId -> {
-                                        Intent loIntent = new Intent(Activity_ProductList.this, Activity_ProductOverview.class);
-                                        loIntent.putExtra("sListngId", listingId);
-                                        startActivity(loIntent);
-                                    });
-                                    recyclerView.setAdapter(poAdapter);
-                                    poAdapter.notifyDataSetChanged();
-                                } else {
-                                    lblNoItem.setVisibility(View.VISIBLE);
-                                    lblNoItem.setText("No item found for keyword '" +query+ "' under " +lsBrandNme+" Brand");
-                                    recyclerView.setVisibility(View.GONE);
-                                }
-                            } catch (Exception e){
-                                e.printStackTrace();
-                            }
-                        });
-                    }
-                });
+//                mViewModel.SearchItem(query, new VMProductList.OnSearchItemListener() {
+//                    @Override
+//                    public void OnSearch(String title, String message) {
+//                        lnLoading.setVisibility(View.VISIBLE);
+//                    }
+//
+//                    @Override
+//                    public void OnSearch() {
+//                        lnLoading.setVisibility(View.GONE);
+////                        mViewModel.GetProductsOnBrand(query, lsBrandNme).observe(Activity_ProductList.this, oProducts -> {
+////                            try{
+////                                if(oProducts.size() > 0) {
+////                                    recyclerView.setVisibility(View.VISIBLE);
+////                                    lblNoItem.setVisibility(View.GONE);
+////                                    poAdapter = new Adapter_ProductList(oProducts, listingId -> {
+////                                        Intent loIntent = new Intent(Activity_ProductList.this, Activity_ProductOverview.class);
+////                                        loIntent.putExtra("sListngId", listingId);
+////                                        startActivity(loIntent);
+////                                    });
+////                                    recyclerView.setAdapter(poAdapter);
+////                                    poAdapter.notifyDataSetChanged();
+////                                } else {
+////                                    lblNoItem.setVisibility(View.VISIBLE);
+////                                    lblNoItem.setText("No item found for keyword '" +query+ "' under " +lsBrandNme+" Brand");
+////                                    recyclerView.setVisibility(View.GONE);
+////                                }
+////                            } catch (Exception e){
+////                                e.printStackTrace();
+////                            }
+////                        });
+//                    }
+//                });
                 return false;
             }
 
@@ -111,16 +104,16 @@ public class Activity_ProductList extends AppCompatActivity {
                 return false;
             }
         });
-        ImageView clearButton = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
-        clearButton.setOnClickListener(v -> {
-            if(searchView.getQuery().length() == 0) {
-                searchView.setIconified(true);
-            } else {
-                // Do your task here
-                searchView.setQuery("", false);
-                SetupListView(lsBrandNme);
-            }
-        });
+//        ImageView clearButton = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
+//        clearButton.setOnClickListener(v -> {
+//            if(searchView.getQuery().length() == 0) {
+//                searchView.setIconified(true);
+//            } else {
+//                // Do your task here
+//                searchView.setQuery("", false);
+//                SetupListView(lsBrandNme);
+//            }
+//        });
     }
 
     @Override
@@ -132,27 +125,27 @@ public class Activity_ProductList extends AppCompatActivity {
     }
 
     private void SetupListView(String lsBrandNme){
-        mViewModel.SetProductFilter(new RProduct.oFilterx(FilterType.BRAND_NAME, lsBrandNme, ""));
-        mViewModel.GetFilterType().observe(Activity_ProductList.this, oFilterx -> {
-            try{
-                mViewModel.GetBrandProductList(0, oFilterx.getFilter(), oFilterx.getArgs1()).observe(Activity_ProductList.this, oProducts -> {
-                    if(oProducts.size() > 0) {
-                        lblNoItem.setVisibility(View.GONE);
-                        poAdapter = new Adapter_ProductList(oProducts, listingId -> {
-                            Intent loIntent = new Intent(Activity_ProductList.this, Activity_ProductOverview.class);
-                            loIntent.putExtra("sListngId", listingId);
-                            startActivity(loIntent);
-                        });
-                        recyclerView.setAdapter(poAdapter);
-                        poAdapter.notifyDataSetChanged();
-                    } else {
-                        lblNoItem.setVisibility(View.VISIBLE);
-                        lblNoItem.setText("Currently there are no available items for product '" + lsBrandNme + "'");
-                    }
-                });
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.SetProductFilter(new RProduct.oFilterx(FilterType.BRAND_NAME, lsBrandNme, ""));
+//        mViewModel.GetFilterType().observe(Activity_ProductList.this, oFilterx -> {
+//            try{
+//                mViewModel.GetBrandProductList(0, oFilterx.getFilter(), oFilterx.getArgs1()).observe(Activity_ProductList.this, oProducts -> {
+//                    if(oProducts.size() > 0) {
+//                        lblNoItem.setVisibility(View.GONE);
+//                        poAdapter = new Adapter_ProductList(oProducts, listingId -> {
+//                            Intent loIntent = new Intent(Activity_ProductList.this, Activity_ProductOverview.class);
+//                            loIntent.putExtra("sListngId", listingId);
+//                            startActivity(loIntent);
+//                        });
+//                        recyclerView.setAdapter(poAdapter);
+//                        poAdapter.notifyDataSetChanged();
+//                    } else {
+//                        lblNoItem.setVisibility(View.VISIBLE);
+//                        lblNoItem.setText("Currently there are no available items for product '" + lsBrandNme + "'");
+//                    }
+//                });
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
     }
 }
