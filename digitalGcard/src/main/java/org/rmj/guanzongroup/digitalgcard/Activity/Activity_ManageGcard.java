@@ -16,9 +16,6 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.Adapter.Adapter_GcardList;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
@@ -27,8 +24,8 @@ import java.util.Objects;
 
 public class Activity_ManageGcard extends AppCompatActivity {
     private VMGCardSystem mViewModel;
-    private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialogx;
+//    private Dialog_Loading poLoading;
+//    private Dialog_SingleButton poDialogx;
     private Adapter_GcardList poAdapter;
     private MaterialButton btnAddGcard;
     private Toolbar toolbar;
@@ -40,7 +37,7 @@ public class Activity_ManageGcard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_gcard);
         mViewModel = new ViewModelProvider(Activity_ManageGcard.this).get(VMGCardSystem.class);
-        mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
+//        mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
 
         initViews();
         setUpToolbar();
@@ -92,70 +89,70 @@ public class Activity_ManageGcard extends AppCompatActivity {
     }
 
     private void displayActiveGcard() {
-        mViewModel.getActiveGcard().observe(Activity_ManageGcard.this, eGcardApp -> {
-            try {
-                if(eGcardApp != null) {
-                    txtUserNm.setText(Objects.requireNonNull(eGcardApp.getNmOnCard()));
-                    txtCardNo.setText(Objects.requireNonNull(eGcardApp.getCardNmbr()));
-                    txtPoints.setText(Objects.requireNonNull(eGcardApp.getAvlPoint()));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getActiveGcard().observe(Activity_ManageGcard.this, eGcardApp -> {
+//            try {
+//                if(eGcardApp != null) {
+//                    txtUserNm.setText(Objects.requireNonNull(eGcardApp.getNmOnCard()));
+//                    txtCardNo.setText(Objects.requireNonNull(eGcardApp.getCardNmbr()));
+//                    txtPoints.setText(Objects.requireNonNull(eGcardApp.getAvlPoint()));
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     private void displayInactiveGcard() {
-        mViewModel.getInactiveGCard().observe(Activity_ManageGcard.this, eGcardApps -> {
-            try {
-                if(eGcardApps.size() > 0) {
-                    lblOtherx.setVisibility(View.VISIBLE);
-                    poAdapter = new Adapter_GcardList(eGcardApps, fsCardNox -> {
-                        mViewModel.setActiveGcard(fsCardNox, new VMGCardSystem.GcardTransactionCallback() {
-                            @Override
-                            public void onLoad() {
-                                poLoading = new Dialog_Loading(Activity_ManageGcard.this);
-                                poLoading.initDialog("Activating GCard", "Please wait for a while.");
-                                poLoading.show();
-                            }
-
-                            @Override
-                            public void onSuccess(String fsMessage) {
-                                poLoading.dismiss();
-                                poDialogx = new Dialog_SingleButton(Activity_ManageGcard.this);
-                                poDialogx.setButtonText("Okay");
-                                poDialogx.initDialog("GCard Activation", fsMessage, () -> {
-                                    poDialogx.dismiss();
-                                });
-                                poDialogx.show();
-                            }
-
-                            @Override
-                            public void onFailed(String fsMessage) {
-                                poLoading.dismiss();
-                                poDialogx = new Dialog_SingleButton(Activity_ManageGcard.this);
-                                poDialogx.setButtonText("Okay");
-                                poDialogx.initDialog("GCard Activation", fsMessage, () -> {
-                                    poDialogx.dismiss();
-                                });
-                                poDialogx.show();
-                            }
-
-                            @Override
-                            public void onQrGenerate(Bitmap foBitmap) {
-
-                            }
-                        });
-                    });
-                    recyclerView.setAdapter(poAdapter);
-                    poAdapter.notifyDataSetChanged();
-                } else {
-                    lblOtherx.setVisibility(View.GONE);
-                }
-            } catch(NullPointerException e) {
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getInactiveGCard().observe(Activity_ManageGcard.this, eGcardApps -> {
+//            try {
+//                if(eGcardApps.size() > 0) {
+//                    lblOtherx.setVisibility(View.VISIBLE);
+//                    poAdapter = new Adapter_GcardList(eGcardApps, fsCardNox -> {
+//                        mViewModel.setActiveGcard(fsCardNox, new VMGCardSystem.GcardTransactionCallback() {
+//                            @Override
+//                            public void onLoad() {
+//                                poLoading = new Dialog_Loading(Activity_ManageGcard.this);
+//                                poLoading.initDialog("Activating GCard", "Please wait for a while.");
+//                                poLoading.show();
+//                            }
+//
+//                            @Override
+//                            public void onSuccess(String fsMessage) {
+//                                poLoading.dismiss();
+//                                poDialogx = new Dialog_SingleButton(Activity_ManageGcard.this);
+//                                poDialogx.setButtonText("Okay");
+//                                poDialogx.initDialog("GCard Activation", fsMessage, () -> {
+//                                    poDialogx.dismiss();
+//                                });
+//                                poDialogx.show();
+//                            }
+//
+//                            @Override
+//                            public void onFailed(String fsMessage) {
+//                                poLoading.dismiss();
+//                                poDialogx = new Dialog_SingleButton(Activity_ManageGcard.this);
+//                                poDialogx.setButtonText("Okay");
+//                                poDialogx.initDialog("GCard Activation", fsMessage, () -> {
+//                                    poDialogx.dismiss();
+//                                });
+//                                poDialogx.show();
+//                            }
+//
+//                            @Override
+//                            public void onQrGenerate(Bitmap foBitmap) {
+//
+//                            }
+//                        });
+//                    });
+//                    recyclerView.setAdapter(poAdapter);
+//                    poAdapter.notifyDataSetChanged();
+//                } else {
+//                    lblOtherx.setVisibility(View.GONE);
+//                }
+//            } catch(NullPointerException e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 
 }

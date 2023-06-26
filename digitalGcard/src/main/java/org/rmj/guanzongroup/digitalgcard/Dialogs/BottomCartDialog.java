@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.digitalgcard.Dialogs;
 
-import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,10 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
-import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 
@@ -43,8 +38,8 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
     private EditText txtQuantity;
     private MaterialButton btnAddToCart;
 
-    private Dialog_Loading dialog_loading;
-    private Dialog_SingleButton dialog_success;
+//    private Dialog_Loading dialog_loading;
+//    private Dialog_SingleButton dialog_success;
     private int Quantity = 1;
 
     public void setItemTransNox(String itemTransNox) {
@@ -64,59 +59,59 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.bottom_dialog_addtocart_box, container, false);
         setupWidgets(view);
-        try{
-            mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
-            mViewModel.setmContext(GCardSystem.CoreFunctions.REDEMPTION);
-            mViewModel.getActiveGcard().observe(requireActivity(), gcard ->{
-                lblGcardPoints.setText(String.valueOf(gcard.getAvlPoint()));
-            });
-            lblItemName.setText(itemNamex);
-            lblItemPoints.setText(String.valueOf(itemPntsx));
-            lblItemTotPoints.setText(String.valueOf(getTotPoints()));
-            btnClose.setOnClickListener(v -> dismiss());
-
-            btnAdd.setOnClickListener(v -> new Handler().post(() -> {
-                Quantity += 1;
-                txtQuantity.setText(String.valueOf(getQuantity()));
-                lblItemTotPoints.setText(String.valueOf(getTotPoints()));
-            }));
-
-            btnDeduct.setOnClickListener(v -> new Handler().post(() -> {
-                Quantity -= 1;
-                txtQuantity.setText(String.valueOf(getQuantity()));
-                lblItemTotPoints.setText(String.valueOf(getTotPoints()));
-            }));
-
-            btnAddToCart.setOnClickListener(v -> {
-                CartItem item = new CartItem(itemTransNox, itemPromCode, Integer.parseInt(txtQuantity.getText().toString()), Double.parseDouble(lblItemTotPoints.getText().toString()));
-                mViewModel.addToCart(item, new VMGCardSystem.GcardTransactionCallback() {
-                    @Override
-                    public void onLoad() {
-                        dialog_loading.initDialog("Add to Cart","Adding redeemable item to cart, please wait...");
-                        dialog_loading.show();
-                    }
-
-                    @Override
-                    public void onSuccess(String fsMessage) {
-                        dialog_loading.dismiss();
-                        showMessage("Success", fsMessage);
-                    }
-
-                    @Override
-                    public void onFailed(String fsMessage) {
-                        dialog_loading.dismiss();
-                        showMessage("Failed", fsMessage);
-                    }
-
-                    @Override
-                    public void onQrGenerate(Bitmap foBitmap) {
-
-                    }
-                });
-            });
-        }catch (NullPointerException e){
-            showMessage("Error", e.getMessage());
-        }
+//        try{
+//            mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
+//            mViewModel.setmContext(GCardSystem.CoreFunctions.REDEMPTION);
+//            mViewModel.getActiveGcard().observe(requireActivity(), gcard ->{
+//                lblGcardPoints.setText(String.valueOf(gcard.getAvlPoint()));
+//            });
+//            lblItemName.setText(itemNamex);
+//            lblItemPoints.setText(String.valueOf(itemPntsx));
+//            lblItemTotPoints.setText(String.valueOf(getTotPoints()));
+//            btnClose.setOnClickListener(v -> dismiss());
+//
+//            btnAdd.setOnClickListener(v -> new Handler().post(() -> {
+//                Quantity += 1;
+//                txtQuantity.setText(String.valueOf(getQuantity()));
+//                lblItemTotPoints.setText(String.valueOf(getTotPoints()));
+//            }));
+//
+//            btnDeduct.setOnClickListener(v -> new Handler().post(() -> {
+//                Quantity -= 1;
+//                txtQuantity.setText(String.valueOf(getQuantity()));
+//                lblItemTotPoints.setText(String.valueOf(getTotPoints()));
+//            }));
+//
+//            btnAddToCart.setOnClickListener(v -> {
+//                CartItem item = new CartItem(itemTransNox, itemPromCode, Integer.parseInt(txtQuantity.getText().toString()), Double.parseDouble(lblItemTotPoints.getText().toString()));
+//                mViewModel.addToCart(item, new VMGCardSystem.GcardTransactionCallback() {
+//                    @Override
+//                    public void onLoad() {
+//                        dialog_loading.initDialog("Add to Cart","Adding redeemable item to cart, please wait...");
+//                        dialog_loading.show();
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(String fsMessage) {
+//                        dialog_loading.dismiss();
+//                        showMessage("Success", fsMessage);
+//                    }
+//
+//                    @Override
+//                    public void onFailed(String fsMessage) {
+//                        dialog_loading.dismiss();
+//                        showMessage("Failed", fsMessage);
+//                    }
+//
+//                    @Override
+//                    public void onQrGenerate(Bitmap foBitmap) {
+//
+//                    }
+//                });
+//            });
+//        }catch (NullPointerException e){
+//            showMessage("Error", e.getMessage());
+//        }
         return view;
     }
 
@@ -130,18 +125,19 @@ public class BottomCartDialog extends BottomSheetDialogFragment {
         btnAdd = v.findViewById(R.id.btn_bottom_sheet_add);
         btnDeduct = v.findViewById(R.id.btn_bottom_sheet_deduct);
         btnAddToCart = v.findViewById(R.id.btn_bottom_sheet_addToCart);
-        dialog_loading = new Dialog_Loading(requireActivity());
+//        dialog_loading = new Dialog_Loading(requireActivity());
 
     }
     private void showMessage(String fsTitle,String fsMessage){
-        dialog_success = new Dialog_SingleButton(requireActivity());
-        dialog_success.setButtonText("Okay");
-        dialog_success.initDialog(fsTitle, fsMessage, () -> {
-            dialog_success.dismiss();
-            dismiss();
-        });
-        dialog_success.show();
+//        dialog_success = new Dialog_SingleButton(requireActivity());
+//        dialog_success.setButtonText("Okay");
+//        dialog_success.initDialog(fsTitle, fsMessage, () -> {
+//            dialog_success.dismiss();
+//            dismiss();
+//        });
+//        dialog_success.show();
     }
+
     private double getTotPoints(){
         return Integer.parseInt(txtQuantity.getText().toString()) * itemPntsx;
     }

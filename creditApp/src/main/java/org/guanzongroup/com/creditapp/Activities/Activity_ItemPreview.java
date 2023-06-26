@@ -3,7 +3,6 @@ package org.guanzongroup.com.creditapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,12 +28,8 @@ import org.guanzongroup.com.creditapp.R;
 import org.guanzongroup.com.creditapp.ViewModel.VMItemPreview;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.etc.CashFormatter;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -45,8 +40,8 @@ public class Activity_ItemPreview extends AppCompatActivity {
     private VMItemPreview mViewModel;
 
     private Toolbar toolbar;
-    private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialogx;
+//    private Dialog_Loading poLoading;
+//    private Dialog_SingleButton poDialogx;
     private LinearLayout poItmSpec;
     private SliderView poSliderx;
     private RecyclerView rvItmSpec;
@@ -66,42 +61,42 @@ public class Activity_ItemPreview extends AppCompatActivity {
 
         String lsLstID = getIntent().getStringExtra("sListngID");
 
-        mViewModel.getProductInfo(lsLstID).observe(Activity_ItemPreview.this, product -> {
-            try{
-                txtProdNm.setText(Objects.requireNonNull(product.getModelNme()));
-                txtUntPrc.setText(CashFormatter.parse(Objects.requireNonNull(product.getUnitPrce())));
-                txtBrandx.setText(Objects.requireNonNull(product.getBrandNme()));
-                txtCatgry.setText(Objects.requireNonNull(product.getCategrNm()));
-                txtColorx.setText(Objects.requireNonNull(product.getColorNme()));
-                txtStocks.setText(Objects.requireNonNull(product.getQtyOnHnd()));
-                txtBriefx.setText(Objects.requireNonNull(product.getBriefDsc()));
-                setFullDescription(Objects.requireNonNull(product.getDescript()));
-
-                Adapter_ImageSlider adapter = new Adapter_ImageSlider(getSliderImages(product.getImagesxx()), args -> {
-                    try {
-                        List<HomeImageSliderModel> loList = getSliderImages(product.getImagesxx());
+//        mViewModel.getProductInfo(lsLstID).observe(Activity_ItemPreview.this, product -> {
+//            try{
+//                txtProdNm.setText(Objects.requireNonNull(product.getModelNme()));
+//                txtUntPrc.setText(CashFormatter.parse(Objects.requireNonNull(product.getUnitPrce())));
+//                txtBrandx.setText(Objects.requireNonNull(product.getBrandNme()));
+//                txtCatgry.setText(Objects.requireNonNull(product.getCategrNm()));
+//                txtColorx.setText(Objects.requireNonNull(product.getColorNme()));
+//                txtStocks.setText(Objects.requireNonNull(product.getQtyOnHnd()));
+//                txtBriefx.setText(Objects.requireNonNull(product.getBriefDsc()));
+//                setFullDescription(Objects.requireNonNull(product.getDescript()));
+//
+//                Adapter_ImageSlider adapter = new Adapter_ImageSlider(getSliderImages(product.getImagesxx()), args -> {
+//                    try {
+//                        List<HomeImageSliderModel> loList = getSliderImages(product.getImagesxx());
 
 //                        Picasso.get().load(loList.get(args).getImageUrl()).placeholder(R.drawable.ic_no_image_available)
 //                                .error(R.drawable.ic_no_image_available).into(imgPrview);
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                });
-
-                poSliderx.setSliderAdapter(adapter);
-
-                btnAppLoan.setOnClickListener(view -> {
-                    Intent loIntent = new Intent(Activity_ItemPreview.this, Activity_LoanTerm.class);
-                    loIntent.putExtra("sListngID", product.getListngID());
-                    loIntent.putExtra("sModelIDx", product.getModelIDx());
-                    loIntent.putExtra("sUnitAppl", product.getBrandNme());
-                    startActivity(loIntent);
-                    finish();
-                });
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//                    } catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//                });
+//
+//                poSliderx.setSliderAdapter(adapter);
+//
+//                btnAppLoan.setOnClickListener(view -> {
+//                    Intent loIntent = new Intent(Activity_ItemPreview.this, Activity_LoanTerm.class);
+//                    loIntent.putExtra("sListngID", product.getListngID());
+//                    loIntent.putExtra("sModelIDx", product.getModelIDx());
+//                    loIntent.putExtra("sUnitAppl", product.getBrandNme());
+//                    startActivity(loIntent);
+//                    finish();
+//                });
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     @Override

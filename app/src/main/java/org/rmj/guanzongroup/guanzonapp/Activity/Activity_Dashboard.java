@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.navigation.NavigationView;
@@ -23,7 +24,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -68,7 +68,7 @@ public class Activity_Dashboard extends AppCompatActivity {
     private LoadDialog poLoading;
     private MessageBox poDialog;
 
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
     private BadgeDrawable loBadge;
     private TextView lblBadge;
     private static final int GCARD_APPLICATION = 1;
@@ -341,28 +341,28 @@ public class Activity_Dashboard extends AppCompatActivity {
             mViewModel.CheckPromotions(new VMHome.OnCheckPromotions() {
                 @Override
                 public void OnCheckPromos(String args1, String args2) {
-                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
-                    loDialog.initDialog(args2, (dialog) -> {
-                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
-                        intent.putExtra("url_link", args1);
-                        intent.putExtra("args", "1");
-                        startActivity(intent);
-                        dialog.dismiss();
-                    });
-                    loDialog.show();
+//                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
+//                    loDialog.initDialog(args2, (dialog) -> {
+//                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
+//                        intent.putExtra("url_link", args1);
+//                        intent.putExtra("args", "1");
+//                        startActivity(intent);
+//                        dialog.dismiss();
+//                    });
+//                    loDialog.show();
                 }
 
                 @Override
                 public void OnCheckEvents(String args1, String args2) {
-                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
-                    loDialog.initDialog(args1, (dialog) -> {
-                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
-                        intent.putExtra("url_link", args2);
-                        intent.putExtra("args", "0");
-                        startActivity(intent);
-                        dialog.dismiss();
-                    });
-                    loDialog.show();
+//                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
+//                    loDialog.initDialog(args1, (dialog) -> {
+//                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
+//                        intent.putExtra("url_link", args2);
+//                        intent.putExtra("args", "0");
+//                        startActivity(intent);
+//                        dialog.dismiss();
+//                    });
+//                    loDialog.show();
                 }
 
                 @Override
@@ -376,45 +376,45 @@ public class Activity_Dashboard extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_mrktplc, menu);
-        // Get the SearchView and set the searchable configuration
-        mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
-
-            //This area of code has been commented to avoid users from accessing
-            // the marketplace cart while the marketplace has not yet fully develop yet.
-            try {
-                if(eClientinfo != null){
-                    menu.findItem(R.id.item_notifications).setVisible(true);
-//                    menu.findItem(R.id.item_cart).setVisible(true);
-                } else {
-                    menu.findItem(R.id.item_notifications).setVisible(false);
-//                    menu.findItem(R.id.item_cart).setVisible(false);
-                }
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-        });
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_mrktplc, menu);
+//        // Get the SearchView and set the searchable configuration
+//        mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
+//
+//            //This area of code has been commented to avoid users from accessing
+//            // the marketplace cart while the marketplace has not yet fully develop yet.
+//            try {
+//                if(eClientinfo != null){
+//                    menu.findItem(R.id.item_notifications).setVisible(true);
+////                    menu.findItem(R.id.item_cart).setVisible(true);
+//                } else {
+//                    menu.findItem(R.id.item_notifications).setVisible(false);
+////                    menu.findItem(R.id.item_cart).setVisible(false);
+//                }
+//            } catch(Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_Dashboard.this);
-        loDialog.setButtonText("YES", "NO");
-        loDialog.initDialog("Guanzon App", "Exit Guanzon App?", new Dialog_DoubleButton.OnDialogConfirmation() {
-            @Override
-            public void onConfirm(AlertDialog dialog) {
-                dialog.dismiss();
-                finish();
-            }
-
-            @Override
-            public void onCancel(AlertDialog dialog) {
-                dialog.dismiss();
-            }
-        });
-        loDialog.show();
+//        Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_Dashboard.this);
+//        loDialog.setButtonText("YES", "NO");
+//        loDialog.initDialog("Guanzon App", "Exit Guanzon App?", new Dialog_DoubleButton.OnDialogConfirmation() {
+//            @Override
+//            public void onConfirm(AlertDialog dialog) {
+//                dialog.dismiss();
+//                finish();
+//            }
+//
+//            @Override
+//            public void onCancel(AlertDialog dialog) {
+//                dialog.dismiss();
+//            }
+//        });
+//        loDialog.show();
     }
 
     @Override
@@ -433,18 +433,18 @@ public class Activity_Dashboard extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent loIntent;
-        if(item.getItemId() == android.R.id.home){
-
-        } else if (item.getItemId() == R.id.item_search) {
-            loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
-            startActivity(loIntent);
-        } else if (item.getItemId() == R.id.item_cart) {
-            Intent intent = new Intent(Activity_Dashboard.this, Activity_ItemCart.class);
-            intent.putExtra("args", "1");
-            startActivity(intent);
-        } else {
-            startActivity(new Intent(Activity_Dashboard.this, Activity_NotificationList.class));
-        }
+//        if(item.getItemId() == android.R.id.home){
+//
+//        } else if (item.getItemId() == R.id.item_search) {
+//            loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
+//            startActivity(loIntent);
+//        } else if (item.getItemId() == R.id.item_cart) {
+//            Intent intent = new Intent(Activity_Dashboard.this, Activity_ItemCart.class);
+//            intent.putExtra("args", "1");
+//            startActivity(intent);
+//        } else {
+//            startActivity(new Intent(Activity_Dashboard.this, Activity_NotificationList.class));
+//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -539,53 +539,53 @@ public class Activity_Dashboard extends AppCompatActivity {
 
             }
         });
-        mViewModel.ParseQrCode(fsVal, new GCardSystem.ParseQrCodeCallback() {
-            @Override
-            public void ApplicationResult(String args) {
-                AddGcard(args);
-            }
-
-            @Override
-            public void TransactionResult(String args) {
-                Dialog_TransactionPIN loDialog = new Dialog_TransactionPIN(Activity_Dashboard.this);
-                loDialog.initDialog(args);
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                poDialog.setButtonText("Okay");
-                poDialog.initDialog("Digital GCard", message, () -> poDialog.dismiss());
-                poDialog.show();
-            }
-        });
+//        mViewModel.ParseQrCode(fsVal, new GCardSystem.ParseQrCodeCallback() {
+//            @Override
+//            public void ApplicationResult(String args) {
+//                AddGcard(args);
+//            }
+//
+//            @Override
+//            public void TransactionResult(String args) {
+//                Dialog_TransactionPIN loDialog = new Dialog_TransactionPIN(Activity_Dashboard.this);
+//                loDialog.initDialog(args);
+//            }
+//
+//            @Override
+//            public void OnFailed(String message) {
+//                poDialog.setButtonText("Okay");
+//                poDialog.initDialog("Digital GCard", message, () -> poDialog.dismiss());
+//                poDialog.show();
+//            }
+//        });
     }
 
     private void AddGcard(String fsVal){
-        mViewModel.AddNewGCard(fsVal, new VMHome.OnActionCallback() {
-            @Override
-            public void OnLoad() {
-                poLoading.initDialog("Digital GCard", "Adding GCard. Please wait...", false);
-                poLoading.show();
-            }
-
-            @Override
-            public void OnSuccess(String args) {
-                poLoading.dismiss();
-                poDialog.setButtonText("Okay");
-                poDialog.initDialog("Digital GCard", args, () -> {
-                    poDialog.dismiss();
-                });
-                poDialog.show();
-            }
-
-            @Override
-            public void OnFailed(String args) {
-                poLoading.dismiss();
-                poDialog.setButtonText("Okay");
-                poDialog.initDialog("Digital GCard", args, () -> poDialog.dismiss());
-                poDialog.show();
-            }
-        });
+//        mViewModel.AddNewGCard(fsVal, new VMHome.OnActionCallback() {
+//            @Override
+//            public void OnLoad() {
+//                poLoading.initDialog("Digital GCard", "Adding GCard. Please wait...", false);
+//                poLoading.show();
+//            }
+//
+//            @Override
+//            public void OnSuccess(String args) {
+//                poLoading.dismiss();
+//                poDialog.setButtonText("Okay");
+//                poDialog.initDialog("Digital GCard", args, () -> {
+//                    poDialog.dismiss();
+//                });
+//                poDialog.show();
+//            }
+//
+//            @Override
+//            public void OnFailed(String args) {
+//                poLoading.dismiss();
+//                poDialog.setButtonText("Okay");
+//                poDialog.initDialog("Digital GCard", args, () -> poDialog.dismiss());
+//                poDialog.show();
+//            }
+//        });
     }
 
     private void setupIntentArguments(NavController navController){

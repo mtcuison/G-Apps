@@ -4,42 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.Fragment_Notifications"
-    android:orientation="vertical">
+    tools:context=".Fragment.Fragment_Notifications">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout2"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        style="@style/Widget.MaterialComponents.TabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="0dp"
+        android:background="@android:color/transparent"
+        app:tabGravity="fill"
+        app:tabIndicator="@drawable/tablayout_select_indicator"
+        app:tabIndicatorAnimationDuration="1"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorGravity="bottom"
+        app:tabIndicatorHeight="4dp"
+        app:tabMode="fixed"
+        app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Body2" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:tabGravity="fill"
-            app:tabIconTint="@color/tab_select_indicator_dashboard"
-            app:tabIndicator="@color/guanzon_digital_orange"
-            app:tabIndicatorAnimationDuration="1"
-            app:tabIndicatorColor="@color/guanzon_digital_orange"
-            app:tabIndicatorGravity="bottom"
-            app:tabIndicatorHeight="3dp"
-            app:tabMaxWidth="0dp"
-            app:tabMode="fixed"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-            app:tabTextColor="@color/black" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.viewpager.widget.ViewPager
+    <org.rmj.g3appdriver.etc.NonSwipeableViewPager
         android:id="@+id/viewpager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

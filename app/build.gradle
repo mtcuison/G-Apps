@@ -136,10 +136,10 @@ dependencies {
 
     implementation project(':digitalGcard')
     implementation project(':marketplace')
-    implementation project(':appdriver')
+    implementation project(':appDriver')
     implementation project(':useraccount')
-    implementation project(':notifications')
-    implementation project(':guanzonPanalo')
+//    implementation project(':notifications')
+//    implementation project(':guanzonPanalo')
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
 

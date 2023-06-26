@@ -3,29 +3,15 @@
 
     <application>
         <activity
-            android:name=".Activity.Activity_GuanzonPanalo"
-            android:theme="@style/GhostRiderMaterialTheme"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Activity.Activity_PreviewMessage"
-            android:exported="false"
-            android:theme="@style/GhostRiderMaterialTheme"
-            android:screenOrientation="userPortrait" />
-        <activity
-            android:name=".Activity.Activity_NotificationList"
-            android:exported="true"
-            android:theme="@style/GhostRiderMaterialTheme"
-            android:screenOrientation="userPortrait" />
-        <activity
             android:name=".Activity.Activity_ViewNotification"
             android:exported="false"
-            android:theme="@style/GhostRiderMaterialTheme"
-            android:label="Notifications"
-            android:screenOrientation="userPortrait" />
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.Activity_UserMessages"
+            android:exported="false"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
     </application>
 
 </manifest>

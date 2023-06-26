@@ -3,7 +3,6 @@ package org.guanzongroup.com.creditapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,21 +24,16 @@ import org.guanzongroup.com.creditapp.Adapter.Adapter_InstallmentPlans;
 import org.guanzongroup.com.creditapp.R;
 import org.guanzongroup.com.creditapp.ViewModel.VMLoanTerm;
 import org.json.JSONArray;
-import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.etc.CashFormatter;
-import org.rmj.g3appdriver.lib.CreditApp.model.LoanTerm;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Activity_LoanTerm extends AppCompatActivity {
 
     private static Activity_LoanTerm instance;
     private VMLoanTerm mViewModel;
-    private Dialog_Loading poLoad;
-    private Dialog_SingleButton poMessage;
+//    private Dialog_Loading poLoad;
+//    private Dialog_SingleButton poMessage;
 
     private Toolbar toolbar;
 
@@ -52,7 +45,7 @@ public class Activity_LoanTerm extends AppCompatActivity {
 
     private RecyclerView recyclerView;
 
-    private LoanTerm poTerm;
+//    private LoanTerm poTerm;
     private String lsBrndNm = null;
 
     public static Activity_LoanTerm getInstance(){
@@ -64,8 +57,8 @@ public class Activity_LoanTerm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         instance = this;
         mViewModel = new ViewModelProvider(Activity_LoanTerm.this).get(VMLoanTerm.class);
-        poLoad = new Dialog_Loading(Activity_LoanTerm.this);
-        poMessage = new Dialog_SingleButton(Activity_LoanTerm.this);
+//        poLoad = new Dialog_Loading(Activity_LoanTerm.this);
+//        poMessage = new Dialog_SingleButton(Activity_LoanTerm.this);
         setContentView(R.layout.activity_loan_term);
 
         toolbar = findViewById(R.id.toolbar);
@@ -85,65 +78,65 @@ public class Activity_LoanTerm extends AppCompatActivity {
         String lsListID = getIntent().getStringExtra("sListngID");
         String lsModlID = getIntent().getStringExtra("sModelIDx");
         mViewModel.GetProductInfo(lsListID).observe(Activity_LoanTerm.this, product -> {
-            try{
-                JSONArray laJson = new JSONArray(product.getImagesxx());
-                String sampleImg = laJson.getJSONObject(0).getString("sImageURL");
-                Picasso.get().load(sampleImg).into(imgView);
-                lblProdctx.setText(product.getModelNme());
-                lblUnitPrc.setText(CashFormatter.parse(product.getUnitPrce()));
-
-                lsBrndNm = product.getBrandNme();
-
-                mViewModel.ImportInstallmentPlans(lsModlID, new VMLoanTerm.OnDownloadInstallmentPlan() {
-                    @Override
-                    public void OnDownload(String title, String message) {
-                        poLoad.initDialog(title, message);
-                        poLoad.show();
-                    }
-
-                    @Override
-                    public void OnDownload(List<LoanTerm> args) {
-                        poLoad.dismiss();
-                        LinearLayoutManager loManager = new LinearLayoutManager(Activity_LoanTerm.this);
-                        loManager.setOrientation(RecyclerView.VERTICAL);
-                        recyclerView.setLayoutManager(loManager);
-                        txtDownPay.setText(CashFormatter.parse(args.get(0).getnDownPaym()));
-                        Adapter_InstallmentPlans loAdapter = new Adapter_InstallmentPlans(args, args1 -> {
-                            poTerm = args1;
-                            lnMonthly.setVisibility(View.VISIBLE);
-                            txtMonthly.setText(CashFormatter.parse(args1.getnMonAmort()));
-                        });
-                        recyclerView.setAdapter(loAdapter);
-                    }
-
-                    @Override
-                    public void OnFailed(String message) {
-                        poLoad.dismiss();
-                        poMessage.setButtonText("Okay");
-                        poMessage.initDialog("Apply For A Loan", message, () -> poMessage.dismiss());
-                        poMessage.show();
-                    }
-                });
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+//            try{
+//                JSONArray laJson = new JSONArray(product.getImagesxx());
+//                String sampleImg = laJson.getJSONObject(0).getString("sImageURL");
+//                Picasso.get().load(sampleImg).into(imgView);
+//                lblProdctx.setText(product.getModelNme());
+//                lblUnitPrc.setText(CashFormatter.parse(product.getUnitPrce()));
+//
+//                lsBrndNm = product.getBrandNme();
+//
+//                mViewModel.ImportInstallmentPlans(lsModlID, new VMLoanTerm.OnDownloadInstallmentPlan() {
+//                    @Override
+//                    public void OnDownload(String title, String message) {
+//                        poLoad.initDialog(title, message);
+//                        poLoad.show();
+//                    }
+//
+//                    @Override
+//                    public void OnDownload(List<LoanTerm> args) {
+//                        poLoad.dismiss();
+//                        LinearLayoutManager loManager = new LinearLayoutManager(Activity_LoanTerm.this);
+//                        loManager.setOrientation(RecyclerView.VERTICAL);
+//                        recyclerView.setLayoutManager(loManager);
+//                        txtDownPay.setText(CashFormatter.parse(args.get(0).getnDownPaym()));
+//                        Adapter_InstallmentPlans loAdapter = new Adapter_InstallmentPlans(args, args1 -> {
+//                            poTerm = args1;
+//                            lnMonthly.setVisibility(View.VISIBLE);
+//                            txtMonthly.setText(CashFormatter.parse(args1.getnMonAmort()));
+//                        });
+//                        recyclerView.setAdapter(loAdapter);
+//                    }
+//
+//                    @Override
+//                    public void OnFailed(String message) {
+//                        poLoad.dismiss();
+//                        poMessage.setButtonText("Okay");
+//                        poMessage.initDialog("Apply For A Loan", message, () -> poMessage.dismiss());
+//                        poMessage.show();
+//                    }
+//                });
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
         });
 
         btnNext.setOnClickListener(view -> {
-            if(poTerm == null){
-                Toast.makeText(Activity_LoanTerm.this, "Please select installment plan.", Toast.LENGTH_SHORT).show();
-            } else {
-                Intent loIntent = new Intent(Activity_LoanTerm.this, Activity_ApplicantInfo.class);
-                loIntent.putExtra("sListngID", lsListID);
-                loIntent.putExtra("sUnitAppl", lsBrndNm);
-                loIntent.putExtra("sModelIDx", poTerm.getsModelIDx());
-                loIntent.putExtra("sLoanTerm", poTerm.getsLoanTerm());
-                loIntent.putExtra("sDownPaym", poTerm.getnDownPaym());
-                loIntent.putExtra("nMonAmort", poTerm.getnMonAmort());
-                loIntent.putExtra("nDiscount", poTerm.getnRebatesx());
-                loIntent.putExtra("nMiscExps", poTerm.getnMiscChrg());
-                startActivity(loIntent);
-            }
+//            if(poTerm == null){
+//                Toast.makeText(Activity_LoanTerm.this, "Please select installment plan.", Toast.LENGTH_SHORT).show();
+//            } else {
+//                Intent loIntent = new Intent(Activity_LoanTerm.this, Activity_ApplicantInfo.class);
+//                loIntent.putExtra("sListngID", lsListID);
+//                loIntent.putExtra("sUnitAppl", lsBrndNm);
+//                loIntent.putExtra("sModelIDx", poTerm.getsModelIDx());
+//                loIntent.putExtra("sLoanTerm", poTerm.getsLoanTerm());
+//                loIntent.putExtra("sDownPaym", poTerm.getnDownPaym());
+//                loIntent.putExtra("nMonAmort", poTerm.getnMonAmort());
+//                loIntent.putExtra("nDiscount", poTerm.getnRebatesx());
+//                loIntent.putExtra("nMiscExps", poTerm.getnMiscChrg());
+//                startActivity(loIntent);
+//            }
         });
     }
 

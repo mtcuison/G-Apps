@@ -1,6 +1,5 @@
 package org.rmj.guanzongroup.guanzonapp.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,27 +10,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
-import org.rmj.g3appdriver.etc.FragmentAdapter;
 import org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcard;
-import org.rmj.guanzongroup.guanzonapp.Activity.Activity_Dashboard;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.marketplace.Fragment.Fragment_MPItemCart;
-import org.rmj.guanzongroup.notifications.Fragment.Fragment_Notifications;
 import org.rmj.guanzongroup.notifications.Fragment.Fragment_Promotion;
 import org.rmj.guanzongroup.panalo.Fragment.Fragment_Panalo;
-import org.rmj.guanzongroup.panalo.ViewModel.VMPanaloDashboard;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
-
-import java.util.Objects;
 
 public class Fragment_Dashboard extends Fragment {
     private static final String TAG = Fragment_Dashboard.class.getSimpleName();
@@ -113,7 +101,7 @@ public class Fragment_Dashboard extends Fragment {
                 new Fragment_Panalo(),
                 new Fragment_MPItemCart(),
                 new Fragment_MyGcard()};
-        FragmentAdapter loAdapter = new FragmentAdapter(getChildFragmentManager(), loFragments);
-        viewPager.setAdapter(loAdapter);
+//        FragmentAdapter loAdapter = new FragmentAdapter(getChildFragmentManager(), loFragments);
+//        viewPager.setAdapter(loAdapter);
     }
 }

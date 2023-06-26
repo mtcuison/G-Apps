@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GConnect.room.Entities.EBranchInfo;
 import org.rmj.guanzongroup.guanzonapp.R;
 
 public class DialogBranchInfo {

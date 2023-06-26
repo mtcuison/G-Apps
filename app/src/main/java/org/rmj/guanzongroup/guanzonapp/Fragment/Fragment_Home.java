@@ -20,14 +20,12 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
+import org.rmj.g3appdriver.GConnect.room.DataAccessObject.DProduct;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductList;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_Categories;
-import org.rmj.g3appdriver.lib.Promotions.Adapter_ImageSlider;
 import org.rmj.guanzongroup.marketplace.Adapter.Adapter_ProductList;
-import org.rmj.g3appdriver.lib.Promotions.model.HomeImageSliderModel;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 
 import java.util.ArrayList;
@@ -98,74 +96,74 @@ public class Fragment_Home extends Fragment {
     }
 
     private void setProductAdapter() {
-        mViewModel.getProductList(0).observe(getViewLifecycleOwner(), products -> {
-            try {
-                if(products.size() > 0) {
-                    poList.clear();
-                    poList.addAll(products);
-                    poAdapter = new Adapter_ProductList(poList, listingId -> {
-                        Intent loIntent = new Intent(requireActivity(), Activity_ProductOverview.class);
-                        loIntent.putExtra("sListngId", listingId);
-                        Log.d(TAG, "Passed parameter: " + listingId);
-                        startActivity(loIntent);
-                    });
-                    poRvProds.setAdapter(poAdapter);
-                    poAdapter.notifyDataSetChanged();
-                }
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getProductList(0).observe(getViewLifecycleOwner(), products -> {
+//            try {
+//                if(products.size() > 0) {
+//                    poList.clear();
+//                    poList.addAll(products);
+//                    poAdapter = new Adapter_ProductList(poList, listingId -> {
+//                        Intent loIntent = new Intent(requireActivity(), Activity_ProductOverview.class);
+//                        loIntent.putExtra("sListngId", listingId);
+//                        Log.d(TAG, "Passed parameter: " + listingId);
+//                        startActivity(loIntent);
+//                    });
+//                    poRvProds.setAdapter(poAdapter);
+//                    poAdapter.notifyDataSetChanged();
+//                }
+//            } catch (NullPointerException e) {
+//                e.printStackTrace();
+//            }
+//        });
 
-        poRvProds.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
-                int totalItemCount = layoutManager.getItemCount();
-                int lastVisible = layoutManager.findLastVisibleItemPosition();
-
-                boolean endHasBeenReached = lastVisible + 5 >= totalItemCount;
-                if (totalItemCount > 0 && endHasBeenReached) {
-                    mViewModel.getProductList(totalItemCount).observe(getViewLifecycleOwner(), products -> {
-                        try {
-                            if(products.size() > 0) {
-                                poList.addAll(products);
-                                poAdapter.notifyDataSetChanged();
-                                Log.d(TAG, "New items added");
-                            }
-                        } catch (NullPointerException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-            }
-        });
+//        poRvProds.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
+//                int totalItemCount = layoutManager.getItemCount();
+//                int lastVisible = layoutManager.findLastVisibleItemPosition();
+//
+//                boolean endHasBeenReached = lastVisible + 5 >= totalItemCount;
+//                if (totalItemCount > 0 && endHasBeenReached) {
+//                    mViewModel.getProductList(totalItemCount).observe(getViewLifecycleOwner(), products -> {
+//                        try {
+//                            if(products.size() > 0) {
+//                                poList.addAll(products);
+//                                poAdapter.notifyDataSetChanged();
+//                                Log.d(TAG, "New items added");
+//                            }
+//                        } catch (NullPointerException e) {
+//                            e.printStackTrace();
+//                        }
+//                    });
+//                }
+//            }
+//        });
     }
 
     private void setSliderImages() {
-        List<HomeImageSliderModel> loSliders = new ArrayList<>();
-        mViewModel.GetPromoLinkList().observe(getViewLifecycleOwner(), ePromos -> {
-            try {
-                for (int x = 0; x < ePromos.size(); x++) {
-                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getImageSld()));
-                }
-
-                Adapter_ImageSlider adapter = new Adapter_ImageSlider(loSliders, args -> {
-                    try{
-                        Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
-                        intent.putExtra("url_link", ePromos.get(args).getPromoUrl());
-                        intent.putExtra("browser_args", "1");
-                        intent.putExtra("args", "promo");
-                        requireActivity().sendBroadcast(intent);
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-                });
-                poSliderx.setSliderAdapter(adapter);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        List<HomeImageSliderModel> loSliders = new ArrayList<>();
+//        mViewModel.GetPromoLinkList().observe(getViewLifecycleOwner(), ePromos -> {
+//            try {
+//                for (int x = 0; x < ePromos.size(); x++) {
+//                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getImageSld()));
+//                }
+//
+//                Adapter_ImageSlider adapter = new Adapter_ImageSlider(loSliders, args -> {
+//                    try{
+//                        Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+//                        intent.putExtra("url_link", ePromos.get(args).getPromoUrl());
+//                        intent.putExtra("browser_args", "1");
+//                        intent.putExtra("args", "promo");
+//                        requireActivity().sendBroadcast(intent);
+//                    } catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//                });
+//                poSliderx.setSliderAdapter(adapter);
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
     }
 }

@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
-import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.guanzongroup.digitalgcard.Adapter.Adapter_GCardLedger;
 import org.rmj.guanzongroup.digitalgcard.R;
 import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
@@ -36,26 +34,26 @@ public class Fragment_GcardLedger extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gcard_ledger, container, false);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
-        mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
+//        mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
         initViews(view);
-        mViewModel.GetGcardTransactions().observe(getViewLifecycleOwner(), ledgers -> {
-            try{
-                if(ledgers.size() > 0) {
-                    Adapter_GCardLedger loAdapter = new Adapter_GCardLedger(ledgers);
-                    LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
-                    loManager.setOrientation(RecyclerView.VERTICAL);
-                    recyclerView.setLayoutManager(loManager);
-                    recyclerView.setAdapter(loAdapter);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    lblNoItem.setVisibility(View.GONE);
-                } else {
-                    recyclerView.setVisibility(View.GONE);
-                    lblNoItem.setVisibility(View.VISIBLE);
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.GetGcardTransactions().observe(getViewLifecycleOwner(), ledgers -> {
+//            try{
+//                if(ledgers.size() > 0) {
+//                    Adapter_GCardLedger loAdapter = new Adapter_GCardLedger(ledgers);
+//                    LinearLayoutManager loManager = new LinearLayoutManager(requireActivity());
+//                    loManager.setOrientation(RecyclerView.VERTICAL);
+//                    recyclerView.setLayoutManager(loManager);
+//                    recyclerView.setAdapter(loAdapter);
+//                    recyclerView.setVisibility(View.VISIBLE);
+//                    lblNoItem.setVisibility(View.GONE);
+//                } else {
+//                    recyclerView.setVisibility(View.GONE);
+//                    lblNoItem.setVisibility(View.VISIBLE);
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
         return view;
     }
 

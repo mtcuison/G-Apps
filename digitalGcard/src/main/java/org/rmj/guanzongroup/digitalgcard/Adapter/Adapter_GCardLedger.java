@@ -8,18 +8,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.guanzongroup.digitalgcard.R;
 
 import java.util.List;
 
 public class Adapter_GCardLedger extends RecyclerView.Adapter<Adapter_GCardLedger.LedgerViewHolder> {
 
-    private final List<EGCardTransactionLedger> poList;
-
-    public Adapter_GCardLedger(List<EGCardTransactionLedger> poList) {
-        this.poList = poList;
-    }
+//    private final List<EGCardTransactionLedger> poList;
+//
+//    public Adapter_GCardLedger(List<EGCardTransactionLedger> poList) {
+//        this.poList = poList;
+//    }
 
     @NonNull
     @Override
@@ -30,17 +29,18 @@ public class Adapter_GCardLedger extends RecyclerView.Adapter<Adapter_GCardLedge
 
     @Override
     public void onBindViewHolder(@NonNull LedgerViewHolder holder, int position) {
-        EGCardTransactionLedger loLedger = poList.get(position);
-        holder.lblReferNox.setText(loLedger.getReferNox());
-        holder.lblTranType.setText(loLedger.getSourceDs());
-        holder.lblPointsxx.setText(String.valueOf(loLedger.getPointsxx()));
-        holder.lblDateTime.setText(loLedger.getTransact());
-        holder.lblDescript.setText(loLedger.getTranType());
+//        EGCardTransactionLedger loLedger = poList.get(position);
+//        holder.lblReferNox.setText(loLedger.getReferNox());
+//        holder.lblTranType.setText(loLedger.getSourceDs());
+//        holder.lblPointsxx.setText(String.valueOf(loLedger.getPointsxx()));
+//        holder.lblDateTime.setText(loLedger.getTransact());
+//        holder.lblDescript.setText(loLedger.getTranType());
     }
 
     @Override
     public int getItemCount() {
-        return poList.size();
+//        return poList.size();
+        return 0;
     }
 
     static class LedgerViewHolder extends RecyclerView.ViewHolder{

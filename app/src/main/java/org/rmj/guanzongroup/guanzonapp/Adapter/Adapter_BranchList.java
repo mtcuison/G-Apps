@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GConnect.room.Entities.EBranchInfo;
 import org.rmj.guanzongroup.guanzonapp.R;
 
 import java.util.ArrayList;

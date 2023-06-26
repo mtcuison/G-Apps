@@ -8,35 +8,35 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.guanzongroup.digitalgcard.R;
 
 import java.util.List;
 
 public class Adapter_GcardOrders extends RecyclerView.Adapter<Adapter_GcardOrders.OrderHolder> {
 
-    private final List<EGcardApp> poGcard;
-    private final OnGcardActivation poCallBck;
+//    private final List<EGcardApp> poGcard;
+//    private final OnGcardActivation poCallBck;
 
-    public Adapter_GcardOrders(List<EGcardApp> foGcard, OnGcardActivation foCallBck) {
-        this.poGcard = foGcard;
-        this.poCallBck = foCallBck;
-    }
+//    public Adapter_GcardOrders(List<EGcardApp> foGcard, OnGcardActivation foCallBck) {
+//        this.poGcard = foGcard;
+//        this.poCallBck = foCallBck;
+//    }
 
     @NonNull
     @Override
     public OrderHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter_gcard_orders, parent, false);
-        return new OrderHolder(view, poCallBck);
+//        View view = LayoutInflater.from(parent.getContext())
+//                .inflate(R.layout.adapter_gcard_orders, parent, false);
+//        return new OrderHolder(view, poCallBck);
+        return null;
     }
 
     @Override
     public void onBindViewHolder(@NonNull OrderHolder holder, int position) {
-        EGcardApp loGcard = poGcard.get(position);
-        holder.txtUserNm.setText(loGcard.getNmOnCard());
-        holder.txtCardNo.setText(loGcard.getCardNmbr());
-        holder.txtPoints.setText(loGcard.getTotPoint());
+//        EGcardApp loGcard = poGcard.get(position);
+//        holder.txtUserNm.setText(loGcard.getNmOnCard());
+//        holder.txtCardNo.setText(loGcard.getCardNmbr());
+//        holder.txtPoints.setText(loGcard.getTotPoint());
     }
 
     @Override

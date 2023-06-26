@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
-import org.rmj.g3appdriver.etc.CashFormatter;
 import org.rmj.guanzongroup.digitalgcard.Dialogs.BottomCartDialog;
 import org.rmj.guanzongroup.digitalgcard.R;
 
@@ -23,49 +21,51 @@ import java.util.List;
 
 public class Adapter_Redeemables extends RecyclerView.Adapter<Adapter_Redeemables.ViewHolderItem> {
 
-    private final List<ERedeemablesInfo> poRedeems;
-    private final OnItemClick poCallBck;
-    private final Context mContext;
-    public Adapter_Redeemables(Context context,List<ERedeemablesInfo> foProdcts, OnItemClick foCallBck){
-        this.poRedeems = foProdcts;
-        this.poCallBck = foCallBck;
-        this.mContext = context;
-    }
+//    private final List<ERedeemablesInfo> poRedeems;
+//    private final OnItemClick poCallBck;
+//    private final Context mContext;
+//    public Adapter_Redeemables(Context context,List<ERedeemablesInfo> foProdcts, OnItemClick foCallBck){
+//        this.poRedeems = foProdcts;
+//        this.poCallBck = foCallBck;
+//        this.mContext = context;
+//    }
 
     @NonNull
     @Override
     public ViewHolderItem onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View viewItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.redeemables_item, parent, false);
-        return new ViewHolderItem(viewItem, poCallBck);
+//        View viewItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.redeemables_item, parent, false);
+//        return new ViewHolderItem(viewItem, poCallBck);
+        return null;
     }
 
     @Override
     public void onBindViewHolder(ViewHolderItem holder, int position) {
-        try {
-            ERedeemablesInfo loProduct = poRedeems.get(position);
-            holder.sPromoCode = loProduct.getPromoCde();
-            holder.lblProdNm.setText(loProduct.getPromoDsc());
-            holder.lblPricex.setText(String.valueOf(loProduct.getPointsxx()));
-            holder.setImage(loProduct.getImageUrl());
-            holder.btnAddToCart.setOnClickListener(view -> {
-                BottomCartDialog bottomSheet = new BottomCartDialog();
-                bottomSheet.setCancelable(false);
-                bottomSheet.setItemTransNox(loProduct.getTransNox());
-                bottomSheet.setItemPromCode(loProduct.getPromoCde());
-                bottomSheet.setItemNamex(loProduct.getPromoDsc());
-                bottomSheet.setItemPntsx(loProduct.getPointsxx());
-                bottomSheet.show(((AppCompatActivity)mContext).getSupportFragmentManager(), "Redeemable Bottom Sheet");
-
-            });
-//            holder.lblSoldxx.setText(loProduct.getSoldQtyx() + " Sold");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ERedeemablesInfo loProduct = poRedeems.get(position);
+//            holder.sPromoCode = loProduct.getPromoCde();
+//            holder.lblProdNm.setText(loProduct.getPromoDsc());
+//            holder.lblPricex.setText(String.valueOf(loProduct.getPointsxx()));
+//            holder.setImage(loProduct.getImageUrl());
+//            holder.btnAddToCart.setOnClickListener(view -> {
+//                BottomCartDialog bottomSheet = new BottomCartDialog();
+//                bottomSheet.setCancelable(false);
+//                bottomSheet.setItemTransNox(loProduct.getTransNox());
+//                bottomSheet.setItemPromCode(loProduct.getPromoCde());
+//                bottomSheet.setItemNamex(loProduct.getPromoDsc());
+//                bottomSheet.setItemPntsx(loProduct.getPointsxx());
+//                bottomSheet.show(((AppCompatActivity)mContext).getSupportFragmentManager(), "Redeemable Bottom Sheet");
+//
+//            });
+////            holder.lblSoldxx.setText(loProduct.getSoldQtyx() + " Sold");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
     public int getItemCount() {
-        return poRedeems.size();
+//        return poRedeems.size();
+        return 0;
     }
 
     public static class ViewHolderItem extends RecyclerView.ViewHolder{

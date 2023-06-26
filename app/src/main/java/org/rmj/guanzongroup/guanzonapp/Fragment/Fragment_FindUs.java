@@ -8,7 +8,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,14 +20,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GConnect.room.Entities.EBranchInfo;
 import org.rmj.guanzongroup.guanzonapp.Adapter.Adapter_BranchList;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMBranchDetails;
@@ -61,17 +58,17 @@ public class Fragment_FindUs extends Fragment {
         View view = inflater.inflate(R.layout.fragment_find_us, container, false);
         initViews(view);
         mViewModel.DownloadBranches();
-        mViewModel.getMotorBranches().observe(getViewLifecycleOwner(), motorBranches -> {
-            try {
-                poMcBranch = motorBranches;
-                poAdapter = new Adapter_BranchList(motorBranches, mListener);
-                recyclerView.setAdapter(poAdapter);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        mViewModel.getMobileBranches().observe(getViewLifecycleOwner(), mobileBranches -> poMpBranch = mobileBranches);
+//        mViewModel.getMotorBranches().observe(getViewLifecycleOwner(), motorBranches -> {
+//            try {
+//                poMcBranch = motorBranches;
+//                poAdapter = new Adapter_BranchList(motorBranches, mListener);
+//                recyclerView.setAdapter(poAdapter);
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
+//
+//        mViewModel.getMobileBranches().observe(getViewLifecycleOwner(), mobileBranches -> poMpBranch = mobileBranches);
 
         txtSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -96,30 +93,30 @@ public class Fragment_FindUs extends Fragment {
         });
         setTabLayout();
 
-        mViewModel.GetTownList().observe(getViewLifecycleOwner(), towns -> {
-            try{
-                ArrayList<String> loList = new ArrayList<>();
-                for(int x = 0; x < towns.size(); x++){
-                    String lsTownNm = towns.get(x).sTownNm;
-                    String lsProvNm = towns.get(x).sProvNm;
-                    loList.add(lsTownNm + ", " + lsProvNm);
-                }
-                txtFilter.setAdapter(new ArrayAdapter<>(requireActivity(),
-                        android.R.layout.simple_list_item_1,
-                        loList.toArray(new String[0])));
-
-                txtFilter.setOnClickListener(v -> {
-                    String lsInput = txtFilter.getText().toString();
-                    for(int x = 0; x < towns.size(); x++){
-                        if(loList.get(x).equalsIgnoreCase(lsInput)){
-
-                        }
-                    }
-                });
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.GetTownList().observe(getViewLifecycleOwner(), towns -> {
+//            try{
+//                ArrayList<String> loList = new ArrayList<>();
+//                for(int x = 0; x < towns.size(); x++){
+//                    String lsTownNm = towns.get(x).sTownNm;
+//                    String lsProvNm = towns.get(x).sProvNm;
+//                    loList.add(lsTownNm + ", " + lsProvNm);
+//                }
+//                txtFilter.setAdapter(new ArrayAdapter<>(requireActivity(),
+//                        android.R.layout.simple_list_item_1,
+//                        loList.toArray(new String[0])));
+//
+//                txtFilter.setOnClickListener(v -> {
+//                    String lsInput = txtFilter.getText().toString();
+//                    for(int x = 0; x < towns.size(); x++){
+//                        if(loList.get(x).equalsIgnoreCase(lsInput)){
+//
+//                        }
+//                    }
+//                });
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
         btnFilter.setOnClickListener(new View.OnClickListener() {
             @Override

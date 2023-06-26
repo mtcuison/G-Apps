@@ -12,13 +12,15 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/appdriver" />
+            <option value="$PROJECT_DIR$/appDriver" />
+            <option value="$PROJECT_DIR$/authLibrary" />
             <option value="$PROJECT_DIR$/creditApp" />
             <option value="$PROJECT_DIR$/digitalGcard" />
             <option value="$PROJECT_DIR$/documentScanner" />
-            <option value="$PROJECT_DIR$/guanzonPanalo" />
+            <option value="$PROJECT_DIR$/ganado" />
             <option value="$PROJECT_DIR$/marketplace" />
             <option value="$PROJECT_DIR$/notifications" />
+            <option value="$PROJECT_DIR$/panalo" />
             <option value="$PROJECT_DIR$/useraccount" />
           </set>
         </option>

@@ -18,9 +18,6 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
-import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_UserInfo;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_AddGcard;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_ManageGcard;
 import org.rmj.guanzongroup.digitalgcard.R;
@@ -43,7 +40,7 @@ public class Fragment_MyGcard extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
         view = inflater.inflate(R.layout.fragment_my_gcard, container, false);
         initViews();
-        mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
+//        mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
         initMyGcard();
 
         return view;
@@ -73,7 +70,7 @@ public class Fragment_MyGcard extends Fragment {
                 } else {
                     vAddGcard.setVisibility(View.GONE);
                     vMyGcardx.setVisibility(View.VISIBLE);
-                    displayGcardInfo(eGcardApp);
+//                    displayGcardInfo(eGcardApp);
                     txtManage.setOnClickListener(v -> {
                         Intent loIntent = new Intent(requireActivity(), Activity_ManageGcard.class);
                         startActivity(loIntent);
@@ -82,9 +79,9 @@ public class Fragment_MyGcard extends Fragment {
                     view.findViewById(R.id.cvGcard).setOnClickListener(v -> {
                         mViewModel.ViewGCardQrCode(bitmap -> {
                             try{
-                                final Dialog_UserInfo loDialog = new Dialog_UserInfo(requireActivity());
-                                loDialog.initDialog(eGcardApp, bitmap);
-                                loDialog.show();
+//                                final Dialog_UserInfo loDialog = new Dialog_UserInfo(requireActivity());
+//                                loDialog.initDialog(eGcardApp, bitmap);
+//                                loDialog.show();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -96,11 +93,11 @@ public class Fragment_MyGcard extends Fragment {
             }
         });
     }
-
-    private void displayGcardInfo(EGcardApp foGcardxx) {
-        txtUserNm.setText(Objects.requireNonNull(foGcardxx.getNmOnCard()));
-        txtCardNo.setText(Objects.requireNonNull(foGcardxx.getCardNmbr()));
-        txtPoints.setText(Objects.requireNonNull(foGcardxx.getAvlPoint()));
-    }
+//
+//    private void displayGcardInfo(EGcardApp foGcardxx) {
+//        txtUserNm.setText(Objects.requireNonNull(foGcardxx.getNmOnCard()));
+//        txtCardNo.setText(Objects.requireNonNull(foGcardxx.getCardNmbr()));
+//        txtPoints.setText(Objects.requireNonNull(foGcardxx.getAvlPoint()));
+//    }
 
 }
