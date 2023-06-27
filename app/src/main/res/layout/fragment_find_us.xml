@@ -38,16 +38,12 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:tabGravity="fill"
-            app:tabIconTint="@color/tab_select_indicator_dashboard"
-            app:tabIndicator="@color/guanzon_digital_orange"
             app:tabIndicatorAnimationDuration="1"
-            app:tabIndicatorColor="@color/guanzon_digital_orange"
             app:tabIndicatorGravity="bottom"
             app:tabIndicatorHeight="3dp"
             app:tabMaxWidth="0dp"
             app:tabMode="fixed"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-            app:tabTextColor="@color/black" />
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"/>
 
         <LinearLayout
             android:id="@+id/linear_search"
@@ -77,16 +73,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFilter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                 android:layout_margin="5dp"
                 android:layout_weight=".3"
                 android:adjustViewBounds="true"
-                android:background="@color/white"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_filter_list" />
+                app:icon="@drawable/ic_filter_list"/>
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -96,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <AutoCompleteTextView
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/tieTownProvince"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

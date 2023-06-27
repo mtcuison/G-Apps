@@ -134,12 +134,15 @@ dependencies {
     //data loading manager for splashscreen
     implementation "androidx.startup:startup-runtime:1.1.1"
 
-    implementation project(':digitalGcard')
-    implementation project(':marketplace')
-    implementation project(':appDriver')
-    implementation project(':useraccount')
-//    implementation project(':notifications')
-//    implementation project(':guanzonPanalo')
+    implementation project(path: ':digitalGcard')
+    implementation project(path: ':marketplace')
+    implementation project(path: ':appDriver')
+    implementation project(path: ':useraccount')
+    implementation project(path: ':notifications')
+    implementation project(path: ':promotions')
+    implementation project(path: ':panalo')
+    implementation project(path: ':authLibrary')
+    implementation project(path: ':ganado')
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
 

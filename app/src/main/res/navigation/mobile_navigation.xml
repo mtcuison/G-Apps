@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/nav_promos"
-        android:name="org.rmj.guanzongroup.notifications.Fragment.Fragment_EventsPromos"
+        android:name="org.rmj.guanzongroup.promotions.Fragment.Fragment_Promotions"
         android:label="@string/lblPromos"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_promotions">
 
         <argument android:name="gcardInstance"
             app:argType="integer"
@@ -23,17 +23,17 @@
 
     </fragment>
 
-    <fragment
-        android:id="@+id/nav_events"
-        android:name="org.rmj.guanzongroup.notifications.Fragment.Fragment_EventsPromos"
-        android:label="@string/lblEvents"
-        tools:layout="@layout/fragment_home">
+<!--    <fragment-->
+<!--        android:id="@+id/nav_events"-->
+<!--        android:name="org.rmj.guanzongroup.notifications.Fragment.Fragment_EventsPromos"-->
+<!--        android:label="@string/lblEvents"-->
+<!--        tools:layout="@layout/fragment_home">-->
 
-        <argument android:name="gcardInstance"
-            app:argType="integer"
-            android:defaultValue="2"/>
+<!--        <argument android:name="gcardInstance"-->
+<!--            app:argType="integer"-->
+<!--            android:defaultValue="2"/>-->
 
-    </fragment>
+<!--    </fragment>-->
 
     <fragment
         android:id="@+id/nav_purchases"

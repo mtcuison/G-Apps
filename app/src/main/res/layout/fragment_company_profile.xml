@@ -70,7 +70,7 @@
                 android:layout_marginBottom="18dp"
                 android:typeface="serif" />
 
-            <View
+            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@color/guanzon_digital_light_orange"

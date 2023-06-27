@@ -19,7 +19,7 @@
             android:background="@color/guanzon_digital_dark_grey"
             android:padding="17dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
@@ -29,7 +29,7 @@
                 android:layout_marginBottom="20dp"
                 android:text="@string/Company_Profile"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -39,7 +39,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/CP_Paragraph_1"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -58,7 +58,7 @@
             android:orientation="vertical"
             android:padding="17dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
@@ -76,7 +76,7 @@
                 android:background="@color/guanzon_digital_light_orange"
                 android:layout_marginBottom="25dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -86,7 +86,7 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -96,7 +96,7 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -106,7 +106,7 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -116,7 +116,7 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -126,7 +126,7 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
@@ -136,7 +136,7 @@
                 android:textColor="@color/font_regular"
                 android:textSize="16sp" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -146,7 +146,7 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
@@ -156,7 +156,7 @@
                 android:textColor="@color/font_regular"
                 android:textSize="16sp" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -166,7 +166,7 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
@@ -176,7 +176,7 @@
                 android:textColor="@color/font_regular"
                 android:textSize="16sp" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -186,7 +186,7 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -196,7 +196,7 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -206,7 +206,7 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -216,7 +216,7 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -226,7 +226,7 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -236,7 +236,7 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
@@ -246,7 +246,7 @@
                 android:textColor="@color/font_regular"
                 android:textSize="16sp" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -267,7 +267,7 @@
             android:background="@color/guanzon_digital_dark_grey">
 
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -277,7 +277,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/Our_Milestones"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -287,7 +287,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph1"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -297,7 +297,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph2"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -307,7 +307,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph3"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -317,7 +317,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph4"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -327,7 +327,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph5"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -337,7 +337,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph6"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -347,7 +347,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph7"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -357,7 +357,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph8"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -367,7 +367,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph9"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -377,7 +377,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph10"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -387,7 +387,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph11"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -397,7 +397,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph12"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -407,7 +407,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph13"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -417,7 +417,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph14"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -427,7 +427,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph15"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -437,7 +437,7 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/OM_Paragraph16"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -449,7 +449,7 @@
                 android:text="@string/OM_Paragraph17"/>
 
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Guanzon Group of Companies"
@@ -459,7 +459,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="All Rights Reserved"
@@ -469,25 +469,23 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lnkTermsC"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="15dp"
                     android:text="Terms and Conditions"
-                    android:textColor="@color/link_log_color"
                     android:textSize="14sp"
                     android:fontFamily="@font/roboto"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lnkPrivcy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:text="Privacy Policy"
-                    android:textColor="@color/link_log_color"
                     android:textSize="14sp"
                     android:fontFamily="@font/roboto"/>
 

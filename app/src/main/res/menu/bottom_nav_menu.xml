@@ -16,8 +16,8 @@
     <item
         android:id="@+id/nav_Panalo"
         android:enabled="true"
-        android:title="@string/panalo"
-        android:icon="@drawable/ic_baseline_card_giftcard_24" />
+        android:title="@string/menu_panalo"
+        android:icon="@drawable/ic_baseline_panalo" />
 
     <item
         android:id="@+id/nav_MpItemCart"
@@ -28,7 +28,7 @@
     <item
         android:id="@+id/nav_MyGcard"
         android:enabled="true"
-        android:title="@string/my_gcard"
-        android:icon="@drawable/ic_baseline_credit_card_24" />
+        android:title="@string/menu_my_gcard"
+        android:icon="@drawable/ic_settings_card_24" />
 
 </menu>

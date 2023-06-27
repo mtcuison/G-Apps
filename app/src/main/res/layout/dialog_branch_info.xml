@@ -17,7 +17,7 @@
         android:layout_margin="15dp"
         android:paddingTop="8dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_branchName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             android:textSize="20sp"
             android:fontFamily="@font/roboto_bold"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_branchAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
