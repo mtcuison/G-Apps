@@ -4,20 +4,18 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="10dp"
     app:cardUseCompatPadding="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:foreground="?android:attr/selectableItemBackground">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/img_product"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:background="@color/font_light"
             android:src="@drawable/sample_image"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@id/layout_details"
@@ -38,14 +36,12 @@
             android:paddingRight="5dp"
             android:layout_margin="0dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Product Name"
-                android:textColor="@color/font_regular"
-                android:textSize="12sp"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:lines="2"
@@ -56,14 +52,13 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_product_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="P100.00"
-                android:textColor="@color/guanzon_digital_light_orange"
-                android:textSize="14sp"
+                android:textColor="?attr/colorPrimary"
                 android:layout_margin="0dp"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"

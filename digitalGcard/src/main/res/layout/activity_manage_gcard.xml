@@ -9,36 +9,43 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_transaction"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/AppToolbar"/>
+            android:theme="@style/GhostRiderMaterialTheme.PopupOverlay"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:theme="@style/FragmentTheme">
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="15dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lblActiveGcard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/lblActiveGcard"
-            android:textColor="@color/font_regular"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_active_gCard"
-            android:backgroundTint="@color/guanzon_digital_orange"
-            style="@style/GcardInfoStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="?attr/colorPrimary"
+            app:layout_constraintHeight_percent=".25"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lblActiveGcard"
             app:layout_constraintRight_toRightOf="parent">
@@ -49,41 +56,37 @@
                 android:padding="15dp"
                 android:layout_margin="0dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_gcard_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAllCaps="true"
-                    android:layout_margin="0dp"
-                    style="@style/GcardTextInfoStyle.Active.Bold"
+                    android:fontFamily="@font/roboto"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_card_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="0dp"
-                    style="@style/GcardTextInfoStyle.Active"
+                    android:fontFamily="@font/roboto"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lbl_gcard_user"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_lbl_points"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Points Earned: "
-                    android:layout_margin="0dp"
-                    style="@style/GcardTextInfoStyle.Active"
+                    android:fontFamily="@font/roboto"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_gcard_points"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="0dp"
-                    style="@style/GcardTextInfoStyle.Active"
+                    android:fontFamily="@font/roboto"
                     app:layout_constraintLeft_toRightOf="@id/txt_lbl_points"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -96,28 +99,25 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider"
             android:layout_width="0dp"
             android:layout_height="0.4dp"
-            android:background="@color/font_light"
+            android:background="?attr/colorOnBackground"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card_active_gCard"
-            app:layout_constraintRight_toRightOf="parent"
-            android:visibility="gone"/>
+            app:layout_constraintRight_toRightOf="parent"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lblOtherGcard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/lblOtherGcard"
-            android:textColor="@color/font_regular"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider"/>
@@ -138,8 +138,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:text="@string/lblAddGcard"
-            app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/ButtonStyle.Grey.Small"/>
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

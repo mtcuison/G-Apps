@@ -5,15 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.Fragment_MyGcard"
-    android:theme="@style/GuanzonMarketplace.Theme"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_add_gcard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:theme="@style/FragmentTheme"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -25,18 +24,16 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
                 android:fontFamily="@font/roboto"
                 android:text="@string/lblNoGcardAvailable"
-                android:textColor="@color/font_light"
                 android:textSize="16sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddGcard"
-                style="@style/ButtonStyle.Orange.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
@@ -64,30 +61,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="17dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/lblActiveGcard"
-                    android:textColor="@color/font_regular"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lblManageGcard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/lblManageGcard"
-                    android:textColor="@color/link_text_color"
                     android:textSize="16sp"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -95,9 +90,9 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lblManageGcard">
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_gCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -125,7 +120,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_gcard_user"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -133,12 +128,11 @@
                             android:fontFamily="@font/roboto_medium"
                             android:text="Doe, John"
                             android:textAllCaps="true"
-                            android:textColor="@color/black"
                             android:textSize="14sp"
                             app:layout_constraintBottom_toTopOf="@+id/lbl_card_number"
                             app:layout_constraintStart_toStartOf="parent" />
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_card_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -146,29 +140,26 @@
                             android:layout_marginBottom="40dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="00118-000229-02"
-                            android:textColor="@color/black"
                             android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_gcard_points"
-                            style="@style/GcardTextInfoStyle.Active"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Points: 100.00"
-                            android:textColor="@color/white"
                             android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_services"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
@@ -180,9 +171,9 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/card_gCard">
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_mcName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -190,13 +181,11 @@
                     android:drawablePadding="10dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/mock_mc_name"
-                    android:textColor="@color/font_regular"
-                    android:textSize="15sp"
                     app:drawableStartCompat="@drawable/ic_baseline_two_wheeler_24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/card_services" />
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iconHistory"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
@@ -205,7 +194,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/card_services" />
 
-                <View
+                <com.google.android.material.divider.MaterialDivider
                     android:id="@+id/divider"
                     android:layout_width="0dp"
                     android:layout_height="0.4dp"
@@ -214,7 +203,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lbl_mcName" />
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_schedule"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -230,20 +219,19 @@
                         android:layout_height="match_parent"
                         android:padding="17dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/descServiceDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
                             android:text="@string/descServiceDate"
-                            android:textColor="@color/font_regular"
                             app:layout_constraintBaseline_toTopOf="@id/lblServiceDate"
                             app:layout_constraintHorizontal_bias="0"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lblServiceDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -251,8 +239,7 @@
                             android:paddingTop="6dp"
                             android:paddingBottom="3dp"
                             android:text="@string/mock_date"
-                            android:textColor="@color/font_regular"
-                            android:textSize="19sp"
+                            android:textSize="18sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintHorizontal_bias="0"
                             app:layout_constraintLeft_toLeftOf="parent"
@@ -261,10 +248,9 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.button.MaterialButton
-                    style="@style/ButtonStyle.Grey.Small"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

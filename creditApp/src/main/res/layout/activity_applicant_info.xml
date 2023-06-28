@@ -40,7 +40,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Applicant Info"
-                style="@style/TextInputLabel" />
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginTop="10dp"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
@@ -48,8 +50,7 @@
                 android:text="Last Name"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/font_heavy" />
+                android:fontFamily="@font/roboto_medium" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilLastName"
@@ -75,8 +76,7 @@
                 android:text="First Name"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/font_heavy" />
+                android:fontFamily="@font/roboto_medium" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilFrstName"
@@ -102,8 +102,7 @@
                 android:text="Middle Name"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/font_heavy" />
+                android:fontFamily="@font/roboto_medium" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilMiddName"
@@ -129,8 +128,7 @@
                 android:text="Suffix"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/font_heavy" />
+                android:fontFamily="@font/roboto_medium" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilSuffix"
@@ -156,8 +154,7 @@
                 android:text="Gender"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/font_heavy" />
+                android:fontFamily="@font/roboto_medium" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilGender"
@@ -181,8 +178,7 @@
                 android:text="Civil Status"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/font_heavy" />
+                android:fontFamily="@font/roboto_medium" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilCvilStat"
@@ -206,8 +202,7 @@
                 android:text="Facebook"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/font_heavy" />
+                android:fontFamily="@font/roboto_medium"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilFacebook"
@@ -231,7 +226,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Residenc Info"
-                style="@style/TextInputLabel" />
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginTop="10dp" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
@@ -239,8 +236,7 @@
                 android:text="House No."
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/font_heavy" />
+                android:fontFamily="@font/roboto_medium" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilHouseNo"
@@ -266,8 +262,7 @@
                 android:text="Lot No."
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/font_heavy" />
+                android:fontFamily="@font/roboto_medium" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilLotNo"
@@ -293,8 +288,7 @@
                 android:text="Street"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/font_heavy" />
+                android:fontFamily="@font/roboto_medium" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilStreet"
@@ -320,8 +314,7 @@
                 android:text="Town"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/font_heavy" />
+                android:fontFamily="@font/roboto_medium" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilTown"
@@ -348,8 +341,7 @@
                 android:text="Barangay"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/font_heavy" />
+                android:fontFamily="@font/roboto_medium" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilBrgy"
@@ -375,7 +367,6 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Please double check all your personal details before proceeding."
-                android:textColor="@color/font_regular"
                 android:layout_marginTop="10dp"
                 android:gravity="center"/>
 
@@ -385,7 +376,6 @@
                 android:layout_height="wrap_content"
                 android:text="Continue"
                 android:layout_marginTop="50dp"
-                style="@style/ButtonStyle.Orange.Medium"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_barangay"
                 app:layout_constraintRight_toRightOf="parent"

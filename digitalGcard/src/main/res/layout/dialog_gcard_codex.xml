@@ -1,58 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="10dp"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="3dp"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_dialog_gcard_codex_QRCode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/img_applink"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_dialog_gcardCodex"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
             android:gravity="center"
-            android:layout_marginBottom="5dp">
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="20dp"
+            android:textColor="@color/guanzon_digital_dark_grey"
+            app:layout_constraintEnd_toEndOf="@+id/img_dialog_gcard_codex_QRCode"
+            app:layout_constraintStart_toStartOf="@+id/img_dialog_gcard_codex_QRCode"
+            app:layout_constraintTop_toBottomOf="@+id/img_dialog_gcard_codex_QRCode" />
 
-            <ImageView
-                android:id="@+id/img_dialog_gcard_codex_QRCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/img_applink"
-                android:adjustViewBounds="true"
-                android:layout_margin="10dp"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_dialog_gcard_codex_close"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_dialog_gcardCodex"
+            app:layout_constraintWidth_percent=".8" />
 
-            <TextView
-                android:id="@+id/lbl_dialog_gcardCodex"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="20dp"
-                android:textColor="@color/guanzon_digital_dark_grey"
-                android:gravity="center"
-                android:fontFamily="@font/roboto_regular"
-                android:paddingBottom="20dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_dialog_gcard_codex_close"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/ButtonStyle.Orange.Medium"
-                    android:text="Close"/>
-
-            </LinearLayout>
-            
-        </LinearLayout>
-
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

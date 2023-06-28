@@ -6,7 +6,7 @@
     tools:context=".Fragment.Fragment_GcardLedger"
     android:orientation="vertical">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_no_ledger"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

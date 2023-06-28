@@ -31,7 +31,7 @@ public class Adapter_Advertisement extends RecyclerView.Adapter<Adapter_Advertis
         @Override
         public AdViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.adapter_advertisement, parent, false);
+                        .inflate(R.layout.list_item_advertisement, parent, false);
                 return new AdViewHolder(view, poCallBck);
         }
 

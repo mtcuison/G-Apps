@@ -9,13 +9,15 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_item_cart"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/AppToolbar"/>
+            android:theme="@style/GhostRiderMaterialTheme.PopupOverlay"/>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.tabs.TabLayout
@@ -23,17 +25,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabIndicatorHeight="4dp"
-        style="@style/Widget.MaterialComponents.TabLayout"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        app:tabIconTint="@color/tab_select_indicator_dashboard"
-        app:tabIndicatorColor="@color/guanzon_digital_orange"
-        app:tabIndicator="@color/guanzon_digital_orange"
+        app:tabIndicator="?attr/colorPrimary"
         app:tabIndicatorAnimationDuration="1"
         app:tabIndicatorGravity="bottom"
         app:tabIndicatorFullWidth="true"
-        app:tabTextColor="@color/tab_select_indicator_dashboard"
-        android:backgroundTint="@color/guanzon_digital_dark_grey"
         android:elevation="5dp"/>
 
     <androidx.viewpager.widget.ViewPager

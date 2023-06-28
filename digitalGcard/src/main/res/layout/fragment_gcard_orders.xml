@@ -7,7 +7,7 @@
     tools:context=".Fragment.Fragment_GcardOrders"
     android:orientation="vertical">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_no_orders"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,8 +21,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_gcard_orders"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:theme="@style/FragmentTheme">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

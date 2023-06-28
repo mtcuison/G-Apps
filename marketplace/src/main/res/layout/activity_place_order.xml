@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:theme="@style/GuanzonMarketplace.Theme"
+    android:theme="@style/GhostRiderMaterialTheme"
     tools:context=".Activity.Activity_PlaceOrder">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent">
@@ -19,7 +20,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/AppToolbar"/>
+            android:theme="@style/GhostRiderMaterialTheme.PopupOverlay"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -39,38 +40,32 @@
                 android:id="@+id/layout_bill_address"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:padding="17dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lblAddress"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/lblBillingAdd"
-                    android:textColor="@color/font_regular"
-                    android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_chg_bill_address"
                     android:fontFamily="@font/roboto"
                     android:text="@string/lblChange"
-                    android:textColor="@color/link_text_color"
-                    android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_bill_address"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/font_light"
                     android:textSize="14sp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -88,38 +83,32 @@
                 android:id="@+id/layout_ship_address"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:padding="17dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_bill_address"
                 app:layout_constraintRight_toRightOf="parent">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lblBillAddress"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/lblShippingAddress"
-                    android:textColor="@color/font_regular"
-                    android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_chg_ship_address"
                     android:fontFamily="@font/roboto"
                     android:text="@string/lblChange"
-                    android:textColor="@color/link_text_color"
-                    android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_ship_address"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/font_light"
                     android:textSize="14sp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -131,10 +120,9 @@
                     app:layout_constraintTop_toBottomOf="@id/lbl_chg_ship_address"
                     app:layout_constraintLeft_toLeftOf="parent"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_mobile_no"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@color/font_light"
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -144,7 +132,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
+            <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider1"
                 android:layout_width="match_parent"
                 android:layout_height="0.4dp"
@@ -157,40 +145,34 @@
                 android:id="@+id/layout_payment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:padding="17dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider1"
                 app:layout_constraintRight_toRightOf="parent"
                 android:visibility="gone">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lblPayment"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/lblPaymentMethod"
-                    android:textColor="@color/font_regular"
-                    android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_chg_payment"
                     android:fontFamily="@font/roboto"
                     android:text="@string/lblChange"
-                    android:textColor="@color/link_text_color"
-                    android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/txt_account_type"
                     android:fontFamily="@font/roboto"
                     android:text="Cash on Delivery"
-                    android:textColor="@color/font_light"
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -203,12 +185,11 @@
 
 
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lblProducts"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/lblItemOrders"
                 android:textColor="@color/font_regular"
-                android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="17dp"
@@ -246,23 +227,19 @@
                     app:layout_constraintRight_toRightOf="parent"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="Sub-total:"
-                        android:textColor="@color/font_light"
-                        android:textSize="16sp"/>
+                        android:text="Sub-total:" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_sub_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:text="₱0.00"
-                        android:textColor="@color/font_light"
-                        android:textSize="16sp"
                         android:layout_gravity="right"/>
 
                 </LinearLayout>
@@ -277,23 +254,19 @@
                     app:layout_constraintRight_toRightOf="parent"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="Shipping Fee "
-                        android:textColor="@color/font_light"
-                        android:textSize="16sp"/>
+                        android:text="Shipping Fee " />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_shipping_fee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:text="₱0.00"
-                        android:textColor="@color/font_light"
-                        android:textSize="16sp"
                         android:layout_gravity="right"/>
 
                 </LinearLayout>
@@ -308,28 +281,24 @@
                     app:layout_constraintRight_toRightOf="parent"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="Other Fees: "
-                        android:textColor="@color/font_light"
-                        android:textSize="16sp"/>
+                        android:text="Other Fees: " />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_other_fee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:text="₱0.00"
-                        android:textColor="@color/font_light"
-                        android:textSize="16sp"
                         android:layout_gravity="right"/>
 
                 </LinearLayout>
 
-                <View
+                <com.google.android.material.divider.MaterialDivider
                     android:id="@+id/dividerx"
                     android:layout_width="match_parent"
                     android:layout_height="0.4dp"
@@ -349,23 +318,19 @@
                     app:layout_constraintRight_toRightOf="parent"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:text="Total: "
-                        android:textColor="@color/font_light"
-                        android:textSize="16sp"/>
+                        android:text="Total: " />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/txt_total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:text="₱0.00"
-                        android:textColor="@color/font_light"
-                        android:textSize="16sp"
                         android:layout_gravity="right"/>
 
                 </LinearLayout>
@@ -378,7 +343,7 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/btnText_place_order"
         android:layout_width="0dp"
         android:layout_height="70dp"
