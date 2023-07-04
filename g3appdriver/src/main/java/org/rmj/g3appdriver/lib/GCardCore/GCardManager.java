@@ -490,11 +490,11 @@ public class GCardManager implements iGCardSystem{
             if (lsResult.equalsIgnoreCase("success")) {
                 callback.OnSuccess(loResponse.toString());
             } else {
-            }
                 JSONObject loError = loResponse.getJSONObject("error");
                 String lsMessage = loError.getString("message");
                 callback.OnFailed(lsMessage);
             }
+        }
     }
 
 

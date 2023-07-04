@@ -109,11 +109,9 @@ public class CodeGenerator {
     }
 
     public static Bitmap CreateRaffleEntryQrCode(String Transact, String ReferNo, String UserID, String DateTime) throws Exception{
-        String lsEncrypt = Transact + "»" + ReferNo + "»" + UserID + "»" + DateTime;
-        Log.d("Code Generator", "For encryption: " + lsEncrypt);
+        String lsEncrypt = Transact + ";" + ReferNo + ";" + UserID + ";" + DateTime;
         BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
         String lsEncryptd = MySQLAESCrypt.Encrypt(lsEncrypt, EncryptionKEY);
-        Log.d("Code Generator", "Encrypted for Qr-Code: " + lsEncryptd);
         BitMatrix bitMatrix = new MultiFormatWriter().encode(lsEncryptd, BarcodeFormat.QR_CODE, 700, 700);
         return barcodeEncoder.createBitmap(bitMatrix);
 

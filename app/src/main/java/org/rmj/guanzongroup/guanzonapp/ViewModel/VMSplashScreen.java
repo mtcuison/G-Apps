@@ -63,6 +63,7 @@ public class VMSplashScreen extends AndroidViewModel {
         loConfig.setProductID("GuanzonApp");
         loConfig.setClientID(AppConstants.APP_CLIENT);
         loConfig.setIfPermissionsGranted(hasPermissions(mContext, laPermissions));
+        loConfig.setTestCase(true);
         poLoadStat.setValue(new oLoadStat(
                 loConfig.IsPermissionsGranted(),
                 new AccountInfo(mContext).getLoginStatus()));
