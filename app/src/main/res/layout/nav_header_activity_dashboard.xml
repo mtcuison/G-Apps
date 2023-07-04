@@ -45,43 +45,15 @@
         android:id="@+id/lbl_UserFullName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
-        android:text="@string/mock_fullname"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toRightOf="@id/cardview"
-        app:layout_constraintTop_toTopOf="@id/cardview"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/ln_gcard_info"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintVertical_bias="0.8"
-        android:layout_marginLeft="15dp"/>
-
-    <LinearLayout
-        android:id="@+id/ln_gcard_info"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@id/cardview"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/cardview"
-        app:layout_constraintHorizontal_bias="0"
         android:layout_marginLeft="15dp"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lblGcardNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
-            android:textSize="14sp"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lblGcardPts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"/>
-
-    </LinearLayout>
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cardview"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toRightOf="@id/cardview"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cardview"
+        app:layout_constraintVertical_bias="0.5" />
 
     <LinearLayout
         android:id="@+id/ln_authenticate"
@@ -104,7 +76,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="1.7dp"
             android:layout_height="12dp"
-            android:background="@color/white"
+            android:background="?attr/colorSurface"
             android:layout_marginHorizontal="8dp"
             android:layout_gravity="center"/>
 

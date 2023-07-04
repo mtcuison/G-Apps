@@ -1,28 +1,17 @@
 package org.rmj.guanzongroup.marketplace.ViewModel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GConnect.Account.ClientMaster;
 import org.rmj.g3appdriver.GConnect.GCard.DigitalGcard.GCard;
 import org.rmj.g3appdriver.GConnect.Marketplace.Cart.MpCart;
 import org.rmj.g3appdriver.GConnect.Marketplace.Order.MpOrder;
 import org.rmj.g3appdriver.GConnect.Marketplace.Product.MpProducts;
-import org.rmj.g3appdriver.GConnect.room.Entities.EClientInfo;
-import org.rmj.g3appdriver.GConnect.room.Entities.EGcardApp;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
-import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
-import org.rmj.g3appdriver.utils.Task.TaskExecutor;
-
-import java.util.List;
 
 public class VMHome extends AndroidViewModel {
     private static final String TAG =VMHome.class.getSimpleName();
@@ -79,10 +68,11 @@ public class VMHome extends AndroidViewModel {
         this.poConn = new ConnectionUtil(application);
         this.poGcard = new GCard(application);
         this.poCart = new MpCart(application);
+    }
 //        this.poNotif = new RNotificationInfo(application);
 //        this.poSystem = new GCardSystem(application).getInstance(GCardSystem.CoreFunctions.GCARD);
 //        new GuanzonAppConfig(application).setFirstLaunch(false);
-    }
+
 //
 //    public LiveData<EClientInfo> getClientInfo() {
 //        return poClient.GetClientDetail();

@@ -73,25 +73,25 @@ public class VMSplashScreen extends AndroidViewModel {
             @Override
             public Object DoInBackground() {
                 try{
-                    new Town(instance).ImportTown();
-                    loLoadApp.publishProgress(1);
-                    pause();
+//                    new Town(instance).ImportTown();
+//                    loLoadApp.publishProgress(1);
+//                    pause();
 
-                    new Province(instance).ImportProvince();
-                    loLoadApp.publishProgress(2);
-                    pause();
+//                    new Province(instance).ImportProvince();
+//                    loLoadApp.publishProgress(2);
+//                    pause();
 
-                    new Country(instance).ImportCountry();
-                    loLoadApp.publishProgress(3);
-                    pause();
+//                    new Country(instance).ImportCountry();
+//                    loLoadApp.publishProgress(3);
+//                    pause();
 
-                    new Barangay(instance).ImportBarangay();
-                    loLoadApp.publishProgress(4);
-                    pause();
+//                    new Barangay(instance).ImportBarangay();
+//                    loLoadApp.publishProgress(4);
+//                    pause();
 
-                    new Branch(instance).ImportBranches();
-                    loLoadApp.publishProgress(5);
-                    pause();
+//                    new Branch(instance).ImportBranches();
+//                    loLoadApp.publishProgress(5);
+//                    pause();
 
                     new MpProducts(instance).ImportMPProducts();
                     loLoadApp.publishProgress(6);
@@ -146,6 +146,7 @@ public class VMSplashScreen extends AndroidViewModel {
                 callback.OnFinished("Initialization Completed");
             }
         });
+        loLoadApp.Execute();
     }
 
     private void pause() {

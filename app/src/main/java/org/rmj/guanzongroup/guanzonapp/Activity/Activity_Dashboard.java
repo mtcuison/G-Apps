@@ -1,13 +1,10 @@
 package org.rmj.guanzongroup.guanzonapp.Activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
@@ -17,10 +14,11 @@ import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.badge.BadgeDrawable;
-import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -32,27 +30,18 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.guanzongroup.com.creditapp.Activities.Activity_LoanProductList;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
-import org.rmj.guanzongroup.digitalgcard.Dialogs.Dialog_TransactionPIN;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.Service.DashboardActionReceiver;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductReview;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_Purchases;
-import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_LoanIntroduction;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
-import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
-
-import java.util.Objects;
 
 public class Activity_Dashboard extends AppCompatActivity {
 
@@ -72,21 +61,8 @@ public class Activity_Dashboard extends AppCompatActivity {
 
     private final DashboardActionReceiver poLogRcv = new DashboardActionReceiver();
 
-    private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if(result.getResultCode() == GCARD_APPLICATION) {
-                    Intent loIntent = result.getData();
-                    if (loIntent != null) {
-//                        Toast.makeText(Activity_Dashboard.this, loIntent.getStringExtra("result"), Toast.LENGTH_LONG).show();
-                        String lsArgs = loIntent.getStringExtra("result");
-                        ParseQrCode(lsArgs);
-                    } else {
-                        Toast.makeText(Activity_Dashboard.this, "No data result receive.", Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-    );
+    private ActivityResultLauncher<Intent> poScanQr;
+    private ActivityResultLauncher<Intent> poSignIn;
 
     @SuppressLint("UnsafeOptInUsageError")
     @Override
@@ -123,6 +99,29 @@ public class Activity_Dashboard extends AppCompatActivity {
                 R.id.nav_logout)
                 .setOpenableLayout(drawer)
                 .build();
+
+        poScanQr = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if(result.getResultCode() == GCARD_APPLICATION) {
+                        Intent loIntent = result.getData();
+                        if (loIntent != null) {
+//                        Toast.makeText(Activity_Dashboard.this, loIntent.getStringExtra("result"), Toast.LENGTH_LONG).show();
+                            String lsArgs = loIntent.getStringExtra("result");
+                            ParseQrCode(lsArgs);
+                        } else {
+                            Toast.makeText(Activity_Dashboard.this, "No data result receive.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        );
+
+        poSignIn = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult o) {
+
+            }
+        });
 
         //Disable Pre-Termination page until project is develop...
         navigationView.getMenu().findItem(R.id.nav_events).setVisible(false);
@@ -232,7 +231,7 @@ public class Activity_Dashboard extends AppCompatActivity {
 
         navigationView.getMenu().findItem(R.id.nav_scan_qrcode).setOnMenuItemClickListener(menuItem -> {
             Intent loIntent = new Intent(Activity_Dashboard.this, Activity_QrCodeScanner.class);
-            poArl.launch(loIntent);
+            poScanQr.launch(loIntent);
             return false;
         });
 
@@ -412,6 +411,7 @@ public class Activity_Dashboard extends AppCompatActivity {
 //            }
 //        });
 //        loDialog.show();
+        super.onBackPressed();
     }
 
     @Override

@@ -61,6 +61,11 @@ public class GCardLedger {
         try {
             String lsGCardNo = poDao.getCardNox();
 
+            if(lsGCardNo == null){
+                message = "No active gcard number found.";
+                return false;
+            }
+
             JSONObject params = new JSONObject();
             params.put("secureno", CodeGenerator.generateSecureNo(lsGCardNo));
 
@@ -107,6 +112,11 @@ public class GCardLedger {
     public boolean ImportOfflineTransactions(){
         try {
             String lsGCardNo = poDao.getCardNox();
+
+            if(lsGCardNo == null){
+                message = "No active gcard number found.";
+                return false;
+            }
 
             JSONObject params = new JSONObject();
             params.put("secureno", CodeGenerator.generateSecureNo(lsGCardNo));
@@ -155,6 +165,11 @@ public class GCardLedger {
         try {
             String lsGCardNo = poDao.getCardNox();
 
+            if(lsGCardNo == null){
+                message = "No active gcard number found.";
+                return false;
+            }
+
             JSONObject params = new JSONObject();
             params.put("secureno", CodeGenerator.generateSecureNo(lsGCardNo));
 
@@ -201,6 +216,11 @@ public class GCardLedger {
     public boolean ImportRedemptionTransaction(){
         try {
             String lsGCardNo = poDao.getCardNox();
+
+            if(lsGCardNo == null){
+                message = "No active gcard number found.";
+                return false;
+            }
 
             JSONObject params = new JSONObject();
             params.put("secureno", CodeGenerator.generateSecureNo(lsGCardNo));

@@ -2,10 +2,8 @@ package org.rmj.guanzongroup.guanzonapp.Activity;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -44,7 +42,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         setContentView(R.layout.activity_splash_screen);
-        splashScreen.setKeepOnScreenCondition(() -> true );
+        splashScreen.setKeepOnScreenCondition(() -> false );
         if (!isMyServiceRunning(GMessagingService.class)) {
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
         }
@@ -134,8 +132,8 @@ public class Activity_SplashScreen extends AppCompatActivity {
         if(isFirstLaunch) {
             MessageBox loMessage = new MessageBox(Activity_SplashScreen.this);
             loMessage.initDialog();
-            loMessage.setTitle("Guanzon Circle");
-            loMessage.setMessage("Guanzon Circle collects location data for Selfie Log, DCP and other major features of the app" +
+            loMessage.setTitle("Guanzon Connect");
+            loMessage.setMessage("Guanzon Connect collects location data for Selfie Log, DCP and other major features of the app" +
                     " even when the app is closed or not in use.");
             loMessage.setPositiveButton("Continue", (view, dialog) -> {
                 dialog.dismiss();

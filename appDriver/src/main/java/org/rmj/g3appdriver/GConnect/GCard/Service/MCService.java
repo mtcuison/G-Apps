@@ -35,6 +35,11 @@ public class MCService {
         try{
             String lsGcardNo = poDao.GetGCardNumber();
 
+            if(lsGcardNo == null){
+                message = "No active gcard number found.";
+                return false;
+            }
+
             JSONObject params = new JSONObject();
             String lsSecureNo = CodeGenerator.generateSecureNo(lsGcardNo);
             params.put("secureno", lsSecureNo);
