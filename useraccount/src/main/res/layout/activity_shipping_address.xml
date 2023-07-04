@@ -9,16 +9,18 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/appToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/AppToolbar"/>
+            android:theme="@style/GhostRiderMaterialTheme.PopupOverlay"/>
 
     </com.google.android.material.appbar.AppBarLayout>
-    <TextView
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_Address_verify"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

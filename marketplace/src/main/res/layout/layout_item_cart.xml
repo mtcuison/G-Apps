@@ -1,164 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:card_view="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="@android:color/white"
     app:cardCornerRadius="0dp"
-    android:background="?attr/selectableItemBackground"
     app:cardElevation="0dp"
-    android:foreground="?attr/selectableItemBackground"
-    card_view:cardElevation="0dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginVertical="5dp"
-        android:layout_marginHorizontal="10dp">
+        android:padding="3dp">
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgProduct"
+            android:layout_width="97dp"
+            android:layout_height="97dp"
+            android:scaleType="fitXY"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/checkBox"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lblProdNme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto"
+            android:lines="1"
+            android:maxLines="1"
+            android:text="Product Name"
+            android:layout_marginStart="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/btnRemoveItem"
+            app:layout_constraintStart_toEndOf="@+id/imgProduct"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lblProdPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Price"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintStart_toStartOf="@+id/lblProdNme"
+            app:layout_constraintTop_toBottomOf="@+id/lblProdNme" />
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/imgProduct"
+            app:layout_constraintStart_toStartOf="@+id/lblProdPrice">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imgProduct"
-                    android:layout_width="97dp"
-                    android:layout_height="97dp"
-                    android:scaleType="fitXY"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_margin="5dp"
+                android:layout_height="24dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/lblProdNme"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/roboto"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:text="Product Name"
-                    android:textColor="@color/font_regular"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/lblProdPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Price"
-                    android:textColor="@color/guanzon_digital_light_orange"
-                    android:textSize="16sp" />
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:visibility="visible">
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical|center_horizontal"
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMinus"
+                        style="@style/OutlinedButton.IconOnly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center|center_vertical|center_horizontal"
-                        android:orientation="vertical">
+                        app:icon="@drawable/ic_baseline_remove_24" />
 
-                        <ImageButton
-                            android:id="@+id/btnMinus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_baseline_remove_24" />
+                </LinearLayout>
 
-                    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|center|center_horizontal"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical|center|center_horizontal"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/lblQty"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:cursorVisible="false"
-                            android:inputType="number"
-                            android:maxLength="3"
-                            android:maxLines="1"
-                            android:text="1"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/lblQty"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center|center_vertical|center_horizontal"
-                        android:orientation="vertical">
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:cursorVisible="false"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:text="1"
+                        android:textStyle="bold" />
 
-                        <ImageButton
-                            android:id="@+id/btnPlus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_baseline_add_24" />
+                </LinearLayout>
 
-                    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|center_vertical|center_horizontal"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPlus"
+                        style="@style/OutlinedButton.IconOnly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:icon="@drawable/ic_baseline_add_24" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="end"
-                android:layout_marginLeft="10dp">
-
-                <ImageButton
-                    android:id="@+id/btnRemoveItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:src="@drawable/ic_baseline_delete_20"
-                    android:background="@color/white"
-                    card_view:targetApi="o"/>
-
-            </LinearLayout>
-
         </LinearLayout>
 
-    </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRemoveItem"
+            style="@style/OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_baseline_delete_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

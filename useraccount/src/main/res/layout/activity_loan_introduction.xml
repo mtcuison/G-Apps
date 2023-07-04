@@ -13,13 +13,14 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/AppToolbar" />
+            android:theme="@style/GhostRiderMaterialTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -73,14 +74,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_getOtp"
-            style="@style/ButtonStyle.Orange.Medium"
+            style="@style/MaterialButtonAccent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".7"
             android:text="@string/lblGetPin"/>
     </LinearLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_termsAndConditions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,12 +91,11 @@
         android:paddingVertical="10dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/roboto_medium"
-        android:textColor="@color/guanzon_digital_dark_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear_otp"/>
 
-    <CheckBox
+    <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/cb_termsAndConditions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_continue"
-        style="@style/ButtonStyle.Orange.Medium"
+        style="@style/MaterialButtonAccent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

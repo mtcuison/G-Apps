@@ -9,8 +9,6 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
-import org.rmj.guanzongroup.notifications.Etc.NotificationUI;
-import org.rmj.guanzongroup.notifications.Etc.iNotificationUI;
 
 public class GMessagingService extends FirebaseMessagingService {
     private static final String TAG = GMessagingService.class.getSimpleName();

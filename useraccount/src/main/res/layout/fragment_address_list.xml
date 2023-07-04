@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.Fragment_AddressList"
-    style="@style/FragmentTheme">
+    android:padding="10dp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerVw"
@@ -26,7 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:visibility="gone"
-        style="@style/ButtonStyle.Light.Small"/>
+        style="@style/MaterialButtonAccent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

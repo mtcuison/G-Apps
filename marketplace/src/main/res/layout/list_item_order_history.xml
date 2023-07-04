@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,129 +8,98 @@
     app:cardCornerRadius="5dp"
     app:cardUseCompatPadding="true">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_orderNo"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:fontFamily="@font/roboto"
+            app:layout_constraintEnd_toStartOf="@+id/lbl_orderStatus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/lbl_orderNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:textColor="@color/font_light"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/lbl_orderStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:gravity="end"
-                android:textColor="@color/guanzon_digital_light_orange"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_orderStatus"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:fontFamily="@font/roboto"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/img_item"
-                android:layout_width="97dp"
-                android:layout_height="97dp"/>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_item"
+            android:layout_width="97dp"
+            android:layout_height="97dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_orderNo" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/lbl_brandName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/font_regular"
-                    android:textSize="14sp"
-                    android:maxLines="2"
-                    android:lines="2"
-                    android:ellipsize="end"/>
-
-                <TextView
-                    android:id="@+id/lbl_itemDiscount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/font_light"
-                    android:textSize="14sp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/lbl_itemPrice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".7"
-                        android:fontFamily="@font/roboto"
-                        android:textColor="@color/font_light"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:id="@+id/lbl_itemQuantity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.3"
-                        android:gravity="end"
-                        android:fontFamily="@font/roboto"
-                        android:textColor="@color/font_light"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_brandName"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto"
+            android:lines="2"
+            android:maxLines="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_item"
+            app:layout_constraintTop_toTopOf="@+id/img_item" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".3"
-                android:gravity="end"
-                android:fontFamily="@font/roboto"
-                android:textColor="@color/font_regular"
-                android:textSize="16sp"
-                android:text="Total"/>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_itemDiscount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            app:layout_constraintEnd_toEndOf="@+id/lbl_brandName"
+            app:layout_constraintStart_toStartOf="@+id/lbl_brandName"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_brandName" />
 
-            <TextView
-                android:id="@+id/lbl_orderTotal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".7"
-                android:gravity="end"
-                android:fontFamily="@font/roboto"
-                android:textColor="@color/font_regular"
-                android:textSize="16sp"/>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_itemPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            app:layout_constraintEnd_toStartOf="@+id/lbl_itemQuantity"
+            app:layout_constraintStart_toEndOf="@+id/img_item"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_itemDiscount" />
 
-        </LinearLayout>
-    </LinearLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_itemQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:gravity="end"
+            app:layout_constraintEnd_toEndOf="@+id/lbl_itemDiscount"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_itemDiscount" />
 
-</androidx.cardview.widget.CardView>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".3"
+            android:fontFamily="@font/roboto"
+            android:gravity="end"
+            android:text="Total"
+            app:layout_constraintEnd_toStartOf="@+id/lbl_orderTotal"
+            app:layout_constraintStart_toStartOf="@+id/img_item"
+            app:layout_constraintTop_toBottomOf="@+id/img_item" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_orderTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".7"
+            android:fontFamily="@font/roboto"
+            android:gravity="end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/materialTextView10" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

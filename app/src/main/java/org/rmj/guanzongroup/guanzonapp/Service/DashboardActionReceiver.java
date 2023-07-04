@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_ProfileVerification;
 
 public class DashboardActionReceiver extends BroadcastReceiver {
@@ -29,11 +28,11 @@ public class DashboardActionReceiver extends BroadcastReceiver {
                         break;
                     case "promo":
                         Thread.sleep(1000);
-                        loIntent = new Intent(context, Activity_Browser.class);
-                        loIntent.putExtra("url_link", intent.getStringExtra("url_link"));
-                        loIntent.putExtra("args", intent.getStringExtra("browser_args"));
-                        loIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(loIntent);
+//                        loIntent = new Intent(context, Activity_Browser.class);
+//                        loIntent.putExtra("url_link", intent.getStringExtra("url_link"));
+//                        loIntent.putExtra("args", intent.getStringExtra("browser_args"));
+//                        loIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        context.startActivity(loIntent);
                         break;
                     case "purchase":
                         Thread.sleep(1000);

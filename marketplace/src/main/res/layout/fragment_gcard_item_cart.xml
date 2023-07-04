@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.Fragment_GCardItemCart">
+
     <LinearLayout
         android:id="@+id/layoutGCardNoItem"
         android:layout_width="match_parent"
@@ -15,7 +16,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
-        <TextView
+
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
@@ -24,7 +26,6 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGCarShopNow"
-            style="@style/ButtonStyle.Orange.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -48,13 +49,12 @@
         android:id="@+id/lnGCardFooter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/guanzon_digital_dark_grey"
+        android:background="?attr/colorOnBackground"
         android:orientation="horizontal"
         android:paddingVertical="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="gone">
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -63,22 +63,21 @@
             android:orientation="vertical"
             android:layout_marginLeft="17dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="Total Price"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textColor="?attr/colorSurface" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lblGCardGrandTotal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_bold"
                 android:text="₱ 1000.00"
-                android:textColor="@color/white"
-                android:textSize="20sp"/>
+                android:textColor="?attr/colorSurface"
+                android:textSize="18sp"/>
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -87,8 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="17dp"
-            android:text="Place Order"
-            style="@style/ButtonStyle.Orange.Medium"/>
+            android:text="Place Order"/>
 
     </LinearLayout>
 

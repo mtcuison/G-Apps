@@ -18,8 +18,6 @@ import org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcard;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.marketplace.Fragment.Fragment_MPItemCart;
-import org.rmj.guanzongroup.notifications.Fragment.Fragment_Promotion;
-import org.rmj.guanzongroup.panalo.Fragment.Fragment_Panalo;
 
 public class Fragment_Dashboard extends Fragment {
     private static final String TAG = Fragment_Dashboard.class.getSimpleName();
@@ -63,27 +61,27 @@ public class Fragment_Dashboard extends Fragment {
             return true;
         });
 
-        mViewModel.getClientInfo().observe(getViewLifecycleOwner(), eClientInfo -> {
-            try{
-                Menu nav_Menu = botNav.getMenu();
-                if(eClientInfo != null){
-
-                    //Pre release of Guanzon Connect Marketplace Project requires this field to be commented
-                    // in order to hide the preview of marketplace items
-//                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
-//                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_Panalo).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_MpItemCart).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_MyGcard).setVisible(true);
-                } else {
-                    nav_Menu.findItem(R.id.nav_Panalo).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_MpItemCart).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_MyGcard).setVisible(false);
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getClientInfo().observe(getViewLifecycleOwner(), eClientInfo -> {
+//            try{
+//                Menu nav_Menu = botNav.getMenu();
+//                if(eClientInfo != null){
+//
+//                    //Pre release of Guanzon Connect Marketplace Project requires this field to be commented
+//                    // in order to hide the preview of marketplace items
+////                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
+////                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
+//                    nav_Menu.findItem(R.id.nav_Panalo).setVisible(true);
+//                    nav_Menu.findItem(R.id.nav_MpItemCart).setVisible(true);
+//                    nav_Menu.findItem(R.id.nav_MyGcard).setVisible(true);
+//                } else {
+//                    nav_Menu.findItem(R.id.nav_Panalo).setVisible(false);
+//                    nav_Menu.findItem(R.id.nav_MpItemCart).setVisible(false);
+//                    nav_Menu.findItem(R.id.nav_MyGcard).setVisible(false);
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
         return view;
     }
@@ -97,8 +95,8 @@ public class Fragment_Dashboard extends Fragment {
     private void setupPages(){
         Fragment[] loFragments = new Fragment[]{
                 new Fragment_Home(),
-                new Fragment_Promotion(),
-                new Fragment_Panalo(),
+//                new Fragment_Promotion(),
+//                new Fragment_Panalo(),
                 new Fragment_MPItemCart(),
                 new Fragment_MyGcard()};
 //        FragmentAdapter loAdapter = new FragmentAdapter(getChildFragmentManager(), loFragments);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,37 +10,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp">
-            <TextView
+
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tap your selected Guanzon Branch."
                 android:fontFamily="@font/roboto_medium"
                 android:textSize="14sp"
                 android:gravity="center_vertical"
-                android:textColor="@color/guanzon_digital_dark_grey"
                 android:padding="10dp"
                 android:layout_weight="1"/>
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_branch_selection_close"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                app:srcCompat="@drawable/ic_dialog_button_close"
-                app:tint="@color/guanzon_digital_red"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:adjustViewBounds="true"
-                android:layout_gravity="center|center_horizontal|center_vertical"
-                android:scaleType="center"/>
-
+                app:icon="@drawable/ic_dialog_button_close"
+                style="@style/OutlinedButton.IconOnly"/>
 
         </LinearLayout>
 
@@ -58,15 +54,14 @@
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
                 android:padding="10dp"
-                android:drawableLeft="@android:drawable/ic_menu_search"
-                android:drawableTint="@color/guanzon_digital_dark_grey"/>
+                android:drawableStart="@android:drawable/ic_menu_search"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
-            android:background="@color/guanzon_digital_orange"/>
+            android:background="?attr/colorPrimary"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_dialog_branch_selection"
@@ -76,4 +71,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

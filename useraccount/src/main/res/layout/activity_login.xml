@@ -11,12 +11,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ClearAppTheme.ActionBar.Transparent"/>
+        android:theme="@style/GhostRiderMaterialTheme.PopupOverlay"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        style="@style/FragmentTheme"
+        android:padding="10dp"
         android:paddingTop="35dp">
 
         <androidx.cardview.widget.CardView
@@ -55,7 +55,6 @@
             app:layout_constraintTop_toBottomOf="@id/cvOption"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0"
-            style="@style/TextInputLabel"
             android:layout_marginTop="30dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -84,7 +83,6 @@
             app:layout_constraintTop_toBottomOf="@id/til_password"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0"
-            style="@style/TextInputLabel"
             android:layout_marginTop="30dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -113,8 +111,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_email"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            style="@style/TextInputLabel" />
+            app:layout_constraintHorizontal_bias="0" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_password"
@@ -142,8 +139,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_mobile"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            style="@style/LoginLinkLabel" />
+            app:layout_constraintHorizontal_bias="0" />
 
         <TextView
             android:id="@+id/lblSignUp"
@@ -151,8 +147,7 @@
             android:layout_height="wrap_content"
             android:text="@string/lblCreateAccount"
             app:layout_constraintTop_toBottomOf="@id/til_mobile"
-            app:layout_constraintRight_toRightOf="parent"
-            style="@style/LoginLinkLabel" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogin"
@@ -163,7 +158,7 @@
             app:layout_constraintTop_toBottomOf="@id/lblForgotPassword"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="70dp"
-            style="@style/ButtonStyle.Orange.Medium" />
+            style="@style/MaterialButtonAccent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

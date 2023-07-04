@@ -80,19 +80,19 @@ public class Fragment_Home extends Fragment {
     }
 
     private void setCategoryAdapter() {
-        mViewModel.GetBrandNames().observe(getViewLifecycleOwner(), strings -> {
-            try {
-                final Adapter_Categories loAdapter = new Adapter_Categories(strings, args -> {
-                    Intent loIntent = new Intent(requireActivity(), Activity_ProductList.class);
-                    loIntent.putExtra("xBrandNme", args);
-                    startActivity(loIntent);
-                });
-                loAdapter.notifyDataSetChanged();
-                poRvCateg.setAdapter(loAdapter);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.GetBrandNames().observe(getViewLifecycleOwner(), strings -> {
+//            try {
+//                final Adapter_Categories loAdapter = new Adapter_Categories(strings, args -> {
+//                    Intent loIntent = new Intent(requireActivity(), Activity_ProductList.class);
+//                    loIntent.putExtra("xBrandNme", args);
+//                    startActivity(loIntent);
+//                });
+//                loAdapter.notifyDataSetChanged();
+//                poRvCateg.setAdapter(loAdapter);
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     private void setProductAdapter() {

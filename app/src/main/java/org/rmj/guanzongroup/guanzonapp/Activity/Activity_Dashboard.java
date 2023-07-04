@@ -47,9 +47,6 @@ import org.rmj.guanzongroup.marketplace.Activity.Activity_Purchases;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
 import org.rmj.guanzongroup.guanzonapp.databinding.ActivityDashboardBinding;
-import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
-import org.rmj.guanzongroup.notifications.Activity.Activity_GuanzonPanalo;
-import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_LoanIntroduction;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
@@ -137,25 +134,25 @@ public class Activity_Dashboard extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nav_promos).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_item_cart).setVisible(false);
 
-        mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, eGcardApp -> {
-            try {
-                navigationView = findViewById(R.id.nav_view);
-                Menu nav_Menu = navigationView.getMenu();
-                if (eGcardApp == null) {
-                    nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
-                } else {
-                    nav_Menu.findItem(R.id.nav_redeemables).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_pre_termination).setVisible(true);
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, eGcardApp -> {
+//            try {
+//                navigationView = findViewById(R.id.nav_view);
+//                Menu nav_Menu = navigationView.getMenu();
+//                if (eGcardApp == null) {
+//                    nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
+//                    nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);
+//                    nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(false);
+//                    nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
+//                } else {
+//                    nav_Menu.findItem(R.id.nav_redeemables).setVisible(true);
+//                    nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(true);
+//                    nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(true);
+//                    nav_Menu.findItem(R.id.nav_pre_termination).setVisible(true);
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_activity_dashboard);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
@@ -163,56 +160,56 @@ public class Activity_Dashboard extends AppCompatActivity {
         setupIntentArguments(navController);
         loInflate = LayoutInflater.from(Activity_Dashboard.this);
 
-        mViewModel.GetUnreadMessagesCount().observe(Activity_Dashboard.this, count -> {
-            try{
-                toolbar = findViewById(R.id.toolbar);
-                if(count > 0) {
-                    loBadge = BadgeDrawable.create(Activity_Dashboard.this);
-                    loBadge.setNumber(count);
-//                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
-                } else {
-//                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
-                    supportInvalidateOptionsMenu();
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.GetUnreadMessagesCount().observe(Activity_Dashboard.this, count -> {
+//            try{
+//                toolbar = findViewById(R.id.toolbar);
+//                if(count > 0) {
+//                    loBadge = BadgeDrawable.create(Activity_Dashboard.this);
+//                    loBadge.setNumber(count);
+////                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
+//                } else {
+////                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_notifications);
+//                    supportInvalidateOptionsMenu();
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
-        mViewModel.GetCartItemCount().observe(Activity_Dashboard.this, count -> {
-            try {
-                toolbar = findViewById(R.id.toolbar);
+//        mViewModel.GetCartItemCount().observe(Activity_Dashboard.this, count -> {
+//            try {
+//                toolbar = findViewById(R.id.toolbar);
+//
+//                lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+//                navigationView.getMenu().findItem(R.id.nav_item_cart).setActionView(lblBadge);
+//                lblBadge.setText(GetBadgeValue(count));
+//                if(count > 0) {
+//                    loBadge = BadgeDrawable.create(Activity_Dashboard.this);
+//                    loBadge.setNumber(count);
+//                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+//                } else {
+//                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
+//                    supportInvalidateOptionsMenu();
+//                }
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
-                lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-                navigationView.getMenu().findItem(R.id.nav_item_cart).setActionView(lblBadge);
-                lblBadge.setText(GetBadgeValue(count));
-                if(count > 0) {
-                    loBadge = BadgeDrawable.create(Activity_Dashboard.this);
-                    loBadge.setNumber(count);
-                    BadgeUtils.attachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
-                } else {
-                    BadgeUtils.detachBadgeDrawable(loBadge, toolbar, R.id.item_cart);
-                    supportInvalidateOptionsMenu();
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        mViewModel.GetToPayOrders().observe(Activity_Dashboard.this, count -> {
-            try{
-                lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
-                navigationView.getMenu().findItem(R.id.nav_purchases).setActionView(lblBadge);
-                lblBadge.setText(GetBadgeValue(count));
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.GetToPayOrders().observe(Activity_Dashboard.this, count -> {
+//            try{
+//                lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
+//                navigationView.getMenu().findItem(R.id.nav_purchases).setActionView(lblBadge);
+//                lblBadge.setText(GetBadgeValue(count));
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        });
 
         navigationView.getMenu().findItem(R.id.nav_purchases).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
-                mViewModel.ImportOrdersTask();
+//                mViewModel.ImportOrdersTask();
                 return false;
             }
         });
@@ -222,10 +219,10 @@ public class Activity_Dashboard extends AppCompatActivity {
             poDialog.setTitle("Confirm Logout");
             poDialog.setMessage("Do you want to log out?");
             poDialog.setPositiveButton("YES", (view, dialog) -> {
-                mViewModel.LogoutUserSession(() -> {
-                    Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Dashboard.class);
-                    startActivity(loIntent);
-                });
+//                mViewModel.LogoutUserSession(() -> {
+//                    Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Dashboard.class);
+//                    startActivity(loIntent);
+//                });
                 dialog.dismiss();
             });
             poDialog.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
@@ -247,50 +244,50 @@ public class Activity_Dashboard extends AppCompatActivity {
         });
 
         navigationView.getMenu().findItem(R.id.nav_applyLoan).setOnMenuItemClickListener(menuItem -> {
-            mViewModel.ValidateUserVerification(new VMHome.OnValidateVerifiedUser() {
-                @Override
-                public void OnValidate(String title, String message) {
-                    poLoading.initDialog(title, message, false);
-                    poLoading.show();
-                }
-
-                @Override
-                public void OnIncompleteAccountInfo() {
-                    poLoading.dismiss();
-                    Intent loIntent = new Intent(Activity_Dashboard.this, Activity_CompleteAccountDetails.class);
-                    startActivity(loIntent);
-                }
-
-                @Override
-                public void OnAccountVerified() {
-                    poLoading.dismiss();
-                    Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanProductList.class);
-                    startActivity(intent);
-                }
-
-                @Override
-                public void OnAccountNotVerified() {
-                    poLoading.dismiss();
-                    Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanIntroduction.class);
-                    startActivity(intent);
-                }
-
-                @Override
-                public void OnFailed(String message) {
-                    poLoading.dismiss();
-                    poDialog.initDialog();
-                    poDialog.setTitle("Gaunzon App");
-                    poDialog.setMessage(message);
-                    poDialog.setPositiveButton("Okay", new MessageBox.DialogButton() {
-                        @Override
-                        public void OnButtonClick(View view, AlertDialog dialog) {
-                            dialog.dismiss();
-                        }
-                    });
-                    poDialog.show();
-
-                }
-            });
+//            mViewModel.ValidateUserVerification(new VMHome.OnValidateVerifiedUser() {
+//                @Override
+//                public void OnValidate(String title, String message) {
+//                    poLoading.initDialog(title, message, false);
+//                    poLoading.show();
+//                }
+//
+//                @Override
+//                public void OnIncompleteAccountInfo() {
+//                    poLoading.dismiss();
+//                    Intent loIntent = new Intent(Activity_Dashboard.this, Activity_CompleteAccountDetails.class);
+//                    startActivity(loIntent);
+//                }
+//
+//                @Override
+//                public void OnAccountVerified() {
+//                    poLoading.dismiss();
+//                    Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanProductList.class);
+//                    startActivity(intent);
+//                }
+//
+//                @Override
+//                public void OnAccountNotVerified() {
+//                    poLoading.dismiss();
+//                    Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanIntroduction.class);
+//                    startActivity(intent);
+//                }
+//
+//                @Override
+//                public void OnFailed(String message) {
+//                    poLoading.dismiss();
+//                    poDialog.initDialog();
+//                    poDialog.setTitle("Gaunzon App");
+//                    poDialog.setMessage(message);
+//                    poDialog.setPositiveButton("Okay", new MessageBox.DialogButton() {
+//                        @Override
+//                        public void OnButtonClick(View view, AlertDialog dialog) {
+//                            dialog.dismiss();
+//                        }
+//                    });
+//                    poDialog.show();
+//
+//                }
+//            });
             return false;
         });
 
@@ -301,7 +298,7 @@ public class Activity_Dashboard extends AppCompatActivity {
             String lsArgs = getIntent().getStringExtra("notification");
             switch (lsArgs){
                 case "regular":
-                    loIntent = new Intent(Activity_Dashboard.this, Activity_NotificationList.class);
+//                    loIntent = new Intent(Activity_Dashboard.this, Activity_NotificationList.class);
                     break;
 //                case "cs":
 //                    loIntent = new Intent(Activity_Dashboard.this, Activity_Purchases.class);
@@ -317,14 +314,14 @@ public class Activity_Dashboard extends AppCompatActivity {
                 case "panalo":
                     String lsPanaloxx = getIntent().getStringExtra("panalo");
                     String lsReferNox = getIntent().getStringExtra("sReferNox");
-                    loIntent = new Intent(Activity_Dashboard.this, Activity_GuanzonPanalo.class);
+//                    loIntent = new Intent(Activity_Dashboard.this, Activity_GuanzonPanalo.class);
                     loIntent.putExtra("panalo", lsPanaloxx);
                     loIntent.putExtra("sReferNox", lsReferNox);
                     break;
                 case "promo":
                     String lsArgument = getIntent().getStringExtra("args");
                     String lsUrlLinkx = getIntent().getStringExtra("url_link");
-                    loIntent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
+//                    loIntent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
                     loIntent.putExtra("args", lsArgument);
                     loIntent.putExtra("url_link", lsUrlLinkx);
                     break;
@@ -338,38 +335,38 @@ public class Activity_Dashboard extends AppCompatActivity {
             }
             startActivity(loIntent);
         } else {
-            mViewModel.CheckPromotions(new VMHome.OnCheckPromotions() {
-                @Override
-                public void OnCheckPromos(String args1, String args2) {
-//                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
-//                    loDialog.initDialog(args2, (dialog) -> {
-//                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
-//                        intent.putExtra("url_link", args1);
-//                        intent.putExtra("args", "1");
-//                        startActivity(intent);
-//                        dialog.dismiss();
-//                    });
-//                    loDialog.show();
-                }
-
-                @Override
-                public void OnCheckEvents(String args1, String args2) {
-//                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
-//                    loDialog.initDialog(args1, (dialog) -> {
-//                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
-//                        intent.putExtra("url_link", args2);
-//                        intent.putExtra("args", "0");
-//                        startActivity(intent);
-//                        dialog.dismiss();
-//                    });
-//                    loDialog.show();
-                }
-
-                @Override
-                public void NoPromos() {
-
-                }
-            });
+//            mViewModel.CheckPromotions(new VMHome.OnCheckPromotions() {
+//                @Override
+//                public void OnCheckPromos(String args1, String args2) {
+////                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
+////                    loDialog.initDialog(args2, (dialog) -> {
+////                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
+////                        intent.putExtra("url_link", args1);
+////                        intent.putExtra("args", "1");
+////                        startActivity(intent);
+////                        dialog.dismiss();
+////                    });
+////                    loDialog.show();
+//                }
+//
+//                @Override
+//                public void OnCheckEvents(String args1, String args2) {
+////                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
+////                    loDialog.initDialog(args1, (dialog) -> {
+////                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
+////                        intent.putExtra("url_link", args2);
+////                        intent.putExtra("args", "0");
+////                        startActivity(intent);
+////                        dialog.dismiss();
+////                    });
+////                    loDialog.show();
+//                }
+//
+//                @Override
+//                public void NoPromos() {
+//
+//                }
+//            });
         }
     }
 
@@ -462,54 +459,54 @@ public class Activity_Dashboard extends AppCompatActivity {
         TextView txtLoginx = headerLayout.findViewById(R.id.lbl_Login);
         TextView txtFullNm = headerLayout.findViewById(R.id.lbl_UserFullName);
 
-        mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
-            try {
-                Menu nav_Menu = navigationView.getMenu();
-                if(eClientinfo != null) {
-                    String lsFullNme = eClientinfo.getUserName();
-
-                    //This portion of code has been disabled in order not to display the actual name of user on dashboard
-//                    if (eClientinfo.getLastName() == null && eClientinfo.getFrstName() == null){
-//                        lsFullNme = eClientinfo.getUserName();
-//                    } else if(eClientinfo.getLastName().isEmpty() && eClientinfo.getFrstName().isEmpty()){
-//                        lsFullNme = eClientinfo.getUserName();
-//                    } else {
-//                        lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
-//                    }
-                    lnAuthxxx.setVisibility(View.GONE);
-                    txtFullNm.setVisibility(View.VISIBLE);
-                    txtFullNm.setText(Objects.requireNonNull(lsFullNme));
-
-                    //Pre release of Guanzon Connect Marketplace Project requires this field to be commented
-                    // in order to hide the preview of marketplace items
-//                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
-//                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_account_settings).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_logout).setVisible(true);
-                } else {
-                    lnAuthxxx.setVisibility(View.VISIBLE);
-                    txtFullNm.setVisibility(View.GONE);
-                    txtSignUp.setOnClickListener(v -> {
-                        Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SignUp.class);
-                        startActivity(loIntent);
-                    });
-
-
-                    txtLoginx.setOnClickListener(v -> {
-                        Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
-                        startActivity(loIntent);
-                    });
-                    nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_account_settings).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_logout).setVisible(false);
-                }
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-        });
+//        mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
+//            try {
+//                Menu nav_Menu = navigationView.getMenu();
+//                if(eClientinfo != null) {
+//                    String lsFullNme = eClientinfo.getUserName();
+//
+//                    //This portion of code has been disabled in order not to display the actual name of user on dashboard
+////                    if (eClientinfo.getLastName() == null && eClientinfo.getFrstName() == null){
+////                        lsFullNme = eClientinfo.getUserName();
+////                    } else if(eClientinfo.getLastName().isEmpty() && eClientinfo.getFrstName().isEmpty()){
+////                        lsFullNme = eClientinfo.getUserName();
+////                    } else {
+////                        lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
+////                    }
+//                    lnAuthxxx.setVisibility(View.GONE);
+//                    txtFullNm.setVisibility(View.VISIBLE);
+//                    txtFullNm.setText(Objects.requireNonNull(lsFullNme));
+//
+//                    //Pre release of Guanzon Connect Marketplace Project requires this field to be commented
+//                    // in order to hide the preview of marketplace items
+////                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
+////                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
+//                    nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
+//                    nav_Menu.findItem(R.id.nav_account_settings).setVisible(true);
+//                    nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+//                } else {
+//                    lnAuthxxx.setVisibility(View.VISIBLE);
+//                    txtFullNm.setVisibility(View.GONE);
+//                    txtSignUp.setOnClickListener(v -> {
+//                        Intent loIntent = new Intent(Activity_Dashboard.this, Activity_SignUp.class);
+//                        startActivity(loIntent);
+//                    });
+//
+//
+//                    txtLoginx.setOnClickListener(v -> {
+//                        Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
+//                        startActivity(loIntent);
+//                    });
+//                    nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
+//                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
+//                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(false);
+//                    nav_Menu.findItem(R.id.nav_account_settings).setVisible(false);
+//                    nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+//                }
+//            } catch(Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
     }
 
     private String GetBadgeValue(int val){

@@ -12,12 +12,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appToolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/AppToolbar"/>
+            android:theme="@style/GhostRiderMaterialTheme.PopupOverlay"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -37,7 +39,7 @@
                 android:visibility="gone"
                 android:padding="10dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lblAccountUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -45,8 +47,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    style="@style/TextInputLabel" />
+                    app:layout_constraintHorizontal_bias="0" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_accountUpdate"
@@ -76,7 +77,7 @@
                 android:visibility="gone"
                 android:padding="10dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lblOldPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -84,8 +85,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    style="@style/TextInputLabel" />
+                    app:layout_constraintHorizontal_bias="0" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_oldPassword"
@@ -108,7 +108,7 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lblPasswordGuide"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
                     android:fontFamily="@font/roboto_regular"
                     android:layout_margin="10dp"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lblNewPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -128,8 +128,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lblPasswordGuide"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    style="@style/TextInputLabel" />
+                    app:layout_constraintHorizontal_bias="0" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_newPassword"
@@ -152,7 +151,7 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lblRTPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -160,8 +159,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/til_newPassword"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    style="@style/TextInputLabel" />
+                    app:layout_constraintHorizontal_bias="0" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_rtPassword"
@@ -190,9 +188,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Submit for Verification"
+                android:theme="@style/MaterialButtonAccent"
                 android:layout_marginTop="40dp"
                 android:layout_marginHorizontal="10dp"
-                style="@style/ButtonStyle.Orange.Medium"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_accountUpdate"
                 app:layout_constraintRight_toRightOf="parent"

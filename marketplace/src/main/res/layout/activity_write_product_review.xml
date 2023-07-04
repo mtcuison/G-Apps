@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.Activity_WriteProductReview"
-    style="@style/FragmentTheme">
+    android:theme="@style/GhostRiderMaterialTheme"
+    android:padding="10dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lblRateProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,24 +38,22 @@
         app:layout_constraintTop_toBottomOf="@id/ratingBar"
         app:layout_constraintRight_toRightOf="parent">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgProdct"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/font_light"
             android:src="@drawable/image_placeholder"
             android:adjustViewBounds="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.25"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtProdNm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:text="Product Name"
-            android:textColor="@color/font_regular"
             android:textSize="15sp"
             android:ellipsize="end"
             android:maxLines="2"
@@ -66,14 +65,14 @@
             app:layout_constraintBottom_toBottomOf="@id/imgProdct"
             app:layout_constraintVertical_bias="0.15"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtPricex"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:text="P00.00"
             android:textSize="16sp"
-            android:textColor="@color/guanzon_digital_light_orange"
+            android:textColor="?attr/colorPrimary"
             app:layout_constraintLeft_toLeftOf="@id/txtProdNm"
             app:layout_constraintTop_toTopOf="@id/imgProdct"
             app:layout_constraintBottom_toBottomOf="@id/imgProdct"
@@ -81,7 +80,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
+    <com.google.android.material.divider.MaterialDivider
         android:id="@+id/spacer"
         android:layout_width="0dp"
         android:layout_height="1dp"
@@ -116,7 +115,6 @@
         android:text="@string/lblSave"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        style="@style/ButtonStyle.Orange.Large"/>
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

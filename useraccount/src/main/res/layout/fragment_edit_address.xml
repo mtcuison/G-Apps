@@ -10,9 +10,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        style="@style/ScrollViewTheme">
+        android:padding="10dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lblEditAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lblHouseNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,8 +32,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lblEditAddress"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            style="@style/TextInputLabel" />
+            app:layout_constraintHorizontal_bias="0" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_houseNo"
@@ -57,7 +56,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lblStreet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,8 +64,7 @@
             app:layout_constraintLeft_toLeftOf="@id/til_street"
             app:layout_constraintTop_toBottomOf="@id/lblEditAddress"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            style="@style/TextInputLabel" />
+            app:layout_constraintHorizontal_bias="0" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_street"
@@ -88,7 +86,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lblTownCity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,8 +94,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_street"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            style="@style/TextInputLabel" />
+            app:layout_constraintHorizontal_bias="0" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_towncity"
@@ -120,7 +117,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lblBarangay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -128,8 +125,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_towncity"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            style="@style/TextInputLabel" />
+            app:layout_constraintHorizontal_bias="0" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_barangay"
@@ -157,7 +153,7 @@
             android:layout_height="wrap_content"
             android:text="@string/lblUpdate"
             android:layout_marginTop="50dp"
-            style="@style/ButtonStyle.Orange.Medium"
+            style="@style/MaterialButtonAccent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_barangay"
             app:layout_constraintRight_toRightOf="parent"

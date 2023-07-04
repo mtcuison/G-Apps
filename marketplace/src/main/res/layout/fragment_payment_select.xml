@@ -4,15 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.Fragment_PaymentSelection">
+    tools:context=".Fragment.Fragment_PaymentSelection"
+    android:padding="10dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_Guide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto"
         android:text="@string/lblSelectPaymentMethod"
-        android:textColor="@color/font_regular"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -28,13 +28,11 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btnSelect">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/crdGcashx"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:background="@color/white"
-            android:foreground="?android:attr/selectableItemBackground"
             android:layout_marginVertical="5dp"
             app:cardCornerRadius="10dp">
 
@@ -44,27 +42,22 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="15dp">
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rdGcashxx"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
+                    android:layout_height="wrap_content"
                     android:text="GCash"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:paddingStart="20dp"/>
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/crdPayMya"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:background="@color/white"
-            android:foreground="?android:attr/selectableItemBackground"
             android:layout_marginVertical="5dp"
             app:cardCornerRadius="10dp">
 
@@ -74,27 +67,22 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="15dp">
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rdPayMaya"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
+                    android:layout_height="wrap_content"
                     android:text="Maya"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:paddingStart="20dp"/>
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/crdCashOD"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:background="@color/white"
-            android:foreground="?android:attr/selectableItemBackground"
             android:layout_marginVertical="5dp"
             app:cardCornerRadius="10dp">
 
@@ -104,19 +92,16 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="15dp">
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rdCashOnD"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
+                    android:layout_height="wrap_content"
                     android:text="Cash on Delivery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:paddingStart="20dp"/>
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
 
 
@@ -129,7 +114,6 @@
         android:text="@string/lblPayOrder"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        style="@style/ButtonStyle.Orange.Medium"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

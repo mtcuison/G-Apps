@@ -8,15 +8,15 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/materialCardView"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/lnMPFooter">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/upperData"
@@ -41,7 +41,7 @@
                     android:orientation="vertical"
                     android:gravity="center_horizontal|center|center_vertical" >
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
@@ -60,17 +60,15 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/upperData"
                 app:layout_constraintRight_toRightOf="parent"
-                style="@style/FragmentTheme"
                 android:paddingBottom="30dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lblSuggest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:text="You may also like:"
                     android:layout_marginTop="5dp"
-                    android:textColor="@color/font_regular"
                     android:textSize="16sp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -86,145 +84,108 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <LinearLayout
-        android:id="@+id/lnMPFooter"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingVertical="10dp"
-        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvSelectAll"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardUseCompatPadding="true"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="0dp"
-            android:background="?attr/selectableItemBackground"
-            app:cardElevation="0dp"
-            android:foreground="?attr/selectableItemBackground">
+            android:layout_height="match_parent"
+            android:padding="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/cbSelectAll"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="10dp">
+                android:fontFamily="@font/roboto"
+                android:text="Select All"
+                app:layout_constraintEnd_toStartOf="@+id/btnRemoveAll"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <CheckBox
-                    android:id="@+id/cbSelectAll"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.8"
-                    android:text="Select All"
-                    android:fontFamily="@font/roboto"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRemoveAll"
+                style="@style/OutlinedButton.IconOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:icon="@drawable/ic_baseline_delete_20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
-                    android:id="@+id/btnRemoveAll"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".2"
-                    android:visibility="gone"
-                    android:src="@drawable/ic_baseline_delete_20"
-                    android:background="@color/white" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Order Summary"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cbSelectAll" />
 
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="fill_parent"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lblMpTotalItems"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_marginLeft="17dp">
+                android:fontFamily="@font/roboto"
+                android:text="Total: "
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/lblMPGrandTotal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView8" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Order Summary"
-                    android:textColor="@color/font_regular"
-                    android:textSize="16sp" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lblMPGrandTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="end|center_vertical"
+                android:text="Php. 1000.00"
+                android:layout_marginEnd="10dp"
+                android:textColor="?attr/colorPrimary"
+                app:layout_constraintEnd_toStartOf="@+id/btnMPCheckOut"
+                app:layout_constraintTop_toTopOf="@+id/lblMpTotalItems" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto"
+                android:text="Shipping Fee: "
+                app:layout_constraintEnd_toStartOf="@+id/lblMPShippingFee"
+                app:layout_constraintStart_toStartOf="@+id/lblMpTotalItems"
+                app:layout_constraintTop_toBottomOf="@+id/lblMpTotalItems" />
 
-                    <TextView
-                        android:id="@+id/lblMpTotalItems"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto"
-                        android:text="Total: "
-                        android:textColor="@color/font_regular"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/lblMPGrandTotal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_bold"
-                        android:gravity="end|center_vertical"
-                        android:textColor="@color/guanzon_digital_light_orange"
-                        android:textSize="18sp"
-                        android:layout_marginEnd="5dp"/>
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto"
-                        android:text="Shipping Fee: "
-                        android:textColor="@color/font_regular"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/lblMPShippingFee"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_bold"
-                        android:gravity="end|center_vertical"
-                        android:textColor="@color/guanzon_digital_light_orange"
-                        android:textSize="18sp"
-                        android:layout_marginEnd="5dp"/>
-                </LinearLayout>
-
-            </LinearLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lblMPShippingFee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="end|center_vertical"
+                android:text="Php. 1000.00"
+                android:textColor="?attr/colorPrimary"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/btnMPCheckOut"
+                app:layout_constraintTop_toTopOf="@+id/materialTextView9" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnMPCheckOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginRight="17dp"
                 android:text="Checkout"
-                style="@style/ButtonStyle.Orange.Medium"/>
+                app:layout_constraintBottom_toBottomOf="@+id/lblMPShippingFee"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/lblMPGrandTotal" />
 
-        </LinearLayout>
-    </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

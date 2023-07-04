@@ -12,12 +12,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ClearAppTheme.ActionBar.Transparent"
+        android:theme="@style/GhostRiderMaterialTheme.PopupOverlay"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -31,7 +31,7 @@
         app:layout_constraintWidth_percent="0.30"
         android:layout_marginTop="20dp"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_message"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -39,7 +39,6 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="We sent a 6 digit activation \n code to your mobile no."
-        android:textSize="16sp"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +67,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_message1"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -76,12 +75,11 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="Enter Activation Code"
-        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_otp" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_message2"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -89,7 +87,6 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="You can also activate your account through email. \n Open Your account and check inbox or spam folder for account activation."
-        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/btn_resend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -110,7 +107,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_Submit"
-        style="@style/ButtonStyle.Orange.Medium"
+        style="@style/MaterialButtonAccent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Submit"

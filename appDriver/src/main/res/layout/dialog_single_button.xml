@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,40 +14,37 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@color/white"
         android:layout_margin="15dp"
         android:paddingTop="8dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
             android:textSize="20sp"
-            android:textColor="@color/font_regular"
             android:fontFamily="@font/roboto_bold"/>
 
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lbl_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="message"
             android:textSize="18sp"
-            android:textColor="@color/font_regular"
             android:paddingVertical="10dp"
             android:fontFamily="@font/roboto"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="30dp"
             android:gravity="center_horizontal"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ButtonStyle.Orange.Small"
+            style="@style/MaterialButtonAccent"
             android:paddingHorizontal="0dp"/>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

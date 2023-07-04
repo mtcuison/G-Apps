@@ -263,13 +263,13 @@ public class Fragment_MPItemCart extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView_MPCart);
         rvSuggest = view.findViewById(R.id.rvSuggest);
         noItem = view.findViewById(R.id.layoutMPNoItem);
-        lnMPFooter = view.findViewById(R.id.lnMPFooter);
+//        lnMPFooter = view.findViewById(R.id.lnMPFooter);
         lblGrandTotal = view.findViewById(R.id.lblMPGrandTotal);
         lblTotalCount = view.findViewById(R.id.lblMpTotalItems);
         btnCheckOut = view.findViewById(R.id.btnMPCheckOut);
         cbSelectAll = view.findViewById(R.id.cbSelectAll);
         btnDelete = view.findViewById(R.id.btnRemoveAll);
-        cvSelectAll = view.findViewById(R.id.cvSelectAll);
+//        cvSelectAll = view.findViewById(R.id.cvSelectAll);
     }
 
     public static String currencyFormat(double amount) {

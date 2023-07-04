@@ -5,33 +5,31 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.Fragment_PaymentInfo"
-    style="@style/FragmentTheme">
+    android:padding="5dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_SendThru"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto"
         android:text="Send your payment through"
-        android:textColor="@color/font_regular"
         android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txtPayTyp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_bold"
-        android:textColor="@color/font_regular"
         android:textSize="18sp"
         android:layout_marginVertical="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lbl_SendThru"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardview_payment_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -49,62 +47,54 @@
             android:gravity="center_horizontal"
             android:layout_margin="20dp">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/lbl_payAmount"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/font_regular"
                 android:gravity="center"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Account Name"
-                android:layout_marginTop="30dp"
-                android:textColor="@color/font_regular"
-                android:textSize="14sp"/>
+                android:layout_marginTop="30dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txtAccNme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
-                android:textColor="@color/font_regular"
                 android:textSize="16sp"
                 android:layout_marginTop="5dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/lblMobileNumber"
-                android:textColor="@color/font_regular"
-                android:textSize="14sp"
                 android:layout_marginTop="20dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txtMobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
-                android:textColor="@color/font_regular"
                 android:textSize="16sp"
                 android:layout_marginTop="5dp"/>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_regular"
                 android:text="After successful deposit of payment. Tap 'Confirm Payment' and enter your payment reference number and Tap 'Confirm' to finish your purchase."
-                android:textColor="@color/font_regular"
                 android:layout_marginTop="30dp"
                 android:gravity="center"/>
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
         android:id="@+id/linear_cod"
@@ -116,7 +106,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="20dp">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -128,7 +118,7 @@
                 android:orientation="vertical"
                 android:layout_margin="20dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_medium"
@@ -137,32 +127,30 @@
                     android:gravity="center"
                     android:textSize="18sp"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_orderAmount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Php. 1000.00"
-                    android:textColor="@color/font_regular"
                     android:gravity="center"
                     android:layout_marginTop="20dp"
                     android:textSize="16sp"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_referenceId"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Order Reference No. 1010101010"
-                    android:textColor="@color/font_regular"
                     android:gravity="center"
                     android:layout_marginTop="20dp" />
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -175,18 +163,20 @@
                 android:orientation="vertical"
                 android:layout_margin="20dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Please have this amount on scheduled delivery date."
-                    android:textColor="@color/font_regular"
                     android:gravity="center"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/lbl_codAmount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+
+
+
                     android:fontFamily="@font/roboto_medium"
                     android:text="Php. 1000.00"
                     android:textColor="@color/guanzon_digital_orange"
@@ -196,7 +186,7 @@
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -204,7 +194,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Confirm Payment"
-        style="@style/ButtonStyle.Orange.Medium"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
