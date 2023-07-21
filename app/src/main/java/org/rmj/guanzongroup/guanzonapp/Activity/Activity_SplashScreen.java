@@ -8,11 +8,14 @@ import androidx.core.splashscreen.SplashScreen;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.guanzonapp.R;
 import org.rmj.guanzongroup.guanzonapp.Service.GMessagingService;
 import org.rmj.guanzongroup.guanzonapp.ViewModel.VMSplashScreen;
@@ -28,14 +31,16 @@ public class Activity_SplashScreen extends AppCompatActivity {
     private VMSplashScreen mViewModel;
 
     private static final int REQUEST_PERMISSION = 1;
+    private Dialog_DoubleButton poDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
-        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+//        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+        poDialog = new Dialog_DoubleButton(Activity_SplashScreen.this);
         setContentView(R.layout.activity_splash_screen);
-        splashScreen.setKeepOnScreenCondition(() -> true );
+//        splashScreen.setKeepOnScreenCondition(() -> true );
         if (!isMyServiceRunning(GMessagingService.class)) {
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
         }
@@ -43,10 +48,26 @@ public class Activity_SplashScreen extends AppCompatActivity {
 
         mViewModel.GetLoadStatus().observe(Activity_SplashScreen.this, oLoadStat -> {
             if(!oLoadStat.getPermissionGranted()){
-                ActivityCompat.requestPermissions(
-                        Activity_SplashScreen.this,
-                        mViewModel.GetPermissions(),
-                        REQUEST_PERMISSION);
+                String lsMessage = "Guanzon Connect collects and stores your phone number to ensure security on every transaction made within the mobile app. " +
+                        "This collection enables authentication and verification processes, protecting your account from unauthorized access.";
+                poDialog.setButtonText("Agree", "Decline");
+                poDialog.initDialog("Guanzon Connect", lsMessage, new Dialog_DoubleButton.OnDialogConfirmation() {
+                    @Override
+                    public void onConfirm(AlertDialog dialog) {
+                        dialog.dismiss();
+                        ActivityCompat.requestPermissions(
+                                Activity_SplashScreen.this,
+                                mViewModel.GetPermissions(),
+                                REQUEST_PERMISSION);
+                    }
+
+                    @Override
+                    public void onCancel(AlertDialog dialog) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+                poDialog.show();
             } else {
                 mViewModel.InitializeData(new VMSplashScreen.OnInitializeData() {
                     @Override

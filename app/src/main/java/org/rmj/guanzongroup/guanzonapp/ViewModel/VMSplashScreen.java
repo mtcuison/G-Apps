@@ -34,8 +34,6 @@ public class VMSplashScreen extends AndroidViewModel {
 
     private final String[] laPermissions =  new String[]{
         Manifest.permission.POST_NOTIFICATIONS,
-        Manifest.permission.MANAGE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_PHONE_NUMBERS,
         Manifest.permission.INTERNET,
         Manifest.permission.ACCESS_NETWORK_STATE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -63,7 +61,6 @@ public class VMSplashScreen extends AndroidViewModel {
         loConfig.setProductID("GuanzonApp");
         loConfig.setClientID(AppConstants.APP_CLIENT);
         loConfig.setIfPermissionsGranted(hasPermissions(mContext, laPermissions));
-        loConfig.setTestCase(true);
         poLoadStat.setValue(new oLoadStat(
                 loConfig.IsPermissionsGranted(),
                 new AccountInfo(mContext).getLoginStatus()));
