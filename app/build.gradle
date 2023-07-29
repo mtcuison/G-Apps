@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     defaultConfig {
-        applicationId "org.rmj.guanzongroup.guanzonapp"
+        applicationId "org.rmj.guanzongroup.guanzonconnect"
         minSdkVersion 21
-        targetSdkVersion 33
-        versionCode 32
-        versionName "Build Version 2.2.2.12"
+        targetSdkVersion 34
+        versionCode 3
+        versionName "Guanzon Connect v4.1.03 a"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -31,7 +31,7 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-    namespace 'org.rmj.guanzongroup.guanzonapp'
+    namespace 'org.rmj.guanzongroup.guanzonconnect'
 }
 
 repositories {

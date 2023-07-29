@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Fragment;
+package org.rmj.guanzongroup.guanzonconnect.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import org.rmj.guanzongroup.guanzonapp.Activity.Activity_TermsAndConditions;
-import org.rmj.guanzongroup.guanzonapp.databinding.FragmentAboutBinding;
+import org.rmj.guanzongroup.guanzonconnect.Activity.Activity_TermsAndConditions;
+import org.rmj.guanzongroup.guanzonconnect.databinding.FragmentAboutBinding;
 
 public class Fragment_About extends Fragment {
 

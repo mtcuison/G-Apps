@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp;
+package org.rmj.guanzongroup.guanzonconnect;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:overScrollMode="never"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="org.rmj.guanzongroup.guanzonapp.Fragment.Fragment_Home">
+    tools:context="org.rmj.guanzongroup.guanzonconnect.Fragment.Fragment_Home">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

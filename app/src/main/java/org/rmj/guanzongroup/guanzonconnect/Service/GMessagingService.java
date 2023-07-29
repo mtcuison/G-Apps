@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Service;
+package org.rmj.guanzongroup.guanzonconnect.Service;
 
 import android.util.Log;
 
@@ -15,7 +15,6 @@ import org.rmj.g3appdriver.lib.Notifications.NMM;
 import org.rmj.g3appdriver.lib.Notifications.NOTIFICATION_STATUS;
 import org.rmj.g3appdriver.lib.Notifications.RemoteMessageParser;
 import org.rmj.g3appdriver.lib.Notifications.iNotification;
-import org.rmj.guanzongroup.notifications.Etc.GNotifBuilder;
 import org.rmj.guanzongroup.notifications.Etc.NotificationUI;
 import org.rmj.guanzongroup.notifications.Etc.iNotificationUI;
 

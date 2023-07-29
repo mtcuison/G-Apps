@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Fragment;
+package org.rmj.guanzongroup.guanzonconnect.Fragment;
 
 import android.os.Bundle;
 
@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonconnect.R;
 
 /**
  * A simple {@link Fragment} subclass.

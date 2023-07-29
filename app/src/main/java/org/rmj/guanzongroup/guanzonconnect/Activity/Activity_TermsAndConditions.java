@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Activity;
+package org.rmj.guanzongroup.guanzonconnect.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,14 +6,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
-import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.material.button.MaterialButton;
-
-import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonconnect.R;
 
 public class Activity_TermsAndConditions extends AppCompatActivity {
 

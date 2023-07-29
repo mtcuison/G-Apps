@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Service;
+package org.rmj.guanzongroup.guanzonconnect.Service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

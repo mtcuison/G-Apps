@@ -1,10 +1,9 @@
-package org.rmj.guanzongroup.guanzonapp.Activity;
+package org.rmj.guanzongroup.guanzonconnect.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.splashscreen.SplashScreen;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.ActivityManager;
@@ -15,15 +14,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
-import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
-import org.rmj.guanzongroup.guanzonapp.R;
-import org.rmj.guanzongroup.guanzonapp.Service.GMessagingService;
-import org.rmj.guanzongroup.guanzonapp.ViewModel.VMSplashScreen;
-import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductReview;
-import org.rmj.guanzongroup.marketplace.Activity.Activity_Purchases;
-import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
-import org.rmj.guanzongroup.notifications.Activity.Activity_GuanzonPanalo;
-import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
+import org.rmj.guanzongroup.guanzonconnect.R;
+import org.rmj.guanzongroup.guanzonconnect.Service.GMessagingService;
+import org.rmj.guanzongroup.guanzonconnect.ViewModel.VMSplashScreen;
 
 public class Activity_SplashScreen extends AppCompatActivity {
     private static final String TAG = Activity_SplashScreen.class.getSimpleName();

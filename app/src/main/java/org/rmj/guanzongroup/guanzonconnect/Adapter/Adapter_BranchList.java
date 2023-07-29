@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Adapter;
+package org.rmj.guanzongroup.guanzonconnect.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.guanzongroup.guanzonapp.R;
+import org.rmj.guanzongroup.guanzonconnect.R;
 
 import java.util.ArrayList;
 import java.util.List;

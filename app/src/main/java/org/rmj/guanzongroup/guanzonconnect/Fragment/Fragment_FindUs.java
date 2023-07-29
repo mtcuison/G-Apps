@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.Fragment;
+package org.rmj.guanzongroup.guanzonconnect.Fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,17 +20,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.guanzongroup.guanzonapp.Adapter.Adapter_BranchList;
-import org.rmj.guanzongroup.guanzonapp.R;
-import org.rmj.guanzongroup.guanzonapp.ViewModel.VMBranchDetails;
+import org.rmj.guanzongroup.guanzonconnect.Adapter.Adapter_BranchList;
+import org.rmj.guanzongroup.guanzonconnect.R;
+import org.rmj.guanzongroup.guanzonconnect.ViewModel.VMBranchDetails;
 
 import java.util.ArrayList;
 import java.util.List;

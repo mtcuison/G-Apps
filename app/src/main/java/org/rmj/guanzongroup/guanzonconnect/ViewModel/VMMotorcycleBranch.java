@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonapp.ViewModel;
+package org.rmj.guanzongroup.guanzonconnect.ViewModel;
 
 import androidx.lifecycle.ViewModel;
 
