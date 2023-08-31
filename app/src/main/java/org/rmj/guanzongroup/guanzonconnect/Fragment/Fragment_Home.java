@@ -148,7 +148,7 @@ public class Fragment_Home extends Fragment {
         mViewModel.GetPromoLinkList().observe(getViewLifecycleOwner(), ePromos -> {
             try {
                 for (int x = 0; x < ePromos.size(); x++) {
-                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getImageSld()));
+                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getImageUrl()));
                 }
 
                 Adapter_ImageSlider adapter = new Adapter_ImageSlider(loSliders, args -> {

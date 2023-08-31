@@ -79,21 +79,21 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
     private String getImageUrl(String fsVal){
         switch (fsVal.toLowerCase(Locale.ROOT)){
             case "samsung":
-                return "http://192.168.10.15/integsys/marketplace/uploads/brand_logos/samsung_logo.png";
+                return "https://restgk.guanzongroup.com.ph/images/mp/uploads/brand_logos/samsung_logo.png";
             case "vivo":
-                return "http://192.168.10.15/integsys/marketplace/uploads/brand_logos/vivo_logo.png";
+                return "https://restgk.guanzongroup.com.ph/images/mp/uploads/brand_logos/vivo_logo.png";
             case "huawei":
-                return "http://192.168.10.15/integsys/marketplace/uploads/brand_logos/huawei_logo.png";
+                return "https://restgk.guanzongroup.com.ph/images/mp/uploads/brand_logos/huawei_logo.png";
             case "apple":
-                return "http://192.168.10.15/integsys/marketplace/uploads/brand_logos/apple_logo.png";
+                return "https://restgk.guanzongroup.com.ph/images/mp/uploads/brand_logos/apple_logo.png";
             case "oppo":
-                return "http://192.168.10.15/integsys/marketplace/uploads/brand_logos/oppo_logo.png";
+                return "https://restgk.guanzongroup.com.ph/images/mp/uploads/brand_logos/oppo_logo.png";
             case "xiaomi":
-                return "http://192.168.10.15/integsys/marketplace/uploads/brand_logos/xiaomi_logo.png";
+                return "https://restgk.guanzongroup.com.ph/images/mp/uploads/brand_logos/xiaomi_logo.png";
             case "techno":
-                return "http://192.168.10.15/integsys/marketplace/uploads/brand_logos/techno_logo.png";
+                return "https://restgk.guanzongroup.com.ph/images/mp/uploads/brand_logos/tecno_logo.png";
             default:
-                return "http://192.168.10.15/integsys/marketplace/uploads/brand_logos/realme_logo.png";
+                return "https://restgk.guanzongroup.com.ph/images/mp/uploads/brand_logos/realme_logo.png";
         }
     }
 

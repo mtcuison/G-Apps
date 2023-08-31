@@ -76,7 +76,7 @@ public class Activity_Dashboard extends AppCompatActivity {
     private TextView lblBadge;
     private static final int GCARD_APPLICATION = 1;
 
-    private final DashboardActionReceiver poLogRcv = new DashboardActionReceiver();
+    private DashboardActionReceiver poLogRcv = new DashboardActionReceiver();
 
     private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -520,6 +520,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                     nav_Menu.findItem(R.id.nav_logout).setVisible(false);
                 }
             } catch(Exception e) {
+
                 e.printStackTrace();
             }
         });
