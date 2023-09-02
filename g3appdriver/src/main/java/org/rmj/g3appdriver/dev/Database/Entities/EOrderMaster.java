@@ -50,6 +50,14 @@ public class EOrderMaster {
     private String SourceCd;
     @ColumnInfo(name = "cTranStat")
     private String TranStat;
+    @ColumnInfo(name = "dWaybillx")
+    private String Waybillx;
+    @ColumnInfo(name = "sWaybilNo")
+    private String WaybilNo;
+    @ColumnInfo(name = "sBatchNox")
+    private String BatchNox;
+    @ColumnInfo(name = "dPickedUp")
+    private String PickedUp;
     @ColumnInfo(name = "cPaymPstd")
     private String PaymPstd;
     @ColumnInfo(name = "cPaymType")
@@ -103,6 +111,14 @@ public class EOrderMaster {
         ClientID = clientID;
     }
 
+    public String getAppUsrID() {
+        return AppUsrID;
+    }
+
+    public void setAppUsrID(String appUsrID) {
+        AppUsrID = appUsrID;
+    }
+
     public String getReferNox() {
         return ReferNox;
     }
@@ -119,51 +135,59 @@ public class EOrderMaster {
         Remarksx = remarksx;
     }
 
-    public double getTranTotl() {
+    public Double getTranTotl() {
         return TranTotl;
     }
 
-    public void setTranTotl(double tranTotl) {
+    public void setTranTotl(Double tranTotl) {
         TranTotl = tranTotl;
     }
 
-    public double getVATRatex() {
+    public Double getVATRatex() {
         return VATRatex;
     }
 
-    public void setVATRatex(double VATRatex) {
+    public void setVATRatex(Double VATRatex) {
         this.VATRatex = VATRatex;
     }
 
-    public double getDiscount() {
+    public Double getDiscount() {
         return Discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(Double discount) {
         Discount = discount;
     }
 
-    public double getAddDiscx() {
+    public Double getAddDiscx() {
         return AddDiscx;
     }
 
-    public void setAddDiscx(double addDiscx) {
+    public void setAddDiscx(Double addDiscx) {
         AddDiscx = addDiscx;
     }
 
-    public double getFreightx() {
+    public Double getFreightx() {
         return Freightx;
     }
 
-    public void setFreightx(double freightx) {
+    public void setFreightx(Double freightx) {
         Freightx = freightx;
     }
 
-    public double getAmtPaidx() {
+    public Double getProcPaym() {
+        return ProcPaym;
+    }
+
+    public void setProcPaym(Double procPaym) {
+        ProcPaym = procPaym;
+    }
+
+    public Double getAmtPaidx() {
         return AmtPaidx;
     }
 
-    public void setAmtPaidx(double amtPaidx) {
+    public void setAmtPaidx(Double amtPaidx) {
         AmtPaidx = amtPaidx;
     }
 
@@ -207,6 +231,54 @@ public class EOrderMaster {
         TranStat = tranStat;
     }
 
+    public String getWaybillx() {
+        return Waybillx;
+    }
+
+    public void setWaybillx(String waybillx) {
+        Waybillx = waybillx;
+    }
+
+    public String getWaybilNo() {
+        return WaybilNo;
+    }
+
+    public void setWaybilNo(String waybilNo) {
+        WaybilNo = waybilNo;
+    }
+
+    public String getBatchNox() {
+        return BatchNox;
+    }
+
+    public void setBatchNox(String batchNox) {
+        BatchNox = batchNox;
+    }
+
+    public String getPickedUp() {
+        return PickedUp;
+    }
+
+    public void setPickedUp(String pickedUp) {
+        PickedUp = pickedUp;
+    }
+
+    public String getPaymPstd() {
+        return PaymPstd;
+    }
+
+    public void setPaymPstd(String paymPstd) {
+        PaymPstd = paymPstd;
+    }
+
+    public String getPaymType() {
+        return PaymType;
+    }
+
+    public void setPaymType(String paymType) {
+        PaymType = paymType;
+    }
+
     public String getModified() {
         return Modified;
     }
@@ -221,37 +293,5 @@ public class EOrderMaster {
 
     public void setTimeStmp(String timeStmp) {
         TimeStmp = timeStmp;
-    }
-
-    public String getAppUsrID() {
-        return AppUsrID;
-    }
-
-    public void setAppUsrID(String appUsrID) {
-        AppUsrID = appUsrID;
-    }
-
-    public double getProcPaym() {
-        return ProcPaym;
-    }
-
-    public void setProcPaym(double procPaym) {
-        ProcPaym = procPaym;
-    }
-
-    public String getPaymType() {
-        return PaymType;
-    }
-
-    public void setPaymType(String paymType) {
-        PaymType = paymType;
-    }
-
-    public String getPaymPstd() {
-        return PaymPstd;
-    }
-
-    public void setPaymPstd(String paymPstd) {
-        PaymPstd = paymPstd;
     }
 }

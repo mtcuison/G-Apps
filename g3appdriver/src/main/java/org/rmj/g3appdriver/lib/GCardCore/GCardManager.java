@@ -176,7 +176,8 @@ public class GCardManager implements iGCardSystem{
     public void AddGCardQrCode(String GCardNumber, GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
         params.put("secureno", poCode.generateSecureNo(GCardNumber));
-        String lsResponse = WebClient.httpsPostJSon(poAPI.getAddNewGCardAPI(), params.toString(), poHeaders.getHeaders());
+        String lsAddress = poAPI.getAddNewGCardAPI();
+        String lsResponse = WebClient.httpsPostJSon(lsAddress, params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("No server response.");
         } else {
@@ -300,7 +301,7 @@ public class GCardManager implements iGCardSystem{
     @Override
     public void ParseQrCode(String val, GCardSystem.ParseQrCodeCallback callback) throws Exception {
         poCode.setEncryptedQrCode(val);
-        String lsMobileNo = new Telephony(mContext).getMobilNumbers();
+        String lsMobileNo = new AccountInfo(mContext).getMobileNo();
         String lsUserIDxx = new AccountInfo(mContext).getUserID();
         String lsGcardNox = poGCard.getCardNo();
         if(poConfig.getTestCase() && lsMobileNo.isEmpty()){
@@ -310,9 +311,10 @@ public class GCardManager implements iGCardSystem{
             callback.OnFailed("No Gcard number detected");
         } else if(!poCode.isCodeValid()){
             callback.OnFailed("Invalid Qr Code");
-        } else
-            if (poCode.isQrCodeTransaction()){
-            if(lsUserIDxx.isEmpty()){
+        } else if (poCode.isQrCodeTransaction()){
+            if(poCode.isTransactionVoid()){
+                callback.TransactionResult(poCode.getTransactionPIN());
+            } else if(lsUserIDxx.isEmpty()){
                 callback.OnFailed("No user account detected. Please make sure you login account before proceeding.");
             } else if(lsMobileNo.isEmpty()){
                 callback.OnFailed("Unable to retrieve device mobile no. Please make sure your device has mobile no.");
@@ -472,7 +474,6 @@ public class GCardManager implements iGCardSystem{
     public LiveData<List<EGCardTransactionLedger>> GetRedemptionTransactions() {
         return poLedger.getRedemptionTransactionsList();
     }
-
 
     @Override
     public void DownloadMCServiceInfo(GCardSystem.GCardSystemCallback callback) throws Exception {

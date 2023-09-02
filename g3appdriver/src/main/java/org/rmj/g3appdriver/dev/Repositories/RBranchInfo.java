@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ETownInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 
 import java.util.List;
@@ -43,6 +45,26 @@ public class RBranchInfo implements DBranchInfo {
     @Override
     public EBranchInfo getBranchIfExist(String BranchCde) {
         return poDao.getBranchIfExist(BranchCde);
+    }
+
+    @Override
+    public LiveData<List<ETownInfo>> GetTownList(String args) {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EProvinceInfo>> GetProvinceList() {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EBranchInfo>> GetMCBranches(String Province) {
+        return null;
+    }
+
+    @Override
+    public LiveData<List<EBranchInfo>> GetMPBranches(String Province) {
+        return null;
     }
 
     @Override

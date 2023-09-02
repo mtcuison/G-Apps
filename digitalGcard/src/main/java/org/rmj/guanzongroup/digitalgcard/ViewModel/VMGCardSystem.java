@@ -301,8 +301,26 @@ public class VMGCardSystem extends AndroidViewModel {
                         @Override
                         public void OnSuccess(String args) {
                             try {
-                                JSONObject loDetail = new JSONObject(args);
-                                mGcardSys.SaveGCardInfo(loDetail);
+                                Thread.sleep(1000);
+                                mGcardSys.DownloadGcardNumbers(new GCardSystem.GCardSystemCallback() {
+                                    @Override
+                                    public void OnSuccess(String args) {
+                                        try {
+                                            JSONObject loDetail = new JSONObject(args);
+                                            mGcardSys.SaveGCardInfo(loDetail);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        lsResult[0] = parse(FAILED, message);
+                                    }
+                                });
+
+                                Thread.sleep(1000);
                                 mGcardSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
                                     @Override
                                     public void OnSuccess(String args) {
@@ -506,11 +524,13 @@ public class VMGCardSystem extends AndroidViewModel {
 
     }
 
-    private static class DownloadGcardNumbersTask extends AsyncTask<Void, Void, Void> {
+    private static class DownloadGcardNumbersTask extends AsyncTask<Void, Void, Boolean> {
         private static final String DOWNLOAD_GCARD_TAG = DownloadGcardNumbersTask.class.getSimpleName();
         private final iGCardSystem mGcardSys;
         private final ConnectionUtil loConnect;
         private final GcardTransactionCallback loCallbck;
+
+        private String message;
 
         private DownloadGcardNumbersTask(iGCardSystem foGcrdSys, ConnectionUtil foConnect, GcardTransactionCallback callBack) {
             this.mGcardSys = foGcrdSys;
@@ -525,44 +545,60 @@ public class VMGCardSystem extends AndroidViewModel {
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Boolean doInBackground(Void... voids) {
             try {
-                if(loConnect.isDeviceConnected()) {
-                    //TODO: Add QR Scanner Method here to provide
-                    mGcardSys.DownloadGcardNumbers(new GCardSystem.GCardSystemCallback() {
-                        @Override
-                        public void OnSuccess(String args) {
-                            try {
-                                JSONObject loDetail = new JSONObject(args);
-                                loCallbck.onSuccess(args);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.e(DOWNLOAD_GCARD_TAG, e.getMessage());
-                                loCallbck.onFailed(DOWNLOAD_GCARD_TAG + e.getMessage());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                Log.e(DOWNLOAD_GCARD_TAG, e.getMessage());
-                                loCallbck.onFailed(DOWNLOAD_GCARD_TAG + e.getMessage());
-                            }
-                        }
-
-                        @Override
-                        public void OnFailed(String message) {
-                            loCallbck.onFailed(message);
-                        }
-
-                    });
-                } else {
-                    loCallbck.onFailed(AppConstants.SERVER_NO_RESPONSE());
+                if(!loConnect.isDeviceConnected()) {
+                    return false;
                 }
+                final int[] lnResult = {0};
+                mGcardSys.DownloadGcardNumbers(new GCardSystem.GCardSystemCallback() {
+                    @Override
+                    public void OnSuccess(String args) {
+                        try {
+                            JSONObject loDetail = new JSONObject(args);
+                            mGcardSys.SaveGCardInfo(loDetail);
+                            lnResult[0] = 2;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            message = e.getMessage();
+                            lnResult[0] = 1;
+                        }
+                    }
+
+                    @Override
+                    public void OnFailed(String fsmessage) {
+                        message = fsmessage;
+                        lnResult[0] = 1;
+                    }
+
+                });
+
+                while (lnResult[0] == 0){
+                    Log.d(TAG, "Waiting for result...");
+                }
+
+                if(lnResult[0] == 1){
+                    return false;
+                }
+
+                return true;
             } catch(Exception e) {
                 e.printStackTrace();
-                Log.e(DOWNLOAD_GCARD_TAG, e.getMessage());
-                loCallbck.onFailed(DOWNLOAD_GCARD_TAG + e.getMessage());
+                message = e.getMessage();
+                return false;
             }
-            return null;
         }
 
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                loCallbck.onFailed(message);
+                return;
+            }
+
+            loCallbck.onSuccess(message);
+        }
     }
 
     private static class ActivateGcardTask extends AsyncTask<String, Void, Void> {

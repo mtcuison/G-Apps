@@ -71,8 +71,8 @@ public class VMMPItemCart extends AndroidViewModel {
         new SelectAllTask(poOrder).execute(isSelected);
     }
 
-    public void DeleteAllSelected(){
-        new DeleteSelectedTask(poOrder).execute();
+    public void DeleteAllSelected(OnTransactionsCallback foCallBck){
+        new DeleteSelectedTask(foCallBck).execute();
     }
 
     public LiveData<List<ItemCartModel>> getMarketPlaceItemCart(){
@@ -130,20 +130,40 @@ public class VMMPItemCart extends AndroidViewModel {
         }
     }
 
-    private static class DeleteSelectedTask extends AsyncTask<String, Void, Boolean>{
 
-        private final ROrder loItmCart;
 
-        private DeleteSelectedTask(ROrder foItmCart) {
-            this.loItmCart = foItmCart;
+    private class DeleteSelectedTask extends AsyncTask<String, Void, Boolean>{
+
+        private final OnTransactionsCallback foCallBck;
+
+        private String message;
+
+        private DeleteSelectedTask(OnTransactionsCallback foCallBck) {
+            this.foCallBck = foCallBck;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            foCallBck.onLoading();
         }
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            if(!loItmCart.DeleteAll()){
-                return true;
+            if(!poOrder.DeleteAll()){
+                message = poOrder.getMessage();
+                return false;
             }
-            return false;
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if(!isSuccess){
+                foCallBck.onFailed(message);
+            } else {
+                foCallBck.onSuccess(message);
+            }
         }
     }
 

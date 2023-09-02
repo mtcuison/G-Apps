@@ -17,13 +17,17 @@ import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
+import org.rmj.g3appdriver.etc.Telephony;
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 
 public class VMAccountAuthentication extends AndroidViewModel {
     private static final String TAG = VMAccountAuthentication.class.getSimpleName();
     private final ConnectionUtil poConnect;
     private final AccountAuthentication poActAuth;
     private final RClientInfo poClientx;
+    private final AccountInfo poAccount;
+    private final Telephony poDevice;
 
     public VMAccountAuthentication(@NonNull Application application) {
         super(application);
@@ -31,6 +35,20 @@ public class VMAccountAuthentication extends AndroidViewModel {
         this.poConnect = new ConnectionUtil(application);
         this.poActAuth = new AccountAuthentication(application);
         this.poClientx = new RClientInfo(application);
+        this.poAccount = new AccountInfo(application);
+        this.poDevice = new Telephony(application);
+    }
+
+    public String GetMobileNo(){
+        if(!poAccount.getMobileNo().isEmpty()){
+            return poAccount.getMobileNo();
+        }
+
+        if(!poDevice.getMobilNumbers().isEmpty()){
+            return poDevice.getMobilNumbers();
+        }
+
+        return "";
     }
 
     public void LoginAccount(AccountAuthentication.LoginCredentials foCrednts, AuthenticationCallback foCallbck) {

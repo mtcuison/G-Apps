@@ -16,7 +16,8 @@ import android.widget.TextView;
 
 import com.kofigyan.stateprogressbar.StateProgressBar;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EEmailInfo;
+import org.rmj.g3appdriver.dev.Database.Entities
+        .EEmailInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EMobileInfo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
@@ -82,9 +83,10 @@ public class Activity_AccountDetails extends AppCompatActivity {
             mViewModel.GetClientDetailForPreview().observe(this, clientInfo -> {
                 try {
                     TextView lblUserNm = findViewById(R.id.lbl_username);
+                    TextView lblInfoVerify= findViewById(R.id.lbl_Info_verify);
                     lblUserNm.setText(clientInfo.sUserName);
-
                     if(clientInfo.cVerified.equalsIgnoreCase("1")) {
+                        lblInfoVerify.setVisibility(View.GONE);
                         Drawable img = Activity_AccountDetails.this.getResources().getDrawable(R.drawable.ic_baseline_verified_user_24);
                         img.setBounds(0, 0, 60, 60);
                         lblUserNm.setCompoundDrawables(null, null, img, null);
@@ -212,5 +214,4 @@ public class Activity_AccountDetails extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 }

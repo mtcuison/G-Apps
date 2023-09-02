@@ -401,7 +401,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/verified_user/baseline_verified_user_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/card_giftcard/baseline_card_giftcard_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -411,9 +411,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="f47422" />
-                            <entry key="outputName" value="ic_baseline_verified_user_24" />
-                            <entry key="sourceFile" value="C:\Users\User\Downloads\loan-application-icon.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_raffle_ticket_24" />
+                            <entry key="sourceFile" value="C:\Users\User\Downloads\ticket-star-svgrepo-com (1).svg" />
                           </map>
                         </option>
                       </PersistentState>

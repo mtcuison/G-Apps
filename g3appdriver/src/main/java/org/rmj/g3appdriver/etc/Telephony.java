@@ -89,6 +89,7 @@ public class Telephony {
             }
         } catch (Exception e){
             e.printStackTrace();
+            return "";
         }
         return "";
     }

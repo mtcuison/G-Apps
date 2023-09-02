@@ -334,6 +334,7 @@ public class SystemExtras implements iGCardSystem{
                     info.setBranchNm(loJson.getString("sBranchNm"));
                     info.setDescript(loJson.getString("sDescript"));
                     info.setAddressx(loJson.getString("sAddressx"));
+                    info.setTownIDxx(loJson.getString("sTownIDxx"));
                     if(loJson.has("nLatitude") &&
                     loJson.has("nLongtude") &&
                     !loJson.getString("nLatitude").isEmpty() &&

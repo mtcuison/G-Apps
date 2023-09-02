@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
-import org.rmj.guanzongroup.useraccount.Etc.DocScanner;
+import org.rmj.guanzongroup.documentscanner.DocScanner;
 import org.rmj.guanzongroup.useraccount.R;
 
 import java.io.ByteArrayOutputStream;
@@ -19,6 +19,7 @@ public class Activity_DocumentScan extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document_scan);
+
         new DocScanner(Activity_DocumentScan.this).initScanner(new DocScanner.OnScanDocumentListener() {
             @Override
             public void OnScanned(Bitmap bitmap) {

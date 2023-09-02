@@ -44,7 +44,6 @@ public class Fragment_PaymentInfo extends Fragment {
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMPayOrder.class);
-        TransNox = Activity_PayOrder.getInstance().getTransNox();
         binding = FragmentPaymentInfoBinding.inflate(inflater, container, false);
         poDialogx = new Dialog_SingleButton(requireActivity());
         displayPaymentInfo();
@@ -77,7 +76,7 @@ public class Fragment_PaymentInfo extends Fragment {
             binding.txtPayTyp.setText(payMeth.toString());
             psPayment = payMeth.toString();
             if(!psPayment.equalsIgnoreCase(PaymentMethod.CashOnDelivery.toString())){
-                double lnOrderAmnt = Activity_PayOrder.getInstance().getOrderAmount();
+                double lnOrderAmnt = 0;
                 binding.lblCodAmount.setText(CashFormatter.parse(String.valueOf(lnOrderAmnt)));
                 binding.lblPayAmount.setText("To complete your purchase please deposit ₱" + lnOrderAmnt + " to " + payMeth + " account shown below.");
                 binding.cardviewPaymentInfo.setVisibility(View.VISIBLE);
@@ -137,7 +136,7 @@ public class Fragment_PaymentInfo extends Fragment {
                             binding.linearCod.setVisibility(View.VISIBLE);
                             binding.btnConfrm.setText("Continue Shopping");
                             if(requireActivity().getIntent().hasExtra("nSubTotal")){
-                                double lnOrderAmnt = Activity_PayOrder.getInstance().getOrderAmount();
+                                double lnOrderAmnt = 0;
                                 binding.lblOrderAmount.setText(CashFormatter.parse(String.valueOf(lnOrderAmnt)));
                                 binding.lblCodAmount.setText(CashFormatter.parse(String.valueOf(lnOrderAmnt)));
                             }

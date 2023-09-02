@@ -74,6 +74,12 @@ public class ROrder {
             } else if(ValidateItemQuantity(fsLstngID, fnQuantity)) {
                 Thread.sleep(1000);
 
+                EItemCart loItem = poCartDao.CheckIFItemExist(fsLstngID);
+                if(loItem != null){
+                    int lnQty = poCartDao.CheckIFItemExist(fsLstngID).getQuantity();
+                    fnQuantity = lnQty + fnQuantity;
+                }
+
                 ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
                 JSONObject params = new JSONObject();
                 params.put("sListngID", fsLstngID);
@@ -340,9 +346,9 @@ public class ROrder {
                 poCartDao.SaveItemInfo(loItem);
                 Log.d(TAG, "");
             } else {
-                int lnQty = poCartDao.CheckIFItemExist(fsLstngID).getQuantity();
-                lnQty = lnQty + fnQuantity;
-                poCartDao.UpdateItem(fsLstngID, lnQty);
+//                int lnQty = poCartDao.CheckIFItemExist(fsLstngID).getQuantity();
+//                lnQty = lnQty + fnQuantity;
+                poCartDao.UpdateItem(fsLstngID, fnQuantity);
             }
             return true;
         } catch (Exception e){
@@ -622,6 +628,10 @@ public class ROrder {
                             oMaster.setDiscount(joMaster.getDouble("nDiscount"));
                             oMaster.setFreightx(joMaster.getDouble("nFreightx"));
                             oMaster.setAmtPaidx(joMaster.getDouble("nAmtPaidx"));
+                            oMaster.setWaybillx(joMaster.getString("dWaybillx"));
+                            oMaster.setWaybilNo(joMaster.getString("sWaybilNo"));
+                            oMaster.setPickedUp(joMaster.getString("dPickedUp"));
+                            oMaster.setBatchNox(joMaster.getString("sBatchNox"));
                             oMaster.setProcPaym(joMaster.getDouble("nProcPaym"));
                             oMaster.setTermCode(joMaster.getString("sTermCode"));
                             oMaster.setPaymType(joMaster.getString("cPaymType"));
@@ -642,8 +652,15 @@ public class ROrder {
                                 loclMaster.setDiscount(joMaster.getDouble("nDiscount"));
                                 loclMaster.setFreightx(joMaster.getDouble("nFreightx"));
                                 loclMaster.setAmtPaidx(joMaster.getDouble("nAmtPaidx"));
+                                loclMaster.setWaybillx(joMaster.getString("dWaybillx"));
+                                loclMaster.setWaybilNo(joMaster.getString("sWaybilNo"));
+                                loclMaster.setPickedUp(joMaster.getString("dPickedUp"));
+                                loclMaster.setBatchNox(joMaster.getString("sBatchNox"));
+                                loclMaster.setProcPaym(joMaster.getDouble("nProcPaym"));
                                 loclMaster.setTermCode(joMaster.getString("sTermCode"));
+                                loclMaster.setPaymType(joMaster.getString("cPaymType"));
                                 loclMaster.setTranStat(joMaster.getString("cTranStat"));
+                                loclMaster.setPaymPstd(joMaster.getString("cPaymPstd"));
                                 loclMaster.setTimeStmp(joMaster.getString("dTimeStmp"));
                                 poMaster.UpdateMaster(loclMaster);
                                 Log.d(TAG, "Order master updated!. Transaction No. : " + loclMaster.getTransNox());
@@ -767,10 +784,25 @@ public class ROrder {
         return poMaster.GetOrderHistoryList();
     }
 
-    public LiveData<List<DOrderMaster.OrderHistory>> GetOrderHistoryList(String fsVal){
-        return poMaster.GetOrderHistoryList(fsVal);
+    public LiveData<List<DOrderMaster.OrderHistory>> GetProcessingOrdersList(){
+        return poMaster.GetProcessingOrderList();
     }
 
+    public LiveData<List<DOrderMaster.OrderHistory>> GetToShipOrdersList(){
+        return poMaster.GetToShipOrdersList();
+    }
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetCancelledOrdersList(){
+        return poMaster.GetCancelledOrdersList();
+    }
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetDeliveredOrdersList(){
+        return poMaster.GetDeliveredOrdersList();
+    }
+
+    public LiveData<List<DOrderMaster.OrderHistory>> GetShippedOrderList(){
+        return poMaster.GetShippedOrdersList();
+    }
 
     public LiveData<List<DOrderMaster.OrderHistory>> GetToPayOrderList(){
         return poMaster.GetToPayOrderList();
@@ -858,7 +890,17 @@ public class ROrder {
 
     public boolean DeleteAll(){
         try{
-            poCartDao.DeleteAllSelected();
+            List<EItemCart> loList = poCartDao.GetAllItemCart();
+            for (int x = 0; x < loList.size(); x++){
+                EItemCart loItem = loList.get(x);
+                if(!RemoveCartItem(loItem.getListIDxx())){
+                    Log.e(TAG, message);
+                } else {
+                    Log.d(TAG, "Item " + loItem.getListIDxx() + " has been removed from item cart successfully.");
+                    poCartDao.DeleteCartItem(loItem.getListIDxx());
+                }
+                Thread.sleep(1000);
+            }
             return true;
         } catch (Exception e){
             e.printStackTrace();

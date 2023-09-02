@@ -50,7 +50,7 @@ public class Fragment_MPItemCart extends Fragment {
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
     private Dialog_DoubleButton poMessage;
-    private MaterialButton btnCheckOut, btnShopNow;
+    private MaterialButton btnCheckOut;
     private ImageButton btnDelete;
     private TextView lblGrandTotal, lblTotalCount;
     private CheckBox cbSelectAll;
@@ -71,138 +71,135 @@ public class Fragment_MPItemCart extends Fragment {
         View v = inflater.inflate(R.layout.fragment_mp_item_cart, container, false);
         v.setVisibility(View.GONE);
         initWidgets(v);
-        try {
-            LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
-            mViewModel.GetCartItemsList().observe(getViewLifecycleOwner(), items -> {
-                try {
-                    List<ItemCartModel> itemCart = mViewModel.ParseDataForAdapter(items);
-                    if (itemCart.size() > 0){
-                        v.setVisibility(View.VISIBLE);
-                        cvSelectAll.setVisibility(View.VISIBLE);
-                        noItem.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        lnMPFooter.setVisibility(View.VISIBLE);
-                        adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
-                            @Override
-                            public void onItemSelect(String fsListIdx) {
-                                mViewModel.forCheckOut(fsListIdx);
-                            }
 
-                            @Override
-                            public void onItemDeselect(String fsListIdx) {
-                                mViewModel.removeForCheckOut(fsListIdx);
-                            }
-
-                            @Override
-                            public void onItemDelete(String fsListIDx) {
-                                mViewModel.RemoveItemOnCart(fsListIDx, new OnTransactionsCallback() {
-                                    @Override
-                                    public void onLoading() {
-                                        poLoading.initDialog("Item Cart", "Processing. Please wait.");
-                                        poLoading.show();
-                                    }
-
-                                    @Override
-                                    public void onSuccess(String fsMessage) {
-                                        poLoading.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onFailed(String fsMessage) {
-                                        poLoading.dismiss();
-                                        poDialogx.setButtonText("Okay");
-                                        poDialogx.initDialog("Item Cart", fsMessage, () -> poDialogx.dismiss());
-                                        poDialogx.show();
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onQuantityClick(String fsListIdx, int fnItemQty) {
-                                mViewModel.addUpdateCart(fsListIdx, fnItemQty, true,new OnTransactionsCallback() {
-                                    @Override
-                                    public void onLoading() {
-                                        poLoading.initDialog("Item Cart", "Processing. Please wait.");
-                                        poLoading.show();
-                                    }
-
-                                    @Override
-                                    public void onSuccess(String fsMessage) {
-                                        poLoading.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onFailed(String fsMessage) {
-                                        poLoading.dismiss();
-                                        poDialogx.setButtonText("Okay");
-                                        poDialogx.initDialog("Item Cart", fsMessage, () -> poDialogx.dismiss());
-                                        poDialogx.show();
-                                    }
-                                });
-                            }
-                        });
-                        Log.e("itemCart = ", String.valueOf(itemCart.size()));
-                        recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        v.setVisibility(View.VISIBLE);
-                        noItem.setVisibility(View.VISIBLE);
-                        cvSelectAll.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.GONE);
-                        lnMPFooter.setVisibility(View.GONE);
-                    }
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            });
-
-            mViewModel.GetSelectedItemTotalPrice().observe(getViewLifecycleOwner(), subtotal -> {
-                try{
-                    lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            });
-
-            mViewModel.GetMpItemCartCount().observe(getViewLifecycleOwner(), count -> {
-                try{
-                    if(count > 0){
-                        if(count == 1){
-                            cbSelectAll.setText("Select All(1 Item)");
-                        } else {
-                            cbSelectAll.setText("Select All(" + count+ " Items)");
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
+        mViewModel.GetCartItemsList().observe(getViewLifecycleOwner(), items -> {
+            try {
+                List<ItemCartModel> itemCart = mViewModel.ParseDataForAdapter(items);
+                if (itemCart.size() > 0){
+                    v.setVisibility(View.VISIBLE);
+                    cvSelectAll.setVisibility(View.VISIBLE);
+                    noItem.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    lnMPFooter.setVisibility(View.VISIBLE);
+                    adapter = new Adapter_ItemCart(itemCart, new Adapter_ItemCart.OnCartAction() {
+                        @Override
+                        public void onItemSelect(String fsListIdx) {
+                            mViewModel.forCheckOut(fsListIdx);
                         }
-                    }
-                    nTotCount = count;
-                    setupSelectAllCheckBox();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            });
 
-            mViewModel.GetSelectedItemCartTotalCount().observe(getViewLifecycleOwner(), count -> {
-                try{
-                    if(count == 0){
-                        lblTotalCount.setText("Total(" + count + ")item");
-                        btnDelete.setVisibility(View.GONE);
-                    } else if(count == 1){
-                        lblTotalCount.setText("Total(" + count + ")item");
-                        btnDelete.setVisibility(View.VISIBLE);
-                    } else {
-                        lblTotalCount.setText("Total(" + count + ")items");
-                        btnDelete.setVisibility(View.VISIBLE);
-                    }
-                    nSelected = count;
-                    setupSelectAllCheckBox();
-                } catch (Exception e){
-                    e.printStackTrace();
+                        @Override
+                        public void onItemDeselect(String fsListIdx) {
+                            mViewModel.removeForCheckOut(fsListIdx);
+                        }
+
+                        @Override
+                        public void onItemDelete(String fsListIDx) {
+                            mViewModel.RemoveItemOnCart(fsListIDx, new OnTransactionsCallback() {
+                                @Override
+                                public void onLoading() {
+                                    poLoading.initDialog("Item Cart", "Processing. Please wait.");
+                                    poLoading.show();
+                                }
+
+                                @Override
+                                public void onSuccess(String fsMessage) {
+                                    poLoading.dismiss();
+                                }
+
+                                @Override
+                                public void onFailed(String fsMessage) {
+                                    poLoading.dismiss();
+                                    poDialogx.setButtonText("Okay");
+                                    poDialogx.initDialog("Item Cart", fsMessage, () -> poDialogx.dismiss());
+                                    poDialogx.show();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onQuantityClick(String fsListIdx, int fnItemQty) {
+                            mViewModel.addUpdateCart(fsListIdx, fnItemQty, true,new OnTransactionsCallback() {
+                                @Override
+                                public void onLoading() {
+                                    poLoading.initDialog("Item Cart", "Processing. Please wait.");
+                                    poLoading.show();
+                                }
+
+                                @Override
+                                public void onSuccess(String fsMessage) {
+                                    poLoading.dismiss();
+                                }
+
+                                @Override
+                                public void onFailed(String fsMessage) {
+                                    poLoading.dismiss();
+                                    poDialogx.setButtonText("Okay");
+                                    poDialogx.initDialog("Item Cart", fsMessage, () -> poDialogx.dismiss());
+                                    poDialogx.show();
+                                }
+                            });
+                        }
+                    });
+                    Log.e("itemCart = ", String.valueOf(itemCart.size()));
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    v.setVisibility(View.VISIBLE);
+                    noItem.setVisibility(View.VISIBLE);
+                    cvSelectAll.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                    lnMPFooter.setVisibility(View.GONE);
                 }
-            });
-        }catch (NullPointerException e){
-            Log.e("",e.getMessage());
-        }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.GetSelectedItemTotalPrice().observe(getViewLifecycleOwner(), subtotal -> {
+            try{
+                lblGrandTotal.setText("₱ " + currencyFormat(subtotal));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.GetMpItemCartCount().observe(getViewLifecycleOwner(), count -> {
+            try{
+                if(count > 0){
+                    if(count == 1){
+                        cbSelectAll.setText("Select All(1 Item)");
+                    } else {
+                        cbSelectAll.setText("Select All(" + count+ " Items)");
+                    }
+                }
+                nTotCount = count;
+                setupSelectAllCheckBox();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+        mViewModel.GetSelectedItemCartTotalCount().observe(getViewLifecycleOwner(), count -> {
+            try{
+                if(count == 0){
+                    lblTotalCount.setText("Total(" + count + ")item");
+                    btnDelete.setVisibility(View.GONE);
+                } else if(count == 1){
+                    lblTotalCount.setText("Total(" + count + ")item");
+                    btnDelete.setVisibility(View.VISIBLE);
+                } else {
+                    lblTotalCount.setText("Total(" + count + ")items");
+                    btnDelete.setVisibility(View.VISIBLE);
+                }
+                nSelected = count;
+                setupSelectAllCheckBox();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
         // Show items below cart
         showSuggestions();
@@ -223,7 +220,7 @@ public class Fragment_MPItemCart extends Fragment {
                 @Override
                 public void onConfirm(AlertDialog dialog) {
                     dialog.dismiss();
-                    mViewModel.DeleteAllSelected();
+                    DeleteAllItemOnCart();
                 }
 
                 @Override
@@ -259,15 +256,9 @@ public class Fragment_MPItemCart extends Fragment {
                 }
             });
         });
-
-        btnShopNow.setOnClickListener(v1 -> {
-            Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
-            intent.putExtra("args", "dashboard");
-            requireActivity().sendBroadcast(intent);
-            requireActivity().finish();
-        });
         return v;
     }
+
     private void initWidgets(View view){
         poLoading = new Dialog_Loading(requireActivity());
         poDialogx = new Dialog_SingleButton(requireActivity());
@@ -279,7 +270,6 @@ public class Fragment_MPItemCart extends Fragment {
         lblGrandTotal = view.findViewById(R.id.lblMPGrandTotal);
         lblTotalCount = view.findViewById(R.id.lblMpTotalItems);
         btnCheckOut = view.findViewById(R.id.btnMPCheckOut);
-        btnShopNow = view.findViewById(R.id.btnMPShopNow);
         cbSelectAll = view.findViewById(R.id.cbSelectAll);
         btnDelete = view.findViewById(R.id.btnRemoveAll);
         cvSelectAll = view.findViewById(R.id.cvSelectAll);
@@ -317,5 +307,28 @@ public class Fragment_MPItemCart extends Fragment {
         } else {
             cbSelectAll.setChecked(false);
         }
+    }
+
+    private void DeleteAllItemOnCart(){
+        mViewModel.DeleteAllSelected(new OnTransactionsCallback() {
+            @Override
+            public void onLoading() {
+                poLoading.initDialog("Item Cart", "Removing items. Please wait.");
+                poLoading.show();
+            }
+
+            @Override
+            public void onSuccess(String fsMessage) {
+                poLoading.dismiss();
+            }
+
+            @Override
+            public void onFailed(String fsMessage) {
+                poLoading.dismiss();
+                poDialogx.setButtonText("Okay");
+                poDialogx.initDialog("Item Cart", fsMessage, () -> poDialogx.dismiss());
+                poDialogx.show();
+            }
+        });
     }
 }

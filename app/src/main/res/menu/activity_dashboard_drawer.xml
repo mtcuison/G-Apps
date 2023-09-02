@@ -17,26 +17,31 @@
         <item
             android:id="@+id/nav_events"
             android:icon="@drawable/ic_baseline_event_note_24"
+            android:visible="false"
             android:title="@string/menu_events" />
 
         <item
             android:id="@+id/nav_item_cart"
             android:icon="@drawable/ic_baseline_shopping_cart_24"
+            android:visible="false"
             android:title="@string/menu_item_cart" />
 
         <item
             android:id="@+id/nav_purchases"
             android:icon="@drawable/ic_baseline_shopping_bag_24"
+            android:visible="false"
             android:title="@string/menu_purchases" />
 
         <item
             android:id="@+id/nav_applyLoan"
             android:icon="@drawable/ic_baseline_loan_24"
+            android:visible="true"
             android:title="@string/menu_apply_loan" />
 
         <item
             android:id="@+id/nav_wishlist"
             android:icon="@drawable/ic_baseline_heart_24"
+            android:visible="false"
             android:title="@string/menu_wishlist" />
 
         <item android:title="@string/menu_subtitle_gcard">
@@ -50,6 +55,11 @@
                     android:id="@+id/nav_scan_qrcode"
                     android:icon="@drawable/ic_baseline_qr_code_scanner_24"
                     android:title="@string/menu_scan_gcard" />
+
+                <item
+                    android:id="@+id/nav_raffle_entry"
+                    android:icon="@drawable/ic_raffle_ticket_24"
+                    android:title="@string/menu_raffle_entry" />
 
                 <item
                     android:id="@+id/nav_redeemables"

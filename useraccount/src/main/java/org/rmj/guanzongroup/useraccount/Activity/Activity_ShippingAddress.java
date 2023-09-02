@@ -6,10 +6,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import org.rmj.guanzongroup.useraccount.Fragment.Fragment_AddressCreate;
 import org.rmj.guanzongroup.useraccount.Fragment.Fragment_AddressList;
+import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMShippingAddress;
 import org.rmj.guanzongroup.useraccount.databinding.ActivityShippingAddressBinding;
 
@@ -52,6 +56,17 @@ public class Activity_ShippingAddress extends AppCompatActivity {
     }
 
     public void setFragment(int fnPageNox) {
+        mViewModel.getClientBSAddress().observe(this, AddressInfo -> {
+            TextView lblAddVerify=findViewById(R.id.lbl_Address_verify);
+            try {
+                if (AddressInfo.cVerified.equalsIgnoreCase("1")){
+                    lblAddVerify.setVisibility(View.GONE);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         FragmentTransaction mFragHold = getSupportFragmentManager().beginTransaction();
         switch (fnPageNox) {
             case 1:

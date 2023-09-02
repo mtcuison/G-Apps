@@ -69,7 +69,6 @@ public class TestCreditAppObj {
         poApp.clientInfo().addressInfo().setAddress1("Sitio Tawi-Tawi");
         poApp.clientInfo().addressInfo().setBarangayID("211");
         poApp.clientInfo().addressInfo().setTownID("123");
-        poApp.clientInfo().addressInfo().setProvinceID("0123");
         psData = poApp.getData();
 
         Log.d(TAG, psData);

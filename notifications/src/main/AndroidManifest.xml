@@ -3,12 +3,19 @@
 
     <application>
         <activity
+            android:name=".Activity.Activity_GuanzonPanalo"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Activity.Activity_PreviewMessage"
             android:exported="false"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_NotificationList"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="userPortrait" />
         <activity
             android:name=".Activity.Activity_ViewNotification"

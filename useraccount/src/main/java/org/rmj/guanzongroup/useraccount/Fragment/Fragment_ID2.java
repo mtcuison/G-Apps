@@ -1,5 +1,8 @@
 package org.rmj.guanzongroup.useraccount.Fragment;
 
+import static org.rmj.guanzongroup.documentscanner.constants.ScanConstants.IDCodexx;
+import static org.rmj.guanzongroup.documentscanner.constants.ScanConstants.IDFacexx;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -38,10 +41,10 @@ import org.rmj.g3appdriver.etc.ImageFileHandler;
 import org.rmj.g3appdriver.lib.Account.Obj.UserIdentification;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.guanzongroup.documentscanner.DocScanner;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_DocumentScan;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_IDVerification;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_ProfileVerification;
-import org.rmj.guanzongroup.useraccount.Etc.DocScanner;
 import org.rmj.guanzongroup.useraccount.Etc.IDDetail;
 import org.rmj.guanzongroup.useraccount.R;
 import org.rmj.guanzongroup.useraccount.ViewModel.OnSubmitIDPictureListener;
@@ -156,6 +159,7 @@ public class Fragment_ID2 extends Fragment {
 
                         //Check if selected ID is already selected as the first id
                         String lsIDCode1 = Activity_IDVerification.getInstance().getsIDCodexx();
+                        IDCodexx = lsIDCode1;
                         if(loList.get(x).getIDCode().equalsIgnoreCase(lsIDCode1)){
                             spnIDType.setText("");
                             Toast.makeText(requireActivity(), "Please select other valid ID type.", Toast.LENGTH_SHORT).show();
@@ -232,6 +236,7 @@ public class Fragment_ID2 extends Fragment {
                 poRequest.launch(Manifest.permission.CAMERA);
             } else if(!poDetail.getsIDCodexx().trim().isEmpty()) {
                 cFront = true;
+                IDFacexx = "Front";
                 InitializeCamera(true);
             } else {
                 Toast.makeText(requireActivity(), "Please select valid ID 1 first", Toast.LENGTH_SHORT).show();
@@ -243,6 +248,7 @@ public class Fragment_ID2 extends Fragment {
                 poRequest.launch(Manifest.permission.CAMERA);
             } else if(!poDetail.getsIDCodexx().trim().isEmpty()) {
                 cFront = false;
+                IDFacexx = "Back";
                 InitializeCamera(false);
             } else {
                 Toast.makeText(requireActivity(), "Please select valid ID 1 first", Toast.LENGTH_SHORT).show();

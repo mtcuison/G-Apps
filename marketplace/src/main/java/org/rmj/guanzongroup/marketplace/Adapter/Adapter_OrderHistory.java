@@ -58,6 +58,7 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
         double lnSubTotal = lnTrantotl - (lnTrantotl * lnDiscount);
 
         double lnTotalxx = lnSubTotal + lnFreightx;
+        holder.lblBrandNm.setText(loMaster.xModelNme);
         holder.lblOrderTl.setText(CashFormatter.parse(String.valueOf(lnTotalxx)));
         holder.lblItmPrce.setText(CashFormatter.parse(String.valueOf(loMaster.nUnitPrce)));
         holder.lblItmQtyx.setText("Quantity: "+ loMaster.nQuantity);
@@ -111,16 +112,34 @@ public class Adapter_OrderHistory extends RecyclerView.Adapter<Adapter_OrderHist
                 if(fsVal.sTermCode.isEmpty()){
                     return "To Pay";
                 }
-                if(fsVal.sTermCode.equalsIgnoreCase("C0W2011") &&
-                fsVal.cPaymPstd.equalsIgnoreCase("1")){
-                    if(fsVal.nTranTotl > fsVal.nProcPaym) {
+
+                if(fsVal.sTermCode.equalsIgnoreCase("C0W2011")) {
+                    if(fsVal.cPaymPstd.equalsIgnoreCase("0")) {
+//                        if (fsVal.nTranTotl > fsVal.nProcPaym) {
+//                            return "To Pay";
+//                        }
+
+                        return "Processing Payment";
+                    } else if(fsVal.cPaymPstd.equalsIgnoreCase("1")){
+                        if (fsVal.nTranTotl > fsVal.nProcPaym) {
+                            return "To Pay";
+//                            return "Processing Payment";
+                        }
+                    } else if(fsVal.cPaymPstd.equalsIgnoreCase("3")){
                         return "To Pay";
                     }
                 }
-                if(fsVal.sTermCode.equalsIgnoreCase("C0W2011") &&
-                        fsVal.cPaymPstd.equalsIgnoreCase("0")){
-                    return "Processing Payment";
-                }
+//
+//                if(fsVal.sTermCode.equalsIgnoreCase("C0W2011") &&
+//                    fsVal.cPaymPstd.equalsIgnoreCase("1")){
+//                    if(fsVal.nTranTotl > fsVal.nProcPaym) {
+//                        return "To Pay";
+//                    }
+//                }
+//                if(fsVal.sTermCode.equalsIgnoreCase("C0W2011") &&
+//                        fsVal.cPaymPstd.equalsIgnoreCase("0")){
+//                    return "Processing Payment";
+//                }
                 return "Processing";
             case "1":
                 return "Verified";

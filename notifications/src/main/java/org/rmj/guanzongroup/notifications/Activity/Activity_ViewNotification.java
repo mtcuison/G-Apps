@@ -57,7 +57,7 @@ public class Activity_ViewNotification extends AppCompatActivity {
                 JSONObject loJson;
                 String psItemIdx, psEntryNo;
 
-                mViewModel.SendReadResponse(lsMsgID);
+                mViewModel.SendReadResponse(lsMsgID, lsMsgTp);
 
                 switch (lsMsgTp) {
                     case "00000":   //Regular Message

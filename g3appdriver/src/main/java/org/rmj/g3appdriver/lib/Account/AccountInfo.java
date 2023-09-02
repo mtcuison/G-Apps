@@ -23,6 +23,7 @@ public class AccountInfo {
     private static final String BIRTHDATE = "sBirthDte";
     private static final String BIRTHPLACE = "sBirthPlc";
     private static final String HOUSENO = "sHouseNox";
+    private static final String MOBILENO = "sMobileNo";
     private static final String ADDRESS = "sAddressx";
     private static final String BARANGAY = "sBrgyName";
     private static final String TOWN = "sTownName";
@@ -138,6 +139,11 @@ public class AccountInfo {
         editor.commit();
     }
 
+    public void setMobileNo(String fsVal){
+        editor.putString(MOBILENO, fsVal);
+        editor.commit();
+    }
+
     public String getUserID(){
         return pref.getString(USERID, "");
     }
@@ -212,6 +218,10 @@ public class AccountInfo {
 
     public int getVerificationStatus(){
         return pref.getInt(VERIFIED_STATUS, 0);
+    }
+
+    public String getMobileNo(){
+        return pref.getString(MOBILENO, "");
     }
 
     public void LogoutUser(){

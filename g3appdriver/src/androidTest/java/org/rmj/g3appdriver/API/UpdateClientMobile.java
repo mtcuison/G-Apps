@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
+import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -32,26 +33,46 @@ public class UpdateClientMobile {
         mContext = ApplicationProvider.getApplicationContext();
         new GuanzonAppConfig(mContext).setTestCase(true);
         poClient = new RClientInfo(mContext);
+
+        AccountAuthentication loAuth = new AccountAuthentication(mContext);
+        loAuth.LoginAccount(new AccountAuthentication.LoginCredentials("mikegarcia8748@gmail.com", "123456", "09260375777"), new AccountAuthentication.OnLoginCallback() {
+            @Override
+            public void OnSuccessLogin(String message) {
+                Log.e(TAG, message);
+            }
+
+            @Override
+            public void OnFailedLogin(String fsMessage) {
+                Log.e(TAG, fsMessage);
+            }
+
+            @Override
+            public void OnAccountVerification(String args, String args1) {
+
+            }
+        });
+
+        Thread.sleep(1000);
     }
 
-//    @Test
+    @Test
     public void test01UpdateClientMobile(){
-        isSuccess = poClient.UpdateMobileNo("09123456789");
+        isSuccess = poClient.UpdateMobileNo("09270359402");
         if(!isSuccess){
             Log.e(TAG, poClient.getMessage());
         }
-//        assertTrue(isSuccess);
-        assertFalse(isSuccess);
+        assertTrue(isSuccess);
+//        assertFalse(isSuccess);
     }
 
-//    @Test
+    @Test
     public void test02UpdateClientEmail(){
-        isSuccess = poClient.UpdateEmailAddress("emailsample123@domain.com");
+        isSuccess = poClient.UpdateEmailAddress("mikegarcia8748@gmail.com");
         if(!isSuccess){
             Log.e(TAG, poClient.getMessage());
         }
-//        assertTrue(isSuccess);
-        assertFalse(isSuccess);
+        assertTrue(isSuccess);
+//        assertFalse(isSuccess);
     }
 
     @Test
@@ -71,4 +92,5 @@ public class UpdateClientMobile {
         }
         assertTrue(isSuccess);
     }
+
 }

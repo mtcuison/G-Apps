@@ -62,7 +62,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLength="50"
-                        android:inputType="textPassword"
                         android:imeOptions="actionNext"
                         android:nextFocusForward="@id/tie_firstname" />
 
@@ -103,7 +102,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLength="50"
-                        android:inputType="textCapWords"
+                        android:inputType="textPassword"
                         android:imeOptions="actionNext"
                         android:nextFocusForward="@id/tie_firstname" />
 

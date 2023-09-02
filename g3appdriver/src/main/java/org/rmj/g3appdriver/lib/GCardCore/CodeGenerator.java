@@ -1,12 +1,15 @@
 package org.rmj.g3appdriver.lib.GCardCore;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.Panalo.PanaloRewards;
 import org.rmj.g3appdriver.utils.MySQLAESCrypt;
 
 import java.util.ArrayList;
@@ -56,6 +59,62 @@ public class CodeGenerator {
             e.printStackTrace();
         }
         return bitmap;
+    }
+
+    public Bitmap GeneratePanaloRebateRedemptionQC(PanaloRewards rewards){
+        Bitmap bitmap = null;
+        String UnEncryptedString =
+                rewards.getPanaloQC() + ";" +
+                rewards.getPanaloCD() + ";" +
+                rewards.getAcctNmbr() + ";" +
+                rewards.getAmountxx() + ";" +
+                rewards.getExpiryDt() + ";" +
+                rewards.getDeviceID() + ";" +
+                rewards.getUserIDxx() + ";" +
+                rewards.getItemQtyx() + ";" +
+                rewards.getRedeemxx() + ";" +
+                new AppConstants().DATE_MODIFIED;
+        String EncryptedCode = poEncrypt.Encrypt(UnEncryptedString, EncryptionKEY);
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(EncryptedCode, BarcodeFormat.QR_CODE, 900, 900);
+            bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            return bitmap;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    public Bitmap GeneratePanaloOtherRedemptionQC(PanaloRewards rewards){
+        Bitmap bitmap = null;
+        String UnEncryptedString =
+                rewards.getPanaloQC() + ";" +
+                rewards.getPanaloCD() + ";" +
+                rewards.getItemCode() + ";" +
+                rewards.getItemQtyx() + ";" +
+                rewards.getAmountxx() + ";" +
+                rewards.getExpiryDt() + ";" +
+                rewards.getDeviceID() + ";" +
+                rewards.getUserIDxx() + ";" +
+                new AppConstants().DATE_MODIFIED;
+        String EncryptedCode = poEncrypt.Encrypt(UnEncryptedString, EncryptionKEY);
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(EncryptedCode, BarcodeFormat.QR_CODE, 900, 900);
+            bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            return bitmap;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    public static Bitmap CreateRaffleEntryQrCode(String Transact, String ReferNo, String UserID, String DateTime) throws Exception{
+        String lsEncrypt = Transact + ";" + ReferNo + ";" + UserID + ";" + DateTime;
+        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+        String lsEncryptd = MySQLAESCrypt.Encrypt(lsEncrypt, EncryptionKEY);
+        BitMatrix bitMatrix = new MultiFormatWriter().encode(lsEncryptd, BarcodeFormat.QR_CODE, 700, 700);
+        return barcodeEncoder.createBitmap(bitMatrix);
+
     }
 
     public Bitmap generateGCardCodex(String SOURCE,
@@ -268,10 +327,14 @@ public class CodeGenerator {
         String mobileNo = getMobileNumber();
         String user = getUserID();
 
-        if(getSourceCD().equalsIgnoreCase("PREORDER")){
+        String lsSourceCD = getTransSource();
+
+        if(lsSourceCD.equalsIgnoreCase("PREORDER") ||
+            lsSourceCD.equalsIgnoreCase("REDEMPTION") ||
+            lsSourceCD.equalsIgnoreCase("ONLINE") ||
+            lsSourceCD.equalsIgnoreCase("OFFLINE")){
             return gcard.equalsIgnoreCase(GCardNumber) &&
-                    mobileNo.equalsIgnoreCase(MobileNo) &&
-                    user.equalsIgnoreCase(UserID);
+                    mobileNo.equalsIgnoreCase(MobileNo);
         } else {
             return mobileNo.equalsIgnoreCase(MobileNo);
         }
