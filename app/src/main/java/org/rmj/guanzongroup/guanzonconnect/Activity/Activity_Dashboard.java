@@ -112,6 +112,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
+                R.id.nav_product_inquiry,
                 R.id.nav_promos,
                 R.id.nav_events,
                 R.id.nav_purchases,
