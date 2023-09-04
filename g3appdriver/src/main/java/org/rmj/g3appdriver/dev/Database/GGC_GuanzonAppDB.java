@@ -16,7 +16,6 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEvents;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGCardTransactionLedger;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGanadoOnline;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGcardApp;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMCSerialRegistration;
@@ -30,7 +29,6 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPromo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRawDao;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemablesInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRelation;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DSearchLog;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DServiceInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DUserInfo;
@@ -43,7 +41,6 @@ import org.rmj.g3appdriver.dev.Database.Entities.EEmailInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
-import org.rmj.g3appdriver.dev.Database.Entities.EGanadoOnline;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.EGuanzonPanalo;
 import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
@@ -96,8 +93,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUserInfo;
         ESearchLog.class,
         EEmailInfo.class,
         EPanaloReward.class,
-        EGuanzonPanalo.class,
-        EGanadoOnline.class}, version = 2, exportSchema = false)
+        EGuanzonPanalo.class}, version = 2, exportSchema = false)
 public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     private static final String TAG = "GuanzonApp_DB_Manager";
     private static GGC_GuanzonAppDB instance;
@@ -126,8 +122,6 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     public abstract DOrderDetail orderDetailDao();
     public abstract DSearchLog searchDao();
     public abstract DPanalo panaloDao();
-    public abstract DGanadoOnline ganadoDao();
-    public abstract DRelation relDao();
 
     public static synchronized GGC_GuanzonAppDB getInstance(Context context){
         if(instance == null){
