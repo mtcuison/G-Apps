@@ -4,6 +4,7 @@
     <string name="nav_header_desc">Navigation header</string>
 
     <string name="menu_home">Home</string>
+    <string name="menu_product_inquiry">Product Inquiry</string>
     <string name="menu_promos">Promos</string>
     <string name="menu_events">Events</string>
     <string name="menu_purchases">My Orders</string>
