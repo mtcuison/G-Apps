@@ -12,6 +12,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InstallmentInfo;
+import org.rmj.gocas.pricelist.PriceFactory;
+import org.rmj.gocas.pricelist.Pricelist;
 
 import java.util.List;
 
