@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.dev.Database;
+package org.rmj.g3appdriver.dev.Database.DataAccessObject;
 
 
 import android.content.Context;
@@ -10,34 +10,6 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DBranchInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEvents;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGCardTransactionLedger;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGanadoOnline;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGcardApp;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMCSerialRegistration;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcBrand;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcCategory;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModel;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModelPrice;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileAddressInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderDetail;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderMaster;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPanalo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPromo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRawDao;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemablesInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRelation;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DSearchLog;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DServiceInfo;
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DUserInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EAddressInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
@@ -123,7 +95,7 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     private static GGC_GuanzonAppDB instance;
 
 
-    //    public abstract DAppEventInfo EAppEventDao();
+//    public abstract DAppEventInfo EAppEventDao();
     public abstract DBranchInfo EBranchDao();
     public abstract DClientInfo EClientDao();
     public abstract DGcardApp EGcardAppDao();
@@ -156,7 +128,7 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     public static synchronized GGC_GuanzonAppDB getInstance(Context context){
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                            GGC_GuanzonAppDB.class, "GGC_ISysDBF.db")
+                    GGC_GuanzonAppDB.class, "GGC_ISysDBF.db")
                     .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .addCallback(roomCallBack)
