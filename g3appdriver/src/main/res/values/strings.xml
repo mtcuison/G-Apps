@@ -27,6 +27,7 @@
     <string name="menu_subtitle_system">System</string>
     <!-- TODO: Remove or change this placeholder text -->
 
+    <string name="lblProductInquiry">Product Inquiry</string>
     <string name="lblPromos">Promos</string>
     <string name="lblEvents">Events</string>
     <string name="lblProductDescription">Product Description</string>
