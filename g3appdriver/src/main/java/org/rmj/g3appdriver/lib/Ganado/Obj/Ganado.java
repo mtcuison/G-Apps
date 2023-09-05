@@ -21,7 +21,7 @@ import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
-import org.rmj.g3appdriver.etc.Relation;
+import org.rmj.g3appdriver.dev.Repositories.Relation;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.Ganado.pojo.ClientInfo;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InquiryInfo;
