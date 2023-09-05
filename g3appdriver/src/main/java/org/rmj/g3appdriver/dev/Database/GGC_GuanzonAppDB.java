@@ -24,6 +24,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcBrand;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcCategory;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModel;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModelPrice;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcTermCategory;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileAddressInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderDetail;
@@ -152,6 +153,7 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     public abstract DMcModel McModelDao();
     public abstract DMcModelPrice McModelPriceDao();
     public abstract DMcCategory McCategoryDao();
+    public abstract DMcTermCategory McTermCategoryDao();
 
     public static synchronized GGC_GuanzonAppDB getInstance(Context context){
         if(instance == null){
