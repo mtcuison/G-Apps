@@ -102,6 +102,10 @@ public class ServerAPIs {
     private static final String SEND_REQUEST = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
     private static final String CHECK_UPDATE_URL = "https://restgk.guanzongroup.com.ph/gcard/ms/version_checker.php";
 
+    private static final String URL_DOWNLOAD_RELATION = "gcircle/params/download_relation.php";
+    private static final String URL_SUBMIT_INQUIRY = "gcircle/ganado/submit_inquiry.php";
+    private static final String URL_DOWNLOAD_INQUIRIES = "gcircle/ganado/import_inquiries.php";
+
     public ServerAPIs(boolean isUnitTest) {
         this.isTestUnit = isUnitTest;
     }
@@ -683,5 +687,26 @@ public class ServerAPIs {
             return LOCAL + VERIFY_CLIENT_MOBILE_NO;
         }
         return LIVE + VERIFY_CLIENT_MOBILE_NO;
+    }
+
+    public String getUrlDownloadRelation() {
+        if(isTestUnit){
+            return LOCAL + URL_DOWNLOAD_RELATION;
+        }
+        return LIVE + URL_DOWNLOAD_RELATION;
+    }
+
+    public String getSubmitInquiry() {
+        if(isTestUnit){
+            return LOCAL + URL_SUBMIT_INQUIRY;
+        }
+        return LIVE + URL_SUBMIT_INQUIRY;
+    }
+
+    public String getDownloadInquiries() {
+        if(isTestUnit){
+            return LOCAL + URL_DOWNLOAD_INQUIRIES;
+        }
+        return LIVE + URL_DOWNLOAD_INQUIRIES;
     }
 }

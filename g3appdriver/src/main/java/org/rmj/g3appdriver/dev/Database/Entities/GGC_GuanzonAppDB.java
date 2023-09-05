@@ -1,4 +1,4 @@
-package org.rmj.g3appdriver.dev.Database;
+package org.rmj.g3appdriver.dev.Database.Entities;
 
 
 import android.content.Context;
@@ -38,45 +38,6 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRelation;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DSearchLog;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DServiceInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DUserInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EAddressInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmailInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
-import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
-import org.rmj.g3appdriver.dev.Database.Entities.EGanadoOnline;
-import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
-import org.rmj.g3appdriver.dev.Database.Entities.EGuanzonPanalo;
-import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
-import org.rmj.g3appdriver.dev.Database.Entities.EMCColor;
-import org.rmj.g3appdriver.dev.Database.Entities.EMCModelCashPrice;
-import org.rmj.g3appdriver.dev.Database.Entities.EMCSerialRegistration;
-import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
-import org.rmj.g3appdriver.dev.Database.Entities.EMcCategory;
-import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
-import org.rmj.g3appdriver.dev.Database.Entities.EMcModelPrice;
-import org.rmj.g3appdriver.dev.Database.Entities.EMcTermCategory;
-import org.rmj.g3appdriver.dev.Database.Entities.EMobileInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
-import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
-import org.rmj.g3appdriver.dev.Database.Entities.EOrderDetail;
-import org.rmj.g3appdriver.dev.Database.Entities.EOrderMaster;
-import org.rmj.g3appdriver.dev.Database.Entities.EPanaloReward;
-import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
-import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
-import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ERelation;
-import org.rmj.g3appdriver.dev.Database.Entities.ESearchLog;
-import org.rmj.g3appdriver.dev.Database.Entities.EServiceInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ETokenInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.ETownInfo;
-import org.rmj.g3appdriver.dev.Database.Entities.EUserInfo;
 
 @Database(entities = {
         EEvents.class,
@@ -123,7 +84,7 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     private static GGC_GuanzonAppDB instance;
 
 
-    //    public abstract DAppEventInfo EAppEventDao();
+//    public abstract DAppEventInfo EAppEventDao();
     public abstract DBranchInfo EBranchDao();
     public abstract DClientInfo EClientDao();
     public abstract DGcardApp EGcardAppDao();
@@ -156,7 +117,7 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     public static synchronized GGC_GuanzonAppDB getInstance(Context context){
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                            GGC_GuanzonAppDB.class, "GGC_ISysDBF.db")
+                    GGC_GuanzonAppDB.class, "GGC_ISysDBF.db")
                     .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .addCallback(roomCallBack)
