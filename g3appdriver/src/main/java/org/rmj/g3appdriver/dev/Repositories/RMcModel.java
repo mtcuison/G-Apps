@@ -15,6 +15,7 @@ import static org.rmj.g3appdriver.etc.AppConstants.getErrorMessage;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -46,7 +47,7 @@ public class RMcModel {
     private final GuanzonAppConfig poConfig;
     private String message;
 
-    public RMcModel(Application instance){
+    public RMcModel(Context instance){
         this.poDao = GGC_GuanzonAppDB.getInstance(instance).McModelDao();
         this.poConfig = new GuanzonAppConfig(instance);
         this.poApi = new ServerAPIs(poConfig.getTestCase());

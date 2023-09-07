@@ -11,6 +11,8 @@
 
 package org.rmj.g3appdriver.etc;
 
+import android.util.Log;
+
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
@@ -75,6 +77,7 @@ public class AppConstants {
     }
 
     public static String getErrorMessage(JSONObject args) throws Exception{
+        Log.e("object", args.toString());
         String lsCode = args.getString("code");
         switch (lsCode){
             case "40020":

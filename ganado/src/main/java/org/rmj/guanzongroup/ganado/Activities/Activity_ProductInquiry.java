@@ -68,8 +68,8 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
         mViewModel.GetModelBrand(lsBrandID, lsModelID).observe(Activity_ProductInquiry.this, eMcModel -> {
             try {
-                txtModelCd.setText(EMcModel.getModelCde());
-                txtModelNm.setText(EMcModel.getModelNme());
+                txtModelCd.setText(eMcModel.getModelCde());
+                txtModelNm.setText(eMcModel.getModelNme());
                 txtBrandNm.setText(getIntent().getStringExtra("lsBrandNm"));
                 ImageFileManager.LoadImageToView(lsImgLink, imgMC);
             }catch (NullPointerException e){

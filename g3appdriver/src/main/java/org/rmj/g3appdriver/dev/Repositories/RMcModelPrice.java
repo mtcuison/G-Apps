@@ -14,6 +14,7 @@ package org.rmj.g3appdriver.dev.Repositories;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -42,7 +43,7 @@ public class RMcModelPrice {
 
     private String message;
 
-    public RMcModelPrice(Application instance) {
+    public RMcModelPrice(Context instance) {
         this.poDao = GGC_GuanzonAppDB.getInstance(instance).McModelPriceDao();
         this.poConfig = new GuanzonAppConfig(instance);
         this.poApi = new ServerAPIs(poConfig.getTestCase());

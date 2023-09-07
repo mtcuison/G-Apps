@@ -80,7 +80,7 @@ public class RMcBrand {
             }
 
             String lsResponse = WebClient.httpsPostJSon(
-                    poApi.getUrlDownloadRelation(),
+                    poApi.getUrlImportBrand(),
                     params.toString(),
                     poHeaders.getHeaders());
             if(lsResponse == null){
@@ -88,6 +88,7 @@ public class RMcBrand {
                 return false;
             }
 
+            Log.d(TAG, lsResponse);
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
 

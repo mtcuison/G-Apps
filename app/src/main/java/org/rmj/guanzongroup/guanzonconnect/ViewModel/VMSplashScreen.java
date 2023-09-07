@@ -15,15 +15,30 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
+import org.rmj.g3appdriver.dev.Repositories.RMcBrand;
+import org.rmj.g3appdriver.dev.Repositories.RMcCategory;
+import org.rmj.g3appdriver.dev.Repositories.RMcModel;
+import org.rmj.g3appdriver.dev.Repositories.RMcModelPrice;
+import org.rmj.g3appdriver.dev.Repositories.RMcTermCategory;
 import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
+import org.rmj.g3appdriver.dev.Repositories.RTown;
+import org.rmj.g3appdriver.dev.Repositories.Relation;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.oLoadStat;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportBrand;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportBrandModel;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportCategory;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportMcModelPrice;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportMcTermCategory;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportTown;
+import org.rmj.g3appdriver.lib.Ganado.Obj.Import_McColors;
+import org.rmj.g3appdriver.lib.Ganado.Obj.Import_Relation;
 
 import java.util.Objects;
 
