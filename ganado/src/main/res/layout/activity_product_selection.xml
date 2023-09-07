@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Activity_Brand_List"
+    tools:context=".Activities.Activity_BrandSelection"
     android:theme="@style/GuanzonMarketplace.Theme">
 
     <LinearLayout
@@ -20,8 +20,7 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_selection"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/GuanzonMarketplace.Theme" />
+            android:layout_height="?attr/actionBarSize" />
 
     </LinearLayout>
 
@@ -40,7 +39,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_no_image_available"
+            android:src="@drawable/img_honda_brand_header"
             android:alpha=".6"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -24,9 +24,9 @@ public class EMcModel {
     @ColumnInfo(name = "sModelIDx")
     private String ModelIDx;
     @ColumnInfo(name = "sModelCde")
-    private String ModelCde;
+    private static String ModelCde;
     @ColumnInfo(name = "sModelNme")
-    private String ModelNme;
+    private static String ModelNme;
     @ColumnInfo(name = "sBrandIDx")
     private String BrandIDx;
     @ColumnInfo(name = "cMotorTyp")
@@ -58,7 +58,7 @@ public class EMcModel {
         ModelIDx = modelIDx;
     }
 
-    public String getModelCde() {
+    public static String getModelCde() {
         return ModelCde;
     }
 
@@ -66,7 +66,7 @@ public class EMcModel {
         ModelCde = modelCde;
     }
 
-    public String getModelNme() {
+    public static String getModelNme() {
         return ModelNme;
     }
 
