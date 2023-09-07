@@ -38,6 +38,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemablesInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRelation;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DSearchLog;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DServiceInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DUserInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EAddressInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
@@ -127,6 +128,7 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     //    public abstract DAppEventInfo EAppEventDao();
     public abstract DBranchInfo EBranchDao();
     public abstract DClientInfo EClientDao();
+    public abstract DTownInfo TownDao();
     public abstract DGcardApp EGcardAppDao();
     public abstract DGCardTransactionLedger EGCardTransactionLedgerDao();
     public abstract DMCSerialRegistration EMCSerialRegistrationDao();
