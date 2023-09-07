@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.imageview.ShapeableImageView;
 
-//import org.rmj.g3appdriver.etc.LoadDialog;
-//import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ganado.Adapter.RecyclerViewAdapter_BrandSelection;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMBrandList;
@@ -28,8 +28,8 @@ public class Activity_BrandSelection extends AppCompatActivity {
     private RecyclerView rvc_brandlist;
     private ShapeableImageView brandcatimg;
     private RecyclerViewAdapter_BrandSelection rec_brandList;
-//    private LoadDialog poLoad;
-//    private MessageBox poMessage;
+    private LoadDialog poLoad;
+    private MessageBox poMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
