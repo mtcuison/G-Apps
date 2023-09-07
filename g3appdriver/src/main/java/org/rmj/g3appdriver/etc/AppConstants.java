@@ -212,4 +212,8 @@ public class AppConstants {
                 return "Online Payment (GCash or Maya)";
         }
     }
+    public static String NOT_CONNECTED = "Connectivity required. Please enable WiFi or enable mobile data to proceed.";
+    public static String UNABLE_TO_REACH_LOCAL = "We're experiencing difficulties reaching the local server. Please ensure it is accessible and try again.";
+    public static String UNABLE_TO_REACH_SERVER = "We're unable to establish a connection with our servers at the moment. Please check your internet connection and try again.";
+
 }

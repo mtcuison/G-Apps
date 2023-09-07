@@ -3,15 +3,20 @@ package org.rmj.guanzongroup.ganado.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
+import com.squareup.picasso.Picasso;
+
 import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
 import org.rmj.guanzongroup.ganado.R;
 
 import java.util.List;
+import java.util.Locale;
 
 public class RecyclerViewAdapter_BrandSelection extends RecyclerView.Adapter<RecyclerViewHolder_BrandSelection> {
     private List<EMcBrand> paBrandFilter;
