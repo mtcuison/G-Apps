@@ -42,7 +42,7 @@ public interface DGanadoOnline {
     @Query("SELECT * FROM Mc_Model WHERE cRecdStat = '1' AND sBrandIDx = :BrandID AND sModelIDx = :ModelID")
     LiveData<EMcModel> getModeFromBrand(String BrandID, String ModelID);
 
-    @Query("SELECT * FROM MC_Model_Color WHERE sModelIDx =:ModelID")
+    @Query("SELECT * FROM Mc_Model_Color WHERE sModelIDx =:ModelID")
     LiveData<List<EMCColor>> GetModelColors(String ModelID);
 
     @Query("SELECT * FROM Ganado_Online " +
@@ -56,8 +56,8 @@ public interface DGanadoOnline {
             ",a.sBrandIDx AS BrandIDx" +
             ",c.sColorIDx AS ColorIDx" +
             ",c.sColorNme AS ColorNme " +
-            "FROM MC_MODEL a " +
-            ", MC_Model_Color c " +
+            "FROM Mc_Model a " +
+            ", Mc_Model_Color c " +
             "   ON a.sModelIDx = c.sModelIDx " +
             " WHERE a.sModelIDx =:ModelID"+
             " AND a.sBrandIDx =:BrandID"+

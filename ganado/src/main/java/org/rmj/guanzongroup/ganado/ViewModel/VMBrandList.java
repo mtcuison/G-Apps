@@ -13,8 +13,18 @@ import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportBrand;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportBrandModel;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportCategory;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportMcModelPrice;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportMcTermCategory;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportTown;
+import org.rmj.g3appdriver.lib.Ganado.Obj.Import_McColors;
+import org.rmj.g3appdriver.lib.Ganado.Obj.Import_Relation;
 import org.rmj.g3appdriver.lib.Ganado.Obj.ProductInquiry;
 //import org.rmj.g3appdriver.lib.;
+import org.rmj.g3appdriver.lib.Ganado.model.ImportDataCallback;
+import org.rmj.g3appdriver.lib.Ganado.model.ImportInstance;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
@@ -25,8 +35,6 @@ public class VMBrandList extends AndroidViewModel {
     private static final String TAG = ConnectionUtil.class.getSimpleName();
     private final ProductInquiry poSys;
     private final ConnectionUtil poConn;
-
-
 
     public VMBrandList(@NonNull Application application) {
         super(application);
@@ -52,8 +60,39 @@ public class VMBrandList extends AndroidViewModel {
                     if (!poConn.isDeviceConnected()){
                         return poConn.getMessage();
                     }
+                    ImportInstance[]  importInstances = {
+                            new ImportBrand(getApplication()),
+                            new ImportBrandModel(getApplication()),
+                            new Import_McColors(getApplication()),
+                            new ImportMcModelPrice(getApplication()),
+                            new ImportCategory(getApplication()),
+                            new ImportMcTermCategory(getApplication()),
+                            new ImportTown(getApplication()),
+                            new Import_Relation(getApplication())};
+                    new Thread(() -> {
+                        for (ImportInstance importInstance : importInstances) {
+                            importInstance.ImportData(new ImportDataCallback() {
+                                @Override
+                                public void OnSuccessImportData() {
+                                    Log.e(TAG, importInstance.getClass().getSimpleName() + " import success.");
+                                }
 
-                    return "";
+                                @Override
+                                public void OnFailedImportData(String message) {
+                                    Log.e(TAG, importInstance.getClass().getSimpleName() + " import failed. " + message);
+                                }
+                            });
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+
+
+
+                        return "";
                 }
 
                 @Override

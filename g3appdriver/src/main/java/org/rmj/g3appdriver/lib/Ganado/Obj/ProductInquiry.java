@@ -95,7 +95,7 @@ public class ProductInquiry {
             joDownPy.put("nSelPrice", loDownPy.SelPrice);
             joDownPy.put("nLastPrce", loDownPy.LastPrce);
 
-            poPrice.setModelInfo(joDownPy);
+//            poPrice.setModelInfo(joDownPy);
 
             double lnMinDown = poPrice.getMinimumDP();
 

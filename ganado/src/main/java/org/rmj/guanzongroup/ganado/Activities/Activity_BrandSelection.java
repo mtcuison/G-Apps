@@ -39,7 +39,7 @@ public class Activity_BrandSelection extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this).get(VMBrandList.class);
 
         brandcatimg = findViewById(R.id.imagebrandtop);
-
+        mViewModel.importCriteria();
         mViewModel.getBrandList().observe(Activity_BrandSelection.this, brandList -> {
             if (brandList.size() > 0) {
                 rec_brandList = new RecyclerViewAdapter_BrandSelection(brandList, new RecyclerViewAdapter_BrandSelection.OnBrandSelectListener() {

@@ -15,6 +15,7 @@ import static org.rmj.g3appdriver.etc.AppConstants.getErrorMessage;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -41,7 +42,7 @@ public class RMcTermCategory {
 
     private String message;
 
-    public RMcTermCategory(Application instance){
+    public RMcTermCategory(Context instance){
         this.poDao = GGC_GuanzonAppDB.getInstance(instance).McTermCategoryDao();
         this.poConfig = new GuanzonAppConfig(instance);
         this.poApi = new ServerAPIs(poConfig.getTestCase());
