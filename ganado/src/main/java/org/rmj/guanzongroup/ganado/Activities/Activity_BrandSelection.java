@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ganado.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -48,6 +49,7 @@ public class Activity_BrandSelection extends AppCompatActivity {
                         Intent intent = new Intent(Activity_BrandSelection.this, Activity_ProductSelection.class);
                         intent.putExtra("lsBrandID", BrandID);
                         intent.putExtra("lsBrandNm", BrandName);
+                        Log.d("TEEJEI SELECTED THIS", BrandName);
                         startActivity(intent);
                         overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                     }

@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ganado.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -61,6 +62,7 @@ public class Activity_ProductSelection extends AppCompatActivity {
                         intent.putExtra("lsImgLink", ImgLink);
                         intent.putExtra("bgbrandimage", backgroundResId);
                         intent.putExtra("backgroundold", backgroundResIdCat);
+                        Log.d("TEEJEI SELECTED model ", ModelID);
                         startActivity(intent);
                         overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                     }
