@@ -3,15 +3,20 @@ package org.rmj.g3appdriver.lib.Ganado.Obj;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
+import org.rmj.appdriver.base.GRider;
+import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGanadoOnline;
 import org.rmj.g3appdriver.dev.Database.Entities.EMCColor;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InstallmentInfo;
+import org.rmj.g3appdriver.utils.MySQLAESCrypt;
+import org.rmj.gocas.pricelist.MCPricelist;
 import org.rmj.gocas.pricelist.PriceFactory;
 import org.rmj.gocas.pricelist.Pricelist;
 
@@ -20,14 +25,17 @@ import java.util.List;
 public class ProductInquiry {
     private static final String TAG = ProductInquiry.class.getSimpleName();
 
+    private final Context instance;
     private final DGanadoOnline poDao;
     private final Pricelist poPrice;
 
     private String message;
 
-    public ProductInquiry(Application instance) {
+    public ProductInquiry(Context instance) {
+        this.instance = instance;
         this.poDao = GGC_GuanzonAppDB.getInstance(instance).ganadoDao();
         this.poPrice = PriceFactory.make(PriceFactory.ProductType.MOTORCYCLE);
+//        this.poPrice = new MCPricelist();
     }
 
     public String getMessage() {
@@ -64,10 +72,6 @@ public class ProductInquiry {
         return poDao.getDownpayment(ModelID);
     }
 
-    public LiveData<DGanadoOnline.CashPrice> GetCashPrice(String ModelID){
-        return poDao.GetCashInfo(ModelID);
-    }
-
     /**
      *
      * @param ModelID pass the selected model ID.
@@ -90,12 +94,13 @@ public class ProductInquiry {
             joDownPy.put("sModelNme", loDownPy.ModelNme);
             joDownPy.put("nRebatesx", loDownPy.Rebatesx);
             joDownPy.put("nMiscChrg", loDownPy.MiscChrg);
-            joDownPy.put("nEndMrtgg", loDownPy.EndMrtgg);
+            joDownPy.put("nEndMrtgg", (loDownPy.EndMrtgg == null)? MySQLAESCrypt.Encrypt("0.0", "20190625"):loDownPy.EndMrtgg);
             joDownPy.put("nMinDownx", loDownPy.MinDownx);
             joDownPy.put("nSelPrice", loDownPy.SelPrice);
-            joDownPy.put("nLastPrce", loDownPy.LastPrce);
+            joDownPy.put("nLastPrce", (loDownPy.LastPrce == null)? MySQLAESCrypt.Encrypt("0.0", "20190625"):loDownPy.LastPrce);
 
-//            poPrice.setModelInfo(joDownPy);
+
+            poPrice.setModelInfo(joDownPy);
 
             double lnMinDown = poPrice.getMinimumDP();
 
@@ -123,7 +128,11 @@ public class ProductInquiry {
                     lnMinDown,
                     lnAmort);
             return loInfo;
-        } catch (Exception e){
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return null;
+        }catch (Exception e){
             e.printStackTrace();
             message = getLocalMessage(e);
             return null;
@@ -217,4 +226,5 @@ public class ProductInquiry {
             return 0;
         }
     }
+
 }

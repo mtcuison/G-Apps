@@ -86,7 +86,7 @@ public class Relation {
 
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
-                message = AppConstants.getErrorMessage(loError);
+                message = loError.getString("message");
                 return false;
             }
 

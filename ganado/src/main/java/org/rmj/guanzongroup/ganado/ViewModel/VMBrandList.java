@@ -60,15 +60,24 @@ public class VMBrandList extends AndroidViewModel {
                     if (!poConn.isDeviceConnected()){
                         return poConn.getMessage();
                     }
+//                    ImportInstance[]  importInstances = {
+//                            new ImportBrand(getApplication()),
+//                            new ImportBrandModel(getApplication()),
+//                            new Import_McColors(getApplication()),
+//                            new ImportMcModelPrice(getApplication()),
+//                            new ImportCategory(getApplication()),
+//                            new ImportMcTermCategory(getApplication()),
+//                            new ImportTown(getApplication()),
+//                            new Import_Relation(getApplication())};
                     ImportInstance[]  importInstances = {
+                            new Import_Relation(getApplication()),
                             new ImportBrand(getApplication()),
                             new ImportBrandModel(getApplication()),
                             new Import_McColors(getApplication()),
-                            new ImportMcModelPrice(getApplication()),
                             new ImportCategory(getApplication()),
-                            new ImportMcTermCategory(getApplication()),
+                            new ImportMcModelPrice(getApplication()),
                             new ImportTown(getApplication()),
-                            new Import_Relation(getApplication())};
+                            new ImportMcTermCategory(getApplication()),};
                     new Thread(() -> {
                         for (ImportInstance importInstance : importInstances) {
                             importInstance.ImportData(new ImportDataCallback() {

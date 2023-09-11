@@ -141,10 +141,6 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
         });
     }
 
-    public LiveData<DGanadoOnline.CashPrice> GetCashPrice(String ModelID){
-        return poApp.GetCashPrice(ModelID);
-    }
-
     public void CalculateNewDownpayment(String ModelID, int term, double Downpayment, OnCalculateNewDownpayment listener){
         TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
             @Override
