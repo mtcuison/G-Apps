@@ -53,6 +53,7 @@ dependencies {
     implementation files('libs/commons-codec-1.11.jar')
     implementation files('libs/appdriver.jar')
     implementation files('libs/gocas.jar')
+    implementation files('libs/appdriver-mob.jar')
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 //    implementation project(':appdriver') //implement GhostRider Application Driver
     implementation 'com.facebook.android:facebook-common:13.2.0'
