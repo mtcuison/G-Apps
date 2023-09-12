@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="YAMAHA"
-                android:textColor="@color/guanzon_digital_dark_grey"
+                android:textColor="@color/guanzon_digital_orange"
                 android:textAlignment="center"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
