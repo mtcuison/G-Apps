@@ -5,6 +5,7 @@ package org.rmj.guanzongroup.ganado.ViewModel;
 //import static org.rmj.g3appdriver.dev.Api.ApiResult.UNABLE_TO_REACH_SERVER;
 //import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
+import org.rmj.g3appdriver.dev.Repositories.RMcModel;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.lib.Ganado.Obj.ImportBrand;
 import org.rmj.g3appdriver.lib.Ganado.Obj.ImportBrandModel;
@@ -35,10 +37,11 @@ public class VMBrandList extends AndroidViewModel {
     private static final String TAG = ConnectionUtil.class.getSimpleName();
     private final ProductInquiry poSys;
     private final ConnectionUtil poConn;
+    private final Context mContext;
 
     public VMBrandList(@NonNull Application application) {
         super(application);
-
+        mContext = application.getApplicationContext();
         poSys = new ProductInquiry(application);
         poConn = new ConnectionUtil(application);
     }
@@ -69,6 +72,8 @@ public class VMBrandList extends AndroidViewModel {
 //                            new ImportMcTermCategory(getApplication()),
 //                            new ImportTown(getApplication()),
 //                            new Import_Relation(getApplication())};
+                    RMcModel rMcModel = new RMcModel(mContext);
+                    rMcModel.ImportCashPrices();
                     ImportInstance[]  importInstances = {
                             new Import_Relation(getApplication()),
                             new ImportBrand(getApplication()),

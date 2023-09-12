@@ -41,7 +41,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
     private VMProductInquiry mViewModel;
     private MessageBox poMessage;
     private MaterialTextView txtBranchNm, txtBrandNm, txtModelNm, txtModelCd;
-    private TextInputEditText txtDownPymnt, txtAmort, txtDTarget;
+    private TextInputEditText txtDownPymnt, txtAmort, txtDTarget,txtCashPrice;
     private MaterialAutoCompleteTextView spn_color, spnPayment, spnAcctTerm;
     private MaterialButton btnContinue,btnCalculate;
     private ShapeableImageView imgMC;
@@ -65,6 +65,8 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         lsModelID = getIntent().getStringExtra("lsModelID");
         lsImgLink = getIntent().getStringExtra("lsImgLink");
         lsBrandNm = getIntent().getStringExtra("lsBrandNm");
+        Log.e("sBrandIDx",lsBrandID);
+        Log.e("sModelIDx",lsModelID);
 
         mViewModel.getModel().setBrandIDx(lsBrandID);
         mViewModel.getModel().setModelIDx(lsModelID);
@@ -81,6 +83,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
+
         mViewModel.GetModelColor(lsModelID).observe(Activity_ProductInquiry.this, colorList->{
             try {
                 ArrayList<String> string = new ArrayList<>();
@@ -90,10 +93,9 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     string.add(lsColor);
 
                 }
-                ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ProductInquiry.this, android.R.layout.simple_spinner_dropdown_item, string);
-
-                spn_color.setAdapter(adapters);
+                ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ProductInquiry.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                 spn_color.setText(colorList.get(0).getColorNme());
+                spn_color.setAdapter(adapters);
             }catch (NullPointerException e){
                 e.printStackTrace();
             }catch (Exception e){
@@ -107,6 +109,9 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
         mViewModel.GetModelID().observe(Activity_ProductInquiry.this, modelID -> {
             try{
+                mViewModel.GetCashInfo(modelID).observe(this, cashPrice -> {
+                    txtCashPrice.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(cashPrice.CashPrce)));
+                });
                 mViewModel.GetMinimumDownpayment(modelID, new VMProductInquiry.OnRetrieveInstallmentInfo() {
                     @Override
                     public void OnRetrieve(InstallmentInfo loResult) {
@@ -203,6 +208,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         txtModelCd = findViewById(R.id.lblModelCde);
         txtModelNm = findViewById(R.id.lblModelNme);
         txtDownPymnt = findViewById(R.id.txt_downpayment);
+        txtCashPrice = findViewById(R.id.txt_cashPrice);
         txtAmort = findViewById(R.id.txt_monthlyAmort);
         txtDTarget = findViewById(R.id.txt_targetDate);
         spnPayment = findViewById(R.id.spn_paymentMethod);
