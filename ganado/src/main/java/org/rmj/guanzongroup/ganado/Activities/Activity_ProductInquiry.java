@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +44,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
     private MaterialTextView txtBranchNm, txtBrandNm, txtModelNm, txtModelCd;
     private TextInputEditText txtDownPymnt, txtAmort, txtDTarget,txtCashPrice;
     private MaterialAutoCompleteTextView spn_color, spnPayment, spnAcctTerm;
+    private LinearLayout linearInstallment;
     private MaterialButton btnContinue,btnCalculate;
     private ShapeableImageView imgMC;
     private String lsModelID, lsBrandID, lsImgLink, lsBrandNm;
@@ -54,6 +56,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
         spnPayment.setText(GConstants.PAYMENT_FORM[0]);
         spnPayment.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.PAYMENT_FORM));
+        spnPayment.setOnItemClickListener(new OnItemClickListener(spnPayment));
         spnAcctTerm.setText(GConstants.INSTALLMENT_TERM[0]);
         spnAcctTerm.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.INSTALLMENT_TERM));
         mViewModel.setBrandID(getIntent().getStringExtra("lsBrandID"));
@@ -204,6 +207,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 //
+        linearInstallment = findViewById(R.id.linearInstallment);
         txtBrandNm = findViewById(R.id.lblBrand);
         txtModelCd = findViewById(R.id.lblModelCde);
         txtModelNm = findViewById(R.id.lblModelNme);
@@ -218,6 +222,10 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
         btnContinue = findViewById(R.id.btnContinue);
         btnCalculate = findViewById(R.id.btnCalculate);
+        loadInstallment(View.GONE);
+    }
+    private void loadInstallment(int isLoad){
+        linearInstallment.setVisibility(isLoad);
     }
 
     @Override
@@ -261,6 +269,13 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     mViewModel.getModel().setColorIDx(colorList.get(i).getColorIDx());
 
                 });
+            } else if(loView == spnPayment){
+                if (i==0){
+                    loadInstallment(View.GONE);
+                }else{
+                    loadInstallment(View.VISIBLE);
+                }
+                mViewModel.getModel().setPaymForm(String.valueOf(i));
             } else if(loView == spnAcctTerm){
                 if(i==0){
                     mViewModel.getModel().setTermIDxx("36");
