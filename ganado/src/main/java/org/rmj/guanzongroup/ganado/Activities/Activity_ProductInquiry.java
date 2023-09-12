@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,8 +42,9 @@ public class Activity_ProductInquiry extends AppCompatActivity {
     private VMProductInquiry mViewModel;
     private MessageBox poMessage;
     private MaterialTextView txtBranchNm, txtBrandNm, txtModelNm, txtModelCd;
-    private TextInputEditText txtDownPymnt, txtAmort, txtDTarget;
+    private TextInputEditText txtDownPymnt, txtAmort, txtDTarget,txtCashPrice;
     private MaterialAutoCompleteTextView spn_color, spnPayment, spnAcctTerm;
+    private LinearLayout linearInstallment;
     private MaterialButton btnContinue,btnCalculate;
     private ShapeableImageView imgMC;
     private String lsModelID, lsBrandID, lsImgLink, lsBrandNm;
@@ -54,6 +56,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
         spnPayment.setText(GConstants.PAYMENT_FORM[0]);
         spnPayment.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.PAYMENT_FORM));
+        spnPayment.setOnItemClickListener(new OnItemClickListener(spnPayment));
         spnAcctTerm.setText(GConstants.INSTALLMENT_TERM[0]);
         spnAcctTerm.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.INSTALLMENT_TERM));
         mViewModel.setBrandID(getIntent().getStringExtra("lsBrandID"));
@@ -65,6 +68,8 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         lsModelID = getIntent().getStringExtra("lsModelID");
         lsImgLink = getIntent().getStringExtra("lsImgLink");
         lsBrandNm = getIntent().getStringExtra("lsBrandNm");
+        Log.e("sBrandIDx",lsBrandID);
+        Log.e("sModelIDx",lsModelID);
 
         mViewModel.getModel().setBrandIDx(lsBrandID);
         mViewModel.getModel().setModelIDx(lsModelID);
@@ -81,6 +86,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
+
         mViewModel.GetModelColor(lsModelID).observe(Activity_ProductInquiry.this, colorList->{
             try {
                 ArrayList<String> string = new ArrayList<>();
@@ -90,10 +96,9 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     string.add(lsColor);
 
                 }
-                ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ProductInquiry.this, android.R.layout.simple_spinner_dropdown_item, string);
-
-                spn_color.setAdapter(adapters);
+                ArrayAdapter<String> adapters = new ArrayAdapter<>(Activity_ProductInquiry.this, android.R.layout.simple_spinner_dropdown_item, string.toArray(new String[0]));
                 spn_color.setText(colorList.get(0).getColorNme());
+                spn_color.setAdapter(adapters);
             }catch (NullPointerException e){
                 e.printStackTrace();
             }catch (Exception e){
@@ -107,6 +112,9 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
         mViewModel.GetModelID().observe(Activity_ProductInquiry.this, modelID -> {
             try{
+                mViewModel.GetCashInfo(modelID).observe(this, cashPrice -> {
+                    txtCashPrice.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(cashPrice.CashPrce)));
+                });
                 mViewModel.GetMinimumDownpayment(modelID, new VMProductInquiry.OnRetrieveInstallmentInfo() {
                     @Override
                     public void OnRetrieve(InstallmentInfo loResult) {
@@ -199,10 +207,12 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 //
+        linearInstallment = findViewById(R.id.linearInstallment);
         txtBrandNm = findViewById(R.id.lblBrand);
         txtModelCd = findViewById(R.id.lblModelCde);
         txtModelNm = findViewById(R.id.lblModelNme);
         txtDownPymnt = findViewById(R.id.txt_downpayment);
+        txtCashPrice = findViewById(R.id.txt_cashPrice);
         txtAmort = findViewById(R.id.txt_monthlyAmort);
         txtDTarget = findViewById(R.id.txt_targetDate);
         spnPayment = findViewById(R.id.spn_paymentMethod);
@@ -212,6 +222,10 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
         btnContinue = findViewById(R.id.btnContinue);
         btnCalculate = findViewById(R.id.btnCalculate);
+        loadInstallment(View.GONE);
+    }
+    private void loadInstallment(int isLoad){
+        linearInstallment.setVisibility(isLoad);
     }
 
     @Override
@@ -255,6 +269,13 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     mViewModel.getModel().setColorIDx(colorList.get(i).getColorIDx());
 
                 });
+            } else if(loView == spnPayment){
+                if (i==0){
+                    loadInstallment(View.GONE);
+                }else{
+                    loadInstallment(View.VISIBLE);
+                }
+                mViewModel.getModel().setPaymForm(String.valueOf(i));
             } else if(loView == spnAcctTerm){
                 if(i==0){
                     mViewModel.getModel().setTermIDxx("36");

@@ -101,6 +101,9 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
     public LiveData<EMcModel> GetModelBrand(String BrandID, String ModelID){
         return poApp.GetModel(BrandID, ModelID);
     }
+    public LiveData<DGanadoOnline.CashPrice> GetCashInfo(String ModelID){
+        return poApp.GetCashInfo(ModelID);
+    }
 //
 //    public double GetMonthlyPayment(double args1) {
 //        return poApp.GetMonthlyAmortization(poModel.getModelIDxx(),poModel.getAccTermxx(), args1);
