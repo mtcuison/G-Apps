@@ -63,6 +63,9 @@ public class ProductInquiry {
     public DGanadoOnline.McInfo GetMCInfo(String ModelID, String BrandID, String ColorID){
         return poDao.GetMCInfo(ModelID, BrandID, ColorID);
     }
+    public LiveData<DGanadoOnline.CashPrice> GetCashInfo(String ModelID){
+        return poDao.GetCashInfo(ModelID);
+    }
 
     public DGanadoOnline.McAmortization GetMonthlyPayment(String ModelID, int Term){
         return poDao.GetMonthlyPayment(ModelID, Term);
