@@ -135,7 +135,8 @@ public class RClientInfo {
                     return false;
                 } else {
                     EClientInfo loDetail = poDao.GetUserInfo();
-                    loDetail.setClientID(loResponse.getString("sClientID"));
+                    loDetail.setClientID(loResponse.getString("sUserIDxx"));
+                    Log.d("ito ung user",loResponse.getString("sUserIDxx"));
                     loDetail.setLastName(loResponse.getString("sLastName"));
                     loDetail.setFrstName(loResponse.getString("sFrstName"));
                     loDetail.setMiddName(loResponse.getString("sMiddName"));
@@ -161,7 +162,7 @@ public class RClientInfo {
 //                    loDetail.setVerified(loResponse.getInt("cVerified"));
                     poDao.update(loDetail);
                     AccountInfo loAcc = new AccountInfo(mContext);
-                    loAcc.setClientID(loResponse.getString("sClientID"));
+                    loAcc.setClientID(loResponse.getString("sUserIDxx"));
                     loAcc.setLastname(loResponse.getString("sLastName"));
                     loAcc.setFirstName(loResponse.getString("sFrstName"));
                     loAcc.setMiddlename(loResponse.getString("sMiddName"));

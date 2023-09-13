@@ -116,7 +116,7 @@ public interface DGanadoOnline {
             "nSelPrice AS CashPrce, " +
             "dPricexxx AS Pricedxx " +
             "FROM MC_Cash_Price WHERE sModelIDx=:ModelID")
-    LiveData<CashPrice> GetCashInfo(String ModelID);
+    CashPrice GetCashInfo(String ModelID);
 
     class McDownpayment{
         public String ModelIDx;

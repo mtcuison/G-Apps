@@ -40,6 +40,7 @@ import org.rmj.g3appdriver.lib.Ganado.Obj.ImportTown;
 import org.rmj.g3appdriver.lib.Ganado.Obj.Import_McColors;
 import org.rmj.g3appdriver.lib.Ganado.Obj.Import_Relation;
 
+
 import java.util.Objects;
 
 public class VMSplashScreen extends AndroidViewModel {
@@ -152,8 +153,14 @@ public class VMSplashScreen extends AndroidViewModel {
                     loAddress.ImportProvinceList();
                     pause();
                     loAddress.ImportCountryList();
+                    pause();
+                    RMcBrand loMcBrand = new RMcBrand(mContext);
+                    loMcBrand.ImportMCBrands();
+                    pause();
+
                 }
                 pause();
+
                 //TODO : Revise importing data to improve speed on splash screen...
                 //Import Dashboard products only if possible,
                 // import other important must be imported before the operation of usage...

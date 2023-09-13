@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ganado.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -13,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.imageview.ShapeableImageView;
 
-//import org.rmj.g3appdriver.etc.LoadDialog;
-//import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ganado.Adapter.RecyclerViewAdapter_BrandSelection;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMBrandList;
@@ -28,8 +29,8 @@ public class Activity_BrandSelection extends AppCompatActivity {
     private RecyclerView rvc_brandlist;
     private ShapeableImageView brandcatimg;
     private RecyclerViewAdapter_BrandSelection rec_brandList;
-//    private LoadDialog poLoad;
-//    private MessageBox poMessage;
+    private LoadDialog poLoad;
+    private MessageBox poMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class Activity_BrandSelection extends AppCompatActivity {
                         Intent intent = new Intent(Activity_BrandSelection.this, Activity_ProductSelection.class);
                         intent.putExtra("lsBrandID", BrandID);
                         intent.putExtra("lsBrandNm", BrandName);
+                        Log.d("TEEJEI SELECTED THIS", BrandName);
                         startActivity(intent);
                         overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                     }

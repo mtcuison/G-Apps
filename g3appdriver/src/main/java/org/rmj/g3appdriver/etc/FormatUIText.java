@@ -14,14 +14,17 @@ package org.rmj.g3appdriver.etc;
 import android.annotation.SuppressLint;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 public class FormatUIText {
@@ -212,9 +215,10 @@ public class FormatUIText {
     public static String getCurrencyUIFormat(String price){
         String lsResult = "₱ 0.00";
         try {
-            DecimalFormat currency_total = new DecimalFormat("₱ ###,###,###.##");
+            DecimalFormat currency_total = new DecimalFormat("₱ ###,###,##0.00");
             BigDecimal loBigDecimal = new BigDecimal(price);
-            lsResult = currency_total.format(loBigDecimal);
+            lsResult = currency_total.format(Double.valueOf(price));
+            Log.e("lsResult",lsResult);
             return lsResult;
         } catch (Exception e){
             e.printStackTrace();
