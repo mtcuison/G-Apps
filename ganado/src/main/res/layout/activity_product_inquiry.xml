@@ -221,25 +221,26 @@
                                 android:layout_weight="1.2"
                                 android:text="Calculate" />
                         </LinearLayout>
-                    </LinearLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/TextInputStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Monthly Payment">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/txt_monthlyAmort"
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:focusedByDefault="false"
-                            android:inputType="number|none"
-                            android:maxLength="50" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:hint="Monthly Payment">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/txt_monthlyAmort"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:focusedByDefault="false"
+                                android:inputType="number|none"
+                                android:maxLength="50" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputStyle"
