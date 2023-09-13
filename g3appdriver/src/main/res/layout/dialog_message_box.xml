@@ -75,7 +75,7 @@
                 android:layout_weight="1"
                 android:text="YES"
                 android:fontFamily="@font/roboto_medium"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="@style/GuanzonMarketplace.Theme"
                 android:visibility="visible"/>
 
             <com.google.android.material.divider.MaterialDivider
@@ -92,7 +92,7 @@
                 android:layout_weight="1"
                 android:text="NO"
                 android:fontFamily="@font/roboto_medium"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="@style/GuanzonMarketplace.Theme"
                 android:visibility="visible"/>
 
         </LinearLayout>
