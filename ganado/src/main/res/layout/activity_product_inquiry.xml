@@ -168,79 +168,75 @@
                             android:id="@+id/txt_cashPrice"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+<<<<<<<<< Temporary merge branch 1
                             android:textColor="@color/black"
                             android:enabled="false"/>
+=========
+                            android:enabled="false" />
+>>>>>>>>> Temporary merge branch 2
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomDropDownTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Installment Term">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/spn_installmentTerm"
+                            style="@style/DropdownStyleTheme"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
-                        android:id="@+id/linearInstallment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        >
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/CustomDropDownTilStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Installment Term">
+                        android:orientation="horizontal">
 
-                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                                android:id="@+id/spn_installmentTerm"
-                                style="@style/DropdownStyleTheme"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="16dp" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/TextInputStyle"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight=".8"
-                                android:hint="Downpayment">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/txt_downpayment"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:imeOptions="actionDone"
-                                    android:inputType="number|none"
-                                    android:maxLength="50" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btnCalculate"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="10dp"
-                                android:layout_weight="1.2"
-                                android:text="Calculate" />
-                        </LinearLayout>
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/TextInputStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Monthly Payment">
+                            android:layout_weight=".8"
+                            android:hint="Downpayment">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txt_monthlyAmort"
+                                android:id="@+id/txt_downpayment"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="10dp"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:focusedByDefault="false"
+                                android:imeOptions="actionDone"
                                 android:inputType="number|none"
                                 android:maxLength="50" />
                         </com.google.android.material.textfield.TextInputLayout>
 
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnCalculate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_weight="1.2"
+                            android:text="Calculate" />
                     </LinearLayout>
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Monthly Payment">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txt_monthlyAmort"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:focusedByDefault="false"
+                            android:inputType="number|none"
+                            android:maxLength="50" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputStyle"
