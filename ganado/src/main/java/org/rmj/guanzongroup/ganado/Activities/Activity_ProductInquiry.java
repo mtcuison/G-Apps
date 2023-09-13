@@ -112,9 +112,18 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
         mViewModel.GetModelID().observe(Activity_ProductInquiry.this, modelID -> {
             try{
-                mViewModel.GetCashInfo(modelID).observe(this, cashPrice -> {
-                    txtCashPrice.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(cashPrice.CashPrce)));
-                });
+//                mViewModel.GetCashInfo(modelID).observe(this, cashPrice -> {
+//                    Log.e("cashPrice",cashPrice.CashPrce + "");
+////                    if(cashPrice.CashPrce != null){
+////                        txtCashPrice.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(cashPrice.CashPrce)));
+////                    }
+//                });
+                if(mViewModel.GetCashInfo(modelID) !=  null){
+                    Log.e("cashPrice",FormatUIText.getCurrencyUIFormat(String.valueOf(mViewModel.GetCashInfo(modelID).CashPrce)) + "");
+                    txtCashPrice.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(mViewModel.GetCashInfo(modelID).CashPrce)));
+                }else{
+                    txtCashPrice.setText(FormatUIText.getCurrencyUIFormat("0.0"));
+                }
                 mViewModel.GetMinimumDownpayment(modelID, new VMProductInquiry.OnRetrieveInstallmentInfo() {
                     @Override
                     public void OnRetrieve(InstallmentInfo loResult) {

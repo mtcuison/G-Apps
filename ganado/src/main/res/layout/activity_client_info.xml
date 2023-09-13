@@ -45,9 +45,10 @@
         android:fontFamily="@font/roboto"
         android:text="CUSTOMER INFO"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shapeableImageView"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="113dp" />
+        tools:ignore="MissingConstraints" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView3"
