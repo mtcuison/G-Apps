@@ -177,7 +177,37 @@ public class VMSplashScreen extends AndroidViewModel {
 //                loGcard.DownloadNewsEvents(poCallback);
 //                Log.d(TAG, "News events imported successfully...");
 //                pause();
+                if (new RMcModel(mContext).ImportMCModel()) {
+                    Log.d(TAG, "MC Model imported successfully...");
+                }
+                pause();
+                if (new RMcModel(mContext).ImportCashPrices()) {
+                    Log.d(TAG, "MC Model Cash Prices imported successfully...");
+                }
+                pause();
+                if (new RMcModel(mContext).ImportModelColor()) {
+                    Log.d(TAG, "MC Model Color imported successfully...");
+                }
+                pause();
 
+                if (new RMcBrand(mContext).ImportMCBrands()) {
+                    Log.d(TAG, "MC Brand imported successfully...");
+                }
+                pause();
+                if (new RMcModelPrice(mContext).ImportMcModelPrice()) {
+                    Log.d(TAG, "MC Model Cash Prices imported successfully...");
+                }
+                pause();
+
+
+                if (new RMcCategory(mContext).ImportMcCategory()) {
+                    Log.d(TAG, "MC Category imported successfully...");
+                }
+                pause();
+                if (new RMcTermCategory(mContext).ImportMcTermCategory()) {
+                    Log.d(TAG, "MC Term Category imported successfully...");
+                }
+                pause();
                 if (new AccountInfo(mContext).getLoginStatus()) {
                     RNotificationInfo loNotif = new RNotificationInfo(mContext);
                     loNotif.ImportClientNotifications(0);
@@ -195,15 +225,25 @@ public class VMSplashScreen extends AndroidViewModel {
                     }
                     loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
                     loGcard.DownloadRedeemables(poCallback);
-
+                    pause();
+                    if (new RTown(mContext).ImportTown()){
+                        Log.d(TAG, "Town imported successfully...");
+                    }
+                    pause();
+                    if (new Relation(mContext).ImportRelations()){
+                        Log.d(TAG, "Town imported successfully...");
+                    }
+                    pause();
                     if(new AccountInfo(mContext).getVerificationStatus() > 0){
                         if(new ROrder(mContext).ImportMarketPlaceItemCart()){
                             Log.d(TAG, "Marketplace cart items imported successfully...");
                         }
+
                     } else {
                         Log.e(TAG, "User doesn't have complete details for marketplace.");
                     }
                 } else {
+
                     Log.e(TAG, "No account session found.");
                 }
             } catch (Exception e){
