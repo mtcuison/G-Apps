@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import org.rmj.guanzongroup.guanzonconnect.Activity.Activity_TermsAndConditions;
 import org.rmj.guanzongroup.guanzonconnect.databinding.FragmentAboutBinding;
+import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
 
 public class Fragment_About extends Fragment {
 
@@ -27,13 +28,17 @@ public class Fragment_About extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Intent loIntent = new Intent(requireActivity(), Activity_TermsAndConditions.class);
+        Intent loIntent = new Intent(requireActivity(), Activity_Browser.class);
+
         mBinding.lnkTermsC.setOnClickListener(v -> {
             loIntent.putExtra("cTermsDsp", 0);
             startActivity(loIntent);
         });
+
         mBinding.lnkPrivcy.setOnClickListener(v -> {
             loIntent.putExtra("cTermsDsp", 1);
+            loIntent.putExtra("args", "3");
+            loIntent.putExtra("url_link", "https://www.guanzongroup.com.ph/guanzon-connect/");
             startActivity(loIntent);
         });
     }
