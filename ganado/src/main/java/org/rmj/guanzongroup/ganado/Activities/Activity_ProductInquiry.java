@@ -127,6 +127,9 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 mViewModel.GetMinimumDownpayment(modelID, new VMProductInquiry.OnRetrieveInstallmentInfo() {
                     @Override
                     public void OnRetrieve(InstallmentInfo loResult) {
+                        Log.e("getMonthlyAmortization",FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMonthlyAmortization())) + "");
+                        Log.e("getMonthlyAmortization",FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMinimumDownpayment())) + "");
+
                         mViewModel.getModel().setDownPaym(String.valueOf(loResult.getMinimumDownpayment()));
                         txtDownPymnt.setText(String.valueOf(loResult.getMinimumDownpayment()));
                         mViewModel.getModel().setMonthAmr(String.valueOf(loResult.getMonthlyAmortization()));

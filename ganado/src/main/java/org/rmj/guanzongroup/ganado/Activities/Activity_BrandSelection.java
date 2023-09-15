@@ -16,6 +16,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.guanzongroup.ganado.Adapter.RecyclerViewAdapter_BrandSelection;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMBrandList;
@@ -32,6 +33,8 @@ public class Activity_BrandSelection extends AppCompatActivity {
     private LoadDialog poLoad;
     private MessageBox poMessage;
 
+    private Dialog_Loading poLoading;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +43,29 @@ public class Activity_BrandSelection extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this).get(VMBrandList.class);
 
         brandcatimg = findViewById(R.id.imagebrandtop);
-        mViewModel.importCriteria();
+
+        mViewModel.importCriteria(new VMBrandList.OnDownloadModels() {
+            @Override
+            public void onLoad() {
+                poLoading.initDialog("Product Inquiry", "Product Inquiry item downloading.. Please wait.");
+                poLoading.show();
+            }
+
+            @Override
+            public void onSuccess(String fsMessage) {
+                poLoading.dismiss();
+                Log.e(Activity_BrandSelection.class.getSimpleName(), fsMessage);
+
+            }
+
+            @Override
+            public void onFailed(String fsMessage) {
+                poLoading.dismiss();
+                Log.e(Activity_BrandSelection.class.getSimpleName(), fsMessage);
+
+
+            }
+        });
         mViewModel.getBrandList().observe(Activity_BrandSelection.this, brandList -> {
             if (brandList.size() > 0) {
                 rec_brandList = new RecyclerViewAdapter_BrandSelection(brandList, new RecyclerViewAdapter_BrandSelection.OnBrandSelectListener() {
@@ -70,6 +95,7 @@ public class Activity_BrandSelection extends AppCompatActivity {
         toolbar.setTitle("Brand Selection");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        poLoading = new Dialog_Loading(Activity_BrandSelection.this);
     }
 
     @Override
