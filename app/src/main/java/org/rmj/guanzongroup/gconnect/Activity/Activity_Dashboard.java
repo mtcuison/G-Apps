@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonconnect.Activity;
+package org.rmj.guanzongroup.gconnect.Activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -39,14 +39,14 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.digitalgcard.Dialogs.Dialog_TransactionPIN;
-import org.rmj.guanzongroup.guanzonconnect.R;
-import org.rmj.guanzongroup.guanzonconnect.Service.DashboardActionReceiver;
+import org.rmj.guanzongroup.gconnect.R;
+import org.rmj.guanzongroup.gconnect.Service.DashboardActionReceiver;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductReview;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_Purchases;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
-import org.rmj.guanzongroup.guanzonconnect.databinding.ActivityDashboardBinding;
+import org.rmj.guanzongroup.gconnect.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
 import org.rmj.guanzongroup.notifications.Activity.Activity_GuanzonPanalo;
 import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;

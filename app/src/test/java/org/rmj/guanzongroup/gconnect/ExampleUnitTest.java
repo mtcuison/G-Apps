@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonconnect;
+package org.rmj.guanzongroup.gconnect;
 
 import org.junit.jupiter.api.Test;
 

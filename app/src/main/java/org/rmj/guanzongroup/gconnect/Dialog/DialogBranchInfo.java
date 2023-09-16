@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonconnect.Dialog;
+package org.rmj.guanzongroup.gconnect.Dialog;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.guanzongroup.guanzonconnect.R;
+import org.rmj.guanzongroup.gconnect.R;
 
 public class DialogBranchInfo {
     private static final String TAG = DialogBranchInfo.class.getSimpleName();

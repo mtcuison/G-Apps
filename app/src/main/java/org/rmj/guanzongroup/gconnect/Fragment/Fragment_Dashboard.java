@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonconnect.Fragment;
+package org.rmj.guanzongroup.gconnect.Fragment;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -17,8 +17,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.rmj.g3appdriver.etc.FragmentAdapter;
 import org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcard;
-import org.rmj.guanzongroup.guanzonconnect.R;
-import org.rmj.guanzongroup.guanzonconnect.ViewModel.VMDashboard;
+import org.rmj.guanzongroup.gconnect.R;
+import org.rmj.guanzongroup.gconnect.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.marketplace.Fragment.Fragment_MPItemCart;
 import org.rmj.guanzongroup.notifications.Fragment.Fragment_Promotion;
 import org.rmj.guanzongroup.panalo.Fragment.Fragment_Panalo;

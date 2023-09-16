@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonconnect.Activity;
+package org.rmj.guanzongroup.gconnect.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,9 +14,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
-import org.rmj.guanzongroup.guanzonconnect.R;
-import org.rmj.guanzongroup.guanzonconnect.Service.GMessagingService;
-import org.rmj.guanzongroup.guanzonconnect.ViewModel.VMSplashScreen;
+import org.rmj.guanzongroup.gconnect.R;
+import org.rmj.guanzongroup.gconnect.Service.GMessagingService;
+import org.rmj.guanzongroup.gconnect.ViewModel.VMSplashScreen;
 
 public class Activity_SplashScreen extends AppCompatActivity {
     private static final String TAG = Activity_SplashScreen.class.getSimpleName();

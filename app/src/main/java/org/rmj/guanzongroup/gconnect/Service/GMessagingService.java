@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonconnect.Service;
+package org.rmj.guanzongroup.gconnect.Service;
 
 import android.util.Log;
 

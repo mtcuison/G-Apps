@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonconnect.Fragment;
+package org.rmj.guanzongroup.gconnect.Fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,9 +26,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
-import org.rmj.guanzongroup.guanzonconnect.Adapter.Adapter_BranchList;
-import org.rmj.guanzongroup.guanzonconnect.R;
-import org.rmj.guanzongroup.guanzonconnect.ViewModel.VMBranchDetails;
+import org.rmj.guanzongroup.gconnect.Adapter.Adapter_BranchList;
+import org.rmj.guanzongroup.gconnect.R;
+import org.rmj.guanzongroup.gconnect.ViewModel.VMBranchDetails;
 
 import java.util.ArrayList;
 import java.util.List;

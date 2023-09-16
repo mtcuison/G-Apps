@@ -1,4 +1,4 @@
-package org.rmj.guanzongroup.guanzonconnect.Activity;
+package org.rmj.guanzongroup.gconnect.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.widget.TextView;
 
-import org.rmj.guanzongroup.guanzonconnect.R;
+import org.rmj.guanzongroup.gconnect.R;
 
 public class Activity_TermsAndConditions extends AppCompatActivity {
 
