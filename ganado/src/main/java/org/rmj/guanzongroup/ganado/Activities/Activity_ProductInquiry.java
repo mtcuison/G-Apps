@@ -42,8 +42,8 @@ public class Activity_ProductInquiry extends AppCompatActivity {
     private VMProductInquiry mViewModel;
     private MessageBox poMessage;
     private MaterialTextView txtBranchNm, txtBrandNm, txtModelNm, txtModelCd;
-    private TextInputEditText txtDownPymnt, txtAmort, txtDTarget,txtCashPrice;
-    private MaterialAutoCompleteTextView spn_color, spnPayment, spnAcctTerm;
+    private TextInputEditText txtDownPymnt,txtDownPymnt1, txtAmort, txtDTarget,txtCashPrice;
+    private MaterialAutoCompleteTextView spn_color, spnPayment, spnPayment1, spnAcctTerm;
     private LinearLayout linearInstallment;
     private MaterialButton btnContinue,btnCalculate;
     private ShapeableImageView imgMC;
@@ -55,6 +55,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         initWidgets();
 
         spnPayment.setText(GConstants.PAYMENT_FORM[0]);
+        spnPayment1.setText(GConstants.PAYMENT_FORM[0]);
         spnPayment.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.PAYMENT_FORM));
         spnPayment.setOnItemClickListener(new OnItemClickListener(spnPayment));
         spnAcctTerm.setText(GConstants.INSTALLMENT_TERM[0]);
@@ -123,6 +124,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     txtCashPrice.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(mViewModel.GetCashInfo(modelID).CashPrce)));
                 }else{
                     txtCashPrice.setText(FormatUIText.getCurrencyUIFormat("0.0"));
+                    Log.e("cashPrice",FormatUIText.getCurrencyUIFormat("0.0"));
                 }
                 mViewModel.GetMinimumDownpayment(modelID, new VMProductInquiry.OnRetrieveInstallmentInfo() {
                     @Override
@@ -132,6 +134,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
                         mViewModel.getModel().setDownPaym(String.valueOf(loResult.getMinimumDownpayment()));
                         txtDownPymnt.setText(String.valueOf(loResult.getMinimumDownpayment()));
+                        txtDownPymnt1.setText(String.valueOf(loResult.getMinimumDownpayment()));
                         mViewModel.getModel().setMonthAmr(String.valueOf(loResult.getMonthlyAmortization()));
                         txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMonthlyAmortization())));
                     }
@@ -224,10 +227,12 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         txtModelCd = findViewById(R.id.lblModelCde);
         txtModelNm = findViewById(R.id.lblModelNme);
         txtDownPymnt = findViewById(R.id.txt_downpayment);
+        txtDownPymnt1 = findViewById(R.id.txt_mindownpayment);
         txtCashPrice = findViewById(R.id.txt_cashPrice);
         txtAmort = findViewById(R.id.txt_monthlyAmort);
         txtDTarget = findViewById(R.id.txt_targetDate);
         spnPayment = findViewById(R.id.spn_paymentMethod);
+        spnPayment1 = findViewById(R.id.paymMethod);
         spnAcctTerm = findViewById(R.id.spn_installmentTerm);
         spn_color = findViewById(R.id.spn_color);
         imgMC = findViewById(R.id.imgMC);
