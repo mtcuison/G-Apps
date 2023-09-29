@@ -11,6 +11,8 @@
 
 package org.rmj.g3appdriver.etc;
 
+import android.util.Log;
+
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
@@ -74,6 +76,42 @@ public class AppConstants {
         return loJson.getJSONObject("error").getString("message");
     }
 
+    public static String getErrorMessage(JSONObject args) throws Exception{
+        Log.e("object", args.toString());
+        String lsCode = args.getString("code");
+        switch (lsCode){
+            case "40020":
+                return "For security reasons, your session has expired. Please log in again.";
+
+            default:
+                String lsMessage = args.getString("message");
+                return getMessage(lsMessage);
+        }
+    }
+
+    private static String getMessage(String lsMessage){
+        switch (lsMessage){
+            case "Reload failed...":
+                return "We're currently experiencing high network traffic. Please try your request again in a few moments.";
+
+            case "Invalid password detected.":
+                return "Authentication Failed. Please check your Password and try again.";
+
+            case "Invalid email detected.":
+                return "Email Error. The provided email is not recognized. Please review your entry.";
+
+            case "No inquiries found":
+                return "Oops! No updated inquiries found.";
+
+            default:
+                return lsMessage;
+        }
+    }
+
+    private static final String LOCAL_MESSAGE = "We apologize for the inconvenience. An error has occurred during the processing of your request";
+    public static String getLocalMessage(Exception val){
+        return LOCAL_MESSAGE + "\n \n" + val.getMessage();
+    }
     public static String SOURCE_CODE = "MPlc";
     public static String APP_CLIENT = "GGC_BGAP0";
     public static String FS_SCANNER = "GAP0";
@@ -109,7 +147,7 @@ public class AppConstants {
             new String[] {"2","Address Book","Manage billing and shipping address for delivery of ordered products."}
     };
 
-    public String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+    public static String DATE_MODIFIED = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
     public static String CURRENT_DATE = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
     public static String CURRENT_DATE_WORD = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).format(new Date());

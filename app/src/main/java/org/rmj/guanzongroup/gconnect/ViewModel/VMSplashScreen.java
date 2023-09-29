@@ -15,15 +15,31 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
+import org.rmj.g3appdriver.dev.Repositories.RMcBrand;
+import org.rmj.g3appdriver.dev.Repositories.RMcCategory;
+import org.rmj.g3appdriver.dev.Repositories.RMcModel;
+import org.rmj.g3appdriver.dev.Repositories.RMcModelPrice;
+import org.rmj.g3appdriver.dev.Repositories.RMcTermCategory;
 import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
+import org.rmj.g3appdriver.dev.Repositories.RTown;
+import org.rmj.g3appdriver.dev.Repositories.Relation;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.etc.oLoadStat;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportBrand;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportBrandModel;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportCategory;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportMcModelPrice;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportMcTermCategory;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportTown;
+import org.rmj.g3appdriver.lib.Ganado.Obj.Import_McColors;
+import org.rmj.g3appdriver.lib.Ganado.Obj.Import_Relation;
+
 
 import java.util.Objects;
 
@@ -60,6 +76,7 @@ public class VMSplashScreen extends AndroidViewModel {
         GuanzonAppConfig loConfig = new GuanzonAppConfig(mContext);
         loConfig.setProductID("GuanzonApp");
         loConfig.setClientID(AppConstants.APP_CLIENT);
+        loConfig.setTestCase(false);
         loConfig.setIfPermissionsGranted(hasPermissions(mContext, laPermissions));
         poLoadStat.setValue(new oLoadStat(
                 loConfig.IsPermissionsGranted(),
@@ -137,8 +154,14 @@ public class VMSplashScreen extends AndroidViewModel {
                     loAddress.ImportProvinceList();
                     pause();
                     loAddress.ImportCountryList();
+                    pause();
+                    RMcBrand loMcBrand = new RMcBrand(mContext);
+                    loMcBrand.ImportMCBrands();
+                    pause();
+
                 }
                 pause();
+
                 //TODO : Revise importing data to improve speed on splash screen...
                 //Import Dashboard products only if possible,
                 // import other important must be imported before the operation of usage...
@@ -154,7 +177,37 @@ public class VMSplashScreen extends AndroidViewModel {
 //                loGcard.DownloadNewsEvents(poCallback);
 //                Log.d(TAG, "News events imported successfully...");
 //                pause();
+                if (new RMcModel(mContext).ImportMCModel()) {
+                    Log.d(TAG, "MC Model imported successfully...");
+                }
+                pause();
+                if (new RMcModel(mContext).ImportCashPrices()) {
+                    Log.d(TAG, "MC Model Cash Prices imported successfully...");
+                }
+                pause();
+                if (new RMcModel(mContext).ImportModelColor()) {
+                    Log.d(TAG, "MC Model Color imported successfully...");
+                }
+                pause();
 
+                if (new RMcBrand(mContext).ImportMCBrands()) {
+                    Log.d(TAG, "MC Brand imported successfully...");
+                }
+                pause();
+                if (new RMcModelPrice(mContext).ImportMcModelPrice()) {
+                    Log.d(TAG, "MC Model Cash Prices imported successfully...");
+                }
+                pause();
+
+
+                if (new RMcCategory(mContext).ImportMcCategory()) {
+                    Log.d(TAG, "MC Category imported successfully...");
+                }
+                pause();
+                if (new RMcTermCategory(mContext).ImportMcTermCategory()) {
+                    Log.d(TAG, "MC Term Category imported successfully...");
+                }
+                pause();
                 if (new AccountInfo(mContext).getLoginStatus()) {
                     RNotificationInfo loNotif = new RNotificationInfo(mContext);
                     loNotif.ImportClientNotifications(0);
@@ -172,15 +225,25 @@ public class VMSplashScreen extends AndroidViewModel {
                     }
                     loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
                     loGcard.DownloadRedeemables(poCallback);
-
+                    pause();
+                    if (new RTown(mContext).ImportTown()){
+                        Log.d(TAG, "Town imported successfully...");
+                    }
+                    pause();
+                    if (new Relation(mContext).ImportRelations()){
+                        Log.d(TAG, "Town imported successfully...");
+                    }
+                    pause();
                     if(new AccountInfo(mContext).getVerificationStatus() > 0){
                         if(new ROrder(mContext).ImportMarketPlaceItemCart()){
                             Log.d(TAG, "Marketplace cart items imported successfully...");
                         }
+
                     } else {
                         Log.e(TAG, "User doesn't have complete details for marketplace.");
                     }
                 } else {
+
                     Log.e(TAG, "No account session found.");
                 }
             } catch (Exception e){

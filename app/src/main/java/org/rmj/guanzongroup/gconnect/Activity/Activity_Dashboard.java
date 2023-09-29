@@ -112,6 +112,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
+                R.id.nav_product_inquiry,
                 R.id.nav_promos,
                 R.id.nav_events,
                 R.id.nav_purchases,
@@ -146,13 +147,15 @@ public class Activity_Dashboard extends AppCompatActivity {
                 navigationView = findViewById(R.id.nav_view);
                 Menu nav_Menu = navigationView.getMenu();
                 if (eGcardApp == null) {
-                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(false);
+//                    nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(false);
+//                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(false);
                     nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
                     nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);
                     nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(false);
                     nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
                 } else {
-                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(true);
+//                    nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(true);
+//                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(true);
                     nav_Menu.findItem(R.id.nav_redeemables).setVisible(true);
                     nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(true);
                     nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(true);
