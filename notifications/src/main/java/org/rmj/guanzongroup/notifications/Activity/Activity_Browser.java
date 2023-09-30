@@ -52,8 +52,10 @@ public class Activity_Browser extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(getIntent().getStringExtra("args").equalsIgnoreCase("1")){
             getSupportActionBar().setTitle("Promos");
-        }else{
+        }else if(getIntent().getStringExtra("args").equalsIgnoreCase("1")){
             getSupportActionBar().setTitle("Events");
+        } else {
+            getSupportActionBar().setTitle("Privacy & Policy");
         }
     }
 

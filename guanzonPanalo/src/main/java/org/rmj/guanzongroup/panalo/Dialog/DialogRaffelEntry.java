@@ -42,7 +42,7 @@ public class DialogRaffelEntry {
        MaterialButton btnGenerate = view.findViewById(R.id.btnCreate);
        MaterialButton btnClose = view.findViewById(R.id.btnClose);
 
-       String[] TRANSACTIONS = {"MC SALES", "JOB ORDER", "SP SALES", "MONTHLY PAYMENT"};
+       String[] TRANSACTIONS = {"MOTORCYCLE PURCHASE", "JOB ORDER", "SPARE PARTS PURCHASE", "MONTHLY PAYMENT", "MOBILE PHONE PURCHASE"};
        txtTransact.setAdapter(new ArrayAdapter<>(mContext, R.layout.support_simple_spinner_dropdown_item, TRANSACTIONS));
 
        btnGenerate.setOnClickListener(v -> {

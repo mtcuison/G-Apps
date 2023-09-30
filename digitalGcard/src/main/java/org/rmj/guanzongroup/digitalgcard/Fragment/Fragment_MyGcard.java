@@ -105,7 +105,12 @@ public class Fragment_MyGcard extends Fragment {
     }
 
     private void displayGcardInfo(EGcardApp foGcardxx) {
-        txtUserNm.setText(Objects.requireNonNull(foGcardxx.getNmOnCard()));
+        if(foGcardxx.getNmOnCard() == null
+            || foGcardxx.getNmOnCard().equalsIgnoreCase("null")) {
+            txtUserNm.setText(Objects.requireNonNull(foGcardxx.getNmOnCard()));
+        } else {
+            txtUserNm.setText("");
+        }
         txtCardNo.setText(Objects.requireNonNull(foGcardxx.getCardNmbr()));
         txtPoints.setText(Objects.requireNonNull(foGcardxx.getAvlPoint()));
 

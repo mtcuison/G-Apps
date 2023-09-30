@@ -24,11 +24,6 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_nav_about_to_nav_terms_conditions">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -139,18 +134,6 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="nav_item_cart">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="744" />
-                            <option name="y" value="12" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="nav_my_gcard">
                     <value>
                       <LayoutPositions>
@@ -158,18 +141,6 @@
                           <Point>
                             <option name="x" value="12" />
                             <option name="y" value="368" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="nav_notifications">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="236" />
-                            <option name="y" value="-346" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -187,12 +158,24 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="nav_product_inquiry">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="248" />
+                            <option name="y" value="14" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="nav_promos">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="256" />
+                            <option name="x" value="488" />
                             <option name="y" value="12" />
                           </Point>
                         </option>
@@ -228,7 +211,7 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="500" />
+                            <option name="x" value="732" />
                             <option name="y" value="12" />
                           </Point>
                         </option>

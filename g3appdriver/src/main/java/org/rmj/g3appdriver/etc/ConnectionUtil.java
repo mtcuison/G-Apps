@@ -25,7 +25,7 @@ import javax.net.ssl.X509TrustManager;
 public class ConnectionUtil {
 
     private Context context;
-
+    private String message;
     public ConnectionUtil(Context context){
         this.context = context;
     }
@@ -40,7 +40,9 @@ public class ConnectionUtil {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
-
+    public String getMessage() {
+        return message;
+    }
     private boolean isReachable()
     {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -52,7 +54,7 @@ public class ConnectionUtil {
         {
             String lsAddress;
             if(new GuanzonAppConfig(context).getTestCase()){
-                lsAddress = "http://192.168.36.12";
+                lsAddress = "http://192.168.10.64";
             } else {
                 lsAddress = "https://restgk.guanzongroup.com.ph";
             }

@@ -27,12 +27,15 @@ import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
 public class VMHome extends AndroidViewModel {
     private static final String TAG =VMHome.class.getSimpleName();
-
+    private String lsPromo, lsPmUrl;
+    private String lsEvent, lsEvUrl;
     private final RClientInfo poClient;
     private final RAddressMobile poAddress;
     private final RProduct poProduct;
@@ -314,23 +317,10 @@ public class VMHome extends AndroidViewModel {
     }
 
     public void CheckPromotions(OnCheckPromotions listener){
-        new OnPromoCheckTask(listener).execute();
-    }
-
-    private class OnPromoCheckTask extends AsyncTask<String, Void, Boolean>{
-
-        private final OnCheckPromotions mListener;
-
-        private String lsPromo, lsPmUrl;
-        private String lsEvent, lsEvUrl;
-
-        public OnPromoCheckTask(OnCheckPromotions mListener) {
-            this.mListener = mListener;
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
+        TaskExecutor.Execute(listener, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
             if(poSystem.CheckPromo() != null){
                 EPromo loPromo = poSystem.CheckPromo();
                 lsPromo = loPromo.getPromoUrl();
@@ -343,22 +333,66 @@ public class VMHome extends AndroidViewModel {
                 lsEvUrl = loEvent.getEventURL();
             }
             return null;
-        }
+            }
 
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            if(lsPromo != null) {
-                mListener.OnCheckPromos(lsPromo, lsPmUrl);
+            @Override
+            public void OnPostExecute(Object object) {
+                if(lsPromo != null) {
+                    listener.OnCheckPromos(lsPromo, lsPmUrl);
+                }
+                if(lsEvent != null){
+                    listener.OnCheckEvents(lsEvent, lsEvUrl);
+                }
+                if(lsEvent == null && lsPromo == null){
+                    listener.NoPromos();
+                }
+
             }
-            if(lsEvent != null){
-                mListener.OnCheckEvents(lsEvent, lsEvUrl);
-            }
-            if(lsEvent == null && lsPromo == null){
-                mListener.NoPromos();
-            }
-            super.onPostExecute(aBoolean);
-        }
+        });
     }
+
+//    private class OnPromoCheckTask extends AsyncTask<String, Void, Boolean>{
+//
+//        private final OnCheckPromotions mListener;
+//
+//        private String lsPromo, lsPmUrl;
+//        private String lsEvent, lsEvUrl;
+//
+//        public OnPromoCheckTask(OnCheckPromotions mListener) {
+//            this.mListener = mListener;
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(String... strings) {
+//            poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
+//            if(poSystem.CheckPromo() != null){
+//                EPromo loPromo = poSystem.CheckPromo();
+//                lsPromo = loPromo.getPromoUrl();
+//                lsPmUrl = loPromo.getImageUrl();
+//            }
+//
+//            if(poSystem.CheckEvents() != null){
+//                EEvents loEvent = poSystem.CheckEvents();
+//                lsEvent = loEvent.getImageURL();
+//                lsEvUrl = loEvent.getEventURL();
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Boolean aBoolean) {
+//            if(lsPromo != null) {
+//                mListener.OnCheckPromos(lsPromo, lsPmUrl);
+//            }
+//            if(lsEvent != null){
+//                mListener.OnCheckEvents(lsEvent, lsEvUrl);
+//            }
+//            if(lsEvent == null && lsPromo == null){
+//                mListener.NoPromos();
+//            }
+//            super.onPostExecute(aBoolean);
+//        }
+//    }
 
 
     public void ImportOrdersTask(){

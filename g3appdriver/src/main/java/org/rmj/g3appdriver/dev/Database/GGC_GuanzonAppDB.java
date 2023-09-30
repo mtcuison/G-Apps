@@ -16,9 +16,15 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEvents;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGCardTransactionLedger;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGanadoOnline;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGcardApp;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMCSerialRegistration;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcBrand;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcCategory;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModel;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcModelPrice;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMcTermCategory;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DMobileAddressInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderDetail;
@@ -29,8 +35,10 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPromo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRawDao;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemablesInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRelation;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DSearchLog;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DServiceInfo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DUserInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EAddressInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
@@ -41,10 +49,18 @@ import org.rmj.g3appdriver.dev.Database.Entities.EEmailInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
+import org.rmj.g3appdriver.dev.Database.Entities.EGanadoOnline;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.EGuanzonPanalo;
 import org.rmj.g3appdriver.dev.Database.Entities.EItemCart;
+import org.rmj.g3appdriver.dev.Database.Entities.EMCColor;
+import org.rmj.g3appdriver.dev.Database.Entities.EMCModelCashPrice;
 import org.rmj.g3appdriver.dev.Database.Entities.EMCSerialRegistration;
+import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
+import org.rmj.g3appdriver.dev.Database.Entities.EMcCategory;
+import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
+import org.rmj.g3appdriver.dev.Database.Entities.EMcModelPrice;
+import org.rmj.g3appdriver.dev.Database.Entities.EMcTermCategory;
 import org.rmj.g3appdriver.dev.Database.Entities.EMobileInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.ENotificationRecipient;
@@ -57,6 +73,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.ERelation;
 import org.rmj.g3appdriver.dev.Database.Entities.ESearchLog;
 import org.rmj.g3appdriver.dev.Database.Entities.EServiceInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ETokenInfo;
@@ -93,15 +110,25 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUserInfo;
         ESearchLog.class,
         EEmailInfo.class,
         EPanaloReward.class,
-        EGuanzonPanalo.class}, version = 2, exportSchema = false)
+        EGuanzonPanalo.class,
+        ERelation.class,
+        EGanadoOnline.class,
+        EMCColor.class,
+        EMcBrand.class,
+        EMcModel.class,
+        EMcModelPrice.class,
+        EMCModelCashPrice.class,
+        EMcCategory.class,
+        EMcTermCategory.class}, version = 2, exportSchema = false)
 public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     private static final String TAG = "GuanzonApp_DB_Manager";
     private static GGC_GuanzonAppDB instance;
 
 
-//    public abstract DAppEventInfo EAppEventDao();
+    //    public abstract DAppEventInfo EAppEventDao();
     public abstract DBranchInfo EBranchDao();
     public abstract DClientInfo EClientDao();
+    public abstract DTownInfo TownDao();
     public abstract DGcardApp EGcardAppDao();
     public abstract DGCardTransactionLedger EGCardTransactionLedgerDao();
     public abstract DMCSerialRegistration EMCSerialRegistrationDao();
@@ -122,11 +149,18 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     public abstract DOrderDetail orderDetailDao();
     public abstract DSearchLog searchDao();
     public abstract DPanalo panaloDao();
+    public abstract DGanadoOnline ganadoDao();
+    public abstract DRelation relDao();
+    public abstract DMcBrand McBrandDao();
+    public abstract DMcModel McModelDao();
+    public abstract DMcModelPrice McModelPriceDao();
+    public abstract DMcCategory McCategoryDao();
+    public abstract DMcTermCategory McTermCategoryDao();
 
     public static synchronized GGC_GuanzonAppDB getInstance(Context context){
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    GGC_GuanzonAppDB.class, "GGC_ISysDBF.db")
+                            GGC_GuanzonAppDB.class, "GGC_ISysDBF.db")
                     .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .addCallback(roomCallBack)

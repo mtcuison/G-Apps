@@ -6,6 +6,8 @@ import static org.rmj.g3appdriver.dev.ServerRequest.APILocation.LIVE;
 import static org.rmj.g3appdriver.dev.ServerRequest.APILocation.LOCAL;
 import static org.rmj.g3appdriver.dev.ServerRequest.APILocation.SECURITY;
 
+import android.util.Log;
+
 public class ServerAPIs {
 
     private boolean isTestUnit;
@@ -101,6 +103,20 @@ public class ServerAPIs {
     private static final String SEND_RESPONSE = "https://restgk.guanzongroup.com.ph/notification/send_response.php";
     private static final String SEND_REQUEST = "https://restgk.guanzongroup.com.ph/notification/send_request.php";
     private static final String CHECK_UPDATE_URL = "https://restgk.guanzongroup.com.ph/gcard/ms/version_checker.php";
+
+    private static final String URL_DOWNLOAD_RELATION = "gcircle/params/download_relation.php";
+    private static final String URL_SUBMIT_INQUIRY = "gcircle/ganado/submit_inquiry.php";
+    private static final String URL_DOWNLOAD_INQUIRIES = "gcircle/ganado/import_inquiries.php";
+
+    private static final String URL_IMPORT_MC_MODEL = "integsys/param/download_mc_model.php";
+    private static final String URL_IMPORT_MC_COLOR = "integsys/param/download_mc_model_color.php";
+    private static final String URL_IMPORT_MC_PRICES = "gcircle/ganado/download_cash_price.php";
+    private static final String URL_IMPORT_MC_MODEL_PRICE = "integsys/param/download_mc_model_price.php";
+    private static final String URL_IMPORT_BRAND = "integsys/param/download_brand.php";
+    private static final String URL_IMPORT_MC_CATEGORY = "integsys/param/download_mc_category.php";
+    private static final String URL_IMPORT_TERM_CATEGORY = "integsys/param/download_mc_term_category.php";
+    private static final String URL_IMPORT_BRANCHES = "integsys/param/download_branch.php";
+    private static final String URL_IMPORT_TOWN = "integsys/param/download_town.php";
 
     public ServerAPIs(boolean isUnitTest) {
         this.isTestUnit = isUnitTest;
@@ -684,4 +700,85 @@ public class ServerAPIs {
         }
         return LIVE + VERIFY_CLIENT_MOBILE_NO;
     }
+
+    public String getUrlDownloadRelation() {
+        if(isTestUnit){
+            return LOCAL + URL_DOWNLOAD_RELATION;
+        }
+        return LIVE + URL_DOWNLOAD_RELATION;
+    }
+
+    public String getSubmitInquiry() {
+        if(isTestUnit){
+            return LOCAL + URL_SUBMIT_INQUIRY;
+        }
+        return LIVE + URL_SUBMIT_INQUIRY;
+    }
+
+    public String getDownloadInquiries() {
+        if(isTestUnit){
+            return LOCAL + URL_DOWNLOAD_INQUIRIES;
+        }
+        return LIVE + URL_DOWNLOAD_INQUIRIES;
+    }
+
+
+    public String getUrlImportMcModel() {
+        if(isTestUnit){
+            return LOCAL + URL_IMPORT_MC_MODEL;
+        }
+        return LIVE + URL_IMPORT_MC_MODEL;
+    }
+
+    public String getUrlImportMcModelColor() {
+        if(isTestUnit){
+            return LOCAL + URL_IMPORT_MC_COLOR;
+        }
+        return LIVE + URL_IMPORT_MC_COLOR;
+    }
+
+    public String getUrlImportMcModelPrices() {
+        if(isTestUnit){
+            return LOCAL + URL_IMPORT_MC_PRICES;
+        }
+        return LIVE + URL_IMPORT_MC_PRICES;
+    }
+
+    public String getUrlImportMcModelPrice() {
+        if(isTestUnit){
+            return LOCAL + URL_IMPORT_MC_MODEL_PRICE;
+        }
+        return LIVE + URL_IMPORT_MC_MODEL_PRICE;
+    }
+
+    public String getUrlImportBrand() {
+        if(isTestUnit){
+            return LOCAL + URL_IMPORT_BRAND;
+        }
+        return LIVE + URL_IMPORT_BRAND;
+    }
+
+    public String getUrlImportMcCategory() {
+        if(isTestUnit){
+            return LOCAL + URL_IMPORT_MC_CATEGORY;
+        }
+        return LIVE + URL_IMPORT_MC_CATEGORY;
+    }
+
+    public String getUrlImportTermCategory() {
+        if(isTestUnit){
+            return LOCAL + URL_IMPORT_TERM_CATEGORY;
+        }
+        return LIVE + URL_IMPORT_TERM_CATEGORY;
+    }
+
+
+    public String getUrlImportTown() {
+        if(isTestUnit){
+            return LOCAL + URL_IMPORT_TOWN;
+        }
+        return LIVE + URL_IMPORT_TOWN;
+    }
+
+
 }

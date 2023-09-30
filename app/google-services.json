@@ -8,6 +8,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:341962398170:android:429deb96bcbd251c1f48e3",
+        "android_client_info": {
+          "package_name": "org.rmj.guanzongroup.gconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "341962398170-7htpumcmie5qri2s79m9h62egtkr6o18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy6twV9nNdZhp3IBdujovXGrVSZPJkJ3E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "341962398170-7htpumcmie5qri2s79m9h62egtkr6o18.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:341962398170:android:315d63fb7c21976d",
         "android_client_info": {
           "package_name": "org.rmj.guanzongroup.guanzonapp"

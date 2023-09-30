@@ -4,11 +4,11 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdk 34
     defaultConfig {
-        applicationId "org.rmj.guanzongroup.guanzonconnect"
+        applicationId "org.rmj.guanzongroup.gconnect"
         minSdk 21
         targetSdk 34
-        versionCode 4
-        versionName "Guanzon Connect v4.01.03.04 a"
+        versionCode 2
+        versionName "Guanzon Connect v4.01.03.02 a"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -31,7 +31,7 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-    namespace 'org.rmj.guanzongroup.guanzonconnect'
+    namespace 'org.rmj.guanzongroup.gconnect'
 }
 
 repositories {
@@ -47,6 +47,14 @@ allprojects {
 }
 
 dependencies {
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -140,6 +148,7 @@ dependencies {
     implementation project(':useraccount')
     implementation project(':notifications')
     implementation project(':guanzonPanalo')
+    implementation project(':ganado')
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
 
