@@ -31,15 +31,6 @@ import org.rmj.g3appdriver.etc.oLoadStat;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
-import org.rmj.g3appdriver.lib.Ganado.Obj.ImportBrand;
-import org.rmj.g3appdriver.lib.Ganado.Obj.ImportBrandModel;
-import org.rmj.g3appdriver.lib.Ganado.Obj.ImportCategory;
-import org.rmj.g3appdriver.lib.Ganado.Obj.ImportMcModelPrice;
-import org.rmj.g3appdriver.lib.Ganado.Obj.ImportMcTermCategory;
-import org.rmj.g3appdriver.lib.Ganado.Obj.ImportTown;
-import org.rmj.g3appdriver.lib.Ganado.Obj.Import_McColors;
-import org.rmj.g3appdriver.lib.Ganado.Obj.Import_Relation;
-
 
 import java.util.Objects;
 

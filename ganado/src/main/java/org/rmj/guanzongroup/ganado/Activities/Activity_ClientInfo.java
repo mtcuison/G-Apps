@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.etc.MessageBoxInstallment;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMPersonalInfo;
 
@@ -36,7 +37,8 @@ import java.util.Objects;
 public class Activity_ClientInfo extends AppCompatActivity {
 
     private VMPersonalInfo mViewModel;
-    private MessageBox poMessage;
+    private MessageBox poMessage ;
+    private MessageBoxInstallment icMessage;
     private LoadDialog poDialogx;
 
     private TextInputEditText txtLastNm, txtFrstNm, txtMiddNm, txtSuffixx,  txtBirthDt,
@@ -189,8 +191,13 @@ public class Activity_ClientInfo extends AppCompatActivity {
                     poMessage.setTitle("Ganado");
                     poMessage.setMessage(args);
                     poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                        dialog.dismiss();
-                        finish();
+                        poMessage.dismiss();
+
+                        icMessage.initDialog();
+                        icMessage.setTitle("Calculator");
+                        icMessage.setMessage("your message here");
+                        icMessage.show();
+
                     });
                     poMessage.show();
                 }
@@ -213,6 +220,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_PersonalInfo);
         mViewModel = new ViewModelProvider(Activity_ClientInfo.this).get(VMPersonalInfo.class);
         poMessage = new MessageBox(Activity_ClientInfo.this);
+        icMessage = new MessageBoxInstallment(Activity_ClientInfo.this);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
