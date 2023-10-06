@@ -43,13 +43,13 @@ public class PanaloNotification implements iNotificationUI {
 
             int lnChannelID = 123;
 
-            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.guanzonapp.Activity.Activity_SplashScreen"));
+            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.gconnect.Activity.Activity_SplashScreen"));
 
             String lsDataxx = poMessage.getDataSndx();
             JSONObject loJson = new JSONObject(lsDataxx);
             JSONObject loPromo = loJson.getJSONObject("data");
             String lsUrlLinkx = loPromo.getString("sReferNox");
-            String lsImageUrl = loPromo.getString("sImageUrl");
+//            String lsImageUrl = loPromo.getString("sImageUrl");
 
             loIntent.putExtra("notification", "promo");
             loIntent.putExtra("args", "1");
