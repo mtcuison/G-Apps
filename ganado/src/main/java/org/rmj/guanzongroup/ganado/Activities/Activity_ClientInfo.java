@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ganado.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.etc.MessageBoxInstallment;
 import org.rmj.guanzongroup.ganado.R;
+import org.rmj.guanzongroup.ganado.ViewModel.OnSaveInfoListener;
 import org.rmj.guanzongroup.ganado.ViewModel.VMPersonalInfo;
 
 import java.text.SimpleDateFormat;
@@ -192,11 +194,27 @@ public class Activity_ClientInfo extends AppCompatActivity {
                     poMessage.setMessage(args);
                     poMessage.setPositiveButton("Okay", (view, dialog) -> {
                         poMessage.dismiss();
+                        finish();
 
-                        icMessage.initDialog();
-                        icMessage.setTitle("Calculator");
-                        icMessage.setMessage("your message here");
-                        icMessage.show();
+
+                            mViewModel.SaveData(new OnSaveInfoListener() {
+                                @Override
+                                public void OnSave(String args) {
+                                    Intent loIntent = new Intent(Activity_ClientInfo.this, Activity_Installment_Summary.class);
+                                    loIntent.putExtra("sTransNox", args);
+                                    startActivity(loIntent);
+                                    overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                                }
+                                @Override
+                                public void OnFailed(String message) {
+                                    poMessage.initDialog();
+                                    poMessage.setTitle("Product Inquiry");
+                                    poMessage.setMessage(message);
+                                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                                    poMessage.show();
+                                }
+                            });
+
 
                     });
                     poMessage.show();

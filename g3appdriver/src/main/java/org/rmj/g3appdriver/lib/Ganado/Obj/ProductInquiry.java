@@ -2,21 +2,18 @@ package org.rmj.g3appdriver.lib.Ganado.Obj;
 
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
-import android.app.Application;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.appdriver.base.GRider;
-import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGanadoOnline;
+import org.rmj.g3appdriver.dev.Database.Entities.EGanadoOnline;
 import org.rmj.g3appdriver.dev.Database.Entities.EMCColor;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InstallmentInfo;
 import org.rmj.g3appdriver.utils.MySQLAESCrypt;
-import org.rmj.gocas.pricelist.MCPricelist;
 import org.rmj.gocas.pricelist.PriceFactory;
 import org.rmj.gocas.pricelist.Pricelist;
 
@@ -73,6 +70,10 @@ public class ProductInquiry {
 
     public DGanadoOnline.McDownpayment GetInstallmentPlanDetail(String ModelID){
         return poDao.getDownpayment(ModelID);
+    }
+
+    public LiveData<EGanadoOnline> GetInquiryDetail(String TransNox){
+        return poDao.GetLatestInquiries(TransNox);
     }
 
     /**
