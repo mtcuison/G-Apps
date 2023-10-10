@@ -91,17 +91,19 @@
                         style="@style/TextInputStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight=".8"
+                        android:enabled="false"
+                        android:padding="2dp"
                         android:hint="Minimum Downpayment"
                         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
                         tools:layout_editor_absoluteX="10dp">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/txt_mindownpayment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="false"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:padding="16dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -150,18 +152,13 @@
                         android:hint="Target Date"
                         app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
                         tools:layout_editor_absoluteX="10dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/txt_targetDate"
+                            style="@style/DropdownStyleTheme"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:focusedByDefault="false"
-                            android:imeOptions="actionNext"
-                            android:inputType="number|none"
-                            android:maxLength="20"
-                            android:nextFocusForward="@+id/txt_bpProvince" />
+                            android:padding="16dp" />
+
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -184,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="YES"
+                    android:text="OKAY"
                     android:visibility="visible" />
 
                 <com.google.android.material.divider.MaterialDivider
@@ -192,16 +189,6 @@
                     android:layout_width="0.7dp"
                     android:layout_height="match_parent"
                     android:background="@color/marketplace_orange"
-                    android:visibility="visible" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_dialogNegative"
-                    style="@style/GuanzonMarketplace.Theme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="NO"
                     android:visibility="visible" />
 
             </LinearLayout>
