@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ganado.ViewModel;
 
 import android.app.Application;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -107,18 +108,19 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
                     message = poApp.getMessage();
                     return null;
                 }
-                String lsResult1 = (poApp.SaveInquiry(lsInfo.getsTransNox())) ? "" : null;
+                String lsResult1 = poApp.SaveInquiry(lsInfo.getsTransNox());
 ;                if (lsResult1 == null) {
                     message = poApp.getMessage();
                     return null;
                 }
 
-                return "Motorcycle inquiry saved successfully!";
+                return lsResult1;
             }
 
             @Override
             public void OnPostExecute(Object object) {
                 String lsResult = (String) object;
+                Log.e("TransNox",lsResult);
                 if (lsResult == null) {
                     listener.OnFailed(message);
                 } else {

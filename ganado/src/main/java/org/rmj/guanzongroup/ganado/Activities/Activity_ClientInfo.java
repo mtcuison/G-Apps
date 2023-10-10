@@ -187,18 +187,19 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
                 @Override
                 public void OnSuccess(String args) {
+
                     poDialogx.dismiss();
                     poMessage.initDialog();
                     poMessage.setTitle("Ganado");
-                    poMessage.setMessage(args);
+                    poMessage.setMessage("Motorcycle inquiry saved successfully!");
                     poMessage.setPositiveButton("Okay", (view, dialog) -> {
                         poMessage.dismiss();
-                        finish();
                             Intent loIntent = new Intent(Activity_ClientInfo.this, Activity_Installment_Summary.class);
-                            loIntent.putExtra("sTransNox", mViewModel.getModel().getsTransNox());
+                            loIntent.putExtra("sTransNox", args);
                             startActivity(loIntent);
                             overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
 
+                            finish();
 
                     });
                     poMessage.show();

@@ -196,6 +196,8 @@ public class Activity_ProductInquiry extends AppCompatActivity {
             mViewModel.SaveData(new OnSaveInfoListener() {
                 @Override
                 public void OnSave(String args) {
+
+                    Log.e("TransNox",args);
                     Intent loIntent = new Intent(Activity_ProductInquiry.this, Activity_ClientInfo.class);
                     loIntent.putExtra("sTransNox", args);
                     startActivity(loIntent);

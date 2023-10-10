@@ -118,37 +118,36 @@ public class VMInstallmentSummary extends AndroidViewModel implements GanadoUI {
     public DGanadoOnline.McDownpayment GetInstallmentPlanDetail(String args) {
         return poApp.GetInstallmentPlanDetail(args);
     }
-    public LiveData<EGanadoOnline> GetInquiryDetail(String args) {
-        return poApp.GetInquiryDetail(args);
+    public LiveData<EGanadoOnline> GetInquiryDetail() {
+        return poApp.GetInquiryDetail(TransNox);
     }
 //
-    public void GetMinimumDownpayment(String ModelID, OnRetrieveInstallmentInfo listener) {
-        TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
-            @Override
-            public Object DoInBackground(Object args) {
-                InstallmentInfo loResult = poApp.GetMinimumDownpayment(ModelID);
+public void GetMinimumDownpayment(String ModelID, int Term, OnRetrieveInstallmentInfo listener) {
+    TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
+        @Override
+        public Object DoInBackground(Object args) {
+            InstallmentInfo loResult = poApp.GetMinimumDownpayment(ModelID, Term);
 
-                if(loResult == null){
-                    message = poApp.getMessage();
-                    return null;
-                }
-
-                return loResult;
+            if(loResult == null){
+                message = poApp.getMessage();
+                return null;
             }
 
-            @Override
-            public void OnPostExecute(Object object) {
-                InstallmentInfo loResult = (InstallmentInfo) object;
-                if(loResult == null){
-                    listener.OnFailed(message);
-                    return;
-                }
+            return loResult;
+        }
 
-                listener.OnRetrieve(loResult);
+        @Override
+        public void OnPostExecute(Object object) {
+            InstallmentInfo loResult = (InstallmentInfo) object;
+            if(loResult == null){
+                listener.OnFailed(message);
+                return;
             }
-        });
-    }
 
+            listener.OnRetrieve(loResult);
+        }
+    });
+}
     public void CalculateNewDownpayment(String ModelID, int term, double Downpayment, OnCalculateNewDownpayment listener){
         TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
             @Override
