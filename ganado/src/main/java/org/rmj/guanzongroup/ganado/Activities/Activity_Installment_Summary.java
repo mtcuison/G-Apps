@@ -1,12 +1,15 @@
 package org.rmj.guanzongroup.ganado.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
@@ -18,9 +21,6 @@ import org.rmj.g3appdriver.lib.Ganado.model.GConstants;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InstallmentInfo;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMInstallmentSummary;
-import org.rmj.guanzongroup.ganado.ViewModel.VMProductInquiry;
-
-import java.util.ArrayList;
 
 
 public class Activity_Installment_Summary extends AppCompatActivity {
@@ -28,13 +28,15 @@ public class Activity_Installment_Summary extends AppCompatActivity {
     private VMInstallmentSummary mViewModel;
     private String Transaction;
     private MaterialTextView  txtTerms,  txtTargetDtes;
-    private MaterialAutoCompleteTextView txtPaymMod;
+    private TextInputEditText txtPaymMod;
     private MaterialAutoCompleteTextView txtTargetDtex;
     private MaterialAutoCompleteTextView txtTerm;
     private MaterialAutoCompleteTextView txtMinDP;
-        private TextInputEditText txtCashPrice;
+    private ConstraintLayout installmentgrp;
+    private TextInputEditText txtCashPrice;
     private TextInputEditText txtMontlyAmort;
     private MaterialAutoCompleteTextView txtTargetDte;
+    private MaterialButton btnsave;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,13 @@ public class Activity_Installment_Summary extends AppCompatActivity {
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
         setWidgets();
+        btnsave.setOnClickListener(view -> {
+
+            Intent loIntent = new Intent(Activity_Installment_Summary.this, Activity_ProductInquiry.class);
+            startActivity(loIntent);
+            overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+            finish();
+        });
 
     }
     private void initWidgets(){
@@ -51,7 +60,9 @@ public class Activity_Installment_Summary extends AppCompatActivity {
         txtMinDP = findViewById(R.id.txt_mindownpayment);
         txtTerm = findViewById(R.id.spn_installmentTerm);
         txtMontlyAmort = findViewById(R.id.txt_monthlyAmort);
-        txtTargetDte = findViewById(R.id.txt_mindownpayment);
+        txtTargetDte = findViewById(R.id.txt_targetDate);
+        installmentgrp = findViewById(R.id.grpInstallment);
+        btnsave = findViewById(R.id.btn_dialogPositive);
     }
 
     private void setWidgets(){
@@ -73,6 +84,21 @@ public class Activity_Installment_Summary extends AppCompatActivity {
                     txtTerm.setText(GConstants.INSTALLMENT_TERM[4]);
                 }
                 txtTerm.setAdapter(GConstants.getAdapter(Activity_Installment_Summary.this, GConstants.INSTALLMENT_TERM));
+                Log.e("val mo : ", GConstants.PAYMENT_FORM[Integer.parseInt(eGanadoOnline.getPaymForm())]);
+
+                txtPaymMod.setText(GConstants.PAYMENT_FORM[Integer.parseInt(eGanadoOnline.getPaymForm())]);
+                if (GConstants.PAYMENT_FORM[Integer.parseInt(eGanadoOnline.getPaymForm())] == "Cash"){
+                    installmentgrp.setVisibility(View.GONE);
+                }
+                txtTargetDte.setText(eGanadoOnline.getTargetxx().toString());
+//                if(eGanadoOnline.getPaymForm().toString()=="1"){
+//                    txtPaymMod.setText("Installment");
+//                    Log.e("value ng ins",txtPaymMod.toString());
+//                }else{
+//                    txtPaymMod.setText("Cash");
+//                    Log.e("value ng cash",txtPaymMod.toString());
+//                    installmentgrp.setVisibility(View.GONE);
+//                }
 
                 mViewModel.setModelID(jsonProdInfo.getString("sModelIDx"));
                 mViewModel.GetModelID().observe(Activity_Installment_Summary.this, modelID -> {
@@ -89,11 +115,12 @@ public class Activity_Installment_Summary extends AppCompatActivity {
                             public void OnRetrieve(InstallmentInfo loResult) {
                                 Log.e("getMonthlyAmortization",FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMonthlyAmortization())) + "");
                                 Log.e("getMonthlyAmortization",FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMinimumDownpayment())) + "");
-
+//                              txtPaymMod.setText(get);
                                 mViewModel.getModel().setDownPaym(String.valueOf(loResult.getMinimumDownpayment()));
                                 txtMinDP.setText(String.valueOf(loResult.getMinimumDownpayment()));
                                 mViewModel.getModel().setMonthAmr(String.valueOf(loResult.getMonthlyAmortization()));
                                 txtMontlyAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMonthlyAmortization())));
+
                             }
 
                             @Override

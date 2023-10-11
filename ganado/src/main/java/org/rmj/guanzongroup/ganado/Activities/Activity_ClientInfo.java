@@ -198,7 +198,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
                             loIntent.putExtra("sTransNox", args);
                             startActivity(loIntent);
                             overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
-
                             finish();
 
                     });

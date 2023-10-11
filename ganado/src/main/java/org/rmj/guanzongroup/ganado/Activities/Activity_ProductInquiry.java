@@ -61,8 +61,6 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         spnAcctTerm.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.INSTALLMENT_TERM));
         mViewModel.setBrandID(getIntent().getStringExtra("lsBrandID"));
         mViewModel.setModelID(getIntent().getStringExtra("lsModelID"));
-        mViewModel.getModel().setTermIDxx("36");
-        mViewModel.getModel().setPaymForm("1");
 
         lsBrandID = getIntent().getStringExtra("lsBrandID");
         lsModelID = getIntent().getStringExtra("lsModelID");
@@ -74,6 +72,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         mViewModel.getModel().setBrandIDx(lsBrandID);
         mViewModel.getModel().setModelIDx(lsModelID);
         mViewModel.getModel().setTermIDxx("36");
+        mViewModel.getModel().setPaymForm("0");
         mViewModel.GetModelBrand(lsBrandID, lsModelID).observe(Activity_ProductInquiry.this, eMcModel -> {
             try {
                 txtModelCd.setText(eMcModel.getModelCde());
@@ -202,6 +201,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     loIntent.putExtra("sTransNox", args);
                     startActivity(loIntent);
                     overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                    finish();
                 }
 
                 @Override
