@@ -140,6 +140,7 @@ public class Activity_Dashboard extends AppCompatActivity {
 //        navigationView.getMenu().findItem(R.id.nav_purchases).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_promos).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_item_cart).setVisible(false);
+//        navigationView.getMenu().findItem(R.id.nav_raffle_entry).setVisible(false);
 
         mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, eGcardApp -> {
             try {
@@ -147,14 +148,14 @@ public class Activity_Dashboard extends AppCompatActivity {
                 Menu nav_Menu = navigationView.getMenu();
                 if (eGcardApp == null) {
 //                    nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(false);
+//                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(false);
                     nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
                     nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);
                     nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(false);
                     nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
                 } else {
 //                    nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(true);
+//                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(true);
                     nav_Menu.findItem(R.id.nav_redeemables).setVisible(true);
                     nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(true);
                     nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(true);
@@ -500,6 +501,7 @@ public class Activity_Dashboard extends AppCompatActivity {
 //                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
 //                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(true);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(true);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(true);
                 } else {
@@ -519,6 +521,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                     nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
                     nav_Menu.findItem(R.id.nav_applyLoan).setVisible(false);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(false);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(false);
                 }
             } catch(Exception e) {
