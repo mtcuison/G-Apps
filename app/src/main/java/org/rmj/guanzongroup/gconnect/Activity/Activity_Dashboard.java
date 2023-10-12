@@ -6,30 +6,30 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Menu;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.badge.BadgeDrawable;
-import com.google.android.material.badge.BadgeUtils;
-import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.messaging.FirebaseMessaging;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.badge.BadgeUtils;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.guanzongroup.com.creditapp.Activities.Activity_LoanProductList;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
@@ -41,12 +41,12 @@ import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.digitalgcard.Dialogs.Dialog_TransactionPIN;
 import org.rmj.guanzongroup.gconnect.R;
 import org.rmj.guanzongroup.gconnect.Service.DashboardActionReceiver;
+import org.rmj.guanzongroup.gconnect.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ItemCart;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductReview;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_Purchases;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_SearchItem;
 import org.rmj.guanzongroup.marketplace.ViewModel.VMHome;
-import org.rmj.guanzongroup.gconnect.databinding.ActivityDashboardBinding;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
 import org.rmj.guanzongroup.notifications.Activity.Activity_GuanzonPanalo;
 import org.rmj.guanzongroup.notifications.Activity.Activity_NotificationList;
@@ -55,7 +55,6 @@ import org.rmj.guanzongroup.panalo.Dialog.DialogRaffleEntryQrCode;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_CompleteAccountDetails;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_LoanIntroduction;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
-//import org.rmj.guanzongroup.useraccount.Activity.Activity_MeansInfo;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 
 import java.util.Objects;
@@ -148,14 +147,14 @@ public class Activity_Dashboard extends AppCompatActivity {
                 Menu nav_Menu = navigationView.getMenu();
                 if (eGcardApp == null) {
 //                    nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(false);
-//                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(false);
                     nav_Menu.findItem(R.id.nav_redeemables).setVisible(false);
                     nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(false);
                     nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(false);
                     nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
                 } else {
 //                    nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(true);
-//                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(true);
                     nav_Menu.findItem(R.id.nav_redeemables).setVisible(true);
                     nav_Menu.findItem(R.id.nav_gcard_orders).setVisible(true);
                     nav_Menu.findItem(R.id.nav_gcard_transactions).setVisible(true);
