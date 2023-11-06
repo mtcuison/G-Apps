@@ -61,6 +61,7 @@ public class Activity_ViewNotification extends AppCompatActivity {
 
                 switch (lsMsgTp) {
                     case "00000":   //Regular Message
+                    case "00008":   //Panalo Notification
                         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), new Fragment[]{new Fragment_ViewMessage()}));
                         break;
                     case "00002":   //Marketplace Order Status

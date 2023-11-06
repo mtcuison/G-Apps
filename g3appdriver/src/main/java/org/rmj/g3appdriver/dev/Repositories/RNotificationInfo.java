@@ -141,10 +141,32 @@ public class RNotificationInfo {
     public LiveData<List<DNotifications.RegularMessage>> GetRegularMessagesSystemNotif(){
         return poDao.GetRegularMessagesSystemNotif();
     }
+    public LiveData<List<DNotifications.ClientNotificationInfo>> GetRegularMessagesSystemNotifs(){
+        return poDao.GetRegularMessagesSystemNotifs();
+    }
+    public LiveData<List<DNotifications.ClientNotificationInfo>> GetPanaloRegularMessagesSystemNotif(){
+        return poDao.GetPanaloRegularMessagesSystemNotif();
+    }
+    public LiveData<Integer> getUnreadMessagesPanaloCount(){
+        return poDao.getUnreadMessagesPanaloCount();
+    }
+    public LiveData<Integer> getUnreadPromotionsNotifications(){
+        return poDao.getUnreadPromotionsNotifications();
+    }
+    public LiveData<Integer> getUnreadNotificationsCount(){
+        return poDao.getUnreadNotificationsCount();
+    }
+    public LiveData<Integer> getUnreadNotificationsCounts(){
+        return poDao.getUnreadNotificationsCounts();
+    }
+    public LiveData<List<DNotifications.UserNotificationInfo>> getPanaloNotifications(){
+        return poDao.getPanaloNotifications();
+    }
 
     public LiveData<DNotifications.ClientNotificationInfo> GetNotificationInfo(String fsMesgID){
         return poDao.GetNotificationInfo(fsMesgID);
     }
+
 
     private String CreateUniqueID(){
         String lsUniqIDx = "";

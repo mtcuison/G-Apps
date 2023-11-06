@@ -38,7 +38,34 @@ public class VMNotifications extends AndroidViewModel {
         return poNotif.GetClientNotificationList();
     }
 
+    public LiveData<List<DNotifications.ClientNotificationInfo>> GetRegularMessagesSystemNotifs(){
+        return poNotif.GetRegularMessagesSystemNotifs();
+    }
     public LiveData<List<DNotifications.RegularMessage>> GetRegularMessagesSystemNotif(){
         return poNotif.GetRegularMessagesSystemNotif();
     }
+//    public LiveData<List<DNotifications.RegularMessage>> GetPanaloRegularMessagesSystemNotif(){
+//        return poNotif.GetPanaloRegularMessagesSystemNotif();
+//    }
+    public LiveData<List<DNotifications.ClientNotificationInfo>> GetPanaloRegularMessagesSystemNotif(){
+        return poNotif.GetPanaloRegularMessagesSystemNotif();
+    }
+    public LiveData<List<DNotifications.UserNotificationInfo>> getPanaloNotifications(){
+        return poNotif.getPanaloNotifications();
+    }
+
+    public LiveData<Integer> getUnreadNotificationsCount(){
+        return poNotif.getUnreadNotificationsCount();
+    }
+    public LiveData<Integer> getUnreadNotificationsCounts(){
+        return poNotif.getUnreadNotificationsCounts();
+    }
+    public LiveData<Integer> getUnreadPromotionsNotifications(){
+        return poNotif.getUnreadPromotionsNotifications();
+    }
+    public LiveData<Integer> getUnreadMessagesPanaloCount(){
+        return poNotif.getUnreadMessagesPanaloCount();
+    }
+
+
 }

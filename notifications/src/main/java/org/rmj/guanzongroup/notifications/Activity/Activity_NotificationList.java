@@ -18,6 +18,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
@@ -25,6 +26,8 @@ import android.widget.Button;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
@@ -74,10 +77,49 @@ public class Activity_NotificationList extends AppCompatActivity {
         mAdapter.addTitle("Promotions");
         mAdapter.addTitle("Guanzon Panalo");
 
+
         viewPager.setAdapter(mAdapter);
         tabLayout_NotifList.setupWithViewPager(viewPager);
 
-
+        mViewModel.getUnreadNotificationsCounts().observe(Activity_NotificationList.this, count -> {
+            try {
+                if(count > 0) {
+                    tabLayout_NotifList.getTabAt(0).getOrCreateBadge().setNumber(count);
+                    tabLayout_NotifList.getTabAt(0).getOrCreateBadge().setVisible(true);
+                } else {
+                    tabLayout_NotifList.getTabAt(0).getOrCreateBadge().setVisible(false);
+                    supportInvalidateOptionsMenu();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+        mViewModel.getUnreadPromotionsNotifications().observe(Activity_NotificationList.this, count -> {
+            try {
+                if(count > 0) {
+                    tabLayout_NotifList.getTabAt(1).getOrCreateBadge().setNumber(count);
+                    tabLayout_NotifList.getTabAt(1).getOrCreateBadge().setVisible(true);
+                } else {
+                    tabLayout_NotifList.getTabAt(1).getOrCreateBadge().setVisible(false);
+                    supportInvalidateOptionsMenu();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+        mViewModel.getUnreadMessagesPanaloCount().observe(Activity_NotificationList.this, count -> {
+            try {
+                if(count > 0) {
+                    tabLayout_NotifList.getTabAt(2).getOrCreateBadge().setNumber(count);
+                    tabLayout_NotifList.getTabAt(2).getOrCreateBadge().setVisible(true);
+                } else {
+                    tabLayout_NotifList.getTabAt(2).getOrCreateBadge().setVisible(false);
+                    supportInvalidateOptionsMenu();
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
         LinearLayoutManager layoutManager = new LinearLayoutManager(Activity_NotificationList.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(Activity_NotificationList.this, DividerItemDecoration.VERTICAL));
@@ -105,6 +147,15 @@ public class Activity_NotificationList extends AppCompatActivity {
         });
     }
 
+//    private String GetBadgeValue(int val){
+//        if(val > 0){
+//            lblBadge.setVisibility(View.VISIBLE);
+//            return String.valueOf(val);
+//        } else {
+//            lblBadge.setVisibility(View.GONE);
+//            return "0";
+//        }
+//    }
 
     private void initViews() {
         toolbar = findViewById(R.id.toolbar_notification);
