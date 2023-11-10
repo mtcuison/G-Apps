@@ -72,12 +72,12 @@
 
                 <ImageView
                     android:id="@+id/img_notif"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_marginLeft="5dp"
                     android:scaleType="centerInside"
-                    android:src="@android:drawable/ic_dialog_info"
-                    app:tint="@color/guanzon_digital_red" />
+                    android:src="@android:drawable/ic_notification_overlay"
+                    app:tint="@color/com_facebook_blue" />
             </LinearLayout>
 
             <TextView
