@@ -61,8 +61,18 @@ public class Adapter_Notifications extends RecyclerView.Adapter<Adapter_Notifica
             holder.lbl_ntfDateTime.setTypeface(Typeface.DEFAULT_BOLD);
             holder.lbl_ntfMessage.setTypeface(Typeface.DEFAULT_BOLD);
         } else {
+            holder.lbl_ntfTitle.setTypeface(Typeface.DEFAULT);
+            holder.lbl_ntfDateTime.setTypeface(Typeface.DEFAULT);
+            holder.lbl_ntfMessage.setTypeface(Typeface.DEFAULT);
             holder.imgNotif.setVisibility(View.GONE);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                poCallBck.OnClick(notif.MesgIDxx, notif.CreatrID, notif.MsgTypex, notif.DataInfo);
+            }
+        });
     }
 
     @Override
@@ -86,7 +96,7 @@ public class Adapter_Notifications extends RecyclerView.Adapter<Adapter_Notifica
             imgNotif = itemView.findViewById(R.id.img_notif);
             imgType = itemView.findViewById(R.id.img_ntfType);
 
-            itemView.setOnClickListener(v -> foCallBck.OnClick(lsMessageID, lsCreated, lsMesgType, lsDataSent));
+//            itemView.setOnClickListener(v -> foCallBck.OnClick(lsMessageID, lsCreated, lsMesgType, lsDataSent));
         }
 
     }

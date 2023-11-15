@@ -12,6 +12,8 @@ import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
+import org.rmj.guanzongroup.notifications.Activity.Activity_GuanzonPanalo;
+import org.rmj.guanzongroup.notifications.Activity.Activity_ViewNotification;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_ProfileVerification;
 
 public class DashboardActionReceiver extends BroadcastReceiver {
@@ -22,6 +24,7 @@ public class DashboardActionReceiver extends BroadcastReceiver {
         try {
             if (intent.hasExtra("args")) {
                 String args = intent.getStringExtra("args");
+                Log.e("args", args);
                 Intent loIntent;
                 switch (args) {
                     case "auth":
@@ -37,6 +40,14 @@ public class DashboardActionReceiver extends BroadcastReceiver {
                         loIntent = new Intent(context, Activity_Browser.class);
                         loIntent.putExtra("url_link", intent.getStringExtra("url_link"));
                         loIntent.putExtra("args", intent.getStringExtra("browser_args"));
+                        loIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(loIntent);
+                        break;
+                    case "panalo":
+                        Thread.sleep(1000);
+                        loIntent = new Intent(context, Activity_GuanzonPanalo.class);
+                        loIntent.putExtra("url_link", intent.getStringExtra("url_link"));
+                        loIntent.putExtra("args", intent.getStringExtra("args"));
                         loIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(loIntent);
                         break;
@@ -161,7 +172,7 @@ public class DashboardActionReceiver extends BroadcastReceiver {
             try {
                 RClientInfo loClient = new RClientInfo(mContext);
                 if (loClient.ImportAccountInfo()) {
-                    Log.d(TAG, "Client info downloaded successfully.");
+                    Log.d(TAG, "Client info downloaded successfully. " + loClient.getClientId());
                 } else {
                     Log.e(TAG, "Failed to download client info. " + loClient.getMessage());
                 }
