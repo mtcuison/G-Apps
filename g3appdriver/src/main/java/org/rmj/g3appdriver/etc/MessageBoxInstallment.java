@@ -20,36 +20,42 @@ import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.g3appdriver.R;
 
 import java.util.Objects;
 
-public class MessageBox {
+public class MessageBoxInstallment {
     private AlertDialog poDialogx;
     private MaterialButton btnPositive;
     private MaterialButton btnNegative;
     private MaterialTextView lblTitle;
     private MaterialTextView lblMsgxx;
     private MaterialDivider midBorder;
-
+    private TextInputEditText txtDownPymnt,txtDownPymnt1, txtAmort, txtDTarget,txtCashPrice,txtTerm;
     private final Context context;
 
-    public MessageBox(Context context){
+    public MessageBoxInstallment(Context context){
         // Must be, at all times, pass Activity Context.
         this.context = Objects.requireNonNull(context);
     }
     public void initDialog(){
         AlertDialog.Builder poBuilder = new AlertDialog.Builder(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_message_box, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.ic_message_box, null);
         poBuilder.setCancelable(false)
                 .setView(view);
         poDialogx = poBuilder.create();
         poDialogx.setCancelable(false);
 
         lblTitle = view.findViewById(R.id.lbl_dialogTitle);
-        lblMsgxx = view.findViewById(R.id.lbl_dialogMessage);
+        txtDownPymnt = view.findViewById(R.id.txt_mindownpayment);
+        txtAmort = view.findViewById(R.id.txt_monthlyAmort);
+        txtCashPrice = view.findViewById(R.id.txt_cashPrice);
+        txtDTarget = view.findViewById(R.id.txt_targetDate);
+        txtTerm = view.findViewById(R.id.spn_installmentTerm);
+        txtDTarget = view.findViewById(R.id.txt_targetDate);
         midBorder = view.findViewById(R.id.view_midBorder);
         btnPositive = view.findViewById(R.id.btn_dialogPositive);
         btnPositive.setVisibility(View.GONE);
@@ -60,7 +66,7 @@ public class MessageBox {
 
     public void setMessage(String psMessage) {
         try {
-            lblMsgxx.setText(Objects.requireNonNull(psMessage));
+            txtDownPymnt.setText(Objects.requireNonNull(psMessage));
         } catch(NullPointerException e){
             e.printStackTrace();
         }
@@ -98,13 +104,6 @@ public class MessageBox {
             poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
             poDialogx.show();
-        }
-    }
-    public void dismiss() {
-        if(poDialogx.isShowing()) {
-            poDialogx.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            poDialogx.getWindow().getAttributes().windowAnimations = R.style.PopupAnimation;
-            poDialogx.dismiss();
         }
     }
 

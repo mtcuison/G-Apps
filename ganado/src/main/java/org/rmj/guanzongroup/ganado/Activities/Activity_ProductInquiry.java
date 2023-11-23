@@ -22,7 +22,6 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.lib.Ganado.model.GConstants;
@@ -62,8 +61,6 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         spnAcctTerm.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.INSTALLMENT_TERM));
         mViewModel.setBrandID(getIntent().getStringExtra("lsBrandID"));
         mViewModel.setModelID(getIntent().getStringExtra("lsModelID"));
-        mViewModel.getModel().setTermIDxx("36");
-        mViewModel.getModel().setPaymForm("1");
 
         lsBrandID = getIntent().getStringExtra("lsBrandID");
         lsModelID = getIntent().getStringExtra("lsModelID");
@@ -75,6 +72,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         mViewModel.getModel().setBrandIDx(lsBrandID);
         mViewModel.getModel().setModelIDx(lsModelID);
         mViewModel.getModel().setTermIDxx("36");
+        mViewModel.getModel().setPaymForm("0");
         mViewModel.GetModelBrand(lsBrandID, lsModelID).observe(Activity_ProductInquiry.this, eMcModel -> {
             try {
                 txtModelCd.setText(eMcModel.getModelCde());
@@ -197,10 +195,13 @@ public class Activity_ProductInquiry extends AppCompatActivity {
             mViewModel.SaveData(new OnSaveInfoListener() {
                 @Override
                 public void OnSave(String args) {
+
+                    Log.e("TransNox",args);
                     Intent loIntent = new Intent(Activity_ProductInquiry.this, Activity_ClientInfo.class);
                     loIntent.putExtra("sTransNox", args);
                     startActivity(loIntent);
                     overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                    finish();
                 }
 
                 @Override

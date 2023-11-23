@@ -49,6 +49,8 @@ public interface DGanadoOnline {
             "WHERE sReferdBy = (SELECT sUserIDxx FROM User_Info_Master)")
     LiveData<List<EGanadoOnline>> GetInquiries();
 
+    @Query("SELECT * FROM Ganado_Online WHERE sTransNox =:TransNox")
+    LiveData<EGanadoOnline> GetLatestInquiries(String TransNox);
 
     @Query("SELECT " +
             "a.sModelIDx AS ModelIDx " +

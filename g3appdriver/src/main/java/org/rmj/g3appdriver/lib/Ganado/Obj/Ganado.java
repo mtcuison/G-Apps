@@ -172,13 +172,13 @@ public class Ganado {
         }
     }
 
-    public boolean SaveInquiry(String TransNox){
+    public String SaveInquiry(String TransNox){
         try{
             EGanadoOnline loDetail = poDao.GetInquiry(TransNox);
 
             if(loDetail == null){
                 message = "Unable to find record to update.";
-                return false;
+                return null;
             }
 
             JSONObject params = new JSONObject();
@@ -202,7 +202,7 @@ public class Ganado {
 
             if(lsResponse == null){
                 message = "Server no response while sending response.";
-                return false;
+                return null;
             }
 
             JSONObject loResponse = new JSONObject(lsResponse);
@@ -210,7 +210,7 @@ public class Ganado {
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = getErrorMessage(loError);
-                return false;
+                return null;
             }
 
             String lsTrasNox = loResponse.getString("sTransNox");
@@ -218,11 +218,11 @@ public class Ganado {
                     loDetail.getTransNox(),
                     lsTrasNox);
 
-            return true;
+            return lsTrasNox;
         } catch (Exception e){
             e.printStackTrace();
             message = getLocalMessage(e);
-            return false;
+            return null;
         }
     }
 
