@@ -73,6 +73,10 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         mViewModel.getModel().setModelIDx(lsModelID);
         mViewModel.getModel().setTermIDxx("36");
         mViewModel.getModel().setPaymForm("0");
+        mViewModel.GetModelColor(lsModelID).observe(Activity_ProductInquiry.this, colorList->{
+            mViewModel.getModel().setColorIDx(colorList.get(0).getColorIDx());
+
+        });
         mViewModel.GetModelBrand(lsBrandID, lsModelID).observe(Activity_ProductInquiry.this, eMcModel -> {
             try {
                 txtModelCd.setText(eMcModel.getModelCde());

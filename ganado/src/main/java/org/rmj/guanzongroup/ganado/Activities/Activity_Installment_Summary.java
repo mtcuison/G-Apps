@@ -26,7 +26,7 @@ import org.rmj.guanzongroup.ganado.ViewModel.VMInstallmentSummary;
 public class Activity_Installment_Summary extends AppCompatActivity {
     private ProductInquiry poApp;
     private VMInstallmentSummary mViewModel;
-    private String Transaction;
+    private String Transaction,ModelID, BrandID;
     private MaterialTextView  txtTerms,  txtTargetDtes;
     private TextInputEditText txtPaymMod;
     private MaterialAutoCompleteTextView txtTargetDtex;
@@ -46,7 +46,10 @@ public class Activity_Installment_Summary extends AppCompatActivity {
         setWidgets();
         btnsave.setOnClickListener(view -> {
 
-            Intent loIntent = new Intent(Activity_Installment_Summary.this, Activity_ProductInquiry.class);
+//            Intent loIntent = new Intent(Activity_Installment_Summary.this, Activity_ProductInquiry.class);
+            Intent loIntent = new Intent(Activity_Installment_Summary.this, Activity_BrandSelection.class);
+            loIntent.putExtra("lsBrandID", BrandID);
+            loIntent.putExtra("lsModelID", ModelID);
             startActivity(loIntent);
             overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
             finish();
@@ -66,7 +69,7 @@ public class Activity_Installment_Summary extends AppCompatActivity {
     }
 
     private void setWidgets(){
-//        mViewModel = new ViewModelProvider(Activity_Installment_Summary.this).get(VMInstallmentSummary.class);
+//        mViewModel = new ViewModelProvider(Activity_Installment_Summary.this).  get(VMInstallmentSummary.class);
 
         mViewModel.GetInquiryDetail().observe(Activity_Installment_Summary.this, eGanadoOnline->{
             try {
@@ -101,6 +104,8 @@ public class Activity_Installment_Summary extends AppCompatActivity {
 //                }
 
                 mViewModel.setModelID(jsonProdInfo.getString("sModelIDx"));
+                ModelID = jsonProdInfo.getString("sModelIDx");
+                BrandID = jsonProdInfo.getString("sBrandIDx");
                 mViewModel.GetModelID().observe(Activity_Installment_Summary.this, modelID -> {
                     try{
                         if(mViewModel.GetCashInfo(modelID) !=  null){
