@@ -137,10 +137,8 @@ public class Activity_Dashboard extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nav_pre_termination).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_customer_service).setVisible(false);
 
-//        navigationView.getMenu().findItem(R.id.nav_purchases).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_promos).setVisible(false);
         navigationView.getMenu().findItem(R.id.nav_item_cart).setVisible(false);
-//        navigationView.getMenu().findItem(R.id.nav_raffle_entry).setVisible(false);
 
         mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, eGcardApp -> {
             try {
@@ -233,6 +231,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                 return false;
             }
         });
+
 
         navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(menuItem -> {
             Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_Dashboard.this);
@@ -499,10 +498,11 @@ public class Activity_Dashboard extends AppCompatActivity {
                     //Pre release of Guanzon Connect Marketplace Project requires this field to be commented
                     // in order to hide the preview of marketplace items
 //                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
-//                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(true);
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(true);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_my_gcard).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_scan_qrcode).setVisible(true);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(true);
                 } else {
                     lnAuthxxx.setVisibility(View.VISIBLE);
@@ -517,11 +517,15 @@ public class Activity_Dashboard extends AppCompatActivity {
                         Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
                         startActivity(loIntent);
                     });
+
+                    nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(false);
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
                     nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
                     nav_Menu.findItem(R.id.nav_applyLoan).setVisible(false);
-                    nav_Menu.findItem(R.id.nav_account_settings).setVisible(false);
                     nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_account_settings).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_my_gcard).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_scan_qrcode).setVisible(false);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(false);
                 }
             } catch(Exception e) {
