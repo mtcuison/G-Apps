@@ -49,7 +49,7 @@ public class VMSplashScreen extends AndroidViewModel {
         Manifest.permission.GET_ACCOUNTS,
         Manifest.permission.CAMERA,
         Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION,};
+        Manifest.permission.ACCESS_COARSE_LOCATION};
 
     private final MutableLiveData<oLoadStat> poLoadStat = new MutableLiveData<>();
 
