@@ -29,6 +29,7 @@
 
     <string name="lblPromos">Promos</string>
     <string name="lblProductIquiry">Product Inquiry</string>
+    <string name="lblProductIquiryHistory">Product Inquiry History</string>
     <string name="lblEvents">Events</string>
     <string name="lblProductDescription">Product Description</string>
     <string name="lblProductSpecs">Specifications</string>
