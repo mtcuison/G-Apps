@@ -198,14 +198,24 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight=".8"
-                            android:hint="Minimum Downpayment">
+                            android:hint="Minimum Downpayment"
+                            tools:ignore="ExtraText">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/txt_mindownpayment"
                                 android:layout_width="match_parent"
+                                android:layout_height="58dp"
+                                android:inputType="numberDecimal"
+                                android:textColor="@color/black" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txtyourmnmdp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:enabled="false"/>
+                                android:text="The required Minimum Downpayment is at least"
+                                android:textStyle="italic"
+                                android:textSize="12dp"/>
+"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>

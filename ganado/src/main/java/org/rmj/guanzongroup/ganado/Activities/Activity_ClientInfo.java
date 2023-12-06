@@ -170,13 +170,13 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
         btnContinue.setOnClickListener(v ->{
 
-            mViewModel.getModel().setFrstName(txtFrstNm.getText().toString());
-            mViewModel.getModel().setMiddName(txtMiddNm.getText().toString());
-            mViewModel.getModel().setLastName(txtLastNm.getText().toString());
-            mViewModel.getModel().setSuffixNm(txtSuffixx.getText().toString());
+            mViewModel.getModel().setFrstName(txtFrstNm.getText().toString().trim());
+            mViewModel.getModel().setMiddName(txtMiddNm.getText().toString().trim());
+            mViewModel.getModel().setLastName(txtLastNm.getText().toString().trim());
+            mViewModel.getModel().setSuffixNm(txtSuffixx.getText().toString().trim());
             mViewModel.getModel().setHouseNox(txtHouseNox.getText().toString());
-            mViewModel.getModel().setAddressx(txtAddress.getText().toString());
-            mViewModel.getModel().setEmailAdd(txtEmailAdd.getText().toString());
+            mViewModel.getModel().setAddressx(txtAddress.getText().toString().trim());
+            mViewModel.getModel().setEmailAdd(txtEmailAdd.getText().toString().trim());
             mViewModel.getModel().setMobileNo(txtMobileNo.getText().toString());
             mViewModel.SaveData(new VMPersonalInfo.OnSaveInquiry() {
                 @Override
