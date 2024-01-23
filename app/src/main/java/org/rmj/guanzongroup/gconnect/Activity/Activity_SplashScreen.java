@@ -10,6 +10,8 @@ import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -133,7 +135,12 @@ public class Activity_SplashScreen extends AppCompatActivity {
             if(lbIsGrnt) {
                 mViewModel.setPermissionsGranted(lbIsGrnt);
             } else {
-                mViewModel.setPermissionsGranted(false);
+                if(Build.VERSION.SDK_INT<=Build.VERSION_CODES.S_V2 && permissions!=null ){
+                    mViewModel.setPermissionsGranted(true);
+                }else{
+
+                    mViewModel.setPermissionsGranted(false);
+                }
             }
         }
     }

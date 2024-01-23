@@ -105,9 +105,9 @@ public class PromoNotification implements iNotificationUI {
                                     .setAutoCancel(true)
                                     .setChannelId(NotificationID)
                                     .setLargeIcon(icon)
-                                    .setStyle(new NotificationCompat.BigPictureStyle()
-                                            .bigPicture(icon)
-                                            .bigLargeIcon(null))
+//                                    .setStyle(new NotificationCompat.BigPictureStyle()
+//                                            .bigPicture(icon)
+//                                            .bigLargeIcon(null))
                                     .setSmallIcon(R.drawable.ic_guanzon_logo)
                                     .setContentTitle(lsTitlexx)
                                     .setContentText(lsMessage);

@@ -3,6 +3,7 @@ package org.rmj.guanzongroup.ganado.Activities;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -74,6 +75,7 @@ public class Activity_Inquiries extends AppCompatActivity {
                     public void OnClick(String TransNox) {
                         Intent intent = new Intent(Activity_Inquiries.this, Activity_ProductSelection.class);
                         intent.putExtra("TransNox",TransNox);
+
                         startActivity(intent);
                         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
                         finish();

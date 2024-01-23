@@ -3,20 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="all">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_baseline_home_24"
             android:title="@string/menu_home" />
+
         <item
             android:id="@+id/nav_raffle_entry"
             android:icon="@drawable/ic_raffle_ticket_24"
-            android:title="@string/menu_raffle_entry" />
+            android:visible="true"
+            android:title="@string/menu_raffle_entry"/>
 
-        <item
-            android:id="@+id/nav_product_inquiry"
-            android:icon="@drawable/ic_baseline_info_24"
-            android:title="@string/menu_product_inquiry" />
 
         <item
             android:id="@+id/nav_promos"
@@ -50,6 +48,24 @@
             android:icon="@drawable/ic_baseline_heart_24"
             android:visible="false"
             android:title="@string/menu_wishlist" />
+
+        <item android:title="@string/menu_product_inquiry"
+            android:checkable="false"
+            android:icon="@drawable/ic_baseline_info_24"
+            android:id="@+id/product_inquiry_expanded">
+
+            <menu>
+                <item
+                    android:id="@+id/nav_product_inquiry"
+                    android:icon="@drawable/ic_baseline_inquiry_24"
+                    android:title="Inquiry" />
+
+                <item
+                    android:id="@+id/nav_product_inquiry_history"
+                    android:icon="@drawable/ic_baseline_info_24"
+                    android:title="History" />
+            </menu>
+        </item>
 
         <item android:title="@string/menu_subtitle_gcard">
             <menu>

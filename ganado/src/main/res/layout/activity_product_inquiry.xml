@@ -148,7 +148,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Payment Method"
-                        android:enabled="false">
+                        android:enabled="false"
+                        android:visibility="gone">
 
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/paymMethod"
@@ -163,8 +164,7 @@
                         style="@style/CustomDropDownTilStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Payment Method"
-                        android:visibility="gone">
+                        android:hint="Payment Method">
 
                         <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/spn_paymentMethod"
@@ -198,14 +198,24 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight=".8"
-                            android:hint="Minimum Downpayment">
+                            android:hint="Minimum Downpayment"
+                            tools:ignore="ExtraText">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/txt_mindownpayment"
                                 android:layout_width="match_parent"
+                                android:layout_height="58dp"
+                                android:inputType="numberDecimal"
+                                android:textColor="@color/black" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/txtyourmnmdp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:enabled="false"/>
+                                android:text="The required Minimum Downpayment is at least"
+                                android:textStyle="italic"
+                                android:textSize="12dp"/>
+"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
@@ -233,7 +243,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <com.google.android.material.textfield.TextInputLayout
                                 style="@style/TextInputStyle"
@@ -263,7 +274,8 @@
                             style="@style/TextInputStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Monthly Payment">
+                            android:hint="Monthly Payment"
+                            android:visibility="gone">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/txt_monthlyAmort"

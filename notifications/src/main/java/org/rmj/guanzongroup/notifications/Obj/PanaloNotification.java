@@ -45,13 +45,15 @@ public class PanaloNotification implements iNotificationUI {
 
             Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.gconnect.Activity.Activity_SplashScreen"));
 
+//            Intent loIntent = new Intent(mContext, Class.forName("org.rmj.guanzongroup.notifications.Activity.Activity_ViewNotification"));
+
             String lsDataxx = poMessage.getDataSndx();
             JSONObject loJson = new JSONObject(lsDataxx);
             JSONObject loPromo = loJson.getJSONObject("data");
             String lsUrlLinkx = loPromo.getString("sReferNox");
 //            String lsImageUrl = loPromo.getString("sImageUrl");
 
-            loIntent.putExtra("notification", "promo");
+            loIntent.putExtra("notification", "panalo");
             loIntent.putExtra("args", "1");
             loIntent.putExtra("url_link", lsUrlLinkx);
 
@@ -114,10 +116,10 @@ public class PanaloNotification implements iNotificationUI {
                         .setContentIntent(notifyPendingIntent)
                         .setAutoCancel(true)
                         .setChannelId(NotificationID)
-                        .setLargeIcon(icon)
-                        .setStyle(new NotificationCompat.BigPictureStyle()
-                            .bigPicture(icon)
-                            .bigLargeIcon(null))
+//                        .setLargeIcon(icon)
+//                        .setStyle(new NotificationCompat.BigPictureStyle()
+//                            .bigPicture(icon)
+//                            .bigLargeIcon(null))
                         .setSmallIcon(R.drawable.ic_guanzon_logo)
                         .setContentTitle(lsTitlexx)
                         .setContentText(lsMessage);

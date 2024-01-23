@@ -2,21 +2,18 @@ package org.rmj.g3appdriver.lib.Ganado.Obj;
 
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
-import android.app.Application;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
-import org.rmj.appdriver.base.GRider;
-import org.rmj.apprdiver.util.MiscUtil;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGanadoOnline;
+import org.rmj.g3appdriver.dev.Database.Entities.EGanadoOnline;
 import org.rmj.g3appdriver.dev.Database.Entities.EMCColor;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcBrand;
 import org.rmj.g3appdriver.dev.Database.Entities.EMcModel;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InstallmentInfo;
 import org.rmj.g3appdriver.utils.MySQLAESCrypt;
-import org.rmj.gocas.pricelist.MCPricelist;
 import org.rmj.gocas.pricelist.PriceFactory;
 import org.rmj.gocas.pricelist.Pricelist;
 
@@ -73,6 +70,10 @@ public class ProductInquiry {
 
     public DGanadoOnline.McDownpayment GetInstallmentPlanDetail(String ModelID){
         return poDao.getDownpayment(ModelID);
+    }
+
+    public LiveData<EGanadoOnline> GetInquiryDetail(String TransNox){
+        return poDao.GetLatestInquiries(TransNox);
     }
 
     /**
@@ -182,6 +183,64 @@ public class ProductInquiry {
             e.printStackTrace();
             message = getLocalMessage(e);
             return 0;
+        }
+    }
+    public InstallmentInfo GetMinimumDownpayment(String ModelID, int Term){
+        try{
+            DGanadoOnline.McDownpayment loDownPy = poDao.getDownpayment(ModelID);
+
+            if(loDownPy == null){
+                message = "Sorry, we encountered an issue while retrieving the minimum down payment.";
+                return null;
+            }
+
+            org.json.simple.JSONObject joDownPy = new org.json.simple.JSONObject();
+            joDownPy.put("sModelIDx", loDownPy.ModelIDx);
+            joDownPy.put("sModelNme", loDownPy.ModelNme);
+            joDownPy.put("nRebatesx", loDownPy.Rebatesx);
+            joDownPy.put("nMiscChrg", loDownPy.MiscChrg);
+            joDownPy.put("nEndMrtgg", (loDownPy.EndMrtgg == null)? MySQLAESCrypt.Encrypt("0.0", "20190625"):loDownPy.EndMrtgg);
+            joDownPy.put("nMinDownx", loDownPy.MinDownx);
+            joDownPy.put("nSelPrice", loDownPy.SelPrice);
+            joDownPy.put("nLastPrce", (loDownPy.LastPrce == null)? MySQLAESCrypt.Encrypt("0.0", "20190625"):loDownPy.LastPrce);
+
+
+            poPrice.setModelInfo(joDownPy);
+
+            double lnMinDown = poPrice.getMinimumDP();
+
+            DGanadoOnline.McAmortization loAmort = poDao.GetMonthlyPayment(ModelID, Term);
+
+            if(loAmort == null){
+                message = "Apologies, we are unable to calculate the monthly amortization at the moment.";
+                return null;
+            }
+
+            org.json.simple.JSONObject joAmort = new org.json.simple.JSONObject();
+            joAmort.put("nSelPrice", loAmort.nSelPrice);
+            joAmort.put("nMinDownx", loAmort.nMinDownx);
+            joAmort.put("nMiscChrg", loAmort.nMiscChrg);
+            joAmort.put("nRebatesx", loAmort.nRebatesx);
+            joAmort.put("nEndMrtgg", loAmort.nEndMrtgg);
+            joAmort.put("nAcctThru", loAmort.nAcctThru);
+            joAmort.put("nFactorRt", loAmort.nFactorRt);
+
+            poPrice.setPaymentTerm(36);
+
+            double lnAmort = poPrice.getMonthlyAmort(joAmort);
+
+            InstallmentInfo loInfo = new InstallmentInfo(
+                    lnMinDown,
+                    lnAmort);
+            return loInfo;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return null;
+        }catch (Exception e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return null;
         }
     }
 

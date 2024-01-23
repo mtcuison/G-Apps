@@ -68,6 +68,7 @@ public class VMEventsPromos extends AndroidViewModel {
     private class DownloadEvents extends AsyncTask<String, Void, String> {
 
         @Override
+
         protected String doInBackground(String... strings) {
             try {
                 iGCardSystem loGcard = new GCardSystem(instance).getInstance(GCardSystem.CoreFunctions.EXTRAS);

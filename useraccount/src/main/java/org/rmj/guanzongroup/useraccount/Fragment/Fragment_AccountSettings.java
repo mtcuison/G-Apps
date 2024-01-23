@@ -90,14 +90,16 @@ public class Fragment_AccountSettings extends Fragment {
         poAdapter = new Adapter_AccountSettings(getMenuList(), position -> {
             switch(position) {
                 case 0:
-                    if(new AccountInfo(requireActivity()).getVerificationStatus() == 0) {
-                        Intent loIntent = new Intent(requireActivity(), Activity_CompleteAccountDetails.class);
-                        loIntent.putExtra("args", "account");
-                        poArl.launch(loIntent);
-                    } else {
-                        Intent loIntent = new Intent(requireActivity(), Activity_AccountDetails.class);
-                        startActivity(loIntent);
-                    }
+                    mViewModel.getClientInfo().observe(requireActivity(), eClientInfo -> {
+                        if(eClientInfo.getVerified() == 0) {
+                            Intent loIntent = new Intent(requireActivity(), Activity_CompleteAccountDetails.class);
+                            loIntent.putExtra("args", "account");
+                            poArl.launch(loIntent);
+                        } else {
+                            Intent loIntent = new Intent(requireActivity(), Activity_AccountDetails.class);
+                            startActivity(loIntent);
+                        }
+                    });
                     break;
                 case 1:
                     if (poAccount.getVerificationStatus() == 0){

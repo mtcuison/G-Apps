@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.ganado.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.etc.MessageBoxInstallment;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMPersonalInfo;
 
@@ -36,7 +38,8 @@ import java.util.Objects;
 public class Activity_ClientInfo extends AppCompatActivity {
 
     private VMPersonalInfo mViewModel;
-    private MessageBox poMessage;
+    private MessageBox poMessage ;
+    private MessageBoxInstallment icMessage;
     private LoadDialog poDialogx;
 
     private TextInputEditText txtLastNm, txtFrstNm, txtMiddNm, txtSuffixx,  txtBirthDt,
@@ -167,13 +170,13 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
         btnContinue.setOnClickListener(v ->{
 
-            mViewModel.getModel().setFrstName(txtFrstNm.getText().toString());
-            mViewModel.getModel().setMiddName(txtMiddNm.getText().toString());
-            mViewModel.getModel().setLastName(txtLastNm.getText().toString());
-            mViewModel.getModel().setSuffixNm(txtSuffixx.getText().toString());
+            mViewModel.getModel().setFrstName(txtFrstNm.getText().toString().trim());
+            mViewModel.getModel().setMiddName(txtMiddNm.getText().toString().trim());
+            mViewModel.getModel().setLastName(txtLastNm.getText().toString().trim());
+            mViewModel.getModel().setSuffixNm(txtSuffixx.getText().toString().trim());
             mViewModel.getModel().setHouseNox(txtHouseNox.getText().toString());
-            mViewModel.getModel().setAddressx(txtAddress.getText().toString());
-            mViewModel.getModel().setEmailAdd(txtEmailAdd.getText().toString());
+            mViewModel.getModel().setAddressx(txtAddress.getText().toString().trim());
+            mViewModel.getModel().setEmailAdd(txtEmailAdd.getText().toString().trim());
             mViewModel.getModel().setMobileNo(txtMobileNo.getText().toString());
             mViewModel.SaveData(new VMPersonalInfo.OnSaveInquiry() {
                 @Override
@@ -184,13 +187,19 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
                 @Override
                 public void OnSuccess(String args) {
+
                     poDialogx.dismiss();
                     poMessage.initDialog();
                     poMessage.setTitle("Ganado");
-                    poMessage.setMessage(args);
+                    poMessage.setMessage("Motorcycle inquiry saved successfully!");
                     poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                        dialog.dismiss();
-                        finish();
+                        poMessage.dismiss();
+                            Intent loIntent = new Intent(Activity_ClientInfo.this, Activity_Installment_Summary.class);
+                            loIntent.putExtra("sTransNox", args);
+                            startActivity(loIntent);
+                            overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                            finish();
+
                     });
                     poMessage.show();
                 }
@@ -213,6 +222,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_PersonalInfo);
         mViewModel = new ViewModelProvider(Activity_ClientInfo.this).get(VMPersonalInfo.class);
         poMessage = new MessageBox(Activity_ClientInfo.this);
+        icMessage = new MessageBoxInstallment(Activity_ClientInfo.this);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 

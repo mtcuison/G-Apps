@@ -1,11 +1,14 @@
 package org.rmj.guanzongroup.notifications;
 
+import static okhttp3.internal.Internal.instance;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
 import org.rmj.g3appdriver.etc.SecUtil;
+import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
 import org.rmj.g3appdriver.utils.SQLUtil;
 
 import java.time.LocalDateTime;
@@ -15,7 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SendNotificationTest {
-
     private static String createJSON() throws Exception{
         JSONObject loJSON = new JSONObject();
         JSONObject loData = new JSONObject();
@@ -88,8 +90,9 @@ public class SendNotificationTest {
         JSONArray rcpts = new JSONArray();
         JSONObject rcpt = new JSONObject();
         rcpt.put("app", "GuanzonApp");
-        rcpt.put("user", "GAP0190554");
+        rcpt.put("user", "GAP021003575");
         rcpts.put(rcpt);
+//        GAP021003575 GAP0190554
 
         for(int x = 0; x < 1; x++){
             //Create the parameters needed by the API

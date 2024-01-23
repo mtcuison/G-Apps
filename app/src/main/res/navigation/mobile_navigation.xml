@@ -16,6 +16,11 @@
         android:name="org.rmj.guanzongroup.ganado.Activities.Activity_BrandSelection"
         android:label="@string/lblProductIquiry"
         tools:layout="@layout/activity_brand_selection" />
+    <activity
+        android:id="@+id/nav_product_inquiry_history"
+        android:name="org.rmj.guanzongroup.ganado.Activities.Activity_Inquiries"
+        android:label="@string/lblProductIquiryHistory"
+        tools:layout="@layout/activity_brand_selection" />
     <fragment
         android:id="@+id/nav_promos"
         android:name="org.rmj.guanzongroup.notifications.Fragment.Fragment_EventsPromos"
