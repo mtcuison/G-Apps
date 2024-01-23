@@ -16,6 +16,7 @@ public class CompleteAccountDetailsInfo {
     private String sGenderxx = "";
     private String sCivilStx = "";
     private String sCitizenx = "";
+    private String sGCashNox = "";
     private String sTaxIdNox = "";
     private String sHouseNox = "";
     private String sAddressx = "";
@@ -50,7 +51,12 @@ public class CompleteAccountDetailsInfo {
     public String getMiddName() {
         return sMiddName;
     }
-
+    public String getsGCashNox() {
+        return sGCashNox;
+    }
+    public void setsGCashNox(String sGCashNox) {
+        this.sGCashNox = sGCashNox;
+    }
     public void setMiddName(String sMiddName) {
         this.sMiddName = sMiddName;
     }
@@ -187,6 +193,7 @@ public class CompleteAccountDetailsInfo {
             poClientx.setGenderCd(getGender());
             poClientx.setCvilStat(getCivilStat());
             poClientx.setCitizenx(getCitizenship());
+            poClientx.setGCashNo(getsGCashNox());
             poClientx.setTaxIDNox(getTaxIdNumber());
             poClientx.setHouseNo1(getHouseNumber());
             poClientx.setAddress1(getAddress());

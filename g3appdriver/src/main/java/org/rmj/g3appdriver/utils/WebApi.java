@@ -28,7 +28,7 @@ public class WebApi {
     private static String URL_MS = "ms/";
 
     private static String URL_MX = "mx/";
-    private static String main_url = "http://192.168.10.140/";
+    private static String main_url = "http://192.168.10.68:8080/";
     /**WEB API
      * FOR CHECKING APP VERSION
      * THIS API IS APPLICABLE FOR ALL APP

@@ -89,7 +89,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUserInfo;
         EMcModelPrice.class,
         EMCModelCashPrice.class,
         EMcCategory.class,
-        EMcTermCategory.class}, version = 2, exportSchema = false)
+        EMcTermCategory.class}, version = 3, exportSchema = true)
 public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     private static final String TAG = "GuanzonApp_DB_Manager";
     private static GGC_GuanzonAppDB instance;
