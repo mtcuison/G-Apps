@@ -127,6 +127,7 @@ public class VMAccountDetails extends AndroidViewModel {
             List<AccountDetailsInfo> loAcctInf = new ArrayList<>();
             String lsFullNme = foClientx.getFrstName() + " " + foClientx.getMiddName() + " " + foClientx.getLastName() + " " + foClientx.getSuffixNm();
             String lsGenderx = getGenderList().get(Integer.parseInt(foClientx.getGenderCd()));
+            String lsGCashNox = foClientx.getGCashNo();
             String lsCivilSt = getCivilStatusList().get(Integer.parseInt(foClientx.getCvilStat()));
             loAcctInf.add(new AccountDetailsInfo(true, psLstHead[0], "", ""));
             loAcctInf.add(new AccountDetailsInfo(false, "", "GuanzonApp ID", foClientx.getUserIDxx()));
@@ -137,7 +138,7 @@ public class VMAccountDetails extends AndroidViewModel {
 //            loAcctInf.add(new AccountDetailsInfo(false, "", "Citizen", ""));
             loAcctInf.add(new AccountDetailsInfo(false, "", "Civil Status", lsCivilSt));
 //            loAcctInf.add(new AccountDetailsInfo(false, "", "Tax ID", foClientx.getTaxIDNox()));
-
+            loAcctInf.add(new AccountDetailsInfo(false, "","GCash No",lsGCashNox));
 //            loAcctInf.add(new AccountDetailsInfo(true, psLstHead[1], "", ""));
 //            loAcctInf.add(new AccountDetailsInfo(false, "", "Shipping Address", fsAddress));
 //            loAcctInf.add(new AccountDetailsInfo(false, "", "Billing Address", fsAddress));

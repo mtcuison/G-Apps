@@ -43,7 +43,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     private Dialog_SingleButton poDialogx;
     private Dialog_DoubleButton poDblDiag;
     private TextInputEditText txtLastNm, txtFirstN, txtMidNme, txtSuffix, txtBdatex, txtTaxNox,
-            txtHouseN, txtStreet;
+            txtHouseN, txtStreet, txtGCashNo;
     private AutoCompleteTextView txtBplace, txtGender, txtCivilS,
             txtCtizen,
             txtTownCt,
@@ -96,6 +96,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         txtGender = findViewById(R.id.tie_gender);
         txtCivilS = findViewById(R.id.tie_civil_stat);
         txtCtizen = findViewById(R.id.tie_citizen);
+        txtGCashNo = findViewById(R.id.tie_gCashNo);
         txtTaxNox = findViewById(R.id.tie_taxId);
         txtHouseN = findViewById(R.id.tie_houseNo);
         txtStreet = findViewById(R.id.tie_street);
@@ -159,9 +160,11 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         poDataMdl.setMiddName(Objects.requireNonNull(Objects.requireNonNull(txtMidNme.getText()).toString().trim()));
         poDataMdl.setSuffixName(Objects.requireNonNull(Objects.requireNonNull(txtSuffix.getText()).toString().trim()));
         poDataMdl.setBirthDate(psBDate);
+        poDataMdl.setsGCashNox(Objects.requireNonNull(Objects.requireNonNull(txtGCashNo.getText()).toString().trim()));
         poDataMdl.setTaxIdNumber(Objects.requireNonNull(Objects.requireNonNull(txtTaxNox.getText()).toString().trim()));
         poDataMdl.setHouseNumber(Objects.requireNonNull(Objects.requireNonNull(txtHouseN.getText()).toString().trim()));
         poDataMdl.setAddress(Objects.requireNonNull(Objects.requireNonNull(txtStreet.getText()).toString().trim()));
+        Log.d(TAG, String.valueOf(txtGCashNo.getText()));
     }
 
     private void setInputOptions() {

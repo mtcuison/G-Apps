@@ -28,6 +28,8 @@ public class EClientInfo {
     private String SuffixNm = "";
     @ColumnInfo(name = "sMaidenNm")
     private String MaidenNm = "";
+    @ColumnInfo(name = "sGCashNox")
+    private String GCashNo;
     @ColumnInfo(name = "cGenderCd")
     private String GenderCd = "";
     @ColumnInfo(name = "cCvilStat")
@@ -76,6 +78,8 @@ public class EClientInfo {
     private String ImgeStat = "";
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
+
+
 
     public EClientInfo() {
     }
@@ -133,6 +137,9 @@ public class EClientInfo {
         return MiddName;
     }
 
+    public void setGCashNo(String gCashNo) {
+        this.GCashNo = gCashNo;
+    }
     public void setMiddName(String middName) {
         MiddName = middName;
     }
@@ -233,6 +240,9 @@ public class EClientInfo {
         MaidenNm = maidenNm;
     }
 
+    public String getGCashNo() {
+        return GCashNo;
+    }
     public String getHouseNo1() {
         return HouseNo1;
     }

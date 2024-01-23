@@ -65,6 +65,8 @@
     <string name="lblFirstname">First Name</string>
     <string name="lblMiddname">Middle Name</string>
     <string name="lblMaidenName">Mother\'s Maiden Name</string>
+    <string name="lblGCashNumber">GCash Number</string>
+    <string name="lblGCashNo">GCash No</string>
     <string name="lblSuffix">Suffix</string>
     <string name="lblBirthdate">Birth Date</string>
     <string name="lblBirthplace">Birth Place</string>
@@ -145,7 +147,7 @@
     <string name="mock_date">January 1, 2022</string>
 
     <string name="free_text_restriction">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz1234567890ēāéñễấũ.,/-</string>
-
+    <string name="free_mobile_no_restriction">1234567890/-</string>
     <string name="lbl_imageUpload">Uploading Images. Please wait…</string>
 
     <string name="selfie_verification_notice">Please take a picture of yourself or select photo from your gallery.</string>

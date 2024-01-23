@@ -142,6 +142,7 @@ public class RClientInfo {
                     loDetail.setMiddName(loResponse.getString("sMiddName"));
                     loDetail.setSuffixNm(loResponse.getString("sSuffixNm"));
                     loDetail.setMaidenNm(loResponse.getString("sMaidenNm"));
+                    loDetail.setGCashNo(loResponse.getString("sGCashNox"));
                     loDetail.setGenderCd(loResponse.getString("cGenderCd"));
                     loDetail.setCvilStat(loResponse.getString("cCvilStat"));
                     loDetail.setBirthDte(loResponse.getString("dBirthDte"));
@@ -210,6 +211,7 @@ public class RClientInfo {
             param.put("sFrstName", foClient.getFrstName());
             param.put("sMiddName", foClient.getMiddName());
             param.put("sMaidenNm", foClient.getMaidenNm());
+            param.put("sGCashNox", foClient.getGCashNo());
             param.put("sSuffixNm", foClient.getSuffixNm());
             param.put("cGenderCd", foClient.getGenderCd());
             param.put("cCvilStat", foClient.getCvilStat());
@@ -224,6 +226,8 @@ public class RClientInfo {
             param.put("sAddress2", foClient.getAddress2());
             param.put("sBrgyIDx2", foClient.getBrgyIDx2());
             param.put("sTownIDx2", foClient.getTownIDx2());
+
+            Log.d("ako ito", foClient.getGCashNo());
 
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             String lsAddress = loApis.getCreateNewClientAPI();
