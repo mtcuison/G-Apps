@@ -15,6 +15,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
+import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.RMcBrand;
 import org.rmj.g3appdriver.dev.Repositories.RMcCategory;
 import org.rmj.g3appdriver.dev.Repositories.RMcModel;
@@ -31,6 +32,7 @@ import org.rmj.g3appdriver.etc.oLoadStat;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+import org.rmj.g3appdriver.lib.Ganado.pojo.ClientInfo;
 
 import java.util.Objects;
 
@@ -121,6 +123,7 @@ public class VMSplashScreen extends AndroidViewModel {
             }
         };
 
+
         public InitDataTask(Context mContext, OnInitializeData listener) {
             this.mContext = mContext;
             this.listener = listener;
@@ -149,7 +152,8 @@ public class VMSplashScreen extends AndroidViewModel {
                     RMcBrand loMcBrand = new RMcBrand(mContext);
                     loMcBrand.ImportMCBrands();
                     pause();
-
+                    RClientInfo loClientInfo = new RClientInfo((mContext));
+                    loClientInfo.ImportAccountInfo();
                 }
                 pause();
 
@@ -183,6 +187,10 @@ public class VMSplashScreen extends AndroidViewModel {
 
                 if (new RMcBrand(mContext).ImportMCBrands()) {
                     Log.d(TAG, "MC Brand imported successfully...");
+                }
+                pause();
+                if (new RClientInfo(mContext).ImportAccountInfo()) {
+                    Log.d(TAG, "Client Info imported successfully...");
                 }
                 pause();
                 if (new RMcModelPrice(mContext).ImportMcModelPrice()) {

@@ -2,10 +2,7 @@ package org.rmj.guanzongroup.useraccount.Model;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
-public class CompleteAccountDetailsInfo {
+public class CompleteAccountDetailsScanInfo {
     private EClientInfo poClientx;
     private String sLastName = "";
     private String sFirstNme = "";
@@ -25,7 +22,7 @@ public class CompleteAccountDetailsInfo {
     private String cVerified = "";
     private String sMessagex = "";
 
-    public CompleteAccountDetailsInfo() {
+    public CompleteAccountDetailsScanInfo() {
         this.poClientx = new EClientInfo();
     }
 

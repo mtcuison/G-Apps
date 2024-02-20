@@ -46,12 +46,14 @@ public interface DGanadoOnline {
     LiveData<List<EMCColor>> GetModelColors(String ModelID);
 
     @Query("SELECT * FROM Ganado_Online " +
-            "WHERE sReferdBy = (SELECT sUserIDxx FROM User_Info_Master)")
+            "WHERE sReferdBy = (SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<List<EGanadoOnline>> GetInquiries();
-
+    @Query("DELETE FROM Ganado_Online WHERE (sClientNm IS NULL OR sClientNm = '')")
+    void RemoveInquiry();
     @Query("SELECT * FROM Ganado_Online WHERE sTransNox =:TransNox")
     LiveData<EGanadoOnline> GetLatestInquiries(String TransNox);
-
+    @Query("DELETE FROM Ganado_Online WHERE sTransNox =:TransNox")
+    void RemoveInquiry(String TransNox);
     @Query("SELECT " +
             "a.sModelIDx AS ModelIDx " +
             ",a.sModelNme AS ModelNme " +

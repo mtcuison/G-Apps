@@ -37,12 +37,17 @@ public class GConstants {
     public static String[] INSTALLMENT_TERM = {
             "36 Months/3 Years",
             "24 Months/2 Years",
-            "18 Months",
-            "12 Months/1 Year",
-            "6 Months"
+            "12 Months/1 Year"
     };
     public static String[] PAYMENT_FORM = {"Cash", "Installment"};
-
+    public static String[] INQUIRY_STATUS = {
+            "Pending",
+            "Verified",
+            "Unable to Verify",
+            "Expired",
+            "Bought",
+            "Pending Inc. Release",
+            "Incentive Released"};
     public static ArrayAdapter<String> getAdapter(Context mContext, String[] data) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, data){
             @SuppressLint("ResourceAsColor")

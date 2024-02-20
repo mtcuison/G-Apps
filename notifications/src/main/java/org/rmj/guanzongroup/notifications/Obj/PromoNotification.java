@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
@@ -110,7 +111,9 @@ public class PromoNotification implements iNotificationUI {
 //                                            .bigLargeIcon(null))
                                     .setSmallIcon(R.drawable.ic_guanzon_logo)
                                     .setContentTitle(lsTitlexx)
-                                    .setContentText(lsMessage);
+                                    .setContentText(lsMessage)
+                                    .setColor(Color.rgb(255, 215, 0));
+
 
                             loManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
                             loManager.notify(lnChannelID, notification.build());

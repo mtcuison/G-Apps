@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ganado.ViewModel;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
@@ -21,6 +22,7 @@ import org.rmj.g3appdriver.lib.Ganado.Obj.Ganado;
 import org.rmj.g3appdriver.lib.Ganado.pojo.ClientInfo;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
+import org.rmj.guanzongroup.ganado.Activities.Activity_ClientInfo;
 
 import java.util.List;
 
@@ -50,7 +52,14 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
         this.poModel = new ClientInfo();
         this.poTown = new RTown(application);
     }
+    public void InitGeoLocation(Activity activity){
+        this.poApp.InitGeoLocation(activity);
+        Log.d("init location","OK");
+    }
 
+    public void RemoveInQuiry(){
+        poApp.RemoveInquiry(TransNox);
+    }
     public ClientInfo getModel() {
         return poModel;
     }
@@ -83,6 +92,7 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
 
     @Override
     public void SaveData(OnSaveInfoListener listener) {
+
 
     }
 
@@ -120,7 +130,7 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
             @Override
             public void OnPostExecute(Object object) {
                 String lsResult = (String) object;
-                Log.e("TransNox",lsResult);
+                //Log.e("TransNox",lsResult);
                 if (lsResult == null) {
                     listener.OnFailed(message);
                 } else {

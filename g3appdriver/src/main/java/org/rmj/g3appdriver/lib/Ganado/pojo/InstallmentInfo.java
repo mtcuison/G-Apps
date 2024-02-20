@@ -13,7 +13,10 @@ public class InstallmentInfo {
         return nMinDownx;
     }
 
+
     public double getMonthlyAmortization() {
         return nAmortztn;
     }
+
+
 }

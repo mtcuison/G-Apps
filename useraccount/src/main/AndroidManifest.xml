@@ -31,6 +31,10 @@
             android:name=".Activity.Activity_IDVerification"
             android:exported="false" />
         <activity
+            android:name=".Activity.Activity_ClientInfo_QR"
+            android:screenOrientation="userPortrait"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Activity_IDSumittion"
             android:exported="false"
             android:screenOrientation="userPortrait"

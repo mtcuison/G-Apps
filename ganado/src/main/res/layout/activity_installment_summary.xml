@@ -67,7 +67,7 @@
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
                     android:paddingTop="20dp"
-                    android:text="Installment Calculator"
+                    android:text="INQUIRY SUMMARY"
                     android:textAlignment="center"
                     android:textSize="21sp" />
 
@@ -150,17 +150,21 @@
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/textInputLayout2"
-                                style="@style/CustomDropDownTilStyle"
+                                style="@style/TextInputStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Installment Term">
 
-                                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/spn_installmentTerm"
-                                    style="@style/DropdownStyleTheme"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:padding="16dp" />
+                                    android:layout_marginBottom="10dp"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:focusedByDefault="false"
+                                    android:inputType="number|none"
+                                    android:maxLength="50" />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <com.google.android.material.textfield.TextInputLayout

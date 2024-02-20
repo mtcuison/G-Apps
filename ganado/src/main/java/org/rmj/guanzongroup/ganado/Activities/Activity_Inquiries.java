@@ -3,7 +3,6 @@ package org.rmj.guanzongroup.ganado.Activities;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -18,6 +17,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ganado.Adapter.InquiryListAdapter;
+import org.rmj.guanzongroup.ganado.Dialog.DialogInquiryHistory;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMInquiry;
 
@@ -35,6 +35,7 @@ public class Activity_Inquiries extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(VMInquiry.class);
+        mViewModel.RemoveInquiry();
         setContentView(R.layout.activity_inquiries);
         intWidgets();
 
@@ -68,17 +69,27 @@ public class Activity_Inquiries extends AppCompatActivity {
                 poMessage.show();
             }
         });
+
         mViewModel.GetInquiries().observe(Activity_Inquiries.this, inquiries ->{
             if (inquiries.size() > 0){
                 InquiryListAdapter adapter= new InquiryListAdapter(getApplication(), inquiries, new InquiryListAdapter.OnModelClickListener() {
                     @Override
                     public void OnClick(String TransNox) {
-                        Intent intent = new Intent(Activity_Inquiries.this, Activity_ProductSelection.class);
-                        intent.putExtra("TransNox",TransNox);
-
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-                        finish();
+                        DialogInquiryHistory dHistory = new DialogInquiryHistory(Activity_Inquiries.this);
+                        dHistory.initDialog(getApplication(), mViewModel.GetInQuiry(TransNox));
+                        dHistory.setPositiveButton("Close", new DialogInquiryHistory.DialogButton() {
+                            @Override
+                            public void OnButtonClick(View view, AlertDialog dialog) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dHistory.show();
+//                        Intent intent = new Intent(Activity_Inquiries.this, DialogInquiryHistory.class);
+//                        intent.putExtra("TransNox",TransNox);
+//
+//                        startActivity(intent);
+//                        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+//                        finish();
 
                     }
 

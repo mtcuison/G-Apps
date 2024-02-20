@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.dev.Database.Entities.EGanadoOnline;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.lib.Ganado.Obj.Ganado;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ProductInquiry;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
@@ -22,6 +23,7 @@ public class VMInquiry extends AndroidViewModel {
 
     private final Ganado poSys;
     private final ConnectionUtil poConn;
+    private final ProductInquiry poApp;
 
     private String message;
 
@@ -36,8 +38,15 @@ public class VMInquiry extends AndroidViewModel {
 
         poSys = new Ganado(application);
         poConn = new ConnectionUtil(application);
+        poApp = new ProductInquiry(application);
+    }
+    public EGanadoOnline GetInQuiry(String TransNox){
+        return poSys.GetInquiry(TransNox);
     }
 
+    public void RemoveInquiry(){
+        poSys.RemoveInquiry();
+    }
     public LiveData<List<EGanadoOnline>> GetInquiries(){
         return poSys.GetInquiries();
     }

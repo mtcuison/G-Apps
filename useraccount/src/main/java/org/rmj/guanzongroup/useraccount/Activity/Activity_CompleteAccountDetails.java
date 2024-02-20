@@ -1,6 +1,9 @@
 package org.rmj.guanzongroup.useraccount.Activity;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,15 +12,22 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.InputFieldController;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
@@ -30,7 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Activity_CompleteAccountDetails extends AppCompatActivity {
@@ -40,7 +50,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     private CompleteAccountDetailsInfo poDataMdl;
     private Toolbar toolbar;
     private Dialog_Loading poLoading;
-    private Dialog_SingleButton poDialogx;
+    private Dialog_SingleButton poDialog;
     private Dialog_DoubleButton poDblDiag;
     private TextInputEditText txtLastNm, txtFirstN, txtMidNme, txtSuffix, txtBdatex, txtTaxNox,
             txtHouseN, txtStreet, txtGCashNo;
@@ -48,10 +58,26 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
             txtCtizen,
             txtTownCt,
             txtBarngy;
-    private MaterialButton btnSaveDt;
+    private MaterialButton btnSaveDt, btnScan;
+    private static final int QR_RESULT_CODE = 1; // This should match the code you used in setResult(1, loIntent)
 
-    private String psBDate;
 
+    private String psBDate, ClientID, SourceCD, SourceNo;
+    private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if(result.getResultCode() == QR_RESULT_CODE) {
+                    Intent loIntent = result.getData();
+                    if (loIntent != null) {
+//                        Toast.makeText(Activity_AddGcard.this, loIntent.getStringExtra("result"), Toast.LENGTH_LONG).show();
+                        String lsArgs = loIntent.getStringExtra("result");
+                        addScannedClientInfo(lsArgs);
+                    } else {
+                        Toast.makeText(this, "No data result receive.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+    );
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +86,106 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         initViews();
         setUpToolbar();
         setInputOptions();
+
         btnSaveDt.setOnClickListener(v -> saveAccountDetails());
+        btnScan.setOnClickListener((v-> scanAccountDetails()));
     }
+    private void initData(){
+        mViewModel.getClientDetail().observe(Activity_CompleteAccountDetails.this, eClientInfo -> {
+            if(eClientInfo != null){
+                txtLastNm.setText(eClientInfo.getLastName());
+                txtFirstN.setText(eClientInfo.getFrstName());
+                txtMidNme.setText(eClientInfo.getMiddName());
+                txtSuffix.setText(eClientInfo.getSuffixNm());
+                txtBdatex.setText(FormatUIText.formatGOCasBirthdate(eClientInfo.getBirthDte()));
+                poDataMdl.setBirthDate(eClientInfo.getBirthDte());
+                psBDate = eClientInfo.getBirthDte();
+//                txtBplace.setText(eClientInfo.getBirthPlc());
+//                txtGender.setText(eClientInfo.getGenderCd());
+//                txtCivilS.setText(eClientInfo.getCvilStat());
+                txtGCashNo.setText(eClientInfo.getGCashNo());
+                mViewModel.getBirthplace(eClientInfo.getBirthPlc()).observe(Activity_CompleteAccountDetails.this, info->{
+                    txtBplace.setText(info);
+                    poDataMdl.setBirthPlace(eClientInfo.getBirthPlc());
+                });
+
+                String genderCode = eClientInfo.getGenderCd();
+                poDataMdl.setGender(genderCode);
+
+                Map<String, String> genderMap = Map.of("0", "Male", "1", "Female", "2", "LGBTQ");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    txtGender.setText(genderMap.getOrDefault(genderCode, "Unknown"));
+                }
+
+
+                String civilStatCd = eClientInfo.getCvilStat();
+                poDataMdl.setCivilStat(civilStatCd);
+
+                Map<String, String> civilStatusMap = Map.of(
+                        "0", "Single",
+                        "1", "Married",
+                        "2", "Separated",
+                        "3", "Widowed",
+                        "4", "Single-Parent",
+                        "5", "Single-Parent W/ Live-in Partner"
+                );
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    txtCivilS.setText(civilStatusMap.getOrDefault(civilStatCd, "Unknown"));
+                }
+
+                txtHouseN.setText(eClientInfo.getHouseNo1());
+                txtStreet.setText(eClientInfo.getAddress1());
+//                txtTownCt.setText(eClientInfo.getTownIDx1());
+                txtBarngy.setText(eClientInfo.getBrgyIDx1());
+                Log.e("getTownIDx1",eClientInfo.getTownIDx1());
+                mViewModel.GetTownProvinceName(eClientInfo.getTownIDx1()).observe(Activity_CompleteAccountDetails.this, info ->{
+                    try {
+                        txtTownCt.setText(info);
+                        poDataMdl.setTownCity(eClientInfo.getTownIDx1());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                mViewModel.GetBarangay(eClientInfo.getBrgyIDx1()).observe(Activity_CompleteAccountDetails.this, info ->{
+                    try {
+                        txtBarngy.setText(info);
+                        poDataMdl.setBarangay(eClientInfo.getBrgyIDx1());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                disableFields(txtLastNm, txtFirstN, txtMidNme, txtSuffix, txtBdatex,txtHouseN,txtStreet);
+                disableAutoCompleteTextViews(txtBplace,txtGender,txtCivilS,txtTownCt,txtBarngy);
+            }
+        });
+    }
+    private void scanAccountDetails() {
+        Intent loIntent = new Intent(Activity_CompleteAccountDetails.this, Activity_ClientInfo_QR.class);
+        startActivityForResult(loIntent, QR_RESULT_CODE);
+    }
+    private void disableFields(TextInputEditText... textInputEditTexts) {
+        for (TextInputEditText editText : textInputEditTexts) {
+            editText.setFocusable(false);
+        }
+    }
+    private void disableAutoCompleteTextViews(AutoCompleteTextView... autoCompleteTextViews) {
+        for (AutoCompleteTextView autoCompleteTextView : autoCompleteTextViews) {
+//            autoCompleteTextView.setFocusable(false);
+//            autoCompleteTextView.setInputType(0); // Disables the soft keyboard for AutoCompleteTextView
+//            autoCompleteTextView.setOnItemClickListener(null); // Disables item selection from the drop-down
+            autoCompleteTextView.setClickable(false);
+            autoCompleteTextView.setFocusable(false);
+            autoCompleteTextView.setFocusableInTouchMode(false);
+            txtBdatex.setOnClickListener(null);
+            txtBplace.setOnClickListener(null);
+            txtGender.setOnClickListener(null);
+            txtCivilS.setOnClickListener(null);
+        }
+    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -69,6 +193,51 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
             popUpCloseConfirmationDialog();
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,@Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == QR_RESULT_CODE && resultCode == RESULT_OK && data != null) {
+            ClientID = data.getStringExtra("ClientID");
+            SourceCD = data.getStringExtra("SourceCD");
+            SourceNo = data.getStringExtra("SourceNo");
+
+            // Use the retrieved values as needed
+            Log.d("ClientID scan", ClientID);
+            Log.d("SourceCD scan", SourceCD);
+            Log.d("SourceNo scan", SourceNo);
+
+            mViewModel.importClientInfo(ClientID, SourceCD,SourceNo,new VMAccountDetails.OnClientInfoCallBack() {
+                @Override
+                public void onLoading() {
+                    poLoading = new Dialog_Loading(Activity_CompleteAccountDetails.this);
+                    poLoading.initDialog("Account Details", "Importing Client Info Data. Please wait.");
+                    poLoading.show();
+
+                }
+
+                @Override
+                public void onSuccess(String fsMessage) {
+
+                    poLoading.dismiss();
+                    initData();
+//                    poLoading.dismiss();
+                }
+
+                @Override
+                public void onFailed(String fsMessage) {
+                    poLoading.dismiss();
+                    poDialog.setButtonText("Okay");
+                    poDialog.initDialog("Account Details", fsMessage, () -> {
+                        poDialog.dismiss();
+//                        finish();
+                    });
+                    poDialog.show();
+                }
+            });
+
+        }
     }
 
     @Override
@@ -85,7 +254,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
     // Initialize this first before anything else.
     private void initViews() {
         toolbar = findViewById(R.id.toolbar);
-        poDialogx = new Dialog_SingleButton(Activity_CompleteAccountDetails.this);
+        poDialog = new Dialog_SingleButton(Activity_CompleteAccountDetails.this);
         poDblDiag = new Dialog_DoubleButton(Activity_CompleteAccountDetails.this);
         txtLastNm = findViewById(R.id.tie_accountUpdate);
         txtFirstN = findViewById(R.id.tie_firstname);
@@ -103,6 +272,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         txtTownCt = findViewById(R.id.tie_towncity);
         txtBarngy = findViewById(R.id.tie_barangay);
         btnSaveDt = findViewById(R.id.btnSave);
+        btnScan = findViewById(R.id.btn_Scan);
     }
 
     // Initialize initViews() before this method.
@@ -126,30 +296,30 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                 @Override
                 public void onSuccess(String fsMessage) {
                     poLoading.dismiss();
-                    poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Account Details", fsMessage, () -> {
-                        poDialogx.dismiss();
+                    poDialog.setButtonText("Okay");
+                    poDialog.initDialog("Account Details", fsMessage, () -> {
+                        poDialog.dismiss();
                         Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
                         intent.putExtra("args", "auth");
                         sendBroadcast(intent);
                         poLoading.dismiss();
                         finish();
                     });
-                    poDialogx.show();
+                    poDialog.show();
                 }
 
                 @Override
                 public void onFailed(String fsMessage) {
                     poLoading.dismiss();
-                    poDialogx.setButtonText("Okay");
-                    poDialogx.initDialog("Account Details", fsMessage, () -> poDialogx.dismiss());
-                    poDialogx.show();
+                    poDialog.setButtonText("Okay");
+                    poDialog.initDialog("Account Details", fsMessage, () -> poDialog.dismiss());
+                    poDialog.show();
                 }
             });
         } else {
-            poDialogx.setButtonText("Okay");
-            poDialogx.initDialog("Account Details", poDataMdl.getMessage(), () -> poDialogx.dismiss());
-            poDialogx.show();
+            poDialog.setButtonText("Okay");
+            poDialog.initDialog("Account Details", poDataMdl.getMessage(), () -> poDialog.dismiss());
+            poDialog.show();
         }
 
     }
@@ -323,6 +493,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                 Intent loIntent = new Intent();
                 loIntent.putExtra("result", "cancelled");
                 finish();
+
             }
 
             @Override
@@ -331,6 +502,66 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
             }
         });
         poDblDiag.show();
+    }
+    private void addScannedClientInfo(String args){
+        mViewModel.addScannedClientInfo(args, new VMAccountDetails.ClientInfoTransactionCallback() {
+            @Override
+            public void onLoad() {
+                poLoading = new Dialog_Loading(Activity_CompleteAccountDetails.this);
+                poLoading.initDialog("Adding GCard", "Please wait for a while.");
+                poLoading.show();
+            }
+
+            @Override
+            public void onSuccess(String fsMessage) {
+                poLoading.dismiss();
+                poDialog.setButtonText("Okay");
+                poDialog.initDialog("Add GCard", "GCard Successfully Added.", () -> {
+                    poDialog.dismiss();
+                    finish();
+                });
+                poDialog.show();
+            }
+
+            @Override
+            public void onFailed(String fsMessage) {
+                poLoading.dismiss();
+                if(isJSONValid(fsMessage)) {
+                    String lsErrCode = "";
+                    try {
+                        JSONObject loJson = new JSONObject(fsMessage);
+                        lsErrCode = loJson.getString("code");
+                        if("CNF".equalsIgnoreCase(lsErrCode)) {
+                            poDialog.setButtonText("Okay");
+                            poDialog.initDialog("Add GCard", "GCard is already registered to other account. Please add GCard number manually and confirm to register the GCard on your account.", () -> {
+                                poDialog.dismiss();
+                                finish();
+                            });
+                            poDialog.show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    poDialog.setButtonText("Okay");
+                    poDialog.initDialog("Add GCard Failed", fsMessage, () -> poDialog.dismiss());
+                    poDialog.show();
+                }
+            }
+
+        });
+    }
+    public boolean isJSONValid(String fsMessage) {
+        try {
+            new JSONObject(fsMessage);
+        } catch (JSONException ex) {
+            try {
+                new JSONArray(fsMessage);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 

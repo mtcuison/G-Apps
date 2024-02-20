@@ -4,9 +4,17 @@ package org.rmj.g3appdriver.lib.Ganado.Obj;
 import static org.rmj.g3appdriver.etc.AppConstants.getErrorMessage;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.util.Log;
+import android.location.LocationListener;
 
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
@@ -40,11 +48,18 @@ public class Ganado {
     private final HttpHeaders poHeaders;
     private final GuanzonAppConfig poConfig;
     private final Relation poRelate;
+    private  String nLatitude, nLongitude;
+    private  String x,y;
 
+    private final Application instance;
+    private static final int REQUEST_LOCATION = 1;
+
+    private LocationManager locManager;
     private final AccountInfo poSession;
     private String message;
 
-    public Ganado(Context context) {
+    public Ganado(Application context) {
+        this.instance = context;
         this.mContext = context;
         this.poDao = GGC_GuanzonAppDB.getInstance(mContext).ganadoDao();
         this.poConfig = new GuanzonAppConfig(mContext);
@@ -52,6 +67,7 @@ public class Ganado {
         this.poHeaders = new HttpHeaders(mContext);
         this.poRelate = new Relation(mContext);
         this.poSession = new AccountInfo(context);
+        locManager = (LocationManager) instance.getSystemService(Context.LOCATION_SERVICE);
     }
 
     public String getMessage() {
@@ -61,7 +77,9 @@ public class Ganado {
     public LiveData<List<ERelation>> GetRelations(){
         return poRelate.GetRelations();
     }
-
+    public EGanadoOnline GetInquiry(String TransNox){
+        return poDao.GetInquiry(TransNox);
+    }
     public String CreateInquiry(InquiryInfo loInfo){
         try{
             InquiryInfo.InquiryInfoValidator loValid = new InquiryInfo.InquiryInfoValidator();
@@ -89,6 +107,7 @@ public class Ganado {
             JSONObject joPayment = new JSONObject();
             joPayment.put("sTermIDxx", loInfo.getTermIDxx());
             joPayment.put("nDownPaym", loInfo.getDownPaym());
+            joPayment.put("nMonthAmr", loInfo.getnMonthAmr());
             loDetail.setPaymInfo(joPayment.toString());
 
             JSONArray laJson = new JSONArray();
@@ -126,6 +145,7 @@ public class Ganado {
                 message = loInfo.getMessage();
                 return false;
             }
+
 
             EGanadoOnline loDetail = poDao.GetInquiry(loInfo.getsTransNox());
 
@@ -171,7 +191,56 @@ public class Ganado {
             return false;
         }
     }
+    public void RemoveInquiry(){
+        poDao.RemoveInquiry();
+    }
+    public void InitGeoLocation(Activity poActivty){
+        Log.d("InitGEOLocation","inits1");
+        int LOCATION_REFRESH_TIME = 2000; // 15 seconds to update
+        int LOCATION_REFRESH_DISTANCE = 500; // 500 meters to update
+        Log.d("InitGEOLocation","inits2");
+        if (ActivityCompat.checkSelfPermission(instance, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(instance, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
+            Log.d("InitGEOLocation","IF3");
+            locManager= (LocationManager) instance.getSystemService(instance.LOCATION_SERVICE);
+
+            Location location = locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            Location location1 = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            Location location2 = locManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
+            if (location != null) {
+                nLatitude = String.valueOf(location.getLatitude());
+                nLongitude = String.valueOf(location.getLongitude());
+            } else  if (location1 != null) {
+                nLatitude = String.valueOf(location1.getLatitude());
+                nLongitude = String.valueOf(location1.getLongitude());
+            } else  if (location2 != null) {
+                nLatitude = String.valueOf(location2.getLatitude());
+                nLongitude = String.valueOf(location2.getLongitude());
+            }else{
+                message = "Unable to Trace your location";
+                Log.e("message", message);
+
+//                listner.OnFailedRetrieve("Unable to Trace your location");
+            }
+            x= nLatitude;
+            y=nLongitude;
+            Log.e("nLatitude", String.valueOf(nLatitude));
+            Log.e("nLongitud", String.valueOf(nLongitude));
+
+
+            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
+                    LOCATION_REFRESH_DISTANCE, mLocationListener);
+
+        }else {
+
+            Log.e("nLatitude", String.valueOf(nLatitude));
+            Log.e("nLongitud", String.valueOf(nLongitude));
+            ActivityCompat.requestPermissions(poActivty, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        }
+    }
     public String SaveInquiry(String TransNox){
         try{
             EGanadoOnline loDetail = poDao.GetInquiry(TransNox);
@@ -182,18 +251,23 @@ public class Ganado {
             }
 
             JSONObject params = new JSONObject();
+
+            Log.e("tj 1", String.valueOf(nLatitude));
+            Log.e("tj 2", String.valueOf(nLongitude));
+
             params.put("sClientNm", loDetail.getClientNm());
             params.put("cGanadoTp", loDetail.getGanadoTp());
             params.put("cPaymForm", loDetail.getPaymForm());
             params.put("dCreatedx", loDetail.getCreatedx());
             params.put("dTargetxx", loDetail.getTargetxx());
             params.put("sRelatnID", loDetail.getRelatnID());
-            params.put("nlatitude", 1.00);
-            params.put("nLongitud", 2.00);
+            params.put("nLatitude", String.valueOf(x));
+            params.put("nLongitud", String.valueOf(y));
 
             params.put("sClntInfo", loDetail.getClntInfo());
             params.put("sProdInfo", loDetail.getProdInfo());
             params.put("sPaymInfo", loDetail.getPaymInfo());
+            params.put("cSourcexx", "1");
 
             String lsResponse = WebClient.httpsPostJSon(
                     poApi.getSubmitInquiry(),
@@ -210,6 +284,7 @@ public class Ganado {
             if(lsResult.equalsIgnoreCase("error")){
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = getErrorMessage(loError);
+                message = "sample error for location";
                 return null;
             }
 
@@ -225,10 +300,13 @@ public class Ganado {
             return null;
         }
     }
-
+    public void RemoveInquiry(String TransNox){
+        poDao.RemoveInquiry(TransNox);
+    }
     public boolean ImportInquiries(){
         try{
             JSONObject params = new JSONObject();
+            params.put("cSourcexx", "1");
             EGanadoOnline loGanado = poDao.GetLatestData();
 
             if(loGanado != null){
@@ -283,29 +361,46 @@ public class Ganado {
                     poDao.Save(loInfo);
                     Log.d(TAG, "Inquiry record has been saved!");
                 } else {
-
-                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
-                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-                    if (!ldDate1.equals(ldDate2)) {
-                        loDetail.setTransNox(loJson.getString("sTransNox"));
-                        loDetail.setTransact(loJson.getString("dTransact"));
-                        loDetail.setGanadoTp(loJson.getString("cGanadoTp"));
-                        loDetail.setPaymForm(loJson.getString("cPaymForm"));
-                        loDetail.setClientNm(loJson.getString("sClientNm"));
-                        loDetail.setClntInfo(loJson.getString("sCltInfox"));
-                        loDetail.setProdInfo(loJson.getString("sPrdctInf"));
-                        loDetail.setPaymInfo(loJson.getString("sPaymInfo"));
-                        loDetail.setTargetxx(loJson.getString("dTargetxx"));
-                        loDetail.setFollowUp(loJson.getString("dFollowUp"));
-                        loDetail.setRemarksx(loJson.getString("sRemarksx"));
-                        loDetail.setReferdBy(loJson.getString("sReferdBy"));
-                        loDetail.setRelatnID(loJson.getString("sRelatnID"));
-                        loDetail.setCreatedx(loJson.getString("dCreatedx"));
-                        loDetail.setTranStat(loJson.getString("cTranStat"));
-                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
-                        poDao.Update(loDetail);
-                        Log.d(TAG, "Inquiry record has been updated!");
-                    }
+                    loDetail.setTransNox(loJson.getString("sTransNox"));
+                    loDetail.setTransact(loJson.getString("dTransact"));
+                    loDetail.setGanadoTp(loJson.getString("cGanadoTp"));
+                    loDetail.setPaymForm(loJson.getString("cPaymForm"));
+                    loDetail.setClientNm(loJson.getString("sClientNm"));
+                    loDetail.setClntInfo(loJson.getString("sCltInfox"));
+                    loDetail.setProdInfo(loJson.getString("sPrdctInf"));
+                    loDetail.setPaymInfo(loJson.getString("sPaymInfo"));
+                    loDetail.setTargetxx(loJson.getString("dTargetxx"));
+                    loDetail.setFollowUp(loJson.getString("dFollowUp"));
+                    loDetail.setRemarksx(loJson.getString("sRemarksx"));
+                    loDetail.setReferdBy(loJson.getString("sReferdBy"));
+                    loDetail.setRelatnID(loJson.getString("sRelatnID"));
+                    loDetail.setCreatedx(loJson.getString("dCreatedx"));
+                    loDetail.setTranStat(loJson.getString("cTranStat"));
+                    loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                    poDao.Update(loDetail);
+                    Log.d(TAG, "Inquiry record has been updated!");
+//                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+//                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+//                    if (!ldDate1.equals(ldDate2)) {
+//                        loDetail.setTransNox(loJson.getString("sTransNox"));
+//                        loDetail.setTransact(loJson.getString("dTransact"));
+//                        loDetail.setGanadoTp(loJson.getString("cGanadoTp"));
+//                        loDetail.setPaymForm(loJson.getString("cPaymForm"));
+//                        loDetail.setClientNm(loJson.getString("sClientNm"));
+//                        loDetail.setClntInfo(loJson.getString("sCltInfox"));
+//                        loDetail.setProdInfo(loJson.getString("sPrdctInf"));
+//                        loDetail.setPaymInfo(loJson.getString("sPaymInfo"));
+//                        loDetail.setTargetxx(loJson.getString("dTargetxx"));
+//                        loDetail.setFollowUp(loJson.getString("dFollowUp"));
+//                        loDetail.setRemarksx(loJson.getString("sRemarksx"));
+//                        loDetail.setReferdBy(loJson.getString("sReferdBy"));
+//                        loDetail.setRelatnID(loJson.getString("sRelatnID"));
+//                        loDetail.setCreatedx(loJson.getString("dCreatedx"));
+//                        loDetail.setTranStat(loJson.getString("cTranStat"));
+//                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+//                        poDao.Update(loDetail);
+//                        Log.d(TAG, "Inquiry record has been updated!");
+//                    }
                 }
             }
 
@@ -340,5 +435,20 @@ public class Ganado {
         Log.d(TAG, lsUniqIDx);
         return lsUniqIDx;
     }
+
+
+    // Stop location updates
+    public void stopLocationUpdates() {
+        if (locManager != null) {
+            locManager.removeUpdates(mLocationListener);
+        }
+    }
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            nLatitude = String.valueOf(location.getLatitude());
+            nLongitude = String.valueOf(location.getLongitude());
+        }
+    };
 
 }

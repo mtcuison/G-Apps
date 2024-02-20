@@ -66,14 +66,19 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
         try {
             EGanadoOnline loModel = poModel.get(position);
             holder.itemName01.setText(loModel.getClientNm());
-            holder.itemName02.setText(loModel.getSendStat());
+            if(loModel.getSendStat().equalsIgnoreCase("0")){
+                holder.itemName06.setText("Pending");
+            }else{
+                holder.itemName06.setText("Sent");
+            }
+            holder.itemName02.setText(GConstants.INQUIRY_STATUS[Integer.parseInt(loModel.getTranStat())]);
             JSONObject object = new JSONObject(loModel.getClntInfo());
             holder.itemName03.setText(object.getString("sMobileNo"));
             JSONObject object1 = new JSONObject(loModel.getProdInfo());
             DGanadoOnline.McInfo eganado = poApp.GetMCInfo(object1.getString("sModelIDx"),object1.getString("sBrandIDx"),object1.getString("sColorIDx"));
             holder.itemName04.setText(eganado.ModelNme + " (" + eganado.ColorNme + ")");
             holder.itemName05.setText(GConstants.PAYMENT_FORM[Integer.parseInt(loModel.getPaymForm())]);
-            holder.itemName06.setText(loModel.getTranStat());
+//            holder.itemName06.setText(loModel.getTranStat());
             holder.itemView.setOnClickListener(v -> {
                 if(listener != null){
                     listener.OnClick(loModel.getTransNox());

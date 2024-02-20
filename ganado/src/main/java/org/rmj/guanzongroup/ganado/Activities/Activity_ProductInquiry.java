@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.ganado.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,7 +48,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
     private LinearLayout linearInstallment;
     private MaterialButton btnContinue,btnCalculate;
     private ShapeableImageView imgMC;
-    private String lsModelID, lsBrandID, lsImgLink, lsBrandNm;
+    private String lsModelID, lsBrandID, lsImgLink, lsBrandNm,Buwanan;
     private double minimumDownpayment, lnInput;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +115,30 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         spn_color.setOnItemClickListener(new OnItemClickListener(spn_color));
         spnAcctTerm.setOnItemClickListener(new OnItemClickListener(spnAcctTerm));
         txtDownPymnt.addTextChangedListener(new FormatUIText.CurrencyFormat(txtDownPymnt));
-
+        txtDownPymnt1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    // The EditText lost focus, perform your action here
+                    // For example, you can validate the input or save the data
+                    // into a database.
+                    // Your code here...
+                    if(txtDownPymnt1.getText().toString().trim().isEmpty()){
+                        poMessage.initDialog();
+                        poMessage.setTitle("Ganado");
+                        poMessage.setMessage("Downpayment field is required!");
+                        poMessage.setPositiveButton("Okay", new MessageBox.DialogButton() {
+                            @Override
+                            public void OnButtonClick(View view, AlertDialog dialog) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }else {
+                        Calculate();
+                    }
+                }
+            }
+        });
         mViewModel.GetModelID().observe(Activity_ProductInquiry.this, modelID -> {
             try{
 //                mViewModel.GetCashInfo(modelID).observe(this, cashPrice -> {
@@ -134,19 +159,17 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     public void OnRetrieve(InstallmentInfo loResult) {
                         Log.e("getMonthlyAmortization",FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMonthlyAmortization())) + "");
                         Log.e("getMonthlyAmortization",FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMinimumDownpayment())) + "");
-
-                        mViewModel.getModel().setDownPaym(String.valueOf(loResult.getMinimumDownpayment()));
-                        txtDownPymnt.setText(String.valueOf(loResult.getMinimumDownpayment()));
+                        //txtDownPymnt.setText(String.valueOf(loResult.getMinimumDownpayment()));
                         txtDownPymnt1.setText(String.valueOf(loResult.getMinimumDownpayment()));
                         txtMinDP.setText("The required Minimum Downpayment is at least " + String.valueOf(loResult.getMinimumDownpayment()) + " Pesos");
-                        mViewModel.getModel().setMonthAmr(String.valueOf(loResult.getMonthlyAmortization()));
-                        txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMonthlyAmortization())));
+//                        mViewModel.getModel().setMonthAmr(String.valueOf(loResult.getMonthlyAmortization()));
+//                        txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMonthlyAmortization())));
 
                         minimumDownpayment = loResult.getMinimumDownpayment();
 //                        double mnmDPInput = Double.parseDouble(FormatUIText.getCurrencyUIFormat(String.valueOf(txtDownPymnt1.getText())));
-
-
-
+                        //lnInput = Double.parseDouble(FormatUIText.getCurrencyUIFormat(String.valueOf(txtDownPymnt1.getText())));
+                         //mViewModel.getModel().setDownPaym(String.valueOf(FormatUIText.getCurrencyUIFormat(lsInput)));
+                        Log.d("input DP", String.valueOf(txtDownPymnt1.getText()));
                     }
 
                     @Override
@@ -160,55 +183,140 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
+//        txtDTarget.setOnClickListener(v -> {
+//            final Calendar newCalendar = Calendar.getInstance();
+//            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+//
+//            // Set the maximum date to one month from the current date
+//            newCalendar.add(Calendar.MONTH, 1);
+//            long maxDateInMillis = newCalendar.getTimeInMillis();
+//
+//            final DatePickerDialog StartTime = new DatePickerDialog(Activity_ProductInquiry.this,
+//                    android.R.style.Theme_Holo_Dialog, (view131, year, monthOfYear, dayOfMonth) -> {
+//                try {
+//                    Calendar newDate = Calendar.getInstance();
+//                    newDate.set(year, monthOfYear, dayOfMonth);
+//
+//                    // Check if the selected date is within one month from the current date
+//                    if (newDate.getTimeInMillis() <= maxDateInMillis) {
+//                        String lsDate = dateFormatter.format(newDate.getTime());
+//                        txtDTarget.setText(lsDate);
+//                        Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
+//                        lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
+//                        mViewModel.getModel().setTargetxx(lsDate);
+//                    } else {
+//                        // Show an error message or handle the case when the selected date is outside the allowed range
+//                        Toast.makeText(Activity_ProductInquiry.this, "Please select a date within one month from the current date", Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+//
+//            StartTime.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+//            StartTime.getDatePicker().setMaxDate(maxDateInMillis); // Set the maximum date
+//
+//            StartTime.show();
+//        });
         txtDTarget.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+
+            // Set the maximum date to one month from the current date
+            newCalendar.add(Calendar.MONTH, 1);
+            long maxDateInMillis = newCalendar.getTimeInMillis();
+
             final DatePickerDialog StartTime = new DatePickerDialog(Activity_ProductInquiry.this,
                     android.R.style.Theme_Holo_Dialog, (view131, year, monthOfYear, dayOfMonth) -> {
                 try {
                     Calendar newDate = Calendar.getInstance();
                     newDate.set(year, monthOfYear, dayOfMonth);
-                    String lsDate = dateFormatter.format(newDate.getTime());
-                    txtDTarget.setText(lsDate);
-                    Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
-                    lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
-                    mViewModel.getModel().setTargetxx(lsDate);
+
+                    // Check if the selected date is within one month from the current date
+                    if (newDate.getTimeInMillis() <= maxDateInMillis) {
+                        String lsDate = dateFormatter.format(newDate.getTime());
+                        txtDTarget.setText(lsDate);
+                        Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
+                        lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
+                        mViewModel.getModel().setTargetxx(lsDate);
+                    } else {
+                        // Show an error message or handle the case when the selected date is outside the allowed range
+                        Toast.makeText(Activity_ProductInquiry.this, "Please select a date within one month from the current date", Toast.LENGTH_SHORT).show();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+            // Set the default selection to the current date
+            StartTime.getDatePicker().init(
+                    newCalendar.get(Calendar.YEAR),
+                    newCalendar.get(Calendar.MONTH),
+                    newCalendar.get(Calendar.DAY_OF_MONTH),
+                    null
+            );
+
             StartTime.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            StartTime.getDatePicker().setMaxDate(maxDateInMillis); // Set the maximum date
+
             StartTime.show();
         });
 
-        btnCalculate.setOnClickListener(view -> {
-            String lsInput = txtDownPymnt.getText().toString().trim();
-//
-            Double lnInput = FormatUIText.getParseDouble(lsInput);
-            mViewModel.CalculateNewDownpayment(lsModelID, Integer.parseInt(mViewModel.getModel().getTermIDxx()), lnInput, new VMProductInquiry.OnCalculateNewDownpayment() {
-                @Override
-                public void OnCalculate(double lnResult) {
-                    txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
-                }
 
-                @Override
-                public void OnFailed(String message) {
-                    poMessage.initDialog();
-                    poMessage.setTitle("Product Inquiry");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                    txtAmort.setText("0");
-                }
-            });
-        });
+//        txtDTarget.setOnClickListener(v -> {
+//            final Calendar newCalendar = Calendar.getInstance();
+//            @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+//            final DatePickerDialog StartTime = new DatePickerDialog(Activity_ProductInquiry.this,
+//                    android.R.style.Theme_Holo_Dialog, (view131, year, monthOfYear, dayOfMonth) -> {
+//                try {
+//                    Calendar newDate = Calendar.getInstance();
+//                    newDate.set(year, monthOfYear, dayOfMonth);
+//                    String lsDate = dateFormatter.format(newDate.getTime());
+//                    txtDTarget.setText(lsDate);
+//                    Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
+//                    lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
+//                    mViewModel.getModel().setTargetxx(lsDate);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+//            StartTime.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+//            StartTime.show();
+//        });
+
+//        btnCalculate.setOnClickListener(view -> {
+//            String lsInput = txtDownPymnt.getText().toString().trim();
+////
+//            Double lnInput = FormatUIText.getParseDouble(lsInput);
+//            mViewModel.CalculateNewDownpayment(lsModelID, Integer.parseInt(mViewModel.getModel().getTermIDxx()), lnInput, new VMProductInquiry.OnCalculateNewDownpayment() {
+//                @Override
+//                public void OnCalculate(double lnResult) {
+//                    txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
+//                }
+//
+//                @Override
+//                public void OnFailed(String message) {
+//                    poMessage.initDialog();
+//                    poMessage.setTitle("Product Inquiry");
+//                    poMessage.setMessage(message);
+//                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+//                    poMessage.show();
+//                    txtAmort.setText("0");
+//                }
+//            });
+//        });
+
+
         btnContinue.setOnClickListener(view ->{
-            String lsInput = txtDownPymnt1.getText().toString().trim();
-            lnInput = FormatUIText.getParseDouble(lsInput);
+
+
+            lnInput = Double.parseDouble(txtDownPymnt1.getText().toString().trim());
             if (lnInput<minimumDownpayment){
                 msgBox();
             }else {
+
+//                Calculate();
+
                 mViewModel.SaveData(new OnSaveInfoListener() {
                     @Override
                     public void OnSave(String args) {
@@ -230,6 +338,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                         poMessage.show();
                     }
                 });
+
             }
         });
     }
@@ -326,6 +435,8 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 } else {
                     loadInstallment(View.VISIBLE);
                     txtDownPymnt1.setEnabled(true);
+                    spnAcctTerm.setSelection(0);
+                    Calculate();
                 }
                 mViewModel.getModel().setPaymForm(String.valueOf(i));
 
@@ -335,30 +446,36 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 }else if(i==1){
                     mViewModel.getModel().setTermIDxx("24");
                 }else if(i==2){
-                    mViewModel.getModel().setTermIDxx("18");
-                }else if(i==3){
                     mViewModel.getModel().setTermIDxx("12");
-                }else if(i==4){
-                    mViewModel.getModel().setTermIDxx("6");
                 }
-                String lsInput = txtDownPymnt1.getText().toString().trim();
-                lnInput = FormatUIText.getParseDouble(lsInput);
-                double lnMonthly = mViewModel.GetMonthlyAmortization(Integer.parseInt(mViewModel.getModel().getTermIDxx()));
-                txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnMonthly)));
-                msgBox();
-                mViewModel.CalculateNewDownpayment(lsModelID, Integer.parseInt(mViewModel.getModel().getTermIDxx()), lnInput, new VMProductInquiry.OnCalculateNewDownpayment() {
-                    @Override
-                    public void OnCalculate(double lnResult) {
-                        txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
-                    }
-
-                    @Override
-                    public void OnFailed(String message) {
-                        txtAmort.setText("0");
-                    }
-                });
+               Calculate();
             }
 
         }
+    }
+    private void Calculate(){
+        String lsInput = Objects.requireNonNull(txtDownPymnt1.getText()).toString().trim();
+        lnInput = FormatUIText.getParseDouble(lsInput);
+        mViewModel.getModel().setDownPaym(String.valueOf(lnInput));
+        msgBox();
+        mViewModel.CalculateNewDownpayment(lsModelID, Integer.parseInt(mViewModel.getModel().getTermIDxx()), lnInput, new VMProductInquiry.OnCalculateNewDownpayment() {
+            @Override
+            public void OnCalculate(double lnResult) {
+
+                Log.d("ito down", String.valueOf(lnInput));
+                Buwanan = (FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
+                mViewModel.getModel().setMonthAmr(String.valueOf(lnResult));
+                Log.d("ito monthly", String.valueOf(lnResult));
+            }
+
+            @Override
+            public void OnFailed(String message) {
+                txtAmort.setText("0");
+                mViewModel.getModel().setMonthAmr("0.0");
+
+                Log.d("ito false", String.valueOf(txtAmort.getText()));
+            }
+
+        });
     }
 }
