@@ -215,7 +215,6 @@
                                 android:text="The required Minimum Downpayment is at least"
                                 android:textStyle="italic"
                                 android:textSize="12dp"/>
-"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>

@@ -64,7 +64,6 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         spnAcctTerm.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.INSTALLMENT_TERM));
         mViewModel.setBrandID(getIntent().getStringExtra("lsBrandID"));
         mViewModel.setModelID(getIntent().getStringExtra("lsModelID"));
-
         lsBrandID = getIntent().getStringExtra("lsBrandID");
         lsModelID = getIntent().getStringExtra("lsModelID");
         lsImgLink = getIntent().getStringExtra("lsImgLink");
@@ -76,8 +75,9 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         mViewModel.getModel().setModelIDx(lsModelID);
         mViewModel.getModel().setTermIDxx("36");
         mViewModel.getModel().setPaymForm("0");
+//        mViewModel.getModel().getCashPrce();
         mViewModel.GetModelColor(lsModelID).observe(Activity_ProductInquiry.this, colorList->{
-            mViewModel.getModel().setColorIDx(colorList.get(0).getColorIDx());
+        mViewModel.getModel().setColorIDx(colorList.get(0).getColorIDx());
 
         });
         mViewModel.GetModelBrand(lsBrandID, lsModelID).observe(Activity_ProductInquiry.this, eMcModel -> {
@@ -85,7 +85,10 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 txtModelCd.setText(eMcModel.getModelCde());
                 txtModelNm.setText(eMcModel.getModelNme());
                 txtBrandNm.setText(getIntent().getStringExtra("lsBrandNm"));
-                ImageFileManager.LoadImageToView(lsImgLink, imgMC);
+                String imgLink = (lsImgLink == null)? "": lsImgLink;
+                if(imgLink.isEmpty()){
+                    ImageFileManager.LoadImageToView(lsImgLink, imgMC);
+                }
             }catch (NullPointerException e){
                 e.printStackTrace();
             }catch (Exception e){
@@ -133,27 +136,35 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                                 dialog.dismiss();
                             }
                         });
-                    }else {
-                        Calculate();
                     }
+                    Calculate();
+
                 }
             }
         });
         mViewModel.GetModelID().observe(Activity_ProductInquiry.this, modelID -> {
             try{
+                mViewModel.GetCashPrice(modelID).observe(this, cashPrice -> {
+                    mViewModel.getModel().setCashPrce(cashPrice.CashPrce);
+                    mViewModel.getModel().setPricexxx(cashPrice.Pricedxx);
+                    txtCashPrice.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(cashPrice.CashPrce)));
+                });
 //                mViewModel.GetCashInfo(modelID).observe(this, cashPrice -> {
 //                    Log.e("cashPrice",cashPrice.CashPrce + "");
 ////                    if(cashPrice.CashPrce != null){
 ////                        txtCashPrice.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(cashPrice.CashPrce)));
 ////                    }
 //                });
-                if(mViewModel.GetCashInfo(modelID) !=  null){
-                    Log.e("cashPrice",FormatUIText.getCurrencyUIFormat(String.valueOf(mViewModel.GetCashInfo(modelID).CashPrce)) + "");
-                    txtCashPrice.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(mViewModel.GetCashInfo(modelID).CashPrce)));
-                }else{
-                    txtCashPrice.setText(FormatUIText.getCurrencyUIFormat("0.0"));
-                    Log.e("cashPrice",FormatUIText.getCurrencyUIFormat("0.0"));
-                }
+//                if(mViewModel.GetCashInfo(modelID) !=  null){
+//                    Log.e("cashPrice",FormatUIText.getCurrencyUIFormat(String.valueOf(mViewModel.GetCashInfo(modelID).CashPrce)) + "");
+//                    txtCashPrice.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(mViewModel.GetCashInfo(modelID).CashPrce)));
+//                    mViewModel.getModel().setCashPrce(cashPrice.CashPrce);
+//                    mViewModel.getModel().setPricexxx(cashPrice.Pricedxx);
+//                    txtCashPrce.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(cashPrice.CashPrce)));
+//                }else{
+//                    txtCashPrice.setText(FormatUIText.getCurrencyUIFormat("0.0"));
+//                    Log.e("cashPrice",FormatUIText.getCurrencyUIFormat("0.0"));
+//                }
                 mViewModel.GetMinimumDownpayment(modelID, new VMProductInquiry.OnRetrieveInstallmentInfo() {
                     @Override
                     public void OnRetrieve(InstallmentInfo loResult) {
@@ -311,11 +322,11 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
 
             lnInput = Double.parseDouble(txtDownPymnt1.getText().toString().trim());
-            if (lnInput<minimumDownpayment){
-                msgBox();
-            }else {
+//            if (lnInput<minimumDownpayment){
+//                msgBox();
+//            }
 
-//                Calculate();
+                Calculate();
 
                 mViewModel.SaveData(new OnSaveInfoListener() {
                     @Override
@@ -338,8 +349,6 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                         poMessage.show();
                     }
                 });
-
-            }
         });
     }
 
@@ -379,8 +388,8 @@ public class Activity_ProductInquiry extends AppCompatActivity {
             poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
             poMessage.show();
             txtDownPymnt1.setText(String.valueOf(minimumDownpayment));
+            Calculate();
         }
-
     }
     private void loadInstallment(int isLoad){
         linearInstallment.setVisibility(isLoad);
@@ -436,7 +445,6 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     loadInstallment(View.VISIBLE);
                     txtDownPymnt1.setEnabled(true);
                     spnAcctTerm.setSelection(0);
-                    Calculate();
                 }
                 mViewModel.getModel().setPaymForm(String.valueOf(i));
 
@@ -448,9 +456,27 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 }else if(i==2){
                     mViewModel.getModel().setTermIDxx("12");
                 }
-               Calculate();
-            }
 
+
+                String lsInput = txtDownPymnt1.getText().toString().trim();
+                Double lnInput = FormatUIText.getParseDouble(lsInput);
+                double lnMonthly = mViewModel.GetMonthlyAmortization(Integer.parseInt(mViewModel.getModel().getTermIDxx()));
+                txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnMonthly)));
+                mViewModel.CalculateNewDownpayment(lsModelID, Integer.parseInt(mViewModel.getModel().getTermIDxx()), lnInput, new VMProductInquiry.OnCalculateNewDownpayment() {
+                    @Override
+                    public void OnCalculate(double lnResult) {
+                        txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+                        txtAmort.setText("0");
+                    }
+                });
+
+
+            }
+//            Calculate();
         }
     }
     private void Calculate(){
@@ -461,11 +487,14 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         mViewModel.CalculateNewDownpayment(lsModelID, Integer.parseInt(mViewModel.getModel().getTermIDxx()), lnInput, new VMProductInquiry.OnCalculateNewDownpayment() {
             @Override
             public void OnCalculate(double lnResult) {
-
-                Log.d("ito down", String.valueOf(lnInput));
-                Buwanan = (FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
+                txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
                 mViewModel.getModel().setMonthAmr(String.valueOf(lnResult));
-                Log.d("ito monthly", String.valueOf(lnResult));
+                Log.d("MONTHLY PAYM", String.valueOf(lnResult));
+
+//                Log.d("ito down", String.valueOf(lnInput));
+//                Buwanan = (FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
+//                mViewModel.getModel().setMonthAmr(String.valueOf(lnResult));
+//                Log.d("ito monthly", String.valueOf(lnResult));
             }
 
             @Override

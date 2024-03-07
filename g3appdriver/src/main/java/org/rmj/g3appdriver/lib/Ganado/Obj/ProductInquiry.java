@@ -39,7 +39,6 @@ public class ProductInquiry {
     public String getMessage() {
         return message;
     }
-
     public static String[] getPaymentForm(){
         return new String[]{"Cash", "Installment"};
     }
@@ -63,6 +62,10 @@ public class ProductInquiry {
     }
     public DGanadoOnline.CashPrice GetCashInfo(String ModelID){
         return poDao.GetCashInfo(ModelID);
+    }
+
+    public LiveData<DGanadoOnline.CashPrice> GetCashPrice(String ModelID){
+        return poDao.GetCashPrice(ModelID);
     }
 
     public DGanadoOnline.McAmortization GetMonthlyPayment(String ModelID, int Term){

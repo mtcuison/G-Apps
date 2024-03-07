@@ -37,7 +37,7 @@ public interface DGanadoOnline {
     @Query("SELECT * FROM MC_Brand WHERE sBrandNme IN ('HONDA', 'SUZUKI', 'KAWASAKI', 'YAMAHA')")
     LiveData<List<EMcBrand>> getAllMcBrand();
 
-    @Query("SELECT * FROM Mc_Model WHERE cRecdStat = '1' AND sBrandIDx = :BrandID")
+    @Query("SELECT * FROM Mc_Model WHERE cRecdStat = '1' AND cEndOfLfe = '0' AND sBrandIDx = :BrandID")
     LiveData<List<EMcModel>> getAllModeFromBrand(String BrandID);
     @Query("SELECT * FROM Mc_Model WHERE cRecdStat = '1' AND sBrandIDx = :BrandID AND sModelIDx = :ModelID")
     LiveData<EMcModel> getModeFromBrand(String BrandID, String ModelID);
@@ -121,6 +121,12 @@ public interface DGanadoOnline {
             "dPricexxx AS Pricedxx " +
             "FROM MC_Cash_Price WHERE sModelIDx=:ModelID")
     CashPrice GetCashInfo(String ModelID);
+
+    @Query("SELECT " +
+            "nSelPrice AS CashPrce, " +
+            "dPricexxx AS Pricedxx " +
+            "FROM MC_Cash_Price WHERE sModelIDx=:ModelID")
+    LiveData<CashPrice> GetCashPrice(String ModelID);
 
     class McDownpayment{
         public String ModelIDx;
