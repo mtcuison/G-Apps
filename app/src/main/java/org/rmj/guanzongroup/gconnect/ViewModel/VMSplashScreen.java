@@ -32,7 +32,6 @@ import org.rmj.g3appdriver.etc.oLoadStat;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
-import org.rmj.g3appdriver.lib.Ganado.pojo.ClientInfo;
 
 import java.util.Objects;
 

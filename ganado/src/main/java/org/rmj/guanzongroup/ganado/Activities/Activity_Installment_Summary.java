@@ -47,7 +47,7 @@ public class Activity_Installment_Summary extends AppCompatActivity {
         btnsave.setOnClickListener(view -> {
 
 //            Intent loIntent = new Intent(Activity_Installment_Summary.this, Activity_ProductInquiry.class);
-            Intent loIntent = new Intent(Activity_Installment_Summary.this, Activity_BrandSelection.class);
+            Intent loIntent = new Intent(Activity_Installment_Summary.this, Activity_Inquiries.class);
             loIntent.putExtra("lsBrandID", BrandID);
             loIntent.putExtra("lsModelID", ModelID);
             startActivity(loIntent);

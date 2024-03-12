@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,6 +49,8 @@ public class Activity_ProductInquiry extends AppCompatActivity {
     private LinearLayout linearInstallment;
     private MaterialButton btnContinue,btnCalculate;
     private ShapeableImageView imgMC;
+    private TextView myMP;
+    private String MP;
     private String lsModelID, lsBrandID, lsImgLink, lsBrandNm,Buwanan;
     private double minimumDownpayment, lnInput;
     @Override
@@ -142,6 +145,17 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 }
             }
         });
+        txtDTarget.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    Calculate();
+                    mViewModel.getModel().setMonthAmr(String.valueOf(myMP.getText()));
+                }
+            }
+        });
+
+
         mViewModel.GetModelID().observe(Activity_ProductInquiry.this, modelID -> {
             try{
                 mViewModel.GetCashPrice(modelID).observe(this, cashPrice -> {
@@ -247,6 +261,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     if (newDate.getTimeInMillis() <= maxDateInMillis) {
                         String lsDate = dateFormatter.format(newDate.getTime());
                         txtDTarget.setText(lsDate);
+                        Calculate();
                         Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
                         lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
                         mViewModel.getModel().setTargetxx(lsDate);
@@ -271,6 +286,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
             StartTime.getDatePicker().setMaxDate(maxDateInMillis); // Set the maximum date
 
             StartTime.show();
+
         });
 
 
@@ -322,12 +338,10 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
 
             lnInput = Double.parseDouble(txtDownPymnt1.getText().toString().trim());
-//            if (lnInput<minimumDownpayment){
-//                msgBox();
-//            }
 
                 Calculate();
-
+                //mViewModel.getModel().setMonthAmr(String.valueOf(txtAmort.getText()));
+            Log.d("after calc", String.valueOf(String.valueOf(myMP.getText())));
                 mViewModel.SaveData(new OnSaveInfoListener() {
                     @Override
                     public void OnSave(String args) {
@@ -360,6 +374,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 //
         linearInstallment = findViewById(R.id.linearInstallment);
+        myMP = findViewById(R.id.lblMonthly);
         txtBrandNm = findViewById(R.id.lblBrand);
         txtModelCd = findViewById(R.id.lblModelCde);
         txtModelNm = findViewById(R.id.lblModelNme);
@@ -388,7 +403,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
             poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
             poMessage.show();
             txtDownPymnt1.setText(String.valueOf(minimumDownpayment));
-            Calculate();
+//            Calculate();
         }
     }
     private void loadInstallment(int isLoad){
@@ -461,16 +476,19 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 String lsInput = txtDownPymnt1.getText().toString().trim();
                 Double lnInput = FormatUIText.getParseDouble(lsInput);
                 double lnMonthly = mViewModel.GetMonthlyAmortization(Integer.parseInt(mViewModel.getModel().getTermIDxx()));
-                txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnMonthly)));
+                txtAmort.setText(String.valueOf(lnMonthly));
+                myMP.setText(String.valueOf(lnMonthly));
                 mViewModel.CalculateNewDownpayment(lsModelID, Integer.parseInt(mViewModel.getModel().getTermIDxx()), lnInput, new VMProductInquiry.OnCalculateNewDownpayment() {
-                    @Override
+
                     public void OnCalculate(double lnResult) {
-                        txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
+                        txtAmort.setText(String.valueOf(lnResult));
+                        myMP.setText(String.valueOf(lnResult));
                     }
 
-                    @Override
+
                     public void OnFailed(String message) {
                         txtAmort.setText("0");
+                        myMP.setText("0");
                     }
                 });
 
@@ -483,28 +501,26 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         String lsInput = Objects.requireNonNull(txtDownPymnt1.getText()).toString().trim();
         lnInput = FormatUIText.getParseDouble(lsInput);
         mViewModel.getModel().setDownPaym(String.valueOf(lnInput));
+
         msgBox();
         mViewModel.CalculateNewDownpayment(lsModelID, Integer.parseInt(mViewModel.getModel().getTermIDxx()), lnInput, new VMProductInquiry.OnCalculateNewDownpayment() {
-            @Override
+
             public void OnCalculate(double lnResult) {
-                txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
+                myMP.setText(String.valueOf(lnResult));
                 mViewModel.getModel().setMonthAmr(String.valueOf(lnResult));
                 Log.d("MONTHLY PAYM", String.valueOf(lnResult));
-
-//                Log.d("ito down", String.valueOf(lnInput));
-//                Buwanan = (FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
-//                mViewModel.getModel().setMonthAmr(String.valueOf(lnResult));
-//                Log.d("ito monthly", String.valueOf(lnResult));
             }
 
-            @Override
+
             public void OnFailed(String message) {
                 txtAmort.setText("0");
                 mViewModel.getModel().setMonthAmr("0.0");
 
-                Log.d("ito false", String.valueOf(txtAmort.getText()));
+                Log.d("ito false", String.valueOf(myMP.getText()));
             }
 
         });
+
     }
+
 }

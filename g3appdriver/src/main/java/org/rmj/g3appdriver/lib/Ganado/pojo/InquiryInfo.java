@@ -1,5 +1,7 @@
 package org.rmj.g3appdriver.lib.Ganado.pojo;
 
+import android.util.Log;
+
 public class InquiryInfo {
     private String cGanadoTp = "";
     private String cPaymForm = "";
