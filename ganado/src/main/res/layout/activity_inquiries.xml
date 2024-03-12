@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Activity_Inquiries"
-    android:theme="@style/GuanzonMarketplace.Theme">
+    tools:context=".Activities.Activity_Inquiries">
 
     <LinearLayout
         android:id="@+id/linear_toolbar"
@@ -20,7 +19,7 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_Inquiries"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

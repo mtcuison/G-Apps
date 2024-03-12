@@ -1,15 +1,21 @@
 package org.rmj.guanzongroup.useraccount.ViewModel;
 
+import static org.rmj.g3appdriver.utils.CallbackJson.CallbackStatus.FAILED;
+import static org.rmj.g3appdriver.utils.CallbackJson.CallbackStatus.SUCCESS;
+import static org.rmj.g3appdriver.utils.CallbackJson.parse;
+
 import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.PowerManager;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DAddress;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBarangayInfo;
@@ -21,6 +27,12 @@ import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
+import org.rmj.g3appdriver.lib.Account.Obj.AccountDetail;
+import org.rmj.g3appdriver.lib.Account.Obj.ClientCredentials;
+import org.rmj.g3appdriver.lib.Account.Obj.ClientSystem;
+import org.rmj.g3appdriver.lib.Account.iClientInfo;
+import org.rmj.g3appdriver.lib.GCardCore.CodeGenerator;
+import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.guanzongroup.useraccount.Model.AccountDetailsInfo;
 
 import java.text.ParseException;
@@ -31,9 +43,12 @@ import java.util.List;
 public class VMAccountDetails extends AndroidViewModel {
     private static final String TAG = VMAccountDetails.class.getSimpleName();
     private final Context mContext;
+    private iClientInfo mClientSys;
     private final ConnectionUtil poConnect;
     private final RClientInfo poClientx;
     private final RAddressMobile poAddress;
+
+    private  String clientID;
     private final MutableLiveData<List<AccountDetailsInfo>> poAcctInf = new MutableLiveData<>();
 
     private final String[] psLstHead = new String[] {
@@ -42,6 +57,11 @@ public class VMAccountDetails extends AndroidViewModel {
             "Account Information"
     };
 
+    public interface ClientInfoTransactionCallback {
+        void onLoad();
+        void onSuccess(String fsMessage);
+        void onFailed(String fsMessage);
+    }
     public VMAccountDetails(@NonNull Application application) {
         super(application);
         this.mContext = application;
@@ -50,8 +70,12 @@ public class VMAccountDetails extends AndroidViewModel {
         this.poAddress = new RAddressMobile(application);
     }
 
+
     public LiveData<EClientInfo> getClientInfo(){
         return poClientx.getClientInfo();
+    }
+    public LiveData<EClientInfo> getClientDetail(){
+        return poClientx.getLoClient();
     }
 
     public LiveData<DClientInfo.ClientDetail> GetClientDetailForPreview(){
@@ -68,6 +92,12 @@ public class VMAccountDetails extends AndroidViewModel {
 
     public LiveData<List<EBarangayInfo>> getBarangayList(String fsTownID){
         return poAddress.GetBarangayList(fsTownID);
+    }
+    public LiveData<String> GetTownProvinceName(String fsTownID){
+        return poAddress.ParseTownID(fsTownID);
+    }
+    public LiveData<String> GetBarangay(String fsBrgyID){
+        return poAddress.ParseBrgyID(fsBrgyID);
     }
 
     public LiveData<List<DAddress.oTownObj>> getTownCityList(){
@@ -93,6 +123,9 @@ public class VMAccountDetails extends AndroidViewModel {
     public LiveData<String> getFullAddress(String fsBrgyIdx) {
         return poAddress.GetFullAddressName(fsBrgyIdx);
     }
+    public void addScannedClientInfo(String args, ClientInfoTransactionCallback foCallBck) {
+        new AddScannedClientInfoTask(mClientSys, poConnect, foCallBck).execute(args);
+    }
 
     public LiveData<String> getBirthplace(String fsTownIdx) {
         return poAddress.ParseTownID(fsTownIdx);
@@ -105,10 +138,18 @@ public class VMAccountDetails extends AndroidViewModel {
     public void importAccountInfo(OnTransactionCallBack foCallBck) {
         new ImportAccountInfoTask(poConnect, poClientx, foCallBck).execute();
     }
+//    public void importClientInfo(OnClientInfoCallBack foCallBck) {
+//        new ImportClientInfoTask(poConnect, poClientx, foCallBck).execute();
+//    }
+
+    public void importClientInfo(String ClientID, String SourceCD, String SourceNo, OnClientInfoCallBack foCallBck) {
+        new ImportClientInfoTask(poConnect, poClientx, ClientID,  SourceCD,  SourceNo, foCallBck).execute();
+    }
 
     public void completeClientInfo(EClientInfo foClientx, OnTransactionCallBack foCallBck) {
         new CompleteClientInfoTask(poConnect, poClientx, foCallBck).execute(foClientx);
     }
+
 
     public void updateAccountInfo(EClientInfo foClientx, OnTransactionCallBack foCallBck) {
         new UpdateAccountInfoTask(poConnect, poClientx, foCallBck).execute(foClientx);
@@ -177,6 +218,7 @@ public class VMAccountDetails extends AndroidViewModel {
         private final OnTransactionCallBack loCallBck;
         private boolean isSuccess = false;
 
+
         private ImportAccountInfoTask(ConnectionUtil foConnect, RClientInfo foClientx, OnTransactionCallBack foCallBck) {
             this.loConnect = foConnect;
             this.loClientx = foClientx;
@@ -222,6 +264,75 @@ public class VMAccountDetails extends AndroidViewModel {
         }
 
     }
+    private static class ImportClientInfoTask extends AsyncTask<Void, Void, String> {
+
+        private final ConnectionUtil loConnect;
+        private final RClientInfo loClientx;
+        private final OnClientInfoCallBack loCallBck;
+        private boolean isSuccess = false;
+        private String ClientID,  SourceCD,  SourceNo ;
+//        private ImportClientInfoTask(ConnectionUtil foConnect, RClientInfo foClientx, String ClientID, String SourceCD, String SourceNo,OnClientInfoCallBack foCallBck) {
+//            this.loConnect = foConnect;
+//            this.loClientx = foClientx;
+//            this.loCallBck = foCallBck;
+//        }
+
+        private ImportClientInfoTask(ConnectionUtil foConnect, RClientInfo foClientx, String clientID, String sourceCD, String sourceNo, OnClientInfoCallBack foCallBck) {
+            this.loConnect = foConnect;
+            this.loClientx = foClientx;
+            this.loCallBck = foCallBck;
+            this.ClientID = clientID;
+            this.SourceCD = sourceCD;
+            this.SourceNo = sourceNo;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loCallBck.onLoading();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            String lsResultx = "";
+            try {
+                if(loConnect.isDeviceConnected()) {
+//                    lsResultx = loClientx.ImportClientDetail(ClientID, SourceCD, SourceNo);
+//                    if(!lsResultx.isEmpty()) {
+//                        lsResultx = "";
+//                        isSuccess = true;
+//                    } else {
+//                        lsResultx = loClientx.getMessage();
+//                    }
+                    if(loClientx.ImportClientInfo(ClientID, SourceCD, SourceNo)) {
+                        lsResultx = "";
+                        isSuccess = true;
+                    } else {
+                        lsResultx = loClientx.getMessage();
+                    }
+                } else {
+                    lsResultx = AppConstants.SERVER_NO_RESPONSE();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                lsResultx = e.getMessage();
+            }
+
+            return lsResultx;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(isSuccess) {
+                loCallBck.onSuccess(s);
+            } else {
+                loCallBck.onFailed(s);
+            }
+        }
+
+    }
+
 
     private static class CompleteClientInfoTask extends AsyncTask<EClientInfo, Void, String> {
 
@@ -519,8 +630,18 @@ public class VMAccountDetails extends AndroidViewModel {
             }
         }
     }
+    public interface OnClientInfoCallBack {
+        void onLoading();
+        void onSuccess(String fsMessage);
+        void onFailed(String fsMessage);
+    }
 
     public interface OnTransactionCallBack {
+        void onLoading();
+        void onSuccess(String fsMessage);
+        void onFailed(String fsMessage);
+    }
+    public interface OnSearchCallBack {
         void onLoading();
         void onSuccess(String fsMessage);
         void onFailed(String fsMessage);
@@ -581,6 +702,264 @@ public class VMAccountDetails extends AndroidViewModel {
         protected void onPostExecute(EMobileInfo eMobileInfo) {
             super.onPostExecute(eMobileInfo);
             mListener.OnRetrieve(eMobileInfo);
+        }
+    }
+//    @Override
+//    protected String doInBackground(ClientCredentials... foClientxx) {
+//        ClientCredentials loClientxx = foClientxx[0];
+//        final String[] lsResult = {""};
+//        try {
+//            if(poConnect.isDeviceConnected()) {
+//                mClientSys.AddGCard(loClientxx, new GCardSystem.GCardSystemCallback() {
+//                    @Override
+//                    public void OnSuccess(String args) {
+//                        try {
+//                            JSONObject loDetail = new JSONObject(args);
+//                            mClientSys.SaveGCardInfo(loDetail);
+//                            mClientSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
+//                                @Override
+//                                public void OnSuccess(String args) {
+//                                    try {
+//                                        JSONObject loDetail = new JSONObject(args);
+//                                        mClientSys.SaveMcServiceInfo(loDetail);
+//                                        lsResult[0] = parse(SUCCESS, "GCard Added Successfully.");
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                        lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void OnFailed(String message) {
+//                                    lsResult[0] = parse(FAILED, message);
+//                                }
+//                            });
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                            Log.e(ADD_GCARD_TAG, e.getMessage());
+//                            lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                            Log.e(ADD_GCARD_TAG, e.getMessage());
+//                            lsResult[0] = parse(FAILED,ADD_GCARD_TAG + e.getMessage());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void OnFailed(String message) {
+//                        lsResult[0] = parse(FAILED, message);
+//                    }
+//
+//                });
+//            } else {
+//                lsResult[0] = parse(FAILED, AppConstants.SERVER_NO_RESPONSE());
+//            }
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//            Log.e(ADD_GCARD_TAG, e.getMessage());
+//            lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+//        }
+//        return lsResult[0];
+//    }
+
+    private static class AddScannedClientInfoTask extends AsyncTask<String, Void, String> {
+        private static final String ADD_GCARD_TAG = AddClientInfoTask.class.getSimpleName();
+        private final iClientInfo mClientSys;
+        private final ConnectionUtil loConnect;
+        private final ClientInfoTransactionCallback loCallbck;
+
+        private AddScannedClientInfoTask(iClientInfo foGcrdSys, ConnectionUtil foConnect, ClientInfoTransactionCallback callBack) {
+            this.mClientSys = foGcrdSys;
+            this.loConnect = foConnect;
+            this.loCallbck = callBack;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            final String[] lsResult = {""};
+            try {
+                if(loConnect.isDeviceConnected()) {
+                    CodeGenerator loCode = new CodeGenerator();
+                    loCode.setEncryptedQrCode(strings[0]);
+                    String lsArgs = loCode.getGCardNumber();
+                    mClientSys.AddGCardQrCode(lsArgs, new GCardSystem.GCardSystemCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            try {
+                                Thread.sleep(1000);
+                                mClientSys.DownloadGcardNumbers(new GCardSystem.GCardSystemCallback() {
+                                    @Override
+                                    public void OnSuccess(String args) {
+                                        try {
+                                            JSONObject loDetail = new JSONObject(args);
+                                            mClientSys.SaveGCardInfo(loDetail);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        lsResult[0] = parse(FAILED, message);
+                                    }
+                                });
+
+                                Thread.sleep(1000);
+                                mClientSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
+                                    @Override
+                                    public void OnSuccess(String args) {
+                                        try {
+                                            JSONObject loDetail = new JSONObject(args);
+                                            mClientSys.SaveMcServiceInfo(loDetail);
+                                            lsResult[0] = parse(SUCCESS, "GCard Added Successfully.");
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        lsResult[0] = parse(FAILED, message);
+                                    }
+                                });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.e(ADD_GCARD_TAG, e.getMessage());
+                                lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Log.e(ADD_GCARD_TAG, e.getMessage());
+                                lsResult[0] = parse(FAILED,ADD_GCARD_TAG + e.getMessage());
+                            }
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResult[0] = parse(FAILED, message);
+                        }
+
+                    });
+                } else {
+                    lsResult[0] = parse(FAILED, AppConstants.SERVER_NO_RESPONSE());
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+                Log.e(ADD_GCARD_TAG, e.getMessage());
+                lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+            }
+            return lsResult[0];
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loCallbck.onLoad();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            setCallBack(s, loCallbck);
+        }
+    }
+
+    private static class AddClientInfoTask extends AsyncTask<ClientCredentials, Void, String> {
+        private static final String ADD_GCARD_TAG = AddClientInfoTask.class.getSimpleName();
+        private final iClientInfo mClientSys;
+        private final ConnectionUtil loConnect;
+        private final ClientInfoTransactionCallback loCallbck;
+
+        private AddClientInfoTask(iClientInfo foGcrdSys, ConnectionUtil foConnect, ClientInfoTransactionCallback callBack) {
+            this.mClientSys = foGcrdSys;
+            this.loConnect = foConnect;
+            this.loCallbck = callBack;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loCallbck.onLoad();
+        }
+
+        @Override
+        protected String doInBackground(ClientCredentials... foClientxx) {
+            ClientCredentials loClientInfoxx = foClientxx[0];
+            final String[] lsResult = {""};
+            try {
+                if(loConnect.isDeviceConnected()) {
+                    mClientSys.AddClientInfo(loClientInfoxx, new ClientSystem.ClientInfoSystemCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            try {
+                                JSONObject loDetail = new JSONObject(args);
+                                mClientSys.SaveGCardInfo(loDetail);
+                                mClientSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
+                                    @Override
+                                    public void OnSuccess(String args) {
+                                        try {
+                                            JSONObject loDetail = new JSONObject(args);
+                                            mClientSys.SaveMcServiceInfo(loDetail);
+                                            lsResult[0] = parse(SUCCESS, "GCard Added Successfully.");
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        lsResult[0] = parse(FAILED, message);
+                                    }
+                                });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.e(ADD_GCARD_TAG, e.getMessage());
+                                lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Log.e(ADD_GCARD_TAG, e.getMessage());
+                                lsResult[0] = parse(FAILED,ADD_GCARD_TAG + e.getMessage());
+                            }
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            lsResult[0] = parse(FAILED, message);
+                        }
+
+                    });
+                } else {
+                    lsResult[0] = parse(FAILED, AppConstants.SERVER_NO_RESPONSE());
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+                Log.e(ADD_GCARD_TAG, e.getMessage());
+                lsResult[0] = parse(FAILED, ADD_GCARD_TAG + e.getMessage());
+            }
+            return lsResult[0];
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            setCallBack(s, loCallbck);
+        }
+
+    }
+    private static void setCallBack(String fsResultx, ClientInfoTransactionCallback foCallBck) {
+        try {
+            JSONObject loJson = new JSONObject(fsResultx);
+            String lsStatus =String.valueOf(loJson.get("status"));
+            String lsMessage = loJson.getString("message");
+            if(lsStatus.equals(SUCCESS.toString())) {
+                foCallBck.onSuccess(lsMessage);
+            } else if(lsStatus.equals(FAILED.toString())) {
+                foCallBck.onFailed(lsMessage);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

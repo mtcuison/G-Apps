@@ -121,7 +121,7 @@ public class VMInstallmentSummary extends AndroidViewModel implements GanadoUI {
     public LiveData<EGanadoOnline> GetInquiryDetail() {
         return poApp.GetInquiryDetail(TransNox);
     }
-//
+
 public void GetMinimumDownpayment(String ModelID, int Term, OnRetrieveInstallmentInfo listener) {
     TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
         @Override
@@ -148,16 +148,20 @@ public void GetMinimumDownpayment(String ModelID, int Term, OnRetrieveInstallmen
         }
     });
 }
-    public void CalculateNewDownpayment(String ModelID, int term, double Downpayment, OnCalculateNewDownpayment listener){
+    public void CalculateNewDownpayment(String ModelID, int terms, double Downpayment, OnCalculateNewDownpayment listener){
+
+        Log.d("CalculateNewDownpayment",ModelID + " " + terms + " " +  String.valueOf(Downpayment));
         TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
-                double lnResult = poApp.GetMonthlyAmortization(ModelID, term, Downpayment);
+                double lnResult = poApp.GetMonthlyAmortization(String.valueOf(psModelID), terms, Downpayment);
+                Log.d("CalculateNewDown res", String.valueOf(lnResult));
                 if(lnResult == 0.0){
                     message = poApp.getMessage();
+                    Log.d("CalculateNewDown resx", String.valueOf(lnResult));
                     return 0.0;
                 }
-
+                Log.d("CalculateNewDown resx", String.valueOf(lnResult));
                 return lnResult;
             }
 
@@ -168,7 +172,7 @@ public void GetMinimumDownpayment(String ModelID, int Term, OnRetrieveInstallmen
                     listener.OnFailed(message);
                     return;
                 }
-
+                Log.d("CalculateNewDown ope", String.valueOf(lnResult));
                 listener.OnCalculate(lnResult);
             }
         });

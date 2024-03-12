@@ -7,8 +7,8 @@ android {
         applicationId "org.rmj.guanzongroup.gconnect"
         minSdk 21
         targetSdk 34
-        versionCode 2
-        versionName "Guanzon Connect v4.01.03.02 a"
+        versionCode 3
+        versionName "Guanzon Connect v4.01.03.03 a"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true

@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ganado.Adapter;
 
+import static org.rmj.guanzongroup.ganado.R.id.itemName;
+
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,18 +91,18 @@ public class ProductSelectionAdapter extends RecyclerView.Adapter<ProductSelecti
             e.printStackTrace();
         }
 
+        String finalLsImgUrl = lsImgUrl;
         if (lsImgUrl != "") {
             ImageFileManager.LoadImageToView(lsImgUrl, holder.itemImg);
-            String finalLsImgUrl = lsImgUrl;
-            holder.itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.OnClick(
-                            loModel.getModelIDx(),
-                            loModel.getBrandIDx(),
-                            finalLsImgUrl);
-                }
-            });
         }
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.OnClick(
+                        loModel.getModelIDx(),
+                        loModel.getBrandIDx(),
+                        finalLsImgUrl);
+            }
+        });
     }
 
     @Override

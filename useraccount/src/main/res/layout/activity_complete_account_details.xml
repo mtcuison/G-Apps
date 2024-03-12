@@ -19,24 +19,37 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             style="@style/FragmentTheme">
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_Scan"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_baseline_qr_code_24"
+                app:iconGravity="textStart"
+                app:iconSize="25dp"
+                app:iconPadding="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
             <TextView
                 android:id="@+id/lblInfo"
+                style="@style/TextInputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/lblCompleteInfo"
+                android:layout_margin="0dp"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                style="@style/TextInputLabel"
                 android:paddingBottom="15dp"
-                android:layout_margin="0dp"
-                app:drawableStartCompat="@drawable/ic_baseline_info_24" />
+                android:text="@string/lblCompleteInfo"
+                app:drawableStartCompat="@drawable/ic_baseline_info_24"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/lblAccountUpdate"
@@ -419,9 +432,8 @@
                     android:id="@+id/tie_gCashNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="60"
-                    android:digits="@string/free_mobile_no_restriction"
-                    android:inputType="textPersonName"
+                    android:inputType="number|none"
+                    android:maxLength="11"
                     android:imeOptions="actionNext"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -589,6 +601,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="1"
                 android:layout_marginBottom="150dp"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

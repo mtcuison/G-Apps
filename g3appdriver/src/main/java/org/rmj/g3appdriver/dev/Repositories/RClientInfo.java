@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.WebFile;
@@ -22,6 +23,7 @@ import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.Account.Obj.PhotoDetail;
 
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 
 public class RClientInfo {
@@ -32,6 +34,15 @@ public class RClientInfo {
 
     private JSONObject poJson;
     private String message;
+
+
+
+    private String bPlace;
+
+    private String clientID;
+    private MutableLiveData<EClientInfo> loClient;
+    private EClientInfo foClient;
+
 
     private String[] GENDER = {"Male", "Female", "LGBTQ"};
     private String[] CIVIL_STATUS = {
@@ -45,12 +56,24 @@ public class RClientInfo {
     public RClientInfo(Context context){
         this.mContext = context;
         this.poDao = GGC_GuanzonAppDB.getInstance(context).EClientDao();
+        this.loClient = new MutableLiveData<>();
+        this.foClient = new EClientInfo();
     }
 
     public JSONObject getData() {
         return poJson;
     }
+    public LiveData<EClientInfo> getLoClient(){
+        loClient.setValue(foClient);
+        return loClient;
+    }
+    public String getbPlace() {
+        return bPlace;
+    }
 
+    public void setbPlace(String bPlace) {
+        this.bPlace = bPlace;
+    }
     public String getMessage() {
         return message;
     }
@@ -78,6 +101,7 @@ public class RClientInfo {
     public LiveData<EClientInfo> getClientInfo(){
         return poDao.getClientInfo();
     }
+
 
     public EClientInfo GetClientInfo(){
         return poDao.GetClientInfo();
@@ -116,6 +140,8 @@ public class RClientInfo {
         return poDao.getClientId();
     }
 
+
+
     public boolean ImportAccountInfo(){
         try{
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
@@ -123,20 +149,25 @@ public class RClientInfo {
                     loApis.getImportAccountInfoAPI(),
                     new JSONObject().toString(),
                     new HttpHeaders(mContext).getHeaders());
+
+            Log.d("iMPORT lsResponse ", lsResponse);
             if(lsResponse == null){
                 message = "Unable to retrieve server response.";
+                Log.d("iMPORT lsResponse", String.valueOf(message));
                 return false;
             } else {
                 JSONObject loResponse = new JSONObject(lsResponse);
                 String lsResult = loResponse.getString("result");
+                Log.d("String lsResponse", lsResult);
                 if(!lsResult.equalsIgnoreCase("success")){
                     JSONObject loError = loResponse.getJSONObject("error");
                     message = loError.getString("message");
+                    Log.d("String lsResponse", String.valueOf(message));
                     return false;
                 } else {
                     EClientInfo loDetail = poDao.GetUserInfo();
-                    loDetail.setClientID(loResponse.getString("sUserIDxx"));
-                    Log.d("ito ung user",loResponse.getString("sUserIDxx"));
+//                    loDetail.setClientID(loResponse.getString("sUserIDxx"));
+//                    Log.d("ito ung user",loResponse.getString("sUserIDxx"));
                     loDetail.setLastName(loResponse.getString("sLastName"));
                     loDetail.setFrstName(loResponse.getString("sFrstName"));
                     loDetail.setMiddName(loResponse.getString("sMiddName"));
@@ -157,6 +188,9 @@ public class RClientInfo {
                     loDetail.setTownIDx2(loResponse.getString("sTownIDx2"));
                     loDetail.setMobileNo(loResponse.getString("sMobileNo"));
                     loDetail.setEmailAdd(loResponse.getString("sEmailAdd"));
+                    loDetail.setVerified(Integer.parseInt(loResponse.getString("cVerified")));
+
+
 //                    loDetail.setImgeStat(loResponse.getString("cImgeStat"));
 //                    loDetail.setImagePth(loResponse.getString("sImagePth"));
 //                    loDetail.setImgeDate(loResponse.getString("dImgeDate"));
@@ -201,6 +235,106 @@ public class RClientInfo {
             return false;
         }
     }
+    public boolean ImportClientInfo(String clientID, String sourceCD, String sourceNo){
+        Log.d("IMPORT cLIENT" , "nandito ka na");
+        try{
+            JSONObject param = new JSONObject();
+            param.put("sClientID",clientID);
+            param.put("sSourceCd",sourceCD);
+            param.put("sSourceNo",sourceNo);
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getImportClientInfoAPI(),
+                    param.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+
+            Log.d("IMPORT cLIENT", lsResponse);
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                Log.d("iMPORT cLIENT", String.valueOf(message));
+                return false;
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                Log.d("String cLIENT", lsResult);
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    Log.d("String TJ lsResponse", String.valueOf(message));
+                    return false;
+                } else {
+                    EClientInfo loDetail = poDao.GetUserInfo();
+//                    loDetail.setClientID(poS);
+                    loDetail.setClientID(loResponse.getString("sClientID"));
+//                    Log.d("TEEJEI",loResponse.getString("sUserIDxx"));
+                    loDetail.setLastName(loResponse.getString("sLastName"));
+                    loDetail.setFrstName(loResponse.getString("sFrstName"));
+                    loDetail.setMiddName(loResponse.getString("sMiddName"));
+                    loDetail.setSuffixNm(loResponse.getString("sSuffixNm"));
+                    loDetail.setMaidenNm(loResponse.getString("sMaidenNm"));
+                    loDetail.setGCashNo("");
+                    loDetail.setGenderCd(loResponse.getString("cGenderCd"));
+                    loDetail.setCvilStat(loResponse.getString("cCvilStat"));
+                    loDetail.setBirthDte(loResponse.getString("dBirthDte"));
+                    loDetail.setBirthPlc(loResponse.getString("sBirthPlc"));
+                    loDetail.setHouseNo1(loResponse.getString("sHouseNo1"));
+                    loDetail.setAddress1(loResponse.getString("sAddress1"));
+                    loDetail.setBrgyIDx1(loResponse.getString("sBrgyIDxx"));
+                    loDetail.setTownIDx1(loResponse.getString("sTownIDx1"));
+
+//                    loDetail.setSxBPlace(loResponse.getString("xBPlace"));
+//                    loDetail.setHouseNo2(loResponse.getString("sHouseNo2"));
+//                    loDetail.setAddress2(loResponse.getString("sAddress2"));
+//                    loDetail.setBrgyIDx2(loResponse.getString("sBrgyIDx2"));
+//                    loDetail.setTownIDx2(loResponse.getString("sTownIDx2"));
+//                    loDetail.setMobileNo(loResponse.getString("sMobileNo"));
+//                    loDetail.setEmailAdd(loResponse.getString("sEmailAdd"));
+//                    loDetail.setVerified(Integer.parseInt(loResponse.getString("cVerified")));
+//                    loDetail.setImgeStat(loResponse.getString("cImgeStat"));
+//                    loDetail.setImagePth(loResponse.getString("sImagePth"));
+//                    loDetail.setImgeDate(loResponse.getString("dImgeDate"));
+//                    loDetail.setVerified(loResponse.getInt("cVerified"));
+//                    poDao.update(loDetail);
+                    foClient = loDetail;
+                    AccountInfo loAcc = new AccountInfo(mContext);
+                    loAcc.setClientID(loResponse.getString("sClientID"));
+                    loAcc.setLastname(loResponse.getString("sLastName"));
+                    loAcc.setFirstName(loResponse.getString("sFrstName"));
+                    loAcc.setMiddlename(loResponse.getString("sMiddName"));
+                    loAcc.setSuffix(loResponse.getString("sSuffixNm"));
+                    loAcc.setGender(loResponse.getString("cGenderCd"));
+                    loAcc.setCivilStatus(loResponse.getString("cCvilStat"));
+                    loAcc.setBirthdate(loResponse.getString("dBirthDte"));
+                    loAcc.setBirthplace(loResponse.getString("sBirthPlc"));
+                    loAcc.setHouseNo(loResponse.getString("sHouseNo1"));
+                    loAcc.setAddress(loResponse.getString("sAddress1"));
+                    loAcc.setTownName(loResponse.getString("sTownIDx1"));
+                    loAcc.setBarangay(loResponse.getString("sBrgyIDxx"));
+
+                    String lsClient = loAcc.getClientID();
+                    String lsLastNm = loAcc.getLastName();
+                    String lsFrstNm = loAcc.getFirstName();
+                    String lsBirthD = loAcc.getBirthdate();
+                    String lsBirthP = loAcc.getBirthplace();
+//                    if(lsClient.isEmpty()){
+//                        if(lsLastNm.isEmpty() && lsFrstNm.isEmpty() &&
+//                                lsBirthD.isEmpty() && lsBirthP.isEmpty()) {
+//                            loAcc.setVerifiedStatus(0);
+//                        } else {
+//                            loAcc.setVerifiedStatus(2);
+//                        }
+//                    } else {
+//                        loAcc.setVerifiedStatus(1);
+//                    }
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return false;
+        }
+    }
 
     public boolean CompleteClientInfo(EClientInfo foClient){
         try {
@@ -227,7 +361,7 @@ public class RClientInfo {
             param.put("sBrgyIDx2", foClient.getBrgyIDx2());
             param.put("sTownIDx2", foClient.getTownIDx2());
 
-            Log.d("ako ito", foClient.getGCashNo());
+
 
             ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
             String lsAddress = loApis.getCreateNewClientAPI();
@@ -235,8 +369,11 @@ public class RClientInfo {
                     lsAddress,
                     param.toString(),
                     new HttpHeaders(mContext).getHeaders());
+            Log.d("String lsAddress", lsAddress);
+            Log.d("String lsResponse", lsResponse);
             if(lsResponse == null){
                 message = "Server no response.";
+                Log.d("ako ito", "Server no response.");
                 return false;
             } else {
                 JSONObject loResponse = new JSONObject(lsResponse);
@@ -244,6 +381,7 @@ public class RClientInfo {
                 if(!lsResult.equalsIgnoreCase("success")){
                     JSONObject loError = loResponse.getJSONObject("error");
                     message = loError.getString("message");
+                    Log.d("ako ito", "Server success.");
                     return false;
                 } else {
 //                    foClient.setClientID(loResponse.getString("employno"));
@@ -785,4 +923,105 @@ public class RClientInfo {
             return false;
         }
     }
+
+
+    public String ImportClientDetail(String clientID, String sourceCD, String sourceNo){
+        Log.d("IMPORT cLIENT" , "nandito ka na");
+        try{
+            JSONObject param = new JSONObject();
+            param.put("sClientID",clientID);
+            param.put("sSourceCd",sourceCD);
+            param.put("sSourceNo",sourceNo);
+            ServerAPIs loApis = new ServerAPIs(new GuanzonAppConfig(mContext).getTestCase());
+            String lsResponse = WebClient.httpsPostJSon(
+                    loApis.getImportClientInfoAPI(),
+                    param.toString(),
+                    new HttpHeaders(mContext).getHeaders());
+
+            Log.d("IMPORT cLIENT", lsResponse);
+            if(lsResponse == null){
+                message = "Unable to retrieve server response.";
+                Log.d("iMPORT cLIENT", String.valueOf(message));
+                return "";
+            } else {
+                JSONObject loResponse = new JSONObject(lsResponse);
+                String lsResult = loResponse.getString("result");
+                Log.d("String cLIENT", lsResult);
+                if(!lsResult.equalsIgnoreCase("success")){
+                    JSONObject loError = loResponse.getJSONObject("error");
+                    message = loError.getString("message");
+                    Log.d("String TJ lsResponse", String.valueOf(message));
+                    return "";
+                } else {
+                    EClientInfo loDetail = poDao.GetUserInfo();
+//                    loDetail.setClientID(poS);
+                    loDetail.setClientID(loResponse.getString("sClientID"));
+//                    Log.d("TEEJEI",loResponse.getString("sUserIDxx"));
+                    loDetail.setLastName(loResponse.getString("sLastName"));
+                    loDetail.setFrstName(loResponse.getString("sFrstName"));
+                    loDetail.setMiddName(loResponse.getString("sMiddName"));
+                    loDetail.setSuffixNm(loResponse.getString("sSuffixNm"));
+                    loDetail.setMaidenNm(loResponse.getString("sMaidenNm"));
+                    loDetail.setGCashNo("");
+                    loDetail.setGenderCd(loResponse.getString("cGenderCd"));
+                    loDetail.setCvilStat(loResponse.getString("cCvilStat"));
+                    loDetail.setBirthDte(loResponse.getString("dBirthDte"));
+                    loDetail.setBirthPlc(loResponse.getString("sBirthPlc"));
+                    loDetail.setHouseNo1(loResponse.getString("sHouseNo1"));
+                    loDetail.setAddress1(loResponse.getString("sAddress1"));
+                    loDetail.setBrgyIDx1(loResponse.getString("sBrgyIDxx"));
+                    loDetail.setTownIDx1(loResponse.getString("sTownIDx1"));
+//                    loDetail.setHouseNo2(loResponse.getString("sHouseNo2"));
+//                    loDetail.setAddress2(loResponse.getString("sAddress2"));
+//                    loDetail.setBrgyIDx2(loResponse.getString("sBrgyIDx2"));
+//                    loDetail.setTownIDx2(loResponse.getString("sTownIDx2"));
+//                    loDetail.setMobileNo(loResponse.getString("sMobileNo"));
+//                    loDetail.setEmailAdd(loResponse.getString("sEmailAdd"));
+//                    loDetail.setVerified(Integer.parseInt(loResponse.getString("cVerified")));
+//                    loDetail.setImgeStat(loResponse.getString("cImgeStat"));
+//                    loDetail.setImagePth(loResponse.getString("sImagePth"));
+//                    loDetail.setImgeDate(loResponse.getString("dImgeDate"));
+//                    loDetail.setVerified(loResponse.getInt("cVerified"));
+//                    poDao.update(loDetail);
+                    foClient = loDetail;
+                    AccountInfo loAcc = new AccountInfo(mContext);
+                    loAcc.setClientID(loResponse.getString("sClientID"));
+                    loAcc.setLastname(loResponse.getString("sLastName"));
+                    loAcc.setFirstName(loResponse.getString("sFrstName"));
+                    loAcc.setMiddlename(loResponse.getString("sMiddName"));
+                    loAcc.setSuffix(loResponse.getString("sSuffixNm"));
+                    loAcc.setGender(loResponse.getString("cGenderCd"));
+                    loAcc.setCivilStatus(loResponse.getString("cCvilStat"));
+                    loAcc.setBirthdate(loResponse.getString("dBirthDte"));
+                    loAcc.setBirthplace(loResponse.getString("sBirthPlc"));
+                    loAcc.setHouseNo(loResponse.getString("sHouseNo1"));
+                    loAcc.setAddress(loResponse.getString("sAddress1"));
+                    loAcc.setTownName(loResponse.getString("sTownIDx1"));
+                    loAcc.setBarangay(loResponse.getString("sBrgyIDxx"));
+
+                    String lsClient = loAcc.getClientID();
+                    String lsLastNm = loAcc.getLastName();
+                    String lsFrstNm = loAcc.getFirstName();
+                    String lsBirthD = loAcc.getBirthdate();
+                    String lsBirthP = loAcc.getBirthplace();
+//                    if(lsClient.isEmpty()){
+//                        if(lsLastNm.isEmpty() && lsFrstNm.isEmpty() &&
+//                                lsBirthD.isEmpty() && lsBirthP.isEmpty()) {
+//                            loAcc.setVerifiedStatus(0);
+//                        } else {
+//                            loAcc.setVerifiedStatus(2);
+//                        }
+//                    } else {
+//                        loAcc.setVerifiedStatus(1);
+//                    }
+                    return lsResponse;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            message = e.getMessage();
+            return "";
+        }
+    }
+
 }

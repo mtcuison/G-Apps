@@ -79,6 +79,16 @@ public class EClientInfo {
     @ColumnInfo(name = "dTimeStmp")
     private String TimeStmp;
 
+//    public String getSxBPlace() {
+//        return sxBPlace;
+//    }
+//
+//    public void setSxBPlace(String sxBPlace) {
+//        this.sxBPlace = sxBPlace;
+//    }
+//
+//    @ColumnInfo(name = "xBPlace")
+//    private String sxBPlace;
 
 
     public EClientInfo() {
@@ -354,4 +364,6 @@ public class EClientInfo {
     public void setImgeStat(String imgeStat) {
         ImgeStat = imgeStat;
     }
+
+
 }

@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -41,7 +43,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
     private MessageBox poMessage ;
     private MessageBoxInstallment icMessage;
     private LoadDialog poDialogx;
-
+    private  String ClientID,SourceCD, SourceNo;
     private TextInputEditText txtLastNm, txtFrstNm, txtMiddNm, txtSuffixx,  txtBirthDt,
             txtEmailAdd, txtMobileNo,  txtHouseNox, txtAddress;
 
@@ -53,6 +55,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
     private MaterialToolbar toolbar;
     private String sTansNox = "";
+    private String monthlyValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
         setContentView(R.layout.activity_client_info);
         initWidgets();
         mViewModel.InitializeApplication(getIntent());
-
+        mViewModel.InitGeoLocation(Activity_ClientInfo.this);
         mViewModel.getRelation().observe(Activity_ClientInfo.this, eRelations->{
             try {
                 ArrayList<String> string = new ArrayList<>();
@@ -169,7 +172,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
         });
 
         btnContinue.setOnClickListener(v ->{
-
+            mViewModel.InitGeoLocation(Activity_ClientInfo.this);
             mViewModel.getModel().setFrstName(txtFrstNm.getText().toString().trim());
             mViewModel.getModel().setMiddName(txtMiddNm.getText().toString().trim());
             mViewModel.getModel().setLastName(txtLastNm.getText().toString().trim());
@@ -183,6 +186,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 public void OnSave() {
                     poDialogx.initDialog("Ganado", "Saving inquiry. Please wait...", false);
                     poDialogx.show();
+                    Log.d("ako ito", "OnSave:");
                 }
 
                 @Override
@@ -199,6 +203,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
                             startActivity(loIntent);
                             overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                             finish();
+                        Log.d("ako ito", "OnSuccess:");
 
                     });
                     poMessage.show();
@@ -213,6 +218,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
                     poMessage.setMessage(message);
                     poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
                     poMessage.show();
+                    Log.d("ako ito", "OnFailed:");
                 }
             });
         });
@@ -241,22 +247,34 @@ public class Activity_ClientInfo extends AppCompatActivity {
         spinner_relation = findViewById(R.id.spinner_relation);
 
         btnContinue = findViewById(R.id.btnContinue);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                showConfirmationDialog();
+//                finish();
+            }
+        });
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-    }
+//    @Override
+//    public void finish() {
+//        super.finish();
+//        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            finish();
+            showConfirmationDialog();
         }
         return super.onOptionsItemSelected(item);
     }
+    public void onDestroy() {
+        mViewModel.RemoveInQuiry();
+        getViewModelStore().clear();
+        super.onDestroy();
 
+    }
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
 
         private final View loView;
@@ -276,5 +294,18 @@ public class Activity_ClientInfo extends AppCompatActivity {
             }
         }
     }
+    private void showConfirmationDialog(){
+        poMessage.initDialog();
+        poMessage.setPositiveButton("Yes", (view, dialog) -> {
+            dialog.dismiss();
+            mViewModel.RemoveInQuiry();
+            finish();
+            overridePendingTransition(org.rmj.g3appdriver.R.anim.anim_intent_slide_in_left, org.rmj.g3appdriver.R.anim.anim_intent_slide_out_right);
 
+        });
+        poMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
+        poMessage.setTitle("Ganado");
+        poMessage.setMessage("Do you really want to close the client information module? Every detail entered will be removed.");
+        poMessage.show();
+    }
 }

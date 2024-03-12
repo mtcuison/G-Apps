@@ -77,7 +77,9 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
     public LiveData<String> GetModelID() {
         return psModelID;
     }
-
+    public LiveData<DGanadoOnline.CashPrice> GetCashPrice(String ModelID){
+        return poApp.GetCashPrice(ModelID);
+    }
     public LiveData<List<EMCColor>> GetModelColor(String ModelID){
         return poApp.GetModelColor(ModelID);
     }
@@ -104,6 +106,7 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
     public DGanadoOnline.CashPrice GetCashInfo(String ModelID){
         return poApp.GetCashInfo(ModelID);
     }
+
 //
 //    public double GetMonthlyPayment(double args1) {
 //        return poApp.GetMonthlyAmortization(poModel.getModelIDxx(),poModel.getAccTermxx(), args1);
@@ -153,7 +156,9 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
                     message = poApp.getMessage();
                     return 0.0;
                 }
-
+                Log.d("TERM", String.valueOf(term));
+                Log.d("DP", String.valueOf(Downpayment));
+                Log.d("MP", String.valueOf(lnResult));
                 return lnResult;
             }
 

@@ -84,9 +84,7 @@ public class VMHome extends AndroidViewModel {
         return poSystem.getGCardInfo();
     }
 
-    public LiveData<List<DProduct.oProduct>> getProductList(int fnIndex) {
-        return poProduct.GetProductsList(fnIndex, FilterType.DEFAULT, null, null);
-    }
+
 
     public LiveData<Integer> GetUnreadMessagesCount(){
         return poNotif.GetUnreadMessagesCount();
@@ -305,7 +303,9 @@ public class VMHome extends AndroidViewModel {
         poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
         return poSystem.GetPromotions();
     }
-
+    public LiveData<List<DProduct.oProduct>> getProductList(int fnIndex) {
+        return poProduct.GetProductsList(fnIndex, FilterType.DEFAULT, null, null);
+    }
     public LiveData<List<String>> GetBrandNames(){
         return poProduct.GetBrandNames();
     }

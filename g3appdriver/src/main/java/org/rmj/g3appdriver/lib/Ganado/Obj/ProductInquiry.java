@@ -3,6 +3,7 @@ package org.rmj.g3appdriver.lib.Ganado.Obj;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -38,7 +39,6 @@ public class ProductInquiry {
     public String getMessage() {
         return message;
     }
-
     public static String[] getPaymentForm(){
         return new String[]{"Cash", "Installment"};
     }
@@ -62,6 +62,10 @@ public class ProductInquiry {
     }
     public DGanadoOnline.CashPrice GetCashInfo(String ModelID){
         return poDao.GetCashInfo(ModelID);
+    }
+
+    public LiveData<DGanadoOnline.CashPrice> GetCashPrice(String ModelID){
+        return poDao.GetCashPrice(ModelID);
     }
 
     public DGanadoOnline.McAmortization GetMonthlyPayment(String ModelID, int Term){
@@ -247,7 +251,9 @@ public class ProductInquiry {
     public double GetMonthlyAmortization(String ModelID, int Term, double args1){
         try{
             DGanadoOnline.McAmortization loAmort = poDao.GetMonthlyPayment(ModelID, Term);
-
+            Log.e(TAG,"ModelID = " + ModelID);
+            Log.e(TAG,"Term = " + Term);
+            Log.e(TAG,"args1 = " + args1);
             if(loAmort == null){
                 message = "Apologies, we are unable to calculate the monthly amortization at the moment.";
                 return 0;

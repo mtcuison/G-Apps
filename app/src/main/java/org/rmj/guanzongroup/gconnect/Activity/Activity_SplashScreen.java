@@ -1,21 +1,22 @@
 package org.rmj.guanzongroup.gconnect.Activity;
 
+import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.ActivityManager;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
+import org.rmj.guanzongroup.gconnect.BuildConfig;
 import org.rmj.guanzongroup.gconnect.R;
 import org.rmj.guanzongroup.gconnect.Service.GMessagingService;
 import org.rmj.guanzongroup.gconnect.ViewModel.VMSplashScreen;
@@ -27,6 +28,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
 
     private static final int REQUEST_PERMISSION = 1;
     private Dialog_DoubleButton poDialog;
+    private TextView txtVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class Activity_SplashScreen extends AppCompatActivity {
 //        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         poDialog = new Dialog_DoubleButton(Activity_SplashScreen.this);
         setContentView(R.layout.activity_splash_screen);
+        txtVersion = findViewById(R.id.txt_Version);
+        txtVersion.setText(BuildConfig.VERSION_NAME);
 //        splashScreen.setKeepOnScreenCondition(() -> true );
         if (!isMyServiceRunning(GMessagingService.class)) {
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));

@@ -37,7 +37,7 @@ public interface DGanadoOnline {
     @Query("SELECT * FROM MC_Brand WHERE sBrandNme IN ('HONDA', 'SUZUKI', 'KAWASAKI', 'YAMAHA')")
     LiveData<List<EMcBrand>> getAllMcBrand();
 
-    @Query("SELECT * FROM Mc_Model WHERE cRecdStat = '1' AND sBrandIDx = :BrandID")
+    @Query("SELECT * FROM Mc_Model WHERE cRecdStat = '1' AND cEndOfLfe = '0' AND sBrandIDx = :BrandID")
     LiveData<List<EMcModel>> getAllModeFromBrand(String BrandID);
     @Query("SELECT * FROM Mc_Model WHERE cRecdStat = '1' AND sBrandIDx = :BrandID AND sModelIDx = :ModelID")
     LiveData<EMcModel> getModeFromBrand(String BrandID, String ModelID);
@@ -46,12 +46,14 @@ public interface DGanadoOnline {
     LiveData<List<EMCColor>> GetModelColors(String ModelID);
 
     @Query("SELECT * FROM Ganado_Online " +
-            "WHERE sReferdBy = (SELECT sUserIDxx FROM User_Info_Master)")
+            "WHERE sReferdBy = (SELECT sUserIDxx FROM Client_Profile_Info)")
     LiveData<List<EGanadoOnline>> GetInquiries();
-
+    @Query("DELETE FROM Ganado_Online WHERE (sClientNm IS NULL OR sClientNm = '')")
+    void RemoveInquiry();
     @Query("SELECT * FROM Ganado_Online WHERE sTransNox =:TransNox")
     LiveData<EGanadoOnline> GetLatestInquiries(String TransNox);
-
+    @Query("DELETE FROM Ganado_Online WHERE sTransNox =:TransNox")
+    void RemoveInquiry(String TransNox);
     @Query("SELECT " +
             "a.sModelIDx AS ModelIDx " +
             ",a.sModelNme AS ModelNme " +
@@ -119,6 +121,12 @@ public interface DGanadoOnline {
             "dPricexxx AS Pricedxx " +
             "FROM MC_Cash_Price WHERE sModelIDx=:ModelID")
     CashPrice GetCashInfo(String ModelID);
+
+    @Query("SELECT " +
+            "nSelPrice AS CashPrce, " +
+            "dPricexxx AS Pricedxx " +
+            "FROM MC_Cash_Price WHERE sModelIDx=:ModelID")
+    LiveData<CashPrice> GetCashPrice(String ModelID);
 
     class McDownpayment{
         public String ModelIDx;

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -26,15 +27,14 @@ import org.rmj.guanzongroup.ganado.ViewModel.VMInstallmentSummary;
 public class Activity_Installment_Summary extends AppCompatActivity {
     private ProductInquiry poApp;
     private VMInstallmentSummary mViewModel;
-    private String Transaction,ModelID, BrandID;
+    private String Transaction,ModelID, BrandID,Paym, terms, MonthPaym;
     private MaterialTextView  txtTerms,  txtTargetDtes;
     private TextInputEditText txtPaymMod;
     private MaterialAutoCompleteTextView txtTargetDtex;
-    private MaterialAutoCompleteTextView txtTerm;
     private MaterialAutoCompleteTextView txtMinDP;
     private ConstraintLayout installmentgrp;
     private TextInputEditText txtCashPrice;
-    private TextInputEditText txtMontlyAmort;
+    private TextInputEditText txtMontlyAmort,txtTerm;
     private MaterialAutoCompleteTextView txtTargetDte;
     private MaterialButton btnsave;
     @Override
@@ -47,7 +47,7 @@ public class Activity_Installment_Summary extends AppCompatActivity {
         btnsave.setOnClickListener(view -> {
 
 //            Intent loIntent = new Intent(Activity_Installment_Summary.this, Activity_ProductInquiry.class);
-            Intent loIntent = new Intent(Activity_Installment_Summary.this, Activity_BrandSelection.class);
+            Intent loIntent = new Intent(Activity_Installment_Summary.this, Activity_Inquiries.class);
             loIntent.putExtra("lsBrandID", BrandID);
             loIntent.putExtra("lsModelID", ModelID);
             startActivity(loIntent);
@@ -66,6 +66,8 @@ public class Activity_Installment_Summary extends AppCompatActivity {
         txtTargetDte = findViewById(R.id.txt_targetDate);
         installmentgrp = findViewById(R.id.grpInstallment);
         btnsave = findViewById(R.id.btn_dialogPositive);
+        txtTerm.setEnabled(false);
+        txtPaymMod.setEnabled(false);
     }
 
     private void setWidgets(){
@@ -86,7 +88,8 @@ public class Activity_Installment_Summary extends AppCompatActivity {
                 }else if(jsonPaymInfo.getInt("sTermIDxx")==6){
                     txtTerm.setText(GConstants.INSTALLMENT_TERM[4]);
                 }
-                txtTerm.setAdapter(GConstants.getAdapter(Activity_Installment_Summary.this, GConstants.INSTALLMENT_TERM));
+
+                //txtTerm.setText(GConstants.getAdapter(Activity_Installment_Summary.this, GConstants.INSTALLMENT_TERM));
                 Log.e("val mo : ", GConstants.PAYMENT_FORM[Integer.parseInt(eGanadoOnline.getPaymForm())]);
 
                 txtPaymMod.setText(GConstants.PAYMENT_FORM[Integer.parseInt(eGanadoOnline.getPaymForm())]);
@@ -106,6 +109,9 @@ public class Activity_Installment_Summary extends AppCompatActivity {
                 mViewModel.setModelID(jsonProdInfo.getString("sModelIDx"));
                 ModelID = jsonProdInfo.getString("sModelIDx");
                 BrandID = jsonProdInfo.getString("sBrandIDx");
+                Paym = jsonPaymInfo.getString("nDownPaym");
+                terms = jsonPaymInfo.getString("sTermIDxx");
+                MonthPaym = jsonPaymInfo.getString("nMonthAmr");
                 mViewModel.GetModelID().observe(Activity_Installment_Summary.this, modelID -> {
                     try{
                         if(mViewModel.GetCashInfo(modelID) !=  null){
@@ -115,24 +121,39 @@ public class Activity_Installment_Summary extends AppCompatActivity {
                             txtCashPrice.setText(FormatUIText.getCurrencyUIFormat("0.0"));
                             Log.e("cashPrice",FormatUIText.getCurrencyUIFormat("0.0"));
                         }
-                        mViewModel.GetMinimumDownpayment(modelID,jsonPaymInfo.getInt("sTermIDxx"), new VMInstallmentSummary.OnRetrieveInstallmentInfo() {
-                            @Override
-                            public void OnRetrieve(InstallmentInfo loResult) {
-                                Log.e("getMonthlyAmortization",FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMonthlyAmortization())) + "");
-                                Log.e("getMonthlyAmortization",FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMinimumDownpayment())) + "");
-//                              txtPaymMod.setText(get);
-                                mViewModel.getModel().setDownPaym(String.valueOf(loResult.getMinimumDownpayment()));
-                                txtMinDP.setText(String.valueOf(loResult.getMinimumDownpayment()));
-                                mViewModel.getModel().setMonthAmr(String.valueOf(loResult.getMonthlyAmortization()));
-                                txtMontlyAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMonthlyAmortization())));
+                        mViewModel.getModel().setDownPaym(String.valueOf(Paym));
+                        txtMinDP.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(Paym)));
+                        txtMontlyAmort.setText(FormatUIText.getCurrencyUIFormat(MonthPaym));
+                        Log.d("txtMontlyAmort", String.valueOf(MonthPaym));
+//                        mViewModel.GetMinimumDownpayment(modelID,jsonPaymInfo.getInt("sTermIDxx"), new VMInstallmentSummary.OnRetrieveInstallmentInfo() {
+//                            @Override
+//                            public void OnRetrieve(InstallmentInfo loResult) {
+//                                Log.e("getMonthlyAmortization",FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMonthlyAmortization())) + "");
+//                                Log.e("getMonthlyAmortization",FormatUIText.getCurrencyUIFormat(String.valueOf(loResult.getMinimumDownpayment())) + "");
+////                              txtPaymMod.setText(get);
+//
+//                            }
+//
+//                            @Override
+//                            public void OnFailed(String message) {
+//
+//                            }
+//                        });
+                        Log.d("","");
+//                        mViewModel.CalculateNewDownpayment(ModelID, Integer.parseInt(terms), Double.parseDouble(Paym), new VMInstallmentSummary.OnCalculateNewDownpayment() {
+//                            @Override
+//                            public void OnCalculate(double lnResult) {
+//                                Log.d("new Compute ", String.valueOf(lnResult));
+//                                //Toast.makeText(Activity_Installment_Summary.this, String.valueOf(lnResult), Toast.LENGTH_SHORT).show();
+//                                txtMontlyAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
+//                            }
+//
+//                            @Override
+//                            public void OnFailed(String message) {
+//                                Log.d("new Compute fa ", String.valueOf(message));
+//                            }
+//                        });
 
-                            }
-
-                            @Override
-                            public void OnFailed(String message) {
-
-                            }
-                        });
                     } catch (NullPointerException e){
                         e.printStackTrace();
                     } catch (Exception e){

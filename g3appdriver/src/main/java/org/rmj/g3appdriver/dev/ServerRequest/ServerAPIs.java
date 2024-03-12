@@ -41,7 +41,7 @@ public class ServerAPIs {
     private static final String IMPORT_TOWN = "integsys/param/download_town.php";
     private static final String IMPORT_PROVINCE = "integsys/param/download_province.php";
     private static final String IMPORT_COUNTRIES = "integsys/param/download_country.php";
-
+    private static final String RETRIEVE_CLIENT_INFO = "integsys/marketplace/get_clientby_id.php";
     private static final String RETRIEVE_PROFILE_PICTURE = "";
     private static final String RETRIEVE_VERIFIED_ID = "";
 //    private static final String REGISTER_ACCOUNT = "integsys/marketplace/add_new_client.php";
@@ -49,6 +49,7 @@ public class ServerAPIs {
     private static final String SUBMIT_SELFIE_VERIFICATION = "integsys/marketplace/submit_selfie_verification.php";
     private static final String SUBMIT_ID_VERIFICATION = "integsys/marketplace/submit_id_verification.php";
     private static final String IMPORT_ACCOUNT_INFO = "integsys/marketplace/get_client_info.php";
+    private static final String IMPORT_CLIENT_INFO = "integsys/marketplace/get_client_exist.php";
     private static final String IMPORT_VALID_ID_CODE = "integsys/marketplace/import_valid_id_code.php";
 //    private static final String IMPORT_ACCOUNT_INFO = "integsys/marketplace/import_client_detail.php";
     private static final String UPDATE_ACCOUNT_INFO = "integsys/marketplace/update_client_info.php";
@@ -297,7 +298,9 @@ public class ServerAPIs {
 
     public String getCreateNewClientAPI(){
         if(isTestUnit){
+            Log.d("SERVER API", LOCAL + REGISTER_ACCOUNT);
             return LOCAL + REGISTER_ACCOUNT;
+
         }
         return LIVE + REGISTER_ACCOUNT;
     }
@@ -308,6 +311,19 @@ public class ServerAPIs {
         }
         return LIVE + IMPORT_ACCOUNT_INFO;
     }
+    public String getImportClientInfoAPI() {
+        if(isTestUnit){
+            return LOCAL + IMPORT_CLIENT_INFO;
+        }
+        return LIVE + IMPORT_CLIENT_INFO;
+    }
+    public String getSearchClientInfo() {
+        if(isTestUnit){
+            return LOCAL + RETRIEVE_CLIENT_INFO;
+        }
+        return LIVE + RETRIEVE_CLIENT_INFO;
+    }
+
 
     public String getUpdateAccountInfo() {
         if(isTestUnit){
