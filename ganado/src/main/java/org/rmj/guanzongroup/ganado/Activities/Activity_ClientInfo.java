@@ -184,7 +184,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
             mViewModel.SaveData(new VMPersonalInfo.OnSaveInquiry() {
                 @Override
                 public void OnSave() {
-                    poDialogx.initDialog("Ganado", "Saving inquiry. Please wait...", false);
+                    poDialogx.initDialog("Benta", "Saving inquiry. Please wait...", false);
                     poDialogx.show();
                     Log.d("ako ito", "OnSave:");
                 }
@@ -194,7 +194,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
                     poDialogx.dismiss();
                     poMessage.initDialog();
-                    poMessage.setTitle("Ganado");
+                    poMessage.setTitle("Benta");
                     poMessage.setMessage("Motorcycle inquiry saved successfully!");
                     poMessage.setPositiveButton("Okay", (view, dialog) -> {
                         poMessage.dismiss();
@@ -214,7 +214,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 public void OnFailed(String message) {
                     poDialogx.dismiss();
                     poMessage.initDialog();
-                    poMessage.setTitle("Ganado");
+                    poMessage.setTitle("Benta");
                     poMessage.setMessage(message);
                     poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
                     poMessage.show();
@@ -304,7 +304,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
         });
         poMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
-        poMessage.setTitle("Ganado");
+        poMessage.setTitle("Benta");
         poMessage.setMessage("Do you really want to close the client information module? Every detail entered will be removed.");
         poMessage.show();
     }
