@@ -48,7 +48,7 @@ public class Activity_ProductSelection extends AppCompatActivity {
         brandselectedimg = findViewById(R.id.imageprodselection);
 
         String lsBrandID = getIntent().getStringExtra("lsBrandID");
-
+        Log.d("lsBrandID",lsBrandID);
         mViewModel.GetModelsList(lsBrandID).observe(Activity_ProductSelection.this, eMcModels -> {
             if (eMcModels.size() > 0){
                 brandselectedimg.setImageResource(getBrandImageResource(lsBrandID));
@@ -63,6 +63,7 @@ public class Activity_ProductSelection extends AppCompatActivity {
                         intent.putExtra("bgbrandimage", backgroundResId);
                         intent.putExtra("backgroundold", backgroundResIdCat);
                         Log.d("TEEJEI SELECTED model ", ModelID);
+                        Log.d("TEEJEI bgbrandimage ", String.valueOf(backgroundResId));
                         startActivity(intent);
                         overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                     }

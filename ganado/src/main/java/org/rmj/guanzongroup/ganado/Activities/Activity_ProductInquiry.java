@@ -89,9 +89,9 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 txtModelNm.setText(eMcModel.getModelNme());
                 txtBrandNm.setText(getIntent().getStringExtra("lsBrandNm"));
                 String imgLink = (lsImgLink == null)? "": lsImgLink;
-                if(imgLink.isEmpty()){
-                    ImageFileManager.LoadImageToView(lsImgLink, imgMC);
-                }
+
+                ImageFileManager.LoadImageToView(lsImgLink, imgMC);
+                Log.d("image mo ito",lsImgLink);
             }catch (NullPointerException e){
                 e.printStackTrace();
             }catch (Exception e){
