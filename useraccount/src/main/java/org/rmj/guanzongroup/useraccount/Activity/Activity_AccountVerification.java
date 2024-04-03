@@ -48,7 +48,7 @@ public class Activity_AccountVerification extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        btnResend.setOnClickListener(v -> mViewModel.StartTimer(new VMAccountAuthentication.TimerListener() {
+        /*btnResend.setOnClickListener(v -> mViewModel.StartTimer(new VMAccountAuthentication.TimerListener() {
             @Override
             public void OnStart() {
                 btnResend.setEnabled(false);
@@ -67,7 +67,7 @@ public class Activity_AccountVerification extends AppCompatActivity {
             public void OnFinish() {
                 btnResend.setEnabled(true);
             }
-        }));
+        }));*/
 
         btnSubmit.setOnClickListener(v -> {
             String lsEntry = Objects.requireNonNull(txtOtp.getText()).toString();

@@ -5,6 +5,7 @@ import static org.rmj.g3appdriver.utils.CallbackJson.CallbackStatus.SUCCESS;
 import static org.rmj.g3appdriver.utils.CallbackJson.parse;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -14,31 +15,39 @@ import androidx.lifecycle.AndroidViewModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
+import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
+import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.etc.Telephony;
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
+import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
+import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 public class VMAccountAuthentication extends AndroidViewModel {
     private static final String TAG = VMAccountAuthentication.class.getSimpleName();
     private final ConnectionUtil poConnect;
     private final AccountAuthentication poActAuth;
-    private final RClientInfo poClientx;
     private final AccountInfo poAccount;
     private final Telephony poDevice;
+    private String sMessage;
+    private String cResult = "0";
+    private String psOtpxxx = "";
+    private String psVerify = "";
 
     public VMAccountAuthentication(@NonNull Application application) {
         super(application);
         Log.e(TAG, "Initialized");
+
         this.poConnect = new ConnectionUtil(application);
         this.poActAuth = new AccountAuthentication(application);
-        this.poClientx = new RClientInfo(application);
         this.poAccount = new AccountInfo(application);
         this.poDevice = new Telephony(application);
     }
-
     public String GetMobileNo(){
         if(!poAccount.getMobileNo().isEmpty()){
             return poAccount.getMobileNo();
@@ -50,19 +59,209 @@ public class VMAccountAuthentication extends AndroidViewModel {
 
         return "";
     }
-
     public void LoginAccount(AccountAuthentication.LoginCredentials foCrednts, AuthenticationCallback foCallbck) {
-        new LoginAccountTask(poConnect, poActAuth, poClientx, foCallbck).execute(foCrednts);
-    }
+        //new LoginAccountTask(poConnect, poActAuth, poClientx, foCallbck).execute(foCrednts);
+        TaskExecutor.Execute(foCrednts, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                foCallbck.onLoad();
+            }
 
+            @Override
+            public Object DoInBackground(Object args) {
+                try {
+                    AccountAuthentication.LoginCredentials foCrednts = (AccountAuthentication.LoginCredentials) args;
+                    if (!poConnect.isDeviceConnected()){
+                        sMessage = "Server no response";
+                        return "0";
+                    }
+
+                    poActAuth.LoginAccount(foCrednts, new AccountAuthentication.OnLoginCallback() {
+                        @Override
+                        public void OnSuccessLogin(String message) {
+                            cResult = "1";
+                            sMessage = message;
+
+                            poAccount.setLoginStatus(true);
+                        }
+                        @Override
+                        public void OnFailedLogin(String message) {
+                            cResult = "0";
+                            sMessage = message;
+                        }
+                        @Override
+                        public void OnAccountVerification(String args, String args1) {
+                            psOtpxxx = args;
+                            psVerify = args1;
+                            cResult = "2";
+                        }
+                    });
+
+                    return cResult;
+                }catch (Exception e){
+                    sMessage = e.getMessage();
+                    return "0";
+                }
+            }
+            @Override
+            public void OnPostExecute(Object object) {
+                String result = (String) object;
+                switch (result){
+                    case "0":
+                        foCallbck.onFailed(sMessage);
+                        break;
+                    case "1":
+                        foCallbck.onSuccess(sMessage);
+                        break;
+                    case "2":
+                        foCallbck.onVerifiy(psOtpxxx, psVerify);
+                        break;
+                }
+            }
+        });
+    }
     public void RegisterAccount(AccountAuthentication.AccountCredentials foCrednts, AuthTransactionCallback foCallbck) {
-        new RegisterAccountTask(poConnect, poActAuth, foCallbck).execute(foCrednts);
-    }
+        //new RegisterAccountTask(poConnect, poActAuth, foCallbck).execute(foCrednts);
+        TaskExecutor.Execute(foCrednts, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                foCallbck.onLoad();
+            }
 
+            @Override
+            public Object DoInBackground(Object args) {
+                final String[] lsResultx = {""};
+
+                try {
+                    AccountAuthentication.AccountCredentials loCrednts = (AccountAuthentication.AccountCredentials) args;
+
+                    if (!poConnect.isDeviceConnected()){
+                        lsResultx[0] = parse(FAILED, AppConstants.SERVER_NO_RESPONSE());
+                    }else {
+                        poActAuth.RegisterAccount(loCrednts, new AccountAuthentication.OnCreateAccountCallback() {
+                            @Override
+                            public void OnSuccessRegister(String message) {
+                                lsResultx[0] = parse(SUCCESS, message);
+                            }
+
+                            @Override
+                            public void OnFailedRegister(String message) {
+                                lsResultx[0] = parse(FAILED, message);
+                            }
+                        });
+                    }
+                }catch (Exception e){
+                    lsResultx[0] = parse(FAILED, TAG + ": " + e.getMessage());
+                }
+
+                return lsResultx[0];
+            }
+            @Override
+            public void OnPostExecute(Object object) {
+                String result = (String) object;
+                setCallBack(result, foCallbck);
+            }
+        });
+    }
     public void RetrievePassword(String fsEmailxx, AuthTransactionCallback foCallbck) {
-        new RetrievePasswordTask(poConnect, poActAuth, foCallbck).execute(fsEmailxx);
-    }
+        //new RetrievePasswordTask(poConnect, poActAuth, foCallbck).execute(fsEmailxx);
+        TaskExecutor.Execute(fsEmailxx, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                foCallbck.onLoad();
+            }
 
+            @Override
+            public Object DoInBackground(Object args) {
+                final String[] lsResultx = {""};
+                String lsEmailAd = (String) args;
+
+                try {
+                    if (!poConnect.isDeviceConnected()){
+                        lsResultx[0] = parse(FAILED, AppConstants.SERVER_NO_RESPONSE());
+                    }else {
+                        poActAuth.RetrievePassword(lsEmailAd, new AccountAuthentication.OnRetrievePasswordCallback() {
+                            @Override
+                            public void OnSuccessRetrieve(String message) {
+                                lsResultx[0] = parse(SUCCESS, message);
+                            }
+
+                            @Override
+                            public void OnFailedRetrieve(String message) {
+                                lsResultx[0] = parse(FAILED, message);
+                            }
+                        });
+                    }
+                }catch (Exception e){
+                    lsResultx[0] = parse(FAILED, TAG + ": " + e.getMessage());
+                }
+
+                return lsResultx[0];
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                String result = (String) object;
+                setCallBack(result, foCallbck);
+            }
+        });
+    }
+    public void ActivateAccount(String Entry, String Otp, String Address, AuthTransactionCallback callback){
+        if(Entry.equalsIgnoreCase(Otp)) {
+            //new ActivateAccTask(callback).execute(Address);
+            TaskExecutor.Execute(Address, new OnTaskExecuteListener() {
+                @Override
+                public void OnPreExecute() {
+                    callback.onLoad();
+                }
+
+                @Override
+                public Object DoInBackground(Object args) {
+                    String params = (String) args;
+
+                    Boolean result = Activate(params);
+                    return result;
+                }
+
+                @Override
+                public void OnPostExecute(Object object) {
+                    Boolean result = (Boolean) object;
+                    if(result){
+                        callback.onSuccess(sMessage);
+                    } else {
+                        callback.onFailed(sMessage);
+                    }
+                }
+            });
+        } else {
+            callback.onFailed("Invalid OTP detected!");
+        }
+    }
+    private Boolean Activate(String Address){
+        try{
+            String lsResponse = WebClient.httpsPostJSon(Address, new JSONObject().toString(), null);
+            if(lsResponse == null){
+                sMessage = "Unable to confirm your account. No server response has received.";
+                return false;
+            } else if(lsResponse.isEmpty()){
+                sMessage = "Unable to confirm your account. No server response has received.";
+                return false;
+            } else if(lsResponse.equalsIgnoreCase("Your account was activated successfully. You can now login on Guanzon App.")){
+                sMessage = "Your Account has been activated successfully.";
+                return true;
+            } else if(lsResponse.equalsIgnoreCase("Unable to verify account. Your account cannot be updated.")){
+                sMessage = "Unable to confirm your account. No server response has received.";
+                return false;
+            } else {
+                sMessage = "Unable to confirm your account. Unknown problem occurred. Please try again.";
+                return false;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            sMessage = e.getMessage();
+            return false;
+        }
+    }
     private static void setCallBack(String fsResultx, AuthTransactionCallback foCallBck) {
         try {
             JSONObject loJson = new JSONObject(fsResultx);
@@ -78,7 +277,8 @@ public class VMAccountAuthentication extends AndroidViewModel {
         }
     }
 
-    private static class LoginAccountTask extends AsyncTask<AccountAuthentication.LoginCredentials, Void, String> {
+    //TODO: REVISED CODE, DUE TO ASYNCTASK LIBRARY DEPRECATION. WHICH COULD BE REMOVED ON FUTURE VERSIONS
+    /*private static class LoginAccountTask extends AsyncTask<AccountAuthentication.LoginCredentials, Void, String> {
         private final ConnectionUtil loConnect;
         private final AccountAuthentication loActAuth;
         private final RClientInfo loClientx;
@@ -115,6 +315,7 @@ public class VMAccountAuthentication extends AndroidViewModel {
                             cResult = '1';
                             try {
                                 lsResultx[0] = parse(SUCCESS, message);
+
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
@@ -162,7 +363,6 @@ public class VMAccountAuthentication extends AndroidViewModel {
             }
         }
     }
-
     private static class RegisterAccountTask extends AsyncTask<AccountAuthentication.AccountCredentials, Void, String> {
         private final ConnectionUtil loConnect;
         private final AccountAuthentication loActAuth;
@@ -213,7 +413,6 @@ public class VMAccountAuthentication extends AndroidViewModel {
             setCallBack(s, loCallbck);
         }
     }
-
     private static class RetrievePasswordTask extends AsyncTask<String, Void, String> {
         private final ConnectionUtil loConnect;
         private final AccountAuthentication loActAuth;
@@ -263,15 +462,6 @@ public class VMAccountAuthentication extends AndroidViewModel {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             setCallBack(s, loCallbck);
-        }
-    }
-
-
-    public void ActivateAccount(String Entry, String Otp, String Address, AuthTransactionCallback callback){
-        if(Entry.equalsIgnoreCase(Otp)) {
-            new ActivateAccTask(callback).execute(Address);
-        } else {
-            callback.onFailed("Invalid OTP detected!");
         }
     }
 
@@ -337,7 +527,6 @@ public class VMAccountAuthentication extends AndroidViewModel {
     public void ResendOtp(AuthTransactionCallback callback){
         new ResendOTPTask(callback).execute();
     }
-
     private static class ResendOTPTask extends AsyncTask<String, Void, String>{
 
         private final AuthTransactionCallback callback;
@@ -361,11 +550,9 @@ public class VMAccountAuthentication extends AndroidViewModel {
             super.onPreExecute();
         }
     }
-
     public void StartTimer(TimerListener listener){
         new OtpTimerTask(listener).execute();
     }
-
     private static class OtpTimerTask extends AsyncTask<String, Integer, String>{
 
         private final TimerListener listener;
@@ -403,7 +590,7 @@ public class VMAccountAuthentication extends AndroidViewModel {
             super.onPostExecute(s);
             listener.OnFinish();
         }
-    }
+    }*/
 
     public interface AuthTransactionCallback {
         void onLoad();

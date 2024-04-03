@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import org.rmj.g3appdriver.lib.GCardCore.CodeGenerator;
+import org.rmj.g3appdriver.utils.MySQLAESCrypt;
 import org.rmj.guanzongroup.digitalgcard.R;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -34,12 +36,16 @@ public class Activity_QrCodeScanner extends AppCompatActivity {
         setContentView(R.layout.activity_qr_code_scanner);
 
         scanner = findViewById(R.id.scanner);
-        Dexter.withActivity(this)
+        Dexter.withContext(this)
                 .withPermission(Manifest.permission.CAMERA)
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
                         scanner.setResultHandler(rawResult -> {
+                            String decrypt = MySQLAESCrypt.Decrypt(rawResult.toString(), "20190625");
+                            Log.d("QR RESULT", rawResult.toString());
+                            Log.d("QR RESULT DECRYPT", decrypt);
+
                             Intent loIntent = new Intent();
                             loIntent.putExtra("result", rawResult.toString());
                             setResult(1, loIntent);
