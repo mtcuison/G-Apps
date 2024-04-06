@@ -16,6 +16,8 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DClientInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DEvents;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGCardTransactionLedger;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGCard_Ledger;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGCard_Points;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGanadoOnline;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGcardApp;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DItemCart;
@@ -48,7 +50,9 @@ import org.rmj.g3appdriver.dev.Database.Entities.ECountryInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmailInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEmployeeInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
+import org.rmj.g3appdriver.dev.Database.Entities.EGCardPoints;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
+import org.rmj.g3appdriver.dev.Database.Entities.EGCard_Ledger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGanadoOnline;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.EGuanzonPanalo;
@@ -119,7 +123,9 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUserInfo;
         EMcModelPrice.class,
         EMCModelCashPrice.class,
         EMcCategory.class,
-        EMcTermCategory.class}, version = 2, exportSchema = false)
+        EMcTermCategory.class,
+        EGCardPoints.class,
+        EGCard_Ledger.class}, version = 2, exportSchema = false)
 public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     private static final String TAG = "GuanzonApp_DB_Manager";
     private static GGC_GuanzonAppDB instance;
@@ -156,6 +162,8 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     public abstract DMcModelPrice McModelPriceDao();
     public abstract DMcCategory McCategoryDao();
     public abstract DMcTermCategory McTermCategoryDao();
+    public abstract DGCard_Points GPointsDao();
+    public abstract DGCard_Ledger GLedgerDao();
 
     public static synchronized GGC_GuanzonAppDB getInstance(Context context){
         if(instance == null){

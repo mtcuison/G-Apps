@@ -42,10 +42,6 @@ public class Activity_QrCodeScanner extends AppCompatActivity {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
                         scanner.setResultHandler(rawResult -> {
-                            String decrypt = MySQLAESCrypt.Decrypt(rawResult.toString(), "20190625");
-                            Log.d("QR RESULT", rawResult.toString());
-                            Log.d("QR RESULT DECRYPT", decrypt);
-
                             Intent loIntent = new Intent();
                             loIntent.putExtra("result", rawResult.toString());
                             setResult(1, loIntent);

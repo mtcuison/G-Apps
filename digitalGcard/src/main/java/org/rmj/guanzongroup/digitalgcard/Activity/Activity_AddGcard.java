@@ -113,13 +113,13 @@ public class Activity_AddGcard extends AppCompatActivity {
                 String lsVal = Objects.requireNonNull(data).getStringExtra("data");
                 loGcard.ParseQrCode(lsVal, new GCardSystem.ParseQrCodeCallback() {
                     @Override
-                    public void ApplicationResult(String args) {
+                    public void ApplicationResult(String src, Object args) {
                         //TODO : Add call GCardSystem>AddGCardQrCode()
                     }
 
                     @Override
-                    public void TransactionResult(String args) {
-                        Toast.makeText(Activity_AddGcard.this, args, Toast.LENGTH_LONG).show();
+                    public void TransactionResult(String src, Object args) {
+                        Toast.makeText(Activity_AddGcard.this, args.toString(), Toast.LENGTH_LONG).show();
                         //TODO: Create dialog that will display the PIN. After closing the dialog, call GCardSystem>DownloadTransactions()
                         // Display message that transaction won't affect immediately on GCard Ledger.
                     }

@@ -58,26 +58,22 @@ import org.rmj.guanzongroup.useraccount.Activity.Activity_LoanIntroduction;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Activity_Dashboard extends AppCompatActivity {
-
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityDashboardBinding binding;
     private NavigationView navigationView;
     private VMHome mViewModel;
     private LayoutInflater loInflate;
-
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialog;
-
     private Toolbar toolbar;
     private BadgeDrawable loBadge;
     private TextView lblBadge;
     private static final int GCARD_APPLICATION = 1;
-
     private DashboardActionReceiver poLogRcv = new DashboardActionReceiver();
-
     private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -98,13 +94,16 @@ public class Activity_Dashboard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(Activity_Dashboard.this).get(VMHome.class);
+
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarActivityDashboard.toolbar);
+
+        DrawerLayout drawer = binding.drawerLayout;
+
+        mViewModel = new ViewModelProvider(Activity_Dashboard.this).get(VMHome.class);
         poLoading = new Dialog_Loading(Activity_Dashboard.this);
         poDialog = new Dialog_SingleButton(Activity_Dashboard.this);
-        DrawerLayout drawer = binding.drawerLayout;
         navigationView = binding.navView;
 
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
@@ -385,7 +384,6 @@ public class Activity_Dashboard extends AppCompatActivity {
             });
         }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -410,7 +408,6 @@ public class Activity_Dashboard extends AppCompatActivity {
         });
         return true;
     }
-
     @Override
     public void onBackPressed() {
         Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_Dashboard.this);
@@ -429,7 +426,6 @@ public class Activity_Dashboard extends AppCompatActivity {
         });
         loDialog.show();
     }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -442,13 +438,11 @@ public class Activity_Dashboard extends AppCompatActivity {
             registerReceiver(poLogRcv, intentFilter);
         }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(poLogRcv);
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent loIntent;
@@ -466,14 +460,12 @@ public class Activity_Dashboard extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_activity_dashboard);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
     private void setUpHeader(NavigationView foNavigxx) {
         View headerLayout = foNavigxx.getHeaderView(0);
         LinearLayout lnAuthxxx = headerLayout.findViewById(R.id.ln_authenticate);
@@ -488,21 +480,26 @@ public class Activity_Dashboard extends AppCompatActivity {
                     String lsFullNme = eClientinfo.getUserName();
 
                     //This portion of code has been disabled in order not to display the actual name of user on dashboard
-//                    if (eClientinfo.getLastName() == null && eClientinfo.getFrstName() == null){
-//                        lsFullNme = eClientinfo.getUserName();
-//                    } else if(eClientinfo.getLastName().isEmpty() && eClientinfo.getFrstName().isEmpty()){
-//                        lsFullNme = eClientinfo.getUserName();
-//                    } else {
-//                        lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
-//                    }
+                    /*if (eClientinfo.getLastName() == null && eClientinfo.getFrstName() == null){
+                        lsFullNme = eClientinfo.getUserName();
+                    } else if(eClientinfo.getLastName().isEmpty() && eClientinfo.getFrstName().isEmpty()){
+                        lsFullNme = eClientinfo.getUserName();
+                    } else {
+                        lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
+                    }*/
+
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
                     txtFullNm.setText(Objects.requireNonNull(lsFullNme));
 
-                    //Pre release of Guanzon Connect Marketplace Project requires this field to be commented
-                    // in order to hide the preview of marketplace items
-//                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
-//                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
+                    /*Pre release of Guanzon Connect Marketplace Project requires this field to be commented
+                    in order to hide the preview of marketplace items*/
+
+                    /*nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);*/
+
+                    nav_Menu.findItem(R.id.nav_scan_qrcode).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_my_gcard).setVisible(true);
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(true);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(true);
@@ -519,6 +516,8 @@ public class Activity_Dashboard extends AppCompatActivity {
                         Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
                         startActivity(loIntent);
                     });
+                    nav_Menu.findItem(R.id.nav_scan_qrcode).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_my_gcard).setVisible(false);
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
                     nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
                     nav_Menu.findItem(R.id.nav_applyLoan).setVisible(false);
@@ -531,7 +530,6 @@ public class Activity_Dashboard extends AppCompatActivity {
             }
         });
     }
-
     private String GetBadgeValue(int val){
         if(val > 0){
             lblBadge.setVisibility(View.VISIBLE);
@@ -541,20 +539,22 @@ public class Activity_Dashboard extends AppCompatActivity {
             return "0";
         }
     }
-
     public void ParseQrCode(String fsVal){
         mViewModel.ParseQrCode(fsVal, new GCardSystem.ParseQrCodeCallback() {
             @Override
-            public void ApplicationResult(String args) {
-                AddGcard(args);
+            public void ApplicationResult(String src, Object args) {
+                if (src.equalsIgnoreCase("TDS")){
+                    HashMap<String, String> params = (HashMap<String, String>) args;
+                    DownloadGCardPoints(params);
+                }else {
+                    AddGcard(args.toString());
+                }
             }
-
             @Override
-            public void TransactionResult(String args) {
+            public void TransactionResult(String src, Object args) {
                 Dialog_TransactionPIN loDialog = new Dialog_TransactionPIN(Activity_Dashboard.this);
-                loDialog.initDialog(args);
+                loDialog.initDialog(args.toString());
             }
-
             @Override
             public void OnFailed(String message) {
                 poDialog.setButtonText("Okay");
@@ -563,7 +563,6 @@ public class Activity_Dashboard extends AppCompatActivity {
             }
         });
     }
-
     private void AddGcard(String fsVal){
         mViewModel.AddNewGCard(fsVal, new VMHome.OnActionCallback() {
             @Override
@@ -591,7 +590,31 @@ public class Activity_Dashboard extends AppCompatActivity {
             }
         });
     }
+    private void DownloadGCardPoints(HashMap<String, String> loParams){
+        mViewModel.DownloadGCardPoints(loParams, new VMHome.onDownloadPoints() {
+            @Override
+            public void onLoad(String title, String message) {
+                poLoading.initDialog(title, message);
+                poLoading.show();
+            }
+            @Override
+            public void onSuccess() {
+                poLoading.dismiss();
 
+                poDialog.setButtonText("Okay");
+                poDialog.initDialog("Guanzon App", "Download Successful", () -> poDialog.dismiss());
+                poDialog.show();
+            }
+            @Override
+            public void onFailed(String message) {
+                poLoading.dismiss();
+
+                poDialog.setButtonText("Dismiss");
+                poDialog.initDialog("Guanzon App", message, () -> poDialog.dismiss());
+                poDialog.show();
+            }
+        });
+    }
     private void setupIntentArguments(NavController navController){
         if(getIntent().hasExtra("args")){
             String lsArgs = getIntent().getStringExtra("args");

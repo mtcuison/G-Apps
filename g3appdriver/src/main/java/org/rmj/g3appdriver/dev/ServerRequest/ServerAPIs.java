@@ -118,6 +118,7 @@ public class ServerAPIs {
     private static final String URL_IMPORT_TERM_CATEGORY = "integsys/param/download_mc_term_category.php";
     private static final String URL_IMPORT_BRANCHES = "integsys/param/download_branch.php";
     private static final String URL_IMPORT_TOWN = "integsys/param/download_town.php";
+    private static final String URL_IMPORT_GCARD_POINTS = GCARD + "dgcard_points_request.php";
 
     public ServerAPIs(boolean isUnitTest) {
         this.isTestUnit = isUnitTest;
@@ -796,5 +797,10 @@ public class ServerAPIs {
         return LIVE + URL_IMPORT_TOWN;
     }
 
-
+    public String getUrlImportGcardPoints() {
+        if(isTestUnit){
+            return LOCAL + URL_IMPORT_GCARD_POINTS;
+        }
+        return LIVE + URL_IMPORT_GCARD_POINTS;
+    }
 }

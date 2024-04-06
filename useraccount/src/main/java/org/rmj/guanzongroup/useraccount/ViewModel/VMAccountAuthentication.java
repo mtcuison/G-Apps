@@ -14,17 +14,12 @@ import androidx.lifecycle.AndroidViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
-import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
-import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.ServerRequest.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.etc.Telephony;
 import org.rmj.g3appdriver.lib.Account.AccountAuthentication;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
-import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
-import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 

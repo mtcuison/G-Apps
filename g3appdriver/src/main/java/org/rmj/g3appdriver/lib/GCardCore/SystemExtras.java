@@ -31,6 +31,7 @@ import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.GcardCredentials;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class SystemExtras implements iGCardSystem{
@@ -173,6 +174,21 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public void ParseQrCode(String val, GCardSystem.ParseQrCodeCallback callback) throws Exception {
 
+    }
+
+    @Override
+    public HashMap<String, String> ScanTDS() {
+        return null;
+    }
+
+    @Override
+    public Boolean DownloadGcardPoints(HashMap<String, String> params) {
+        return true;
+    }
+
+    @Override
+    public Boolean DownloadOTP(JSONObject loResult) {
+        return null;
     }
 
     @Override
@@ -505,6 +521,26 @@ public class SystemExtras implements iGCardSystem{
     @Override
     public LiveData<List<EEvents>> GetNewsEvents() {
         return poEvents.getAllEvents();
+    }
+
+    @Override
+    public String GetMessage() {
+        return null;
+    }
+
+    @Override
+    public String DateTimeToday() {
+        return null;
+    }
+
+    @Override
+    public Boolean ValidateQR(String sUserIDxx, String sMobileNoxx) {
+        return null;
+    }
+
+    @Override
+    public Boolean ValidateGCardInfo(String sFrstnm, String sLstnm, String sMdnm, String sSuffix, String dBirthdt, String sGCardNox) {
+        return null;
     }
 
     @Override
