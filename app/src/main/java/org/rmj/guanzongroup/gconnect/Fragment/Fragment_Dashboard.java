@@ -39,11 +39,12 @@ public class Fragment_Dashboard extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMDashboard.class);
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        initViews();
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMDashboard.class);
 
+        initViews();
         setupPages();
+
         botNav.setBackground(null);
         botNav.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
@@ -89,13 +90,10 @@ public class Fragment_Dashboard extends Fragment {
 
         return view;
     }
-
-
     private void initViews() {
         viewPager = view.findViewById(R.id.viewpager);
         botNav = view.findViewById(R.id.bottom_navigation);
     }
-
     private void setupPages(){
         Fragment[] loFragments = new Fragment[]{
                 new Fragment_Home(),

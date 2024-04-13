@@ -187,11 +187,6 @@ public class SystemExtras implements iGCardSystem{
     }
 
     @Override
-    public Boolean DownloadOTP(JSONObject loResult) {
-        return null;
-    }
-
-    @Override
     public void DownloadRedeemables(GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
     }

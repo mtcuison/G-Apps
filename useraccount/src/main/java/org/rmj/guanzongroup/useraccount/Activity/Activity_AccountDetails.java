@@ -4,26 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import com.kofigyan.stateprogressbar.StateProgressBar;
-
-import org.rmj.g3appdriver.dev.Database.Entities
-        .EEmailInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EMobileInfo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
-import org.rmj.guanzongroup.useraccount.Adapter.Adapter_AccountDetails;
 import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountDetails;
-
 import java.util.Objects;
 import org.rmj.guanzongroup.useraccount.R;
 
@@ -34,7 +25,6 @@ public class Activity_AccountDetails extends AppCompatActivity {
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
     private Toolbar toolbar;
-
     String[] descriptionData = {"Basic Account", "Account Verified", "Fully Verified"};
 
     @Override
@@ -48,7 +38,6 @@ public class Activity_AccountDetails extends AppCompatActivity {
         importAccountInfo();
         setAdapter();
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
@@ -56,13 +45,10 @@ public class Activity_AccountDetails extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public void onBackPressed() {
         finish();
     }
-
-    // Initialize this first before anything else.
     private void initViews() {
         toolbar = findViewById(R.id.toolbar);
         poDialogx = new Dialog_SingleButton(Activity_AccountDetails.this);
@@ -70,14 +56,11 @@ public class Activity_AccountDetails extends AppCompatActivity {
         StateProgressBar progressBar = findViewById(R.id.your_state_progress_bar_id);
         progressBar.setStateDescriptionData(descriptionData);
     }
-
-    // Initialize initViews() before this method.
     private void setUpToolbar() {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Account Details");
     }
-
     private void setAdapter() {
         try {
             mViewModel.GetClientDetailForPreview().observe(this, clientInfo -> {
@@ -165,10 +148,6 @@ public class Activity_AccountDetails extends AppCompatActivity {
                         startActivity(loIntent);
                     });
 
-//                    if(!clientInfo.cVerified.equalsIgnoreCase("1")){
-//                        findViewById(R.id.btnVerify).setVisibility(View.VISIBLE);
-//                    }
-
                     findViewById(R.id.btnVerify).setOnClickListener(v -> {
                         Intent loIntent = new Intent(Activity_AccountDetails.this, Activity_ProfileVerification.class);
                         loIntent.putExtra("cSkippedx", false);
@@ -183,7 +162,6 @@ public class Activity_AccountDetails extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
     private void importAccountInfo() {
         try {
             mViewModel.importAccountInfo(new VMAccountDetails.OnTransactionCallBack() {

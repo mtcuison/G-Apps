@@ -23,11 +23,9 @@ public class GCardSystem {
         REDEMPTION,
         EXTRAS
     }
-
     public GCardSystem(Context context) {
         this.mContext = context;
     }
-
     public iGCardSystem getInstance(CoreFunctions core){
         if(core == CoreFunctions.GCARD){
             return new GCardManager(mContext);

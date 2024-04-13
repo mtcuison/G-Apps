@@ -73,7 +73,6 @@ public interface iGCardSystem {
     HashMap<String, String> ScanTDS();
 
     Boolean DownloadGcardPoints(HashMap<String, String> params);
-    Boolean DownloadOTP(JSONObject loResult);
 
     double getAvailableGcardPoints();
     void updateAvailablePoints(String fsGcardNo, String fsNewPts);

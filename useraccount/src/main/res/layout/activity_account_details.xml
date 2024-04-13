@@ -129,7 +129,8 @@
         android:layout_marginBottom="5dp"
         android:gravity="center"
         android:text="ⓘ Personal Information is not yet verified"
-        android:textColor="@color/guanzon_digital_red" />
+        android:textColor="@color/guanzon_digital_red"
+        android:visibility="gone"/>
 
 
 </RelativeLayout>
@@ -326,7 +327,8 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:text="ⓘ Account Information is not yet verified"
-                android:textColor="@color/guanzon_digital_red" />
+                android:textColor="@color/guanzon_digital_red"
+                android:visibility="gone"/>
 
 </RelativeLayout>
             <View

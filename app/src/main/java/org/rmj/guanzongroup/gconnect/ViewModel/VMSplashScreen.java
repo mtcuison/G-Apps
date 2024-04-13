@@ -17,6 +17,7 @@ import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+import org.rmj.g3appdriver.utils.Task.OnLoadApplicationListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
@@ -76,36 +77,33 @@ public class VMSplashScreen extends AndroidViewModel {
                 Log.e(TAG, "Import failed... " + message);
             }
         };
-        TaskExecutor.Execute(poCallback, new OnTaskExecuteListener() {
+
+        /*TaskExecutor.Execute(poCallback, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 listener.OnLoad("Started!");
             }
-
             @Override
             public Object DoInBackground(Object args) {
                 try {
-                    //TODO: IMPORT DATA NEEDED FOR ADDRESS, IF FIRST LAUNCH
-                    if(loConfig.isAppFirstLaunch()){
-                        if (!loAddress.ImportBarangayList()){
-                            Log.d(TAG, "Unable to Import Baranggay Info");
-                        }
+                    //TODO: IMPORT DATA NEEDED FOR ADDRESS
+                    if (!loAddress.ImportBarangayList()){
+                        Log.d(TAG, "Unable to Import Baranggay Info");
+                    }
 
-                        Thread.sleep(500);
-                        if (!loAddress.ImportTownList()){
-                            Log.d(TAG, "Unable to Import Town Info");
-                        }
+                    Thread.sleep(500);
+                    if (!loAddress.ImportTownList()){
+                        Log.d(TAG, "Unable to Import Town Info");
+                    }
 
-                        Thread.sleep(500);
-                        if (!loAddress.ImportProvinceList()){
-                            Log.d(TAG, "Unable to Import Province Info");
-                        }
+                    Thread.sleep(500);
+                    if (!loAddress.ImportProvinceList()){
+                        Log.d(TAG, "Unable to Import Province Info");
+                    }
 
-                        Thread.sleep(500);
-                        if (!loAddress.ImportCountryList()){
-                            Log.d(TAG, "Unable to Import Country Info");
-                        }
-
+                    Thread.sleep(500);
+                    if (!loAddress.ImportCountryList()){
+                        Log.d(TAG, "Unable to Import Country Info");
                     }
 
                     //TODO: IMPORT NEW PRODUCTS
@@ -116,6 +114,9 @@ public class VMSplashScreen extends AndroidViewModel {
 
                     //TODO: IMPORT NOTIFICATIONS, PROMOTIONS, AND TRANSACTIONS, IF ALREADY LOGGED IN
                     if (loAccount.getLoginStatus()) {
+
+                        GCardSystem.GCardSystemCallback poCallback = (GCardSystem.GCardSystemCallback) args;
+
                         Thread.sleep(500);
                         loNotif.ImportClientNotifications(0);
 
@@ -169,10 +170,126 @@ public class VMSplashScreen extends AndroidViewModel {
             public void OnPostExecute(Object object) {
                 listener.OnFinished("Finished!");
             }
+        });*/
+
+        TaskExecutor loTask = new TaskExecutor();
+        loTask.setOnLoadApplicationListener(new OnLoadApplicationListener() {
+            @Override
+            public Object DoInBackground() {
+                try {
+                    //TODO: IMPORT DATA NEEDED FOR ADDRESS
+                    loTask.publishProgress(1);
+                    if (!loAddress.ImportBarangayList()){
+                        Log.d(TAG, "Unable to Import Baranggay Info");
+                    }
+
+                    loTask.publishProgress(2);
+                    Thread.sleep(500);
+                    if (!loAddress.ImportTownList()){
+                        Log.d(TAG, "Unable to Import Town Info");
+                    }
+
+                    loTask.publishProgress(3);
+                    Thread.sleep(500);
+                    if (!loAddress.ImportProvinceList()){
+                        Log.d(TAG, "Unable to Import Province Info");
+                    }
+
+                    loTask.publishProgress(4);
+                    Thread.sleep(500);
+                    if (!loAddress.ImportCountryList()){
+                        Log.d(TAG, "Unable to Import Country Info");
+                    }
+
+                    //TODO: IMPORT NEW PRODUCTS
+                    loTask.publishProgress(5);
+                    Thread.sleep(500);
+                    if (loProduct.ImportProductList()) {
+                        Log.d(TAG, "Product Sales imported successfully...");
+                    }
+
+                    //TODO: IMPORT NOTIFICATIONS, PROMOTIONS, AND TRANSACTIONS, IF ALREADY LOGGED IN
+                    if (loAccount.getLoginStatus()) {
+
+                        Thread.sleep(500);
+                        loNotif.ImportClientNotifications(0);
+
+                        loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
+                        Thread.sleep(500);
+                        loGcard.DownloadGcardNumbers(poCallback);
+
+                        if(loGcard.hasActiveGcard().size() > 0){
+
+                            Thread.sleep(500);
+                            loGcard.DownloadMCServiceInfo(poCallback);
+
+                            Thread.sleep(500);
+                            loGcard.DownloadTransactions(poCallback);
+                        } else {
+                            Log.e(TAG, "No gcard registered on this account.");
+                        }
+
+                        loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
+                        Thread.sleep(500);
+                        loGcard.DownloadPromotions(poCallback);
+
+                        Thread.sleep(500);
+                        loGcard.DownloadBranchesList(poCallback);
+
+                        Thread.sleep(500);
+                        loGcard.DownloadNewsEvents(poCallback);
+                        Log.d(TAG, "News events imported successfully...");
+
+                        loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
+                        Thread.sleep(500);
+                        loGcard.DownloadRedeemables(poCallback);
+
+                        if(loAccount.getVerificationStatus() > 0){
+                            Thread.sleep(500);
+                            if(loOrder.ImportMarketPlaceItemCart()){
+                                Log.d(TAG, "Marketplace cart items imported successfully...");
+                            }
+                        } else {
+                            Log.e(TAG, "User doesn't have complete details for marketplace.");
+                        }
+                    } else {
+                        Log.e(TAG, "No account session found.");
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                return null;
+            }
+            @Override
+            public void OnProgress(int progress) {
+                switch (progress){
+                    case 1:
+                        listener.OnProgress("Importing Baranggays", progress);
+                        break;
+                    case 2:
+                        listener.OnProgress("Importing Towns", progress);
+                        break;
+                    case 3:
+                        listener.OnProgress("Importing Province", progress);
+                        break;
+                    case 4:
+                        listener.OnProgress("Importing Country", progress);
+                        break;
+                    case 5:
+                            listener.OnProgress("Importing Products and Services", progress);
+                            break;
+                }
+            }
+            @Override
+            public void OnPostExecute(Object object) {
+                listener.OnFinished("Finished loading data");
+            }
         });
+        loTask.Execute();
     }
     public interface OnInitializeData{
         void OnLoad(String args);
+        void OnProgress(String args, int progress);
         void OnFinished(String args);
     }
 

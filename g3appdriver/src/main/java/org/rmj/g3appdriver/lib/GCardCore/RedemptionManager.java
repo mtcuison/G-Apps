@@ -165,11 +165,6 @@ public class RedemptionManager implements iGCardSystem{
         return true;
     }
 
-    @Override
-    public Boolean DownloadOTP(JSONObject loResult) {
-        return null;
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void DownloadRedeemables(GCardSystem.GCardSystemCallback callback) throws Exception {

@@ -10,9 +10,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.TextView;
+
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
+import org.rmj.guanzongroup.gconnect.BuildConfig;
 import org.rmj.guanzongroup.gconnect.R;
 import org.rmj.guanzongroup.gconnect.Service.GMessagingService;
 import org.rmj.guanzongroup.gconnect.ViewModel.VMSplashScreen;
@@ -22,6 +25,9 @@ public class Activity_SplashScreen extends AppCompatActivity {
     private VMSplashScreen mViewModel;
     private Dialog_DoubleButton poDialog;
     private ActivityResultLauncher<String[]> poRequest;
+    private TextView txt_Status;
+    private TextView txt_Version;
+    private LinearProgressIndicator progbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +36,12 @@ public class Activity_SplashScreen extends AppCompatActivity {
         //TODO: INITIALIZE VARIABLES
         mViewModel = new ViewModelProvider(this).get(VMSplashScreen.class);
         poDialog = new Dialog_DoubleButton(Activity_SplashScreen.this);
+
+        txt_Status = findViewById(R.id.txt_Status);
+        txt_Version = findViewById(R.id.txt_Version);
+        progbar = findViewById(R.id.progbar);
+
+        txt_Version.setText(BuildConfig.VERSION_NAME);
 
         if (!isMyServiceRunning(GMessagingService.class)) {
             startService(new Intent(Activity_SplashScreen.this, GMessagingService.class));
@@ -51,7 +63,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
                 dialog.dismiss();
                 poRequest.launch(mViewModel.GetPermissions().toArray(new String[0]));
             }
-
             @Override
             public void onCancel(AlertDialog dialog) {
                 dialog.dismiss();
@@ -64,9 +75,13 @@ public class Activity_SplashScreen extends AppCompatActivity {
         mViewModel.InitializeData(new VMSplashScreen.OnInitializeData() {
             @Override
             public void OnLoad(String args) {
-                Log.d(TAG, "Loading Marketplace...");
+                txt_Status.setText("Loading Data");
             }
-
+            @Override
+            public void OnProgress(String args, int progress) {
+                txt_Status.setText(args);
+                progbar.setProgress(progress);
+            }
             @Override
             public void OnFinished(String args) {
                 Intent loIntent = new Intent(Activity_SplashScreen.this, Activity_Dashboard.class);
@@ -75,12 +90,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
                     switch (lsArgs){
                         case "regular":
                             break;
-//                                case "cs":
-//                                    loIntent = new Intent(Activity_SplashScreen.this, Activity_Purchases.class);
-//                                    break;
-//                                case "event":
-//                                    loIntent = new Intent(Activity_SplashScreen.this, Activity_ProductReview.class);
-//                                    break;
                         case "mp_order":
                             String lsOrderIDx = getIntent().getStringExtra("sOrderIDx");
                             loIntent.putExtra("notification", "mp_order");

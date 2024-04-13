@@ -195,6 +195,7 @@ public class CodeGenerator {
             }
             for (int index = 0; index < CodeValue.size(); index++) {
                 returnValue = String.valueOf(CodeValue.get(ArrayIndexPosition));
+                Log.d("CODE GENERATE", CodeValue.get(index).toString());
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -326,7 +327,8 @@ public class CodeGenerator {
         return getTransSource().equalsIgnoreCase("PREORDER") ||
                 getTransSource().equalsIgnoreCase("REDEMPTION") ||
                 getTransSource().equalsIgnoreCase("ONLINE") ||
-                getTransSource().equalsIgnoreCase("OFFLINE");
+                getTransSource().equalsIgnoreCase("OFFLINE")||
+                getTransSource().equalsIgnoreCase("OTP");
     }
     public boolean isTransactionVoid(){
         try {
@@ -337,6 +339,16 @@ public class CodeGenerator {
         }
         return false;
     }
+
+    public String GetOTPCardNmbr(){
+        String decryptedQrCode = decryptedQrCodeValue();
+        return getKeyValueOf(decryptedQrCode, 1);
+    }
+    public String GetOTP(){
+        String decryptedQrCode = decryptedQrCodeValue();
+        return getKeyValueOf(decryptedQrCode, 2);
+    }
+
     public String encryptPointsxx(double sPointsxx){
         return poEncrypt.Encrypt(String.valueOf(Double.valueOf(sPointsxx)), EncryptionKEY);
     }

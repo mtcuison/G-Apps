@@ -218,6 +218,7 @@ public class GCardManager implements iGCardSystem{
     public void updateGCardActiveStatus(String GCardNmbr) {
         poGCard.updateGCardActiveStatus(GCardNmbr);
     }
+
     @Override
     public Boolean DownloadGcardPoints(HashMap<String, String> loParams) {
         try {
@@ -269,15 +270,6 @@ public class GCardManager implements iGCardSystem{
             return false;
         }
     }
-    @Override
-    public Boolean DownloadOTP(JSONObject loResult) {
-        try {
-            return true;
-        }catch (Exception e){
-            message = e.getMessage();
-            return false;
-        }
-    }
 
     @Override
     public void updateAvailablePoints(String fsGcardNo, String fsNewPts) {
@@ -305,8 +297,10 @@ public class GCardManager implements iGCardSystem{
     public void AddGCardQrCode(String GCardNumber, GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject params = new JSONObject();
         params.put("secureno", poCode.generateSecureNo(GCardNumber));
+
         String lsAddress = poAPI.getAddNewGCardAPI();
         String lsResponse = WebClient.httpsPostJSon(lsAddress, params.toString(), poHeaders.getHeaders());
+
         if(lsResponse == null){
             callback.OnFailed("No server response.");
         } else {
@@ -343,6 +337,7 @@ public class GCardManager implements iGCardSystem{
     public void DownloadGcardNumbers(GCardSystem.GCardSystemCallback callback) throws Exception {
         JSONObject param = new JSONObject();
         param.put("user_id", poCode.generateSecureNo(poSession.getUserID()));
+
         String lsResponse = WebClient.httpsPostJSon(poAPI.getImportGCardAPI(), param.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             callback.OnFailed("Server no response.");
@@ -361,6 +356,7 @@ public class GCardManager implements iGCardSystem{
     @Override
     public void SaveGCardInfo(JSONObject detail) throws Exception {
         poGCard.updateGCardDeactiveStatus();
+
         if(!detail.has("detail")){
             EGcardApp loGCard = new EGcardApp();
             loGCard.setGCardNox(detail.getString("sGCardNox"));
@@ -443,14 +439,17 @@ public class GCardManager implements iGCardSystem{
         String lsUserID = poSession.getUserID();
         String lsMobNox = poDevicex.getMobilNumbers();
         String lsDateTm = new AppConstants().GCARD_DATE_TIME;
+
         double lsCardPt;
         if(poGCard.getRedeemItemPoints() > 0){
             lsCardPt = Math.abs(poGCard.getAvailableGcardPoints() - poGCard.getRedeemItemPoints());
         } else {
             lsCardPt = poGCard.getAvailableGcardPoints();
         }
+
         String lsModelx = Build.MODEL;
         String lsTransN = "";
+
         return poCode.generateGCardCodex(lsSource,
                 lsDevcID,
                 lsCardNo,
@@ -475,19 +474,33 @@ public class GCardManager implements iGCardSystem{
         }
 
         if (ValidateQR(lsUserIDxx, lsMobileNo)){
-            if (poCode.isQrCodeTransaction()){ //IF SOURCE IS PREORDER, REDEMPTION, ONLINE, OFFLINE
+            if (poCode.isQrCodeTransaction()){
+                //TODO: GET ANY ACTIVE GCARD NUMBERS ON ACCOUNT
                 String lsGcardNox = poGCard.getCardNo();
 
+                //TODO: VALIDATE ACTIVE GCARD NUMBER
                 if(!lsGcardNox.isEmpty()){
-                    if(poCode.isTransactionVoid()){
-                        callback.TransactionResult(src, poCode.getTransactionPIN());
-                    } else if(poCode.isDeviceValid(lsMobileNo, lsGcardNox)) {
-                        callback.TransactionResult(src, poCode.getTransactionPIN());
-                    } else {
-                        callback.OnFailed("Mobile Number or Account is not valid to confirm this transaction");
+                    //TODO: VALIDATE AND DISPLAY OTP
+                    if (src.equalsIgnoreCase("OTP")){
+                        if (poGCard.getCardNmbr(poCode.GetOTPCardNmbr()).isEmpty()){
+                            callback.OnFailed("GCard Number is not registered on this account.");
+                        }else {
+                            callback.TransactionResult(src, poCode.GetOTP());
+                        }
+                    }else {
+                        if(poCode.isTransactionVoid()){
+                            //TODO: POINTS SHOULD BE EMPTY
+                            callback.TransactionResult(src, poCode.getTransactionPIN());
+                        } else if(poCode.isDeviceValid(lsMobileNo, lsGcardNox)) {
+                            //TODO: GCARD AND MOBILE, SHOULD BE SAME WITH USER ACCOUNT
+                            callback.TransactionResult(src, poCode.getTransactionPIN());
+                        } else {
+                            callback.OnFailed("Mobile Number or Account is not valid to confirm this transaction");
+                        }
                     }
+
                 }else {
-                    callback.OnFailed("No GCard number is registered or active in this account. Please make sure a GCard is active.");
+                    callback.OnFailed("No GCard number is active in this account. Please make sure a GCard is active.");
                 }
             } else {
                 if (src.equals("TDS")){
@@ -640,10 +653,12 @@ public class GCardManager implements iGCardSystem{
 
     @Override
     public void DownloadMCServiceInfo(GCardSystem.GCardSystemCallback callback) throws Exception {
-        JSONObject params = new JSONObject();
         String lsGcardNo = poGCard.getCardNo();
         String lsSecureNo = new CodeGenerator().generateSecureNo(lsGcardNo);
+
+        JSONObject params = new JSONObject();
         params.put("secureno", lsSecureNo);
+
         String lsResponse = WebClient.httpsPostJSon(poAPI.getServiceInfoAPI(), params.toString(), poHeaders.getHeaders());
         if (lsResponse == null) {
             callback.OnFailed("Server no response");
@@ -661,9 +676,11 @@ public class GCardManager implements iGCardSystem{
     }
     @Override
     public void DownloadRegistrationInfo(GCardSystem.GCardSystemCallback callback) throws Exception {
-        JSONObject params = new JSONObject();
         String lsSecureNo = new CodeGenerator().generateSecureNo(poGCard.getCardNo());
+
+        JSONObject params = new JSONObject();
         params.put("secureno", lsSecureNo);
+
         String lsResponse = WebClient.httpsPostJSon(poAPI.getMCRegistrationAPI(), params.toString(), poHeaders.getHeaders());
         if (lsResponse == null) {
             callback.OnFailed("Server no response");
@@ -724,7 +741,6 @@ public class GCardManager implements iGCardSystem{
 
     @Override
     public void ScheduleNextServiceDate(String date, GCardSystem.GCardSystemCallback callback) {
-
     }
 
     @Override
@@ -764,6 +780,5 @@ public class GCardManager implements iGCardSystem{
 
     @Override
     public void ActivateGcard(String GcardNo) throws Exception {
-
     }
 }

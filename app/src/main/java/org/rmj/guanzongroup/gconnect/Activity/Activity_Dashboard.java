@@ -80,7 +80,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                 if(result.getResultCode() == GCARD_APPLICATION) {
                     Intent loIntent = result.getData();
                     if (loIntent != null) {
-//                        Toast.makeText(Activity_Dashboard.this, loIntent.getStringExtra("result"), Toast.LENGTH_LONG).show();
                         String lsArgs = loIntent.getStringExtra("result");
                         ParseQrCode(lsArgs);
                     } else {
@@ -203,7 +202,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
         mViewModel.GetToPayOrders().observe(Activity_Dashboard.this, count -> {
             try{
                 lblBadge = (TextView) loInflate.inflate(R.layout.nav_action_badge, null, false);
@@ -213,7 +211,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
         navigationView.getMenu().findItem(R.id.nav_raffle_entry).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
@@ -221,7 +218,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                 return false;
             }
         });
-
         navigationView.getMenu().findItem(R.id.nav_purchases).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
@@ -242,7 +238,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                     });
                     dialog.dismiss();
                 }
-
                 @Override
                 public void onCancel(AlertDialog dialog) {
                     dialog.dismiss();
@@ -272,35 +267,30 @@ public class Activity_Dashboard extends AppCompatActivity {
                     poLoading.initDialog(title, message);
                     poLoading.show();
                 }
-
                 @Override
                 public void OnIncompleteAccountInfo() {
                     poLoading.dismiss();
                     Intent loIntent = new Intent(Activity_Dashboard.this, Activity_CompleteAccountDetails.class);
                     startActivity(loIntent);
                 }
-
                 @Override
                 public void OnAccountVerified() {
                     poLoading.dismiss();
                     Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanProductList.class);
                     startActivity(intent);
                 }
-
                 @Override
                 public void OnAccountNotVerified() {
                     poLoading.dismiss();
                     Intent intent = new Intent(Activity_Dashboard.this, Activity_LoanIntroduction.class);
                     startActivity(intent);
                 }
-
                 @Override
                 public void OnFailed(String message) {
                     poLoading.dismiss();
                     poDialog.setButtonText("Okay");
                     poDialog.initDialog("Gaunzon App", message, () -> poDialog.dismiss());
                     poDialog.show();
-
                 }
             });
             return false;
@@ -363,7 +353,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                     });
                     loDialog.show();
                 }
-
                 @Override
                 public void OnCheckEvents(String args1, String args2) {
                     Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
@@ -418,7 +407,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                 dialog.dismiss();
                 finish();
             }
-
             @Override
             public void onCancel(AlertDialog dialog) {
                 dialog.dismiss();
@@ -430,7 +418,6 @@ public class Activity_Dashboard extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         IntentFilter intentFilter = new IntentFilter("android.intent.action.SUCCESS_LOGIN");
-        //registerReceiver(poLogRcv, intentFilter);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             registerReceiver(poLogRcv, intentFilter, RECEIVER_EXPORTED);
@@ -478,15 +465,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                 Menu nav_Menu = navigationView.getMenu();
                 if(eClientinfo != null) {
                     String lsFullNme = eClientinfo.getUserName();
-
-                    //This portion of code has been disabled in order not to display the actual name of user on dashboard
-                    /*if (eClientinfo.getLastName() == null && eClientinfo.getFrstName() == null){
-                        lsFullNme = eClientinfo.getUserName();
-                    } else if(eClientinfo.getLastName().isEmpty() && eClientinfo.getFrstName().isEmpty()){
-                        lsFullNme = eClientinfo.getUserName();
-                    } else {
-                        lsFullNme = eClientinfo.getFrstName() + " " + eClientinfo.getLastName();
-                    }*/
 
                     lnAuthxxx.setVisibility(View.GONE);
                     txtFullNm.setVisibility(View.VISIBLE);
@@ -552,8 +530,16 @@ public class Activity_Dashboard extends AppCompatActivity {
             }
             @Override
             public void TransactionResult(String src, Object args) {
+                String message;
+
+                if (src.equalsIgnoreCase("OTP")){
+                    message = "Transaction PIN. \n \n Note: Please submit your OTP as requested by the counter.";
+                }else {
+                    message = "Transaction PIN. \n \n Note: Points may not take effect immediately if branch is not online.";
+                }
+
                 Dialog_TransactionPIN loDialog = new Dialog_TransactionPIN(Activity_Dashboard.this);
-                loDialog.initDialog(args.toString());
+                loDialog.initDialog(args.toString(), message);
             }
             @Override
             public void OnFailed(String message) {
@@ -602,7 +588,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                 poLoading.dismiss();
 
                 poDialog.setButtonText("Okay");
-                poDialog.initDialog("Guanzon App", "Download Successful", () -> poDialog.dismiss());
+                poDialog.initDialog("Guanzon App", "Upload Successful", () -> poDialog.dismiss());
                 poDialog.show();
             }
             @Override

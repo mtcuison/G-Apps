@@ -3,9 +3,7 @@ package org.rmj.guanzongroup.marketplace.Etc;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
-import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 
 public class AddUpdateCartTask extends AsyncTask<String, Void, Boolean> {
@@ -78,5 +76,4 @@ public class AddUpdateCartTask extends AsyncTask<String, Void, Boolean> {
             poCallBck.onFailed(psMessage);
         }
     }
-
 }
