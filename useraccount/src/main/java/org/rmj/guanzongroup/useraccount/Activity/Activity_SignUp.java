@@ -28,7 +28,6 @@ import org.rmj.guanzongroup.useraccount.ViewModel.VMAccountAuthentication;
 import java.util.Objects;
 
 public class Activity_SignUp extends AppCompatActivity {
-
     private VMAccountAuthentication mViewModel;
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialogx;
@@ -37,13 +36,9 @@ public class Activity_SignUp extends AppCompatActivity {
     private TextInputEditText txtUserNm, txtEmailx, txtMobile, txtPasswd, txtRetype;
     private TextView txtTermsx, txtPrivcy;
     private MaterialButton btnSignUp;
-
     private static final int VERIFY = 111;
-
     public boolean isClicked = false;
-
     private AccountAuthentication.AccountCredentials loCrednts;
-
     private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -64,9 +59,12 @@ public class Activity_SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
         mViewModel = new ViewModelProvider(Activity_SignUp.this).get(VMAccountAuthentication.class);
+
         initViews();
         setUpToolbar();
+
         btnSignUp.setOnClickListener(view -> {
             if(!isClicked) {
                 isClicked = true;
@@ -112,7 +110,7 @@ public class Activity_SignUp extends AppCompatActivity {
     private void setUpToolbar() {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Sign Up");
+        getSupportActionBar().setTitle("");
     }
 
     private void intentTerms(int index) {
@@ -151,12 +149,6 @@ public class Activity_SignUp extends AppCompatActivity {
                     poLoading.dismiss();
                     isClicked = false;
                     LoginAccount();
-//                    poDialogx.setButtonText("Okay");
-//                    poDialogx.initDialog("Sign Up", fsMessage, dialog -> {
-//                        dialog.dismiss();
-//                        finish();
-//                    });
-//                    poDialogx.show();
                 }
 
                 @Override
@@ -181,8 +173,7 @@ public class Activity_SignUp extends AppCompatActivity {
         AccountAuthentication.LoginCredentials loLogin =
                 new AccountAuthentication.LoginCredentials(
                         loCrednts.getsEmailAdd(),
-                        loCrednts.getsPassword(),
-                        loCrednts.getsMobileNo());
+                        loCrednts.getsPassword());
         mViewModel.LoginAccount(loLogin, new VMAccountAuthentication.AuthenticationCallback() {
             @Override
             public void onLoad() {

@@ -163,22 +163,6 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     mViewModel.getModel().setPricexxx(cashPrice.Pricedxx);
                     txtCashPrice.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(cashPrice.CashPrce)));
                 });
-//                mViewModel.GetCashInfo(modelID).observe(this, cashPrice -> {
-//                    Log.e("cashPrice",cashPrice.CashPrce + "");
-////                    if(cashPrice.CashPrce != null){
-////                        txtCashPrice.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(cashPrice.CashPrce)));
-////                    }
-//                });
-//                if(mViewModel.GetCashInfo(modelID) !=  null){
-//                    Log.e("cashPrice",FormatUIText.getCurrencyUIFormat(String.valueOf(mViewModel.GetCashInfo(modelID).CashPrce)) + "");
-//                    txtCashPrice.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(mViewModel.GetCashInfo(modelID).CashPrce)));
-//                    mViewModel.getModel().setCashPrce(cashPrice.CashPrce);
-//                    mViewModel.getModel().setPricexxx(cashPrice.Pricedxx);
-//                    txtCashPrce.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(cashPrice.CashPrce)));
-//                }else{
-//                    txtCashPrice.setText(FormatUIText.getCurrencyUIFormat("0.0"));
-//                    Log.e("cashPrice",FormatUIText.getCurrencyUIFormat("0.0"));
-//                }
                 mViewModel.GetMinimumDownpayment(modelID, new VMProductInquiry.OnRetrieveInstallmentInfo() {
                     @Override
                     public void OnRetrieve(InstallmentInfo loResult) {

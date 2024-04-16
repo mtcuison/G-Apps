@@ -1,7 +1,6 @@
 package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;

@@ -75,35 +75,35 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/lblMobileNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lblMobileNumber"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_password"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            style="@style/TextInputLabel"
-            android:layout_marginTop="30dp"/>
+<!--        <TextView-->
+<!--            android:id="@+id/lblMobileNo"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/lblMobileNumber"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/til_password"-->
+<!--            app:layout_constraintRight_toRightOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0"-->
+<!--            style="@style/TextInputLabel"-->
+<!--            android:layout_marginTop="30dp"/>-->
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_mobile"
-            style="@style/TextInputStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblMobileNo">
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/til_mobile"-->
+<!--            style="@style/TextInputStyle"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/lblMobileNo">-->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_mobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLength="11" />
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/tie_mobile"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:inputType="number"-->
+<!--                android:maxLength="11" />-->
 
-        </com.google.android.material.textfield.TextInputLayout>
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
         <TextView
             android:id="@+id/lblPassword"
@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:text="@string/lblForgotPass"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_mobile"
+            app:layout_constraintTop_toBottomOf="@id/til_password"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0"
             style="@style/LoginLinkLabel" />
@@ -150,7 +150,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/lblCreateAccount"
-            app:layout_constraintTop_toBottomOf="@id/til_mobile"
+            app:layout_constraintTop_toBottomOf="@id/til_password"
             app:layout_constraintRight_toRightOf="parent"
             style="@style/LoginLinkLabel" />
 

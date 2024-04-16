@@ -66,13 +66,14 @@ public class Activity_Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(Activity_Login.this).get(VMAccountAuthentication.class);
         setContentView(R.layout.activity_login);
+
+        mViewModel = new ViewModelProvider(Activity_Login.this).get(VMAccountAuthentication.class);
+
         initViews();
         setUpToolbar();
         setTabLayout();
         setClickLinkListeners();
-        initMobileNo();
 
         btnLogin.setOnClickListener(v -> {
             if(!isClicked) {
@@ -82,16 +83,6 @@ public class Activity_Login extends AppCompatActivity {
                 Toast.makeText(Activity_Login.this, "Please wait...", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void initMobileNo() {
-        if(mViewModel.GetMobileNo().isEmpty()){
-            tilMobile.setVisibility(View.VISIBLE);
-        } else {
-            tieMobile.setText(mViewModel.GetMobileNo());
-            tilMobile.setVisibility(View.GONE);
-            findViewById(R.id.lblMobileNo).setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -131,7 +122,7 @@ public class Activity_Login extends AppCompatActivity {
     private void setUpToolbar() {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Log In");
+        getSupportActionBar().setTitle("");
     }
 
     private void setClickLinkListeners() {
@@ -148,14 +139,13 @@ public class Activity_Login extends AppCompatActivity {
 
     private void acccountLogin() {
         String lsEmailxx = Objects.requireNonNull(tieEmail.getText()).toString().trim();
-        String lsMobilex = Objects.requireNonNull(tieMobile.getText()).toString().trim();
         String lsPasswrd = Objects.requireNonNull(tiePassword.getText()).toString().trim();
+
         LoginInfoModel infoModel = new LoginInfoModel(LogType.EMAIL, lsEmailxx, lsPasswrd);
         if(infoModel.isDataNotEmpty()) {
             AccountAuthentication.LoginCredentials loCrednts = new AccountAuthentication.LoginCredentials(
                     infoModel.getLogUser(),
-                    infoModel.getPassword(),
-                    lsMobilex);
+                    infoModel.getPassword());
             try {
                 mViewModel.LoginAccount(loCrednts, new VMAccountAuthentication.AuthenticationCallback() {
                     @Override

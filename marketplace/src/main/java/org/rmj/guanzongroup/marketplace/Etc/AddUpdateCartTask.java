@@ -8,7 +8,6 @@ import org.rmj.g3appdriver.etc.ConnectionUtil;
 
 public class AddUpdateCartTask extends AsyncTask<String, Void, Boolean> {
     private static final String TAG = AddUpdateCartTask.class.getSimpleName();
-
     private final ConnectionUtil poConnect;
     private final ROrder poOrdersx;
     private final OnTransactionsCallback poCallBck;
@@ -23,13 +22,11 @@ public class AddUpdateCartTask extends AsyncTask<String, Void, Boolean> {
         this.pnItemQty = fnItemQty;
         this.QtyUpdate = QtyUpdate;
     }
-
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         poCallBck.onLoading();
     }
-
     @Override
     protected Boolean doInBackground(String... strings) {
         try {
@@ -66,7 +63,6 @@ public class AddUpdateCartTask extends AsyncTask<String, Void, Boolean> {
             return false;
         }
     }
-
     @Override
     protected void onPostExecute(Boolean aBoolean) {
         super.onPostExecute(aBoolean);

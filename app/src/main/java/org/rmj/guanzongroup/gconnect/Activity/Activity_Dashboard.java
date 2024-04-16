@@ -478,6 +478,8 @@ public class Activity_Dashboard extends AppCompatActivity {
 
                     nav_Menu.findItem(R.id.nav_scan_qrcode).setVisible(true);
                     nav_Menu.findItem(R.id.nav_my_gcard).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_product_inquiry_history).setVisible(true);
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(true);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(true);
@@ -496,6 +498,8 @@ public class Activity_Dashboard extends AppCompatActivity {
                     });
                     nav_Menu.findItem(R.id.nav_scan_qrcode).setVisible(false);
                     nav_Menu.findItem(R.id.nav_my_gcard).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_product_inquiry_history).setVisible(false);
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
                     nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
                     nav_Menu.findItem(R.id.nav_applyLoan).setVisible(false);

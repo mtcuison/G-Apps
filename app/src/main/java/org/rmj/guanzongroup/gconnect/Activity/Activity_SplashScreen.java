@@ -72,6 +72,8 @@ public class Activity_SplashScreen extends AppCompatActivity {
         poDialog.show();
     }
     private void InitializeData(){
+        mViewModel.setsAppVrsnCd(String.valueOf(BuildConfig.VERSION_CODE));
+        mViewModel.setsAppVrsnNm(BuildConfig.VERSION_NAME);
         mViewModel.InitializeData(new VMSplashScreen.OnInitializeData() {
             @Override
             public void OnLoad(String args) {

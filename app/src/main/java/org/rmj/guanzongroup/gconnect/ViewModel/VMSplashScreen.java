@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import org.rmj.g3appdriver.BuildConfig;
 import org.rmj.g3appdriver.dev.Repositories.RAddressMobile;
 import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
@@ -49,7 +50,13 @@ public class VMSplashScreen extends AndroidViewModel {
         loConfig.setClientID(AppConstants.APP_CLIENT);
         loConfig.setIfPermissionsGranted(true);
 
-        loConfig.setTestCase(true);
+        loConfig.setTestCase(false);
+    }
+    public void setsAppVrsnCd(String sAppVrsnCd){
+        loConfig.setAppversionCode(sAppVrsnCd);
+    }
+    public void setsAppVrsnNm(String sAppVrsnNm){
+        loConfig.setAppversionName(sAppVrsnNm);
     }
     public List<String> GetPermissions(){
         List<String> laPermissions = new ArrayList<>();
@@ -77,100 +84,6 @@ public class VMSplashScreen extends AndroidViewModel {
                 Log.e(TAG, "Import failed... " + message);
             }
         };
-
-        /*TaskExecutor.Execute(poCallback, new OnTaskExecuteListener() {
-            @Override
-            public void OnPreExecute() {
-                listener.OnLoad("Started!");
-            }
-            @Override
-            public Object DoInBackground(Object args) {
-                try {
-                    //TODO: IMPORT DATA NEEDED FOR ADDRESS
-                    if (!loAddress.ImportBarangayList()){
-                        Log.d(TAG, "Unable to Import Baranggay Info");
-                    }
-
-                    Thread.sleep(500);
-                    if (!loAddress.ImportTownList()){
-                        Log.d(TAG, "Unable to Import Town Info");
-                    }
-
-                    Thread.sleep(500);
-                    if (!loAddress.ImportProvinceList()){
-                        Log.d(TAG, "Unable to Import Province Info");
-                    }
-
-                    Thread.sleep(500);
-                    if (!loAddress.ImportCountryList()){
-                        Log.d(TAG, "Unable to Import Country Info");
-                    }
-
-                    //TODO: IMPORT NEW PRODUCTS
-                    Thread.sleep(500);
-                    if (loProduct.ImportProductList()) {
-                        Log.d(TAG, "Product Sales imported successfully...");
-                    }
-
-                    //TODO: IMPORT NOTIFICATIONS, PROMOTIONS, AND TRANSACTIONS, IF ALREADY LOGGED IN
-                    if (loAccount.getLoginStatus()) {
-
-                        GCardSystem.GCardSystemCallback poCallback = (GCardSystem.GCardSystemCallback) args;
-
-                        Thread.sleep(500);
-                        loNotif.ImportClientNotifications(0);
-
-                        loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
-                        Thread.sleep(500);
-                        loGcard.DownloadGcardNumbers(poCallback);
-
-                        if(loGcard.hasActiveGcard().size() > 0){
-
-                            Thread.sleep(500);
-                            loGcard.DownloadMCServiceInfo(poCallback);
-
-                            Thread.sleep(500);
-                            loGcard.DownloadTransactions(poCallback);
-                        } else {
-                            Log.e(TAG, "No gcard registered on this account.");
-                        }
-
-                        loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
-                        Thread.sleep(500);
-                        loGcard.DownloadPromotions(poCallback);
-
-                        Thread.sleep(500);
-                        loGcard.DownloadBranchesList(poCallback);
-
-                        Thread.sleep(500);
-                        loGcard.DownloadNewsEvents(poCallback);
-                        Log.d(TAG, "News events imported successfully...");
-
-                        loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
-                        Thread.sleep(500);
-                        loGcard.DownloadRedeemables(poCallback);
-
-                        if(loAccount.getVerificationStatus() > 0){
-                            Thread.sleep(500);
-                            if(loOrder.ImportMarketPlaceItemCart()){
-                                Log.d(TAG, "Marketplace cart items imported successfully...");
-                            }
-                        } else {
-                            Log.e(TAG, "User doesn't have complete details for marketplace.");
-                        }
-                    } else {
-                        Log.e(TAG, "No account session found.");
-                    }
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-                return null;
-            }
-            @Override
-            public void OnPostExecute(Object object) {
-                listener.OnFinished("Finished!");
-            }
-        });*/
 
         TaskExecutor loTask = new TaskExecutor();
         loTask.setOnLoadApplicationListener(new OnLoadApplicationListener() {

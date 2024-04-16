@@ -257,7 +257,7 @@ public class RClientInfo {
                     loDetail.setMiddName(loResponse.getString("sMiddName"));
                     loDetail.setSuffixNm(loResponse.getString("sSuffixNm"));
                     loDetail.setMaidenNm(loResponse.getString("sMaidenNm"));
-                    loDetail.setGCashNo(loResponse.getString("sGcashNox"));
+                    loDetail.setGCashNo(loResponse.getString("sGCashNox"));
                     loDetail.setGenderCd(loResponse.getString("cGenderCd"));
                     loDetail.setCvilStat(loResponse.getString("cCvilStat"));
                     loDetail.setBirthDte(loResponse.getString("dBirthDte"));

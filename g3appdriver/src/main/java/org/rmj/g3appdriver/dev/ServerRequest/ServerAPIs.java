@@ -16,6 +16,7 @@ public class ServerAPIs {
     private static final String RESEND_OTP = SECURITY + "send_otp.php";
     private static final String REGISTRATION = SECURITY + "signup.php";
     private static final String RETRIEVE_PASSWORD = SECURITY + "forgotpswd.php";
+    private static final String URL_SUBMIT_APP_VERSION = SECURITY + "updateUserAppVersion.php";
 
     private static final String URL_CHECK_APP_VERSION = GCARD + "version_checker.php";
     private static final String URL_ADD_NEW_GCARD = GCARD + "add_gcardnumber.php";
@@ -802,5 +803,12 @@ public class ServerAPIs {
             return LOCAL + URL_IMPORT_GCARD_POINTS;
         }
         return LIVE + URL_IMPORT_GCARD_POINTS;
+    }
+
+    public String getUrlSubmitAppVersion() {
+        if(isTestUnit) {
+            return LOCAL + URL_SUBMIT_APP_VERSION;
+        }
+        return LIVE + URL_SUBMIT_APP_VERSION;
     }
 }

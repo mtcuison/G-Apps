@@ -1,8 +1,6 @@
 package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import android.app.Application;
-import android.content.Context;
-import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -15,8 +13,6 @@ import org.rmj.g3appdriver.etc.PaymentMethod;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
-
-import kotlinx.coroutines.scheduling.Task;
 
 public class VMPayOrder extends AndroidViewModel {
     private final Application application;
