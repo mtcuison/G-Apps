@@ -40,7 +40,7 @@ public class AppVersion {
             params.put("sIMEINoxx", poTelephony.getDeviceID());
             params.put("sAppVersn", loConfig.getAppversionCode());
 
-            String lsResponse = WebClient.httpsPostJSon(poApi.getSIGN_IN(), params.toString(), poHeaders.getHeaders());
+            String lsResponse = WebClient.httpsPostJSon(poApi.getUrlSubmitAppVersion(), params.toString(), poHeaders.getHeaders());
             if (lsResponse == null) {
                 message = "Server no response";
                 return false;

@@ -211,6 +211,7 @@ public class AccountAuthentication {
                     poClient.insert(loClient);
 
                     //TODO: update user app version
+                    Thread.sleep(1000);
                     poVersion.SubmitUserAppVersion();
 
                     callback.OnSuccessLogin("Login success.");
