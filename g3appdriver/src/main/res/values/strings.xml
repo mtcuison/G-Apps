@@ -16,6 +16,7 @@
     <string name="menu_raffle_entry">Raffle Entry</string>
     <string name="menu_redeemables">Redeemables</string>
     <string name="menu_gcard_orders">Orders</string>
+    <string name="menu_gcard_offline">Add Points</string>
     <string name="menu_gcard_transactions">Gcard Transactions</string>
     <string name="menu_pre_termination">Pre Termination</string>
     <string name="menu_account_settings">Account Settings</string>

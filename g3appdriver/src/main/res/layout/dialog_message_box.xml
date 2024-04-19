@@ -70,11 +70,10 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_dialogPositive"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="YES"
                 android:fontFamily="@font/roboto_medium"
-                style="@style/GuanzonMarketplace.Theme"
                 android:visibility="visible"/>
 
             <com.google.android.material.divider.MaterialDivider
@@ -87,11 +86,10 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_dialogNegative"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="NO"
                 android:fontFamily="@font/roboto_medium"
-                style="@style/GuanzonMarketplace.Theme"
                 android:visibility="visible"/>
 
         </LinearLayout>

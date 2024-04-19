@@ -73,8 +73,7 @@ public class Fragment_Dashboard extends Fragment {
 
                     //Pre release of Guanzon Connect Marketplace Project requires this field to be commented
                     // in order to hide the preview of marketplace items
-//                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
-//                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
+
                     nav_Menu.findItem(R.id.nav_Panalo).setVisible(true);
                     nav_Menu.findItem(R.id.nav_MpItemCart).setVisible(true);
                     nav_Menu.findItem(R.id.nav_MyGcard).setVisible(true);

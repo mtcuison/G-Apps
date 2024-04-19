@@ -157,7 +157,7 @@ public class VMGCardSystem extends AndroidViewModel {
                         });
                     }
                 }catch (Exception e){
-                    lomessage = e.getMessage();
+                    lomessage = parse(FAILED, e.getMessage());
                 }
 
                 return lomessage;

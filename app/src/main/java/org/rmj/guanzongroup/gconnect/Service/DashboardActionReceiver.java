@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
+import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
@@ -19,15 +20,21 @@ public class DashboardActionReceiver extends BroadcastReceiver {
     private static final String TAG = DashboardActionReceiver.class.getSimpleName();
     private char cImportxx;
     private iGCardSystem loGcard;
+    private iGCardSystem loGcardExtra;
+    private iGCardSystem loGcardRedeemables;
     private RClientInfo loClient;
     private ROrder loPurchase;
+    private RNotificationInfo loNotif;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
             loClient = new RClientInfo(context);
             loPurchase = new ROrder(context);
+            loNotif = new RNotificationInfo(context);
             loGcard = new GCardSystem(context).getInstance(GCardSystem.CoreFunctions.GCARD);
+            loGcardExtra = new GCardSystem(context).getInstance(GCardSystem.CoreFunctions.EXTRAS);
+            loGcardRedeemables = new GCardSystem(context).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
 
             if (intent.hasExtra("args")) {
                 String args = intent.getStringExtra("args");
@@ -79,7 +86,6 @@ public class DashboardActionReceiver extends BroadcastReceiver {
         GCardSystem.GCardSystemCallback callback = new GCardSystem.GCardSystemCallback() {
             @Override
             public void OnSuccess(String args) {
-                Log.d(TAG, args);
                 try {
                     switch (cImportxx) {
                         case '0':
@@ -98,13 +104,21 @@ public class DashboardActionReceiver extends BroadcastReceiver {
                 Log.e(TAG, message);
             }
         };
+
         TaskExecutor.Execute(callback, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 try{
+                    if (loClient.ImportAccountInfo()) {
+                        Log.d(TAG, "Client info downloaded successfully.");
+                    } else {
+                        Log.e(TAG, "Failed to download client info. " + loClient.getMessage());
+                    }
+
                     GCardSystem.GCardSystemCallback callback = (GCardSystem.GCardSystemCallback) args;
                     cImportxx = '0';
 
+                    Thread.sleep(1000);
                     loGcard.DownloadGcardNumbers(callback);
                     if(loGcard.hasActiveGcard().size() > 0){
                         cImportxx = '1';
@@ -116,15 +130,22 @@ public class DashboardActionReceiver extends BroadcastReceiver {
                         loGcard.DownloadTransactions(callback);
                     }
 
-                    Thread.sleep(1000);
-                    if (loClient.ImportAccountInfo()) {
-                        Log.d(TAG, "Client info downloaded successfully.");
-                    } else {
-                        Log.e(TAG, "Failed to download client info. " + loClient.getMessage());
-                    }
+                    Thread.sleep(500);
+                    loGcardExtra.DownloadPromotions(callback);
+                    Log.d(TAG, "Promotions imported successfully...");
+
+                    Thread.sleep(500);
+                    loGcardExtra.DownloadBranchesList(callback);
+                    Log.d(TAG, "Branches imported successfully...");
+
+                    Thread.sleep(500);
+                    loGcardExtra.DownloadNewsEvents(callback);
+                    Log.d(TAG, "News events imported successfully...");
+
+                    Thread.sleep(500);
+                    loGcardRedeemables.DownloadRedeemables(callback);
 
                     if (loClient.getClientId() != null) {
-
                         Thread.sleep(1000);
                         if (loPurchase.ImportMarketPlaceItemCart()) {
                             Log.d(TAG, "Cart items downloaded successfully.");
@@ -138,6 +159,13 @@ public class DashboardActionReceiver extends BroadcastReceiver {
                         } else {
                             Log.e(TAG, "Failed to download purchases. " + loPurchase.getMessage());
                         }
+                    }
+
+                    Thread.sleep(1000);
+                    if (loNotif.ImportClientNotifications(0)){
+                        Log.d(TAG, "Client info downloaded successfully.");
+                    }else {
+                        Log.d(TAG, loNotif.getMessage());
                     }
                 }catch (Exception e){
                     e.printStackTrace();

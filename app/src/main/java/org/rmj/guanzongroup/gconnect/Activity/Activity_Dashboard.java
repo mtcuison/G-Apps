@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,6 +39,7 @@ import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Promo;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_SingleButton;
+import org.rmj.guanzongroup.digitalgcard.Activity.Activity_GCardOffline;
 import org.rmj.guanzongroup.digitalgcard.Activity.Activity_QrCodeScanner;
 import org.rmj.guanzongroup.digitalgcard.Dialogs.Dialog_TransactionPIN;
 import org.rmj.guanzongroup.gconnect.R;
@@ -117,6 +119,7 @@ public class Activity_Dashboard extends AppCompatActivity {
                 R.id.nav_item_cart,
                 R.id.nav_my_gcard,
                 R.id.nav_scan_qrcode,
+                R.id.nav_gcard_offline,
                 R.id.nav_raffle_entry,
                 R.id.nav_redeemables,
                 R.id.nav_gcard_orders,
@@ -124,24 +127,14 @@ public class Activity_Dashboard extends AppCompatActivity {
                 R.id.nav_pre_termination,
                 R.id.nav_account_settings,
                 R.id.nav_find_us,
-                R.id.nav_customer_service,
                 R.id.nav_logout)
                 .setOpenableLayout(drawer)
                 .build();
 
-        //Disable Pre-Termination page until project is develop...
-        navigationView.getMenu().findItem(R.id.nav_events).setVisible(false);
-        navigationView.getMenu().findItem(R.id.nav_wishlist).setVisible(false);
-        navigationView.getMenu().findItem(R.id.nav_pre_termination).setVisible(false);
-        navigationView.getMenu().findItem(R.id.nav_customer_service).setVisible(false);
-
-//        navigationView.getMenu().findItem(R.id.nav_purchases).setVisible(false);
-        navigationView.getMenu().findItem(R.id.nav_promos).setVisible(false);
-        navigationView.getMenu().findItem(R.id.nav_item_cart).setVisible(false);
-
         mViewModel.GetActiveGCard().observe(Activity_Dashboard.this, eGcardApp -> {
             try {
                 navigationView = findViewById(R.id.nav_view);
+
                 Menu nav_Menu = navigationView.getMenu();
                 if (eGcardApp == null) {
                     nav_Menu.findItem(R.id.nav_raffle_entry).setVisible(false);
@@ -165,6 +158,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         setupIntentArguments(navController);
+
         loInflate = LayoutInflater.from(Activity_Dashboard.this);
 
         mViewModel.GetUnreadMessagesCount().observe(Activity_Dashboard.this, count -> {
@@ -182,7 +176,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
         mViewModel.GetCartItemCount().observe(Activity_Dashboard.this, count -> {
             try {
                 toolbar = findViewById(R.id.toolbar);
@@ -211,10 +204,17 @@ public class Activity_Dashboard extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-        navigationView.getMenu().findItem(R.id.nav_raffle_entry).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+        navigationView.getMenu().findItem(R.id.nav_scan_qrcode).setOnMenuItemClickListener(menuItem -> {
+            Intent loIntent = new Intent(Activity_Dashboard.this, Activity_QrCodeScanner.class);
+            poArl.launch(loIntent);
+            return false;
+        });
+        navigationView.getMenu().findItem(R.id.nav_gcard_offline).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
-                new DialogRaffelEntry(Activity_Dashboard.this).initDialog((Transact, ReferNo) -> new DialogRaffleEntryQrCode(Activity_Dashboard.this).initDialog(Transact, ReferNo));
+                Intent loIntent = new Intent(Activity_Dashboard.this, Activity_GCardOffline.class);
+                startActivity(loIntent);
                 return false;
             }
         });
@@ -225,41 +225,12 @@ public class Activity_Dashboard extends AppCompatActivity {
                 return false;
             }
         });
-
-        navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(menuItem -> {
-            Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_Dashboard.this);
-            loDialog.setButtonText("YES", "NO");
-            loDialog.initDialog("Confirm Logout", "Do you want to log out?", new Dialog_DoubleButton.OnDialogConfirmation() {
-                @Override
-                public void onConfirm(AlertDialog dialog) {
-                    mViewModel.LogoutUserSession(() -> {
-                        Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Dashboard.class);
-                        startActivity(loIntent);
-                    });
-                    dialog.dismiss();
-                }
-                @Override
-                public void onCancel(AlertDialog dialog) {
-                    dialog.dismiss();
-                }
-            });
-            loDialog.show();
-            return false;
-        });
-
-        navigationView.getMenu().findItem(R.id.nav_scan_qrcode).setOnMenuItemClickListener(menuItem -> {
-            Intent loIntent = new Intent(Activity_Dashboard.this, Activity_QrCodeScanner.class);
-            poArl.launch(loIntent);
-            return false;
-        });
-
         navigationView.getMenu().findItem(R.id.nav_item_cart).setOnMenuItemClickListener(menuItem -> {
             Intent intent = new Intent(Activity_Dashboard.this, Activity_ItemCart.class);
             intent.putExtra("args", "1");
             startActivity(intent);
             return false;
         });
-
         navigationView.getMenu().findItem(R.id.nav_applyLoan).setOnMenuItemClickListener(menuItem -> {
             mViewModel.ValidateUserVerification(new VMHome.OnValidateVerifiedUser() {
                 @Override
@@ -295,6 +266,33 @@ public class Activity_Dashboard extends AppCompatActivity {
             });
             return false;
         });
+        navigationView.getMenu().findItem(R.id.nav_raffle_entry).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+                new DialogRaffelEntry(Activity_Dashboard.this).initDialog((Transact, ReferNo) -> new DialogRaffleEntryQrCode(Activity_Dashboard.this).initDialog(Transact, ReferNo));
+                return false;
+            }
+        });
+        navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(menuItem -> {
+            Dialog_DoubleButton loDialog = new Dialog_DoubleButton(Activity_Dashboard.this);
+            loDialog.setButtonText("YES", "NO");
+            loDialog.initDialog("Confirm Logout", "Do you want to log out?", new Dialog_DoubleButton.OnDialogConfirmation() {
+                @Override
+                public void onConfirm(AlertDialog dialog) {
+                    mViewModel.LogoutUserSession(() -> {
+                        Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Dashboard.class);
+                        startActivity(loIntent);
+                    });
+                    dialog.dismiss();
+                }
+                @Override
+                public void onCancel(AlertDialog dialog) {
+                    dialog.dismiss();
+                }
+            });
+            loDialog.show();
+            return false;
+        });
 
         setUpHeader(navigationView);
 
@@ -313,33 +311,41 @@ public class Activity_Dashboard extends AppCompatActivity {
 //                    break;
                 case "mp_order":
                     String lsOrderIDx = getIntent().getStringExtra("sOrderIDx");
+
                     loIntent = new Intent(Activity_Dashboard.this, Activity_Purchases.class);
                     loIntent.putExtra("sOrderIDx", lsOrderIDx);
+
                     break;
                 case "panalo":
                     String lsPanaloxx = getIntent().getStringExtra("panalo");
                     String lsReferNox = getIntent().getStringExtra("sReferNox");
+
                     loIntent = new Intent(Activity_Dashboard.this, Activity_GuanzonPanalo.class);
                     loIntent.putExtra("panalo", lsPanaloxx);
                     loIntent.putExtra("sReferNox", lsReferNox);
+
                     break;
                 case "promo":
                     String lsArgument = getIntent().getStringExtra("args");
                     String lsUrlLinkx = getIntent().getStringExtra("url_link");
+
                     loIntent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
                     loIntent.putExtra("args", lsArgument);
                     loIntent.putExtra("url_link", lsUrlLinkx);
+
                     break;
                 case "review":
                     String lsListngID = getIntent().getStringExtra("sListngId");
                     String lnEntryNox = getIntent().getStringExtra("nEntryNox");
+
                     loIntent = new Intent(Activity_Dashboard.this, Activity_ProductReview.class);
                     loIntent.putExtra("sListngId", lsListngID);
                     loIntent.putExtra("nEntryNox", lnEntryNox);
+
                     break;
             }
             startActivity(loIntent);
-        } else {
+        }else{
             mViewModel.CheckPromotions(new VMHome.OnCheckPromotions() {
                 @Override
                 public void OnCheckPromos(String args1, String args2) {
@@ -378,6 +384,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_mrktplc, menu);
+
         // Get the SearchView and set the searchable configuration
         mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
 
@@ -386,16 +393,32 @@ public class Activity_Dashboard extends AppCompatActivity {
             try {
                 if(eClientinfo != null){
                     menu.findItem(R.id.item_notifications).setVisible(true);
-//                    menu.findItem(R.id.item_cart).setVisible(true);
                 } else {
                     menu.findItem(R.id.item_notifications).setVisible(false);
-//                    menu.findItem(R.id.item_cart).setVisible(false);
                 }
             } catch(Exception e) {
                 e.printStackTrace();
             }
         });
         return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent loIntent;
+        if(item.getItemId() == android.R.id.home){
+
+        } else if (item.getItemId() == R.id.item_search) {
+            loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
+            startActivity(loIntent);
+        } else if (item.getItemId() == R.id.item_cart) {
+            Intent intent = new Intent(Activity_Dashboard.this, Activity_ItemCart.class);
+            intent.putExtra("args", "1");
+            startActivity(intent);
+        } else {
+            startActivity(new Intent(Activity_Dashboard.this, Activity_NotificationList.class));
+        }
+
+        return super.onOptionsItemSelected(item);
     }
     @Override
     public void onBackPressed() {
@@ -431,28 +454,12 @@ public class Activity_Dashboard extends AppCompatActivity {
         unregisterReceiver(poLogRcv);
     }
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent loIntent;
-        if(item.getItemId() == android.R.id.home){
-
-        } else if (item.getItemId() == R.id.item_search) {
-            loIntent = new Intent(Activity_Dashboard.this, Activity_SearchItem.class);
-            startActivity(loIntent);
-        } else if (item.getItemId() == R.id.item_cart) {
-            Intent intent = new Intent(Activity_Dashboard.this, Activity_ItemCart.class);
-            intent.putExtra("args", "1");
-            startActivity(intent);
-        } else {
-            startActivity(new Intent(Activity_Dashboard.this, Activity_NotificationList.class));
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_activity_dashboard);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
     private void setUpHeader(NavigationView foNavigxx) {
         View headerLayout = foNavigxx.getHeaderView(0);
         LinearLayout lnAuthxxx = headerLayout.findViewById(R.id.ln_authenticate);
@@ -473,11 +480,9 @@ public class Activity_Dashboard extends AppCompatActivity {
                     /*Pre release of Guanzon Connect Marketplace Project requires this field to be commented
                     in order to hide the preview of marketplace items*/
 
-                    /*nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);*/
-
                     nav_Menu.findItem(R.id.nav_scan_qrcode).setVisible(true);
                     nav_Menu.findItem(R.id.nav_my_gcard).setVisible(true);
+                    nav_Menu.findItem(R.id.nav_gcard_offline).setVisible(true);
                     nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(true);
                     nav_Menu.findItem(R.id.nav_product_inquiry_history).setVisible(true);
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
@@ -496,8 +501,10 @@ public class Activity_Dashboard extends AppCompatActivity {
                         Intent loIntent = new Intent(Activity_Dashboard.this, Activity_Login.class);
                         startActivity(loIntent);
                     });
+
                     nav_Menu.findItem(R.id.nav_scan_qrcode).setVisible(false);
                     nav_Menu.findItem(R.id.nav_my_gcard).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_gcard_offline).setVisible(false);
                     nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(false);
                     nav_Menu.findItem(R.id.nav_product_inquiry_history).setVisible(false);
                     nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
@@ -505,6 +512,13 @@ public class Activity_Dashboard extends AppCompatActivity {
                     nav_Menu.findItem(R.id.nav_applyLoan).setVisible(false);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(false);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+
+                    /*DISABLED TEMPORARY, MARKETPLACE UNDER DEVELOPED*/
+                    nav_Menu.findItem(R.id.nav_events).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_wishlist).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_promos).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
                 }
             } catch(Exception e) {
 

@@ -3,9 +3,9 @@
     <color name="app_background">#242424</color>
 
     <!--    Font Colors -->
-    <color name="font_heavy">#121212</color>
-    <color name="font_regular">#242424</color>
-    <color name="font_light">#858585</color>
+    <color name="font_heavy">#FFFFFF</color>
+    <color name="font_regular">#494949</color>
+    <color name="font_light">#B3B3B3</color>
 
     <!--    This color designs has been created by sir kent-->
     <color name="guanzon_digital_orange">#FF8200</color>

@@ -79,7 +79,6 @@ public class MessageBox {
         btnPositive.setText(psBtnPost);
         btnPositive.setOnClickListener(view -> {
             listener.OnButtonClick(view, poDialogx);
-//            isDialogShown = false;
         });
     }
 
@@ -89,7 +88,6 @@ public class MessageBox {
         btnNegative.setText(psBtnNegt);
         btnNegative.setOnClickListener(view -> {
             listener.OnButtonClick(view, poDialogx);
-//            isDialogShown = false;
         });
     }
 

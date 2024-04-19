@@ -122,7 +122,7 @@ public class VMSplashScreen extends AndroidViewModel {
                     }
 
                     //TODO: IMPORT NOTIFICATIONS, PROMOTIONS, AND TRANSACTIONS, IF ALREADY LOGGED IN
-                    if (loAccount.getLoginStatus()) {
+                    /*if (loAccount.getLoginStatus()) {
 
                         Thread.sleep(500);
                         loNotif.ImportClientNotifications(0);
@@ -167,7 +167,7 @@ public class VMSplashScreen extends AndroidViewModel {
                         }
                     } else {
                         Log.e(TAG, "No account session found.");
-                    }
+                    }*/
                 } catch (Exception e){
                     e.printStackTrace();
                 }

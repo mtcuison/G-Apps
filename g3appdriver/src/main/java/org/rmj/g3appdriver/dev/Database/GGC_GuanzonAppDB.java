@@ -32,6 +32,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DNotifications;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderDetail;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DOrderMaster;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPanalo;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPointsRequest;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPromo;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRawDao;
@@ -72,6 +73,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.ENotificationUser;
 import org.rmj.g3appdriver.dev.Database.Entities.EOrderDetail;
 import org.rmj.g3appdriver.dev.Database.Entities.EOrderMaster;
 import org.rmj.g3appdriver.dev.Database.Entities.EPanaloReward;
+import org.rmj.g3appdriver.dev.Database.Entities.EPointsRequest;
 import org.rmj.g3appdriver.dev.Database.Entities.EProducts;
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.g3appdriver.dev.Database.Entities.EProvinceInfo;
@@ -125,7 +127,8 @@ import org.rmj.g3appdriver.dev.Database.Entities.EUserInfo;
         EMcCategory.class,
         EMcTermCategory.class,
         EGCardPoints.class,
-        EGCard_Ledger.class}, version = 2, exportSchema = false)
+        EGCard_Ledger.class,
+        EPointsRequest.class}, version = 2, exportSchema = false)
 public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     private static final String TAG = "GuanzonApp_DB_Manager";
     private static GGC_GuanzonAppDB instance;
@@ -164,6 +167,7 @@ public abstract class GGC_GuanzonAppDB extends RoomDatabase {
     public abstract DMcTermCategory McTermCategoryDao();
     public abstract DGCard_Points GPointsDao();
     public abstract DGCard_Ledger GLedgerDao();
+    public abstract DPointsRequest GPointsRqstDao();
 
     public static synchronized GGC_GuanzonAppDB getInstance(Context context){
         if(instance == null){

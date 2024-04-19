@@ -37,16 +37,13 @@ import java.util.Calendar;
 import java.util.Objects;
 
 public class Activity_AddGcard extends AppCompatActivity {
-
     private VMGCardSystem mViewModel;
     private Toolbar toolbar;
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialog;
     private TextInputEditText txtBdatex, txtGcardN;
     private MaterialButton btnAddCrd, btnScanGc;
-
     private static final int SCAN_GCARD = 1;
-
     public boolean isClicked = false;
 
     private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
@@ -55,7 +52,6 @@ public class Activity_AddGcard extends AppCompatActivity {
                 if(result.getResultCode() == SCAN_GCARD) {
                     Intent loIntent = result.getData();
                     if (loIntent != null) {
-//                        Toast.makeText(Activity_AddGcard.this, loIntent.getStringExtra("result"), Toast.LENGTH_LONG).show();
                         String lsArgs = loIntent.getStringExtra("result");
                         addScannedGcard(lsArgs);
                     } else {
@@ -69,8 +65,10 @@ public class Activity_AddGcard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_gcard);
+
         mViewModel = new ViewModelProvider(Activity_AddGcard.this).get(VMGCardSystem.class);
         mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
+
         initViews();
         setUpToolbar();
 
@@ -90,7 +88,6 @@ public class Activity_AddGcard extends AppCompatActivity {
             addScannedGcard(lsArgs);
         }
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
@@ -98,12 +95,10 @@ public class Activity_AddGcard extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public void onBackPressed() {
         finish();
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -137,7 +132,6 @@ public class Activity_AddGcard extends AppCompatActivity {
         }
     }
 
-    // Initialize this first before anything else.
     private void initViews() {
         toolbar = findViewById(R.id.toolbar);
         txtGcardN = findViewById(R.id.tie_gcard_number);
@@ -146,14 +140,11 @@ public class Activity_AddGcard extends AppCompatActivity {
         btnScanGc = findViewById(R.id.btnScanGcard);
         poDialog = new Dialog_SingleButton(Activity_AddGcard.this);
     }
-
-    // Initialize initViews() before this method.
     private void setUpToolbar() {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add GCard");
+        getSupportActionBar().setTitle("");
     }
-
     private void addGcard() {
         String lsGcardNo = Objects.requireNonNull(txtGcardN.getText().toString().trim());
         String lsBrtDate = Objects.requireNonNull(txtBdatex.getText().toString().trim());
@@ -238,7 +229,6 @@ public class Activity_AddGcard extends AppCompatActivity {
             poDialog.show();
         }
     }
-
     private void addScannedGcard(String args){
         mViewModel.addScannedGcard(args, new VMGCardSystem.GcardTransactionCallback() {
             @Override
@@ -291,7 +281,6 @@ public class Activity_AddGcard extends AppCompatActivity {
             }
         });
     }
-
     private void confirmAddGcard(GcardCredentials foGcard) {
         try {
             mViewModel.confirmAddGCard(foGcard, new VMGCardSystem.GcardTransactionCallback() {
@@ -330,12 +319,10 @@ public class Activity_AddGcard extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
     private void scanGcard() {
         Intent loIntent = new Intent(Activity_AddGcard.this, Activity_QrCodeScanner.class);
         poArl.launch(loIntent);
     }
-
     private void datePicker() {
         final Calendar newCalendar = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat")
@@ -351,7 +338,6 @@ public class Activity_AddGcard extends AppCompatActivity {
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
         dateFrom.show();
     }
-
     public boolean isJSONValid(String fsMessage) {
         try {
             new JSONObject(fsMessage);
