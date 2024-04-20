@@ -15,12 +15,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayout;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
+import org.rmj.guanzongroup.gconnect.Adapter.ProductSlider_Adapter;
 import org.rmj.guanzongroup.gconnect.R;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductList;
 import org.rmj.guanzongroup.marketplace.Activity.Activity_ProductOverview;
@@ -35,11 +38,14 @@ import java.util.List;
 
 public class Fragment_Home extends Fragment {
     private static final String TAG = Fragment_Home.class.getSimpleName();
-
     private VMHome mViewModel;
     private Adapter_ProductList poAdapter;
     private RecyclerView poRvProds, poRvCateg;
     private SliderView poSliderx;
+    private SliderView imgSlider_mc;
+    private SliderView imgSlider_phones;
+    private TabLayout tab_choices;
+    private ViewPager2 vpage;
     private final List<DProduct.oProduct> poList = new ArrayList<>();
 
     public Fragment_Home() {}
@@ -48,14 +54,23 @@ public class Fragment_Home extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(requireActivity()).get(VMHome.class);
+
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initViews(view);
         displayData();
+
         return view;
     }
 
     private void initViews(View v) {
+        poRvProds = v.findViewById(R.id.rv_products);
+        poRvCateg = v.findViewById(R.id.rv_categories);
         poSliderx = v.findViewById(R.id.imgSlider);
+        imgSlider_mc = v.findViewById(R.id.imgSlider_mc);
+        imgSlider_phones = v.findViewById(R.id.imgSlider_phones);
+        tab_choices = v.findViewById(R.id.tab_choices);
+        vpage = v.findViewById(R.id.vpage);
+
         poSliderx.setIndicatorAnimation(IndicatorAnimationType.WORM);
         poSliderx.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
         poSliderx.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
@@ -64,12 +79,26 @@ public class Fragment_Home extends Fragment {
         poSliderx.setScrollTimeInSec(5);
         poSliderx.startAutoCycle();
 
-        poRvProds = v.findViewById(R.id.rv_products);
+        imgSlider_mc.setIndicatorAnimation(IndicatorAnimationType.WORM);
+        imgSlider_mc.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        imgSlider_mc.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+        imgSlider_mc.setIndicatorSelectedColor(Color.WHITE);
+        imgSlider_mc.setIndicatorUnselectedColor(Color.GRAY);
+        imgSlider_mc.setScrollTimeInSec(5);
+        imgSlider_mc.startAutoCycle();
+
+        imgSlider_phones.setIndicatorAnimation(IndicatorAnimationType.WORM);
+        imgSlider_phones.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        imgSlider_phones.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+        imgSlider_phones.setIndicatorSelectedColor(Color.WHITE);
+        imgSlider_phones.setIndicatorUnselectedColor(Color.GRAY);
+        imgSlider_phones.setScrollTimeInSec(5);
+        imgSlider_phones.startAutoCycle();
+
         poRvProds.setLayoutManager(new GridLayoutManager(requireActivity(),
                 2, RecyclerView.VERTICAL, false));
         poRvProds.setHasFixedSize(true);
 
-        poRvCateg = v.findViewById(R.id.rv_categories);
         poRvCateg.setLayoutManager(new GridLayoutManager(requireActivity(),
                 2, RecyclerView.HORIZONTAL, false));
         poRvCateg.setHasFixedSize(true);
@@ -79,8 +108,8 @@ public class Fragment_Home extends Fragment {
         setSliderImages();
         setCategoryAdapter();
         setProductAdapter();
+        setTabSlider();
     }
-
     private void setCategoryAdapter() {
         mViewModel.GetBrandNames().observe(getViewLifecycleOwner(), strings -> {
             try {
@@ -96,7 +125,6 @@ public class Fragment_Home extends Fragment {
             }
         });
     }
-
     private void setProductAdapter() {
         mViewModel.getProductList(0).observe(getViewLifecycleOwner(), products -> {
             try {
@@ -142,29 +170,53 @@ public class Fragment_Home extends Fragment {
             }
         });
     }
-
     private void setSliderImages() {
         List<HomeImageSliderModel> loSliders = new ArrayList<>();
         mViewModel.GetPromoLinkList().observe(getViewLifecycleOwner(), ePromos -> {
             try {
-                for (int x = 0; x < ePromos.size(); x++) {
-                    loSliders.add(new HomeImageSliderModel(ePromos.get(x).getImageUrl()));
-                }
+                if (ePromos.size() > 0){
+                    poSliderx.setVisibility(View.VISIBLE);
 
-                Adapter_ImageSlider adapter = new Adapter_ImageSlider(loSliders, args -> {
-                    try{
-                        Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
-                        intent.putExtra("url_link", ePromos.get(args).getPromoUrl());
-                        intent.putExtra("browser_args", "1");
-                        intent.putExtra("args", "promo");
-                        requireActivity().sendBroadcast(intent);
-                    } catch (Exception e){
-                        e.printStackTrace();
+                    for (int x = 0; x < ePromos.size(); x++) {
+                        loSliders.add(new HomeImageSliderModel(ePromos.get(x).getImageUrl()));
                     }
-                });
-                poSliderx.setSliderAdapter(adapter);
+
+                    Adapter_ImageSlider adapter = new Adapter_ImageSlider(loSliders, args -> {
+                        try{
+                            Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
+                            intent.putExtra("url_link", ePromos.get(args).getPromoUrl());
+                            intent.putExtra("browser_args", "1");
+                            intent.putExtra("args", "promo");
+                            requireActivity().sendBroadcast(intent);
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
+                    poSliderx.setSliderAdapter(adapter);
+                }else {
+                    poSliderx.setVisibility(View.GONE);
+                }
             } catch (Exception e){
                 e.printStackTrace();
+            }
+        });
+    }
+    private void setTabSlider(){
+        ProductSlider_Adapter sliderAdapter = new ProductSlider_Adapter(getParentFragmentManager(), getLifecycle());
+        vpage.setAdapter(sliderAdapter);
+
+        tab_choices.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                vpage.setCurrentItem(tab.getPosition());
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }
