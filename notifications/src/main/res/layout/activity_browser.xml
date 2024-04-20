@@ -37,16 +37,5 @@
             android:padding="60dp"
             android:scaleType="centerInside" />
 
-<!--        android:src="@drawable/progress_animation"-->
-<!--        app:tint="@color/guanzon_digital_orange"-->
-<!--        <ProgressBar-->
-<!--            android:id="@+id/progress_bar_appBrowser"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:progressTint="@color/guanzon_digital_orange"-->
-<!--            style="@style/Widget.AppCompat.ProgressBar"-->
-<!--            android:layout_centerVertical="true"-->
-<!--            android:layout_centerHorizontal="true"/>-->
-
     </RelativeLayout>
 </LinearLayout>

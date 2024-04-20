@@ -526,6 +526,18 @@ public class Activity_Dashboard extends AppCompatActivity {
             }
         });
     }
+    private void setupIntentArguments(NavController navController){
+        if(getIntent().hasExtra("args")){
+            String lsArgs = getIntent().getStringExtra("args");
+            switch (lsArgs){
+                case "gcard":
+                    Bundle loBundle = new Bundle();
+                    loBundle.putInt("gcardInstance", 1);
+                    navController.navigate(R.id .action_nav_account_settings_to_nav_my_gcard, loBundle);
+                    break;
+            }
+        }
+    }
     private String GetBadgeValue(int val){
         if(val > 0){
             lblBadge.setVisibility(View.VISIBLE);
@@ -618,17 +630,5 @@ public class Activity_Dashboard extends AppCompatActivity {
                 poDialog.show();
             }
         });
-    }
-    private void setupIntentArguments(NavController navController){
-        if(getIntent().hasExtra("args")){
-            String lsArgs = getIntent().getStringExtra("args");
-            switch (lsArgs){
-                case "gcard":
-                    Bundle loBundle = new Bundle();
-                    loBundle.putInt("gcardInstance", 1);
-                    navController.navigate(R.id .action_nav_account_settings_to_nav_my_gcard, loBundle);
-                    break;
-            }
-        }
     }
 }

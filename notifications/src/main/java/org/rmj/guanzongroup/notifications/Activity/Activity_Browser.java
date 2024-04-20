@@ -45,9 +45,7 @@ public class Activity_Browser extends AppCompatActivity {
     void initWidgets(){
         toolbar = findViewById(R.id.toolbar_appBrowser);
         webView = findViewById(R.id.webView_appBrowser);
-//        progressBar = findViewById(R.id.progress_bar_appBrowser);
         loading = findViewById(R.id.imgLoading);
-//        progressBar.setMax(100);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(getIntent().getStringExtra("args").equalsIgnoreCase("1")){
