@@ -67,7 +67,7 @@ public class Adapter_ImageSlider extends SliderViewAdapter<Adapter_ImageSlider.S
         notifyDataSetChanged();
     }
 
-    static class SliderAdapterVH extends SliderViewAdapter.ViewHolder {
+    public static class SliderAdapterVH extends SliderViewAdapter.ViewHolder {
 
         View itemView;
         ImageView imageViewBackground;

@@ -187,6 +187,7 @@ public class RClientInfo {
                     loDetail.setVerified(Integer.parseInt(loResponse.getString("cVerified")));
 
                     poDao.update(loDetail);
+
                     AccountInfo loAcc = new AccountInfo(mContext);
                     loAcc.setClientID(loResponse.getString("sUserIDxx"));
                     loAcc.setLastname(loResponse.getString("sLastName"));
@@ -201,6 +202,7 @@ public class RClientInfo {
                     loAcc.setAddress(loResponse.getString("sAddress1"));
                     loAcc.setTownName(loResponse.getString("sTownIDx1"));
                     loAcc.setBarangay(loResponse.getString("sBrgyIDx1"));
+                    loAcc.setMobileNo(loResponse.getString("sMobileNo"));
 
                     String lsClient = loAcc.getClientID();
                     String lsLastNm = loAcc.getLastName();

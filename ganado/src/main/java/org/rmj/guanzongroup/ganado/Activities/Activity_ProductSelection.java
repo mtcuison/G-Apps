@@ -41,14 +41,15 @@ public class Activity_ProductSelection extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(Activity_ProductSelection.this).get(VMProductSelection.class);
         setContentView(R.layout.activity_product_selection);
+
+        mViewModel = new ViewModelProvider(Activity_ProductSelection.this).get(VMProductSelection.class);
+
         initView();
 
         brandselectedimg = findViewById(R.id.imageprodselection);
 
         String lsBrandID = getIntent().getStringExtra("lsBrandID");
-        Log.d("lsBrandID",lsBrandID);
         mViewModel.GetModelsList(lsBrandID).observe(Activity_ProductSelection.this, eMcModels -> {
             if (eMcModels.size() > 0){
                 brandselectedimg.setImageResource(getBrandImageResource(lsBrandID));

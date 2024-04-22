@@ -103,72 +103,9 @@ public class Fragment_Home extends Fragment {
                 2, RecyclerView.HORIZONTAL, false));
         poRvCateg.setHasFixedSize(true);
     }
-
     private void displayData() {
         setSliderImages();
-        setCategoryAdapter();
-        setProductAdapter();
         setTabSlider();
-    }
-    private void setCategoryAdapter() {
-        mViewModel.GetBrandNames().observe(getViewLifecycleOwner(), strings -> {
-            try {
-                final Adapter_Categories loAdapter = new Adapter_Categories(strings, args -> {
-                    Intent loIntent = new Intent(requireActivity(), Activity_ProductList.class);
-                    loIntent.putExtra("xBrandNme", args);
-                    startActivity(loIntent);
-                });
-                loAdapter.notifyDataSetChanged();
-                poRvCateg.setAdapter(loAdapter);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-    }
-    private void setProductAdapter() {
-        mViewModel.getProductList(0).observe(getViewLifecycleOwner(), products -> {
-            try {
-                if(products.size() > 0) {
-                    poList.clear();
-                    poList.addAll(products);
-                    poAdapter = new Adapter_ProductList(poList, listingId -> {
-                        Intent loIntent = new Intent(requireActivity(), Activity_ProductOverview.class);
-                        loIntent.putExtra("sListngId", listingId);
-                        Log.d(TAG, "Passed parameter: " + listingId);
-                        startActivity(loIntent);
-                    });
-                    poRvProds.setAdapter(poAdapter);
-                    poAdapter.notifyDataSetChanged();
-                }
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        });
-
-        poRvProds.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
-                int totalItemCount = layoutManager.getItemCount();
-                int lastVisible = layoutManager.findLastVisibleItemPosition();
-
-                boolean endHasBeenReached = lastVisible + 5 >= totalItemCount;
-                if (totalItemCount > 0 && endHasBeenReached) {
-                    mViewModel.getProductList(totalItemCount).observe(getViewLifecycleOwner(), products -> {
-                        try {
-                            if(products.size() > 0) {
-                                poList.addAll(products);
-                                poAdapter.notifyDataSetChanged();
-                                Log.d(TAG, "New items added");
-                            }
-                        } catch (NullPointerException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-            }
-        });
     }
     private void setSliderImages() {
         List<HomeImageSliderModel> loSliders = new ArrayList<>();

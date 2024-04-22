@@ -2,14 +2,10 @@ package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-
-import org.rmj.g3appdriver.dev.Database.DataAccessObject.DProduct;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
@@ -19,7 +15,6 @@ import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.dev.Repositories.RProduct;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
-import org.rmj.g3appdriver.etc.FilterType;
 import org.rmj.g3appdriver.etc.GuanzonAppConfig;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
@@ -73,10 +68,6 @@ public class VMHome extends AndroidViewModel {
     public LiveData<EClientInfo> getClientInfo() {
         return poClient.getClientInfo();
     }
-    public LiveData<EGcardApp> getActiveGcard() {
-        this.poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
-        return poSystem.hasNoGcard();
-    }
     public LiveData<EGcardApp> GetActiveGCard(){
         this.poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
         return poSystem.getGCardInfo();
@@ -95,35 +86,10 @@ public class VMHome extends AndroidViewModel {
         poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
         return poSystem.GetPromotions();
     }
-    public LiveData<List<DProduct.oProduct>> getProductList(int fnIndex) {
-        return poProduct.GetProductsList(fnIndex, FilterType.DEFAULT, null, null);
-    }
     public LiveData<List<String>> GetBrandNames(){
         return poProduct.GetBrandNames();
     }
 
-    public void ViewGCardQrCode(OnViewGCardQrCode callback){
-        TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
-            @Override
-            public Object DoInBackground(Object args) {
-                try {
-                    poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
-                    return poSystem.GenerateGCardQrCode();
-                }catch (Exception e){
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-            @Override
-            public void OnPostExecute(Object object) {
-                Bitmap res = (Bitmap) object;
-                callback.OnView(res);
-            }
-        });
-    }
-    public interface OnViewGCardQrCode{
-        void OnView(Bitmap foVal);
-    }
     public void LogoutUserSession(OnLogoutListener listener){
         TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
             @Override

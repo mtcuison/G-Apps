@@ -47,10 +47,13 @@ public class Activity_ProductList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_product_list);
+
         mViewModel = new ViewModelProvider(Activity_ProductList.this).get(VMProductList.class);
         poLoad = new Dialog_Loading(Activity_ProductList.this);
         poDialog = new Dialog_SingleButton(Activity_ProductList.this);
-        setContentView(R.layout.activity_product_list);
+
         toolbar = findViewById(R.id.toolbar);
         searchView = findViewById(R.id.searchview);
         lnLoading = findViewById(R.id.lnLoading);

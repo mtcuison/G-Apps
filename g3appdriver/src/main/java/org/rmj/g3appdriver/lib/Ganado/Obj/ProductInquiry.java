@@ -46,7 +46,6 @@ public class ProductInquiry {
     public LiveData<List<EMcBrand>> GetMotorcycleBrands(){
         return poDao.getAllMcBrand();
     }
-
     public LiveData<List<EMcModel>> GetModelsList(String BrandID){
         return poDao.getAllModeFromBrand(BrandID);
     }

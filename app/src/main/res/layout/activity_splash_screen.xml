@@ -32,12 +32,12 @@
         app:layout_constraintTop_toBottomOf="@+id/img_view"/>
 
     <TextView
+        style="@style/SubTitle"
         android:id="@+id/txt_Status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Configuring Data"
         android:layout_marginBottom="10dp"
-        android:textAppearance="@style/SubTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/progbar"/>

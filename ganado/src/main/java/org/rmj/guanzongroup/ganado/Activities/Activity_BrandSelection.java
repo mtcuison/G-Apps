@@ -25,14 +25,10 @@ import java.util.Objects;
 
 
 public class Activity_BrandSelection extends AppCompatActivity {
-
     private VMBrandList mViewModel;
     private RecyclerView rvc_brandlist;
     private ShapeableImageView brandcatimg;
     private RecyclerViewAdapter_BrandSelection rec_brandList;
-    private LoadDialog poLoad;
-    private MessageBox poMessage;
-
     private Dialog_Loading poLoading;
 
     @Override

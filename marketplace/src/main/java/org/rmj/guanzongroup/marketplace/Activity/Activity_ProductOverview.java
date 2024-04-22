@@ -84,9 +84,10 @@ public class Activity_ProductOverview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_product_overview);
+
         mViewModel = new ViewModelProvider(Activity_ProductOverview.this)
                 .get(VMProductOverview.class);
-        setContentView(R.layout.activity_product_overview);
         poAccount = new AccountInfo(Activity_ProductOverview.this);
         poDialogx = new Dialog_SingleButton(Activity_ProductOverview.this);
         getExtras();

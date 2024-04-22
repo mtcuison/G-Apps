@@ -65,12 +65,14 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         spnPayment.setOnItemClickListener(new OnItemClickListener(spnPayment));
         spnAcctTerm.setText(GConstants.INSTALLMENT_TERM[0]);
         spnAcctTerm.setAdapter(GConstants.getAdapter(Activity_ProductInquiry.this, GConstants.INSTALLMENT_TERM));
+
         mViewModel.setBrandID(getIntent().getStringExtra("lsBrandID"));
         mViewModel.setModelID(getIntent().getStringExtra("lsModelID"));
         lsBrandID = getIntent().getStringExtra("lsBrandID");
         lsModelID = getIntent().getStringExtra("lsModelID");
         lsImgLink = getIntent().getStringExtra("lsImgLink");
         lsBrandNm = getIntent().getStringExtra("lsBrandNm");
+
         Log.e("sBrandIDx",lsBrandID);
         Log.e("sModelIDx",lsModelID);
 
@@ -78,7 +80,6 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         mViewModel.getModel().setModelIDx(lsModelID);
         mViewModel.getModel().setTermIDxx("36");
         mViewModel.getModel().setPaymForm("0");
-//        mViewModel.getModel().getCashPrce();
         mViewModel.GetModelColor(lsModelID).observe(Activity_ProductInquiry.this, colorList->{
         mViewModel.getModel().setColorIDx(colorList.get(0).getColorIDx());
 
