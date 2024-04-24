@@ -41,17 +41,6 @@ public class VMAccountAuthentication extends AndroidViewModel {
         this.poAccount = new AccountInfo(application);
         this.poDevice = new Telephony(application);
     }
-    public String GetMobileNo(){
-        if(!poAccount.getMobileNo().isEmpty()){
-            return poAccount.getMobileNo();
-        }
-
-        if(!poDevice.getMobilNumbers().isEmpty()){
-            return poDevice.getMobilNumbers();
-        }
-
-        return "";
-    }
     public void LoginAccount(AccountAuthentication.LoginCredentials foCrednts, AuthenticationCallback foCallbck) {
         TaskExecutor.Execute(foCrednts, new OnTaskExecuteListener() {
             @Override

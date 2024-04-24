@@ -25,6 +25,7 @@ import java.util.List;
 public class Fragment_MCProducts extends Fragment {
     private VMBrandList mViewModel;
     private RecyclerView img_slider;
+    
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

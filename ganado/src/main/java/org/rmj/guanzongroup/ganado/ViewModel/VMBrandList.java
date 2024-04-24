@@ -38,12 +38,6 @@ public class VMBrandList extends AndroidViewModel {
         poSys = new ProductInquiry(application);
         poConn = new ConnectionUtil(application);
     }
-
-    public interface OnDownloadModels {
-        void onLoad();
-        void onSuccess(String fsMessage);
-        void onFailed(String fsMessage);
-    }
     public LiveData<List<EMcBrand>> getBrandList(){
         return poSys.GetMotorcycleBrands();
     }
@@ -110,5 +104,10 @@ public class VMBrandList extends AndroidViewModel {
                 }
             }
         });
+    }
+    public interface OnDownloadModels {
+        void onLoad();
+        void onSuccess(String fsMessage);
+        void onFailed(String fsMessage);
     }
 }

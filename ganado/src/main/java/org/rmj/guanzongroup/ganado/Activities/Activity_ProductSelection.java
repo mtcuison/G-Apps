@@ -31,8 +31,6 @@ public class Activity_ProductSelection extends AppCompatActivity {
     private VMProductSelection mViewModel;
     private ProductSelectionAdapter adapter;
     private SearchView searchView;
-    private List<EMcModel> poModel;
-    private List<EMcModel> poModelFilteredList;
 
     private ShapeableImageView brandselectedimg;
     private int backgroundResId;
@@ -63,8 +61,7 @@ public class Activity_ProductSelection extends AppCompatActivity {
                         intent.putExtra("lsImgLink", ImgLink);
                         intent.putExtra("bgbrandimage", backgroundResId);
                         intent.putExtra("backgroundold", backgroundResIdCat);
-                        Log.d("TEEJEI SELECTED model ", ModelID);
-                        Log.d("TEEJEI bgbrandimage ", String.valueOf(backgroundResId));
+                        
                         startActivity(intent);
                         overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                     }

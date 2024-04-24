@@ -1,15 +1,27 @@
 package org.rmj.guanzongroup.gconnect.Service;
 
+import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
+import org.rmj.g3appdriver.dev.Repositories.RMcModel;
 import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportBrand;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportBrandModel;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportCategory;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportMcModelPrice;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportMcTermCategory;
+import org.rmj.g3appdriver.lib.Ganado.Obj.ImportTown;
+import org.rmj.g3appdriver.lib.Ganado.Obj.Import_McColors;
+import org.rmj.g3appdriver.lib.Ganado.Obj.Import_Relation;
+import org.rmj.g3appdriver.lib.Ganado.model.ImportDataCallback;
+import org.rmj.g3appdriver.lib.Ganado.model.ImportInstance;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 import org.rmj.guanzongroup.notifications.Activity.Activity_Browser;
@@ -19,6 +31,8 @@ import org.rmj.guanzongroup.useraccount.Activity.Activity_ProfileVerification;
 public class DashboardActionReceiver extends BroadcastReceiver {
     private static final String TAG = DashboardActionReceiver.class.getSimpleName();
     private char cImportxx;
+    private Context loContext;
+    private Application loApplication;
     private iGCardSystem loGcard;
     private iGCardSystem loGcardExtra;
     private iGCardSystem loGcardRedeemables;
@@ -29,6 +43,8 @@ public class DashboardActionReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
+            loContext = context;
+            loApplication = (Application) context.getApplicationContext();
             loClient = new RClientInfo(context);
             loPurchase = new ROrder(context);
             loNotif = new RNotificationInfo(context);
@@ -109,12 +125,46 @@ public class DashboardActionReceiver extends BroadcastReceiver {
             @Override
             public Object DoInBackground(Object args) {
                 try{
+                    //TODO: IMPORT ACCOUNT INFO
                     if (loClient.ImportAccountInfo()) {
                         Log.d(TAG, "Client info downloaded successfully.");
                     } else {
                         Log.e(TAG, "Failed to download client info. " + loClient.getMessage());
                     }
 
+                    //TODO: IMPORT MC DATA
+                    Thread.sleep(1000);
+                    if (new RMcModel(loContext).ImportCashPrices()){
+                        Log.d(TAG, "Cash price imported successfully");
+                    }
+                    Thread.sleep(1000);
+                    ImportInstance[]  importInstances = {
+                            new Import_Relation(loApplication),
+                            new ImportBrand(loApplication),
+                            new ImportBrandModel(loApplication),
+                            new Import_McColors(loApplication),
+                            new ImportCategory(loApplication),
+                            new ImportMcModelPrice(loApplication),
+                            new ImportTown(loApplication),
+                            new ImportMcTermCategory(loApplication)};
+
+                    for (ImportInstance importInstance : importInstances) {
+                        importInstance.ImportData(new ImportDataCallback() {
+                            @Override
+                            public void OnSuccessImportData() {
+                                Log.e(TAG, importInstance.getClass().getSimpleName() + " import success.");
+                            }
+                            @Override
+                            public void OnFailedImportData(String message) {
+                                Log.e(TAG, importInstance.getClass().getSimpleName() + " import failed. " + message);
+                            }
+                        });
+
+                        Thread.sleep(1000);
+                    }
+
+
+                    //TODO: IMPORT GCARD DATA
                     GCardSystem.GCardSystemCallback callback = (GCardSystem.GCardSystemCallback) args;
                     cImportxx = '0';
 

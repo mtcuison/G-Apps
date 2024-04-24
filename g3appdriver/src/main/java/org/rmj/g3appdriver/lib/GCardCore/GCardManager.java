@@ -241,7 +241,8 @@ public class GCardManager implements iGCardSystem{
 
             String lsResult = loResponse.getString("result");
             if (lsResult.equalsIgnoreCase("success")) {
-                RGCardPoints loGPoints = new RGCardPoints(mContext);
+                //TODO: NO API RESULT RETURNED FOR LEDGER. FUTURE ADJUSTMENT -GUILLIER
+                /*RGCardPoints loGPoints = new RGCardPoints(mContext);
                 EGCardPoints egCardPoints = new EGCardPoints();
 
                 egCardPoints.setsUserIDxx(loAccount.getUserID());
@@ -258,7 +259,7 @@ public class GCardManager implements iGCardSystem{
                 egCardPoints.setcTranStat("0");
                 egCardPoints.setdTimeStmp(DateTimeToday());
 
-                loGPoints.Save(egCardPoints);
+                loGPoints.Save(egCardPoints);*/
                 return true;
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
@@ -742,7 +743,6 @@ public class GCardManager implements iGCardSystem{
     @Override
     public void ScheduleNextServiceDate(String date, GCardSystem.GCardSystemCallback callback) {
     }
-
     @Override
     public void DownloadBranchesList(GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();

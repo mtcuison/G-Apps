@@ -70,7 +70,7 @@ public class Activity_BrandSelection extends AppCompatActivity {
                         Intent intent = new Intent(Activity_BrandSelection.this, Activity_ProductSelection.class);
                         intent.putExtra("lsBrandID", BrandID);
                         intent.putExtra("lsBrandNm", BrandName);
-                        Log.d("TEEJEI SELECTED THIS", BrandName);
+
                         startActivity(intent);
                         overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                     }
@@ -88,7 +88,7 @@ public class Activity_BrandSelection extends AppCompatActivity {
         rvc_brandlist = findViewById(R.id.rv_brands);
 
         MaterialToolbar toolbar = findViewById(R.id.toolbar_brand);
-        toolbar.setTitle("Brand Selection");
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         poLoading = new Dialog_Loading(Activity_BrandSelection.this);

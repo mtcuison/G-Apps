@@ -6,8 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.guanzongroup.ganado.Activities.Activity_ProductSelection;
 import org.rmj.guanzongroup.gconnect.R;
 import java.util.HashMap;
@@ -15,10 +19,12 @@ import java.util.HashMap;
 public class Adapter_MCProductImageSlider extends RecyclerView.Adapter<Adapter_MCProductImageSlider.SliderAdapterVH>{
     private Context context;
     private HashMap<Integer, String> oSlideLst;
+    private AccountInfo loAccount;
 
     public Adapter_MCProductImageSlider(Context context, HashMap<Integer, String> oSlideLst){
         this.context = context;
         this.oSlideLst = oSlideLst;
+        this.loAccount = new AccountInfo(context);
     }
 
     @NonNull
@@ -33,29 +39,33 @@ public class Adapter_MCProductImageSlider extends RecyclerView.Adapter<Adapter_M
         holder.imageViewBackground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String sBrand = "";
-                String sBrandId = oSlideLst.get(oSlideLst.keySet().toArray()[position]);
+                if (loAccount.getLoginStatus()){
+                    String sBrand = "";
+                    String sBrandId = oSlideLst.get(oSlideLst.keySet().toArray()[position]);
 
-                Integer logo = (Integer) oSlideLst.keySet().toArray()[position];
-                switch (logo) {
-                    case R.drawable.apple_logo:
-                        sBrand = "HONDA";
-                        break;
-                    case R.drawable.huawei_logo:
-                        sBrand = "SUZUKI";
-                        break;
-                    case R.drawable.honor_logo:
-                        sBrand = "KAWASAKI";
-                        break;
-                    case R.drawable.oppo_logo:
-                        sBrand = "YAMAHA";
-                        break;
+                    Integer logo = (Integer) oSlideLst.keySet().toArray()[position];
+                    switch (logo) {
+                        case R.drawable.apple_logo:
+                            sBrand = "HONDA";
+                            break;
+                        case R.drawable.huawei_logo:
+                            sBrand = "SUZUKI";
+                            break;
+                        case R.drawable.honor_logo:
+                            sBrand = "KAWASAKI";
+                            break;
+                        case R.drawable.oppo_logo:
+                            sBrand = "YAMAHA";
+                            break;
+                    }
+
+                    Intent intent = new Intent(context, Activity_ProductSelection.class);
+                    intent.putExtra("lsBrandID", sBrandId);
+                    intent.putExtra("lsBrandNm", sBrand);
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context, "Unable to use feature. Please login", Toast.LENGTH_LONG).show();
                 }
-
-                Intent intent = new Intent(context, Activity_ProductSelection.class);
-                intent.putExtra("lsBrandID", sBrandId);
-                intent.putExtra("lsBrandNm", sBrand);
-                context.startActivity(intent);
             }
         });
     }

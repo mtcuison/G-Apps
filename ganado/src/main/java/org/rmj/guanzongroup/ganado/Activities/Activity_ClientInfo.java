@@ -43,7 +43,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
     private MessageBox poMessage ;
     private MessageBoxInstallment icMessage;
     private LoadDialog poDialogx;
-    private  String ClientID,SourceCD, SourceNo;
     private TextInputEditText txtLastNm, txtFrstNm, txtMiddNm, txtSuffixx,  txtBirthDt,
             txtEmailAdd, txtMobileNo,  txtHouseNox, txtAddress;
 
@@ -55,15 +54,18 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
     private MaterialToolbar toolbar;
     private String sTansNox = "";
-    private String monthlyValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_client_info);
+
         poMessage = new MessageBox(Activity_ClientInfo.this);
         poDialogx = new LoadDialog(Activity_ClientInfo.this);
-        setContentView(R.layout.activity_client_info);
+
         initWidgets();
+
         mViewModel.InitializeApplication(getIntent());
         mViewModel.InitGeoLocation(Activity_ClientInfo.this);
         mViewModel.getRelation().observe(Activity_ClientInfo.this, eRelations->{
@@ -71,7 +73,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 ArrayList<String> string = new ArrayList<>();
                 for (int x = 0; x < eRelations.size(); x++) {
                     String lsColor = eRelations.get(x).getRelatnDs();
-//                        String lsTown =  loList.get(x).sProvName ;
                     string.add(lsColor);
 
                 }
@@ -93,7 +94,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
                     ArrayList<String> string = new ArrayList<>();
                     for (int x = 0; x < loList.size(); x++) {
                         String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
-//                        String lsTown =  loList.get(x).sProvName ;
                         string.add(lsTown);
 
                     }
@@ -152,7 +152,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
                     txtBirthDt.setText(lsDate);
                     Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
                     lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
-//                    Log.d(TAG, "Save formatted time: " + lsDate);
                     mViewModel.getModel().setBirthDte(lsDate);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -229,7 +228,9 @@ public class Activity_ClientInfo extends AppCompatActivity {
         mViewModel = new ViewModelProvider(Activity_ClientInfo.this).get(VMPersonalInfo.class);
         poMessage = new MessageBox(Activity_ClientInfo.this);
         icMessage = new MessageBoxInstallment(Activity_ClientInfo.this);
+
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         txtLastNm = findViewById(R.id.txt_lastname);
@@ -251,16 +252,9 @@ public class Activity_ClientInfo extends AppCompatActivity {
             @Override
             public void handleOnBackPressed() {
                 showConfirmationDialog();
-//                finish();
             }
         });
     }
-
-//    @Override
-//    public void finish() {
-//        super.finish();
-//        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-//    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

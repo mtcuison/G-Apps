@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.digitalgcard.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -20,6 +21,8 @@ import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,25 +61,29 @@ public class VMGCardOffline extends AndroidViewModel {
             }
             @Override
             public Object DoInBackground(Object args) {
-                EPointsRequest loData = (EPointsRequest) args;
-                poRequest.SaveRequest(loData);
-                message = "Request saved to device";
+                try {
+                    EPointsRequest loData = (EPointsRequest) args;
+                    poRequest.SaveRequest(loData);
+                    message = "Request saved to device";
 
-                //TODO: Upload transaction to server if connected
-                if (poConnection.isDeviceConnected()){
-                    HashMap<String, String> loparams = new HashMap<>();
-                    loparams.put("sGCardNox", loData.getsGCardNox());
-                    loparams.put("dTransact", loData.getdTransact());
-                    loparams.put("sBranchCD", loData.getsBranchCd());
-                    loparams.put("sReferNox", loData.getsReferNox());
-                    loparams.put("sSourceCd", loData.getsSourceCd());
-                    loparams.put("sOTPasswd", loData.getsOTPasswd());
+                    //TODO: Upload transaction to server if connected
+                    if (poConnection.isDeviceConnected()){
+                        HashMap<String, String> loparams = new HashMap<>();
+                        loparams.put("sGCardNox", loData.getsGCardNox());
+                        loparams.put("dTransact", loData.getdTransact());
+                        loparams.put("sBranchCD", loData.getsBranchCd());
+                        loparams.put("sReferNox", loData.getsReferNox());
+                        loparams.put("sSourceCd", loData.getsSourceCd());
+                        loparams.put("sOTPasswd", loData.getsOTPasswd());
 
-                    if (!poCardSystem.DownloadGcardPoints(loparams)){
-                        message = poCardSystem.GetMessage();
-                    }else {
-                        message = "Request Sent";
+                        if (!poCardSystem.DownloadGcardPoints(loparams)){
+                            message = poCardSystem.GetMessage();
+                        }else {
+                            message = "Request Sent";
+                        }
                     }
+                }catch (Exception e){
+                    message = e.getMessage();
                 }
 
                 return message;
