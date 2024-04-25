@@ -3,13 +3,16 @@ package org.rmj.guanzongroup.gconnect.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -18,6 +21,10 @@ import com.google.android.material.tabs.TabLayout;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
+
+import org.rmj.g3appdriver.dev.Database.Entities.EPointsRequest;
+import org.rmj.g3appdriver.etc.ConnectionUtil;
+import org.rmj.guanzongroup.gconnect.Activity.Activity_Dashboard;
 import org.rmj.guanzongroup.gconnect.Adapter.ProductSlider_Adapter;
 import org.rmj.guanzongroup.gconnect.R;
 import org.rmj.g3appdriver.lib.Promotions.Adapter_ImageSlider;
@@ -30,6 +37,7 @@ import java.util.List;
 public class Fragment_Home extends Fragment {
     private final String TAG = getClass().getSimpleName();
     private VMHome mViewModel;
+    private ConnectionUtil poConn;
     private MaterialCardView mcv_promotions;
     private SliderView poSliderx;
     private SliderView imgSlider_mc;
@@ -44,10 +52,53 @@ public class Fragment_Home extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         mViewModel = new ViewModelProvider(requireActivity()).get(VMHome.class);
+        poConn = new ConnectionUtil(requireActivity());
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initViews(view);
         displayData();
+
+        mViewModel.GetPendingRqsts().observe(this, new Observer<List<EPointsRequest>>() {
+            @Override
+            public void onChanged(List<EPointsRequest> ePointsRequests) {
+                if (poConn.isDeviceConnected()){
+                    if (ePointsRequests.size() > 0){
+
+                        Toast.makeText(requireActivity(), "Sending requests . . .", Toast.LENGTH_LONG)
+                                .show();
+
+                        for (int i = 0; i < ePointsRequests.size(); i++){
+                            try {
+                                EPointsRequest loData = ePointsRequests.get(i);
+                                Log.d(TAG, loData.getsTransNox());
+                                mViewModel.UploadPendingRequests(loData, new VMHome.onRequest() {
+                                    @Override
+                                    public void onLoad(String message) {
+                                        Log.d(TAG, message);
+                                    }
+                                    @Override
+                                    public void onSuccess(String result) {
+                                        Log.d(TAG, result);
+                                    }
+                                    @Override
+                                    public void onFailed(String result) {
+                                        Log.d(TAG, result);
+                                    }
+                                });
+
+                                Thread.sleep(1000);
+
+                            }catch (Exception e){
+                                Log.d(TAG, e.getMessage());
+                            }
+                        }
+
+                        Toast.makeText(requireActivity(), "Finished processing your requests", Toast.LENGTH_LONG)
+                                .show();
+                    }
+                }
+            }
+        });
 
         return view;
     }

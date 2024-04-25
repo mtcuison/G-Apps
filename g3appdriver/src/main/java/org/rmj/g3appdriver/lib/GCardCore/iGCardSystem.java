@@ -10,6 +10,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
+import org.rmj.g3appdriver.dev.Database.Entities.EPointsRequest;
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
@@ -21,15 +22,11 @@ import java.util.List;
 
 public interface iGCardSystem {
     LiveData<List<EGcardApp>> GetGCardList();
-    List<EGcardApp> hasGcard();
     LiveData<EGcardApp> hasNoGcard();
     LiveData<List<EGcardApp>> hasUnCheckGCard();
     List<EGcardApp> hasActiveGcard();
-    List<EGcardApp> hasMultipleGCard();
     LiveData<EGcardApp> getGCardInfo();
-    List<EGcardApp> getAllGCard();
-    LiveData<String> getActiveGcardNo();
-    LiveData<String> getActiveGcardAvlPoints();
+    LiveData<List<EPointsRequest>> GetPointsRqsts();
 
     LiveData<List<Double>> GetRedeemablePointsFilter();
     LiveData<List<ERedeemablesInfo>> GetRedeemablesList();
@@ -52,7 +49,6 @@ public interface iGCardSystem {
     LiveData<List<EEvents>> GetNewsEvents();
 
     String GetMessage();
-    String DateTimeToday();
 
     Boolean ValidateQR(String sUserIDxx, String sMobileNoxx);
     Boolean ValidateGCardInfo(String sFrstnm, String sLstnm, String sMdnm, String sSuffix, String dBirthdt, String sGCardNox);
@@ -61,6 +57,8 @@ public interface iGCardSystem {
     void updateGCardActiveStatus(String GCardNmbr);
     double getRemainingActiveCardPoints();
     void updateGCardDeactiveStatus();
+    void SavePointsRqst(EPointsRequest loRqst);
+    void UpdateSendPointsRqst(String sTransNoxx);
 
     void AddGCardQrCode(String GcardNo, GCardSystem.GCardSystemCallback callback) throws Exception;
     void ConfirmAddGCard(GcardCredentials gcardInfo, GCardSystem.GCardSystemCallback callback) throws Exception;
@@ -73,10 +71,6 @@ public interface iGCardSystem {
     HashMap<String, String> ScanTDS();
 
     Boolean DownloadGcardPoints(HashMap<String, String> params);
-
-    double getAvailableGcardPoints();
-    void updateAvailablePoints(String fsGcardNo, String fsNewPts);
-    double getRedeemItemPoints();
 
     void DownloadRedeemables(GCardSystem.GCardSystemCallback callback) throws Exception;
     void SaveRedeemables(JSONObject detail) throws Exception;

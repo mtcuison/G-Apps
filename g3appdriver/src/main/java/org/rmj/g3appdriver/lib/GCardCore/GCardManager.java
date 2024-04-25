@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGcardApp;
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPointsRequest;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
@@ -20,6 +21,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EGCardPoints;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.EMCSerialRegistration;
+import org.rmj.g3appdriver.dev.Database.Entities.EPointsRequest;
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EServiceInfo;
@@ -61,6 +63,7 @@ public class GCardManager implements iGCardSystem{
     private final GuanzonAppConfig poConfig;
     private final ServerAPIs poAPI;
     private final AccountInfo loAccount;
+    private final DPointsRequest loPointsRequest;
     private String message;
 
     public GCardManager(Context context) {
@@ -76,6 +79,7 @@ public class GCardManager implements iGCardSystem{
         this.poConfig = new GuanzonAppConfig(mContext);
         this.poAPI = new ServerAPIs(poConfig.getTestCase());
         this.loAccount = new AccountInfo(mContext);
+        this.loPointsRequest = GGC_GuanzonAppDB.getInstance(mContext).GPointsRqstDao();
     }
     @Override
     public LiveData<List<EGcardApp>> GetGCardList() {
@@ -94,13 +98,10 @@ public class GCardManager implements iGCardSystem{
         return poGCard.getGCardInfo();
     }
     @Override
-    public LiveData<String> getActiveGcardNo() {
-        return null;
+    public LiveData<List<EPointsRequest>> GetPointsRqsts() {
+        return loPointsRequest.GetRequests(loAccount.getUserID());
     }
-    @Override
-    public LiveData<String> getActiveGcardAvlPoints() {
-        return poGCard.getActiveGcardAvlPoints();
-    }
+
     @Override
     public LiveData<List<Double>> GetRedeemablePointsFilter() {
         return null;
@@ -155,20 +156,8 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
-    public List<EGcardApp> getAllGCard() {
-        return poGCard.getAllGCard();
-    }
-    @Override
     public List<EGcardApp> hasActiveGcard() {
         return poGCard.hasActiveGcard();
-    }
-    @Override
-    public List<EGcardApp> hasMultipleGCard() {
-        return poGCard.hasMultipleGCard();
-    }
-    @Override
-    public List<EGcardApp> hasGcard() {
-        return poGCard.hasGcard();
     }
     @Override
     public List<EBranchInfo> GetMCBranchesForRedemption() {
@@ -178,14 +167,6 @@ public class GCardManager implements iGCardSystem{
     @Override
     public String GetMessage() {
         return message;
-    }
-    @Override
-    public String DateTimeToday() {
-        Date currDt = Calendar.getInstance().getTime();
-        SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dTimeStmp = sFormat.format(currDt);
-
-        return dTimeStmp;
     }
 
     @Override
@@ -237,7 +218,6 @@ public class GCardManager implements iGCardSystem{
             }
 
             JSONObject loResponse = new JSONObject(lsResponse);
-            Log.d(TAG, loResponse.toString());
 
             String lsResult = loResponse.getString("result");
             if (lsResult.equalsIgnoreCase("success")) {
@@ -275,25 +255,21 @@ public class GCardManager implements iGCardSystem{
     }
 
     @Override
-    public void updateAvailablePoints(String fsGcardNo, String fsNewPts) {
-        poGCard.updateAvailablePoints(fsGcardNo, fsNewPts);
-    }
-    @Override
     public double getRemainingActiveCardPoints() {
-        return 0;
-    }
-    @Override
-    public double getAvailableGcardPoints() {
-        return 0;
-    }
-    @Override
-    public double getRedeemItemPoints() {
         return 0;
     }
 
     @Override
     public void updateGCardDeactiveStatus() {
         poGCard.updateGCardDeactiveStatus();
+    }
+    @Override
+    public void SavePointsRqst(EPointsRequest loRqst) {
+        loPointsRequest.SaveRequest(loRqst);
+    }
+    @Override
+    public void UpdateSendPointsRqst(String sTransNoxx) {
+        loPointsRequest.SendPointsRequest(sTransNoxx);
     }
 
     @Override

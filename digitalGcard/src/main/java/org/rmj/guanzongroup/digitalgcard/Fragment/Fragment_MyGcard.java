@@ -80,7 +80,9 @@ public class Fragment_MyGcard extends Fragment {
                 } else {
                     vAddGcard.setVisibility(View.GONE);
                     vMyGcardx.setVisibility(View.VISIBLE);
+
                     displayGcardInfo(eGcardApp);
+
                     txtManage.setOnClickListener(v -> {
                         Intent loIntent = new Intent(requireActivity(), Activity_ManageGcard.class);
                         startActivity(loIntent);
@@ -105,12 +107,12 @@ public class Fragment_MyGcard extends Fragment {
     }
 
     private void displayGcardInfo(EGcardApp foGcardxx) {
-        if(foGcardxx.getNmOnCard() == null
-            || foGcardxx.getNmOnCard().equalsIgnoreCase("null")) {
-            txtUserNm.setText(Objects.requireNonNull(foGcardxx.getNmOnCard()));
-        } else {
+        if(foGcardxx.getNmOnCard() == null || foGcardxx.getNmOnCard().equalsIgnoreCase("null")) {
             txtUserNm.setText("");
+        } else {
+            txtUserNm.setText(Objects.requireNonNull(foGcardxx.getNmOnCard()));
         }
+
         txtCardNo.setText(Objects.requireNonNull(foGcardxx.getCardNmbr()));
         txtPoints.setText(Objects.requireNonNull(foGcardxx.getAvlPoint()));
 

@@ -19,6 +19,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
+import org.rmj.g3appdriver.dev.Database.Entities.EPointsRequest;
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
@@ -62,15 +63,7 @@ public class SystemExtras implements iGCardSystem{
     }
 
     @Override
-    public List<EGcardApp> hasGcard() {
-        return null;
-    }
-    @Override
     public List<EGcardApp> hasActiveGcard() {
-        return null;
-    }
-    @Override
-    public List<EGcardApp> hasMultipleGCard() {
         return null;
     }
 
@@ -91,7 +84,7 @@ public class SystemExtras implements iGCardSystem{
         return null;
     }
     @Override
-    public List<EGcardApp> getAllGCard() {
+    public LiveData<List<EPointsRequest>> GetPointsRqsts() {
         return null;
     }
 
@@ -99,34 +92,22 @@ public class SystemExtras implements iGCardSystem{
     public void updateGCardActiveStatus(String GCardNmbr) {
         throw new NullPointerException();
     }
-    @Override
-    public void updateAvailablePoints(String fsGcardNo, String fsNewPts) {
-        throw new NullPointerException();
-    }
-    @Override
-    public LiveData<String> getActiveGcardNo() {
-        return null;
-    }
-    @Override
-    public LiveData<String> getActiveGcardAvlPoints() {
-        return null;
-    }
+
     @Override
     public double getRemainingActiveCardPoints() {
-        return 0;
-    }
-    @Override
-    public double getAvailableGcardPoints() {
-        return 0;
-    }
-    @Override
-    public double getRedeemItemPoints() {
         return 0;
     }
     @Override
     public void updateGCardDeactiveStatus() {
         throw new NullPointerException();
     }
+    @Override
+    public void SavePointsRqst(EPointsRequest loRqst) {
+    }
+    @Override
+    public void UpdateSendPointsRqst(String sTransNoxx) {
+    }
+
     @Override
     public void AddGCardQrCode(String GcardNo, GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
@@ -311,22 +292,6 @@ public class SystemExtras implements iGCardSystem{
                     info.setEmailAdd(loJson.getString("sEMailAdd"));
                     poBranch.insert(info);
                     Log.d(TAG, "New record save!");
-//                }
-            } else {
-                // if exist check timestamp for latest record and replace current record on local
-//                Date ldDate1 = SQLUtil.toDate(loBranch.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
-//                Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-//                if(!ldDate1.equals(ldDate2)){
-//                    poBranch.UpdateBranchInfo(
-//                            loJson.getString("sBranchCD"),
-//                            loJson.getString("sBranchNm"),
-//                            loJson.getString("sDescript"),
-//                            loJson.getString("sAddressx"),
-//                            loJson.getString("sContactx"),
-//                            loJson.getString("sTelNumbr"),
-//                            loJson.getString("sEMailAdd"));
-//                    Log.d(TAG, "A record has been updated!");
-//                }
             }
         }
     }
@@ -450,11 +415,6 @@ public class SystemExtras implements iGCardSystem{
 
     @Override
     public String GetMessage() {
-        return null;
-    }
-
-    @Override
-    public String DateTimeToday() {
         return null;
     }
 

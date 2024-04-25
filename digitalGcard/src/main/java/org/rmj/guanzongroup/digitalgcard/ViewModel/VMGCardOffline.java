@@ -29,7 +29,6 @@ import java.util.List;
 public class VMGCardOffline extends AndroidViewModel {
     private final DGcardApp poGCard;
     private final RBranchInfo poBranchx;
-    private final DPointsRequest poRequest;
     private final ConnectionUtil poConnection;
     private final GCardSystem poSystem;
     private iGCardSystem poCardSystem;
@@ -40,7 +39,6 @@ public class VMGCardOffline extends AndroidViewModel {
 
         this.poGCard = GGC_GuanzonAppDB.getInstance(application).EGcardAppDao();
         this.poBranchx = new RBranchInfo(application);
-        this.poRequest = GGC_GuanzonAppDB.getInstance(application).GPointsRqstDao();
         this.poConnection = new ConnectionUtil(application);
         this.poSystem = new GCardSystem(application);
         this.poCardSystem = poSystem.getInstance(GCardSystem.CoreFunctions.GCARD);
@@ -63,7 +61,7 @@ public class VMGCardOffline extends AndroidViewModel {
             public Object DoInBackground(Object args) {
                 try {
                     EPointsRequest loData = (EPointsRequest) args;
-                    poRequest.SaveRequest(loData);
+                    poCardSystem.SavePointsRqst(loData);
                     message = "Request saved to device";
 
                     //TODO: Upload transaction to server if connected
@@ -76,7 +74,10 @@ public class VMGCardOffline extends AndroidViewModel {
                         loparams.put("sSourceCd", loData.getsSourceCd());
                         loparams.put("sOTPasswd", loData.getsOTPasswd());
 
-                        poCardSystem.DownloadGcardPoints(loparams);
+                        if (poCardSystem.DownloadGcardPoints(loparams)){
+                            poCardSystem.UpdateSendPointsRqst(loData.getsTransNox());
+                        }
+
                         message = poCardSystem.GetMessage();
                     }
                 }catch (Exception e){

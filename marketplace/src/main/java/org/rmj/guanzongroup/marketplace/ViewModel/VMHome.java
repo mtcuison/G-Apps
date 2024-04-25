@@ -6,10 +6,14 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import org.rmj.g3appdriver.dev.Database.DataAccessObject.DPointsRequest;
 import org.rmj.g3appdriver.dev.Database.Entities.EClientInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EEvents;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
+import org.rmj.g3appdriver.dev.Database.Entities.EPointsRequest;
 import org.rmj.g3appdriver.dev.Database.Entities.EPromo;
+import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.RNotificationInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
@@ -27,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class VMHome extends AndroidViewModel {
-    private static final String TAG =VMHome.class.getSimpleName();
+    private static final String TAG = VMHome.class.getSimpleName();
     private String lsPromo, lsPmUrl;
     private String lsEvent, lsEvUrl;
     private final RClientInfo poClient;
@@ -57,40 +61,54 @@ public class VMHome extends AndroidViewModel {
         new GuanzonAppConfig(application).setFirstLaunch(false);
     }
 
-    public interface OnValidateVerifiedUser{
+    public interface OnValidateVerifiedUser {
         void OnValidate(String title, String message);
+
         void OnIncompleteAccountInfo();
+
         void OnAccountVerified();
+
         void OnAccountNotVerified();
+
         void OnFailed(String message);
     }
 
     public LiveData<EClientInfo> getClientInfo() {
         return poClient.getClientInfo();
     }
-    public LiveData<EGcardApp> GetActiveGCard(){
+
+    public LiveData<EGcardApp> GetActiveGCard() {
         this.poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
         return poSystem.getGCardInfo();
     }
-    public LiveData<Integer> GetUnreadMessagesCount(){
+
+    public LiveData<List<EPointsRequest>> GetPendingRqsts() {
+        poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
+        return poSystem.GetPointsRqsts();
+    }
+
+    public LiveData<Integer> GetUnreadMessagesCount() {
         return poNotif.GetUnreadMessagesCount();
     }
-    public LiveData<Integer> GetCartItemCount(){
+
+    public LiveData<Integer> GetCartItemCount() {
         return poOrder.GetCartItemCount();
     }
-    public LiveData<Integer> GetToPayOrders(){
+
+    public LiveData<Integer> GetToPayOrders() {
         return poOrder.GetToPayOrders();
     }
 
-    public LiveData<List<EPromo>> GetPromoLinkList(){
+    public LiveData<List<EPromo>> GetPromoLinkList() {
         poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
         return poSystem.GetPromotions();
     }
-    public LiveData<List<String>> GetBrandNames(){
+
+    public LiveData<List<String>> GetBrandNames() {
         return poProduct.GetBrandNames();
     }
 
-    public void LogoutUserSession(OnLogoutListener listener){
+    public void LogoutUserSession(OnLogoutListener listener) {
         TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
@@ -99,26 +117,29 @@ public class VMHome extends AndroidViewModel {
 
                 return null;
             }
+
             @Override
             public void OnPostExecute(Object object) {
                 listener.OnLogout();
             }
         });
     }
-    public interface OnLogoutListener{
+
+    public interface OnLogoutListener {
         void OnLogout();
     }
 
-    public void AddNewGCard(String fsVal, OnActionCallback callback){
+    public void AddNewGCard(String fsVal, OnActionCallback callback) {
         TaskExecutor.Execute(fsVal, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 callback.OnLoad();
             }
+
             @Override
             public Object DoInBackground(Object args) {
                 try {
-                    if(poConn.isDeviceConnected()) {
+                    if (poConn.isDeviceConnected()) {
                         String params = (String) args;
                         poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
                         poSystem.AddGCardQrCode(params, new GCardSystem.GCardSystemCallback() {
@@ -138,7 +159,7 @@ public class VMHome extends AndroidViewModel {
                         isSuccess = false;
                         message = "Unable to connect";
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
 
                     isSuccess = false;
@@ -147,11 +168,12 @@ public class VMHome extends AndroidViewModel {
 
                 return isSuccess;
             }
+
             @Override
             public void OnPostExecute(Object object) {
                 Boolean res = (Boolean) object;
 
-                if(res){
+                if (res) {
                     callback.OnSuccess(message);
                 } else {
                     callback.OnFailed(message);
@@ -159,63 +181,71 @@ public class VMHome extends AndroidViewModel {
             }
         });
     }
-    public interface OnActionCallback{
+
+    public interface OnActionCallback {
         void OnLoad();
+
         void OnSuccess(String args);
+
         void OnFailed(String args);
     }
 
-    public void DownloadGCardPoints(HashMap<String, String> loParams, onDownloadPoints callback){
+    public void DownloadGCardPoints(HashMap<String, String> loParams, onDownloadPoints callback) {
         TaskExecutor.Execute(loParams, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 callback.onLoad("GCard Points", "Downloading Points . .");
             }
+
             @Override
             public Object DoInBackground(Object args) {
-                try{
-                    if (!poConn.isDeviceConnected()){
+                try {
+                    if (!poConn.isDeviceConnected()) {
                         message = poConn.getMessage();
                         return false;
-                    }else {
+                    } else {
                         HashMap<String, String> params = (HashMap<String, String>) args;
 
                         poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
-                        if (!poSystem.DownloadGcardPoints(params)){
+                        if (!poSystem.DownloadGcardPoints(params)) {
                             message = poSystem.GetMessage();
                             return false;
                         }
 
                         return true;
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     message = e.getMessage();
                     return false;
                 }
             }
+
             @Override
             public void OnPostExecute(Object object) {
                 Boolean res = (Boolean) object;
-                if (res){
+                if (res) {
                     callback.onSuccess();
-                }else {
+                } else {
                     callback.onFailed(message);
                 }
             }
         });
     }
-    public interface onDownloadPoints{
+
+    public interface onDownloadPoints {
         void onLoad(String title, String message);
+
         void onSuccess();
+
         void onFailed(String res);
     }
 
-    public void ParseQrCode(String fsArgs, GCardSystem.ParseQrCodeCallback callback){
+    public void ParseQrCode(String fsArgs, GCardSystem.ParseQrCodeCallback callback) {
         TaskExecutor.Execute(fsArgs, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 String params = (String) args;
-                try{
+                try {
                     poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
                     poSystem.ParseQrCode(params, new GCardSystem.ParseQrCodeCallback() {
                         @Override
@@ -224,12 +254,14 @@ public class VMHome extends AndroidViewModel {
                             tranSrc = src;
                             result = args;
                         }
+
                         @Override
                         public void TransactionResult(String src, Object args) {
                             cResult = '1';
                             tranSrc = src;
                             result = args;
                         }
+
                         @Override
                         public void OnFailed(String args) {
                             cResult = '2';
@@ -237,15 +269,16 @@ public class VMHome extends AndroidViewModel {
                         }
                     });
                     return true;
-                } catch (Exception e){
+                } catch (Exception e) {
                     result = e.getMessage();
                     return false;
                 }
             }
+
             @Override
             public void OnPostExecute(Object object) {
                 Boolean aBoolean = (Boolean) object;
-                if(aBoolean) {
+                if (aBoolean) {
                     switch (cResult) {
                         case '0':
                             callback.ApplicationResult(tranSrc, result);
@@ -264,18 +297,18 @@ public class VMHome extends AndroidViewModel {
         });
     }
 
-    public void CheckPromotions(OnCheckPromotions listener){
+    public void CheckPromotions(OnCheckPromotions listener) {
         TaskExecutor.Execute(listener, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
                 poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
-                if(poSystem.CheckPromo() != null){
+                if (poSystem.CheckPromo() != null) {
                     EPromo loPromo = poSystem.CheckPromo();
                     lsPromo = loPromo.getPromoUrl();
                     lsPmUrl = loPromo.getImageUrl();
                 }
 
-                if(poSystem.CheckEvents() != null){
+                if (poSystem.CheckEvents() != null) {
                     EEvents loEvent = poSystem.CheckEvents();
                     lsEvent = loEvent.getImageURL();
                     lsEvUrl = loEvent.getEventURL();
@@ -283,42 +316,47 @@ public class VMHome extends AndroidViewModel {
 
                 return null;
             }
+
             @Override
             public void OnPostExecute(Object object) {
-                if(lsPromo != null) {
+                if (lsPromo != null) {
                     listener.OnCheckPromos(lsPromo, lsPmUrl);
                 }
-                if(lsEvent != null){
+                if (lsEvent != null) {
                     listener.OnCheckEvents(lsEvent, lsEvUrl);
                 }
-                if(lsEvent == null && lsPromo == null){
+                if (lsEvent == null && lsPromo == null) {
                     listener.NoPromos();
                 }
 
             }
         });
     }
+
     public interface OnCheckPromotions {
         void OnCheckPromos(String args1, String args2);
+
         void OnCheckEvents(String args1, String args2);
+
         void NoPromos();
     }
 
-    public Boolean ImportOrdersTask(){
+    public Boolean ImportOrdersTask() {
         TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
             @Override
             public Object DoInBackground(Object args) {
-                if(poConn.isDeviceConnected()) {
+                if (poConn.isDeviceConnected()) {
                     Log.d(TAG, "Unable to connect on server");
                     return false;
                 }
-                if (!poOrder.ImportPurchases()){
+                if (!poOrder.ImportPurchases()) {
                     Log.d(TAG, "Unable to import purchases");
                     return false;
                 }
 
                 return true;
             }
+
             @Override
             public void OnPostExecute(Object object) {
                 isSuccess = (Boolean) object;
@@ -328,54 +366,56 @@ public class VMHome extends AndroidViewModel {
         return isSuccess;
     }
 
-    public void ValidateUserVerification(OnValidateVerifiedUser listener){
+    public void ValidateUserVerification(OnValidateVerifiedUser listener) {
         TaskExecutor.Execute(null, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
                 listener.OnValidate("Guanzon App", "Checking account. Please wait...");
             }
+
             @Override
             public Object DoInBackground(Object args) {
-                try{
-                    if(!poConn.isDeviceConnected()){
+                try {
+                    if (!poConn.isDeviceConnected()) {
                         message = "Unable to connect.";
                         return 0;
                     }
 
-                    if(!poClient.ImportAccountInfo()){
+                    if (!poClient.ImportAccountInfo()) {
                         message = poClient.getMessage();
                         return 0;
                     }
 
                     EClientInfo loClient = poClient.GetClientInfo();
-                    if(loClient == null){
+                    if (loClient == null) {
                         message = "Unable to find client record. Please try restarting the app and try again.";
                         return 0;
                     }
 
-                    if(!poClient.HasCompleteInfo()){
+                    if (!poClient.HasCompleteInfo()) {
                         message = "Client incomplete info.";
                         return 3;
                     }
 
                     int lnVerified = loClient.getVerified();
-                    if(lnVerified == 0){
+                    if (lnVerified == 0) {
                         message = "Account not verified. Proceed to account verification.";
                         return 2;
                     }
 
                     message = "Account verified. Proceed to loan application.";
                     return 1;
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     message = e.getMessage();
                     return 0;
                 }
             }
+
             @Override
             public void OnPostExecute(Object object) {
                 Integer result = (Integer) object;
-                switch (result){
+                switch (result) {
                     case 0:
                         listener.OnFailed(message);
                         break;
@@ -391,5 +431,53 @@ public class VMHome extends AndroidViewModel {
                 }
             }
         });
+    }
+
+    public void UploadPendingRequests(EPointsRequest loRqst, onRequest callback) {
+        TaskExecutor.Execute(loRqst, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.onLoad("Sending Requests . . .");
+            }
+            @Override
+            public Object DoInBackground(Object args) {
+                try {
+                    HashMap<String, String> loparams = new HashMap<>();
+                    loparams.put("sGCardNox", loRqst.getsGCardNox());
+                    loparams.put("dTransact", loRqst.getdTransact());
+                    loparams.put("sBranchCD", loRqst.getsBranchCd());
+                    loparams.put("sReferNox", loRqst.getsReferNox());
+                    loparams.put("sSourceCd", loRqst.getsSourceCd());
+                    loparams.put("sOTPasswd", loRqst.getsOTPasswd());
+
+                    poSystem = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
+                    if (!poSystem.DownloadGcardPoints(loparams)) {
+                        message = poSystem.GetMessage();
+                        return false;
+                    } else {
+                        poSystem.UpdateSendPointsRqst(loRqst.getsTransNox());
+                        message = poSystem.GetMessage();
+                        return true;
+                    }
+                } catch (Exception e) {
+                    message = e.getMessage();
+                    return false;
+                }
+            }
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean aBoolean = (Boolean) object;
+                if (aBoolean){
+                    callback.onSuccess(message);
+                }else {
+                    callback.onFailed(message);
+                }
+            }
+        });
+    }
+    public interface onRequest{
+        void onLoad(String message);
+        void onSuccess(String result);
+        void onFailed(String result);
     }
 }

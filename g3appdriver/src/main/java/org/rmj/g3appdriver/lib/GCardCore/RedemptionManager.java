@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DGcardApp;
 import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
+import org.rmj.g3appdriver.dev.Database.Entities.EPointsRequest;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
 import org.rmj.g3appdriver.dev.Repositories.RRedeemablesInfo;
 import org.rmj.g3appdriver.dev.ServerRequest.ServerAPIs;
@@ -71,10 +72,6 @@ public class RedemptionManager implements iGCardSystem{
         throw new NullPointerException();
     }
     @Override
-    public List<EGcardApp> hasGcard() {
-        return null;
-    }
-    @Override
     public LiveData<EGcardApp> hasNoGcard() {
         return null;
     }
@@ -87,45 +84,29 @@ public class RedemptionManager implements iGCardSystem{
         return null;
     }
     @Override
-    public List<EGcardApp> hasMultipleGCard() {
-        return null;
-    }
-    @Override
     public LiveData<EGcardApp> getGCardInfo() {
         return null;
     }
     @Override
-    public List<EGcardApp> getAllGCard() {
+    public LiveData<List<EPointsRequest>> GetPointsRqsts() {
         return null;
     }
-    @Override
-    public void updateAvailablePoints(String fsGcardNo, String fsNewPts) {
-        throw new NullPointerException();
-    }
-    @Override
-    public LiveData<String> getActiveGcardNo() {
-        return null;
-    }
-    @Override
-    public LiveData<String> getActiveGcardAvlPoints() {
-        return null;
-    }
+
     @Override
     public double getRemainingActiveCardPoints() {
-        return 0;
-    }
-    @Override
-    public double getAvailableGcardPoints() {
-        return 0;
-    }
-    @Override
-    public double getRedeemItemPoints() {
         return 0;
     }
     @Override
     public void updateGCardDeactiveStatus() {
         throw new NullPointerException();
     }
+    @Override
+    public void SavePointsRqst(EPointsRequest loRqst) {
+    }
+    @Override
+    public void UpdateSendPointsRqst(String sTransNoxx) {
+    }
+
     @Override
     public void AddGCardQrCode(String GcardNo, GCardSystem.GCardSystemCallback callback) throws Exception {
         throw new NullPointerException();
@@ -453,11 +434,6 @@ public class RedemptionManager implements iGCardSystem{
 
     @Override
     public String GetMessage() {
-        return null;
-    }
-
-    @Override
-    public String DateTimeToday() {
         return null;
     }
 

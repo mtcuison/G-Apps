@@ -702,6 +702,7 @@ public class RClientInfo {
             poDao.LogoutRedeemItem();
             poDao.LogoutServiceInfo();
             poDao.LogoutMCSerial();
+            
             new AccountInfo(mContext).setLoginStatus(false);
 
             return true;

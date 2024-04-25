@@ -25,6 +25,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -34,6 +35,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.guanzongroup.com.creditapp.Activities.Activity_LoanProductList;
+import org.rmj.g3appdriver.dev.Database.Entities.EPointsRequest;
+import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_DoubleButton;
 import org.rmj.g3appdriver.utils.Dialogs.Dialog_Loading;
@@ -61,9 +64,11 @@ import org.rmj.guanzongroup.useraccount.Activity.Activity_Login;
 import org.rmj.guanzongroup.useraccount.Activity.Activity_SignUp;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_Dashboard extends AppCompatActivity {
+    private String TAG = getClass().getSimpleName();
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityDashboardBinding binding;
     private NavigationView navigationView;
@@ -295,89 +300,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         });
 
         setUpHeader(navigationView);
-
-        Intent loIntent = null;
-        if(getIntent().hasExtra("notification")){
-            String lsArgs = getIntent().getStringExtra("notification");
-            switch (lsArgs){
-                case "regular":
-                    loIntent = new Intent(Activity_Dashboard.this, Activity_NotificationList.class);
-                    break;
-//                case "cs":
-//                    loIntent = new Intent(Activity_Dashboard.this, Activity_Purchases.class);
-//                    break;
-//                case "event":
-//                    loIntent = new Intent(Activity_Dashboard.this, Activity_ProductReview.class);
-//                    break;
-                case "mp_order":
-                    String lsOrderIDx = getIntent().getStringExtra("sOrderIDx");
-
-                    loIntent = new Intent(Activity_Dashboard.this, Activity_Purchases.class);
-                    loIntent.putExtra("sOrderIDx", lsOrderIDx);
-
-                    break;
-                case "panalo":
-                    String lsPanaloxx = getIntent().getStringExtra("panalo");
-                    String lsReferNox = getIntent().getStringExtra("sReferNox");
-
-                    loIntent = new Intent(Activity_Dashboard.this, Activity_GuanzonPanalo.class);
-                    loIntent.putExtra("panalo", lsPanaloxx);
-                    loIntent.putExtra("sReferNox", lsReferNox);
-
-                    break;
-                case "promo":
-                    String lsArgument = getIntent().getStringExtra("args");
-                    String lsUrlLinkx = getIntent().getStringExtra("url_link");
-
-                    loIntent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
-                    loIntent.putExtra("args", lsArgument);
-                    loIntent.putExtra("url_link", lsUrlLinkx);
-
-                    break;
-                case "review":
-                    String lsListngID = getIntent().getStringExtra("sListngId");
-                    String lnEntryNox = getIntent().getStringExtra("nEntryNox");
-
-                    loIntent = new Intent(Activity_Dashboard.this, Activity_ProductReview.class);
-                    loIntent.putExtra("sListngId", lsListngID);
-                    loIntent.putExtra("nEntryNox", lnEntryNox);
-
-                    break;
-            }
-            startActivity(loIntent);
-        }else{
-            mViewModel.CheckPromotions(new VMHome.OnCheckPromotions() {
-                @Override
-                public void OnCheckPromos(String args1, String args2) {
-                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
-                    loDialog.initDialog(args2, (dialog) -> {
-                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
-                        intent.putExtra("url_link", args1);
-                        intent.putExtra("args", "1");
-                        startActivity(intent);
-                        dialog.dismiss();
-                    });
-                    loDialog.show();
-                }
-                @Override
-                public void OnCheckEvents(String args1, String args2) {
-                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
-                    loDialog.initDialog(args1, (dialog) -> {
-                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
-                        intent.putExtra("url_link", args2);
-                        intent.putExtra("args", "0");
-                        startActivity(intent);
-                        dialog.dismiss();
-                    });
-                    loDialog.show();
-                }
-
-                @Override
-                public void NoPromos() {
-
-                }
-            });
-        }
+        setUpNotifications();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -526,6 +449,84 @@ public class Activity_Dashboard extends AppCompatActivity {
             }
         });
     }
+    private void setUpNotifications(){
+        Intent loIntent = null;
+        if(getIntent().hasExtra("notification")){
+            String lsArgs = getIntent().getStringExtra("notification");
+            switch (lsArgs){
+                case "regular":
+                    loIntent = new Intent(Activity_Dashboard.this, Activity_NotificationList.class);
+                    break;
+                case "mp_order":
+                    String lsOrderIDx = getIntent().getStringExtra("sOrderIDx");
+
+                    loIntent = new Intent(Activity_Dashboard.this, Activity_Purchases.class);
+                    loIntent.putExtra("sOrderIDx", lsOrderIDx);
+
+                    break;
+                case "panalo":
+                    String lsPanaloxx = getIntent().getStringExtra("panalo");
+                    String lsReferNox = getIntent().getStringExtra("sReferNox");
+
+                    loIntent = new Intent(Activity_Dashboard.this, Activity_GuanzonPanalo.class);
+                    loIntent.putExtra("panalo", lsPanaloxx);
+                    loIntent.putExtra("sReferNox", lsReferNox);
+
+                    break;
+                case "promo":
+                    String lsArgument = getIntent().getStringExtra("args");
+                    String lsUrlLinkx = getIntent().getStringExtra("url_link");
+
+                    loIntent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
+                    loIntent.putExtra("args", lsArgument);
+                    loIntent.putExtra("url_link", lsUrlLinkx);
+
+                    break;
+                case "review":
+                    String lsListngID = getIntent().getStringExtra("sListngId");
+                    String lnEntryNox = getIntent().getStringExtra("nEntryNox");
+
+                    loIntent = new Intent(Activity_Dashboard.this, Activity_ProductReview.class);
+                    loIntent.putExtra("sListngId", lsListngID);
+                    loIntent.putExtra("nEntryNox", lnEntryNox);
+
+                    break;
+            }
+            startActivity(loIntent);
+        }else{
+            mViewModel.CheckPromotions(new VMHome.OnCheckPromotions() {
+                @Override
+                public void OnCheckPromos(String args1, String args2) {
+                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
+                    loDialog.initDialog(args2, (dialog) -> {
+                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
+                        intent.putExtra("url_link", args1);
+                        intent.putExtra("args", "1");
+                        startActivity(intent);
+                        dialog.dismiss();
+                    });
+                    loDialog.show();
+                }
+                @Override
+                public void OnCheckEvents(String args1, String args2) {
+                    Dialog_Promo loDialog = new Dialog_Promo(Activity_Dashboard.this);
+                    loDialog.initDialog(args1, (dialog) -> {
+                        Intent intent = new Intent(Activity_Dashboard.this, Activity_Browser.class);
+                        intent.putExtra("url_link", args2);
+                        intent.putExtra("args", "0");
+                        startActivity(intent);
+                        dialog.dismiss();
+                    });
+                    loDialog.show();
+                }
+
+                @Override
+                public void NoPromos() {
+
+                }
+            });
+        }
+    }
     private void setupIntentArguments(NavController navController){
         if(getIntent().hasExtra("args")){
             String lsArgs = getIntent().getStringExtra("args");
@@ -547,6 +548,7 @@ public class Activity_Dashboard extends AppCompatActivity {
             return "0";
         }
     }
+
     public void ParseQrCode(String fsVal){
         mViewModel.ParseQrCode(fsVal, new GCardSystem.ParseQrCodeCallback() {
             @Override

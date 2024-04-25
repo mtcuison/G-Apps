@@ -142,6 +142,7 @@ public class Activity_GCardOffline extends AppCompatActivity {
                         loParams.setnTranAmtx(0.00);
                         loParams.setnPointsxx(0.00);
                         loParams.setcTranStat("0");
+                        loParams.setcSendStat("0");
                         loParams.setsUserIDxx(new AccountInfo(Activity_GCardOffline.this).getUserID());
                         loParams.setsIMEINoxx(new Telephony(Activity_GCardOffline.this).getDeviceID());
                         loParams.setdRequestd(GetCurrentDate());
@@ -176,10 +177,22 @@ public class Activity_GCardOffline extends AppCompatActivity {
                         });
                     } else {
                         poMessage.setMessage(loMessage);
+                        poMessage.setPositiveButton("Dismiss", new MessageBox.DialogButton() {
+                            @Override
+                            public void OnButtonClick(View view, AlertDialog dialog) {
+                                dialog.dismiss();
+                            }
+                        });
                         poMessage.show();
                     }
                 }catch (Exception e){
                     poMessage.setMessage(e.getMessage());
+                    poMessage.setPositiveButton("Dismiss", new MessageBox.DialogButton() {
+                        @Override
+                        public void OnButtonClick(View view, AlertDialog dialog) {
+                            dialog.dismiss();
+                        }
+                    });
                     poMessage.show();
                 }
             }
