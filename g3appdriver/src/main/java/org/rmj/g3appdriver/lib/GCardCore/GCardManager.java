@@ -241,6 +241,8 @@ public class GCardManager implements iGCardSystem{
 
             String lsResult = loResponse.getString("result");
             if (lsResult.equalsIgnoreCase("success")) {
+                message = loResponse.getString("message");
+
                 //TODO: NO API RESULT RETURNED FOR LEDGER. FUTURE ADJUSTMENT -GUILLIER
                 /*RGCardPoints loGPoints = new RGCardPoints(mContext);
                 EGCardPoints egCardPoints = new EGCardPoints();
@@ -267,7 +269,7 @@ public class GCardManager implements iGCardSystem{
                 return false;
             }
         }catch (Exception e){
-            e.printStackTrace();
+            message = e.getMessage();
             return false;
         }
     }

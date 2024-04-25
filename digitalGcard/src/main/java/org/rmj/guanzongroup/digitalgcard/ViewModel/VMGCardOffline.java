@@ -76,11 +76,8 @@ public class VMGCardOffline extends AndroidViewModel {
                         loparams.put("sSourceCd", loData.getsSourceCd());
                         loparams.put("sOTPasswd", loData.getsOTPasswd());
 
-                        if (!poCardSystem.DownloadGcardPoints(loparams)){
-                            message = poCardSystem.GetMessage();
-                        }else {
-                            message = "Request Sent";
-                        }
+                        poCardSystem.DownloadGcardPoints(loparams);
+                        message = poCardSystem.GetMessage();
                     }
                 }catch (Exception e){
                     message = e.getMessage();

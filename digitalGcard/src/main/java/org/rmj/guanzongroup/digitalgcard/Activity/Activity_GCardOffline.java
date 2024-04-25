@@ -123,12 +123,6 @@ public class Activity_GCardOffline extends AppCompatActivity {
 
                 poMessage.initDialog();
                 poMessage.setTitle("Points Request");
-                poMessage.setPositiveButton("Dismiss", new MessageBox.DialogButton() {
-                    @Override
-                    public void OnButtonClick(View view, AlertDialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
 
                 try {
                     if (ValidateEntry()) {
@@ -163,6 +157,20 @@ public class Activity_GCardOffline extends AppCompatActivity {
                                 poDialog.dismiss();
 
                                 poMessage.setMessage(result);
+                                poMessage.setPositiveButton("Dismiss", new MessageBox.DialogButton() {
+                                    @Override
+                                    public void OnButtonClick(View view, AlertDialog dialog) {
+                                        dialog.dismiss();
+
+                                        tie_gcard_number.setText("");
+                                        tie_gcard_number.setEnabled(true);
+
+                                        tie_branch.setText("");
+                                        tie_date.setText("");
+                                        tie_src.setText("");
+                                        tie_refno.setText("");
+                                    }
+                                });
                                 poMessage.show();
                             }
                         });
@@ -291,7 +299,6 @@ public class Activity_GCardOffline extends AppCompatActivity {
         @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
 
         // Set the maximum date to one month from the current date
-        newCalendar.add(Calendar.MONTH, 1);
         long maxDateInMillis = newCalendar.getTimeInMillis();
 
         final DatePickerDialog StartTime = new DatePickerDialog(Activity_GCardOffline.this,
