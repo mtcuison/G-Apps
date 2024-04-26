@@ -121,41 +121,39 @@ public class VMGCardSystem extends AndroidViewModel {
             @Override
             public Object DoInBackground(Object args) {
                 try {
-                    if(!poConnect.isDeviceConnected()) {
-                        lomessage = parse(FAILED, AppConstants.SERVER_NO_RESPONSE());
-                    }else {
-                        GcardCredentials loGcardxx = (GcardCredentials) args;
-                        mGcardSys.AddGCard(loGcardxx, new GCardSystem.GCardSystemCallback() {
-                            @Override
-                            public void OnSuccess(String args) {
-                                try {
-                                    mGcardSys.SaveGCardInfo(new JSONObject(args));
-                                    mGcardSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
-                                        @Override
-                                        public void OnSuccess(String args) {
-                                            try {
-                                                JSONObject loDetail = new JSONObject(args);
-                                                mGcardSys.SaveMcServiceInfo(loDetail);
-                                                lomessage = parse(SUCCESS, "GCard Added Successfully.");
-                                            } catch (Exception e) {
-                                                lomessage = parse(FAILED, TAG + e.getMessage());
-                                            }
+                    GcardCredentials loGcardxx = (GcardCredentials) args;
+                    mGcardSys.AddGCard(loGcardxx, new GCardSystem.GCardSystemCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            try {
+                                mGcardSys.SaveGCardInfo(new JSONObject(args));
+                                mGcardSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
+                                    @Override
+                                    public void OnSuccess(String args) {
+                                        try {
+                                            JSONObject loDetail = new JSONObject(args);
+                                            mGcardSys.SaveMcServiceInfo(loDetail);
+
+                                            lomessage = parse(SUCCESS, "MC Service downloaded");
+                                        } catch (Exception e) {
+                                            lomessage = parse(FAILED, e.getMessage());
                                         }
-                                        @Override
-                                        public void OnFailed(String message) {
-                                            lomessage = parse(FAILED, message);
-                                        }
-                                    });
-                                }catch (Exception e) {
-                                    lomessage = parse(FAILED,TAG + e.getMessage());
-                                }
+                                    }
+
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        lomessage = parse(FAILED, message);
+                                    }
+                                });
+                            }catch (Exception e) {
+                                lomessage = parse(FAILED, e.getMessage());
                             }
-                            @Override
-                            public void OnFailed(String message) {
-                                lomessage = parse(FAILED, message);
-                            }
-                        });
-                    }
+                        }
+                        @Override
+                        public void OnFailed(String message) {
+                            lomessage = parse(FAILED, message);
+                        }
+                    });
                 }catch (Exception e){
                     lomessage = parse(FAILED, e.getMessage());
                 }
@@ -178,66 +176,66 @@ public class VMGCardSystem extends AndroidViewModel {
             @Override
             public Object DoInBackground(Object args) {
                 try {
-                    if(!poConnect.isDeviceConnected()) {
-                        lomessage = parse(FAILED, AppConstants.SERVER_NO_RESPONSE());
-                    } else {
-                        String params = args.toString();
+                    String params = args.toString();
 
-                        CodeGenerator loCode = new CodeGenerator();
-                        loCode.setEncryptedQrCode(params);
+                    CodeGenerator loCode = new CodeGenerator();
+                    loCode.setEncryptedQrCode(params);
 
-                        String lsArgs = loCode.getGCardNumber();
+                    String lsArgs = loCode.getGCardNumber();
 
-                        mGcardSys.AddGCardQrCode(lsArgs, new GCardSystem.GCardSystemCallback() {
-                            @Override
-                            public void OnSuccess(String args) {
-                                try {
-                                    Thread.sleep(1000);
-                                    mGcardSys.DownloadGcardNumbers(new GCardSystem.GCardSystemCallback() {
-                                        @Override
-                                        public void OnSuccess(String args) {
-                                            try {
-                                                mGcardSys.SaveGCardInfo(new JSONObject(args));
-                                                lomessage = parse(SUCCESS, "GCard added successfully");
-                                            } catch (Exception e) {
-                                                lomessage = parse(FAILED, TAG + e.getMessage());
-                                            }
+                    mGcardSys.AddGCardQrCode(lsArgs, new GCardSystem.GCardSystemCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            try {
+                                Thread.sleep(1000);
+                                mGcardSys.DownloadGcardNumbers(new GCardSystem.GCardSystemCallback() {
+                                    @Override
+                                    public void OnSuccess(String args) {
+                                        try {
+                                            mGcardSys.SaveGCardInfo(new JSONObject(args));
+                                            lomessage = parse(SUCCESS, "GCard numbers downloaded");
+                                        } catch (Exception e) {
+                                            lomessage = parse(FAILED, e.getMessage());
                                         }
-                                        @Override
-                                        public void OnFailed(String message) {
-                                            lomessage = parse(FAILED, message);
-                                        }
-                                    });
+                                    }
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        lomessage = parse(FAILED, message);
+                                    }
+                                });
 
-                                    Thread.sleep(1000);
-                                    mGcardSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
-                                        @Override
-                                        public void OnSuccess(String args) {
-                                            try {
-                                                mGcardSys.SaveMcServiceInfo(new JSONObject(args));
-                                                lomessage = parse(SUCCESS, "GCard Service Added Successfully.");
-                                            } catch (Exception e) {
-                                                lomessage = parse(FAILED, TAG + e.getMessage());
-                                            }
+                                Log.d(TAG, lomessage);
+
+                                Thread.sleep(1000);
+                                mGcardSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
+                                    @Override
+                                    public void OnSuccess(String args) {
+                                        try {
+                                            mGcardSys.SaveMcServiceInfo(new JSONObject(args));
+                                            lomessage = parse(SUCCESS, "MC Service downloaded");
+                                        } catch (Exception e) {
+                                            lomessage = parse(FAILED, e.getMessage());
                                         }
-                                        @Override
-                                        public void OnFailed(String message) {
-                                            lomessage = parse(FAILED, message);
-                                        }
-                                    });
-                                } catch (Exception e) {
-                                    lomessage = parse(FAILED,TAG + e.getMessage());
-                                }
+                                    }
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        lomessage = parse(FAILED, message);
+                                    }
+                                });
+
+                                Log.d(TAG, lomessage);
+                            } catch (Exception e) {
+                                lomessage = parse(FAILED, e.getMessage());
                             }
-                            @Override
-                            public void OnFailed(String message) {
-                                lomessage = parse(FAILED, message);
-                            }
+                        }
+                        @Override
+                        public void OnFailed(String message) {
+                            lomessage = parse(FAILED, message);
+                        }
 
-                        });
-                    }
+                    });
                 } catch(Exception e) {
-                    lomessage = parse(FAILED, TAG + e.getMessage());
+                    lomessage = parse(FAILED, e.getMessage());
                 }
 
                 return lomessage;
@@ -310,44 +308,41 @@ public class VMGCardSystem extends AndroidViewModel {
             @Override
             public Object DoInBackground(Object args) {
                 try {
-                    if(poConnect.isDeviceConnected()) {
-                        GcardCredentials loGcardxx = (GcardCredentials) args;
-                        mGcardSys.ConfirmAddGCard(loGcardxx, new GCardSystem.GCardSystemCallback() {
-                            @Override
-                            public void OnSuccess(String args) {
-                                try {
-                                    mGcardSys.SaveGCardInfo(new JSONObject(args));
-                                    mGcardSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
-                                        @Override
-                                        public void OnSuccess(String args) {
-                                            try {
-                                                JSONObject loDetail = new JSONObject(args);
-                                                mGcardSys.SaveMcServiceInfo(loDetail);
-                                                lomessage = parse(SUCCESS, "GCard Added Successfully.");
-                                            } catch (Exception e) {
-                                                lomessage = parse(FAILED, TAG + e.getMessage());
-                                            }
-                                        }
-                                        @Override
-                                        public void OnFailed(String message) {
-                                            lomessage = parse(FAILED, message);
-                                        }
-                                    });
-                                } catch (Exception e) {
-                                    lomessage = parse(FAILED,TAG + e.getMessage());
-                                }
-                            }
-                            @Override
-                            public void OnFailed(String message) {
-                                lomessage = parse(FAILED, message);
-                            }
+                    GcardCredentials loGcardxx = (GcardCredentials) args;
+                    mGcardSys.ConfirmAddGCard(loGcardxx, new GCardSystem.GCardSystemCallback() {
+                        @Override
+                        public void OnSuccess(String args) {
+                            try {
+                                mGcardSys.SaveGCardInfo(new JSONObject(args));
+                                mGcardSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
+                                    @Override
+                                    public void OnSuccess(String args) {
+                                        try {
+                                            JSONObject loDetail = new JSONObject(args);
+                                            mGcardSys.SaveMcServiceInfo(loDetail);
 
-                        });
-                    } else {
-                        lomessage = parse(FAILED, AppConstants.SERVER_NO_RESPONSE());
-                    }
+                                            lomessage = parse(SUCCESS, "MC Service downloaded");
+                                        } catch (Exception e) {
+                                            lomessage = parse(FAILED, e.getMessage());
+                                        }
+                                    }
+                                    @Override
+                                    public void OnFailed(String message) {
+                                        lomessage = parse(FAILED, message);
+                                    }
+                                });
+                            } catch (Exception e) {
+                                lomessage = parse(FAILED, e.getMessage());
+                            }
+                        }
+                        @Override
+                        public void OnFailed(String message) {
+                            lomessage = parse(FAILED, message);
+                        }
+
+                    });
                 } catch(Exception e) {
-                    lomessage = parse(FAILED, TAG + e.getMessage());
+                    lomessage = parse(FAILED, e.getMessage());
                 }
 
                 return lomessage;
@@ -942,16 +937,10 @@ public class VMGCardSystem extends AndroidViewModel {
             public Object DoInBackground(Object args) {
                 String lsCardNox = args.toString();
 
-                try {
-                    mGcardSys.updateGCardDeactiveStatus();
-                    mGcardSys.updateGCardActiveStatus(lsCardNox);
+                mGcardSys.updateGCardDeactiveStatus();
+                mGcardSys.updateGCardActiveStatus(lsCardNox);
 
-                    lomessage = parse(SUCCESS, "Selected GCard has been activated.");
-                } catch (Exception e) {
-                    lomessage = parse(FAILED, e.getMessage());
-                }
-
-                return lomessage;
+                return parse(SUCCESS, "Gcard activated!");
             }
             @Override
             public void OnPostExecute(Object object) {
@@ -983,17 +972,20 @@ public class VMGCardSystem extends AndroidViewModel {
     }
 
     private static void setCallBack(String fsResultx, GcardTransactionCallback foCallBck) {
+        Log.d(TAG, fsResultx);
         try {
             JSONObject loJson = new JSONObject(fsResultx);
+
             String lsStatus =String.valueOf(loJson.get("status"));
             String lsMessage = loJson.getString("message");
+
             if(lsStatus.equals(SUCCESS.toString())) {
                 foCallBck.onSuccess(lsMessage);
             } else if(lsStatus.equals(FAILED.toString())) {
                 foCallBck.onFailed(lsMessage);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            foCallBck.onFailed(e.getMessage());
         }
     }
 

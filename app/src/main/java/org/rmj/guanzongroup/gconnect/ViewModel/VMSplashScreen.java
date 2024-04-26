@@ -120,54 +120,6 @@ public class VMSplashScreen extends AndroidViewModel {
                     if (loProduct.ImportProductList()) {
                         Log.d(TAG, "Product Sales imported successfully...");
                     }
-
-                    //TODO: IMPORT NOTIFICATIONS, PROMOTIONS, AND TRANSACTIONS, IF ALREADY LOGGED IN
-                    /*if (loAccount.getLoginStatus()) {
-
-                        Thread.sleep(500);
-                        loNotif.ImportClientNotifications(0);
-
-                        loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);
-                        Thread.sleep(500);
-                        loGcard.DownloadGcardNumbers(poCallback);
-
-                        if(loGcard.hasActiveGcard().size() > 0){
-
-                            Thread.sleep(500);
-                            loGcard.DownloadMCServiceInfo(poCallback);
-
-                            Thread.sleep(500);
-                            loGcard.DownloadTransactions(poCallback);
-                        } else {
-                            Log.e(TAG, "No gcard registered on this account.");
-                        }
-
-                        loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.EXTRAS);
-                        Thread.sleep(500);
-                        loGcard.DownloadPromotions(poCallback);
-
-                        Thread.sleep(500);
-                        loGcard.DownloadBranchesList(poCallback);
-
-                        Thread.sleep(500);
-                        loGcard.DownloadNewsEvents(poCallback);
-                        Log.d(TAG, "News events imported successfully...");
-
-                        loGcard = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.REDEMPTION);
-                        Thread.sleep(500);
-                        loGcard.DownloadRedeemables(poCallback);
-
-                        if(loAccount.getVerificationStatus() > 0){
-                            Thread.sleep(500);
-                            if(loOrder.ImportMarketPlaceItemCart()){
-                                Log.d(TAG, "Marketplace cart items imported successfully...");
-                            }
-                        } else {
-                            Log.e(TAG, "User doesn't have complete details for marketplace.");
-                        }
-                    } else {
-                        Log.e(TAG, "No account session found.");
-                    }*/
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -177,7 +129,7 @@ public class VMSplashScreen extends AndroidViewModel {
             public void OnProgress(int progress) {
                 switch (progress){
                     case 1:
-                        listener.OnProgress("Importing Baranggays", progress);
+                        listener.OnProgress("Importing Barangays", progress);
                         break;
                     case 2:
                         listener.OnProgress("Importing Towns", progress);

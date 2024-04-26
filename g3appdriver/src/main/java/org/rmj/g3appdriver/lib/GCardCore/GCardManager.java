@@ -644,6 +644,7 @@ public class GCardManager implements iGCardSystem{
         } else {
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
+
             if (lsResult.equalsIgnoreCase("success")) {
                 callback.OnSuccess(loResponse.toString());
             } else {
@@ -683,6 +684,7 @@ public class GCardManager implements iGCardSystem{
             for (int x = 0; x < laJson.length(); x++) {
                 JSONObject loJson = laJson.getJSONObject(x);
                 EServiceInfo loService = new EServiceInfo();
+
                 loService.setGCardNox(poGCard.getCardNox());
                 loService.setSerialID(loJson.getString("sSerialID"));
                 loService.setEngineNo(loJson.getString("sEngineNo"));
@@ -695,6 +697,7 @@ public class GCardManager implements iGCardSystem{
                 loService.setWhitexxx(loJson.getInt("nWhitexxx"));
                 loService.setMIlAgexx(loJson.getInt("nMilagexx"));
                 loService.setNxtRmnds(loJson.getString("dNxtRmndS"));
+
                 poService.insert(loService);
             }
         }

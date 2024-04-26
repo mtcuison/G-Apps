@@ -14,6 +14,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -102,6 +103,7 @@ public class Activity_AddGcard extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if(resultCode == RESULT_OK && requestCode == SCAN_GCARD){
             iGCardSystem loGcard = new GCardSystem(Activity_AddGcard.this).getInstance(GCardSystem.CoreFunctions.GCARD);
             try {
@@ -174,8 +176,10 @@ public class Activity_AddGcard extends AppCompatActivity {
                     @Override
                     public void onFailed(String fsMessage) {
                         poLoading.dismiss();
+
                         if(isJSONValid(fsMessage)) {
                             String lsErrCode = "";
+
                             try {
                                 JSONObject loJson = new JSONObject(fsMessage);
                                 lsErrCode = loJson.getString("code");
@@ -237,7 +241,6 @@ public class Activity_AddGcard extends AppCompatActivity {
                 poLoading.initDialog("Adding GCard", "Please wait for a while.");
                 poLoading.show();
             }
-
             @Override
             public void onSuccess(String fsMessage) {
                 poLoading.dismiss();
@@ -248,15 +251,16 @@ public class Activity_AddGcard extends AppCompatActivity {
                 });
                 poDialog.show();
             }
-
             @Override
             public void onFailed(String fsMessage) {
                 poLoading.dismiss();
+
                 if(isJSONValid(fsMessage)) {
                     String lsErrCode = "";
                     try {
                         JSONObject loJson = new JSONObject(fsMessage);
                         lsErrCode = loJson.getString("code");
+
                         if("CNF".equalsIgnoreCase(lsErrCode)) {
                             poDialog.setButtonText("Okay");
                             poDialog.initDialog("Add GCard", "GCard is already registered to other account. Please add GCard number manually and confirm to register the GCard on your account.", () -> {
@@ -274,10 +278,8 @@ public class Activity_AddGcard extends AppCompatActivity {
                     poDialog.show();
                 }
             }
-
             @Override
             public void onQrGenerate(Bitmap foBitmap) {
-
             }
         });
     }
