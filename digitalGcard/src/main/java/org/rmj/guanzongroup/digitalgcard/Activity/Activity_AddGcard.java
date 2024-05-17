@@ -150,6 +150,7 @@ public class Activity_AddGcard extends AppCompatActivity {
     private void addGcard() {
         String lsGcardNo = Objects.requireNonNull(txtGcardN.getText().toString().trim());
         String lsBrtDate = Objects.requireNonNull(txtBdatex.getText().toString().trim());
+
         GcardCredentials loGcard = new GcardCredentials(lsGcardNo, lsBrtDate);
         if(loGcard.isDataValid()) {
             try {

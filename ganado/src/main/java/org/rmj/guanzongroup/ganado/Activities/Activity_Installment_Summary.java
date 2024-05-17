@@ -42,9 +42,10 @@ public class Activity_Installment_Summary extends AppCompatActivity {
         setContentView(R.layout.activity_installment_summary);
 
         initWidgets();
-        setWidgets();
 
         mViewModel.InitializeApplication(getIntent());
+        setWidgets();
+
         btnsave.setOnClickListener(view -> {
             Intent loIntent = new Intent(Activity_Installment_Summary.this, Activity_Inquiries.class);
             loIntent.putExtra("lsBrandID", BrandID);
@@ -68,7 +69,6 @@ public class Activity_Installment_Summary extends AppCompatActivity {
         txtTerm.setEnabled(false);
         txtPaymMod.setEnabled(false);
     }
-
     private void setWidgets(){
         mViewModel.GetInquiryDetail().observe(Activity_Installment_Summary.this, eGanadoOnline->{
             try {

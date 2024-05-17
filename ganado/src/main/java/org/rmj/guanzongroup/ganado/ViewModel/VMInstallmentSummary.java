@@ -106,10 +106,6 @@ public class VMInstallmentSummary extends AndroidViewModel implements GanadoUI {
     public DGanadoOnline.CashPrice GetCashInfo(String ModelID){
         return poApp.GetCashInfo(ModelID);
     }
-//
-//    public double GetMonthlyPayment(double args1) {
-//        return poApp.GetMonthlyAmortization(poModel.getModelIDxx(),poModel.getAccTermxx(), args1);
-//    }
 
     public double GetMonthlyPayment(double args1) {
         return poApp.GetMonthlyAmortization(poAmort.getValue(), args1);

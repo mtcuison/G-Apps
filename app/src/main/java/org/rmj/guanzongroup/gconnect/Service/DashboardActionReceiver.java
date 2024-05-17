@@ -54,7 +54,7 @@ public class DashboardActionReceiver extends BroadcastReceiver {
 
             if (intent.hasExtra("args")) {
                 String args = intent.getStringExtra("args");
-                Log.e("args", args);
+
                 Intent loIntent;
                 switch (args) {
                     case "auth":

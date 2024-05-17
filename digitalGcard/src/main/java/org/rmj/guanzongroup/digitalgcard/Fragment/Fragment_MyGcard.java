@@ -11,9 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +35,7 @@ import org.rmj.guanzongroup.digitalgcard.ViewModel.VMGCardSystem;
 
 import java.util.Objects;
 
-public class Fragment_MyGcard extends Fragment {
+public class Fragment_MyGcard extends Fragment{
 
     private VMGCardSystem mViewModel;
     private View view;
@@ -40,18 +43,22 @@ public class Fragment_MyGcard extends Fragment {
     private ConstraintLayout vAddGcard, vMyGcardx;
     private TextView txtManage, txtUserNm, txtCardNo, txtPoints;
     private MaterialButton btnAddCrd;
+    private ImageButton btn_refresh;
     private Dialog_Loading poLoading;
     private Dialog_SingleButton poDialog;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         mViewModel = new ViewModelProvider(requireActivity()).get(VMGCardSystem.class);
         view = inflater.inflate(R.layout.fragment_my_gcard, container, false);
         initViews();
+
         poDialog = new Dialog_SingleButton(requireActivity());
         mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
-        initMyGcard();
+
+        initGCardInfo();
 
         return view;
     }
@@ -65,8 +72,35 @@ public class Fragment_MyGcard extends Fragment {
         txtCardNo = view.findViewById(R.id.lbl_card_number);
         txtPoints = view.findViewById(R.id.lbl_gcard_points);
         btnAddCrd = view.findViewById(R.id.btnAddGcard);
+        btn_refresh = view.findViewById(R.id.btn_refresh);
     }
+    private void initGCardInfo(){
+        mViewModel.downloadGcardNumbers(new VMGCardSystem.GcardTransactionCallback() {
+            @Override
+            public void onLoad() {
+                poLoading = new Dialog_Loading(requireActivity());
+                poLoading.initDialog("GCard Information", "Please wait for a while.");
+                poLoading.show();
+            }
+            @Override
+            public void onSuccess(String fsMessage) {
+                poLoading.dismiss();
+                initMyGcard();
+            }
+            @Override
+            public void onFailed(String fsMessage) {
+                poLoading.dismiss();
 
+                poDialog.setButtonText("Dismiss");
+                poDialog.initDialog("GCard Information Error", fsMessage, () -> poDialog.dismiss());
+                poDialog.show();
+            }
+            @Override
+            public void onQrGenerate(Bitmap foBitmap) {
+
+            }
+        });
+    }
     private void initMyGcard() {
         mViewModel.getActiveGcard().observe(getViewLifecycleOwner(), eGcardApp -> {
             try {
@@ -105,7 +139,6 @@ public class Fragment_MyGcard extends Fragment {
             }
         });
     }
-
     private void displayGcardInfo(EGcardApp foGcardxx) {
         if(foGcardxx.getNmOnCard() == null || foGcardxx.getNmOnCard().equalsIgnoreCase("null")) {
             txtUserNm.setText("");
@@ -116,34 +149,11 @@ public class Fragment_MyGcard extends Fragment {
         txtCardNo.setText(Objects.requireNonNull(foGcardxx.getCardNmbr()));
         txtPoints.setText(Objects.requireNonNull(foGcardxx.getAvlPoint()));
 
-        txtPoints.setOnClickListener(v -> {
-            mViewModel.downloadGcardNumbers(new VMGCardSystem.GcardTransactionCallback() {
-                @Override
-                public void onLoad() {
-                    poLoading = new Dialog_Loading(requireActivity());
-                    poLoading.initDialog("Refreshing GCard points", "Please wait for a while.");
-                    poLoading.show();
-                }
-
-                @Override
-                public void onSuccess(String fsMessage) {
-                    poLoading.dismiss();
-                }
-
-                @Override
-                public void onFailed(String fsMessage) {
-                    poLoading.dismiss();
-                    poDialog.setButtonText("Okay");
-                    poDialog.initDialog("Add GCard Failed", fsMessage, () -> poDialog.dismiss());
-                    poDialog.show();
-                }
-
-                @Override
-                public void onQrGenerate(Bitmap foBitmap) {
-
-                }
-            });
+        btn_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initGCardInfo();
+            }
         });
     }
-
 }

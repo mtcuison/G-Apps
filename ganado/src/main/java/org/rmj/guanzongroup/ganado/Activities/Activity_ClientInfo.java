@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -55,6 +56,8 @@ public class Activity_ClientInfo extends AppCompatActivity {
     private MaterialToolbar toolbar;
     private String sTansNox = "";
 
+    private Boolean hasLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +70,9 @@ public class Activity_ClientInfo extends AppCompatActivity {
         initWidgets();
 
         mViewModel.InitializeApplication(getIntent());
+
         mViewModel.InitGeoLocation(Activity_ClientInfo.this);
+
         mViewModel.getRelation().observe(Activity_ClientInfo.this, eRelations->{
             try {
                 ArrayList<String> string = new ArrayList<>();
@@ -180,46 +185,52 @@ public class Activity_ClientInfo extends AppCompatActivity {
             mViewModel.getModel().setAddressx(txtAddress.getText().toString().trim());
             mViewModel.getModel().setEmailAdd(txtEmailAdd.getText().toString().trim());
             mViewModel.getModel().setMobileNo(txtMobileNo.getText().toString());
-            mViewModel.SaveData(new VMPersonalInfo.OnSaveInquiry() {
-                @Override
-                public void OnSave() {
-                    poDialogx.initDialog("Benta", "Saving inquiry. Please wait...", false);
-                    poDialogx.show();
-                    Log.d("ako ito", "OnSave:");
-                }
 
-                @Override
-                public void OnSuccess(String args) {
+            if (!mViewModel.InitGeoLocation(Activity_ClientInfo.this)){
+                poMessage.initDialog();
+                poMessage.setTitle("Benta");
+                poMessage.setMessage("Please turn on your location!");
+                poMessage.setPositiveButton("Dismiss", (view, dialog) -> {
+                    poMessage.dismiss();
+                });
+                poMessage.show();
 
-                    poDialogx.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Benta");
-                    poMessage.setMessage("Motorcycle inquiry saved successfully!");
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                        poMessage.dismiss();
+            }else {
+                mViewModel.SaveData(new VMPersonalInfo.OnSaveInquiry() {
+                    @Override
+                    public void OnSave() {
+                        poDialogx.initDialog("Benta", "Saving inquiry. Please wait...", false);
+                        poDialogx.show();
+                    }
+                    @Override
+                    public void OnSuccess(String args) {
+
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Benta");
+                        poMessage.setMessage("Motorcycle inquiry saved successfully!");
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                            poMessage.dismiss();
                             Intent loIntent = new Intent(Activity_ClientInfo.this, Activity_Installment_Summary.class);
                             loIntent.putExtra("sTransNox", args);
                             startActivity(loIntent);
                             overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
                             finish();
-                        Log.d("ako ito", "OnSuccess:");
 
-                    });
-                    poMessage.show();
-                }
-
-
-                @Override
-                public void OnFailed(String message) {
-                    poDialogx.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Benta");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                    Log.d("ako ito", "OnFailed:");
-                }
-            });
+                        });
+                        poMessage.show();
+                    }
+                    @Override
+                    public void OnFailed(String message) {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Benta");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+                });
+            }
         });
     }
 

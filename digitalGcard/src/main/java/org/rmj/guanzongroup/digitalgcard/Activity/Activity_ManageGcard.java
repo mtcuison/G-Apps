@@ -39,6 +39,7 @@ public class Activity_ManageGcard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_gcard);
+
         mViewModel = new ViewModelProvider(Activity_ManageGcard.this).get(VMGCardSystem.class);
         mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
 
@@ -90,7 +91,6 @@ public class Activity_ManageGcard extends AppCompatActivity {
         displayActiveGcard();
         displayInactiveGcard();
     }
-
     private void displayActiveGcard() {
         mViewModel.getActiveGcard().observe(Activity_ManageGcard.this, eGcardApp -> {
             try {
@@ -104,7 +104,6 @@ public class Activity_ManageGcard extends AppCompatActivity {
             }
         });
     }
-
     private void displayInactiveGcard() {
         mViewModel.getInactiveGCard().observe(Activity_ManageGcard.this, eGcardApps -> {
             try {

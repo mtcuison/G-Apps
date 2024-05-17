@@ -55,10 +55,11 @@ public class Fragment_Home extends Fragment {
         poConn = new ConnectionUtil(requireActivity());
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
         initViews(view);
         displayData();
 
-        mViewModel.GetPendingRqsts().observe(this, new Observer<List<EPointsRequest>>() {
+        mViewModel.GetPendingRqsts().observe(getViewLifecycleOwner(), new Observer<List<EPointsRequest>>() {
             @Override
             public void onChanged(List<EPointsRequest> ePointsRequests) {
                 if (poConn.isDeviceConnected()){

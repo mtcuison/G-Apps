@@ -179,6 +179,7 @@ public class GCardManager implements iGCardSystem{
                 callback.OnFailed("No server response.");
             } else {
                 JSONObject loResponse = new JSONObject(lsResponse);
+
                 String lsResult = loResponse.getString("result");
                 if(lsResult.equalsIgnoreCase("success")){
                     callback.OnSuccess(lsResponse);
@@ -220,6 +221,7 @@ public class GCardManager implements iGCardSystem{
             JSONObject loResponse = new JSONObject(lsResponse);
 
             String lsResult = loResponse.getString("result");
+            
             if (lsResult.equalsIgnoreCase("success")) {
                 message = loResponse.getString("message");
 
