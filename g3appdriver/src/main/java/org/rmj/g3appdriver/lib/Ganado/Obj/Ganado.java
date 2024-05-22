@@ -226,7 +226,6 @@ public class Ganado {
                 nLongitude = String.valueOf(location2.getLongitude());
             }else{
                 message = "Unable to Trace your location";
-                Log.e("message", message);
                 return false;
             }
 
@@ -242,10 +241,7 @@ public class Ganado {
             return true;
 
         }else {
-
-            Log.e("nLatitude", String.valueOf(nLatitude));
-            Log.e("nLongitud", String.valueOf(nLongitude));
-
+            message = "Please allow app permission for location";
             ActivityCompat.requestPermissions(poActivty, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
             return false;

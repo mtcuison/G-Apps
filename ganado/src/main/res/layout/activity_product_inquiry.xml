@@ -185,8 +185,8 @@
                             android:id="@+id/txt_cashPrice"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:enabled="false"/>
+                            android:enabled="false"
+                            android:textColor="?attr/colorOnPrimary"/>
                     </com.google.android.material.textfield.TextInputLayout>
                     <LinearLayout
                         android:id="@+id/linearInstallments"
@@ -206,8 +206,7 @@
                                 android:id="@+id/txt_mindownpayment"
                                 android:layout_width="match_parent"
                                 android:layout_height="58dp"
-                                android:inputType="numberDecimal"
-                                android:textColor="@color/black" />
+                                android:inputType="numberDecimal"/>
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/txtyourmnmdp"

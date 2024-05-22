@@ -189,9 +189,9 @@ public class Activity_ClientInfo extends AppCompatActivity {
             if (!mViewModel.InitGeoLocation(Activity_ClientInfo.this)){
                 poMessage.initDialog();
                 poMessage.setTitle("Benta");
-                poMessage.setMessage("Please turn on your location!");
+                poMessage.setMessage(mViewModel.GetMessage());
                 poMessage.setPositiveButton("Dismiss", (view, dialog) -> {
-                    poMessage.dismiss();
+                    dialog.dismiss();
                 });
                 poMessage.show();
 

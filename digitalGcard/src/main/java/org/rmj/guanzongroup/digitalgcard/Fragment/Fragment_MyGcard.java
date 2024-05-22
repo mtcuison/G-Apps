@@ -58,7 +58,7 @@ public class Fragment_MyGcard extends Fragment{
         poDialog = new Dialog_SingleButton(requireActivity());
         mViewModel.setmContext(GCardSystem.CoreFunctions.GCARD);
 
-        initGCardInfo();
+        initMyGcard();
 
         return view;
     }

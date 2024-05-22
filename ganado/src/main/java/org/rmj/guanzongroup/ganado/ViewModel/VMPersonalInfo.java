@@ -52,7 +52,11 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
         this.poModel = new ClientInfo();
         this.poTown = new RTown(application);
     }
+    public String GetMessage(){
+        return message;
+    }
     public Boolean InitGeoLocation(Activity activity){
+        message = this.poApp.getMessage();
         return this.poApp.InitGeoLocation(activity);
     }
 
