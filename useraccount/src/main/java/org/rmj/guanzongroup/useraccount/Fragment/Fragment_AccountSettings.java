@@ -2,6 +2,7 @@ package org.rmj.guanzongroup.useraccount.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,16 +99,6 @@ public class Fragment_AccountSettings extends Fragment {
                         Intent loIntent = new Intent(requireActivity(), Activity_AccountDetails.class);
                         startActivity(loIntent);
                     }
-//                    mViewModel.getClientInfo().observe(requireActivity(), eClientInfo -> {
-//                        if (poAccount.getVerificationStatus() == 0){
-//                            Intent loIntent = new Intent(requireActivity(), Activity_CompleteAccountDetails.class);
-//                            loIntent.putExtra("args", "account");
-//                            poArl.launch(loIntent);
-//                        } else {
-//                            Intent loIntent = new Intent(requireActivity(), Activity_AccountDetails.class);
-//                            startActivity(loIntent);
-//                        }
-//                    });
                     break;
                 case 1:
                     if (poAccount.getVerificationStatus() == 0){

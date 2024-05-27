@@ -20,9 +20,11 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
+import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.g3appdriver.lib.GCardCore.CodeGenerator;
 import org.rmj.g3appdriver.lib.GCardCore.GCardSystem;
 import org.rmj.g3appdriver.lib.GCardCore.Obj.CartItem;
@@ -43,13 +45,17 @@ public class VMGCardSystem extends AndroidViewModel {
     private iGCardSystem mGcardSys;
     private String lomessage;
     private Boolean result;
+    private AccountInfo loAccount;
+    private RClientInfo loClientInfo;
 
     public VMGCardSystem(@NonNull Application application) {
         super(application);
-        Log.e(TAG, "Initialized.");
+
         this.mContext = application;
         this.poGcrdSys = new GCardSystem(application);
         this.poConnect = new ConnectionUtil(application);
+        this.loAccount = new AccountInfo(application);
+        this.loClientInfo = new RClientInfo(application);
     }
 
     /** Initialize this method whenever it is used to return a GCard function instance to be used. */
@@ -135,6 +141,17 @@ public class VMGCardSystem extends AndroidViewModel {
                                             mGcardSys.SaveMcServiceInfo(loDetail);
 
                                             lomessage = parse(SUCCESS, "MC Service downloaded");
+
+                                            Thread.sleep(1000);
+                                            if (loAccount.getVerificationStatus() <= 0){
+                                                //TODO: import complete info after saving gcard number
+                                               if (loClientInfo.ImportAccountInfo()){
+                                                   lomessage = parse(SUCCESS, loClientInfo.getMessage());
+                                               }else {
+                                                   lomessage = parse(FAILED, loClientInfo.getMessage());
+                                               }
+
+                                            }
                                         } catch (Exception e) {
                                             lomessage = parse(FAILED, e.getMessage());
                                         }

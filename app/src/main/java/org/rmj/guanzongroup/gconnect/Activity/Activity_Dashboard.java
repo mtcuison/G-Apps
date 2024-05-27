@@ -393,6 +393,8 @@ public class Activity_Dashboard extends AppCompatActivity {
         mViewModel.getClientInfo().observe(Activity_Dashboard.this, eClientinfo -> {
             try {
                 Menu nav_Menu = navigationView.getMenu();
+
+                //todo: display nav menus, if logged account
                 if(eClientinfo != null) {
                     String lsFullNme = eClientinfo.getUserName();
 
@@ -400,17 +402,37 @@ public class Activity_Dashboard extends AppCompatActivity {
                     txtFullNm.setVisibility(View.VISIBLE);
                     txtFullNm.setText(Objects.requireNonNull(lsFullNme));
 
-                    /*Pre release of Guanzon Connect Marketplace Project requires this field to be commented
-                    in order to hide the preview of marketplace items*/
-
                     nav_Menu.findItem(R.id.nav_scan_qrcode).setVisible(true);
                     nav_Menu.findItem(R.id.nav_my_gcard).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_gcard_offline).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_product_inquiry_history).setVisible(true);
-                    nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(true);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+
+                    //todo: should complete account to access the ff transactions
+                    if (eClientinfo.getVerified() > 0){
+                        nav_Menu.findItem(R.id.nav_gcard_offline).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_product_inquiry_history).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_purchases).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_applyLoan).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_events).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_wishlist).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_pre_termination).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_promos).setVisible(true);
+                        nav_Menu.findItem(R.id.nav_item_cart).setVisible(true);
+                    }else {
+                        nav_Menu.findItem(R.id.nav_gcard_offline).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_product_inquiry).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_product_inquiry_history).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_purchases).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_applyLoan).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_events).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_wishlist).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_promos).setVisible(false);
+                        nav_Menu.findItem(R.id.nav_item_cart).setVisible(false);
+                    }
                 } else {
                     lnAuthxxx.setVisibility(View.VISIBLE);
                     txtFullNm.setVisibility(View.GONE);
@@ -436,7 +458,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                     nav_Menu.findItem(R.id.nav_account_settings).setVisible(false);
                     nav_Menu.findItem(R.id.nav_logout).setVisible(false);
 
-                    /*DISABLED TEMPORARY, MARKETPLACE UNDER DEVELOPED*/
                     nav_Menu.findItem(R.id.nav_events).setVisible(false);
                     nav_Menu.findItem(R.id.nav_wishlist).setVisible(false);
                     nav_Menu.findItem(R.id.nav_pre_termination).setVisible(false);

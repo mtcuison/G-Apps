@@ -303,6 +303,8 @@ public class VMAccountDetails extends AndroidViewModel {
                 try {
                     if(poConnect.isDeviceConnected()) {
                         if(poClientx.CompleteClientInfo(loInfo)) {
+
+                            Thread.sleep(1000);
                             if (!poClientx.ImportAccountInfo()){
                                 loResult = poClientx.getMessage();
                                 isSuccess = false;

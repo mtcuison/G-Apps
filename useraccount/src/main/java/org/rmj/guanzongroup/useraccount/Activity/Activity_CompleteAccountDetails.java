@@ -127,6 +127,7 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                 poDataMdl.setBirthDate(eClientInfo.getBirthDte());
                 psBDate = eClientInfo.getBirthDte();
                 txtGCashNo.setText(eClientInfo.getGCashNo());
+
                 mViewModel.getBirthplace(eClientInfo.getBirthPlc()).observe(Activity_CompleteAccountDetails.this, info->{
                     txtBplace.setText(info);
                     poDataMdl.setBirthPlace(eClientInfo.getBirthPlc());
@@ -226,68 +227,9 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         }
     }
 
-    public boolean isJSONValid(String fsMessage) {
-        try {
-            new JSONObject(fsMessage);
-        } catch (JSONException ex) {
-            try {
-                new JSONArray(fsMessage);
-            } catch (JSONException ex1) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     private void scanAccountDetails() {
         Intent loIntent = new Intent(Activity_CompleteAccountDetails.this, Activity_ClientInfo_QR.class);
         poArl.launch(loIntent);
-    }
-    private void addScannedClientInfo(String args){
-        mViewModel.addScannedClientInfo(args, new VMAccountDetails.ClientInfoTransactionCallback() {
-            @Override
-            public void onLoad() {
-                poLoading = new Dialog_Loading(Activity_CompleteAccountDetails.this);
-                poLoading.initDialog("Adding GCard", "Please wait for a while.");
-                poLoading.show();
-            }
-            @Override
-            public void onSuccess(String fsMessage) {
-                poLoading.dismiss();
-                poDialog.setButtonText("Okay");
-                poDialog.initDialog("Add GCard", "GCard Successfully Added.", () -> {
-                    poDialog.dismiss();
-                    finish();
-                });
-                poDialog.show();
-            }
-            @Override
-            public void onFailed(String fsMessage) {
-                poLoading.dismiss();
-                if(isJSONValid(fsMessage)) {
-                    String lsErrCode = "";
-                    try {
-                        JSONObject loJson = new JSONObject(fsMessage);
-                        lsErrCode = loJson.getString("code");
-                        if("CNF".equalsIgnoreCase(lsErrCode)) {
-                            poDialog.setButtonText("Okay");
-                            poDialog.initDialog("Add GCard", "GCard is already registered to other account. Please add GCard number manually and confirm to register the GCard on your account.", () -> {
-                                poDialog.dismiss();
-                                finish();
-                            });
-                            poDialog.show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    poDialog.setButtonText("Okay");
-                    poDialog.initDialog("Add GCard Failed", fsMessage, () -> poDialog.dismiss());
-                    poDialog.show();
-                }
-            }
-
-        });
     }
     private void addScannedClientQR(){
         mViewModel.importClientInfo(ClientID, SourceCD,SourceNo,new VMAccountDetails.OnClientInfoCallBack() {
@@ -325,7 +267,6 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
         poDataMdl.setTaxIdNumber(Objects.requireNonNull(Objects.requireNonNull(txtTaxNox.getText()).toString().trim()));
         poDataMdl.setHouseNumber(Objects.requireNonNull(Objects.requireNonNull(txtHouseN.getText()).toString().trim()));
         poDataMdl.setAddress(Objects.requireNonNull(Objects.requireNonNull(txtStreet.getText()).toString().trim()));
-        Log.d(TAG, String.valueOf(txtGCashNo.getText()));
     }
     private void setInputOptions() {
         /** Date Auto Formatter */
@@ -490,9 +431,11 @@ public class Activity_CompleteAccountDetails extends AppCompatActivity {
                     poDialog.setButtonText("Okay");
                     poDialog.initDialog("Account Details", fsMessage, () -> {
                         poDialog.dismiss();
+
                         Intent intent = new Intent("android.intent.action.SUCCESS_LOGIN");
                         intent.putExtra("args", "auth");
                         sendBroadcast(intent);
+
                         poLoading.dismiss();
                         finish();
                     });
