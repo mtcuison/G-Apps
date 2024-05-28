@@ -141,27 +141,27 @@ public class VMGCardSystem extends AndroidViewModel {
                                             mGcardSys.SaveMcServiceInfo(loDetail);
 
                                             lomessage = parse(SUCCESS, "MC Service downloaded");
-
-                                            Thread.sleep(1000);
-                                            if (loAccount.getVerificationStatus() <= 0){
-                                                //TODO: import complete info after saving gcard number
-                                               if (loClientInfo.ImportAccountInfo()){
-                                                   lomessage = parse(SUCCESS, loClientInfo.getMessage());
-                                               }else {
-                                                   lomessage = parse(FAILED, loClientInfo.getMessage());
-                                               }
-
-                                            }
                                         } catch (Exception e) {
                                             lomessage = parse(FAILED, e.getMessage());
                                         }
                                     }
-
                                     @Override
                                     public void OnFailed(String message) {
                                         lomessage = parse(FAILED, message);
                                     }
                                 });
+
+                                if (loAccount.getVerificationStatus() <= 0){
+
+                                    //TODO: import complete info after saving gcard number
+                                    Thread.sleep(1000);
+                                    if (loClientInfo.ImportAccountInfo()){
+                                        lomessage = parse(SUCCESS, "Account Completed Successfully");
+                                    }else {
+                                        lomessage = parse(FAILED, loClientInfo.getMessage());
+                                    }
+
+                                }
                             }catch (Exception e) {
                                 lomessage = parse(FAILED, e.getMessage());
                             }
@@ -221,8 +221,6 @@ public class VMGCardSystem extends AndroidViewModel {
                                     }
                                 });
 
-                                Log.d(TAG, lomessage);
-
                                 Thread.sleep(1000);
                                 mGcardSys.DownloadMCServiceInfo(new GCardSystem.GCardSystemCallback() {
                                     @Override
@@ -240,7 +238,17 @@ public class VMGCardSystem extends AndroidViewModel {
                                     }
                                 });
 
-                                Log.d(TAG, lomessage);
+                                if (loAccount.getVerificationStatus() <= 0){
+
+                                    //TODO: import complete info after saving gcard number
+                                    Thread.sleep(1000);
+                                    if (loClientInfo.ImportAccountInfo()){
+                                        lomessage = parse(SUCCESS, "Account Completed Successfully");
+                                    }else {
+                                        lomessage = parse(FAILED, loClientInfo.getMessage());
+                                    }
+
+                                }
                             } catch (Exception e) {
                                 lomessage = parse(FAILED, e.getMessage());
                             }

@@ -25,9 +25,7 @@ import org.rmj.guanzongroup.panalo.Fragment.Fragment_Panalo;
 
 public class Fragment_Dashboard extends Fragment {
     private static final String TAG = Fragment_Dashboard.class.getSimpleName();
-
     private VMDashboard mViewModel;
-
     private View view;
     private BottomNavigationView botNav;
     private ViewPager viewPager;
@@ -66,6 +64,8 @@ public class Fragment_Dashboard extends Fragment {
             return true;
         });
 
+        /* TODO: REDUNDANT OBJECTS, ACCESS ARE LIMITED TO COMPLETED PROFILE AND SHOULD BE USED THROUGH NAV DRAWER
+
         mViewModel.getClientInfo().observe(getViewLifecycleOwner(), eClientInfo -> {
             try{
                 Menu nav_Menu = botNav.getMenu();
@@ -85,7 +85,7 @@ public class Fragment_Dashboard extends Fragment {
             } catch (Exception e){
                 e.printStackTrace();
             }
-        });
+        });*/
 
         return view;
     }

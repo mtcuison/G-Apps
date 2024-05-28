@@ -146,10 +146,8 @@ public class RClientInfo {
                 if(!lsResult.equalsIgnoreCase("success")){
                     JSONObject loError = loResponse.getJSONObject("error");
                     message = loError.getString("message");
-
                     return false;
                 } else {
-
                     AccountInfo loAcc = new AccountInfo(mContext);
                     EClientInfo loDetail = poDao.GetUserInfo();
 
