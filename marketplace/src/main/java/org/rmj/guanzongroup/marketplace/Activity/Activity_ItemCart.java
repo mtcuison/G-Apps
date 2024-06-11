@@ -35,9 +35,12 @@ public class Activity_ItemCart extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_cart);
+
         initWidgets();
         setupTabLayoutListener();
+
         mViewModel = new ViewModelProvider(Activity_ItemCart.this).get(VMGCardSystem.class);
+
         if(getIntent().getStringExtra("args").equalsIgnoreCase("1")){
             getSupportActionBar().setTitle("Item Cart");
             mViewModel.getActiveGcard().observe(this, eGcardApp -> {
@@ -78,6 +81,7 @@ public class Activity_ItemCart extends AppCompatActivity {
                     } else {
                         tabLayout.setVisibility(View.GONE);
                     }
+
                     viewPager.setAdapter(adapter);
                     tabLayout.setupWithViewPager(viewPager);
                     adapter.notifyDataSetChanged();

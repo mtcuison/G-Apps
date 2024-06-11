@@ -48,10 +48,6 @@ public class Fragment_ItemCart extends Fragment {
         return v;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
     private void initWidgets(View view){
         tabLayout = view.findViewById(R.id.tabLayout_item_cart_fragment_indicator);
         viewPager = view.findViewById(R.id.viewpager_fragment_item_cart);
@@ -62,13 +58,10 @@ public class Fragment_ItemCart extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-//                tabLayout.getTabAt(tab.getPosition()).setIcon(tabToggledIcons[tab.getPosition()]);
-
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-//                tabLayout.getTabAt(tab.getPosition()).setIcon(tabIcons[tab.getPosition()]);
             }
 
             @Override

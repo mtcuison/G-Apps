@@ -19,6 +19,7 @@ import org.rmj.g3appdriver.dev.Database.DataAccessObject.DRedeemItemInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGCardTransactionLedger;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
+import org.rmj.g3appdriver.dev.Database.Entities.EPointsRequest;
 import org.rmj.g3appdriver.dev.Database.Entities.ERedeemablesInfo;
 import org.rmj.g3appdriver.dev.Repositories.RClientInfo;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
@@ -34,6 +35,8 @@ import org.rmj.g3appdriver.lib.GCardCore.iGCardSystem;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
+
+import java.util.HashMap;
 import java.util.List;
 
 public class VMGCardSystem extends AndroidViewModel {
@@ -62,8 +65,6 @@ public class VMGCardSystem extends AndroidViewModel {
     public void setmContext(GCardSystem.CoreFunctions foCore) {
         mGcardSys = poGcrdSys.getInstance(foCore);
     }
-
-    // ------- METHODS ------- //
 
     public LiveData<EGcardApp> getActiveGcard() {
         mGcardSys = new GCardSystem(mContext).getInstance(GCardSystem.CoreFunctions.GCARD);

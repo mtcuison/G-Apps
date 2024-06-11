@@ -28,6 +28,7 @@ import org.rmj.g3appdriver.dev.Database.Entities.EBranchInfo;
 import org.rmj.g3appdriver.dev.Database.Entities.EGcardApp;
 import org.rmj.g3appdriver.dev.Database.Entities.EPointsRequest;
 import org.rmj.g3appdriver.dev.Database.GGC_GuanzonAppDB;
+import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.etc.Telephony;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
@@ -61,6 +62,7 @@ public class Activity_GCardOffline extends AppCompatActivity {
     private Dialog_Loading poDialog;
     private MessageBox poMessage;
     private String loMessage;
+    private ConnectionUtil poConn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class Activity_GCardOffline extends AppCompatActivity {
         mviewmodel = new ViewModelProvider(this).get(VMGCardOffline.class);
         poDialog = new Dialog_Loading(this);
         poMessage = new MessageBox(this);
+        poConn = new ConnectionUtil(this);
 
         toolbar = findViewById(R.id.toolbar);
         tie_gcard_number = findViewById(R.id.tie_gcard_number);
@@ -84,6 +87,7 @@ public class Activity_GCardOffline extends AppCompatActivity {
         getSupportActionBar().setTitle("");
 
         setListeners();
+        SendOfflineEntries();
     }
 
     private void setListeners() {
@@ -198,42 +202,6 @@ public class Activity_GCardOffline extends AppCompatActivity {
             }
         });
     }
-
-    private Boolean ValidateEntry() {
-        String cardnumber = tie_gcard_number.getText().toString();
-        String branch = tie_branch.getText().toString();
-        String transdate = tie_date.getText().toString();
-        String srctype = tie_src.getText().toString();
-        String refno = tie_refno.getText().toString();
-
-        if (cardnumber.isEmpty() || cardnumber == null) {
-            loMessage = "Please select card number";
-            return false;
-        }
-
-        if (branch.isEmpty() || branch == null) {
-            loMessage = "Please select branch";
-            return false;
-        }
-
-        if (transdate.isEmpty() || transdate == null) {
-            loMessage = "Please select transaction date";
-            return false;
-        }
-
-        if (srctype.isEmpty() || srctype == null) {
-            loMessage = "Please select source";
-            return false;
-        }
-
-        if (refno.isEmpty() || refno == null) {
-            loMessage = "Please enter reference number";
-            return false;
-        }
-
-        return true;
-    }
-
     private void setGcardNmbrs() {
         mviewmodel.GetCardNumbers().observe(this, new Observer<List<EGcardApp>>() {
             @Override
@@ -300,6 +268,41 @@ public class Activity_GCardOffline extends AppCompatActivity {
                 R.layout.support_simple_spinner_dropdown_item, sources));
     }
 
+    private Boolean ValidateEntry() {
+        String cardnumber = tie_gcard_number.getText().toString();
+        String branch = tie_branch.getText().toString();
+        String transdate = tie_date.getText().toString();
+        String srctype = tie_src.getText().toString();
+        String refno = tie_refno.getText().toString();
+
+        if (cardnumber.isEmpty() || cardnumber == null) {
+            loMessage = "Please select card number";
+            return false;
+        }
+
+        if (branch.isEmpty() || branch == null) {
+            loMessage = "Please select branch";
+            return false;
+        }
+
+        if (transdate.isEmpty() || transdate == null) {
+            loMessage = "Please select transaction date";
+            return false;
+        }
+
+        if (srctype.isEmpty() || srctype == null) {
+            loMessage = "Please select source";
+            return false;
+        }
+
+        if (refno.isEmpty() || refno == null) {
+            loMessage = "Please enter reference number";
+            return false;
+        }
+
+        return true;
+    }
+
     private String GetCurrentDate() {
         Calendar cal = Calendar.getInstance(Locale.getDefault());
         Date date = cal.getTime();
@@ -340,5 +343,49 @@ public class Activity_GCardOffline extends AppCompatActivity {
         StartTime.getDatePicker().setMaxDate(maxDateInMillis); // Set the maximum date
 
         StartTime.show();
+    }
+
+    private void SendOfflineEntries(){
+        mviewmodel.GetPendingRqsts().observe(this, new Observer<List<EPointsRequest>>() {
+            @Override
+            public void onChanged(List<EPointsRequest> ePointsRequests) {
+                if (poConn.isDeviceConnected()){
+                    if (ePointsRequests.size() > 0){
+
+                        Toast.makeText(Activity_GCardOffline.this, "Sending requests . . .", Toast.LENGTH_LONG)
+                                .show();
+
+                        for (int i = 0; i < ePointsRequests.size(); i++){
+                            try {
+                                EPointsRequest loData = ePointsRequests.get(i);
+                                Log.d(getClass().getSimpleName(), loData.getsTransNox());
+                                mviewmodel.UploadPendingRequests(loData, new VMGCardOffline.onRequestPending() {
+                                    @Override
+                                    public void onLoad(String message) {
+                                        Log.d(getClass().getSimpleName(), message);
+                                    }
+                                    @Override
+                                    public void onSuccess(String result) {
+                                        Log.d(getClass().getSimpleName(), result);
+                                    }
+                                    @Override
+                                    public void onFailed(String result) {
+                                        Log.d(getClass().getSimpleName(), result);
+                                    }
+                                });
+
+                                Thread.sleep(1000);
+
+                            }catch (Exception e){
+                                Log.d(getClass().getSimpleName(), e.getMessage());
+                            }
+                        }
+
+                        Toast.makeText(Activity_GCardOffline.this, "Finished processing your requests", Toast.LENGTH_LONG)
+                                .show();
+                    }
+                }
+            }
+        });
     }
 }

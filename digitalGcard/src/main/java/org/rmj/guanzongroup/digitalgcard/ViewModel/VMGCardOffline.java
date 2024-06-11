@@ -50,6 +50,9 @@ public class VMGCardOffline extends AndroidViewModel {
     public LiveData<List<EBranchInfo>> getMotorBranches() {
         return poBranchx.getMotorBranches();
     }
+    public LiveData<List<EPointsRequest>> GetPendingRqsts() {
+        return poCardSystem.GetPointsRqsts();
+    }
 
     public void SaveRequest(EPointsRequest foData, onRequest callback){
         TaskExecutor.Execute(foData, new OnTaskExecuteListener() {
@@ -92,6 +95,53 @@ public class VMGCardOffline extends AndroidViewModel {
                 callback.onFinished(result);
             }
         });
+    }
+    public void UploadPendingRequests(EPointsRequest loRqst, onRequestPending callback) {
+        TaskExecutor.Execute(loRqst, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.onLoad("Sending Requests . . .");
+            }
+            @Override
+            public Object DoInBackground(Object args) {
+                try {
+                    HashMap<String, String> loparams = new HashMap<>();
+                    loparams.put("sGCardNox", loRqst.getsGCardNox());
+                    loparams.put("dTransact", loRqst.getdTransact());
+                    loparams.put("sBranchCD", loRqst.getsBranchCd());
+                    loparams.put("sReferNox", loRqst.getsReferNox());
+                    loparams.put("sSourceCd", loRqst.getsSourceCd());
+                    loparams.put("sOTPasswd", loRqst.getsOTPasswd());
+
+                    if (!poCardSystem.DownloadGcardPoints(loparams)) {
+                        message = poCardSystem.GetMessage();
+                        return false;
+                    } else {
+                        poCardSystem.UpdateSendPointsRqst(loRqst.getsTransNox());
+                        message = poCardSystem.GetMessage();
+                        return true;
+                    }
+                } catch (Exception e) {
+                    message = e.getMessage();
+                    return false;
+                }
+            }
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean aBoolean = (Boolean) object;
+                if (aBoolean){
+                    callback.onSuccess(message);
+                }else {
+                    callback.onFailed(message);
+                }
+            }
+        });
+    }
+
+    public interface onRequestPending{
+        void onLoad(String message);
+        void onSuccess(String result);
+        void onFailed(String result);
     }
     public interface onRequest{
         void onLoad(String title, String message);

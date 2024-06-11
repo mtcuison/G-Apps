@@ -3,14 +3,12 @@ package org.rmj.guanzongroup.gconnect.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,14 +16,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.rmj.g3appdriver.etc.FragmentAdapter;
 import org.rmj.guanzongroup.digitalgcard.Fragment.Fragment_MyGcard;
 import org.rmj.guanzongroup.gconnect.R;
-import org.rmj.guanzongroup.gconnect.ViewModel.VMDashboard;
 import org.rmj.guanzongroup.marketplace.Fragment.Fragment_MPItemCart;
 import org.rmj.guanzongroup.notifications.Fragment.Fragment_Promotion;
 import org.rmj.guanzongroup.panalo.Fragment.Fragment_Panalo;
 
 public class Fragment_Dashboard extends Fragment {
     private static final String TAG = Fragment_Dashboard.class.getSimpleName();
-    private VMDashboard mViewModel;
     private View view;
     private BottomNavigationView botNav;
     private ViewPager viewPager;
@@ -38,7 +34,6 @@ public class Fragment_Dashboard extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        mViewModel = new ViewModelProvider(requireActivity()).get(VMDashboard.class);
 
         initViews();
         setupPages();

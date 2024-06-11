@@ -24,6 +24,7 @@ import com.smarteist.autoimageslider.SliderView;
 
 import org.rmj.g3appdriver.dev.Database.Entities.EPointsRequest;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
+import org.rmj.g3appdriver.lib.Account.AccountInfo;
 import org.rmj.guanzongroup.gconnect.Activity.Activity_Dashboard;
 import org.rmj.guanzongroup.gconnect.Adapter.ProductSlider_Adapter;
 import org.rmj.guanzongroup.gconnect.R;
@@ -35,15 +36,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_Home extends Fragment {
-    private final String TAG = getClass().getSimpleName();
     private VMHome mViewModel;
-    private ConnectionUtil poConn;
     private MaterialCardView mcv_promotions;
     private SliderView poSliderx;
     private SliderView imgSlider_mc;
     private SliderView imgSlider_phones;
     private TabLayout tab_choices;
     private ViewPager2 vpage;
+    private AccountInfo loAccount;
 
     public Fragment_Home() {}
 
@@ -52,54 +52,20 @@ public class Fragment_Home extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         mViewModel = new ViewModelProvider(requireActivity()).get(VMHome.class);
-        poConn = new ConnectionUtil(requireActivity());
+        loAccount = new AccountInfo(requireActivity());
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         initViews(view);
         displayData();
 
-        mViewModel.GetPendingRqsts().observe(getViewLifecycleOwner(), new Observer<List<EPointsRequest>>() {
-            @Override
-            public void onChanged(List<EPointsRequest> ePointsRequests) {
-                if (poConn.isDeviceConnected()){
-                    if (ePointsRequests.size() > 0){
-
-                        Toast.makeText(requireActivity(), "Sending requests . . .", Toast.LENGTH_LONG)
-                                .show();
-
-                        for (int i = 0; i < ePointsRequests.size(); i++){
-                            try {
-                                EPointsRequest loData = ePointsRequests.get(i);
-                                Log.d(TAG, loData.getsTransNox());
-                                mViewModel.UploadPendingRequests(loData, new VMHome.onRequest() {
-                                    @Override
-                                    public void onLoad(String message) {
-                                        Log.d(TAG, message);
-                                    }
-                                    @Override
-                                    public void onSuccess(String result) {
-                                        Log.d(TAG, result);
-                                    }
-                                    @Override
-                                    public void onFailed(String result) {
-                                        Log.d(TAG, result);
-                                    }
-                                });
-
-                                Thread.sleep(1000);
-
-                            }catch (Exception e){
-                                Log.d(TAG, e.getMessage());
-                            }
-                        }
-
-                        Toast.makeText(requireActivity(), "Finished processing your requests", Toast.LENGTH_LONG)
-                                .show();
-                    }
-                }
-            }
-        });
+        if (loAccount.getVerificationStatus() > 0){
+            tab_choices.setVisibility(View.VISIBLE);
+            vpage.setVisibility(View.VISIBLE);
+        }else {
+            tab_choices.setVisibility(View.GONE);
+            vpage.setVisibility(View.GONE);
+        }
 
         return view;
     }

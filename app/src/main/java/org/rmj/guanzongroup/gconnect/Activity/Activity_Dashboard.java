@@ -82,6 +82,8 @@ public class Activity_Dashboard extends AppCompatActivity {
     private TextView lblBadge;
     private static final int GCARD_APPLICATION = 1;
     private DashboardActionReceiver poLogRcv = new DashboardActionReceiver();
+    private ConnectionUtil poConn;
+    private AccountInfo loAccount;
     private final ActivityResultLauncher<Intent> poArl = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -96,7 +98,6 @@ public class Activity_Dashboard extends AppCompatActivity {
                 }
             }
     );
-    private AccountInfo loAccount;
 
     @SuppressLint("UnsafeOptInUsageError")
     @Override
@@ -116,6 +117,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         navigationView = binding.navView;
 
         loAccount = new AccountInfo(this);
+        poConn = new ConnectionUtil(this);
 
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
         // Passing each menu ID as a set of Ids because each
@@ -283,6 +285,10 @@ public class Activity_Dashboard extends AppCompatActivity {
 
         setUpHeader(navigationView);
         setUpNotifications();
+
+        if (loAccount.getVerificationStatus() > 0){
+            SendOfflineEntries();
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -664,6 +670,49 @@ public class Activity_Dashboard extends AppCompatActivity {
                 poDialog.setButtonText("Dismiss");
                 poDialog.initDialog("Guanzon App", message, () -> poDialog.dismiss());
                 poDialog.show();
+            }
+        });
+    }
+    private void SendOfflineEntries(){
+        mViewModel.GetPendingRqsts().observe(this, new Observer<List<EPointsRequest>>() {
+            @Override
+            public void onChanged(List<EPointsRequest> ePointsRequests) {
+                if (poConn.isDeviceConnected()){
+                    if (ePointsRequests.size() > 0){
+
+                        Toast.makeText(Activity_Dashboard.this, "Sending requests . . .", Toast.LENGTH_LONG)
+                                .show();
+
+                        for (int i = 0; i < ePointsRequests.size(); i++){
+                            try {
+                                EPointsRequest loData = ePointsRequests.get(i);
+                                Log.d(TAG, loData.getsTransNox());
+                                mViewModel.UploadPendingRequests(loData, new VMHome.onRequest() {
+                                    @Override
+                                    public void onLoad(String message) {
+                                        Log.d(TAG, message);
+                                    }
+                                    @Override
+                                    public void onSuccess(String result) {
+                                        Log.d(TAG, result);
+                                    }
+                                    @Override
+                                    public void onFailed(String result) {
+                                        Log.d(TAG, result);
+                                    }
+                                });
+
+                                Thread.sleep(1000);
+
+                            }catch (Exception e){
+                                Log.d(TAG, e.getMessage());
+                            }
+                        }
+
+                        Toast.makeText(Activity_Dashboard.this, "Finished processing your requests", Toast.LENGTH_LONG)
+                                .show();
+                    }
+                }
             }
         });
     }
