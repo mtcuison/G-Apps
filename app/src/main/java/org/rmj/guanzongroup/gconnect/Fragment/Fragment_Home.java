@@ -21,11 +21,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
-
-import org.rmj.g3appdriver.dev.Database.Entities.EPointsRequest;
-import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.lib.Account.AccountInfo;
-import org.rmj.guanzongroup.gconnect.Activity.Activity_Dashboard;
 import org.rmj.guanzongroup.gconnect.Adapter.ProductSlider_Adapter;
 import org.rmj.guanzongroup.gconnect.R;
 import org.rmj.g3appdriver.lib.Promotions.Adapter_ImageSlider;
