@@ -6,6 +6,7 @@ import android.util.Log;
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 
+/* TODO: NOT USED REPLACED ALREADY ON VMWISHLIST THROUGH TASKEXECUTOR METHOD
 public class AddUpdateCartTask extends AsyncTask<String, Void, Boolean> {
     private static final String TAG = AddUpdateCartTask.class.getSimpleName();
     private final ConnectionUtil poConnect;
@@ -72,4 +73,4 @@ public class AddUpdateCartTask extends AsyncTask<String, Void, Boolean> {
             poCallBck.onFailed(psMessage);
         }
     }
-}
+}*/

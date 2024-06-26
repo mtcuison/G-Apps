@@ -22,15 +22,9 @@ import org.rmj.guanzongroup.notifications.R;
 
 public class Activity_Browser extends AppCompatActivity {
     private static final String TAG = Activity_Browser.class.getSimpleName();
-
     private Toolbar toolbar;
     private WebView webView;
-    private ProgressBar progressBar;
     private ImageView loading;
-    private String mCM;
-    private ValueCallback<Uri> mUM;
-    private ValueCallback<Uri[]> mUMA;
-    private final static int FCR=1;
 
     private String urlClipBoard = "";
     @Override
@@ -67,8 +61,6 @@ public class Activity_Browser extends AppCompatActivity {
 
     private void LoadLink(){
         webView.loadUrl(getIntent().getStringExtra("url_link"));
-
-//        progressBar.setProgress(0);
         webView.setWebViewClient(new AppBrowserWebViewClient());
         webView.setWebChromeClient(new AppBrowserChromeClient());
     }
@@ -88,9 +80,8 @@ public class Activity_Browser extends AppCompatActivity {
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            urlClipBoard = url;
             super.onPageFinished(view, url);
-//            progressBar.setVisibility(View.GONE);
+            urlClipBoard = url;
             loading.setVisibility(View.GONE);
         }
     }
@@ -107,10 +98,8 @@ public class Activity_Browser extends AppCompatActivity {
     class AppBrowserChromeClient extends WebChromeClient{
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
-//            progressBar.setProgress(newProgress);
             Log.e("progress :", String.valueOf(newProgress));
             if(newProgress == 100){
-//                progressBar.setVisibility(View.GONE);
                 loading.setVisibility(View.GONE);
             }
             super.onProgressChanged(view, newProgress);

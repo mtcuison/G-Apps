@@ -38,12 +38,15 @@ public class Activity_ItemCart extends AppCompatActivity {
         mViewModel = new ViewModelProvider(Activity_ItemCart.this).get(VMGCardSystem.class);
 
         if(getIntent().getStringExtra("args").equalsIgnoreCase("1")){
+
             getSupportActionBar().setTitle("Item Cart");
+
             mViewModel.getActiveGcard().observe(this, eGcardApp -> {
                 try {
                     adapter.clear();
                     adapter.addFragment(new Fragment_MPItemCart());
-                    adapter.addTitle("MarketPlace");
+
+                    tabLayout.addTab(tabLayout.newTab().setText("MarketPlace"));
 
                     mViewModel.GetMarketplaceItemCartCount().observe(Activity_ItemCart.this, count -> {
                         try{
@@ -59,7 +62,8 @@ public class Activity_ItemCart extends AppCompatActivity {
 
                     if (eGcardApp != null) {
                         adapter.addFragment(new Fragment_GCardItemCart());
-                        adapter.addTitle("GCard");
+
+                        tabLayout.addTab(tabLayout.newTab().setText("GCard"));
                         tabLayout.setVisibility(View.VISIBLE);
 
                         mViewModel.GetGcardCartItemCount().observe(Activity_ItemCart.this, count -> {
@@ -102,7 +106,13 @@ public class Activity_ItemCart extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void setupTabLayoutListener(){
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -117,13 +127,5 @@ public class Activity_ItemCart extends AppCompatActivity {
 
             }
         });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -45,26 +45,16 @@ public class Fragment_Wishlist extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
-        initViews(view);
-        setData();
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         poDialogx = new Dialog_SingleButton(requireActivity());
 
+        initViews(view);
+        setData();
+
+        return view;
     }
 
     private void initViews(View v) {
         recyclerView = v.findViewById(R.id.recyclerView_WishList);
-//        lblProductName = v.findViewById(R.id.lblProdNme);
-//        lblPrice = v.findViewById(R.id.lblProdPrice);
-//        lblPriceDrop = v.findViewById(R.id.lblProdPrice1);
-//        lblPercent = v.findViewById(R.id.lblPercent);
-//        imgProduct = v.findViewById(R.id.imgProduct);
-//        strikePrice();
     }
     private void strikePrice(){
         SpannableString spannableString=new SpannableString("3.1 StrikeThrough Using SpannableString");
@@ -107,42 +97,6 @@ public class Fragment_Wishlist extends Fragment {
         adapter = new Adapter_Wishlist(itemList, new Adapter_Wishlist.OnCartAction() {
             @Override
             public void onAddToCart(String fsItemIdx, String fsItemNme, String fsItemPrc) {
-//                final BottomDialog_AddToCart dialog = new BottomDialog_AddToCart(fsItemNme, fsItemPrc,
-//                        fnItemQty -> {
-//                            try {
-//                                mViewModel.addUpdateCart(fsItemIdx, fnItemQty, false,new OnTransactionsCallback() {
-//                                    @Override
-//                                    public void onLoading() {
-//                                        poLoading = new Dialog_Loading(requireActivity());
-//                                        poLoading.initDialog("Add to Cart",
-//                                                "Adding to cart. Please wait.");
-//                                        poLoading.show();
-//                                    }
-//
-//                                    @Override
-//                                    public void onSuccess(String fsMessage) {
-//                                        poLoading.dismiss();
-//                                        poDialogx.setButtonText("Okay");
-//                                        poDialogx.initDialog("Add to Cart",
-//                                                "Successfully added to cart.",
-//                                                dialog -> dialog.dismiss());
-//                                        poDialogx.show();
-//                                    }
-//
-//                                    @Override
-//                                    public void onFailed(String fsMessage) {
-//                                        poLoading.dismiss();
-//                                        poDialogx.setButtonText("Okay");
-//                                        poDialogx.initDialog("Add to Cart", fsMessage,
-//                                                dialog -> dialog.dismiss());
-//                                        poDialogx.show();
-//                                    }
-//                                });
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        });
-//                dialog.show(requireActivity().getSupportFragmentManager(), "Add To Cart");
             }
 
             @Override

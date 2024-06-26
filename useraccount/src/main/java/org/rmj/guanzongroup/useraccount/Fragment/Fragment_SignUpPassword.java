@@ -42,20 +42,16 @@ public class Fragment_SignUpPassword extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sign_up_password, container, false);
         initViews(view);
-        return view;
-    }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VMAccountAuthentication.class);
         try {
-//            poSignUpM = mViewModel.getSignUpModel();
         } catch (Exception e)  {
             e.printStackTrace();
         }
 
         btnSignUp.setOnClickListener(v -> registerAccount());
+
+        return view;
     }
 
     private void initViews(View v) {
@@ -67,7 +63,6 @@ public class Fragment_SignUpPassword extends Fragment {
         btnBack = v.findViewById(R.id.btnBack);
 
         lblTerms.setOnClickListener(view -> { });
-//        btnBack.setOnClickListener(view -> Activity_SignUp.getInstance().moveToPageNumber(0));
     }
 
     private void registerAccount() {
@@ -76,57 +71,6 @@ public class Fragment_SignUpPassword extends Fragment {
 
         poSignUpM.setPassword(lsPasswrd);
         poSignUpM.setPasswrd2(lsRetypeP);
-
-//        if(poSignUpM.isSecondPageClear()) {
-//
-//            AccountAuthentication.AccountCredentials loCrednts = new AccountAuthentication.AccountCredentials();
-////            loCrednts.setLastName(poSignUpM.getLastName());
-////            loCrednts.setFrstName(poSignUpM.getFrstName());
-////            loCrednts.setMiddName(poSignUpM.getMiddName());
-//            loCrednts.setEmailAdd(poSignUpM.getEmailAdd());
-//            loCrednts.setMobileNo(poSignUpM.getMobileNo());
-//            loCrednts.setPassword(poSignUpM.getPassword());
-////            loCrednts.setPasswrd2(poSignUpM.getsPasswrd2());
-//
-//            try {
-//                mViewModel.RegisterAccount(loCrednts, new VMAccountAuthentication.AuthTransactionCallback() {
-//                    @Override
-//                    public void onLoad() {
-//                        poLoading = new Dialog_Loading(requireActivity());
-//                        poLoading.initDialog("Signing Up", "Please wait for a while.");
-//                        poLoading.show();
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(String fsMessage) {
-//                        poLoading.dismiss();
-//                        poDialogx.setButtonText("Okay");
-//                        poDialogx.initDialog("Sign Up", fsMessage, dialog -> {
-//                            dialog.dismiss();
-//                            requireActivity().finish();
-//                        });
-//                        poDialogx.show();
-//                    }
-//
-//                    @Override
-//                    public void onFailed(String fsMessage) {
-//                        poLoading.dismiss();
-//                        poDialogx.setButtonText("Okay");
-//                        poDialogx.initDialog("Sign Up Failed", fsMessage, dialog -> dialog.dismiss());
-//                        poDialogx.show();
-//                    }
-//
-//                });
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//        } else {
-//            poDialogx.setButtonText("Okay");
-//            poDialogx.initDialog("Sign Up", poSignUpM.getMessage(), dialog -> dialog.dismiss());
-//            poDialogx.show();
-//        }
-
     }
 
 }

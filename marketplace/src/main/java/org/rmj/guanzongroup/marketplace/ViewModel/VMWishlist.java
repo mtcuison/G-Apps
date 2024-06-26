@@ -2,16 +2,12 @@ package org.rmj.guanzongroup.marketplace.ViewModel;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-
 import org.rmj.g3appdriver.dev.Repositories.ROrder;
 import org.rmj.g3appdriver.etc.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
-import org.rmj.guanzongroup.marketplace.Etc.AddUpdateCartTask;
 import org.rmj.guanzongroup.marketplace.Etc.OnTransactionsCallback;
 
 public class VMWishlist extends AndroidViewModel {
@@ -28,7 +24,6 @@ public class VMWishlist extends AndroidViewModel {
         this.poOrdersx = new ROrder(application);
     }
     public void addUpdateCart(String fsListId, int fnItemQty, boolean QtyUpdate,OnTransactionsCallback foCallBck) {
-        new AddUpdateCartTask(application, fnItemQty, QtyUpdate,foCallBck).execute(fsListId);
         TaskExecutor.Execute(fsListId, new OnTaskExecuteListener() {
             @Override
             public void OnPreExecute() {
