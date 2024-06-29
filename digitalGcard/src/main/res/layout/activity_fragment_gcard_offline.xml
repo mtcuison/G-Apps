@@ -177,6 +177,28 @@
                             android:hint="Reference Number"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="OTP given by the counter"
+                        android:textStyle="italic"
+                        android:textSize="12sp"
+                        android:layout_marginTop="15dp"
+                        android:paddingHorizontal="10dp"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputStyle"
+                        android:id="@+id/til_otp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tie_otp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="OTP Number"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_Submit"
                         android:layout_width="match_parent"

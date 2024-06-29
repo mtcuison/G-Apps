@@ -55,6 +55,7 @@ public class Activity_GCardOffline extends AppCompatActivity {
     private MaterialAutoCompleteTextView tie_src;
     private TextInputEditText tie_date;
     private TextInputEditText tie_refno;
+    private TextInputEditText tie_otp;
     private MaterialButton btn_Submit;
     private HashMap<String, String> loCardNmbrs = new HashMap<>();
     private HashMap<String, String> loBranch = new HashMap<>();
@@ -80,6 +81,7 @@ public class Activity_GCardOffline extends AppCompatActivity {
         tie_date = findViewById(R.id.tie_date);
         tie_src = findViewById(R.id.tie_src);
         tie_refno = findViewById(R.id.tie_refno);
+        tie_otp = findViewById(R.id.tie_otp);
         btn_Submit = findViewById(R.id.btn_Submit);
 
         setSupportActionBar(toolbar);
@@ -142,7 +144,7 @@ public class Activity_GCardOffline extends AppCompatActivity {
                         loParams.setsBranchCd(loBranch.get(tie_branch.getText().toString()));
                         loParams.setsReferNox(tie_refno.getText().toString());
                         loParams.setsSourceCd(loSource.get(tie_src.getText().toString()));
-                        loParams.setsOTPasswd("");
+                        loParams.setsOTPasswd(tie_otp.getText().toString());
                         loParams.setnTranAmtx(0.00);
                         loParams.setnPointsxx(0.00);
                         loParams.setcTranStat("0");
@@ -151,6 +153,7 @@ public class Activity_GCardOffline extends AppCompatActivity {
                         loParams.setsIMEINoxx(new Telephony(Activity_GCardOffline.this).getDeviceID());
                         loParams.setdRequestd(GetCurrentDate());
                         loParams.setdTimeStmp(GetCurrentDate());
+
                         mviewmodel.SaveRequest(loParams, new VMGCardOffline.onRequest() {
                             @Override
                             public void onLoad(String title, String message) {
@@ -274,6 +277,7 @@ public class Activity_GCardOffline extends AppCompatActivity {
         String transdate = tie_date.getText().toString();
         String srctype = tie_src.getText().toString();
         String refno = tie_refno.getText().toString();
+        String otp = tie_otp.getText().toString();
 
         if (cardnumber.isEmpty() || cardnumber == null) {
             loMessage = "Please select card number";
@@ -297,6 +301,11 @@ public class Activity_GCardOffline extends AppCompatActivity {
 
         if (refno.isEmpty() || refno == null) {
             loMessage = "Please enter reference number";
+            return false;
+        }
+
+        if (otp.isEmpty() || otp == null) {
+            loMessage = "Please enter otp number";
             return false;
         }
 
